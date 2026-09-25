@@ -31,13 +31,7 @@ extension type Foo._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Foo].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Foo,
-          ),
-        );
+      : _objc_msgSend_19nvye5(obj.ref.pointer, _sel_isKindOfClass_, _class_Foo);
 
   /// alloc
   static Foo alloc() {

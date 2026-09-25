@@ -209,12 +209,10 @@ extension type Sendable._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Sendable].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Sendable,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Sendable,
         );
 
   /// alloc
@@ -319,12 +317,10 @@ extension type _BlockArgs_1liq3c0._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_1liq3c0].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_1liq3c0,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_1liq3c0,
         );
 }
 

@@ -199,13 +199,12 @@ ${generateInstanceMethodBindings(w, this)}
       _isKindOfClass.name,
       [classObject!.name],
     );
-    final autoReleasePool = ObjCBuiltInFunctions.autoReleasePool.gen(context);
 
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool isA($wrapObjType? obj) => obj == null
       ? false
-      : $autoReleasePool(() => $isKindOfClass);
+      : $isKindOfClass;
 ''');
 
     s.write(generateStaticMethodBindings(w, this));

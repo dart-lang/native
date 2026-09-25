@@ -31,12 +31,10 @@ extension type MethodInterface._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [MethodInterface].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_MethodInterface,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_MethodInterface,
         );
 
   /// alloc
@@ -181,20 +179,6 @@ extension MethodInterface$Methods on MethodInterface {
       return objc.useMsgSendVariants
           ? _objc_msgSend_sk7f6fFpret(_$$ref.pointer, _sel_addFloats_Y_, x, Y)
           : _objc_msgSend_sk7f6f(_$$ref.pointer, _sel_addFloats_Y_, x, Y);
-    });
-  }
-
-  /// concat:
-  objc.NSString concat(objc.NSString str) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = str.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1sotr3r(
-        _$$ref.pointer,
-        _sel_concat_,
-        _$$ref$1.pointer,
-      );
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
     });
   }
 
@@ -366,23 +350,6 @@ final _objc_msgSend_1q0lyci = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
         int,
         int,
-      )
-    >();
-final _objc_msgSend_1sotr3r = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
 final _objc_msgSend_b9kbqv = objc.msgSendPointer
@@ -576,7 +543,6 @@ late final _sel_add_Y_ = objc.registerName("add:Y:");
 late final _sel_add_Y_Z_ = objc.registerName("add:Y:Z:");
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
-late final _sel_concat_ = objc.registerName("concat:");
 late final _sel_init = objc.registerName("init");
 late final _sel_instStaticSameName = objc.registerName("instStaticSameName");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");

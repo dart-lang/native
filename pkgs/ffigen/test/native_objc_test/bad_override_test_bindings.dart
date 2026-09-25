@@ -31,12 +31,10 @@ extension type BadOverrideAunt._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BadOverrideAunt].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BadOverrideAunt,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BadOverrideAunt,
         );
 
   /// alloc
@@ -110,12 +108,10 @@ extension type BadOverrideChild._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BadOverrideChild].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BadOverrideChild,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BadOverrideChild,
         );
 
   /// alloc
@@ -223,12 +219,10 @@ extension type BadOverrideGrandchild._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BadOverrideGrandchild].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BadOverrideGrandchild,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BadOverrideGrandchild,
         );
 
   /// alloc
@@ -332,12 +326,10 @@ extension type BadOverrideGrandparent._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BadOverrideGrandparent].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BadOverrideGrandparent,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BadOverrideGrandparent,
         );
 
   /// alloc
@@ -433,12 +425,10 @@ extension type BadOverrideParent._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BadOverrideParent].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BadOverrideParent,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BadOverrideParent,
         );
 
   /// alloc
@@ -546,12 +536,10 @@ extension type BadOverrideSibbling._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BadOverrideSibbling].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BadOverrideSibbling,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BadOverrideSibbling,
         );
 
   /// alloc
@@ -652,12 +640,10 @@ extension type BadOverrideUncle._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BadOverrideUncle].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BadOverrideUncle,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BadOverrideUncle,
         );
 
   /// alloc
@@ -739,12 +725,10 @@ extension type Polygon._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Polygon].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Polygon,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Polygon,
         );
 
   /// alloc
@@ -827,12 +811,10 @@ extension type Rectangle._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Rectangle].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Rectangle,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Rectangle,
         );
 
   /// alloc
@@ -915,12 +897,10 @@ extension type Square._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Square].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Square,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Square,
         );
 
   /// alloc
@@ -1003,12 +983,10 @@ extension type Triangle._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Triangle].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Triangle,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Triangle,
         );
 
   /// alloc

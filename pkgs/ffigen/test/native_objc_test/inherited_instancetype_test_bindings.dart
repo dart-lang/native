@@ -31,12 +31,10 @@ extension type BaseClass._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BaseClass].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BaseClass,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BaseClass,
         );
 
   /// alloc
@@ -127,12 +125,10 @@ extension type ChildClass._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [ChildClass].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_ChildClass,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_ChildClass,
         );
 
   /// alloc

@@ -292,12 +292,10 @@ extension type BlockTester._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BlockTester].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BlockTester,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BlockTester,
         );
 
   /// alloc
@@ -767,12 +765,10 @@ extension type DummyObject._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [DummyObject].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_DummyObject,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_DummyObject,
         );
 
   /// alloc
@@ -900,12 +896,10 @@ extension type NSThread._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [NSThread].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_NSThread,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSThread,
         );
 
   /// alloc
@@ -4111,12 +4105,10 @@ extension type _BlockArgs_1b0erz1._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_1b0erz1].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_1b0erz1,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_1b0erz1,
         );
 }
 
@@ -4148,12 +4140,10 @@ extension type _BlockArgs_1hqv45x._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_1hqv45x].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_1hqv45x,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_1hqv45x,
         );
 }
 
@@ -4186,12 +4176,10 @@ extension type _BlockArgs_1liq3c0._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_1liq3c0].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_1liq3c0,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_1liq3c0,
         );
 }
 
@@ -4223,12 +4211,10 @@ extension type _BlockArgs_1vzvc26._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_1vzvc26].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_1vzvc26,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_1vzvc26,
         );
 }
 
@@ -4261,12 +4247,10 @@ extension type _BlockArgs_7ojdju._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_7ojdju].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_7ojdju,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_7ojdju,
         );
 }
 
@@ -4321,12 +4305,10 @@ extension type _BlockArgs_bht217._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_bht217].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_bht217,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_bht217,
         );
 }
 
@@ -4380,12 +4362,10 @@ extension type _BlockArgs_ii17hk._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_ii17hk].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_ii17hk,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_ii17hk,
         );
 }
 
@@ -4410,12 +4390,10 @@ extension type _BlockArgs_lgqwom._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_lgqwom].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_lgqwom,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_lgqwom,
         );
 }
 
@@ -4452,12 +4430,10 @@ extension type _BlockArgs_nge4yi._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_nge4yi].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_nge4yi,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_nge4yi,
         );
 }
 
@@ -4489,12 +4465,10 @@ extension type _BlockArgs_te4g5k._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_te4g5k].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_te4g5k,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_te4g5k,
         );
 }
 

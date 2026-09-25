@@ -66,12 +66,10 @@ extension type ChildOfNSString._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [ChildOfNSString].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_ChildOfNSString,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_ChildOfNSString,
         );
 
   /// alloc
@@ -171,12 +169,10 @@ extension type ChildOfThing._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [ChildOfThing].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_ChildOfThing,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_ChildOfThing,
         );
 
   /// alloc
@@ -384,12 +380,10 @@ extension type Thing._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Thing].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Thing,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Thing,
         );
 
   /// alloc

@@ -38,12 +38,10 @@ extension type MySwiftClass._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [MySwiftClass].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_MySwiftClass,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_MySwiftClass,
         );
 
   /// alloc
@@ -128,12 +126,10 @@ extension type MySwiftProtocol._(objc.ObjCProtocol object$)
 
   /// Returns whether [obj] is an instance of [MySwiftProtocol].
   static bool conformsTo(objc.ObjCObject obj) {
-    return objc.autoReleasePool(
-      () => _objc_msgSend_e3qsqz(
-        obj.ref.pointer,
-        _sel_conformsToProtocol_,
-        _protocol_MySwiftProtocol,
-      ),
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_MySwiftProtocol,
     );
   }
 }

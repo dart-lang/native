@@ -241,12 +241,10 @@ extension type EmptyProtocol._(objc.ObjCProtocol object$)
 
   /// Returns whether [obj] is an instance of [EmptyProtocol].
   static bool conformsTo(objc.ObjCObject obj) {
-    return objc.autoReleasePool(
-      () => _objc_msgSend_e3qsqz(
-        obj.ref.pointer,
-        _sel_conformsToProtocol_,
-        _protocol_EmptyProtocol,
-      ),
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_EmptyProtocol,
     );
   }
 }
@@ -314,12 +312,10 @@ extension type MyProtocol._(objc.ObjCProtocol object$)
 
   /// Returns whether [obj] is an instance of [MyProtocol].
   static bool conformsTo(objc.ObjCObject obj) {
-    return objc.autoReleasePool(
-      () => _objc_msgSend_e3qsqz(
-        obj.ref.pointer,
-        _sel_conformsToProtocol_,
-        _protocol_MyProtocol,
-      ),
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_MyProtocol,
     );
   }
 }
@@ -2326,12 +2322,10 @@ extension type ObjCProtocolImpl._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [ObjCProtocolImpl].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_ObjCProtocolImpl,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_ObjCProtocolImpl,
         );
 
   /// alloc
@@ -2604,12 +2598,10 @@ extension type ObjCProtocolImplMissingMethod._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [ObjCProtocolImplMissingMethod].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_ObjCProtocolImplMissingMethod,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_ObjCProtocolImplMissingMethod,
         );
 
   /// alloc
@@ -2846,12 +2838,10 @@ extension type ProtocolConsumer._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [ProtocolConsumer].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_ProtocolConsumer,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_ProtocolConsumer,
         );
 
   /// alloc
@@ -2999,12 +2989,10 @@ extension type SecondaryProtocol._(objc.ObjCProtocol object$)
 
   /// Returns whether [obj] is an instance of [SecondaryProtocol].
   static bool conformsTo(objc.ObjCObject obj) {
-    return objc.autoReleasePool(
-      () => _objc_msgSend_e3qsqz(
-        obj.ref.pointer,
-        _sel_conformsToProtocol_,
-        _protocol_SecondaryProtocol,
-      ),
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_SecondaryProtocol,
     );
   }
 }
@@ -3262,12 +3250,10 @@ extension type UnusedProtocol._(objc.ObjCProtocol object$)
 
   /// Returns whether [obj] is an instance of [UnusedProtocol].
   static bool conformsTo(objc.ObjCObject obj) {
-    return objc.autoReleasePool(
-      () => _objc_msgSend_e3qsqz(
-        obj.ref.pointer,
-        _sel_conformsToProtocol_,
-        _protocol_UnusedProtocol,
-      ),
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_UnusedProtocol,
     );
   }
 }
@@ -3361,12 +3347,10 @@ extension type _BlockArgs_1jgz5dp._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_1jgz5dp].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_1jgz5dp,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_1jgz5dp,
         );
 }
 
@@ -3405,12 +3389,10 @@ extension type _BlockArgs_76xh3h._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_76xh3h].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_76xh3h,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_76xh3h,
         );
 }
 
@@ -3449,12 +3431,10 @@ extension type _BlockArgs_g8o2nj._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [_BlockArgs_g8o2nj].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class__BlockArgs_g8o2nj,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__BlockArgs_g8o2nj,
         );
 }
 

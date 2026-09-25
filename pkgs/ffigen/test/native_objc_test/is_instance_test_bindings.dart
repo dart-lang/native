@@ -31,12 +31,10 @@ extension type IsInstanceBaseClass._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [IsInstanceBaseClass].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_IsInstanceBaseClass,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_IsInstanceBaseClass,
         );
 
   /// alloc
@@ -129,12 +127,10 @@ extension type IsInstanceChildClass._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [IsInstanceChildClass].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_IsInstanceChildClass,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_IsInstanceChildClass,
         );
 
   /// alloc
@@ -227,12 +223,10 @@ extension type IsInstanceUnrelatedClass._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [IsInstanceUnrelatedClass].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_IsInstanceUnrelatedClass,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_IsInstanceUnrelatedClass,
         );
 
   /// alloc

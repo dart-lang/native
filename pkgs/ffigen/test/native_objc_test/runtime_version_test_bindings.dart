@@ -124,12 +124,10 @@ extension type FutureAPIInterface._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [FutureAPIInterface].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_FutureAPIInterface,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_FutureAPIInterface,
         );
 
   /// alloc
@@ -203,12 +201,10 @@ extension type FutureAPIMethods._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [FutureAPIMethods].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_FutureAPIMethods,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_FutureAPIMethods,
         );
 
   /// alloc

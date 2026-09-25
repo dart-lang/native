@@ -132,13 +132,12 @@ extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
         _conformsTo.name,
         [protocolPointer!.name],
       );
-      final autoReleasePool = ObjCBuiltInFunctions.autoReleasePool.gen(context);
 
       s.write('''
 
   /// Returns whether [obj] is an instance of [$name].
   static bool conformsTo($objectBase obj) {
-    return $autoReleasePool(() => $msgSendInvoke);
+    return $msgSendInvoke;
   }
 ''');
     }

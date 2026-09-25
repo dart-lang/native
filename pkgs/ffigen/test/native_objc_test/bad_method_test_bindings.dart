@@ -31,12 +31,10 @@ extension type BadMethodTestObject._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BadMethodTestObject].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BadMethodTestObject,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BadMethodTestObject,
         );
 
   /// alloc

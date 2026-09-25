@@ -184,12 +184,10 @@ extension type NSColorPicker._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [NSColorPicker].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_NSColorPicker,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSColorPicker,
         );
 
   /// alloc
@@ -543,12 +541,10 @@ extension type NSTextList._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [NSTextList].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_NSTextList,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSTextList,
         );
 
   /// alloc
@@ -860,12 +856,10 @@ extension type UIPickerView._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [UIPickerView].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_UIPickerView,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_UIPickerView,
         );
 }
 

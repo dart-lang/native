@@ -35,12 +35,10 @@ extension type BlockInheritTestBase._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BlockInheritTestBase].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BlockInheritTestBase,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BlockInheritTestBase,
         );
 
   /// alloc
@@ -204,12 +202,10 @@ extension type BlockInheritTestChild._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [BlockInheritTestChild].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_BlockInheritTestChild,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_BlockInheritTestChild,
         );
 
   /// alloc
@@ -376,12 +372,10 @@ extension type Mammal._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Mammal].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Mammal,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Mammal,
         );
 
   /// alloc
@@ -882,12 +876,10 @@ extension type Platypus._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Platypus].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_Platypus,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Platypus,
         );
 
   /// alloc
