@@ -17,4 +17,6 @@ public:
     double getWeight(double multiplier) const;
     int addAges(int otherAge, float scale);
     static int sum(int a, int b);
+    Animal copyAndAddAge(Animal other) const;
+    static bool haveSameAge(Animal a, Animal b);
 };

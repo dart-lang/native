@@ -20,9 +20,20 @@ void Animal::Animal_delete() {}
 
 bool Animal::isMammalClass() const { return true; }
 
-double Animal::getWeight(double multiplier) const { return age * 1.5 * multiplier; }
+double Animal::getWeight(double multiplier) const {
+  return age * 1.5 * multiplier;
+}
 
-int Animal::addAges(int otherAge, float scale) { return (age + otherAge) * scale; }
+int Animal::addAges(int otherAge, float scale) {
+  return (age + otherAge) * scale;
+}
 
 int Animal::sum(int a, int b) { return a + b; }
 
+Animal Animal::copyAndAddAge(Animal other) const {
+  return Animal(age + other.age);
+}
+
+bool Animal::haveSameAge(Animal a, Animal b) {
+  return a.age == b.age;
+}
