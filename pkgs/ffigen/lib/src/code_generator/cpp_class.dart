@@ -418,7 +418,7 @@ class $name implements $implementsClause {
   String? toCppBindingString(Writer w) {
     final context = w.context;
     String paramDecl(Parameter p) =>
-        p.type.getNativeType(context, varName: p.name).trim();
+        p.type.getExternCType(context, varName: p.name).trim();
 
     final deleteWrapper =
         '''
@@ -434,36 +434,41 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
           final String params;
           final String body;
 
-          final callArgs = method.parameters.map(_cppCallArg).join(', ');
+          final callArgs = method.parameters
+              .map(
+                (p) => p.type.convertExternCTypeToNativeType(context, p.name),
+              )
+              .join(', ');
 
           if (method.isConstructor) {
             returnTypeString = '$originalName*';
             params = method.parameters.map(paramDecl).join(', ');
             body = 'return new $originalName($callArgs);';
           } else {
-            final nativeType = method.returnType.getNativeType(context);
-            returnTypeString = nativeType.trim();
-            final needsReturn = method.returnType != voidType;
-            final returnPrefix = needsReturn ? 'return ' : '';
+            returnTypeString = method.returnType.getExternCType(context).trim();
 
             final otherParams = method.parameters.map(paramDecl);
 
+            final String callExpr;
             if (method.isStatic) {
               final targetType =
                   method.originatingClass?.originalName ?? originalName;
               params = otherParams.join(', ');
-              body =
-                  '$returnPrefix$targetType::'
-                  '${method.originalName}($callArgs);';
+              callExpr = '$targetType::${method.originalName}($callArgs)';
             } else {
               final constPrefix = method.isConstant ? 'const ' : '';
               final selfType = '$constPrefix$originalName';
               params = ['$selfType* self', ...otherParams].join(', ');
               final methodName = method.originalName;
-              final suffix = method.returnType is CppUniquePtrType
-                  ? '.release()'
-                  : '';
-              body = '${returnPrefix}self->$methodName($callArgs)$suffix;';
+              callExpr = 'self->$methodName($callArgs)';
+            }
+
+            if (method.returnType == voidType) {
+              body = '$callExpr;';
+            } else {
+              final returnExpr = method.returnType
+                  .convertNativeTypeToExternCType(context, callExpr);
+              body = 'return $returnExpr;';
             }
           }
 
@@ -478,11 +483,43 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
   }
 
   @override
-  String getCType(Context context) => name;
+  String getDartType(Context context) => name;
+
+  @override
+  String getCType(Context context) {
+    final ffi = context.libs.prefix(ffiImport);
+    return '$ffi.Pointer<$ffi.Void>';
+  }
+
+  @override
+  String getFfiDartType(Context context) => getCType(context);
+
+  @override
+  String convertFfiDartTypeToDartType(
+    Context context,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) => '$name.fromPointer($value, takeOwnership: true)';
 
   @override
   String getNativeType(Context context, {String varName = ''}) =>
       varName.isEmpty ? originalName : '$originalName $varName';
+
+  @override
+  String getExternCType(Context context, {String varName = ''}) =>
+      varName.isEmpty ? '$originalName*' : '$originalName* $varName';
+
+  @override
+  bool get sameNativeAndExternCType => false;
+
+  @override
+  String convertExternCTypeToNativeType(Context context, String value) =>
+      '*$value';
+
+  @override
+  String convertNativeTypeToExternCType(Context context, String value) =>
+      'new $originalName($value)';
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -503,13 +540,4 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
     visitor.visitAll(bases);
     visitor.visit(ffiImport);
   }
-}
-
-String _cppCallArg(Parameter p) {
-  final type = p.type;
-  if (type is CppUniquePtrType) {
-    final className = type.cppClass.originalName;
-    return 'std::unique_ptr<$className>(${p.name})';
-  }
-  return p.name;
 }

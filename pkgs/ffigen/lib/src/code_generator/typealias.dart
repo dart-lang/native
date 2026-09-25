@@ -225,6 +225,21 @@ class Typealias extends BindingType {
   String? generateRetain(String value) => type.generateRetain(value);
 
   @override
+  String getExternCType(Context context, {String varName = ''}) =>
+      type.getExternCType(context, varName: varName);
+
+  @override
+  bool get sameNativeAndExternCType => type.sameNativeAndExternCType;
+
+  @override
+  String convertExternCTypeToNativeType(Context context, String value) =>
+      type.convertExternCTypeToNativeType(context, value);
+
+  @override
+  String convertNativeTypeToExternCType(Context context, String value) =>
+      type.convertNativeTypeToExternCType(context, value);
+
+  @override
   String cacheKey() => type.cacheKey();
 
   @override

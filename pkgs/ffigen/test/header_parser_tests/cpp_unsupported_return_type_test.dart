@@ -82,10 +82,13 @@ void main() {
         reason: 'a forward-declared class cannot be returned by value',
       );
 
-      // Unsupported today: bindable in principle (a reference is ABI-wise a
-      // pointer; a defined class could be heap-copied by the glue code). If
-      // support is ever added, move these up to the bindable group with real
-      // signature expectations instead of relaxing the checks.
+      expect(
+        methodNames,
+        contains('badSelfByValue'),
+        reason: 'a defined class returned by value is supported',
+      );
+
+      // Unsupported today: references have no Dart mapping.
       expect(
         methodNames,
         isNot(contains('badRef')),
@@ -95,11 +98,6 @@ void main() {
         methodNames,
         isNot(contains('badConstRef')),
         reason: 'a C++ reference return type has no Dart mapping',
-      );
-      expect(
-        methodNames,
-        isNot(contains('badSelfByValue')),
-        reason: 'a defined class returned by value is not supported',
       );
     });
 
@@ -115,6 +113,11 @@ void main() {
           reason:
               'primitives and pointers (even to an incomplete compound or a '
               'C++ class) are bindable parameter types',
+        );
+        expect(
+          methodNames,
+          contains('badSelfParam'),
+          reason: 'a defined class passed by value is supported',
         );
 
         // Never bindable: a parameter whose type has no definition anywhere in
@@ -137,9 +140,7 @@ void main() {
           reason: 'a forward-declared class cannot be passed by value',
         );
 
-        // Unsupported today: bindable in principle, see the equivalent return
-        // type group above. If support is ever added, move these up to the
-        // bindable group with real signature expectations.
+        // Unsupported today: references have no Dart mapping.
         expect(
           methodNames,
           isNot(contains('badRefParam')),
@@ -149,11 +150,6 @@ void main() {
           methodNames,
           isNot(contains('badConstRefParam')),
           reason: 'a C++ reference parameter has no Dart mapping',
-        );
-        expect(
-          methodNames,
-          isNot(contains('badSelfParam')),
-          reason: 'a defined class passed by value is not supported',
         );
 
         // The copy constructor takes a C++ reference, so only the default
@@ -174,22 +170,21 @@ void main() {
       expect(output, contains('Widget_self'));
       expect(output, contains('Widget_blobPtr'));
       expect(output, contains('Widget_goodParams'));
-      // See the grouping in the return type test: the first three can never be
-      // supported; the last three pin behavior that a future version may
-      // relax, and should then move to positive expectations above.
+      expect(output, contains('Widget_badSelfByValue'));
+      expect(output, contains('Widget_badSelfParam'));
+
+      // Unsupported returns:
       expect(output, isNot(contains('badUnionByValue')));
       expect(output, isNot(contains('badAliasByValue')));
       expect(output, isNot(contains('badClassByValue')));
       expect(output, isNot(contains('badRef')));
       expect(output, isNot(contains('badConstRef')));
-      expect(output, isNot(contains('badSelfByValue')));
-      // Same for the unsupported parameter types (badRefParam and
-      // badConstRefParam are covered by the badRef/badConstRef prefix checks
-      // above).
+
+      // Unsupported parameters:
       expect(output, isNot(contains('badUnionParam')));
       expect(output, isNot(contains('badAliasParam')));
       expect(output, isNot(contains('badClassParam')));
-      expect(output, isNot(contains('badSelfParam')));
+
       // With its only use dropped, the forward-declared class must not leave
       // a wrapper class behind in the bindings.
       expect(output, isNot(contains('class Incomplete')));
