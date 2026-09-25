@@ -19,15 +19,31 @@ threads, and the way Apple's APIs handle multithreading:
 
 The first two points mean that a block created in one isolate might be
 invoked on a thread running a different isolate, or no isolate at all.
-Depending on the type of block you are using, this could cause your app to
-crash. When a block is created, the isolate it was created in is its owner.
-Blocks created using `FooBlock.fromFunction` must be invoked on the
-owner isolate's thread, otherwise they will crash. Blocks created using
-`FooBlock.listener` or `FooBlock.blocking` can be safely invoked from any
-thread, and the function they wrap will (eventually) be invoked inside the
-owner isolate, though these constructors are only supported for blocks that
-return `void`. `FooBlock.blocking` may add support for non-`void` return values
-in future, if there is user demand for it.
+When a block is created in Dart, the isolate it was created in is its owner.
+The block is permanently tied to that isolate, and the Dart function it wraps
+will always be executed on the owner isolate.
+
+> [!IMPORTANT]
+> Depending on the type of block you are using, invoking it on the wrong thread
+> could cause your app to crash. If possible, you should use a `.listener`
+> or `.blocking` block to avoid this issue.
+
+- Blocks created using `FooBlock.fromFunction` must be invoked on the
+  owner isolate's thread, otherwise they will crash. If the block is invoked
+  after the owner isolate has shut down, it will also crash.
+- Blocks created using `FooBlock.listener` can safely be invoked from any
+  thread. These blocks are asynchronous, and the Dart function will be invoked
+  on the owner isolate at a later time. Return values are not supported, so
+  this constructor is only code generated for blocks that return `void`. If the
+  owner isolate shuts down before the block is invoked, the invocation will be
+  silently ignored.
+- Blocks created using `FooBlock.blocking` can be safely invoked from any
+  thread, and the Dart function will be invoked on the owner isolate.
+  The caller will be blocked until the Dart function has completed. If the
+  owner isolate shuts down before the block is invoked, the invocation will be
+  silently ignored. Return values are not currently supported, but it would
+  be possible to add support for non-`void` blocking blocks, if there is
+  user demand for it.
 
 The third point means that directly calling some Apple APIs using the
 generated Dart bindings might be thread unsafe. This could crash your app, or
@@ -38,7 +54,7 @@ APIs from other isolates, or you need to support older versions of flutter,
 you can use the [`runOnPlatformThread`](
 https://api.flutter.dev/flutter/dart-ui/runOnPlatformThread.html) function.
 
-Regarding the last point, although Dart isolates can switch threads, they
+Regarding the fourth point, although Dart isolates can switch threads, they
 only ever run on one thread at a time. So, the API you are interacting with
 doesn't necessarily have to be thread safe, as long as it is not thread
 hostile, and doesn't have constraints about which thread it's called from.
