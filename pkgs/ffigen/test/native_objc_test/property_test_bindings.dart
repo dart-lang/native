@@ -39,75 +39,93 @@ extension type PropertyInterface._(objc.ObjCObject object$)
 
   /// alloc
   static PropertyInterface alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_PropertyInterface, _sel_alloc);
-    return PropertyInterface.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_PropertyInterface, _sel_alloc);
+      return PropertyInterface.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static PropertyInterface allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_PropertyInterface,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return PropertyInterface.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_PropertyInterface,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return PropertyInterface.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// classReadOnlyProperty
   static int getClassReadOnlyProperty() {
-    return _objc_msgSend_1gcq84o(
-      _class_PropertyInterface,
-      _sel_classReadOnlyProperty,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_PropertyInterface,
+        _sel_classReadOnlyProperty,
+      );
+    });
   }
 
   /// classReadWriteProperty
   static int getClassReadWriteProperty() {
-    return _objc_msgSend_1gcq84o(
-      _class_PropertyInterface,
-      _sel_classReadWriteProperty,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_PropertyInterface,
+        _sel_classReadWriteProperty,
+      );
+    });
   }
 
   /// instStaticSameName
   static int getInstStaticSameName$1() {
-    return _objc_msgSend_1gcq84o(
-      _class_PropertyInterface,
-      _sel_instStaticSameName,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_PropertyInterface,
+        _sel_instStaticSameName,
+      );
+    });
   }
 
   /// new
   static PropertyInterface new$() {
-    final $ret = _objc_msgSend_151sglz(_class_PropertyInterface, _sel_new);
-    return PropertyInterface.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_PropertyInterface, _sel_new);
+      return PropertyInterface.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// regressGH1268
   static objc.NSArray getRegressGH1268() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_PropertyInterface,
-      _sel_regressGH1268,
-    );
-    return objc.NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_PropertyInterface,
+        _sel_regressGH1268,
+      );
+      return objc.NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// regressGH436
   static UndefinedTemplate getRegressGH436() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_PropertyInterface,
-      _sel_regressGH436,
-    );
-    return UndefinedTemplate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_PropertyInterface,
+        _sel_regressGH436,
+      );
+      return UndefinedTemplate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setClassReadWriteProperty:
   static void setClassReadWriteProperty(int value) {
-    _objc_msgSend_1bqef4y(
-      _class_PropertyInterface,
-      _sel_setClassReadWriteProperty_,
-      value,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1bqef4y(
+        _class_PropertyInterface,
+        _sel_setClassReadWriteProperty_,
+        value,
+      );
+    });
   }
 
   /// Returns a new instance of PropertyInterface constructed with the default `new` method.
@@ -118,17 +136,21 @@ extension PropertyInterface$Methods on PropertyInterface {
   /// doubleProperty
   double get doubleProperty {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_doubleProperty)
-        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_doubleProperty);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_doubleProperty)
+          : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_doubleProperty);
+    });
   }
 
   /// floatProperty
   double get floatProperty {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_2cgrxlFpret(_$$ref.pointer, _sel_floatProperty)
-        : _objc_msgSend_2cgrxl(_$$ref.pointer, _sel_floatProperty);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_2cgrxlFpret(_$$ref.pointer, _sel_floatProperty)
+          : _objc_msgSend_2cgrxl(_$$ref.pointer, _sel_floatProperty);
+    });
   }
 
   /// init
@@ -139,67 +161,88 @@ extension PropertyInterface$Methods on PropertyInterface {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return PropertyInterface.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return PropertyInterface.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// instStaticSameName
   int get instStaticSameName {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_instStaticSameName);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_instStaticSameName);
+    });
   }
 
   /// readOnlyProperty
   int get readOnlyProperty {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readOnlyProperty);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readOnlyProperty);
+    });
   }
 
   /// readWriteProperty
   int get readWriteProperty {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readWriteProperty);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readWriteProperty);
+    });
   }
 
   /// setDoubleProperty:
   set doubleProperty(double value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setDoubleProperty_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setDoubleProperty_, value);
+    });
   }
 
   /// setFloatProperty:
   set floatProperty(double value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_v5hmet(_$$ref.pointer, _sel_setFloatProperty_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_v5hmet(_$$ref.pointer, _sel_setFloatProperty_, value);
+    });
   }
 
   /// setReadWriteProperty:
   set readWriteProperty(int value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setReadWriteProperty_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setReadWriteProperty_, value);
+    });
   }
 
   /// setStructProperty:
   set structProperty(Vec4 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_188ryij(_$$ref.pointer, _sel_setStructProperty_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_188ryij(_$$ref.pointer, _sel_setStructProperty_, value);
+    });
   }
 
   /// structProperty
   Vec4 get structProperty {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Vec4>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_o6r21bStret($ptr, _$$ref.pointer, _sel_structProperty)
-        : $ptr.ref = _objc_msgSend_o6r21b(_$$ref.pointer, _sel_structProperty);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Vec4>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Vec4>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Vec4>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_o6r21bStret($ptr, _$$ref.pointer, _sel_structProperty)
+          : $ptr.ref = _objc_msgSend_o6r21b(
+              _$$ref.pointer,
+              _sel_structProperty,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Vec4>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Struct.create<Vec4>($finalizable);
+    });
   }
 }
 

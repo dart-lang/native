@@ -187,18 +187,21 @@ abstract final class ObjCBlock_Int32_Int32 {
 extension ObjCBlock_Int32_Int32$CallExtension
     on objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> {
   int call(int arg0) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Int32 Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Int32 arg0,
-            )
-          >
-        >()
-        .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
-      ref.pointer,
-      arg0,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Int32 Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Int32 arg0,
+                  )
+                >
+              >()
+              .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
+            ref.pointer,
+            arg0,
+          ),
     );
   }
 }
@@ -231,34 +234,42 @@ extension type StaticFuncTestObj._(objc.ObjCObject object$)
 
   /// alloc
   static StaticFuncTestObj alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_StaticFuncTestObj, _sel_alloc);
-    return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_StaticFuncTestObj, _sel_alloc);
+      return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static StaticFuncTestObj allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_StaticFuncTestObj,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_StaticFuncTestObj,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static StaticFuncTestObj new$() {
-    final $ret = _objc_msgSend_151sglz(_class_StaticFuncTestObj, _sel_new);
-    return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_StaticFuncTestObj, _sel_new);
+      return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// newWithCounter:
   static StaticFuncTestObj newWithCounter(ffi.Pointer<ffi.Int32> _counter) {
-    final $ret = _objc_msgSend_129vhbw(
-      _class_StaticFuncTestObj,
-      _sel_newWithCounter_,
-      _counter,
-    );
-    return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_129vhbw(
+        _class_StaticFuncTestObj,
+        _sel_newWithCounter_,
+        _counter,
+      );
+      return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of StaticFuncTestObj constructed with the default `new` method.
@@ -269,7 +280,9 @@ extension StaticFuncTestObj$Methods on StaticFuncTestObj {
   /// dealloc
   void dealloc() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    });
   }
 
   /// init
@@ -280,22 +293,26 @@ extension StaticFuncTestObj$Methods on StaticFuncTestObj {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCounter:
   StaticFuncTestObj initWithCounter(ffi.Pointer<ffi.Int32> _counter) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_129vhbw(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCounter_,
-      _counter,
-    );
-    return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_129vhbw(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCounter_,
+        _counter,
+      );
+      return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 

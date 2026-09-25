@@ -39,38 +39,51 @@ extension type LogSpamBaseClass._(objc.ObjCObject object$)
 
   /// alloc
   static LogSpamBaseClass alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_LogSpamBaseClass, _sel_alloc);
-    return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_LogSpamBaseClass, _sel_alloc);
+      return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static LogSpamBaseClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_LogSpamBaseClass,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_LogSpamBaseClass,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// instancetypeMethod
   static LogSpamBaseClass instancetypeMethod() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_LogSpamBaseClass,
-      _sel_instancetypeMethod,
-    );
-    return LogSpamBaseClass.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_LogSpamBaseClass,
+        _sel_instancetypeMethod,
+      );
+      return LogSpamBaseClass.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// matchingMethod
   static int matchingMethod() {
-    return _objc_msgSend_1gcq84o(_class_LogSpamBaseClass, _sel_matchingMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_LogSpamBaseClass,
+        _sel_matchingMethod,
+      );
+    });
   }
 
   /// new
   static LogSpamBaseClass new$() {
-    final $ret = _objc_msgSend_151sglz(_class_LogSpamBaseClass, _sel_new);
-    return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_LogSpamBaseClass, _sel_new);
+      return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of LogSpamBaseClass constructed with the default `new` method.
@@ -86,11 +99,13 @@ extension LogSpamBaseClass$Methods on LogSpamBaseClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -122,38 +137,51 @@ extension type LogSpamChildClass._(objc.ObjCObject object$)
 
   /// alloc
   static LogSpamChildClass alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_LogSpamChildClass, _sel_alloc);
-    return LogSpamChildClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_LogSpamChildClass, _sel_alloc);
+      return LogSpamChildClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static LogSpamChildClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_LogSpamChildClass,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return LogSpamChildClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_LogSpamChildClass,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return LogSpamChildClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// instancetypeMethod
   static LogSpamChildClass instancetypeMethod() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_LogSpamChildClass,
-      _sel_instancetypeMethod,
-    );
-    return LogSpamChildClass.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_LogSpamChildClass,
+        _sel_instancetypeMethod,
+      );
+      return LogSpamChildClass.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// matchingMethod
   static int matchingMethod() {
-    return _objc_msgSend_1gcq84o(_class_LogSpamChildClass, _sel_matchingMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_LogSpamChildClass,
+        _sel_matchingMethod,
+      );
+    });
   }
 
   /// new
   static LogSpamChildClass new$() {
-    final $ret = _objc_msgSend_151sglz(_class_LogSpamChildClass, _sel_new);
-    return LogSpamChildClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_LogSpamChildClass, _sel_new);
+      return LogSpamChildClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of LogSpamChildClass constructed with the default `new` method.
@@ -169,11 +197,13 @@ extension LogSpamChildClass$Methods on LogSpamChildClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return LogSpamChildClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return LogSpamChildClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 

@@ -35,26 +35,34 @@ extension type Foo._(objc.ObjCObject object$)
 
   /// alloc
   static Foo alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_Foo, _sel_alloc);
-    return Foo.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Foo, _sel_alloc);
+      return Foo.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static Foo allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(_class_Foo, _sel_allocWithZone_, zone);
-    return Foo.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(_class_Foo, _sel_allocWithZone_, zone);
+      return Foo.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// makeFoo:
   static Foo makeFoo(double x) {
-    final $ret = _objc_msgSend_oa8mke(_class_Foo, _sel_makeFoo_, x);
-    return Foo.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(_class_Foo, _sel_makeFoo_, x);
+      return Foo.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static Foo new$() {
-    final $ret = _objc_msgSend_151sglz(_class_Foo, _sel_new);
-    return Foo.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Foo, _sel_new);
+      return Foo.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of Foo constructed with the default `new` method.
@@ -65,21 +73,27 @@ extension Foo$Methods on Foo {
   /// boolVal
   bool get boolVal {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_boolVal);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_boolVal);
+    });
   }
 
   /// classVal
   objc.ObjCObject get classVal {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_classVal);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_classVal);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// idVal
   objc.ObjCObject get idVal {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_idVal);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_idVal);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -90,87 +104,111 @@ extension Foo$Methods on Foo {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return Foo.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return Foo.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// intVal
   int get intVal {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_intVal);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_intVal);
+    });
   }
 
   /// multiply:withOtherFoo:
   int multiply(bool useIntVals, {required Foo withOtherFoo}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withOtherFoo.ref;
-    return _objc_msgSend_1t47e0u(
-      _$$ref.pointer,
-      _sel_multiply_withOtherFoo_,
-      useIntVals,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1t47e0u(
+        _$$ref.pointer,
+        _sel_multiply_withOtherFoo_,
+        useIntVals,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// objVal
   objc.NSObject get objVal {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objVal);
-    return objc.NSObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objVal);
+      return objc.NSObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// selVal
   ffi.Pointer<objc.ObjCSelector> get selVal {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1ovaulg(_$$ref.pointer, _sel_selVal);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1ovaulg(_$$ref.pointer, _sel_selVal);
+    });
   }
 
   /// setBoolVal:
   set boolVal(bool value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setBoolVal_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setBoolVal_, value);
+    });
   }
 
   /// setClassVal:
   set classVal(objc.ObjCObject value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setClassVal_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setClassVal_, _$$ref$1.pointer);
+    });
   }
 
   /// setDoubleVal:
   void setDoubleVal(double x) {
     final _$$ref = object$.ref;
-    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setDoubleVal_, x);
+    objc.autoReleasePool(() {
+      _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setDoubleVal_, x);
+    });
   }
 
   /// setIdVal:
   set idVal(objc.ObjCObject value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setIdVal_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setIdVal_, _$$ref$1.pointer);
+    });
   }
 
   /// setIntVal:
   set intVal(int value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setIntVal_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setIntVal_, value);
+    });
   }
 
   /// setObjVal:
   set objVal(objc.NSObject value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setObjVal_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setObjVal_, _$$ref$1.pointer);
+    });
   }
 
   /// setSelVal:
   set selVal(ffi.Pointer<objc.ObjCSelector> value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1d9e4oe(_$$ref.pointer, _sel_setSelVal_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1d9e4oe(_$$ref.pointer, _sel_setSelVal_, value);
+    });
   }
 }
 

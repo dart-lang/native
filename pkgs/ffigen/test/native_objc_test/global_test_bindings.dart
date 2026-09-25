@@ -161,18 +161,21 @@ abstract final class ObjCBlock_Int32_Int32 {
 extension ObjCBlock_Int32_Int32$CallExtension
     on objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> {
   int call(int arg0) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Int32 Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Int32 arg0,
-            )
-          >
-        >()
-        .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
-      ref.pointer,
-      arg0,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Int32 Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Int32 arg0,
+                  )
+                >
+              >()
+              .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
+            ref.pointer,
+            arg0,
+          ),
     );
   }
 }

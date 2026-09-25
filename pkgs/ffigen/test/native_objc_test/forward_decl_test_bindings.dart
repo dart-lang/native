@@ -39,29 +39,52 @@ extension type ForwardDeclaredClass._(objc.ObjCObject object$)
 
   /// alloc
   static ForwardDeclaredClass alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_ForwardDeclaredClass, _sel_alloc);
-    return ForwardDeclaredClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_ForwardDeclaredClass,
+        _sel_alloc,
+      );
+      return ForwardDeclaredClass.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static ForwardDeclaredClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_ForwardDeclaredClass,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return ForwardDeclaredClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_ForwardDeclaredClass,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return ForwardDeclaredClass.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// get123
   static int get123() {
-    return _objc_msgSend_1gcq84o(_class_ForwardDeclaredClass, _sel_get123);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_class_ForwardDeclaredClass, _sel_get123);
+    });
   }
 
   /// new
   static ForwardDeclaredClass new$() {
-    final $ret = _objc_msgSend_151sglz(_class_ForwardDeclaredClass, _sel_new);
-    return ForwardDeclaredClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ForwardDeclaredClass, _sel_new);
+      return ForwardDeclaredClass.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of ForwardDeclaredClass constructed with the default `new` method.
@@ -77,11 +100,17 @@ extension ForwardDeclaredClass$Methods on ForwardDeclaredClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return ForwardDeclaredClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return ForwardDeclaredClass.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 }
 

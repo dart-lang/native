@@ -932,24 +932,30 @@ extension type DOBJCObservation._(objc.ObjCObject object$)
 
   /// alloc
   static DOBJCObservation alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_DOBJCObservation, _sel_alloc);
-    return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_DOBJCObservation, _sel_alloc);
+      return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static DOBJCObservation allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_DOBJCObservation,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_DOBJCObservation,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static DOBJCObservation new$() {
-    final $ret = _objc_msgSend_151sglz(_class_DOBJCObservation, _sel_new);
-    return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_DOBJCObservation, _sel_new);
+      return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of DOBJCObservation constructed with the default `new` method.
@@ -960,13 +966,17 @@ extension DOBJCObservation$Methods on DOBJCObservation {
   /// dealloc
   void dealloc() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    });
   }
 
   /// debugObserver
   ffi.Pointer<ffi.Void> debugObserver() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_debugObserver);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_debugObserver);
+    });
   }
 
   /// init
@@ -977,11 +987,13 @@ extension DOBJCObservation$Methods on DOBJCObservation {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initForKeyPath:ofObject:withObserver:options:context:
@@ -996,22 +1008,26 @@ extension DOBJCObservation$Methods on DOBJCObservation {
     final _$$ref$1 = keyPath.ref;
     final _$$ref$2 = ofObject.ref;
     final _$$ref$3 = withObserver.ref;
-    final $ret = _objc_msgSend_1jiinfj(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initForKeyPath_ofObject_withObserver_options_context_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-      _$$ref$3.pointer,
-      options,
-      context,
-    );
-    return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1jiinfj(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initForKeyPath_ofObject_withObserver_options_context_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+        _$$ref$3.pointer,
+        options,
+        context,
+      );
+      return DOBJCObservation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// remove
   void remove() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_remove);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_remove);
+    });
   }
 }
 
@@ -1043,55 +1059,71 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
 
   /// alloc
   static DartInputStreamAdapter alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_DartInputStreamAdapter,
-      _sel_alloc,
-    );
-    return DartInputStreamAdapter.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_DartInputStreamAdapter,
+        _sel_alloc,
+      );
+      return DartInputStreamAdapter.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static DartInputStreamAdapter allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_DartInputStreamAdapter,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return DartInputStreamAdapter.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_DartInputStreamAdapter,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return DartInputStreamAdapter.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// inputStreamWithData:
   static DartInputStreamAdapter? inputStreamWithData(NSData data) {
     final _$$ref = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_DartInputStreamAdapter,
-      _sel_inputStreamWithData_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : DartInputStreamAdapter.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_DartInputStreamAdapter,
+        _sel_inputStreamWithData_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : DartInputStreamAdapter.fromPointer(
+              $ret,
+              retain: true,
+              release: true,
+            );
+    });
   }
 
   /// inputStreamWithFileAtPath:
   static DartInputStreamAdapter? inputStreamWithFileAtPath(NSString path) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_DartInputStreamAdapter,
-      _sel_inputStreamWithFileAtPath_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : DartInputStreamAdapter.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_DartInputStreamAdapter,
+        _sel_inputStreamWithFileAtPath_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : DartInputStreamAdapter.fromPointer(
+              $ret,
+              retain: true,
+              release: true,
+            );
+    });
   }
 
   /// Creates the adapter.
@@ -1099,16 +1131,18 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
   /// -1 => The `NSInputStream` has been closed and the port can be closed.
   /// _  => The number of types being required in a `read:maxLength` call.
   static DartInputStreamAdapter inputStreamWithPort(int sendPort) {
-    final $ret = _objc_msgSend_1ya1kjn(
-      _class_DartInputStreamAdapter,
-      _sel_inputStreamWithPort_,
-      sendPort,
-    );
-    return DartInputStreamAdapter.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ya1kjn(
+        _class_DartInputStreamAdapter,
+        _sel_inputStreamWithPort_,
+        sendPort,
+      );
+      return DartInputStreamAdapter.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   /// inputStreamWithURL:
@@ -1119,24 +1153,35 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_DartInputStreamAdapter,
-      _sel_inputStreamWithURL_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : DartInputStreamAdapter.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_DartInputStreamAdapter,
+        _sel_inputStreamWithURL_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : DartInputStreamAdapter.fromPointer(
+              $ret,
+              retain: true,
+              release: true,
+            );
+    });
   }
 
   /// new
   static DartInputStreamAdapter new$() {
-    final $ret = _objc_msgSend_151sglz(_class_DartInputStreamAdapter, _sel_new);
-    return DartInputStreamAdapter.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_DartInputStreamAdapter,
+        _sel_new,
+      );
+      return DartInputStreamAdapter.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of DartInputStreamAdapter constructed with the default `new` method.
@@ -1148,11 +1193,13 @@ extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
   DartNSUInteger addData(NSData data) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    return _objc_msgSend_1vd1c5m(
-      _$$ref.pointer,
-      _sel_addData_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1vd1c5m(
+        _$$ref.pointer,
+        _sel_addData_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -1163,49 +1210,55 @@ extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return DartInputStreamAdapter.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return DartInputStreamAdapter.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithData:
   DartInputStreamAdapter initWithData(NSData data) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithData_,
-      _$$ref$1.pointer,
-    );
-    return DartInputStreamAdapter.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithData_,
+        _$$ref$1.pointer,
+      );
+      return DartInputStreamAdapter.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithFileAtPath:
   DartInputStreamAdapter? initWithFileAtPath(NSString path) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFileAtPath_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : DartInputStreamAdapter.fromPointer(
-            $ret,
-            retain: false,
-            release: true,
-          );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFileAtPath_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : DartInputStreamAdapter.fromPointer(
+              $ret,
+              retain: false,
+              release: true,
+            );
+    });
   }
 
   /// initWithURL:
@@ -1217,31 +1270,37 @@ extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithURL_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : DartInputStreamAdapter.fromPointer(
-            $ret,
-            retain: false,
-            release: true,
-          );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithURL_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : DartInputStreamAdapter.fromPointer(
+              $ret,
+              retain: false,
+              release: true,
+            );
+    });
   }
 
   /// setDone
   void setDone() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_setDone);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_setDone);
+    });
   }
 
   /// setError:
   void setError(NSError error) {
     final _$$ref = object$.ref;
     final _$$ref$1 = error.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setError_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setError_, _$$ref$1.pointer);
+    });
   }
 
   /// stream:handleEvent:
@@ -1254,12 +1313,14 @@ extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
         'stream:handleEvent:',
       );
     }
-    _objc_msgSend_3l8zum(
-      _$$ref.pointer,
-      _sel_stream_handleEvent_,
-      _$$ref$1.pointer,
-      handleEvent,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_3l8zum(
+        _$$ref.pointer,
+        _sel_stream_handleEvent_,
+        _$$ref$1.pointer,
+        handleEvent,
+      );
+    });
   }
 }
 
@@ -1291,31 +1352,35 @@ extension type DartInputStreamAdapterWeakHolder._(objc.ObjCObject object$)
 
   /// alloc
   static DartInputStreamAdapterWeakHolder alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_DartInputStreamAdapterWeakHolder,
-      _sel_alloc,
-    );
-    return DartInputStreamAdapterWeakHolder.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_DartInputStreamAdapterWeakHolder,
+        _sel_alloc,
+      );
+      return DartInputStreamAdapterWeakHolder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static DartInputStreamAdapterWeakHolder allocWithZone(
     ffi.Pointer<NSZone> zone,
   ) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_DartInputStreamAdapterWeakHolder,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return DartInputStreamAdapterWeakHolder.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_DartInputStreamAdapterWeakHolder,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return DartInputStreamAdapterWeakHolder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// holderWithInputStreamAdapter:
@@ -1323,29 +1388,33 @@ extension type DartInputStreamAdapterWeakHolder._(objc.ObjCObject object$)
     DartInputStreamAdapter adapter,
   ) {
     final _$$ref = adapter.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_DartInputStreamAdapterWeakHolder,
-      _sel_holderWithInputStreamAdapter_,
-      _$$ref.pointer,
-    );
-    return DartInputStreamAdapterWeakHolder.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_DartInputStreamAdapterWeakHolder,
+        _sel_holderWithInputStreamAdapter_,
+        _$$ref.pointer,
+      );
+      return DartInputStreamAdapterWeakHolder.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   /// new
   static DartInputStreamAdapterWeakHolder new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_DartInputStreamAdapterWeakHolder,
-      _sel_new,
-    );
-    return DartInputStreamAdapterWeakHolder.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_DartInputStreamAdapterWeakHolder,
+        _sel_new,
+      );
+      return DartInputStreamAdapterWeakHolder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of DartInputStreamAdapterWeakHolder constructed with the default `new` method.
@@ -1357,12 +1426,14 @@ extension DartInputStreamAdapterWeakHolder$Methods
   /// adapter
   DartInputStreamAdapter get adapter {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_adapter);
-    return DartInputStreamAdapter.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_adapter);
+      return DartInputStreamAdapter.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   /// init
@@ -1373,15 +1444,17 @@ extension DartInputStreamAdapterWeakHolder$Methods
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return DartInputStreamAdapterWeakHolder.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return DartInputStreamAdapterWeakHolder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 }
 
@@ -1413,24 +1486,30 @@ extension type DartProtocol._(objc.ObjCObject object$)
 
   /// alloc
   static DartProtocol alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_DartProtocol, _sel_alloc);
-    return DartProtocol.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_DartProtocol, _sel_alloc);
+      return DartProtocol.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static DartProtocol allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_DartProtocol,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return DartProtocol.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_DartProtocol,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return DartProtocol.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static DartProtocol new$() {
-    final $ret = _objc_msgSend_151sglz(_class_DartProtocol, _sel_new);
-    return DartProtocol.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_DartProtocol, _sel_new);
+      return DartProtocol.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of DartProtocol constructed with the default `new` method.
@@ -1441,7 +1520,9 @@ extension DartProtocol$Methods on DartProtocol {
   /// dealloc
   void dealloc() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    });
   }
 
   /// getDOBJCDartProtocolMethodForSelector:
@@ -1449,12 +1530,14 @@ extension DartProtocol$Methods on DartProtocol {
     ffi.Pointer<objc.ObjCSelector> sel,
   ) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3ctkt6(
-      _$$ref.pointer,
-      _sel_getDOBJCDartProtocolMethodForSelector_,
-      sel,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3ctkt6(
+        _$$ref.pointer,
+        _sel_getDOBJCDartProtocolMethodForSelector_,
+        sel,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -1465,11 +1548,13 @@ extension DartProtocol$Methods on DartProtocol {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return DartProtocol.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return DartProtocol.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initDOBJCDartProtocolFromDartProtocolBuilder:withDisposePort:
@@ -1479,13 +1564,15 @@ extension DartProtocol$Methods on DartProtocol {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = builder.ref;
-    final $ret = _objc_msgSend_dbvvll(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_,
-      _$$ref$1.pointer,
-      withDisposePort,
-    );
-    return DartProtocol.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_dbvvll(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_,
+        _$$ref$1.pointer,
+        withDisposePort,
+      );
+      return DartProtocol.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -1518,24 +1605,45 @@ extension type DartProtocolBuilder._(objc.ObjCObject object$)
 
   /// alloc
   static DartProtocolBuilder alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_DartProtocolBuilder, _sel_alloc);
-    return DartProtocolBuilder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_DartProtocolBuilder,
+        _sel_alloc,
+      );
+      return DartProtocolBuilder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static DartProtocolBuilder allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_DartProtocolBuilder,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return DartProtocolBuilder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_DartProtocolBuilder,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return DartProtocolBuilder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static DartProtocolBuilder new$() {
-    final $ret = _objc_msgSend_151sglz(_class_DartProtocolBuilder, _sel_new);
-    return DartProtocolBuilder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_DartProtocolBuilder, _sel_new);
+      return DartProtocolBuilder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of DartProtocolBuilder constructed with the default `new` method.
@@ -1547,18 +1655,22 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
   void addProtocol(Protocol protocol) {
     final _$$ref = object$.ref;
     final _$$ref$1 = protocol.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addProtocol_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addProtocol_, _$$ref$1.pointer);
+    });
   }
 
   /// buildInstance:
   DartProtocol buildInstance(int port) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1ya1kjn(
-      _$$ref.pointer,
-      _sel_buildInstance_,
-      port,
-    );
-    return DartProtocol.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ya1kjn(
+        _$$ref.pointer,
+        _sel_buildInstance_,
+        port,
+      );
+      return DartProtocol.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// implementMethod:withBlock:withTrampoline:withSignature:
@@ -1569,14 +1681,16 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
     required ffi.Pointer<ffi.Char> withSignature,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1s2gdyk(
-      _$$ref.pointer,
-      _sel_implementMethod_withBlock_withTrampoline_withSignature_,
-      sel,
-      withBlock,
-      withTrampoline,
-      withSignature,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1s2gdyk(
+        _$$ref.pointer,
+        _sel_implementMethod_withBlock_withTrampoline_withSignature_,
+        sel,
+        withBlock,
+        withTrampoline,
+        withSignature,
+      );
+    });
   }
 
   /// init
@@ -1587,28 +1701,42 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return DartProtocolBuilder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return DartProtocolBuilder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithClassName:
   DartProtocolBuilder initWithClassName(ffi.Pointer<ffi.Char> name) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_56zxyn(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithClassName_,
-      name,
-    );
-    return DartProtocolBuilder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_56zxyn(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithClassName_,
+        name,
+      );
+      return DartProtocolBuilder.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// registerClass
   void registerClass() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_registerClass);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_registerClass);
+    });
   }
 }
 
@@ -1672,57 +1800,69 @@ extension type NSArray._(objc.ObjCObject object$)
 
   /// alloc
   static NSArray alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSArray, _sel_alloc);
-    return NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSArray, _sel_alloc);
+      return NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSArray allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSArray,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSArray,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// array
   static NSArray array() {
-    final $ret = _objc_msgSend_151sglz(_class_NSArray, _sel_array);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSArray, _sel_array);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithArray:
   static NSArray arrayWithArray(NSArray array) {
     final _$$ref = array.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSArray,
-      _sel_arrayWithArray_,
-      _$$ref.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSArray,
+        _sel_arrayWithArray_,
+        _$$ref.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithObject:
   static NSArray arrayWithObject(objc.ObjCObject anObject) {
     final _$$ref = anObject.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSArray,
-      _sel_arrayWithObject_,
-      _$$ref.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSArray,
+        _sel_arrayWithObject_,
+        _$$ref.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithObjects:
   static NSArray arrayWithObjects(objc.ObjCObject firstObj) {
     final _$$ref = firstObj.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSArray,
-      _sel_arrayWithObjects_,
-      _$$ref.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSArray,
+        _sel_arrayWithObjects_,
+        _$$ref.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithObjects:count:
@@ -1730,24 +1870,30 @@ extension type NSArray._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> objects, {
     required DartNSUInteger count,
   }) {
-    final $ret = _objc_msgSend_zmbtbd(
-      _class_NSArray,
-      _sel_arrayWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _class_NSArray,
+        _sel_arrayWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSArray new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSArray, _sel_new);
-    return NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSArray, _sel_new);
+      return NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSArray, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSArray, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSArray constructed with the default `new` method.
@@ -1758,7 +1904,9 @@ extension NSArray$Methods on NSArray {
   /// count
   DartNSUInteger get count {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    });
   }
 
   /// countByEnumeratingWithState:objects:count:
@@ -1768,24 +1916,28 @@ extension NSArray$Methods on NSArray {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1b5ysjl(
-      _$$ref.pointer,
-      _sel_countByEnumeratingWithState_objects_count_,
-      state,
-      objects,
-      count,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1b5ysjl(
+        _$$ref.pointer,
+        _sel_countByEnumeratingWithState_objects_count_,
+        state,
+        objects,
+        count,
+      );
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -1796,62 +1948,72 @@ extension NSArray$Methods on NSArray {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:
   NSArray initWithArray(NSArray array) {
     final _$$ref = object$.ref;
     final _$$ref$1 = array.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:copyItems:
   NSArray initWithArray$1(NSArray array, {required bool copyItems}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = array.ref;
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSArray? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:
   NSArray initWithObjects(objc.ObjCObject firstObj) {
     final _$$ref = object$.ref;
     final _$$ref$1 = firstObj.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:count:
@@ -1860,24 +2022,28 @@ extension NSArray$Methods on NSArray {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_zmbtbd(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// objectAtIndex:
   objc.ObjCObject objectAtIndex(DartNSUInteger index) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.pointer,
-      _sel_objectAtIndex_,
-      index,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.pointer,
+        _sel_objectAtIndex_,
+        index,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -1894,16 +2060,18 @@ extension NSArrayCreation on NSArray {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1lhpu4m(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfURL_error_,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSArray.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1lhpu4m(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfURL_error_,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSArray.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -1919,16 +2087,18 @@ extension NSArrayCreation on NSArray {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1lhpu4m(
-        _class_NSArray,
-        _sel_arrayWithContentsOfURL_error_,
-        _$$ref.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSArray.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1lhpu4m(
+          _class_NSArray,
+          _sel_arrayWithContentsOfURL_error_,
+          _$$ref.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSArray.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -1978,18 +2148,22 @@ extension type NSAttributedString._(objc.ObjCObject object$)
 
   /// alloc
   static NSAttributedString alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSAttributedString, _sel_alloc);
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSAttributedString, _sel_alloc);
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSAttributedString allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSAttributedString,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSAttributedString,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// localizedAttributedStringWithFormat:
@@ -2005,12 +2179,14 @@ extension type NSAttributedString._(objc.ObjCObject object$)
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSAttributedString,
-      _sel_localizedAttributedStringWithFormat_,
-      _$$ref.pointer,
-    );
-    return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSAttributedString,
+        _sel_localizedAttributedStringWithFormat_,
+        _$$ref.pointer,
+      );
+      return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedAttributedStringWithFormat:context:
@@ -2028,13 +2204,15 @@ extension type NSAttributedString._(objc.ObjCObject object$)
       iOS: (false, (17, 0, 0)),
       macOS: (false, (14, 0, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSAttributedString,
-      _sel_localizedAttributedStringWithFormat_context_,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-    );
-    return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSAttributedString,
+        _sel_localizedAttributedStringWithFormat_context_,
+        _$$ref.pointer,
+        _$$ref$1.pointer,
+      );
+      return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedAttributedStringWithFormat:options:
@@ -2051,13 +2229,15 @@ extension type NSAttributedString._(objc.ObjCObject object$)
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_s058d2(
-      _class_NSAttributedString,
-      _sel_localizedAttributedStringWithFormat_options_,
-      _$$ref.pointer,
-      options,
-    );
-    return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_s058d2(
+        _class_NSAttributedString,
+        _sel_localizedAttributedStringWithFormat_options_,
+        _$$ref.pointer,
+        options,
+      );
+      return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedAttributedStringWithFormat:options:context:
@@ -2076,28 +2256,34 @@ extension type NSAttributedString._(objc.ObjCObject object$)
       iOS: (false, (17, 0, 0)),
       macOS: (false, (14, 0, 0)),
     );
-    final $ret = _objc_msgSend_187k8ck(
-      _class_NSAttributedString,
-      _sel_localizedAttributedStringWithFormat_options_context_,
-      _$$ref.pointer,
-      options,
-      _$$ref$1.pointer,
-    );
-    return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_187k8ck(
+        _class_NSAttributedString,
+        _sel_localizedAttributedStringWithFormat_options_context_,
+        _$$ref.pointer,
+        options,
+        _$$ref$1.pointer,
+      );
+      return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSAttributedString new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSAttributedString, _sel_new);
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSAttributedString, _sel_new);
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_NSAttributedString,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSAttributedString,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSAttributedString constructed with the default `new` method.
@@ -2116,24 +2302,28 @@ extension NSAttributedString$Methods on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_1776v9k(
-      _$$ref.pointer,
-      _sel_attributesAtIndex_effectiveRange_,
-      location,
-      effectiveRange,
-    );
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1776v9k(
+        _$$ref.pointer,
+        _sel_attributesAtIndex_effectiveRange_,
+        location,
+        effectiveRange,
+      );
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -2144,11 +2334,13 @@ extension NSAttributedString$Methods on NSAttributedString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithAttributedString:
@@ -2160,26 +2352,30 @@ extension NSAttributedString$Methods on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithAttributedString_,
-      _$$ref$1.pointer,
-    );
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithAttributedString_,
+        _$$ref$1.pointer,
+      );
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSAttributedString? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfMarkdownFileAtURL:options:baseURL:error:
@@ -2202,18 +2398,24 @@ extension NSAttributedString$Methods on NSAttributedString {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1k0ezzm(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfMarkdownFileAtURL_options_baseURL_error_,
-        _$$ref$1.pointer,
-        _$$ref$2?.pointer ?? ffi.nullptr,
-        _$$ref$3?.pointer ?? ffi.nullptr,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSAttributedString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1k0ezzm(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfMarkdownFileAtURL_options_baseURL_error_,
+          _$$ref$1.pointer,
+          _$$ref$2?.pointer ?? ffi.nullptr,
+          _$$ref$3?.pointer ?? ffi.nullptr,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSAttributedString.fromPointer(
+                $ret,
+                retain: false,
+                release: true,
+              );
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -2236,14 +2438,16 @@ extension NSAttributedString$Methods on NSAttributedString {
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_187k8ck(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFormat_options_locale_,
-      _$$ref$1.pointer,
-      options,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_187k8ck(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFormat_options_locale_,
+        _$$ref$1.pointer,
+        options,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFormat:options:locale:context:
@@ -2265,15 +2469,17 @@ extension NSAttributedString$Methods on NSAttributedString {
       iOS: (false, (17, 0, 0)),
       macOS: (false, (14, 0, 0)),
     );
-    final $ret = _objc_msgSend_3fn4ca(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFormat_options_locale_context_,
-      _$$ref$1.pointer,
-      options,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3.pointer,
-    );
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3fn4ca(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFormat_options_locale_context_,
+        _$$ref$1.pointer,
+        options,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3.pointer,
+      );
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithMarkdown:options:baseURL:error:
@@ -2296,18 +2502,24 @@ extension NSAttributedString$Methods on NSAttributedString {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1k0ezzm(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithMarkdown_options_baseURL_error_,
-        _$$ref$1.pointer,
-        _$$ref$2?.pointer ?? ffi.nullptr,
-        _$$ref$3?.pointer ?? ffi.nullptr,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSAttributedString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1k0ezzm(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithMarkdown_options_baseURL_error_,
+          _$$ref$1.pointer,
+          _$$ref$2?.pointer ?? ffi.nullptr,
+          _$$ref$3?.pointer ?? ffi.nullptr,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSAttributedString.fromPointer(
+                $ret,
+                retain: false,
+                release: true,
+              );
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -2333,18 +2545,24 @@ extension NSAttributedString$Methods on NSAttributedString {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1k0ezzm(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithMarkdownString_options_baseURL_error_,
-        _$$ref$1.pointer,
-        _$$ref$2?.pointer ?? ffi.nullptr,
-        _$$ref$3?.pointer ?? ffi.nullptr,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSAttributedString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1k0ezzm(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithMarkdownString_options_baseURL_error_,
+          _$$ref$1.pointer,
+          _$$ref$2?.pointer ?? ffi.nullptr,
+          _$$ref$3?.pointer ?? ffi.nullptr,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSAttributedString.fromPointer(
+                $ret,
+                retain: false,
+                release: true,
+              );
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -2359,12 +2577,14 @@ extension NSAttributedString$Methods on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithString_,
-      _$$ref$1.pointer,
-    );
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithString_,
+        _$$ref$1.pointer,
+      );
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithString:attributes:
@@ -2380,13 +2600,15 @@ extension NSAttributedString$Methods on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithString_attributes_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithString_attributes_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSAttributedString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// string
@@ -2397,8 +2619,10 @@ extension NSAttributedString$Methods on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_string);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_string);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -2508,44 +2732,50 @@ extension type NSAttributedStringMarkdownParsingOptions._(
 
   /// alloc
   static NSAttributedStringMarkdownParsingOptions alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSAttributedStringMarkdownParsingOptions,
-      _sel_alloc,
-    );
-    return NSAttributedStringMarkdownParsingOptions.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSAttributedStringMarkdownParsingOptions,
+        _sel_alloc,
+      );
+      return NSAttributedStringMarkdownParsingOptions.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static NSAttributedStringMarkdownParsingOptions allocWithZone(
     ffi.Pointer<NSZone> zone,
   ) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSAttributedStringMarkdownParsingOptions,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSAttributedStringMarkdownParsingOptions.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSAttributedStringMarkdownParsingOptions,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSAttributedStringMarkdownParsingOptions.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static NSAttributedStringMarkdownParsingOptions new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSAttributedStringMarkdownParsingOptions,
-      _sel_new,
-    );
-    return NSAttributedStringMarkdownParsingOptions.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSAttributedStringMarkdownParsingOptions,
+        _sel_new,
+      );
+      return NSAttributedStringMarkdownParsingOptions.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of NSAttributedStringMarkdownParsingOptions constructed with the default `new` method.
@@ -2563,7 +2793,12 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_allowsExtendedAttributes);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _$$ref.pointer,
+        _sel_allowsExtendedAttributes,
+      );
+    });
   }
 
   /// iOS: introduced 16.0.0
@@ -2575,10 +2810,12 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    return _objc_msgSend_91o635(
-      _$$ref.pointer,
-      _sel_appliesSourcePositionAttributes,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _$$ref.pointer,
+        _sel_appliesSourcePositionAttributes,
+      );
+    });
   }
 
   /// iOS: introduced 15.0.0
@@ -2590,8 +2827,10 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_194u5n2(_$$ref.pointer, _sel_failurePolicy);
-    return NSAttributedStringMarkdownParsingFailurePolicy.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_194u5n2(_$$ref.pointer, _sel_failurePolicy);
+      return NSAttributedStringMarkdownParsingFailurePolicy.fromValue($ret);
+    });
   }
 
   /// init
@@ -2602,15 +2841,17 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSAttributedStringMarkdownParsingOptions.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSAttributedStringMarkdownParsingOptions.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// iOS: introduced 15.0.0
@@ -2622,8 +2863,10 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_h0o9ch(_$$ref.pointer, _sel_interpretedSyntax);
-    return NSAttributedStringMarkdownInterpretedSyntax.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_h0o9ch(_$$ref.pointer, _sel_interpretedSyntax);
+      return NSAttributedStringMarkdownInterpretedSyntax.fromValue($ret);
+    });
   }
 
   /// iOS: introduced 15.0.0
@@ -2635,10 +2878,12 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_languageCode);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_languageCode);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// iOS: introduced 15.0.0
@@ -2650,11 +2895,13 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    _objc_msgSend_1s56lr9(
-      _$$ref.pointer,
-      _sel_setAllowsExtendedAttributes_,
-      value,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1s56lr9(
+        _$$ref.pointer,
+        _sel_setAllowsExtendedAttributes_,
+        value,
+      );
+    });
   }
 
   /// iOS: introduced 16.0.0
@@ -2666,11 +2913,13 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    _objc_msgSend_1s56lr9(
-      _$$ref.pointer,
-      _sel_setAppliesSourcePositionAttributes_,
-      value,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1s56lr9(
+        _$$ref.pointer,
+        _sel_setAppliesSourcePositionAttributes_,
+        value,
+      );
+    });
   }
 
   /// iOS: introduced 15.0.0
@@ -2682,7 +2931,9 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    _objc_msgSend_mt0t38(_$$ref.pointer, _sel_setFailurePolicy_, value.value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_mt0t38(_$$ref.pointer, _sel_setFailurePolicy_, value.value);
+    });
   }
 
   /// iOS: introduced 15.0.0
@@ -2694,11 +2945,13 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    _objc_msgSend_1ay2tmt(
-      _$$ref.pointer,
-      _sel_setInterpretedSyntax_,
-      value.value,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1ay2tmt(
+        _$$ref.pointer,
+        _sel_setInterpretedSyntax_,
+        value.value,
+      );
+    });
   }
 
   /// iOS: introduced 15.0.0
@@ -2711,11 +2964,13 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setLanguageCode_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setLanguageCode_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 }
 
@@ -2767,17 +3022,19 @@ extension type NSBundle._(objc.ObjCObject object$)
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_s92gih(
-      _class_NSBundle,
-      _sel_URLForResource_withExtension_subdirectory_inBundleWithURL_,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_s92gih(
+        _class_NSBundle,
+        _sel_URLForResource_withExtension_subdirectory_inBundleWithURL_,
+        _$$ref?.pointer ?? ffi.nullptr,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLsForResourcesWithExtension:subdirectory:inBundleWithURL:
@@ -2794,81 +3051,97 @@ extension type NSBundle._(objc.ObjCObject object$)
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_11spmsz(
-      _class_NSBundle,
-      _sel_URLsForResourcesWithExtension_subdirectory_inBundleWithURL_,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _class_NSBundle,
+        _sel_URLsForResourcesWithExtension_subdirectory_inBundleWithURL_,
+        _$$ref?.pointer ?? ffi.nullptr,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// allBundles
   static NSArray getAllBundles() {
-    final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_allBundles);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_allBundles);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// allFrameworks
   static NSArray getAllFrameworks() {
-    final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_allFrameworks);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_allFrameworks);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// alloc
   static NSBundle alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_alloc);
-    return NSBundle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_alloc);
+      return NSBundle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSBundle allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSBundle,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSBundle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSBundle,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSBundle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// bundleForClass:
   static NSBundle bundleForClass(objc.ObjCObject aClass) {
     final _$$ref = aClass.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSBundle,
-      _sel_bundleForClass_,
-      _$$ref.pointer,
-    );
-    return NSBundle.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSBundle,
+        _sel_bundleForClass_,
+        _$$ref.pointer,
+      );
+      return NSBundle.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// bundleWithIdentifier:
   static NSBundle? bundleWithIdentifier(NSString identifier) {
     final _$$ref = identifier.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSBundle,
-      _sel_bundleWithIdentifier_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSBundle.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSBundle,
+        _sel_bundleWithIdentifier_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSBundle.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// bundleWithPath:
   static NSBundle? bundleWithPath(NSString path) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSBundle,
-      _sel_bundleWithPath_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSBundle.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSBundle,
+        _sel_bundleWithPath_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSBundle.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// bundleWithURL:
@@ -2879,26 +3152,32 @@ extension type NSBundle._(objc.ObjCObject object$)
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSBundle,
-      _sel_bundleWithURL_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSBundle.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSBundle,
+        _sel_bundleWithURL_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSBundle.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// mainBundle
   static NSBundle getMainBundle() {
-    final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_mainBundle);
-    return NSBundle.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_mainBundle);
+      return NSBundle.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSBundle new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_new);
-    return NSBundle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_new);
+      return NSBundle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// pathForResource:ofType:inDirectory:
@@ -2910,16 +3189,18 @@ extension type NSBundle._(objc.ObjCObject object$)
     final _$$ref = name?.ref;
     final _$$ref$1 = ofType?.ref;
     final _$$ref$2 = inDirectory.ref;
-    final $ret = _objc_msgSend_11spmsz(
-      _class_NSBundle,
-      _sel_pathForResource_ofType_inDirectory_,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _class_NSBundle,
+        _sel_pathForResource_ofType_inDirectory_,
+        _$$ref?.pointer ?? ffi.nullptr,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// pathsForResourcesOfType:inDirectory:
@@ -2929,24 +3210,28 @@ extension type NSBundle._(objc.ObjCObject object$)
   }) {
     final _$$ref = ext?.ref;
     final _$$ref$1 = inDirectory.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSBundle,
-      _sel_pathsForResourcesOfType_inDirectory_,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSBundle,
+        _sel_pathsForResourcesOfType_inDirectory_,
+        _$$ref?.pointer ?? ffi.nullptr,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// preferredLocalizationsFromArray:
   static NSArray preferredLocalizationsFromArray(NSArray localizationsArray) {
     final _$$ref = localizationsArray.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSBundle,
-      _sel_preferredLocalizationsFromArray_,
-      _$$ref.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSBundle,
+        _sel_preferredLocalizationsFromArray_,
+        _$$ref.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// preferredLocalizationsFromArray:forPreferences:
@@ -2956,13 +3241,15 @@ extension type NSBundle._(objc.ObjCObject object$)
   }) {
     final _$$ref = localizationsArray.ref;
     final _$$ref$1 = forPreferences?.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSBundle,
-      _sel_preferredLocalizationsFromArray_forPreferences_,
-      _$$ref.pointer,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSBundle,
+        _sel_preferredLocalizationsFromArray_forPreferences_,
+        _$$ref.pointer,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NSBundle constructed with the default `new` method.
@@ -2979,14 +3266,16 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_URLForAuxiliaryExecutable_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_URLForAuxiliaryExecutable_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLForResource:withExtension:
@@ -2999,15 +3288,17 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.pointer,
-      _sel_URLForResource_withExtension_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.pointer,
+        _sel_URLForResource_withExtension_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLForResource:withExtension:subdirectory:
@@ -3025,16 +3316,18 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_11spmsz(
-      _$$ref.pointer,
-      _sel_URLForResource_withExtension_subdirectory_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _$$ref.pointer,
+        _sel_URLForResource_withExtension_subdirectory_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLForResource:withExtension:subdirectory:localization:
@@ -3054,17 +3347,19 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_s92gih(
-      _$$ref.pointer,
-      _sel_URLForResource_withExtension_subdirectory_localization_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-      _$$ref$4?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_s92gih(
+        _$$ref.pointer,
+        _sel_URLForResource_withExtension_subdirectory_localization_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+        _$$ref$4?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLsForResourcesWithExtension:subdirectory:
@@ -3080,15 +3375,17 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.pointer,
-      _sel_URLsForResourcesWithExtension_subdirectory_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.pointer,
+        _sel_URLsForResourcesWithExtension_subdirectory_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLsForResourcesWithExtension:subdirectory:localization:
@@ -3106,16 +3403,18 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_11spmsz(
-      _$$ref.pointer,
-      _sel_URLsForResourcesWithExtension_subdirectory_localization_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _$$ref.pointer,
+        _sel_URLsForResourcesWithExtension_subdirectory_localization_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// appStoreReceiptURL
@@ -3126,19 +3425,29 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_appStoreReceiptURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_appStoreReceiptURL,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// builtInPlugInsPath
   NSString? get builtInPlugInsPath {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_builtInPlugInsPath);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_builtInPlugInsPath,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// builtInPlugInsURL
@@ -3149,26 +3458,35 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_builtInPlugInsURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_builtInPlugInsURL,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// bundleIdentifier
   NSString? get bundleIdentifier {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_bundleIdentifier);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_bundleIdentifier);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// bundlePath
   NSString get bundlePath {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_bundlePath);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_bundlePath);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// bundleURL
@@ -3179,34 +3497,40 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_bundleURL);
-    return NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_bundleURL);
+      return NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// classNamed:
   objc.ObjCObject? classNamed(NSString className) {
     final _$$ref = object$.ref;
     final _$$ref$1 = className.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_classNamed_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_classNamed_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// developmentLocalization
   NSString? get developmentLocalization {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_developmentLocalization,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_developmentLocalization,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// executableArchitectures
@@ -3217,22 +3541,26 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_executableArchitectures,
-    );
-    return $ret.address == 0
-        ? null
-        : NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_executableArchitectures,
+      );
+      return $ret.address == 0
+          ? null
+          : NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// executablePath
   NSString? get executablePath {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_executablePath);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_executablePath);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// executableURL
@@ -3243,19 +3571,23 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_executableURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_executableURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// infoDictionary
   NSDictionary? get infoDictionary {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_infoDictionary);
-    return $ret.address == 0
-        ? null
-        : NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_infoDictionary);
+      return $ret.address == 0
+          ? null
+          : NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -3266,25 +3598,29 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSBundle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSBundle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithPath:
   NSBundle? initWithPath(NSString path) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithPath_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSBundle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithPath_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSBundle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithURL:
@@ -3296,26 +3632,32 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithURL_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSBundle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithURL_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSBundle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// isLoaded
   bool get isLoaded {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isLoaded);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isLoaded);
+    });
   }
 
   /// load
   bool load$1() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_load);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_load);
+    });
   }
 
   /// loadAndReturnError:
@@ -3328,13 +3670,15 @@ extension NSBundle$Methods on NSBundle {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1dom33q(
-        _$$ref.pointer,
-        _sel_loadAndReturnError_,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1dom33q(
+          _$$ref.pointer,
+          _sel_loadAndReturnError_,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -3343,8 +3687,10 @@ extension NSBundle$Methods on NSBundle {
   /// localizations
   NSArray get localizations {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_localizations);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_localizations);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedAttributedStringForKey:value:table:
@@ -3365,26 +3711,30 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_11spmsz(
-      _$$ref.pointer,
-      _sel_localizedAttributedStringForKey_value_table_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
-    return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _$$ref.pointer,
+        _sel_localizedAttributedStringForKey_value_table_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+      return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedInfoDictionary
   NSDictionary? get localizedInfoDictionary {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedInfoDictionary,
-    );
-    return $ret.address == 0
-        ? null
-        : NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedInfoDictionary,
+      );
+      return $ret.address == 0
+          ? null
+          : NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedStringForKey:value:table:
@@ -3397,42 +3747,48 @@ extension NSBundle$Methods on NSBundle {
     final _$$ref$1 = key.ref;
     final _$$ref$2 = value?.ref;
     final _$$ref$3 = table?.ref;
-    final $ret = _objc_msgSend_11spmsz(
-      _$$ref.pointer,
-      _sel_localizedStringForKey_value_table_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _$$ref.pointer,
+        _sel_localizedStringForKey_value_table_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// objectForInfoDictionaryKey:
   objc.ObjCObject? objectForInfoDictionaryKey(NSString key) {
     final _$$ref = object$.ref;
     final _$$ref$1 = key.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_objectForInfoDictionaryKey_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_objectForInfoDictionaryKey_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// pathForAuxiliaryExecutable:
   NSString? pathForAuxiliaryExecutable(NSString executableName) {
     final _$$ref = object$.ref;
     final _$$ref$1 = executableName.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_pathForAuxiliaryExecutable_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_pathForAuxiliaryExecutable_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// pathForResource:ofType:
@@ -3440,15 +3796,17 @@ extension NSBundle$Methods on NSBundle {
     final _$$ref = object$.ref;
     final _$$ref$1 = name?.ref;
     final _$$ref$2 = ofType?.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.pointer,
-      _sel_pathForResource_ofType_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.pointer,
+        _sel_pathForResource_ofType_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// pathForResource:ofType:inDirectory:
@@ -3461,16 +3819,18 @@ extension NSBundle$Methods on NSBundle {
     final _$$ref$1 = name?.ref;
     final _$$ref$2 = ofType?.ref;
     final _$$ref$3 = inDirectory?.ref;
-    final $ret = _objc_msgSend_11spmsz(
-      _$$ref.pointer,
-      _sel_pathForResource_ofType_inDirectory_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _$$ref.pointer,
+        _sel_pathForResource_ofType_inDirectory_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// pathForResource:ofType:inDirectory:forLocalization:
@@ -3485,17 +3845,19 @@ extension NSBundle$Methods on NSBundle {
     final _$$ref$2 = ofType?.ref;
     final _$$ref$3 = inDirectory?.ref;
     final _$$ref$4 = forLocalization?.ref;
-    final $ret = _objc_msgSend_s92gih(
-      _$$ref.pointer,
-      _sel_pathForResource_ofType_inDirectory_forLocalization_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-      _$$ref$4?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_s92gih(
+        _$$ref.pointer,
+        _sel_pathForResource_ofType_inDirectory_forLocalization_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+        _$$ref$4?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// pathsForResourcesOfType:inDirectory:
@@ -3503,13 +3865,15 @@ extension NSBundle$Methods on NSBundle {
     final _$$ref = object$.ref;
     final _$$ref$1 = ext?.ref;
     final _$$ref$2 = inDirectory?.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.pointer,
-      _sel_pathsForResourcesOfType_inDirectory_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.pointer,
+        _sel_pathsForResourcesOfType_inDirectory_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// pathsForResourcesOfType:inDirectory:forLocalization:
@@ -3522,24 +3886,28 @@ extension NSBundle$Methods on NSBundle {
     final _$$ref$1 = ext?.ref;
     final _$$ref$2 = inDirectory?.ref;
     final _$$ref$3 = forLocalization?.ref;
-    final $ret = _objc_msgSend_11spmsz(
-      _$$ref.pointer,
-      _sel_pathsForResourcesOfType_inDirectory_forLocalization_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _$$ref.pointer,
+        _sel_pathsForResourcesOfType_inDirectory_forLocalization_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// preferredLocalizations
   NSArray get preferredLocalizations {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_preferredLocalizations,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_preferredLocalizations,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// preflightAndReturnError:
@@ -3552,13 +3920,15 @@ extension NSBundle$Methods on NSBundle {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1dom33q(
-        _$$ref.pointer,
-        _sel_preflightAndReturnError_,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1dom33q(
+          _$$ref.pointer,
+          _sel_preflightAndReturnError_,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -3567,22 +3937,26 @@ extension NSBundle$Methods on NSBundle {
   /// principalClass
   objc.ObjCObject? get principalClass {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_principalClass);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_principalClass);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// privateFrameworksPath
   NSString? get privateFrameworksPath {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_privateFrameworksPath,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_privateFrameworksPath,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// privateFrameworksURL
@@ -3593,22 +3967,26 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_privateFrameworksURL,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_privateFrameworksURL,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// resourcePath
   NSString? get resourcePath {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_resourcePath);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_resourcePath);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// resourceURL
@@ -3619,22 +3997,26 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_resourceURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_resourceURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sharedFrameworksPath
   NSString? get sharedFrameworksPath {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_sharedFrameworksPath,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_sharedFrameworksPath,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sharedFrameworksURL
@@ -3645,22 +4027,29 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_sharedFrameworksURL,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_sharedFrameworksURL,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sharedSupportPath
   NSString? get sharedSupportPath {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_sharedSupportPath);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_sharedSupportPath,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sharedSupportURL
@@ -3671,16 +4060,20 @@ extension NSBundle$Methods on NSBundle {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_sharedSupportURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_sharedSupportURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// unload
   bool unload() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_unload);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_unload);
+    });
   }
 }
 
@@ -3717,141 +4110,171 @@ extension type NSCharacterSet._(objc.ObjCObject object$)
 
   /// alloc
   static NSCharacterSet alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSCharacterSet, _sel_alloc);
-    return NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSCharacterSet, _sel_alloc);
+      return NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSCharacterSet allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSCharacterSet,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSCharacterSet,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// alphanumericCharacterSet
   static NSCharacterSet getAlphanumericCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_alphanumericCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_alphanumericCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// capitalizedLetterCharacterSet
   static NSCharacterSet getCapitalizedLetterCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_capitalizedLetterCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_capitalizedLetterCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// characterSetWithBitmapRepresentation:
   static NSCharacterSet characterSetWithBitmapRepresentation(NSData data) {
     final _$$ref = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSCharacterSet,
-      _sel_characterSetWithBitmapRepresentation_,
-      _$$ref.pointer,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSCharacterSet,
+        _sel_characterSetWithBitmapRepresentation_,
+        _$$ref.pointer,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// characterSetWithCharactersInString:
   static NSCharacterSet characterSetWithCharactersInString(NSString aString) {
     final _$$ref = aString.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSCharacterSet,
-      _sel_characterSetWithCharactersInString_,
-      _$$ref.pointer,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSCharacterSet,
+        _sel_characterSetWithCharactersInString_,
+        _$$ref.pointer,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// characterSetWithContentsOfFile:
   static NSCharacterSet? characterSetWithContentsOfFile(NSString fName) {
     final _$$ref = fName.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSCharacterSet,
-      _sel_characterSetWithContentsOfFile_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSCharacterSet,
+        _sel_characterSetWithContentsOfFile_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// characterSetWithRange:
   static NSCharacterSet characterSetWithRange(NSRange aRange) {
-    final $ret = _objc_msgSend_1k1o1s7(
-      _class_NSCharacterSet,
-      _sel_characterSetWithRange_,
-      aRange,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _class_NSCharacterSet,
+        _sel_characterSetWithRange_,
+        aRange,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// controlCharacterSet
   static NSCharacterSet getControlCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_controlCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_controlCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// decimalDigitCharacterSet
   static NSCharacterSet getDecimalDigitCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_decimalDigitCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_decimalDigitCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// decomposableCharacterSet
   static NSCharacterSet getDecomposableCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_decomposableCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_decomposableCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// illegalCharacterSet
   static NSCharacterSet getIllegalCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_illegalCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_illegalCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// letterCharacterSet
   static NSCharacterSet getLetterCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_letterCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_letterCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// lowercaseLetterCharacterSet
   static NSCharacterSet getLowercaseLetterCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_lowercaseLetterCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_lowercaseLetterCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSCharacterSet new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSCharacterSet, _sel_new);
-    return NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSCharacterSet, _sel_new);
+      return NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// newlineCharacterSet
@@ -3861,73 +4284,89 @@ extension type NSCharacterSet._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_newlineCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_newlineCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// nonBaseCharacterSet
   static NSCharacterSet getNonBaseCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_nonBaseCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_nonBaseCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// punctuationCharacterSet
   static NSCharacterSet getPunctuationCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_punctuationCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_punctuationCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_NSCharacterSet,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSCharacterSet,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// symbolCharacterSet
   static NSCharacterSet getSymbolCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_symbolCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_symbolCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// uppercaseLetterCharacterSet
   static NSCharacterSet getUppercaseLetterCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_uppercaseLetterCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_uppercaseLetterCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// whitespaceAndNewlineCharacterSet
   static NSCharacterSet getWhitespaceAndNewlineCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_whitespaceAndNewlineCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_whitespaceAndNewlineCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// whitespaceCharacterSet
   static NSCharacterSet getWhitespaceCharacterSet() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSCharacterSet,
-      _sel_whitespaceCharacterSet,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSCharacterSet,
+        _sel_whitespaceCharacterSet,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NSCharacterSet constructed with the default `new` method.
@@ -3938,42 +4377,50 @@ extension NSCharacterSet$Methods on NSCharacterSet {
   /// bitmapRepresentation
   NSData get bitmapRepresentation {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_bitmapRepresentation,
-    );
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_bitmapRepresentation,
+      );
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// characterIsMember:
   bool characterIsMember(int aCharacter) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1co9mn4(
-      _$$ref.pointer,
-      _sel_characterIsMember_,
-      aCharacter,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1co9mn4(
+        _$$ref.pointer,
+        _sel_characterIsMember_,
+        aCharacter,
+      );
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// hasMemberInPlane:
   bool hasMemberInPlane(int thePlane) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_gerswc(
-      _$$ref.pointer,
-      _sel_hasMemberInPlane_,
-      thePlane,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_gerswc(
+        _$$ref.pointer,
+        _sel_hasMemberInPlane_,
+        thePlane,
+      );
+    });
   }
 
   /// init
@@ -3984,53 +4431,63 @@ extension NSCharacterSet$Methods on NSCharacterSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSCharacterSet? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSCharacterSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// invertedSet
   NSCharacterSet get invertedSet {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_invertedSet);
-    return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_invertedSet);
+      return NSCharacterSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// isSupersetOfSet:
   bool isSupersetOfSet(NSCharacterSet theOtherSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = theOtherSet.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isSupersetOfSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isSupersetOfSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// longCharacterIsMember:
   bool longCharacterIsMember(int theLongChar) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_jsclrq(
-      _$$ref.pointer,
-      _sel_longCharacterIsMember_,
-      theLongChar,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_jsclrq(
+        _$$ref.pointer,
+        _sel_longCharacterIsMember_,
+        theLongChar,
+      );
+    });
   }
 }
 
@@ -4062,24 +4519,30 @@ extension type NSCoder._(objc.ObjCObject object$)
 
   /// alloc
   static NSCoder alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSCoder, _sel_alloc);
-    return NSCoder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSCoder, _sel_alloc);
+      return NSCoder.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSCoder allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSCoder,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSCoder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSCoder,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSCoder.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSCoder new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSCoder, _sel_new);
-    return NSCoder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSCoder, _sel_new);
+      return NSCoder.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSCoder constructed with the default `new` method.
@@ -4090,10 +4553,12 @@ extension NSCoder$Methods on NSCoder {
   /// decodeDataObject
   NSData? decodeDataObject() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_decodeDataObject);
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_decodeDataObject);
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// decodeValueOfObjCType:at:size:
@@ -4108,24 +4573,28 @@ extension NSCoder$Methods on NSCoder {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_nc6uds(
-      _$$ref.pointer,
-      _sel_decodeValueOfObjCType_at_size_,
-      type,
-      at,
-      size,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_nc6uds(
+        _$$ref.pointer,
+        _sel_decodeValueOfObjCType_at_size_,
+        type,
+        at,
+        size,
+      );
+    });
   }
 
   /// encodeDataObject:
   void encodeDataObject(NSData data) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeDataObject_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeDataObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// encodeValueOfObjCType:at:
@@ -4134,12 +4603,14 @@ extension NSCoder$Methods on NSCoder {
     required ffi.Pointer<ffi.Void> at,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1flkydz(
-      _$$ref.pointer,
-      _sel_encodeValueOfObjCType_at_,
-      type,
-      at,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1flkydz(
+        _$$ref.pointer,
+        _sel_encodeValueOfObjCType_at_,
+        type,
+        at,
+      );
+    });
   }
 
   /// init
@@ -4150,22 +4621,26 @@ extension NSCoder$Methods on NSCoder {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSCoder.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSCoder.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// versionForClassName:
   int versionForClassName(NSString className) {
     final _$$ref = object$.ref;
     final _$$ref$1 = className.ref;
-    return _objc_msgSend_1r6ymhb(
-      _$$ref.pointer,
-      _sel_versionForClassName_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1r6ymhb(
+        _$$ref.pointer,
+        _sel_versionForClassName_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 }
 
@@ -4197,25 +4672,29 @@ extension NSCoding$Methods on NSCoding {
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// initWithCoder:
   NSCoding? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSCoding.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSCoding.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -4460,12 +4939,14 @@ extension NSCopying$Methods on NSCopying {
   /// copyWithZone:
   objc.ObjCObject copyWithZone(ffi.Pointer<NSZone> zone) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1cwp428(
-      _$$ref.pointer,
-      _sel_copyWithZone_,
-      zone,
-    );
-    return objc.ObjCObject($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _$$ref.pointer,
+        _sel_copyWithZone_,
+        zone,
+      );
+      return objc.ObjCObject($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -4563,24 +5044,30 @@ extension type NSData._(objc.ObjCObject object$)
 
   /// alloc
   static NSData alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSData, _sel_alloc);
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSData, _sel_alloc);
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSData allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSData,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSData,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// data
   static NSData data() {
-    final $ret = _objc_msgSend_151sglz(_class_NSData, _sel_data);
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSData, _sel_data);
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithBytes:length:
@@ -4588,13 +5075,15 @@ extension type NSData._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Void> bytes, {
     required DartNSUInteger length,
   }) {
-    final $ret = _objc_msgSend_3nbx5e(
-      _class_NSData,
-      _sel_dataWithBytes_length_,
-      bytes,
-      length,
-    );
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3nbx5e(
+        _class_NSData,
+        _sel_dataWithBytes_length_,
+        bytes,
+        length,
+      );
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithBytesNoCopy:length:
@@ -4602,13 +5091,15 @@ extension type NSData._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Void> bytes, {
     required DartNSUInteger length,
   }) {
-    final $ret = _objc_msgSend_3nbx5e(
-      _class_NSData,
-      _sel_dataWithBytesNoCopy_length_,
-      bytes,
-      length,
-    );
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3nbx5e(
+        _class_NSData,
+        _sel_dataWithBytesNoCopy_length_,
+        bytes,
+        length,
+      );
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithBytesNoCopy:length:freeWhenDone:
@@ -4617,27 +5108,31 @@ extension type NSData._(objc.ObjCObject object$)
     required DartNSUInteger length,
     required bool freeWhenDone,
   }) {
-    final $ret = _objc_msgSend_161ne8y(
-      _class_NSData,
-      _sel_dataWithBytesNoCopy_length_freeWhenDone_,
-      bytes,
-      length,
-      freeWhenDone,
-    );
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_161ne8y(
+        _class_NSData,
+        _sel_dataWithBytesNoCopy_length_freeWhenDone_,
+        bytes,
+        length,
+        freeWhenDone,
+      );
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithContentsOfFile:
   static NSData? dataWithContentsOfFile(NSString path) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSData,
-      _sel_dataWithContentsOfFile_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSData,
+        _sel_dataWithContentsOfFile_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithContentsOfFile:options:error:
@@ -4647,29 +5142,33 @@ extension type NSData._(objc.ObjCObject object$)
     required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_8321cp(
-      _class_NSData,
-      _sel_dataWithContentsOfFile_options_error_,
-      _$$ref.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_8321cp(
+        _class_NSData,
+        _sel_dataWithContentsOfFile_options_error_,
+        _$$ref.pointer,
+        options,
+        error,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithContentsOfURL:
   static NSData? dataWithContentsOfURL(NSURL url) {
     final _$$ref = url.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSData,
-      _sel_dataWithContentsOfURL_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSData,
+        _sel_dataWithContentsOfURL_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithContentsOfURL:options:error:
@@ -4679,38 +5178,46 @@ extension type NSData._(objc.ObjCObject object$)
     required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     final _$$ref = url.ref;
-    final $ret = _objc_msgSend_8321cp(
-      _class_NSData,
-      _sel_dataWithContentsOfURL_options_error_,
-      _$$ref.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_8321cp(
+        _class_NSData,
+        _sel_dataWithContentsOfURL_options_error_,
+        _$$ref.pointer,
+        options,
+        error,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithData:
   static NSData dataWithData(NSData data) {
     final _$$ref = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSData,
-      _sel_dataWithData_,
-      _$$ref.pointer,
-    );
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSData,
+        _sel_dataWithData_,
+        _$$ref.pointer,
+      );
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSData new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSData, _sel_new);
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSData, _sel_new);
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSData, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSData, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSData constructed with the default `new` method.
@@ -4721,7 +5228,9 @@ extension NSData$Methods on NSData {
   /// bytes
   ffi.Pointer<ffi.Void> get bytes {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_bytes);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_bytes);
+    });
   }
 
   /// compressedDataUsingAlgorithm:error:
@@ -4737,16 +5246,18 @@ extension NSData$Methods on NSData {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1vnlaqg(
-        _$$ref.pointer,
-        _sel_compressedDataUsingAlgorithm_error_,
-        algorithm.value,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSData.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1vnlaqg(
+          _$$ref.pointer,
+          _sel_compressedDataUsingAlgorithm_error_,
+          algorithm.value,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSData.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -4765,16 +5276,18 @@ extension NSData$Methods on NSData {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1vnlaqg(
-        _$$ref.pointer,
-        _sel_decompressedDataUsingAlgorithm_error_,
-        algorithm.value,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSData.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1vnlaqg(
+          _$$ref.pointer,
+          _sel_decompressedDataUsingAlgorithm_error_,
+          algorithm.value,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSData.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -4784,11 +5297,13 @@ extension NSData$Methods on NSData {
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -4799,11 +5314,13 @@ extension NSData$Methods on NSData {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBase64EncodedData:options:
@@ -4818,15 +5335,17 @@ extension NSData$Methods on NSData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_7kpg7m(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBase64EncodedData_options_,
-      _$$ref$1.pointer,
-      options,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_7kpg7m(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBase64EncodedData_options_,
+        _$$ref$1.pointer,
+        options,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBase64EncodedString:options:
@@ -4841,15 +5360,17 @@ extension NSData$Methods on NSData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_7kpg7m(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBase64EncodedString_options_,
-      _$$ref$1.pointer,
-      options,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_7kpg7m(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBase64EncodedString_options_,
+        _$$ref$1.pointer,
+        options,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytes:length:
@@ -4858,13 +5379,15 @@ extension NSData$Methods on NSData {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3nbx5e(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytes_length_,
-      bytes,
-      length,
-    );
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3nbx5e(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytes_length_,
+        bytes,
+        length,
+      );
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:
@@ -4873,13 +5396,15 @@ extension NSData$Methods on NSData {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3nbx5e(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_,
-      bytes,
-      length,
-    );
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3nbx5e(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_,
+        bytes,
+        length,
+      );
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:deallocator:
@@ -4896,14 +5421,16 @@ extension NSData$Methods on NSData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_134vhyh(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_deallocator_,
-      bytes,
-      length,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_134vhyh(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_deallocator_,
+        bytes,
+        length,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:freeWhenDone:
@@ -4913,42 +5440,48 @@ extension NSData$Methods on NSData {
     required bool freeWhenDone,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_161ne8y(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_freeWhenDone_,
-      bytes,
-      length,
-      freeWhenDone,
-    );
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_161ne8y(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_freeWhenDone_,
+        bytes,
+        length,
+        freeWhenDone,
+      );
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSData? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfFile:
   NSData? initWithContentsOfFile(NSString path) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfFile:options:error:
@@ -4959,30 +5492,34 @@ extension NSData$Methods on NSData {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_8321cp(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_options_error_,
-      _$$ref$1.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_8321cp(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_options_error_,
+        _$$ref$1.pointer,
+        options,
+        error,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfURL:
   NSData? initWithContentsOfURL(NSURL url) {
     final _$$ref = object$.ref;
     final _$$ref$1 = url.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfURL:options:error:
@@ -4993,34 +5530,40 @@ extension NSData$Methods on NSData {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = url.ref;
-    final $ret = _objc_msgSend_8321cp(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_options_error_,
-      _$$ref$1.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_8321cp(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_options_error_,
+        _$$ref$1.pointer,
+        options,
+        error,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithData:
   NSData initWithData(NSData data) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithData_,
-      _$$ref$1.pointer,
-    );
-    return NSData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithData_,
+        _$$ref$1.pointer,
+      );
+      return NSData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// length
   DartNSUInteger get length {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_length);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_length);
+    });
   }
 }
 
@@ -5038,12 +5581,14 @@ extension NSDataBase64Encoding on NSData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_ylninc(
-      _$$ref.pointer,
-      _sel_base64EncodedDataWithOptions_,
-      options,
-    );
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_ylninc(
+        _$$ref.pointer,
+        _sel_base64EncodedDataWithOptions_,
+        options,
+      );
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// base64EncodedStringWithOptions:
@@ -5054,12 +5599,14 @@ extension NSDataBase64Encoding on NSData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_ylninc(
-      _$$ref.pointer,
-      _sel_base64EncodedStringWithOptions_,
-      options,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_ylninc(
+        _$$ref.pointer,
+        _sel_base64EncodedStringWithOptions_,
+        options,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -5153,24 +5700,30 @@ extension type NSDate._(objc.ObjCObject object$)
 
   /// alloc
   static NSDate alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_alloc);
-    return NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_alloc);
+      return NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSDate allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSDate,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSDate,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// date
   static NSDate date() {
-    final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_date);
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_date);
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dateWithTimeInterval:sinceDate:
@@ -5179,54 +5732,66 @@ extension type NSDate._(objc.ObjCObject object$)
     required NSDate sinceDate,
   }) {
     final _$$ref = sinceDate.ref;
-    final $ret = _objc_msgSend_1ozwf6k(
-      _class_NSDate,
-      _sel_dateWithTimeInterval_sinceDate_,
-      secsToBeAdded,
-      _$$ref.pointer,
-    );
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ozwf6k(
+        _class_NSDate,
+        _sel_dateWithTimeInterval_sinceDate_,
+        secsToBeAdded,
+        _$$ref.pointer,
+      );
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dateWithTimeIntervalSince1970:
   static NSDate dateWithTimeIntervalSince1970(double secs) {
-    final $ret = _objc_msgSend_oa8mke(
-      _class_NSDate,
-      _sel_dateWithTimeIntervalSince1970_,
-      secs,
-    );
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _class_NSDate,
+        _sel_dateWithTimeIntervalSince1970_,
+        secs,
+      );
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dateWithTimeIntervalSinceNow:
   static NSDate dateWithTimeIntervalSinceNow(double secs) {
-    final $ret = _objc_msgSend_oa8mke(
-      _class_NSDate,
-      _sel_dateWithTimeIntervalSinceNow_,
-      secs,
-    );
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _class_NSDate,
+        _sel_dateWithTimeIntervalSinceNow_,
+        secs,
+      );
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dateWithTimeIntervalSinceReferenceDate:
   static NSDate dateWithTimeIntervalSinceReferenceDate(double ti) {
-    final $ret = _objc_msgSend_oa8mke(
-      _class_NSDate,
-      _sel_dateWithTimeIntervalSinceReferenceDate_,
-      ti,
-    );
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _class_NSDate,
+        _sel_dateWithTimeIntervalSinceReferenceDate_,
+        ti,
+      );
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSDate new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_new);
-    return NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_new);
+      return NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSDate, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSDate, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSDate constructed with the default `new` method.
@@ -5242,23 +5807,27 @@ extension NSDate$Methods on NSDate {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_oa8mke(
-      _$$ref.pointer,
-      _sel_dateByAddingTimeInterval_,
-      ti,
-    );
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _$$ref.pointer,
+        _sel_dateByAddingTimeInterval_,
+        ti,
+      );
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -5269,25 +5838,29 @@ extension NSDate$Methods on NSDate {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSDate? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithTimeInterval:sinceDate:
@@ -5297,60 +5870,70 @@ extension NSDate$Methods on NSDate {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = sinceDate.ref;
-    final $ret = _objc_msgSend_1ozwf6k(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithTimeInterval_sinceDate_,
-      secsToBeAdded,
-      _$$ref$1.pointer,
-    );
-    return NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ozwf6k(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithTimeInterval_sinceDate_,
+        secsToBeAdded,
+        _$$ref$1.pointer,
+      );
+      return NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithTimeIntervalSince1970:
   NSDate initWithTimeIntervalSince1970(double secs) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_oa8mke(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithTimeIntervalSince1970_,
-      secs,
-    );
-    return NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithTimeIntervalSince1970_,
+        secs,
+      );
+      return NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithTimeIntervalSinceNow:
   NSDate initWithTimeIntervalSinceNow(double secs) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_oa8mke(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithTimeIntervalSinceNow_,
-      secs,
-    );
-    return NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithTimeIntervalSinceNow_,
+        secs,
+      );
+      return NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithTimeIntervalSinceReferenceDate:
   NSDate initWithTimeIntervalSinceReferenceDate(double ti) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_oa8mke(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithTimeIntervalSinceReferenceDate_,
-      ti,
-    );
-    return NSDate.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithTimeIntervalSinceReferenceDate_,
+        ti,
+      );
+      return NSDate.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// timeIntervalSinceReferenceDate
   double get timeIntervalSinceReferenceDate {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(
-            _$$ref.pointer,
-            _sel_timeIntervalSinceReferenceDate,
-          )
-        : _objc_msgSend_1ukqyt8(
-            _$$ref.pointer,
-            _sel_timeIntervalSinceReferenceDate,
-          );
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(
+              _$$ref.pointer,
+              _sel_timeIntervalSinceReferenceDate,
+            )
+          : _objc_msgSend_1ukqyt8(
+              _$$ref.pointer,
+              _sel_timeIntervalSinceReferenceDate,
+            );
+    });
   }
 }
 
@@ -5358,14 +5941,18 @@ extension NSDate$Methods on NSDate {
 extension NSDateCreation on NSDate {
   /// distantFuture
   static NSDate getDistantFuture() {
-    final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_distantFuture);
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_distantFuture);
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// distantPast
   static NSDate getDistantPast() {
-    final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_distantPast);
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_distantPast);
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// iOS: introduced 13.0.0
@@ -5376,8 +5963,10 @@ extension NSDateCreation on NSDate {
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_now);
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDate, _sel_now);
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -5440,35 +6029,43 @@ extension type NSDictionary._(objc.ObjCObject object$)
 
   /// alloc
   static NSDictionary alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSDictionary, _sel_alloc);
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDictionary, _sel_alloc);
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSDictionary allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSDictionary,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSDictionary,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// dictionary
   static NSDictionary dictionary() {
-    final $ret = _objc_msgSend_151sglz(_class_NSDictionary, _sel_dictionary);
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDictionary, _sel_dictionary);
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithDictionary:
   static NSDictionary dictionaryWithDictionary(NSDictionary dict) {
     final _$$ref = dict.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSDictionary,
-      _sel_dictionaryWithDictionary_,
-      _$$ref.pointer,
-    );
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSDictionary,
+        _sel_dictionaryWithDictionary_,
+        _$$ref.pointer,
+      );
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithObject:forKey:
@@ -5478,13 +6075,15 @@ extension type NSDictionary._(objc.ObjCObject object$)
   }) {
     final _$$ref = object.ref;
     final _$$ref$1 = forKey.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSDictionary,
-      _sel_dictionaryWithObject_forKey_,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-    );
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSDictionary,
+        _sel_dictionaryWithObject_forKey_,
+        _$$ref.pointer,
+        _$$ref$1.pointer,
+      );
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithObjects:forKeys:
@@ -5494,13 +6093,15 @@ extension type NSDictionary._(objc.ObjCObject object$)
   }) {
     final _$$ref = objects.ref;
     final _$$ref$1 = forKeys.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSDictionary,
-      _sel_dictionaryWithObjects_forKeys_,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-    );
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSDictionary,
+        _sel_dictionaryWithObjects_forKeys_,
+        _$$ref.pointer,
+        _$$ref$1.pointer,
+      );
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithObjects:forKeys:count:
@@ -5509,14 +6110,16 @@ extension type NSDictionary._(objc.ObjCObject object$)
     required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> forKeys,
     required DartNSUInteger count,
   }) {
-    final $ret = _objc_msgSend_1dydpdi(
-      _class_NSDictionary,
-      _sel_dictionaryWithObjects_forKeys_count_,
-      objects,
-      forKeys,
-      count,
-    );
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1dydpdi(
+        _class_NSDictionary,
+        _sel_dictionaryWithObjects_forKeys_count_,
+        objects,
+        forKeys,
+        count,
+      );
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithObjectsAndKeys:
@@ -5524,23 +6127,32 @@ extension type NSDictionary._(objc.ObjCObject object$)
     objc.ObjCObject firstObject,
   ) {
     final _$$ref = firstObject.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSDictionary,
-      _sel_dictionaryWithObjectsAndKeys_,
-      _$$ref.pointer,
-    );
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSDictionary,
+        _sel_dictionaryWithObjectsAndKeys_,
+        _$$ref.pointer,
+      );
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSDictionary new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSDictionary, _sel_new);
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSDictionary, _sel_new);
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSDictionary, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSDictionary,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSDictionary constructed with the default `new` method.
@@ -5551,7 +6163,9 @@ extension NSDictionary$Methods on NSDictionary {
   /// count
   DartNSUInteger get count {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    });
   }
 
   /// countByEnumeratingWithState:objects:count:
@@ -5561,24 +6175,28 @@ extension NSDictionary$Methods on NSDictionary {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1b5ysjl(
-      _$$ref.pointer,
-      _sel_countByEnumeratingWithState_objects_count_,
-      state,
-      objects,
-      count,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1b5ysjl(
+        _$$ref.pointer,
+        _sel_countByEnumeratingWithState_objects_count_,
+        state,
+        objects,
+        count,
+      );
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -5589,37 +6207,43 @@ extension NSDictionary$Methods on NSDictionary {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSDictionary? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithDictionary:
   NSDictionary initWithDictionary(NSDictionary otherDictionary) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherDictionary.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithDictionary_,
-      _$$ref$1.pointer,
-    );
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithDictionary_,
+        _$$ref$1.pointer,
+      );
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithDictionary:copyItems:
@@ -5629,13 +6253,15 @@ extension NSDictionary$Methods on NSDictionary {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherDictionary.ref;
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithDictionary_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithDictionary_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:forKeys:
@@ -5643,13 +6269,15 @@ extension NSDictionary$Methods on NSDictionary {
     final _$$ref = object$.ref;
     final _$$ref$1 = objects.ref;
     final _$$ref$2 = forKeys.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_forKeys_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_forKeys_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:forKeys:count:
@@ -5659,47 +6287,55 @@ extension NSDictionary$Methods on NSDictionary {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1dydpdi(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_forKeys_count_,
-      objects,
-      forKeys,
-      count,
-    );
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1dydpdi(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_forKeys_count_,
+        objects,
+        forKeys,
+        count,
+      );
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjectsAndKeys:
   NSDictionary initWithObjectsAndKeys(objc.ObjCObject firstObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = firstObject.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjectsAndKeys_,
-      _$$ref$1.pointer,
-    );
-    return NSDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjectsAndKeys_,
+        _$$ref$1.pointer,
+      );
+      return NSDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// keyEnumerator
   NSEnumerator keyEnumerator() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_keyEnumerator);
-    return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_keyEnumerator);
+      return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// objectForKey:
   objc.ObjCObject? objectForKey(objc.ObjCObject aKey) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aKey.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_objectForKey_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_objectForKey_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -5716,16 +6352,18 @@ extension NSDictionaryCreation on NSDictionary {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1lhpu4m(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfURL_error_,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSDictionary.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1lhpu4m(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfURL_error_,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSDictionary.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -5741,16 +6379,18 @@ extension NSDictionaryCreation on NSDictionary {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1lhpu4m(
-        _class_NSDictionary,
-        _sel_dictionaryWithContentsOfURL_error_,
-        _$$ref.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSDictionary.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1lhpu4m(
+          _class_NSDictionary,
+          _sel_dictionaryWithContentsOfURL_error_,
+          _$$ref.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSDictionary.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -5816,24 +6456,30 @@ extension type NSEnumerator._(objc.ObjCObject object$)
 
   /// alloc
   static NSEnumerator alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSEnumerator, _sel_alloc);
-    return NSEnumerator.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSEnumerator, _sel_alloc);
+      return NSEnumerator.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSEnumerator allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSEnumerator,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSEnumerator.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSEnumerator,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSEnumerator.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSEnumerator new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSEnumerator, _sel_new);
-    return NSEnumerator.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSEnumerator, _sel_new);
+      return NSEnumerator.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSEnumerator constructed with the default `new` method.
@@ -5848,13 +6494,15 @@ extension NSEnumerator$Methods on NSEnumerator {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1b5ysjl(
-      _$$ref.pointer,
-      _sel_countByEnumeratingWithState_objects_count_,
-      state,
-      objects,
-      count,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1b5ysjl(
+        _$$ref.pointer,
+        _sel_countByEnumeratingWithState_objects_count_,
+        state,
+        objects,
+        count,
+      );
+    });
   }
 
   /// init
@@ -5865,20 +6513,24 @@ extension NSEnumerator$Methods on NSEnumerator {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSEnumerator.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSEnumerator.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// nextObject
   objc.ObjCObject? nextObject() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_nextObject);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_nextObject);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -5910,18 +6562,22 @@ extension type NSError._(objc.ObjCObject object$)
 
   /// alloc
   static NSError alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSError, _sel_alloc);
-    return NSError.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSError, _sel_alloc);
+      return NSError.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSError allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSError,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSError.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSError,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSError.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// errorWithDomain:code:userInfo:
@@ -5932,20 +6588,24 @@ extension type NSError._(objc.ObjCObject object$)
   }) {
     final _$$ref = domain.ref;
     final _$$ref$1 = userInfo?.ref;
-    final $ret = _objc_msgSend_rc4ypv(
-      _class_NSError,
-      _sel_errorWithDomain_code_userInfo_,
-      _$$ref.pointer,
-      code,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSError.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_rc4ypv(
+        _class_NSError,
+        _sel_errorWithDomain_code_userInfo_,
+        _$$ref.pointer,
+        code,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSError.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSError new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSError, _sel_new);
-    return NSError.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSError, _sel_new);
+      return NSError.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// setUserInfoValueProviderForDomain:provider:
@@ -5963,17 +6623,21 @@ extension type NSError._(objc.ObjCObject object$)
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    _objc_msgSend_o762yo(
-      _class_NSError,
-      _sel_setUserInfoValueProviderForDomain_provider_,
-      _$$ref.pointer,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_o762yo(
+        _class_NSError,
+        _sel_setUserInfoValueProviderForDomain_provider_,
+        _$$ref.pointer,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSError, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSError, _sel_supportsSecureCoding);
+    });
   }
 
   /// userInfoValueProviderForDomain:
@@ -5993,20 +6657,22 @@ extension type NSError._(objc.ObjCObject object$)
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_cnxxyq(
-      _class_NSError,
-      _sel_userInfoValueProviderForDomain_,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : ObjCBlock_objcObjCObjectImpl_NSError_NSErrorUserInfoKey.fromPointer(
-            $ret,
-            retain: true,
-            release: true,
-          );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_cnxxyq(
+        _class_NSError,
+        _sel_userInfoValueProviderForDomain_,
+        _$$ref.pointer,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : ObjCBlock_objcObjCObjectImpl_NSError_NSErrorUserInfoKey.fromPointer(
+              $ret,
+              retain: true,
+              release: true,
+            );
+    });
   }
 
   /// Returns a new instance of NSError constructed with the default `new` method.
@@ -6017,34 +6683,42 @@ extension NSError$Methods on NSError {
   /// code
   int get code {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_code);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_code);
+    });
   }
 
   /// domain
   NSString get domain {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_domain);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_domain);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// helpAnchor
   NSString? get helpAnchor {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_helpAnchor);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_helpAnchor);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -6055,25 +6729,29 @@ extension NSError$Methods on NSError {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSError.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSError.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSError? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSError.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSError.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithDomain:code:userInfo:
@@ -6085,69 +6763,84 @@ extension NSError$Methods on NSError {
     final _$$ref = object$.ref;
     final _$$ref$1 = domain.ref;
     final _$$ref$2 = userInfo?.ref;
-    final $ret = _objc_msgSend_rc4ypv(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithDomain_code_userInfo_,
-      _$$ref$1.pointer,
-      code,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSError.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_rc4ypv(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithDomain_code_userInfo_,
+        _$$ref$1.pointer,
+        code,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSError.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// localizedDescription
   NSString get localizedDescription {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedDescription,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedDescription,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedFailureReason
   NSString? get localizedFailureReason {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedFailureReason,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedFailureReason,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedRecoveryOptions
   NSArray? get localizedRecoveryOptions {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedRecoveryOptions,
-    );
-    return $ret.address == 0
-        ? null
-        : NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedRecoveryOptions,
+      );
+      return $ret.address == 0
+          ? null
+          : NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedRecoverySuggestion
   NSString? get localizedRecoverySuggestion {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedRecoverySuggestion,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedRecoverySuggestion,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// recoveryAttempter
   objc.ObjCObject? get recoveryAttempter {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_recoveryAttempter);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_recoveryAttempter,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// iOS: introduced 14.5.0
@@ -6159,15 +6852,19 @@ extension NSError$Methods on NSError {
       iOS: (false, (14, 5, 0)),
       macOS: (false, (11, 3, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_underlyingErrors);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_underlyingErrors);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// userInfo
   NSDictionary get userInfo {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -6177,66 +6874,78 @@ extension NSExtendedArray on NSArray {
   NSArray arrayByAddingObject(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_arrayByAddingObject_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_arrayByAddingObject_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayByAddingObjectsFromArray:
   NSArray arrayByAddingObjectsFromArray(NSArray otherArray) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherArray.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_arrayByAddingObjectsFromArray_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_arrayByAddingObjectsFromArray_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// componentsJoinedByString:
   NSString componentsJoinedByString(NSString separator) {
     final _$$ref = object$.ref;
     final _$$ref$1 = separator.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_componentsJoinedByString_,
-      _$$ref$1.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_componentsJoinedByString_,
+        _$$ref$1.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// containsObject:
   bool containsObject(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_containsObject_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_containsObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// description
   NSString get description$1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionWithLocale:
   NSString descriptionWithLocale(objc.ObjCObject? locale) {
     final _$$ref = object$.ref;
     final _$$ref$1 = locale?.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionWithLocale:indent:
@@ -6246,13 +6955,15 @@ extension NSExtendedArray on NSArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = locale?.ref;
-    final $ret = _objc_msgSend_1k4kd9s(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_indent_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      indent,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k4kd9s(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_indent_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        indent,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// enumerateObjectsAtIndexes:options:usingBlock:
@@ -6276,13 +6987,15 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_a3wp08(
-      _$$ref.pointer,
-      _sel_enumerateObjectsAtIndexes_options_usingBlock_,
-      _$$ref$1.pointer,
-      options,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_a3wp08(
+        _$$ref.pointer,
+        _sel_enumerateObjectsAtIndexes_options_usingBlock_,
+        _$$ref$1.pointer,
+        options,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// enumerateObjectsUsingBlock:
@@ -6303,11 +7016,13 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_enumerateObjectsUsingBlock_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_enumerateObjectsUsingBlock_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateObjectsWithOptions:usingBlock:
@@ -6329,12 +7044,14 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_yx8yc6(
-      _$$ref.pointer,
-      _sel_enumerateObjectsWithOptions_usingBlock_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_yx8yc6(
+        _$$ref.pointer,
+        _sel_enumerateObjectsWithOptions_usingBlock_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// firstObject
@@ -6345,24 +7062,28 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_firstObject);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_firstObject);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// firstObjectCommonWithArray:
   objc.ObjCObject? firstObjectCommonWithArray(NSArray otherArray) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherArray.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_firstObjectCommonWithArray_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_firstObjectCommonWithArray_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// getObjects:range:
@@ -6371,23 +7092,27 @@ extension NSExtendedArray on NSArray {
     required NSRange range,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_o16d3k(
-      _$$ref.pointer,
-      _sel_getObjects_range_,
-      objects,
-      range,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_o16d3k(
+        _$$ref.pointer,
+        _sel_getObjects_range_,
+        objects,
+        range,
+      );
+    });
   }
 
   /// indexOfObject:
   DartNSUInteger indexOfObject(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    return _objc_msgSend_1vd1c5m(
-      _$$ref.pointer,
-      _sel_indexOfObject_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1vd1c5m(
+        _$$ref.pointer,
+        _sel_indexOfObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexOfObject:inRange:
@@ -6397,12 +7122,14 @@ extension NSExtendedArray on NSArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    return _objc_msgSend_zug4wi(
-      _$$ref.pointer,
-      _sel_indexOfObject_inRange_,
-      _$$ref$1.pointer,
-      inRange,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_zug4wi(
+        _$$ref.pointer,
+        _sel_indexOfObject_inRange_,
+        _$$ref$1.pointer,
+        inRange,
+      );
+    });
   }
 
   /// indexOfObject:inSortedRange:options:usingComparator:
@@ -6426,14 +7153,16 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_kshx9d(
-      _$$ref.pointer,
-      _sel_indexOfObject_inSortedRange_options_usingComparator_,
-      _$$ref$1.pointer,
-      inSortedRange,
-      options,
-      _$$ref$2.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_kshx9d(
+        _$$ref.pointer,
+        _sel_indexOfObject_inSortedRange_options_usingComparator_,
+        _$$ref$1.pointer,
+        inSortedRange,
+        options,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// indexOfObjectAtIndexes:options:passingTest:
@@ -6457,24 +7186,28 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_k1x6mt(
-      _$$ref.pointer,
-      _sel_indexOfObjectAtIndexes_options_passingTest_,
-      _$$ref$1.pointer,
-      options,
-      _$$ref$2.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_k1x6mt(
+        _$$ref.pointer,
+        _sel_indexOfObjectAtIndexes_options_passingTest_,
+        _$$ref$1.pointer,
+        options,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// indexOfObjectIdenticalTo:
   DartNSUInteger indexOfObjectIdenticalTo(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    return _objc_msgSend_1vd1c5m(
-      _$$ref.pointer,
-      _sel_indexOfObjectIdenticalTo_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1vd1c5m(
+        _$$ref.pointer,
+        _sel_indexOfObjectIdenticalTo_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexOfObjectIdenticalTo:inRange:
@@ -6484,12 +7217,14 @@ extension NSExtendedArray on NSArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    return _objc_msgSend_zug4wi(
-      _$$ref.pointer,
-      _sel_indexOfObjectIdenticalTo_inRange_,
-      _$$ref$1.pointer,
-      inRange,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_zug4wi(
+        _$$ref.pointer,
+        _sel_indexOfObjectIdenticalTo_inRange_,
+        _$$ref$1.pointer,
+        inRange,
+      );
+    });
   }
 
   /// indexOfObjectPassingTest:
@@ -6510,11 +7245,13 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_10mlopr(
-      _$$ref.pointer,
-      _sel_indexOfObjectPassingTest_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_10mlopr(
+        _$$ref.pointer,
+        _sel_indexOfObjectPassingTest_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexOfObjectWithOptions:passingTest:
@@ -6536,12 +7273,14 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_1698hqz(
-      _$$ref.pointer,
-      _sel_indexOfObjectWithOptions_passingTest_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1698hqz(
+        _$$ref.pointer,
+        _sel_indexOfObjectWithOptions_passingTest_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexesOfObjectsAtIndexes:options:passingTest:
@@ -6565,14 +7304,16 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1i9v144(
-      _$$ref.pointer,
-      _sel_indexesOfObjectsAtIndexes_options_passingTest_,
-      _$$ref$1.pointer,
-      options,
-      _$$ref$2.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1i9v144(
+        _$$ref.pointer,
+        _sel_indexesOfObjectsAtIndexes_options_passingTest_,
+        _$$ref$1.pointer,
+        options,
+        _$$ref$2.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexesOfObjectsPassingTest:
@@ -6593,12 +7334,14 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_indexesOfObjectsPassingTest_,
-      _$$ref$1.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_indexesOfObjectsPassingTest_,
+        _$$ref$1.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexesOfObjectsWithOptions:passingTest:
@@ -6620,43 +7363,51 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_13x5boi(
-      _$$ref.pointer,
-      _sel_indexesOfObjectsWithOptions_passingTest_,
-      opts,
-      _$$ref$1.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_13x5boi(
+        _$$ref.pointer,
+        _sel_indexesOfObjectsWithOptions_passingTest_,
+        opts,
+        _$$ref$1.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// isEqualToArray:
   bool isEqualToArray(NSArray otherArray) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherArray.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToArray_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToArray_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// lastObject
   objc.ObjCObject? get lastObject {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_lastObject);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_lastObject);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// makeObjectsPerformSelector:
   void makeObjectsPerformSelector(ffi.Pointer<objc.ObjCSelector> aSelector) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1d9e4oe(
-      _$$ref.pointer,
-      _sel_makeObjectsPerformSelector_,
-      aSelector,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1d9e4oe(
+        _$$ref.pointer,
+        _sel_makeObjectsPerformSelector_,
+        aSelector,
+      );
+    });
   }
 
   /// makeObjectsPerformSelector:withObject:
@@ -6666,12 +7417,14 @@ extension NSExtendedArray on NSArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObject?.ref;
-    _objc_msgSend_1qv0eq4(
-      _$$ref.pointer,
-      _sel_makeObjectsPerformSelector_withObject_,
-      aSelector,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1qv0eq4(
+        _$$ref.pointer,
+        _sel_makeObjectsPerformSelector_withObject_,
+        aSelector,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// objectAtIndexedSubscript:
@@ -6682,48 +7435,58 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.pointer,
-      _sel_objectAtIndexedSubscript_,
-      idx,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.pointer,
+        _sel_objectAtIndexedSubscript_,
+        idx,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// objectEnumerator
   NSEnumerator objectEnumerator() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objectEnumerator);
-    return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objectEnumerator);
+      return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// objectsAtIndexes:
   NSArray objectsAtIndexes(NSIndexSet indexes) {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexes.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_objectsAtIndexes_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_objectsAtIndexes_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// reverseObjectEnumerator
   NSEnumerator reverseObjectEnumerator() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_reverseObjectEnumerator,
-    );
-    return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_reverseObjectEnumerator,
+      );
+      return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sortedArrayHint
   NSData get sortedArrayHint {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_sortedArrayHint);
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_sortedArrayHint);
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sortedArrayUsingComparator:
@@ -6743,12 +7506,14 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_sortedArrayUsingComparator_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_sortedArrayUsingComparator_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sortedArrayUsingFunction:context:
@@ -6766,13 +7531,15 @@ extension NSExtendedArray on NSArray {
     required ffi.Pointer<ffi.Void> context,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_pckm9h(
-      _$$ref.pointer,
-      _sel_sortedArrayUsingFunction_context_,
-      comparator,
-      context,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_pckm9h(
+        _$$ref.pointer,
+        _sel_sortedArrayUsingFunction_context_,
+        comparator,
+        context,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sortedArrayUsingFunction:context:hint:
@@ -6792,25 +7559,29 @@ extension NSExtendedArray on NSArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = hint?.ref;
-    final $ret = _objc_msgSend_1fpqavf(
-      _$$ref.pointer,
-      _sel_sortedArrayUsingFunction_context_hint_,
-      comparator,
-      context,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1fpqavf(
+        _$$ref.pointer,
+        _sel_sortedArrayUsingFunction_context_hint_,
+        comparator,
+        context,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sortedArrayUsingSelector:
   NSArray sortedArrayUsingSelector(ffi.Pointer<objc.ObjCSelector> comparator) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3ctkt6(
-      _$$ref.pointer,
-      _sel_sortedArrayUsingSelector_,
-      comparator,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3ctkt6(
+        _$$ref.pointer,
+        _sel_sortedArrayUsingSelector_,
+        comparator,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sortedArrayWithOptions:usingComparator:
@@ -6831,24 +7602,28 @@ extension NSExtendedArray on NSArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1x5ew3h(
-      _$$ref.pointer,
-      _sel_sortedArrayWithOptions_usingComparator_,
-      opts,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1x5ew3h(
+        _$$ref.pointer,
+        _sel_sortedArrayWithOptions_usingComparator_,
+        opts,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// subarrayWithRange:
   NSArray subarrayWithRange(NSRange range) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1k1o1s7(
-      _$$ref.pointer,
-      _sel_subarrayWithRange_,
-      range,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _$$ref.pointer,
+        _sel_subarrayWithRange_,
+        range,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// writeToURL:error:
@@ -6862,14 +7637,16 @@ extension NSExtendedArray on NSArray {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_l9p60w(
-        _$$ref.pointer,
-        _sel_writeToURL_error_,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_l9p60w(
+          _$$ref.pointer,
+          _sel_writeToURL_error_,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -6891,16 +7668,18 @@ extension NSExtendedAttributedString on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_7km9vu(
-      _$$ref.pointer,
-      _sel_attribute_atIndex_effectiveRange_,
-      _$$ref$1.pointer,
-      atIndex,
-      effectiveRange,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_7km9vu(
+        _$$ref.pointer,
+        _sel_attribute_atIndex_effectiveRange_,
+        _$$ref$1.pointer,
+        atIndex,
+        effectiveRange,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// attribute:atIndex:longestEffectiveRange:inRange:
@@ -6917,17 +7696,19 @@ extension NSExtendedAttributedString on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_1k1akuq(
-      _$$ref.pointer,
-      _sel_attribute_atIndex_longestEffectiveRange_inRange_,
-      _$$ref$1.pointer,
-      atIndex,
-      longestEffectiveRange,
-      inRange,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1akuq(
+        _$$ref.pointer,
+        _sel_attribute_atIndex_longestEffectiveRange_inRange_,
+        _$$ref$1.pointer,
+        atIndex,
+        longestEffectiveRange,
+        inRange,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// attributedSubstringFromRange:
@@ -6938,12 +7719,14 @@ extension NSExtendedAttributedString on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_1k1o1s7(
-      _$$ref.pointer,
-      _sel_attributedSubstringFromRange_,
-      range,
-    );
-    return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _$$ref.pointer,
+        _sel_attributedSubstringFromRange_,
+        range,
+      );
+      return NSAttributedString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// attributesAtIndex:longestEffectiveRange:inRange:
@@ -6958,14 +7741,16 @@ extension NSExtendedAttributedString on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_1pp2gs8(
-      _$$ref.pointer,
-      _sel_attributesAtIndex_longestEffectiveRange_inRange_,
-      location,
-      longestEffectiveRange,
-      inRange,
-    );
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1pp2gs8(
+        _$$ref.pointer,
+        _sel_attributesAtIndex_longestEffectiveRange_inRange_,
+        location,
+        longestEffectiveRange,
+        inRange,
+      );
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// enumerateAttribute:inRange:options:usingBlock:
@@ -6990,14 +7775,16 @@ extension NSExtendedAttributedString on NSAttributedString {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_ipgwfh(
-      _$$ref.pointer,
-      _sel_enumerateAttribute_inRange_options_usingBlock_,
-      _$$ref$1.pointer,
-      inRange,
-      options,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_ipgwfh(
+        _$$ref.pointer,
+        _sel_enumerateAttribute_inRange_options_usingBlock_,
+        _$$ref$1.pointer,
+        inRange,
+        options,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// enumerateAttributesInRange:options:usingBlock:
@@ -7016,13 +7803,15 @@ extension NSExtendedAttributedString on NSAttributedString {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_1kok4b(
-      _$$ref.pointer,
-      _sel_enumerateAttributesInRange_options_usingBlock_,
-      enumerationRange,
-      options,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1kok4b(
+        _$$ref.pointer,
+        _sel_enumerateAttributesInRange_options_usingBlock_,
+        enumerationRange,
+        options,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isEqualToAttributedString:
@@ -7034,11 +7823,13 @@ extension NSExtendedAttributedString on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToAttributedString_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToAttributedString_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// length
@@ -7049,7 +7840,9 @@ extension NSExtendedAttributedString on NSAttributedString {
       iOS: (false, (3, 2, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_length);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_length);
+    });
   }
 }
 
@@ -7058,8 +7851,10 @@ extension NSExtendedData on NSData {
   /// description
   NSString get description$1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// enumerateByteRangesUsingBlock:
@@ -7076,11 +7871,13 @@ extension NSExtendedData on NSData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_enumerateByteRangesUsingBlock_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_enumerateByteRangesUsingBlock_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// getBytes:length:
@@ -7089,24 +7886,35 @@ extension NSExtendedData on NSData {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_zuf90e(_$$ref.pointer, _sel_getBytes_length_, buffer, length);
+    objc.autoReleasePool(() {
+      _objc_msgSend_zuf90e(
+        _$$ref.pointer,
+        _sel_getBytes_length_,
+        buffer,
+        length,
+      );
+    });
   }
 
   /// getBytes:range:
   void getBytes$1(ffi.Pointer<ffi.Void> buffer, {required NSRange range}) {
     final _$$ref = object$.ref;
-    _objc_msgSend_xpqfd7(_$$ref.pointer, _sel_getBytes_range_, buffer, range);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xpqfd7(_$$ref.pointer, _sel_getBytes_range_, buffer, range);
+    });
   }
 
   /// isEqualToData:
   bool isEqualToData(NSData other) {
     final _$$ref = object$.ref;
     final _$$ref$1 = other.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToData_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToData_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// rangeOfData:options:range:
@@ -7122,36 +7930,42 @@ extension NSExtendedData on NSData {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_1d8s65w(
-      _$$ref.pointer,
-      _sel_rangeOfData_options_range_,
-      _$$ref$1.pointer,
-      options,
-      range,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1d8s65w(
+        _$$ref.pointer,
+        _sel_rangeOfData_options_range_,
+        _$$ref$1.pointer,
+        options,
+        range,
+      );
+    });
   }
 
   /// subdataWithRange:
   NSData subdataWithRange(NSRange range) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1k1o1s7(
-      _$$ref.pointer,
-      _sel_subdataWithRange_,
-      range,
-    );
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _$$ref.pointer,
+        _sel_subdataWithRange_,
+        range,
+      );
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// writeToFile:atomically:
   bool writeToFile(NSString path, {required bool atomically}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    return _objc_msgSend_1iyq28l(
-      _$$ref.pointer,
-      _sel_writeToFile_atomically_,
-      _$$ref$1.pointer,
-      atomically,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1iyq28l(
+        _$$ref.pointer,
+        _sel_writeToFile_atomically_,
+        _$$ref$1.pointer,
+        atomically,
+      );
+    });
   }
 
   /// writeToFile:options:error:
@@ -7162,25 +7976,29 @@ extension NSExtendedData on NSData {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    return _objc_msgSend_1xi08ar(
-      _$$ref.pointer,
-      _sel_writeToFile_options_error_,
-      _$$ref$1.pointer,
-      options,
-      error,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1xi08ar(
+        _$$ref.pointer,
+        _sel_writeToFile_options_error_,
+        _$$ref$1.pointer,
+        options,
+        error,
+      );
+    });
   }
 
   /// writeToURL:atomically:
   bool writeToURL(NSURL url, {required bool atomically}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = url.ref;
-    return _objc_msgSend_1iyq28l(
-      _$$ref.pointer,
-      _sel_writeToURL_atomically_,
-      _$$ref$1.pointer,
-      atomically,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1iyq28l(
+        _$$ref.pointer,
+        _sel_writeToURL_atomically_,
+        _$$ref$1.pointer,
+        atomically,
+      );
+    });
   }
 
   /// writeToURL:options:error:
@@ -7191,13 +8009,15 @@ extension NSExtendedData on NSData {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = url.ref;
-    return _objc_msgSend_1xi08ar(
-      _$$ref.pointer,
-      _sel_writeToURL_options_error_,
-      _$$ref$1.pointer,
-      options,
-      error,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1xi08ar(
+        _$$ref.pointer,
+        _sel_writeToURL_options_error_,
+        _$$ref$1.pointer,
+        options,
+        error,
+      );
+    });
   }
 }
 
@@ -7207,112 +8027,138 @@ extension NSExtendedDate on NSDate {
   NSComparisonResult compare(NSDate other) {
     final _$$ref = object$.ref;
     final _$$ref$1 = other.ref;
-    final $ret = _objc_msgSend_1ym6zyw(
-      _$$ref.pointer,
-      _sel_compare_,
-      _$$ref$1.pointer,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ym6zyw(
+        _$$ref.pointer,
+        _sel_compare_,
+        _$$ref$1.pointer,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// description
   NSString get description$1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionWithLocale:
   NSString descriptionWithLocale(objc.ObjCObject? locale) {
     final _$$ref = object$.ref;
     final _$$ref$1 = locale?.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// earlierDate:
   NSDate earlierDate(NSDate anotherDate) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anotherDate.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_earlierDate_,
-      _$$ref$1.pointer,
-    );
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_earlierDate_,
+        _$$ref$1.pointer,
+      );
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// isEqualToDate:
   bool isEqualToDate(NSDate otherDate) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherDate.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToDate_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToDate_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// laterDate:
   NSDate laterDate(NSDate anotherDate) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anotherDate.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_laterDate_,
-      _$$ref$1.pointer,
-    );
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_laterDate_,
+        _$$ref$1.pointer,
+      );
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// timeIntervalSince1970
   double get timeIntervalSince1970 {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_timeIntervalSince1970)
-        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_timeIntervalSince1970);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(
+              _$$ref.pointer,
+              _sel_timeIntervalSince1970,
+            )
+          : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_timeIntervalSince1970);
+    });
   }
 
   /// timeIntervalSinceDate:
   double timeIntervalSinceDate(NSDate anotherDate) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anotherDate.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_mabicuFpret(
-            _$$ref.pointer,
-            _sel_timeIntervalSinceDate_,
-            _$$ref$1.pointer,
-          )
-        : _objc_msgSend_mabicu(
-            _$$ref.pointer,
-            _sel_timeIntervalSinceDate_,
-            _$$ref$1.pointer,
-          );
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_mabicuFpret(
+              _$$ref.pointer,
+              _sel_timeIntervalSinceDate_,
+              _$$ref$1.pointer,
+            )
+          : _objc_msgSend_mabicu(
+              _$$ref.pointer,
+              _sel_timeIntervalSinceDate_,
+              _$$ref$1.pointer,
+            );
+    });
   }
 
   /// timeIntervalSinceNow
   double get timeIntervalSinceNow {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_timeIntervalSinceNow)
-        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_timeIntervalSinceNow);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(
+              _$$ref.pointer,
+              _sel_timeIntervalSinceNow,
+            )
+          : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_timeIntervalSinceNow);
+    });
   }
 
   /// timeIntervalSinceReferenceDate
   static double getTimeIntervalSinceReferenceDate$1() {
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(
-            _class_NSDate,
-            _sel_timeIntervalSinceReferenceDate,
-          )
-        : _objc_msgSend_1ukqyt8(
-            _class_NSDate,
-            _sel_timeIntervalSinceReferenceDate,
-          );
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(
+              _class_NSDate,
+              _sel_timeIntervalSinceReferenceDate,
+            )
+          : _objc_msgSend_1ukqyt8(
+              _class_NSDate,
+              _sel_timeIntervalSinceReferenceDate,
+            );
+    });
   }
 }
 
@@ -7321,56 +8167,68 @@ extension NSExtendedDictionary on NSDictionary {
   /// allKeys
   NSArray get allKeys {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_allKeys);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_allKeys);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// allKeysForObject:
   NSArray allKeysForObject(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_allKeysForObject_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_allKeysForObject_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// allValues
   NSArray get allValues {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_allValues);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_allValues);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// description
   NSString get description$1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionInStringsFileFormat
   NSString get descriptionInStringsFileFormat {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_descriptionInStringsFileFormat,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_descriptionInStringsFileFormat,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionWithLocale:
   NSString descriptionWithLocale(objc.ObjCObject? locale) {
     final _$$ref = object$.ref;
     final _$$ref$1 = locale?.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionWithLocale:indent:
@@ -7380,13 +8238,15 @@ extension NSExtendedDictionary on NSDictionary {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = locale?.ref;
-    final $ret = _objc_msgSend_1k4kd9s(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_indent_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      indent,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k4kd9s(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_indent_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        indent,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// enumerateKeysAndObjectsUsingBlock:
@@ -7407,11 +8267,13 @@ extension NSExtendedDictionary on NSDictionary {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_enumerateKeysAndObjectsUsingBlock_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_enumerateKeysAndObjectsUsingBlock_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateKeysAndObjectsWithOptions:usingBlock:
@@ -7433,12 +8295,14 @@ extension NSExtendedDictionary on NSDictionary {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_yx8yc6(
-      _$$ref.pointer,
-      _sel_enumerateKeysAndObjectsWithOptions_usingBlock_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_yx8yc6(
+        _$$ref.pointer,
+        _sel_enumerateKeysAndObjectsWithOptions_usingBlock_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// getObjects:andKeys:count:
@@ -7453,24 +8317,28 @@ extension NSExtendedDictionary on NSDictionary {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_n2svg2(
-      _$$ref.pointer,
-      _sel_getObjects_andKeys_count_,
-      objects,
-      andKeys,
-      count,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_n2svg2(
+        _$$ref.pointer,
+        _sel_getObjects_andKeys_count_,
+        objects,
+        andKeys,
+        count,
+      );
+    });
   }
 
   /// isEqualToDictionary:
   bool isEqualToDictionary(NSDictionary otherDictionary) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherDictionary.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToDictionary_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToDictionary_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// keysOfEntriesPassingTest:
@@ -7491,12 +8359,14 @@ extension NSExtendedDictionary on NSDictionary {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_keysOfEntriesPassingTest_,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_keysOfEntriesPassingTest_,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// keysOfEntriesWithOptions:passingTest:
@@ -7518,13 +8388,15 @@ extension NSExtendedDictionary on NSDictionary {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_13x5boi(
-      _$$ref.pointer,
-      _sel_keysOfEntriesWithOptions_passingTest_,
-      opts,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_13x5boi(
+        _$$ref.pointer,
+        _sel_keysOfEntriesWithOptions_passingTest_,
+        opts,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// keysSortedByValueUsingComparator:
@@ -7544,12 +8416,14 @@ extension NSExtendedDictionary on NSDictionary {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_keysSortedByValueUsingComparator_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_keysSortedByValueUsingComparator_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// keysSortedByValueUsingSelector:
@@ -7557,12 +8431,14 @@ extension NSExtendedDictionary on NSDictionary {
     ffi.Pointer<objc.ObjCSelector> comparator,
   ) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3ctkt6(
-      _$$ref.pointer,
-      _sel_keysSortedByValueUsingSelector_,
-      comparator,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3ctkt6(
+        _$$ref.pointer,
+        _sel_keysSortedByValueUsingSelector_,
+        comparator,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// keysSortedByValueWithOptions:usingComparator:
@@ -7583,20 +8459,24 @@ extension NSExtendedDictionary on NSDictionary {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1x5ew3h(
-      _$$ref.pointer,
-      _sel_keysSortedByValueWithOptions_usingComparator_,
-      opts,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1x5ew3h(
+        _$$ref.pointer,
+        _sel_keysSortedByValueWithOptions_usingComparator_,
+        opts,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// objectEnumerator
   NSEnumerator objectEnumerator() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objectEnumerator);
-    return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objectEnumerator);
+      return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// objectForKeyedSubscript:
@@ -7608,14 +8488,16 @@ extension NSExtendedDictionary on NSDictionary {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_objectForKeyedSubscript_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_objectForKeyedSubscript_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// objectsForKeys:notFoundMarker:
@@ -7626,13 +8508,15 @@ extension NSExtendedDictionary on NSDictionary {
     final _$$ref = object$.ref;
     final _$$ref$1 = keys.ref;
     final _$$ref$2 = notFoundMarker.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.pointer,
-      _sel_objectsForKeys_notFoundMarker_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.pointer,
+        _sel_objectsForKeys_notFoundMarker_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// writeToURL:error:
@@ -7646,14 +8530,16 @@ extension NSExtendedDictionary on NSDictionary {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_l9p60w(
-        _$$ref.pointer,
-        _sel_writeToURL_error_,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_l9p60w(
+          _$$ref.pointer,
+          _sel_writeToURL_error_,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -7665,8 +8551,10 @@ extension NSExtendedEnumerator on NSEnumerator {
   /// allObjects
   NSArray get allObjects {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_allObjects);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_allObjects);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -7676,11 +8564,13 @@ extension NSExtendedMutableArray on NSMutableArray {
   void addObjectsFromArray(NSArray otherArray) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherArray.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_addObjectsFromArray_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_addObjectsFromArray_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// exchangeObjectAtIndex:withObjectAtIndex:
@@ -7689,12 +8579,14 @@ extension NSExtendedMutableArray on NSMutableArray {
     required DartNSUInteger withObjectAtIndex,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_bfp043(
-      _$$ref.pointer,
-      _sel_exchangeObjectAtIndex_withObjectAtIndex_,
-      idx1,
-      withObjectAtIndex,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_bfp043(
+        _$$ref.pointer,
+        _sel_exchangeObjectAtIndex_withObjectAtIndex_,
+        idx1,
+        withObjectAtIndex,
+      );
+    });
   }
 
   /// insertObjects:atIndexes:
@@ -7702,48 +8594,62 @@ extension NSExtendedMutableArray on NSMutableArray {
     final _$$ref = object$.ref;
     final _$$ref$1 = objects.ref;
     final _$$ref$2 = atIndexes.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_insertObjects_atIndexes_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_insertObjects_atIndexes_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// removeAllObjects
   void removeAllObjects() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllObjects);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllObjects);
+    });
   }
 
   /// removeObject:
   void removeObject(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_removeObject_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeObject:inRange:
   void removeObject$1(objc.ObjCObject anObject, {required NSRange inRange}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    _objc_msgSend_1oteutl(
-      _$$ref.pointer,
-      _sel_removeObject_inRange_,
-      _$$ref$1.pointer,
-      inRange,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1oteutl(
+        _$$ref.pointer,
+        _sel_removeObject_inRange_,
+        _$$ref$1.pointer,
+        inRange,
+      );
+    });
   }
 
   /// removeObjectIdenticalTo:
   void removeObjectIdenticalTo(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_removeObjectIdenticalTo_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObjectIdenticalTo_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeObjectIdenticalTo:inRange:
@@ -7753,40 +8659,48 @@ extension NSExtendedMutableArray on NSMutableArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    _objc_msgSend_1oteutl(
-      _$$ref.pointer,
-      _sel_removeObjectIdenticalTo_inRange_,
-      _$$ref$1.pointer,
-      inRange,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1oteutl(
+        _$$ref.pointer,
+        _sel_removeObjectIdenticalTo_inRange_,
+        _$$ref$1.pointer,
+        inRange,
+      );
+    });
   }
 
   /// removeObjectsAtIndexes:
   void removeObjectsAtIndexes(NSIndexSet indexes) {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexes.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_removeObjectsAtIndexes_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObjectsAtIndexes_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeObjectsInArray:
   void removeObjectsInArray(NSArray otherArray) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherArray.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_removeObjectsInArray_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObjectsInArray_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeObjectsInRange:
   void removeObjectsInRange(NSRange range) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_removeObjectsInRange_, range);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_removeObjectsInRange_, range);
+    });
   }
 
   /// replaceObjectsAtIndexes:withObjects:
@@ -7797,12 +8711,14 @@ extension NSExtendedMutableArray on NSMutableArray {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexes.ref;
     final _$$ref$2 = withObjects.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_replaceObjectsAtIndexes_withObjects_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_replaceObjectsAtIndexes_withObjects_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// replaceObjectsInRange:withObjectsFromArray:
@@ -7812,12 +8728,14 @@ extension NSExtendedMutableArray on NSMutableArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObjectsFromArray.ref;
-    _objc_msgSend_1tv4uax(
-      _$$ref.pointer,
-      _sel_replaceObjectsInRange_withObjectsFromArray_,
-      range,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1tv4uax(
+        _$$ref.pointer,
+        _sel_replaceObjectsInRange_withObjectsFromArray_,
+        range,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// replaceObjectsInRange:withObjectsFromArray:range:
@@ -7828,20 +8746,24 @@ extension NSExtendedMutableArray on NSMutableArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObjectsFromArray.ref;
-    _objc_msgSend_15bolr3(
-      _$$ref.pointer,
-      _sel_replaceObjectsInRange_withObjectsFromArray_range_,
-      range,
-      _$$ref$1.pointer,
-      range$1,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_15bolr3(
+        _$$ref.pointer,
+        _sel_replaceObjectsInRange_withObjectsFromArray_range_,
+        range,
+        _$$ref$1.pointer,
+        range$1,
+      );
+    });
   }
 
   /// setArray:
   void setArray(NSArray otherArray) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherArray.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setArray_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setArray_, _$$ref$1.pointer);
+    });
   }
 
   /// setObject:atIndexedSubscript:
@@ -7856,12 +8778,14 @@ extension NSExtendedMutableArray on NSMutableArray {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    _objc_msgSend_djsa9o(
-      _$$ref.pointer,
-      _sel_setObject_atIndexedSubscript_,
-      _$$ref$1.pointer,
-      atIndexedSubscript,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_djsa9o(
+        _$$ref.pointer,
+        _sel_setObject_atIndexedSubscript_,
+        _$$ref$1.pointer,
+        atIndexedSubscript,
+      );
+    });
   }
 
   /// sortUsingComparator:
@@ -7881,11 +8805,13 @@ extension NSExtendedMutableArray on NSMutableArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_sortUsingComparator_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_sortUsingComparator_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// sortUsingFunction:context:
@@ -7903,18 +8829,26 @@ extension NSExtendedMutableArray on NSMutableArray {
     required ffi.Pointer<ffi.Void> context,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1lx39cp(
-      _$$ref.pointer,
-      _sel_sortUsingFunction_context_,
-      compare,
-      context,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1lx39cp(
+        _$$ref.pointer,
+        _sel_sortUsingFunction_context_,
+        compare,
+        context,
+      );
+    });
   }
 
   /// sortUsingSelector:
   void sortUsingSelector(ffi.Pointer<objc.ObjCSelector> comparator) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1d9e4oe(_$$ref.pointer, _sel_sortUsingSelector_, comparator);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1d9e4oe(
+        _$$ref.pointer,
+        _sel_sortUsingSelector_,
+        comparator,
+      );
+    });
   }
 
   /// sortWithOptions:usingComparator:
@@ -7935,12 +8869,14 @@ extension NSExtendedMutableArray on NSMutableArray {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_jjgvjt(
-      _$$ref.pointer,
-      _sel_sortWithOptions_usingComparator_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_jjgvjt(
+        _$$ref.pointer,
+        _sel_sortWithOptions_usingComparator_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 }
 
@@ -7952,25 +8888,35 @@ extension NSExtendedMutableData on NSMutableData {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_zuf90e(
-      _$$ref.pointer,
-      _sel_appendBytes_length_,
-      bytes,
-      length,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_zuf90e(
+        _$$ref.pointer,
+        _sel_appendBytes_length_,
+        bytes,
+        length,
+      );
+    });
   }
 
   /// appendData:
   void appendData(NSData other) {
     final _$$ref = object$.ref;
     final _$$ref$1 = other.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_appendData_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_appendData_, _$$ref$1.pointer);
+    });
   }
 
   /// increaseLengthBy:
   void increaseLengthBy(DartNSUInteger extraLength) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_increaseLengthBy_, extraLength);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1i9r4xy(
+        _$$ref.pointer,
+        _sel_increaseLengthBy_,
+        extraLength,
+      );
+    });
   }
 
   /// replaceBytesInRange:withBytes:
@@ -7979,12 +8925,14 @@ extension NSExtendedMutableData on NSMutableData {
     required ffi.Pointer<ffi.Void> withBytes,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_eh32gn(
-      _$$ref.pointer,
-      _sel_replaceBytesInRange_withBytes_,
-      range,
-      withBytes,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_eh32gn(
+        _$$ref.pointer,
+        _sel_replaceBytesInRange_withBytes_,
+        range,
+        withBytes,
+      );
+    });
   }
 
   /// replaceBytesInRange:withBytes:length:
@@ -7994,26 +8942,32 @@ extension NSExtendedMutableData on NSMutableData {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_c0vg4w(
-      _$$ref.pointer,
-      _sel_replaceBytesInRange_withBytes_length_,
-      range,
-      withBytes,
-      length,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_c0vg4w(
+        _$$ref.pointer,
+        _sel_replaceBytesInRange_withBytes_length_,
+        range,
+        withBytes,
+        length,
+      );
+    });
   }
 
   /// resetBytesInRange:
   void resetBytesInRange(NSRange range) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_resetBytesInRange_, range);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_resetBytesInRange_, range);
+    });
   }
 
   /// setData:
   void setData(NSData data) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setData_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setData_, _$$ref$1.pointer);
+    });
   }
 }
 
@@ -8023,35 +8977,47 @@ extension NSExtendedMutableDictionary on NSMutableDictionary {
   void addEntriesFromDictionary(NSDictionary otherDictionary) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherDictionary.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_addEntriesFromDictionary_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_addEntriesFromDictionary_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeAllObjects
   void removeAllObjects() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllObjects);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllObjects);
+    });
   }
 
   /// removeObjectsForKeys:
   void removeObjectsForKeys(NSArray keyArray) {
     final _$$ref = object$.ref;
     final _$$ref$1 = keyArray.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_removeObjectsForKeys_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObjectsForKeys_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// setDictionary:
   void setDictionary(NSDictionary otherDictionary) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherDictionary.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setDictionary_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setDictionary_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// setObject:forKeyedSubscript:
@@ -8067,12 +9033,14 @@ extension NSExtendedMutableDictionary on NSMutableDictionary {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_setObject_forKeyedSubscript_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_setObject_forKeyedSubscript_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2.pointer,
+      );
+    });
   }
 }
 
@@ -8087,7 +9055,9 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addObject_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addObject_, _$$ref$1.pointer);
+    });
   }
 
   /// addObjects:count:
@@ -8101,12 +9071,14 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_gcjqkl(
-      _$$ref.pointer,
-      _sel_addObjects_count_,
-      objects,
-      count,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_gcjqkl(
+        _$$ref.pointer,
+        _sel_addObjects_count_,
+        objects,
+        count,
+      );
+    });
   }
 
   /// addObjectsFromArray:
@@ -8118,11 +9090,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_addObjectsFromArray_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_addObjectsFromArray_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// exchangeObjectAtIndex:withObjectAtIndex:
@@ -8136,12 +9110,14 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_bfp043(
-      _$$ref.pointer,
-      _sel_exchangeObjectAtIndex_withObjectAtIndex_,
-      idx1,
-      withObjectAtIndex,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_bfp043(
+        _$$ref.pointer,
+        _sel_exchangeObjectAtIndex_withObjectAtIndex_,
+        idx1,
+        withObjectAtIndex,
+      );
+    });
   }
 
   /// insertObjects:atIndexes:
@@ -8154,12 +9130,14 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_insertObjects_atIndexes_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_insertObjects_atIndexes_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// intersectOrderedSet:
@@ -8171,11 +9149,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_intersectOrderedSet_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_intersectOrderedSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// intersectSet:
@@ -8187,7 +9167,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_intersectSet_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_intersectSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// minusOrderedSet:
@@ -8199,11 +9185,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_minusOrderedSet_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_minusOrderedSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// minusSet:
@@ -8215,7 +9203,9 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_minusSet_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_minusSet_, _$$ref$1.pointer);
+    });
   }
 
   /// moveObjectsAtIndexes:toIndex:
@@ -8230,12 +9220,14 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_djsa9o(
-      _$$ref.pointer,
-      _sel_moveObjectsAtIndexes_toIndex_,
-      _$$ref$1.pointer,
-      toIndex,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_djsa9o(
+        _$$ref.pointer,
+        _sel_moveObjectsAtIndexes_toIndex_,
+        _$$ref$1.pointer,
+        toIndex,
+      );
+    });
   }
 
   /// removeAllObjects
@@ -8246,7 +9238,9 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllObjects);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllObjects);
+    });
   }
 
   /// removeObject:
@@ -8258,7 +9252,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_removeObject_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeObjectsAtIndexes:
@@ -8270,11 +9270,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_removeObjectsAtIndexes_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObjectsAtIndexes_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeObjectsInArray:
@@ -8286,11 +9288,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_removeObjectsInArray_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObjectsInArray_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeObjectsInRange:
@@ -8301,7 +9305,9 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_removeObjectsInRange_, range);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_removeObjectsInRange_, range);
+    });
   }
 
   /// replaceObjectsAtIndexes:withObjects:
@@ -8317,12 +9323,14 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_replaceObjectsAtIndexes_withObjects_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_replaceObjectsAtIndexes_withObjects_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// replaceObjectsInRange:withObjects:count:
@@ -8337,13 +9345,15 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_122v0cv(
-      _$$ref.pointer,
-      _sel_replaceObjectsInRange_withObjects_count_,
-      range,
-      withObjects,
-      count,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_122v0cv(
+        _$$ref.pointer,
+        _sel_replaceObjectsInRange_withObjects_count_,
+        range,
+        withObjects,
+        count,
+      );
+    });
   }
 
   /// setObject:atIndex:
@@ -8355,12 +9365,14 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_djsa9o(
-      _$$ref.pointer,
-      _sel_setObject_atIndex_,
-      _$$ref$1.pointer,
-      atIndex,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_djsa9o(
+        _$$ref.pointer,
+        _sel_setObject_atIndex_,
+        _$$ref$1.pointer,
+        atIndex,
+      );
+    });
   }
 
   /// setObject:atIndexedSubscript:
@@ -8375,12 +9387,14 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    _objc_msgSend_djsa9o(
-      _$$ref.pointer,
-      _sel_setObject_atIndexedSubscript_,
-      _$$ref$1.pointer,
-      atIndexedSubscript,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_djsa9o(
+        _$$ref.pointer,
+        _sel_setObject_atIndexedSubscript_,
+        _$$ref$1.pointer,
+        atIndexedSubscript,
+      );
+    });
   }
 
   /// sortRange:options:usingComparator:
@@ -8402,13 +9416,15 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_arew0j(
-      _$$ref.pointer,
-      _sel_sortRange_options_usingComparator_,
-      range,
-      options,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_arew0j(
+        _$$ref.pointer,
+        _sel_sortRange_options_usingComparator_,
+        range,
+        options,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// sortUsingComparator:
@@ -8428,11 +9444,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_sortUsingComparator_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_sortUsingComparator_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// sortWithOptions:usingComparator:
@@ -8453,12 +9471,14 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_jjgvjt(
-      _$$ref.pointer,
-      _sel_sortWithOptions_usingComparator_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_jjgvjt(
+        _$$ref.pointer,
+        _sel_sortWithOptions_usingComparator_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// unionOrderedSet:
@@ -8470,11 +9490,13 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_unionOrderedSet_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_unionOrderedSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// unionSet:
@@ -8486,7 +9508,9 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_unionSet_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_unionSet_, _$$ref$1.pointer);
+    });
   }
 }
 
@@ -8496,45 +9520,61 @@ extension NSExtendedMutableSet on NSMutableSet {
   void addObjectsFromArray(NSArray array) {
     final _$$ref = object$.ref;
     final _$$ref$1 = array.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_addObjectsFromArray_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_addObjectsFromArray_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// intersectSet:
   void intersectSet(NSSet otherSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherSet.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_intersectSet_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_intersectSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// minusSet:
   void minusSet(NSSet otherSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherSet.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_minusSet_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_minusSet_, _$$ref$1.pointer);
+    });
   }
 
   /// removeAllObjects
   void removeAllObjects() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllObjects);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllObjects);
+    });
   }
 
   /// setSet:
   void setSet(NSSet otherSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherSet.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setSet_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setSet_, _$$ref$1.pointer);
+    });
   }
 
   /// unionSet:
   void unionSet(NSSet otherSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherSet.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_unionSet_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_unionSet_, _$$ref$1.pointer);
+    });
   }
 }
 
@@ -8548,8 +9588,10 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_array);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_array);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// containsObject:
@@ -8561,11 +9603,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_containsObject_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_containsObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// description
@@ -8576,8 +9620,10 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionWithLocale:
@@ -8589,12 +9635,14 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionWithLocale:indent:
@@ -8609,13 +9657,15 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1k4kd9s(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_indent_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      indent,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k4kd9s(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_indent_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        indent,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// enumerateObjectsAtIndexes:options:usingBlock:
@@ -8639,13 +9689,15 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_a3wp08(
-      _$$ref.pointer,
-      _sel_enumerateObjectsAtIndexes_options_usingBlock_,
-      _$$ref$1.pointer,
-      options,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_a3wp08(
+        _$$ref.pointer,
+        _sel_enumerateObjectsAtIndexes_options_usingBlock_,
+        _$$ref$1.pointer,
+        options,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// enumerateObjectsUsingBlock:
@@ -8666,11 +9718,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_enumerateObjectsUsingBlock_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_enumerateObjectsUsingBlock_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateObjectsWithOptions:usingBlock:
@@ -8692,12 +9746,14 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_yx8yc6(
-      _$$ref.pointer,
-      _sel_enumerateObjectsWithOptions_usingBlock_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_yx8yc6(
+        _$$ref.pointer,
+        _sel_enumerateObjectsWithOptions_usingBlock_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// firstObject
@@ -8708,10 +9764,12 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_firstObject);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_firstObject);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// getObjects:range:
@@ -8720,12 +9778,14 @@ extension NSExtendedOrderedSet on NSOrderedSet {
     required NSRange range,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_o16d3k(
-      _$$ref.pointer,
-      _sel_getObjects_range_,
-      objects,
-      range,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_o16d3k(
+        _$$ref.pointer,
+        _sel_getObjects_range_,
+        objects,
+        range,
+      );
+    });
   }
 
   /// indexOfObject:inSortedRange:options:usingComparator:
@@ -8749,14 +9809,16 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_kshx9d(
-      _$$ref.pointer,
-      _sel_indexOfObject_inSortedRange_options_usingComparator_,
-      _$$ref$1.pointer,
-      inSortedRange,
-      options,
-      _$$ref$2.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_kshx9d(
+        _$$ref.pointer,
+        _sel_indexOfObject_inSortedRange_options_usingComparator_,
+        _$$ref$1.pointer,
+        inSortedRange,
+        options,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// indexOfObjectAtIndexes:options:passingTest:
@@ -8780,13 +9842,15 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_k1x6mt(
-      _$$ref.pointer,
-      _sel_indexOfObjectAtIndexes_options_passingTest_,
-      _$$ref$1.pointer,
-      options,
-      _$$ref$2.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_k1x6mt(
+        _$$ref.pointer,
+        _sel_indexOfObjectAtIndexes_options_passingTest_,
+        _$$ref$1.pointer,
+        options,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// indexOfObjectPassingTest:
@@ -8807,11 +9871,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_10mlopr(
-      _$$ref.pointer,
-      _sel_indexOfObjectPassingTest_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_10mlopr(
+        _$$ref.pointer,
+        _sel_indexOfObjectPassingTest_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexOfObjectWithOptions:passingTest:
@@ -8833,12 +9899,14 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_1698hqz(
-      _$$ref.pointer,
-      _sel_indexOfObjectWithOptions_passingTest_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1698hqz(
+        _$$ref.pointer,
+        _sel_indexOfObjectWithOptions_passingTest_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexesOfObjectsAtIndexes:options:passingTest:
@@ -8862,14 +9930,16 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1i9v144(
-      _$$ref.pointer,
-      _sel_indexesOfObjectsAtIndexes_options_passingTest_,
-      _$$ref$1.pointer,
-      options,
-      _$$ref$2.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1i9v144(
+        _$$ref.pointer,
+        _sel_indexesOfObjectsAtIndexes_options_passingTest_,
+        _$$ref$1.pointer,
+        options,
+        _$$ref$2.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexesOfObjectsPassingTest:
@@ -8890,12 +9960,14 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_indexesOfObjectsPassingTest_,
-      _$$ref$1.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_indexesOfObjectsPassingTest_,
+        _$$ref$1.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexesOfObjectsWithOptions:passingTest:
@@ -8917,13 +9989,15 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_13x5boi(
-      _$$ref.pointer,
-      _sel_indexesOfObjectsWithOptions_passingTest_,
-      opts,
-      _$$ref$1.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_13x5boi(
+        _$$ref.pointer,
+        _sel_indexesOfObjectsWithOptions_passingTest_,
+        opts,
+        _$$ref$1.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// intersectsOrderedSet:
@@ -8935,11 +10009,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_intersectsOrderedSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_intersectsOrderedSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// intersectsSet:
@@ -8951,11 +10027,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_intersectsSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_intersectsSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isEqualToOrderedSet:
@@ -8967,11 +10045,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToOrderedSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToOrderedSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isSubsetOfOrderedSet:
@@ -8983,11 +10063,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isSubsetOfOrderedSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isSubsetOfOrderedSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isSubsetOfSet:
@@ -8999,11 +10081,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isSubsetOfSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isSubsetOfSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// lastObject
@@ -9014,10 +10098,12 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_lastObject);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_lastObject);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// objectAtIndexedSubscript:
@@ -9028,12 +10114,14 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.pointer,
-      _sel_objectAtIndexedSubscript_,
-      idx,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.pointer,
+        _sel_objectAtIndexedSubscript_,
+        idx,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// objectEnumerator
@@ -9044,8 +10132,10 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objectEnumerator);
-    return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objectEnumerator);
+      return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// objectsAtIndexes:
@@ -9057,12 +10147,14 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_objectsAtIndexes_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_objectsAtIndexes_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// reverseObjectEnumerator
@@ -9073,11 +10165,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_reverseObjectEnumerator,
-    );
-    return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_reverseObjectEnumerator,
+      );
+      return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// reversedOrderedSet
@@ -9088,8 +10182,13 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_reversedOrderedSet);
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_reversedOrderedSet,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// set
@@ -9100,8 +10199,10 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_set);
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_set);
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sortedArrayUsingComparator:
@@ -9121,12 +10222,14 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_sortedArrayUsingComparator_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_sortedArrayUsingComparator_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sortedArrayWithOptions:usingComparator:
@@ -9147,13 +10250,15 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1x5ew3h(
-      _$$ref.pointer,
-      _sel_sortedArrayWithOptions_usingComparator_,
-      opts,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1x5ew3h(
+        _$$ref.pointer,
+        _sel_sortedArrayWithOptions_usingComparator_,
+        opts,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -9162,47 +10267,57 @@ extension NSExtendedSet on NSSet {
   /// allObjects
   NSArray get allObjects {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_allObjects);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_allObjects);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// anyObject
   objc.ObjCObject? anyObject() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_anyObject);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_anyObject);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// containsObject:
   bool containsObject(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_containsObject_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_containsObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// description
   NSString get description$1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// descriptionWithLocale:
   NSString descriptionWithLocale(objc.ObjCObject? locale) {
     final _$$ref = object$.ref;
     final _$$ref$1 = locale?.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// enumerateObjectsUsingBlock:
@@ -9219,11 +10334,13 @@ extension NSExtendedSet on NSSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_enumerateObjectsUsingBlock_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_enumerateObjectsUsingBlock_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateObjectsWithOptions:usingBlock:
@@ -9241,55 +10358,65 @@ extension NSExtendedSet on NSSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_yx8yc6(
-      _$$ref.pointer,
-      _sel_enumerateObjectsWithOptions_usingBlock_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_yx8yc6(
+        _$$ref.pointer,
+        _sel_enumerateObjectsWithOptions_usingBlock_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// intersectsSet:
   bool intersectsSet(NSSet otherSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherSet.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_intersectsSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_intersectsSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isEqualToSet:
   bool isEqualToSet(NSSet otherSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherSet.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isSubsetOfSet:
   bool isSubsetOfSet(NSSet otherSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherSet.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isSubsetOfSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isSubsetOfSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// makeObjectsPerformSelector:
   void makeObjectsPerformSelector(ffi.Pointer<objc.ObjCSelector> aSelector) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1d9e4oe(
-      _$$ref.pointer,
-      _sel_makeObjectsPerformSelector_,
-      aSelector,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1d9e4oe(
+        _$$ref.pointer,
+        _sel_makeObjectsPerformSelector_,
+        aSelector,
+      );
+    });
   }
 
   /// makeObjectsPerformSelector:withObject:
@@ -9299,12 +10426,14 @@ extension NSExtendedSet on NSSet {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObject?.ref;
-    _objc_msgSend_1qv0eq4(
-      _$$ref.pointer,
-      _sel_makeObjectsPerformSelector_withObject_,
-      aSelector,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1qv0eq4(
+        _$$ref.pointer,
+        _sel_makeObjectsPerformSelector_withObject_,
+        aSelector,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// objectsPassingTest:
@@ -9321,12 +10450,14 @@ extension NSExtendedSet on NSSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_objectsPassingTest_,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_objectsPassingTest_,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// objectsWithOptions:passingTest:
@@ -9344,13 +10475,15 @@ extension NSExtendedSet on NSSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_13x5boi(
-      _$$ref.pointer,
-      _sel_objectsWithOptions_passingTest_,
-      opts,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_13x5boi(
+        _$$ref.pointer,
+        _sel_objectsWithOptions_passingTest_,
+        opts,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setByAddingObject:
@@ -9362,12 +10495,14 @@ extension NSExtendedSet on NSSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_setByAddingObject_,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_setByAddingObject_,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setByAddingObjectsFromArray:
@@ -9379,12 +10514,14 @@ extension NSExtendedSet on NSSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_setByAddingObjectsFromArray_,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_setByAddingObjectsFromArray_,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setByAddingObjectsFromSet:
@@ -9396,12 +10533,14 @@ extension NSExtendedSet on NSSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_setByAddingObjectsFromSet_,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_setByAddingObjectsFromSet_,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -9436,13 +10575,15 @@ extension NSFastEnumeration$Methods on NSFastEnumeration {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1b5ysjl(
-      _$$ref.pointer,
-      _sel_countByEnumeratingWithState_objects_count_,
-      state,
-      objects,
-      count,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1b5ysjl(
+        _$$ref.pointer,
+        _sel_countByEnumeratingWithState_objects_count_,
+        state,
+        objects,
+        count,
+      );
+    });
   }
 }
 
@@ -9586,55 +10727,69 @@ extension type NSIndexSet._(objc.ObjCObject object$)
 
   /// alloc
   static NSIndexSet alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSIndexSet, _sel_alloc);
-    return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSIndexSet, _sel_alloc);
+      return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSIndexSet allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSIndexSet,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSIndexSet,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// indexSet
   static NSIndexSet indexSet() {
-    final $ret = _objc_msgSend_151sglz(_class_NSIndexSet, _sel_indexSet);
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSIndexSet, _sel_indexSet);
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexSetWithIndex:
   static NSIndexSet indexSetWithIndex(DartNSUInteger value) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSIndexSet,
-      _sel_indexSetWithIndex_,
-      value,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSIndexSet,
+        _sel_indexSetWithIndex_,
+        value,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexSetWithIndexesInRange:
   static NSIndexSet indexSetWithIndexesInRange(NSRange range) {
-    final $ret = _objc_msgSend_1k1o1s7(
-      _class_NSIndexSet,
-      _sel_indexSetWithIndexesInRange_,
-      range,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _class_NSIndexSet,
+        _sel_indexSetWithIndexesInRange_,
+        range,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSIndexSet new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSIndexSet, _sel_new);
-    return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSIndexSet, _sel_new);
+      return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSIndexSet, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSIndexSet, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSIndexSet constructed with the default `new` method.
@@ -9645,34 +10800,42 @@ extension NSIndexSet$Methods on NSIndexSet {
   /// containsIndex:
   bool containsIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6peh6o(_$$ref.pointer, _sel_containsIndex_, value);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6peh6o(_$$ref.pointer, _sel_containsIndex_, value);
+    });
   }
 
   /// containsIndexes:
   bool containsIndexes(NSIndexSet indexSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexSet.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_containsIndexes_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_containsIndexes_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// containsIndexesInRange:
   bool containsIndexesInRange(NSRange range) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_p4nurx(
-      _$$ref.pointer,
-      _sel_containsIndexesInRange_,
-      range,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_p4nurx(
+        _$$ref.pointer,
+        _sel_containsIndexesInRange_,
+        range,
+      );
+    });
   }
 
   /// count
   DartNSUInteger get count {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    });
   }
 
   /// countOfIndexesInRange:
@@ -9683,22 +10846,26 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_qm9f5w(
-      _$$ref.pointer,
-      _sel_countOfIndexesInRange_,
-      range,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_qm9f5w(
+        _$$ref.pointer,
+        _sel_countOfIndexesInRange_,
+        range,
+      );
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateIndexesInRange:options:usingBlock:
@@ -9717,13 +10884,15 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_177cajs(
-      _$$ref.pointer,
-      _sel_enumerateIndexesInRange_options_usingBlock_,
-      range,
-      options,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_177cajs(
+        _$$ref.pointer,
+        _sel_enumerateIndexesInRange_options_usingBlock_,
+        range,
+        options,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateIndexesUsingBlock:
@@ -9738,11 +10907,13 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_enumerateIndexesUsingBlock_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_enumerateIndexesUsingBlock_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateIndexesWithOptions:usingBlock:
@@ -9760,12 +10931,14 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_yx8yc6(
-      _$$ref.pointer,
-      _sel_enumerateIndexesWithOptions_usingBlock_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_yx8yc6(
+        _$$ref.pointer,
+        _sel_enumerateIndexesWithOptions_usingBlock_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateRangesInRange:options:usingBlock:
@@ -9782,13 +10955,15 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_177cajs(
-      _$$ref.pointer,
-      _sel_enumerateRangesInRange_options_usingBlock_,
-      range,
-      options,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_177cajs(
+        _$$ref.pointer,
+        _sel_enumerateRangesInRange_options_usingBlock_,
+        range,
+        options,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateRangesUsingBlock:
@@ -9802,11 +10977,13 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_enumerateRangesUsingBlock_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_enumerateRangesUsingBlock_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateRangesWithOptions:usingBlock:
@@ -9822,18 +10999,22 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_yx8yc6(
-      _$$ref.pointer,
-      _sel_enumerateRangesWithOptions_usingBlock_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_yx8yc6(
+        _$$ref.pointer,
+        _sel_enumerateRangesWithOptions_usingBlock_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// firstIndex
   DartNSUInteger get firstIndex {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_firstIndex);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_firstIndex);
+    });
   }
 
   /// getIndexes:maxCount:inIndexRange:
@@ -9843,33 +11024,39 @@ extension NSIndexSet$Methods on NSIndexSet {
     required ffi.Pointer<NSRange> inIndexRange,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_89xgla(
-      _$$ref.pointer,
-      _sel_getIndexes_maxCount_inIndexRange_,
-      indexBuffer,
-      maxCount,
-      inIndexRange,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_89xgla(
+        _$$ref.pointer,
+        _sel_getIndexes_maxCount_inIndexRange_,
+        indexBuffer,
+        maxCount,
+        inIndexRange,
+      );
+    });
   }
 
   /// indexGreaterThanIndex:
   DartNSUInteger indexGreaterThanIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_12py2ux(
-      _$$ref.pointer,
-      _sel_indexGreaterThanIndex_,
-      value,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_12py2ux(
+        _$$ref.pointer,
+        _sel_indexGreaterThanIndex_,
+        value,
+      );
+    });
   }
 
   /// indexGreaterThanOrEqualToIndex:
   DartNSUInteger indexGreaterThanOrEqualToIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_12py2ux(
-      _$$ref.pointer,
-      _sel_indexGreaterThanOrEqualToIndex_,
-      value,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_12py2ux(
+        _$$ref.pointer,
+        _sel_indexGreaterThanOrEqualToIndex_,
+        value,
+      );
+    });
   }
 
   /// indexInRange:options:passingTest:
@@ -9888,33 +11075,39 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_6jmuyz(
-      _$$ref.pointer,
-      _sel_indexInRange_options_passingTest_,
-      range,
-      options,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6jmuyz(
+        _$$ref.pointer,
+        _sel_indexInRange_options_passingTest_,
+        range,
+        options,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexLessThanIndex:
   DartNSUInteger indexLessThanIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_12py2ux(
-      _$$ref.pointer,
-      _sel_indexLessThanIndex_,
-      value,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_12py2ux(
+        _$$ref.pointer,
+        _sel_indexLessThanIndex_,
+        value,
+      );
+    });
   }
 
   /// indexLessThanOrEqualToIndex:
   DartNSUInteger indexLessThanOrEqualToIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_12py2ux(
-      _$$ref.pointer,
-      _sel_indexLessThanOrEqualToIndex_,
-      value,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_12py2ux(
+        _$$ref.pointer,
+        _sel_indexLessThanOrEqualToIndex_,
+        value,
+      );
+    });
   }
 
   /// indexPassingTest:
@@ -9929,11 +11122,13 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_10mlopr(
-      _$$ref.pointer,
-      _sel_indexPassingTest_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_10mlopr(
+        _$$ref.pointer,
+        _sel_indexPassingTest_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexWithOptions:passingTest:
@@ -9951,12 +11146,14 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_1698hqz(
-      _$$ref.pointer,
-      _sel_indexWithOptions_passingTest_,
-      opts,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1698hqz(
+        _$$ref.pointer,
+        _sel_indexWithOptions_passingTest_,
+        opts,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexesInRange:options:passingTest:
@@ -9975,14 +11172,16 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1q30cs4(
-      _$$ref.pointer,
-      _sel_indexesInRange_options_passingTest_,
-      range,
-      options,
-      _$$ref$1.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1q30cs4(
+        _$$ref.pointer,
+        _sel_indexesInRange_options_passingTest_,
+        range,
+        options,
+        _$$ref$1.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexesPassingTest:
@@ -9997,12 +11196,14 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_indexesPassingTest_,
-      _$$ref$1.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_indexesPassingTest_,
+        _$$ref$1.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexesWithOptions:passingTest:
@@ -10020,13 +11221,15 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_13x5boi(
-      _$$ref.pointer,
-      _sel_indexesWithOptions_passingTest_,
-      opts,
-      _$$ref$1.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_13x5boi(
+        _$$ref.pointer,
+        _sel_indexesWithOptions_passingTest_,
+        opts,
+        _$$ref$1.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -10037,86 +11240,102 @@ extension NSIndexSet$Methods on NSIndexSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSIndexSet? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithIndex:
   NSIndexSet initWithIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithIndex_,
-      value,
-    );
-    return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithIndex_,
+        value,
+      );
+      return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithIndexSet:
   NSIndexSet initWithIndexSet(NSIndexSet indexSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexSet.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithIndexSet_,
-      _$$ref$1.pointer,
-    );
-    return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithIndexSet_,
+        _$$ref$1.pointer,
+      );
+      return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithIndexesInRange:
   NSIndexSet initWithIndexesInRange(NSRange range) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1k1o1s7(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithIndexesInRange_,
-      range,
-    );
-    return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithIndexesInRange_,
+        range,
+      );
+      return NSIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// intersectsIndexesInRange:
   bool intersectsIndexesInRange(NSRange range) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_p4nurx(
-      _$$ref.pointer,
-      _sel_intersectsIndexesInRange_,
-      range,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_p4nurx(
+        _$$ref.pointer,
+        _sel_intersectsIndexesInRange_,
+        range,
+      );
+    });
   }
 
   /// isEqualToIndexSet:
   bool isEqualToIndexSet(NSIndexSet indexSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexSet.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToIndexSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToIndexSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// lastIndex
   DartNSUInteger get lastIndex {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_lastIndex);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_lastIndex);
+    });
   }
 }
 
@@ -10148,44 +11367,52 @@ extension type NSInputStream._(objc.ObjCObject object$)
 
   /// alloc
   static NSInputStream alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSInputStream, _sel_alloc);
-    return NSInputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSInputStream, _sel_alloc);
+      return NSInputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSInputStream allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSInputStream,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSInputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSInputStream,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSInputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// inputStreamWithData:
   static NSInputStream? inputStreamWithData(NSData data) {
     final _$$ref = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSInputStream,
-      _sel_inputStreamWithData_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSInputStream.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSInputStream,
+        _sel_inputStreamWithData_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSInputStream.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// inputStreamWithFileAtPath:
   static NSInputStream? inputStreamWithFileAtPath(NSString path) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSInputStream,
-      _sel_inputStreamWithFileAtPath_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSInputStream.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSInputStream,
+        _sel_inputStreamWithFileAtPath_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSInputStream.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// inputStreamWithURL:
@@ -10196,20 +11423,24 @@ extension type NSInputStream._(objc.ObjCObject object$)
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSInputStream,
-      _sel_inputStreamWithURL_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSInputStream.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSInputStream,
+        _sel_inputStreamWithURL_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSInputStream.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSInputStream new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSInputStream, _sel_new);
-    return NSInputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSInputStream, _sel_new);
+      return NSInputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSInputStream constructed with the default `new` method.
@@ -10223,18 +11454,22 @@ extension NSInputStream$Methods on NSInputStream {
     required ffi.Pointer<NSUInteger> length,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_19lrthf(
-      _$$ref.pointer,
-      _sel_getBuffer_length_,
-      buffer,
-      length,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19lrthf(
+        _$$ref.pointer,
+        _sel_getBuffer_length_,
+        buffer,
+        length,
+      );
+    });
   }
 
   /// hasBytesAvailable
   bool get hasBytesAvailable {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_hasBytesAvailable);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_hasBytesAvailable);
+    });
   }
 
   /// init
@@ -10245,37 +11480,43 @@ extension NSInputStream$Methods on NSInputStream {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSInputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSInputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithData:
   NSInputStream initWithData(NSData data) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithData_,
-      _$$ref$1.pointer,
-    );
-    return NSInputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithData_,
+        _$$ref$1.pointer,
+      );
+      return NSInputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFileAtPath:
   NSInputStream? initWithFileAtPath(NSString path) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFileAtPath_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSInputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFileAtPath_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSInputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithURL:
@@ -10287,25 +11528,29 @@ extension NSInputStream$Methods on NSInputStream {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithURL_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSInputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithURL_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSInputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// read:maxLength:
   int read(ffi.Pointer<ffi.Uint8> buffer, {required DartNSUInteger maxLength}) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_11e9f5x(
-      _$$ref.pointer,
-      _sel_read_maxLength_,
-      buffer,
-      maxLength,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_11e9f5x(
+        _$$ref.pointer,
+        _sel_read_maxLength_,
+        buffer,
+        maxLength,
+      );
+    });
   }
 }
 
@@ -10340,35 +11585,43 @@ extension type NSInvocation._(objc.ObjCObject object$)
 
   /// alloc
   static NSInvocation alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSInvocation, _sel_alloc);
-    return NSInvocation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSInvocation, _sel_alloc);
+      return NSInvocation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSInvocation allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSInvocation,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSInvocation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSInvocation,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSInvocation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// invocationWithMethodSignature:
   static NSInvocation invocationWithMethodSignature(NSMethodSignature sig) {
     final _$$ref = sig.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSInvocation,
-      _sel_invocationWithMethodSignature_,
-      _$$ref.pointer,
-    );
-    return NSInvocation.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSInvocation,
+        _sel_invocationWithMethodSignature_,
+        _$$ref.pointer,
+      );
+      return NSInvocation.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSInvocation new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSInvocation, _sel_new);
-    return NSInvocation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSInvocation, _sel_new);
+      return NSInvocation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSInvocation constructed with the default `new` method.
@@ -10379,7 +11632,9 @@ extension NSInvocation$Methods on NSInvocation {
   /// argumentsRetained
   bool get argumentsRetained {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_argumentsRetained);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_argumentsRetained);
+    });
   }
 
   /// getArgument:atIndex:
@@ -10388,18 +11643,22 @@ extension NSInvocation$Methods on NSInvocation {
     required int atIndex,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_unr2j3(
-      _$$ref.pointer,
-      _sel_getArgument_atIndex_,
-      argumentLocation,
-      atIndex,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_unr2j3(
+        _$$ref.pointer,
+        _sel_getArgument_atIndex_,
+        argumentLocation,
+        atIndex,
+      );
+    });
   }
 
   /// getReturnValue:
   void getReturnValue(ffi.Pointer<ffi.Void> retLoc) {
     final _$$ref = object$.ref;
-    _objc_msgSend_ovsamd(_$$ref.pointer, _sel_getReturnValue_, retLoc);
+    objc.autoReleasePool(() {
+      _objc_msgSend_ovsamd(_$$ref.pointer, _sel_getReturnValue_, retLoc);
+    });
   }
 
   /// init
@@ -10410,17 +11669,21 @@ extension NSInvocation$Methods on NSInvocation {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSInvocation.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSInvocation.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// invoke
   void invoke() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_invoke);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_invoke);
+    });
   }
 
   /// invokeUsingIMP:
@@ -10428,37 +11691,47 @@ extension NSInvocation$Methods on NSInvocation {
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> imp,
   ) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1nufwnz(_$$ref.pointer, _sel_invokeUsingIMP_, imp);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1nufwnz(_$$ref.pointer, _sel_invokeUsingIMP_, imp);
+    });
   }
 
   /// invokeWithTarget:
   void invokeWithTarget(objc.ObjCObject target) {
     final _$$ref = object$.ref;
     final _$$ref$1 = target.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_invokeWithTarget_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_invokeWithTarget_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// methodSignature
   NSMethodSignature get methodSignature {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_methodSignature);
-    return NSMethodSignature.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_methodSignature);
+      return NSMethodSignature.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// retainArguments
   void retainArguments() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_retainArguments);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_retainArguments);
+    });
   }
 
   /// selector
   ffi.Pointer<objc.ObjCSelector> get selector {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1ovaulg(_$$ref.pointer, _sel_selector);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1ovaulg(_$$ref.pointer, _sel_selector);
+    });
   }
 
   /// setArgument:atIndex:
@@ -10467,44 +11740,54 @@ extension NSInvocation$Methods on NSInvocation {
     required int atIndex,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_unr2j3(
-      _$$ref.pointer,
-      _sel_setArgument_atIndex_,
-      argumentLocation,
-      atIndex,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_unr2j3(
+        _$$ref.pointer,
+        _sel_setArgument_atIndex_,
+        argumentLocation,
+        atIndex,
+      );
+    });
   }
 
   /// setReturnValue:
   void setReturnValue(ffi.Pointer<ffi.Void> retLoc) {
     final _$$ref = object$.ref;
-    _objc_msgSend_ovsamd(_$$ref.pointer, _sel_setReturnValue_, retLoc);
+    objc.autoReleasePool(() {
+      _objc_msgSend_ovsamd(_$$ref.pointer, _sel_setReturnValue_, retLoc);
+    });
   }
 
   /// setSelector:
   set selector(ffi.Pointer<objc.ObjCSelector> value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1d9e4oe(_$$ref.pointer, _sel_setSelector_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1d9e4oe(_$$ref.pointer, _sel_setSelector_, value);
+    });
   }
 
   /// setTarget:
   set target(objc.ObjCObject? value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value?.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setTarget_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setTarget_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// target
   objc.ObjCObject? get target {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_target);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_target);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -10546,24 +11829,30 @@ extension type NSItemProvider._(objc.ObjCObject object$)
 
   /// alloc
   static NSItemProvider alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSItemProvider, _sel_alloc);
-    return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSItemProvider, _sel_alloc);
+      return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSItemProvider allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSItemProvider,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSItemProvider,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSItemProvider new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSItemProvider, _sel_new);
-    return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSItemProvider, _sel_new);
+      return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSItemProvider constructed with the default `new` method.
@@ -10580,11 +11869,13 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_canLoadObjectOfClass_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_canLoadObjectOfClass_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// hasItemConformingToTypeIdentifier:
@@ -10596,11 +11887,13 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_hasItemConformingToTypeIdentifier_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_hasItemConformingToTypeIdentifier_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// hasRepresentationConformingToTypeIdentifier:fileOptions:
@@ -10615,12 +11908,14 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    return _objc_msgSend_1wdb8ji(
-      _$$ref.pointer,
-      _sel_hasRepresentationConformingToTypeIdentifier_fileOptions_,
-      _$$ref$1.pointer,
-      fileOptions,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1wdb8ji(
+        _$$ref.pointer,
+        _sel_hasRepresentationConformingToTypeIdentifier_fileOptions_,
+        _$$ref$1.pointer,
+        fileOptions,
+      );
+    });
   }
 
   /// init
@@ -10631,11 +11926,13 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfURL:
@@ -10647,14 +11944,16 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSItemProvider.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSItemProvider.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithItem:typeIdentifier:
@@ -10670,13 +11969,15 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithItem_typeIdentifier_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithItem_typeIdentifier_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObject:
@@ -10688,12 +11989,14 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObject_,
-      _$$ref$1.pointer,
-    );
-    return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObject_,
+        _$$ref$1.pointer,
+      );
+      return NSItemProvider.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// loadDataRepresentationForTypeIdentifier:completionHandler:
@@ -10710,13 +12013,15 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_r0bo0s(
-      _$$ref.pointer,
-      _sel_loadDataRepresentationForTypeIdentifier_completionHandler_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_r0bo0s(
+        _$$ref.pointer,
+        _sel_loadDataRepresentationForTypeIdentifier_completionHandler_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// loadFileRepresentationForTypeIdentifier:completionHandler:
@@ -10733,13 +12038,15 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_r0bo0s(
-      _$$ref.pointer,
-      _sel_loadFileRepresentationForTypeIdentifier_completionHandler_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_r0bo0s(
+        _$$ref.pointer,
+        _sel_loadFileRepresentationForTypeIdentifier_completionHandler_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// loadInPlaceFileRepresentationForTypeIdentifier:completionHandler:
@@ -10756,13 +12063,15 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_r0bo0s(
-      _$$ref.pointer,
-      _sel_loadInPlaceFileRepresentationForTypeIdentifier_completionHandler_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_r0bo0s(
+        _$$ref.pointer,
+        _sel_loadInPlaceFileRepresentationForTypeIdentifier_completionHandler_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// loadItemForTypeIdentifier:options:completionHandler:
@@ -10783,13 +12092,15 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    _objc_msgSend_18qun1e(
-      _$$ref.pointer,
-      _sel_loadItemForTypeIdentifier_options_completionHandler_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_18qun1e(
+        _$$ref.pointer,
+        _sel_loadItemForTypeIdentifier_options_completionHandler_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// loadObjectOfClass:completionHandler:
@@ -10808,13 +12119,15 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_r0bo0s(
-      _$$ref.pointer,
-      _sel_loadObjectOfClass_completionHandler_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_r0bo0s(
+        _$$ref.pointer,
+        _sel_loadObjectOfClass_completionHandler_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// registerDataRepresentationForTypeIdentifier:visibility:loadHandler:
@@ -10834,13 +12147,15 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_1pl40xc(
-      _$$ref.pointer,
-      _sel_registerDataRepresentationForTypeIdentifier_visibility_loadHandler_,
-      _$$ref$1.pointer,
-      visibility.value,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl40xc(
+        _$$ref.pointer,
+        _sel_registerDataRepresentationForTypeIdentifier_visibility_loadHandler_,
+        _$$ref$1.pointer,
+        visibility.value,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// registerFileRepresentationForTypeIdentifier:fileOptions:visibility:loadHandler:
@@ -10863,14 +12178,16 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_t7arir(
-      _$$ref.pointer,
-      _sel_registerFileRepresentationForTypeIdentifier_fileOptions_visibility_loadHandler_,
-      _$$ref$1.pointer,
-      fileOptions,
-      visibility.value,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_t7arir(
+        _$$ref.pointer,
+        _sel_registerFileRepresentationForTypeIdentifier_fileOptions_visibility_loadHandler_,
+        _$$ref$1.pointer,
+        fileOptions,
+        visibility.value,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// registerItemForTypeIdentifier:loadHandler:
@@ -10895,12 +12212,14 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    _objc_msgSend_o762yo(
-      _$$ref.pointer,
-      _sel_registerItemForTypeIdentifier_loadHandler_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_o762yo(
+        _$$ref.pointer,
+        _sel_registerItemForTypeIdentifier_loadHandler_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// registerObject:visibility:
@@ -10915,12 +12234,14 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_1k745tv(
-      _$$ref.pointer,
-      _sel_registerObject_visibility_,
-      _$$ref$1.pointer,
-      visibility.value,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1k745tv(
+        _$$ref.pointer,
+        _sel_registerObject_visibility_,
+        _$$ref$1.pointer,
+        visibility.value,
+      );
+    });
   }
 
   /// registerObjectOfClass:visibility:loadHandler:
@@ -10944,13 +12265,15 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_1pl40xc(
-      _$$ref.pointer,
-      _sel_registerObjectOfClass_visibility_loadHandler_,
-      _$$ref$1.pointer,
-      visibility.value,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl40xc(
+        _$$ref.pointer,
+        _sel_registerObjectOfClass_visibility_loadHandler_,
+        _$$ref$1.pointer,
+        visibility.value,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// registeredTypeIdentifiers
@@ -10961,11 +12284,13 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_registeredTypeIdentifiers,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_registeredTypeIdentifiers,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// registeredTypeIdentifiersWithFileOptions:
@@ -10976,12 +12301,14 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_7g3u2y(
-      _$$ref.pointer,
-      _sel_registeredTypeIdentifiersWithFileOptions_,
-      fileOptions,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_7g3u2y(
+        _$$ref.pointer,
+        _sel_registeredTypeIdentifiersWithFileOptions_,
+        fileOptions,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setSuggestedName:
@@ -10993,11 +12320,13 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 14, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setSuggestedName_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setSuggestedName_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// suggestedName
@@ -11008,10 +12337,12 @@ extension NSItemProvider$Methods on NSItemProvider {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 14, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_suggestedName);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_suggestedName);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -11143,12 +12474,14 @@ extension NSItemProviderWriting$Methods on NSItemProviderWriting {
         'itemProviderVisibilityForRepresentationWithTypeIdentifier:',
       );
     }
-    final $ret = _objc_msgSend_16fy0up(
-      _$$ref.pointer,
-      _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
-      _$$ref$1.pointer,
-    );
-    return NSItemProviderRepresentationVisibility.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_16fy0up(
+        _$$ref.pointer,
+        _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+        _$$ref$1.pointer,
+      );
+      return NSItemProviderRepresentationVisibility.fromValue($ret);
+    });
   }
 
   /// loadDataWithTypeIdentifier:forItemProviderCompletionHandler:
@@ -11165,15 +12498,17 @@ extension NSItemProviderWriting$Methods on NSItemProviderWriting {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_r0bo0s(
-      _$$ref.pointer,
-      _sel_loadDataWithTypeIdentifier_forItemProviderCompletionHandler_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_r0bo0s(
+        _$$ref.pointer,
+        _sel_loadDataWithTypeIdentifier_forItemProviderCompletionHandler_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// writableTypeIdentifiersForItemProvider
@@ -11193,11 +12528,13 @@ extension NSItemProviderWriting$Methods on NSItemProviderWriting {
         'writableTypeIdentifiersForItemProvider',
       );
     }
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_writableTypeIdentifiersForItemProvider,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_writableTypeIdentifiersForItemProvider,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -11457,18 +12794,22 @@ extension type NSLocale._(objc.ObjCObject object$)
 
   /// alloc
   static NSLocale alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSLocale, _sel_alloc);
-    return NSLocale.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSLocale, _sel_alloc);
+      return NSLocale.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSLocale allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSLocale,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSLocale.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSLocale,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSLocale.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// localeWithLocaleIdentifier:
@@ -11479,23 +12820,29 @@ extension type NSLocale._(objc.ObjCObject object$)
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSLocale,
-      _sel_localeWithLocaleIdentifier_,
-      _$$ref.pointer,
-    );
-    return NSLocale.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSLocale,
+        _sel_localeWithLocaleIdentifier_,
+        _$$ref.pointer,
+      );
+      return NSLocale.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSLocale new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSLocale, _sel_new);
-    return NSLocale.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSLocale, _sel_new);
+      return NSLocale.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSLocale, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSLocale, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSLocale constructed with the default `new` method.
@@ -11508,26 +12855,30 @@ extension NSLocale$Methods on NSLocale {
     final _$$ref = object$.ref;
     final _$$ref$1 = key.ref;
     final _$$ref$2 = value.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.pointer,
-      _sel_displayNameForKey_value_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.pointer,
+        _sel_displayNameForKey_value_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -11538,51 +12889,59 @@ extension NSLocale$Methods on NSLocale {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSLocale.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSLocale.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSLocale? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSLocale.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSLocale.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithLocaleIdentifier:
   NSLocale initWithLocaleIdentifier(NSString string) {
     final _$$ref = object$.ref;
     final _$$ref$1 = string.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithLocaleIdentifier_,
-      _$$ref$1.pointer,
-    );
-    return NSLocale.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithLocaleIdentifier_,
+        _$$ref$1.pointer,
+      );
+      return NSLocale.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// objectForKey:
   objc.ObjCObject? objectForKey(NSString key) {
     final _$$ref = object$.ref;
     final _$$ref$1 = key.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_objectForKey_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_objectForKey_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -11595,23 +12954,29 @@ extension NSLocaleCreation on NSLocale {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSLocale,
-      _sel_autoupdatingCurrentLocale,
-    );
-    return NSLocale.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSLocale,
+        _sel_autoupdatingCurrentLocale,
+      );
+      return NSLocale.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// currentLocale
   static NSLocale getCurrentLocale() {
-    final $ret = _objc_msgSend_151sglz(_class_NSLocale, _sel_currentLocale);
-    return NSLocale.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSLocale, _sel_currentLocale);
+      return NSLocale.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// systemLocale
   static NSLocale getSystemLocale() {
-    final $ret = _objc_msgSend_151sglz(_class_NSLocale, _sel_systemLocale);
-    return NSLocale.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSLocale, _sel_systemLocale);
+      return NSLocale.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -11665,38 +13030,46 @@ extension type NSMethodSignature._(objc.ObjCObject object$)
 
   /// alloc
   static NSMethodSignature alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMethodSignature, _sel_alloc);
-    return NSMethodSignature.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMethodSignature, _sel_alloc);
+      return NSMethodSignature.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSMethodSignature allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSMethodSignature,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSMethodSignature.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSMethodSignature,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSMethodSignature.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSMethodSignature new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMethodSignature, _sel_new);
-    return NSMethodSignature.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMethodSignature, _sel_new);
+      return NSMethodSignature.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// signatureWithObjCTypes:
   static NSMethodSignature? signatureWithObjCTypes(
     ffi.Pointer<ffi.Char> types,
   ) {
-    final $ret = _objc_msgSend_56zxyn(
-      _class_NSMethodSignature,
-      _sel_signatureWithObjCTypes_,
-      types,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMethodSignature.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_56zxyn(
+        _class_NSMethodSignature,
+        _sel_signatureWithObjCTypes_,
+        types,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMethodSignature.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NSMethodSignature constructed with the default `new` method.
@@ -11707,17 +13080,21 @@ extension NSMethodSignature$Methods on NSMethodSignature {
   /// frameLength
   DartNSUInteger get frameLength {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_frameLength);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_frameLength);
+    });
   }
 
   /// getArgumentTypeAtIndex:
   ffi.Pointer<ffi.Char> getArgumentTypeAtIndex(DartNSUInteger idx) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1jtxufi(
-      _$$ref.pointer,
-      _sel_getArgumentTypeAtIndex_,
-      idx,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1jtxufi(
+        _$$ref.pointer,
+        _sel_getArgumentTypeAtIndex_,
+        idx,
+      );
+    });
   }
 
   /// init
@@ -11728,35 +13105,45 @@ extension NSMethodSignature$Methods on NSMethodSignature {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSMethodSignature.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSMethodSignature.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// isOneway
   bool isOneway() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isOneway);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isOneway);
+    });
   }
 
   /// methodReturnLength
   DartNSUInteger get methodReturnLength {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_methodReturnLength);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_methodReturnLength);
+    });
   }
 
   /// methodReturnType
   ffi.Pointer<ffi.Char> get methodReturnType {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1fuqfwb(_$$ref.pointer, _sel_methodReturnType);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1fuqfwb(_$$ref.pointer, _sel_methodReturnType);
+    });
   }
 
   /// numberOfArguments
   DartNSUInteger get numberOfArguments {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_numberOfArguments);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_numberOfArguments);
+    });
   }
 }
 
@@ -11805,67 +13192,81 @@ extension type NSMutableArray._(objc.ObjCObject object$)
 
   /// alloc
   static NSMutableArray alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableArray, _sel_alloc);
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableArray, _sel_alloc);
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSMutableArray allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSMutableArray,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSMutableArray,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// array
   static NSMutableArray array() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableArray, _sel_array);
-    return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableArray, _sel_array);
+      return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithArray:
   static NSMutableArray arrayWithArray(NSArray array) {
     final _$$ref = array.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableArray,
-      _sel_arrayWithArray_,
-      _$$ref.pointer,
-    );
-    return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableArray,
+        _sel_arrayWithArray_,
+        _$$ref.pointer,
+      );
+      return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithCapacity:
   static NSMutableArray arrayWithCapacity(DartNSUInteger numItems) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSMutableArray,
-      _sel_arrayWithCapacity_,
-      numItems,
-    );
-    return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSMutableArray,
+        _sel_arrayWithCapacity_,
+        numItems,
+      );
+      return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithObject:
   static NSMutableArray arrayWithObject(objc.ObjCObject anObject) {
     final _$$ref = anObject.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableArray,
-      _sel_arrayWithObject_,
-      _$$ref.pointer,
-    );
-    return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableArray,
+        _sel_arrayWithObject_,
+        _$$ref.pointer,
+      );
+      return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithObjects:
   static NSMutableArray arrayWithObjects(objc.ObjCObject firstObj) {
     final _$$ref = firstObj.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableArray,
-      _sel_arrayWithObjects_,
-      _$$ref.pointer,
-    );
-    return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableArray,
+        _sel_arrayWithObjects_,
+        _$$ref.pointer,
+      );
+      return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithObjects:count:
@@ -11873,27 +13274,33 @@ extension type NSMutableArray._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> objects, {
     required DartNSUInteger count,
   }) {
-    final $ret = _objc_msgSend_zmbtbd(
-      _class_NSMutableArray,
-      _sel_arrayWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _class_NSMutableArray,
+        _sel_arrayWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSMutableArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSMutableArray new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableArray, _sel_new);
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableArray, _sel_new);
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_NSMutableArray,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSMutableArray,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSMutableArray constructed with the default `new` method.
@@ -11905,7 +13312,9 @@ extension NSMutableArray$Methods on NSMutableArray {
   void addObject(objc.ObjCObject anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addObject_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addObject_, _$$ref$1.pointer);
+    });
   }
 
   /// init
@@ -11916,73 +13325,85 @@ extension NSMutableArray$Methods on NSMutableArray {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:
   NSMutableArray initWithArray(NSArray array) {
     final _$$ref = object$.ref;
     final _$$ref$1 = array.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:copyItems:
   NSMutableArray initWithArray$1(NSArray array, {required bool copyItems}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = array.ref;
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCapacity:
   NSMutableArray initWithCapacity(DartNSUInteger numItems) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCapacity_,
-      numItems,
-    );
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCapacity_,
+        numItems,
+      );
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSMutableArray? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:
   NSMutableArray initWithObjects(objc.ObjCObject firstObj) {
     final _$$ref = object$.ref;
     final _$$ref$1 = firstObj.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:count:
@@ -11991,13 +13412,15 @@ extension NSMutableArray$Methods on NSMutableArray {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_zmbtbd(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// insertObject:atIndex:
@@ -12007,24 +13430,30 @@ extension NSMutableArray$Methods on NSMutableArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
-    _objc_msgSend_djsa9o(
-      _$$ref.pointer,
-      _sel_insertObject_atIndex_,
-      _$$ref$1.pointer,
-      atIndex,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_djsa9o(
+        _$$ref.pointer,
+        _sel_insertObject_atIndex_,
+        _$$ref$1.pointer,
+        atIndex,
+      );
+    });
   }
 
   /// removeLastObject
   void removeLastObject() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeLastObject);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeLastObject);
+    });
   }
 
   /// removeObjectAtIndex:
   void removeObjectAtIndex(DartNSUInteger index) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_removeObjectAtIndex_, index);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_removeObjectAtIndex_, index);
+    });
   }
 
   /// replaceObjectAtIndex:withObject:
@@ -12034,12 +13463,14 @@ extension NSMutableArray$Methods on NSMutableArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObject.ref;
-    _objc_msgSend_1gypgok(
-      _$$ref.pointer,
-      _sel_replaceObjectAtIndex_withObject_,
-      index,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1gypgok(
+        _$$ref.pointer,
+        _sel_replaceObjectAtIndex_withObject_,
+        index,
+        _$$ref$1.pointer,
+      );
+    });
   }
 }
 
@@ -12049,54 +13480,62 @@ extension NSMutableArrayCreation on NSMutableArray {
   NSMutableArray? initWithContentsOfFile(NSString path) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfURL:
   NSMutableArray? initWithContentsOfURL(NSURL url) {
     final _$$ref = object$.ref;
     final _$$ref$1 = url.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableArray.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableArray.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// arrayWithContentsOfFile:
   static NSMutableArray? arrayWithContentsOfFile(NSString path) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableArray,
-      _sel_arrayWithContentsOfFile_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableArray,
+        _sel_arrayWithContentsOfFile_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// arrayWithContentsOfURL:
   static NSMutableArray? arrayWithContentsOfURL(NSURL url) {
     final _$$ref = url.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableArray,
-      _sel_arrayWithContentsOfURL_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableArray,
+        _sel_arrayWithContentsOfURL_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -12127,12 +13566,14 @@ extension NSMutableCopying$Methods on NSMutableCopying {
   /// mutableCopyWithZone:
   objc.ObjCObject mutableCopyWithZone(ffi.Pointer<NSZone> zone) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1cwp428(
-      _$$ref.pointer,
-      _sel_mutableCopyWithZone_,
-      zone,
-    );
-    return objc.ObjCObject($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _$$ref.pointer,
+        _sel_mutableCopyWithZone_,
+        zone,
+      );
+      return objc.ObjCObject($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -12233,24 +13674,30 @@ extension type NSMutableData._(objc.ObjCObject object$)
 
   /// alloc
   static NSMutableData alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableData, _sel_alloc);
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableData, _sel_alloc);
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSMutableData allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSMutableData,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSMutableData,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// data
   static NSMutableData data() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableData, _sel_data);
-    return NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableData, _sel_data);
+      return NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithBytes:length:
@@ -12258,13 +13705,15 @@ extension type NSMutableData._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Void> bytes, {
     required DartNSUInteger length,
   }) {
-    final $ret = _objc_msgSend_3nbx5e(
-      _class_NSMutableData,
-      _sel_dataWithBytes_length_,
-      bytes,
-      length,
-    );
-    return NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3nbx5e(
+        _class_NSMutableData,
+        _sel_dataWithBytes_length_,
+        bytes,
+        length,
+      );
+      return NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithBytesNoCopy:length:
@@ -12272,13 +13721,15 @@ extension type NSMutableData._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Void> bytes, {
     required DartNSUInteger length,
   }) {
-    final $ret = _objc_msgSend_3nbx5e(
-      _class_NSMutableData,
-      _sel_dataWithBytesNoCopy_length_,
-      bytes,
-      length,
-    );
-    return NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3nbx5e(
+        _class_NSMutableData,
+        _sel_dataWithBytesNoCopy_length_,
+        bytes,
+        length,
+      );
+      return NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithBytesNoCopy:length:freeWhenDone:
@@ -12287,39 +13738,45 @@ extension type NSMutableData._(objc.ObjCObject object$)
     required DartNSUInteger length,
     required bool freeWhenDone,
   }) {
-    final $ret = _objc_msgSend_161ne8y(
-      _class_NSMutableData,
-      _sel_dataWithBytesNoCopy_length_freeWhenDone_,
-      bytes,
-      length,
-      freeWhenDone,
-    );
-    return NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_161ne8y(
+        _class_NSMutableData,
+        _sel_dataWithBytesNoCopy_length_freeWhenDone_,
+        bytes,
+        length,
+        freeWhenDone,
+      );
+      return NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithCapacity:
   static NSMutableData? dataWithCapacity(DartNSUInteger aNumItems) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSMutableData,
-      _sel_dataWithCapacity_,
-      aNumItems,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSMutableData,
+        _sel_dataWithCapacity_,
+        aNumItems,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithContentsOfFile:
   static NSMutableData? dataWithContentsOfFile(NSString path) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableData,
-      _sel_dataWithContentsOfFile_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableData,
+        _sel_dataWithContentsOfFile_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithContentsOfFile:options:error:
@@ -12329,29 +13786,33 @@ extension type NSMutableData._(objc.ObjCObject object$)
     required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_8321cp(
-      _class_NSMutableData,
-      _sel_dataWithContentsOfFile_options_error_,
-      _$$ref.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_8321cp(
+        _class_NSMutableData,
+        _sel_dataWithContentsOfFile_options_error_,
+        _$$ref.pointer,
+        options,
+        error,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithContentsOfURL:
   static NSMutableData? dataWithContentsOfURL(NSURL url) {
     final _$$ref = url.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableData,
-      _sel_dataWithContentsOfURL_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableData,
+        _sel_dataWithContentsOfURL_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithContentsOfURL:options:error:
@@ -12361,53 +13822,63 @@ extension type NSMutableData._(objc.ObjCObject object$)
     required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     final _$$ref = url.ref;
-    final $ret = _objc_msgSend_8321cp(
-      _class_NSMutableData,
-      _sel_dataWithContentsOfURL_options_error_,
-      _$$ref.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_8321cp(
+        _class_NSMutableData,
+        _sel_dataWithContentsOfURL_options_error_,
+        _$$ref.pointer,
+        options,
+        error,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithData:
   static NSMutableData dataWithData(NSData data) {
     final _$$ref = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableData,
-      _sel_dataWithData_,
-      _$$ref.pointer,
-    );
-    return NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableData,
+        _sel_dataWithData_,
+        _$$ref.pointer,
+      );
+      return NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataWithLength:
   static NSMutableData? dataWithLength(DartNSUInteger length) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSMutableData,
-      _sel_dataWithLength_,
-      length,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSMutableData,
+        _sel_dataWithLength_,
+        length,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSMutableData new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableData, _sel_new);
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableData, _sel_new);
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_NSMutableData,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSMutableData,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSMutableData constructed with the default `new` method.
@@ -12430,16 +13901,18 @@ extension NSMutableData$Methods on NSMutableData {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1vnlaqg(
-        _$$ref.pointer,
-        _sel_compressedDataUsingAlgorithm_error_,
-        algorithm.value,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableData.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1vnlaqg(
+          _$$ref.pointer,
+          _sel_compressedDataUsingAlgorithm_error_,
+          algorithm.value,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableData.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -12460,16 +13933,18 @@ extension NSMutableData$Methods on NSMutableData {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1vnlaqg(
-        _$$ref.pointer,
-        _sel_decompressedDataUsingAlgorithm_error_,
-        algorithm.value,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableData.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1vnlaqg(
+          _$$ref.pointer,
+          _sel_decompressedDataUsingAlgorithm_error_,
+          algorithm.value,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableData.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -12483,11 +13958,13 @@ extension NSMutableData$Methods on NSMutableData {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBase64EncodedData:options:
@@ -12502,15 +13979,17 @@ extension NSMutableData$Methods on NSMutableData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_7kpg7m(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBase64EncodedData_options_,
-      _$$ref$1.pointer,
-      options,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_7kpg7m(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBase64EncodedData_options_,
+        _$$ref$1.pointer,
+        options,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBase64EncodedString:options:
@@ -12525,15 +14004,17 @@ extension NSMutableData$Methods on NSMutableData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_7kpg7m(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBase64EncodedString_options_,
-      _$$ref$1.pointer,
-      options,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_7kpg7m(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBase64EncodedString_options_,
+        _$$ref$1.pointer,
+        options,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytes:length:
@@ -12542,13 +14023,15 @@ extension NSMutableData$Methods on NSMutableData {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3nbx5e(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytes_length_,
-      bytes,
-      length,
-    );
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3nbx5e(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytes_length_,
+        bytes,
+        length,
+      );
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:
@@ -12557,13 +14040,15 @@ extension NSMutableData$Methods on NSMutableData {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3nbx5e(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_,
-      bytes,
-      length,
-    );
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3nbx5e(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_,
+        bytes,
+        length,
+      );
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:deallocator:
@@ -12580,14 +14065,16 @@ extension NSMutableData$Methods on NSMutableData {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_134vhyh(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_deallocator_,
-      bytes,
-      length,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_134vhyh(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_deallocator_,
+        bytes,
+        length,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:freeWhenDone:
@@ -12597,55 +14084,63 @@ extension NSMutableData$Methods on NSMutableData {
     required bool freeWhenDone,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_161ne8y(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_freeWhenDone_,
-      bytes,
-      length,
-      freeWhenDone,
-    );
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_161ne8y(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_freeWhenDone_,
+        bytes,
+        length,
+        freeWhenDone,
+      );
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCapacity:
   NSMutableData? initWithCapacity(DartNSUInteger capacity) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCapacity_,
-      capacity,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCapacity_,
+        capacity,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSMutableData? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfFile:
   NSMutableData? initWithContentsOfFile(NSString path) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfFile:options:error:
@@ -12656,30 +14151,34 @@ extension NSMutableData$Methods on NSMutableData {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_8321cp(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_options_error_,
-      _$$ref$1.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_8321cp(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_options_error_,
+        _$$ref$1.pointer,
+        options,
+        error,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfURL:
   NSMutableData? initWithContentsOfURL(NSURL url) {
     final _$$ref = object$.ref;
     final _$$ref$1 = url.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfURL:options:error:
@@ -12690,59 +14189,71 @@ extension NSMutableData$Methods on NSMutableData {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = url.ref;
-    final $ret = _objc_msgSend_8321cp(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_options_error_,
-      _$$ref$1.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_8321cp(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_options_error_,
+        _$$ref$1.pointer,
+        options,
+        error,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithData:
   NSMutableData initWithData(NSData data) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithData_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithData_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithLength:
   NSMutableData? initWithLength(DartNSUInteger length) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithLength_,
-      length,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithLength_,
+        length,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// length
   DartNSUInteger get length {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_length);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_length);
+    });
   }
 
   /// mutableBytes
   ffi.Pointer<ffi.Void> get mutableBytes {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_mutableBytes);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_mutableBytes);
+    });
   }
 
   /// setLength:
   set length$1(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_setLength_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_setLength_, value);
+    });
   }
 }
 
@@ -12792,48 +14303,69 @@ extension type NSMutableDictionary._(objc.ObjCObject object$)
 
   /// alloc
   static NSMutableDictionary alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableDictionary, _sel_alloc);
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSMutableDictionary,
+        _sel_alloc,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static NSMutableDictionary allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSMutableDictionary,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSMutableDictionary,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// dictionary
   static NSMutableDictionary dictionary() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSMutableDictionary,
-      _sel_dictionary,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSMutableDictionary,
+        _sel_dictionary,
+      );
+      return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithCapacity:
   static NSMutableDictionary dictionaryWithCapacity(DartNSUInteger numItems) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSMutableDictionary,
-      _sel_dictionaryWithCapacity_,
-      numItems,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSMutableDictionary,
+        _sel_dictionaryWithCapacity_,
+        numItems,
+      );
+      return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithDictionary:
   static NSMutableDictionary dictionaryWithDictionary(NSDictionary dict) {
     final _$$ref = dict.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableDictionary,
-      _sel_dictionaryWithDictionary_,
-      _$$ref.pointer,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableDictionary,
+        _sel_dictionaryWithDictionary_,
+        _$$ref.pointer,
+      );
+      return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithObject:forKey:
@@ -12843,13 +14375,15 @@ extension type NSMutableDictionary._(objc.ObjCObject object$)
   }) {
     final _$$ref = object.ref;
     final _$$ref$1 = forKey.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSMutableDictionary,
-      _sel_dictionaryWithObject_forKey_,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSMutableDictionary,
+        _sel_dictionaryWithObject_forKey_,
+        _$$ref.pointer,
+        _$$ref$1.pointer,
+      );
+      return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithObjects:forKeys:
@@ -12859,13 +14393,15 @@ extension type NSMutableDictionary._(objc.ObjCObject object$)
   }) {
     final _$$ref = objects.ref;
     final _$$ref$1 = forKeys.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSMutableDictionary,
-      _sel_dictionaryWithObjects_forKeys_,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSMutableDictionary,
+        _sel_dictionaryWithObjects_forKeys_,
+        _$$ref.pointer,
+        _$$ref$1.pointer,
+      );
+      return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithObjects:forKeys:count:
@@ -12874,14 +14410,16 @@ extension type NSMutableDictionary._(objc.ObjCObject object$)
     required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> forKeys,
     required DartNSUInteger count,
   }) {
-    final $ret = _objc_msgSend_1dydpdi(
-      _class_NSMutableDictionary,
-      _sel_dictionaryWithObjects_forKeys_count_,
-      objects,
-      forKeys,
-      count,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1dydpdi(
+        _class_NSMutableDictionary,
+        _sel_dictionaryWithObjects_forKeys_count_,
+        objects,
+        forKeys,
+        count,
+      );
+      return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithObjectsAndKeys:
@@ -12889,26 +14427,36 @@ extension type NSMutableDictionary._(objc.ObjCObject object$)
     objc.ObjCObject firstObject,
   ) {
     final _$$ref = firstObject.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableDictionary,
-      _sel_dictionaryWithObjectsAndKeys_,
-      _$$ref.pointer,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableDictionary,
+        _sel_dictionaryWithObjectsAndKeys_,
+        _$$ref.pointer,
+      );
+      return NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSMutableDictionary new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableDictionary, _sel_new);
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableDictionary, _sel_new);
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_NSMutableDictionary,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSMutableDictionary,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSMutableDictionary constructed with the default `new` method.
@@ -12924,48 +14472,68 @@ extension NSMutableDictionary$Methods on NSMutableDictionary {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithCapacity:
   NSMutableDictionary initWithCapacity(DartNSUInteger numItems) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCapacity_,
-      numItems,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCapacity_,
+        numItems,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithCoder:
   NSMutableDictionary? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithDictionary:
   NSMutableDictionary initWithDictionary(NSDictionary otherDictionary) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherDictionary.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithDictionary_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithDictionary_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithDictionary:copyItems:
@@ -12975,13 +14543,19 @@ extension NSMutableDictionary$Methods on NSMutableDictionary {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherDictionary.ref;
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithDictionary_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithDictionary_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithObjects:forKeys:
@@ -12992,13 +14566,19 @@ extension NSMutableDictionary$Methods on NSMutableDictionary {
     final _$$ref = object$.ref;
     final _$$ref$1 = objects.ref;
     final _$$ref$2 = forKeys.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_forKeys_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_forKeys_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithObjects:forKeys:count:
@@ -13008,37 +14588,51 @@ extension NSMutableDictionary$Methods on NSMutableDictionary {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1dydpdi(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_forKeys_count_,
-      objects,
-      forKeys,
-      count,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1dydpdi(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_forKeys_count_,
+        objects,
+        forKeys,
+        count,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithObjectsAndKeys:
   NSMutableDictionary initWithObjectsAndKeys(objc.ObjCObject firstObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = firstObject.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjectsAndKeys_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjectsAndKeys_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableDictionary.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// removeObjectForKey:
   void removeObjectForKey(objc.ObjCObject aKey) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aKey.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_removeObjectForKey_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObjectForKey_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// setObject:forKey:
@@ -13046,12 +14640,14 @@ extension NSMutableDictionary$Methods on NSMutableDictionary {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject.ref;
     final _$$ref$2 = forKey.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_setObject_forKey_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_setObject_forKey_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 }
 
@@ -13061,54 +14657,62 @@ extension NSMutableDictionaryCreation on NSMutableDictionary {
   NSMutableDictionary? initWithContentsOfFile(NSString path) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfURL:
   NSMutableDictionary? initWithContentsOfURL(NSURL url) {
     final _$$ref = object$.ref;
     final _$$ref$1 = url.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableDictionary.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// dictionaryWithContentsOfFile:
   static NSMutableDictionary? dictionaryWithContentsOfFile(NSString path) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableDictionary,
-      _sel_dictionaryWithContentsOfFile_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableDictionary,
+        _sel_dictionaryWithContentsOfFile_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dictionaryWithContentsOfURL:
   static NSMutableDictionary? dictionaryWithContentsOfURL(NSURL url) {
     final _$$ref = url.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableDictionary,
-      _sel_dictionaryWithContentsOfURL_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableDictionary,
+        _sel_dictionaryWithContentsOfURL_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -13140,58 +14744,75 @@ extension type NSMutableIndexSet._(objc.ObjCObject object$)
 
   /// alloc
   static NSMutableIndexSet alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableIndexSet, _sel_alloc);
-    return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableIndexSet, _sel_alloc);
+      return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSMutableIndexSet allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSMutableIndexSet,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSMutableIndexSet,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// indexSet
   static NSMutableIndexSet indexSet() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableIndexSet, _sel_indexSet);
-    return NSMutableIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSMutableIndexSet,
+        _sel_indexSet,
+      );
+      return NSMutableIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexSetWithIndex:
   static NSMutableIndexSet indexSetWithIndex(DartNSUInteger value) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSMutableIndexSet,
-      _sel_indexSetWithIndex_,
-      value,
-    );
-    return NSMutableIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSMutableIndexSet,
+        _sel_indexSetWithIndex_,
+        value,
+      );
+      return NSMutableIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// indexSetWithIndexesInRange:
   static NSMutableIndexSet indexSetWithIndexesInRange(NSRange range) {
-    final $ret = _objc_msgSend_1k1o1s7(
-      _class_NSMutableIndexSet,
-      _sel_indexSetWithIndexesInRange_,
-      range,
-    );
-    return NSMutableIndexSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _class_NSMutableIndexSet,
+        _sel_indexSetWithIndexesInRange_,
+        range,
+      );
+      return NSMutableIndexSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSMutableIndexSet new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableIndexSet, _sel_new);
-    return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableIndexSet, _sel_new);
+      return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_NSMutableIndexSet,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSMutableIndexSet,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSMutableIndexSet constructed with the default `new` method.
@@ -13202,20 +14823,26 @@ extension NSMutableIndexSet$Methods on NSMutableIndexSet {
   /// addIndex:
   void addIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_addIndex_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_addIndex_, value);
+    });
   }
 
   /// addIndexes:
   void addIndexes(NSIndexSet indexSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexSet.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addIndexes_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addIndexes_, _$$ref$1.pointer);
+    });
   }
 
   /// addIndexesInRange:
   void addIndexesInRange(NSRange range) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_addIndexesInRange_, range);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_addIndexesInRange_, range);
+    });
   }
 
   /// init
@@ -13226,95 +14853,119 @@ extension NSMutableIndexSet$Methods on NSMutableIndexSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSMutableIndexSet? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithIndex:
   NSMutableIndexSet initWithIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithIndex_,
-      value,
-    );
-    return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithIndex_,
+        value,
+      );
+      return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithIndexSet:
   NSMutableIndexSet initWithIndexSet(NSIndexSet indexSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexSet.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithIndexSet_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithIndexSet_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithIndexesInRange:
   NSMutableIndexSet initWithIndexesInRange(NSRange range) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1k1o1s7(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithIndexesInRange_,
-      range,
-    );
-    return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithIndexesInRange_,
+        range,
+      );
+      return NSMutableIndexSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// removeAllIndexes
   void removeAllIndexes() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllIndexes);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllIndexes);
+    });
   }
 
   /// removeIndex:
   void removeIndex(DartNSUInteger value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_removeIndex_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_removeIndex_, value);
+    });
   }
 
   /// removeIndexes:
   void removeIndexes(NSIndexSet indexSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = indexSet.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_removeIndexes_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeIndexes_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// removeIndexesInRange:
   void removeIndexesInRange(NSRange range) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_removeIndexesInRange_, range);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1e3pm0z(_$$ref.pointer, _sel_removeIndexesInRange_, range);
+    });
   }
 
   /// shiftIndexesStartingAtIndex:by:
   void shiftIndexesStartingAtIndex(DartNSUInteger index, {required int by}) {
     final _$$ref = object$.ref;
-    _objc_msgSend_otx1t4(
-      _$$ref.pointer,
-      _sel_shiftIndexesStartingAtIndex_by_,
-      index,
-      by,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_otx1t4(
+        _$$ref.pointer,
+        _sel_shiftIndexesStartingAtIndex_by_,
+        index,
+        by,
+      );
+    });
   }
 }
 
@@ -13356,24 +15007,45 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
 
   /// alloc
   static NSMutableOrderedSet alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableOrderedSet, _sel_alloc);
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSMutableOrderedSet,
+        _sel_alloc,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static NSMutableOrderedSet allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSMutableOrderedSet,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSMutableOrderedSet,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static NSMutableOrderedSet new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableOrderedSet, _sel_new);
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableOrderedSet, _sel_new);
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// orderedSet
@@ -13383,11 +15055,13 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSet,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSet,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithArray:
@@ -13398,12 +15072,14 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithArray_,
-      _$$ref.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithArray_,
+        _$$ref.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithArray:range:copyItems:
@@ -13418,14 +15094,16 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_w9bq5x(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithArray_range_copyItems_,
-      _$$ref.pointer,
-      range,
-      copyItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_w9bq5x(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithArray_range_copyItems_,
+        _$$ref.pointer,
+        range,
+        copyItems,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithCapacity:
@@ -13435,12 +15113,14 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithCapacity_,
-      numItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithCapacity_,
+        numItems,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithObject:
@@ -13451,12 +15131,14 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithObject_,
-      _$$ref.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithObject_,
+        _$$ref.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithObjects:
@@ -13467,12 +15149,14 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithObjects_,
-      _$$ref.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithObjects_,
+        _$$ref.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithObjects:count:
@@ -13485,13 +15169,15 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_zmbtbd(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithOrderedSet:
@@ -13502,12 +15188,14 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithOrderedSet_,
-      _$$ref.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithOrderedSet_,
+        _$$ref.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithOrderedSet:range:copyItems:
@@ -13522,14 +15210,16 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_w9bq5x(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithOrderedSet_range_copyItems_,
-      _$$ref.pointer,
-      range,
-      copyItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_w9bq5x(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithOrderedSet_range_copyItems_,
+        _$$ref.pointer,
+        range,
+        copyItems,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithSet:
@@ -13540,12 +15230,14 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithSet_,
-      _$$ref.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithSet_,
+        _$$ref.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithSet:copyItems:
@@ -13559,21 +15251,25 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _class_NSMutableOrderedSet,
-      _sel_orderedSetWithSet_copyItems_,
-      _$$ref.pointer,
-      copyItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _class_NSMutableOrderedSet,
+        _sel_orderedSetWithSet_copyItems_,
+        _$$ref.pointer,
+        copyItems,
+      );
+      return NSMutableOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_NSMutableOrderedSet,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSMutableOrderedSet,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSMutableOrderedSet constructed with the default `new` method.
@@ -13589,11 +15285,17 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithArray:
@@ -13605,12 +15307,18 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithArray:copyItems:
@@ -13622,13 +15330,19 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithArray:range:copyItems:
@@ -13644,14 +15358,20 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_w9bq5x(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_range_copyItems_,
-      _$$ref$1.pointer,
-      range,
-      copyItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_w9bq5x(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_range_copyItems_,
+        _$$ref$1.pointer,
+        range,
+        copyItems,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithCapacity:
@@ -13662,26 +15382,34 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCapacity_,
-      numItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCapacity_,
+        numItems,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithCoder:
   NSMutableOrderedSet? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObject:
@@ -13693,12 +15421,18 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObject_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObject_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithObjects:
@@ -13710,12 +15444,18 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithObjects:count:
@@ -13729,13 +15469,19 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_zmbtbd(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithOrderedSet:
@@ -13747,12 +15493,18 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithOrderedSet_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithOrderedSet_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithOrderedSet:copyItems:
@@ -13767,13 +15519,19 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithOrderedSet_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithOrderedSet_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithOrderedSet:range:copyItems:
@@ -13789,14 +15547,20 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_w9bq5x(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithOrderedSet_range_copyItems_,
-      _$$ref$1.pointer,
-      range,
-      copyItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_w9bq5x(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithOrderedSet_range_copyItems_,
+        _$$ref$1.pointer,
+        range,
+        copyItems,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithSet:
@@ -13808,12 +15572,18 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSet_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSet_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithSet:copyItems:
@@ -13825,13 +15595,19 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSet_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSMutableOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSet_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSMutableOrderedSet.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// insertObject:atIndex:
@@ -13843,12 +15619,14 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_djsa9o(
-      _$$ref.pointer,
-      _sel_insertObject_atIndex_,
-      _$$ref$1.pointer,
-      atIndex,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_djsa9o(
+        _$$ref.pointer,
+        _sel_insertObject_atIndex_,
+        _$$ref$1.pointer,
+        atIndex,
+      );
+    });
   }
 
   /// removeObjectAtIndex:
@@ -13859,7 +15637,9 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_removeObjectAtIndex_, idx);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_removeObjectAtIndex_, idx);
+    });
   }
 
   /// replaceObjectAtIndex:withObject:
@@ -13874,12 +15654,14 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1gypgok(
-      _$$ref.pointer,
-      _sel_replaceObjectAtIndex_withObject_,
-      idx,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1gypgok(
+        _$$ref.pointer,
+        _sel_replaceObjectAtIndex_withObject_,
+        idx,
+        _$$ref$1.pointer,
+      );
+    });
   }
 }
 
@@ -13921,73 +15703,89 @@ extension type NSMutableSet._(objc.ObjCObject object$)
 
   /// alloc
   static NSMutableSet alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableSet, _sel_alloc);
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableSet, _sel_alloc);
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSMutableSet allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSMutableSet,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSMutableSet,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSMutableSet new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableSet, _sel_new);
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableSet, _sel_new);
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// set
   static NSMutableSet set() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableSet, _sel_set);
-    return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableSet, _sel_set);
+      return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithArray:
   static NSMutableSet setWithArray(NSArray array) {
     final _$$ref = array.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableSet,
-      _sel_setWithArray_,
-      _$$ref.pointer,
-    );
-    return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableSet,
+        _sel_setWithArray_,
+        _$$ref.pointer,
+      );
+      return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithCapacity:
   static NSMutableSet setWithCapacity(DartNSUInteger numItems) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSMutableSet,
-      _sel_setWithCapacity_,
-      numItems,
-    );
-    return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSMutableSet,
+        _sel_setWithCapacity_,
+        numItems,
+      );
+      return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithObject:
   static NSMutableSet setWithObject(objc.ObjCObject object) {
     final _$$ref = object.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableSet,
-      _sel_setWithObject_,
-      _$$ref.pointer,
-    );
-    return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableSet,
+        _sel_setWithObject_,
+        _$$ref.pointer,
+      );
+      return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithObjects:
   static NSMutableSet setWithObjects(objc.ObjCObject firstObj) {
     final _$$ref = firstObj.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableSet,
-      _sel_setWithObjects_,
-      _$$ref.pointer,
-    );
-    return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableSet,
+        _sel_setWithObjects_,
+        _$$ref.pointer,
+      );
+      return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithObjects:count:
@@ -13995,29 +15793,38 @@ extension type NSMutableSet._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> objects, {
     required DartNSUInteger count,
   }) {
-    final $ret = _objc_msgSend_zmbtbd(
-      _class_NSMutableSet,
-      _sel_setWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _class_NSMutableSet,
+        _sel_setWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithSet:
   static NSMutableSet setWithSet(NSSet set) {
     final _$$ref = set.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableSet,
-      _sel_setWithSet_,
-      _$$ref.pointer,
-    );
-    return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableSet,
+        _sel_setWithSet_,
+        _$$ref.pointer,
+      );
+      return NSMutableSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSMutableSet, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSMutableSet,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSMutableSet constructed with the default `new` method.
@@ -14029,7 +15836,9 @@ extension NSMutableSet$Methods on NSMutableSet {
   void addObject(objc.ObjCObject object) {
     final _$$ref = object$.ref;
     final _$$ref$1 = object.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addObject_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addObject_, _$$ref$1.pointer);
+    });
   }
 
   /// init
@@ -14040,60 +15849,70 @@ extension NSMutableSet$Methods on NSMutableSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:
   NSMutableSet initWithArray(NSArray array) {
     final _$$ref = object$.ref;
     final _$$ref$1 = array.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCapacity:
   NSMutableSet initWithCapacity(DartNSUInteger numItems) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCapacity_,
-      numItems,
-    );
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCapacity_,
+        numItems,
+      );
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSMutableSet? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:
   NSMutableSet initWithObjects(objc.ObjCObject firstObj) {
     final _$$ref = object$.ref;
     final _$$ref$1 = firstObj.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:count:
@@ -14102,45 +15921,57 @@ extension NSMutableSet$Methods on NSMutableSet {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_zmbtbd(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithSet:
   NSMutableSet initWithSet(NSSet set) {
     final _$$ref = object$.ref;
     final _$$ref$1 = set.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSet_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSet_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithSet:copyItems:
   NSMutableSet initWithSet$1(NSSet set, {required bool copyItems}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = set.ref;
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSet_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSet_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSMutableSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// removeObject:
   void removeObject(objc.ObjCObject object) {
     final _$$ref = object$.ref;
     final _$$ref$1 = object.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_removeObject_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 }
 
@@ -14175,29 +16006,35 @@ extension type NSMutableString._(objc.ObjCObject object$)
 
   /// alloc
   static NSMutableString alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableString, _sel_alloc);
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableString, _sel_alloc);
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSMutableString allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSMutableString,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSMutableString,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// localizedStringWithFormat:
   static NSMutableString localizedStringWithFormat(NSString format) {
     final _$$ref = format.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableString,
-      _sel_localizedStringWithFormat_,
-      _$$ref.pointer,
-    );
-    return NSMutableString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableString,
+        _sel_localizedStringWithFormat_,
+        _$$ref.pointer,
+      );
+      return NSMutableString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedStringWithValidatedFormat:validFormatSpecifiers:error:
@@ -14214,17 +16051,19 @@ extension type NSMutableString._(objc.ObjCObject object$)
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1pnyuds(
-        _class_NSMutableString,
-        _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
-        _$$ref.pointer,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1pnyuds(
+          _class_NSMutableString,
+          _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
+          _$$ref.pointer,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14232,14 +16071,18 @@ extension type NSMutableString._(objc.ObjCObject object$)
 
   /// new
   static NSMutableString new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableString, _sel_new);
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableString, _sel_new);
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// string
   static NSMutableString string() {
-    final $ret = _objc_msgSend_151sglz(_class_NSMutableString, _sel_string);
-    return NSMutableString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSMutableString, _sel_string);
+      return NSMutableString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithCString:encoding:
@@ -14247,15 +16090,17 @@ extension type NSMutableString._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Char> cString, {
     required DartNSUInteger encoding,
   }) {
-    final $ret = _objc_msgSend_erqryg(
-      _class_NSMutableString,
-      _sel_stringWithCString_encoding_,
-      cString,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_erqryg(
+        _class_NSMutableString,
+        _sel_stringWithCString_encoding_,
+        cString,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithCharacters:length:
@@ -14263,13 +16108,15 @@ extension type NSMutableString._(objc.ObjCObject object$)
     ffi.Pointer<ffi.UnsignedShort> characters, {
     required DartNSUInteger length,
   }) {
-    final $ret = _objc_msgSend_9x4k8x(
-      _class_NSMutableString,
-      _sel_stringWithCharacters_length_,
-      characters,
-      length,
-    );
-    return NSMutableString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_9x4k8x(
+        _class_NSMutableString,
+        _sel_stringWithCharacters_length_,
+        characters,
+        length,
+      );
+      return NSMutableString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithContentsOfFile:encoding:error:
@@ -14280,17 +16127,19 @@ extension type NSMutableString._(objc.ObjCObject object$)
     final _$$ref = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1nomli1(
-        _class_NSMutableString,
-        _sel_stringWithContentsOfFile_encoding_error_,
-        _$$ref.pointer,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1nomli1(
+          _class_NSMutableString,
+          _sel_stringWithContentsOfFile_encoding_error_,
+          _$$ref.pointer,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14304,17 +16153,19 @@ extension type NSMutableString._(objc.ObjCObject object$)
     final _$$ref = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1alewu7(
-        _class_NSMutableString,
-        _sel_stringWithContentsOfFile_usedEncoding_error_,
-        _$$ref.pointer,
-        usedEncoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1alewu7(
+          _class_NSMutableString,
+          _sel_stringWithContentsOfFile_usedEncoding_error_,
+          _$$ref.pointer,
+          usedEncoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14328,17 +16179,19 @@ extension type NSMutableString._(objc.ObjCObject object$)
     final _$$ref = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1nomli1(
-        _class_NSMutableString,
-        _sel_stringWithContentsOfURL_encoding_error_,
-        _$$ref.pointer,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1nomli1(
+          _class_NSMutableString,
+          _sel_stringWithContentsOfURL_encoding_error_,
+          _$$ref.pointer,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14352,17 +16205,19 @@ extension type NSMutableString._(objc.ObjCObject object$)
     final _$$ref = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1alewu7(
-        _class_NSMutableString,
-        _sel_stringWithContentsOfURL_usedEncoding_error_,
-        _$$ref.pointer,
-        usedEncoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1alewu7(
+          _class_NSMutableString,
+          _sel_stringWithContentsOfURL_usedEncoding_error_,
+          _$$ref.pointer,
+          usedEncoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14371,37 +16226,43 @@ extension type NSMutableString._(objc.ObjCObject object$)
   /// stringWithFormat:
   static NSMutableString stringWithFormat(NSString format) {
     final _$$ref = format.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableString,
-      _sel_stringWithFormat_,
-      _$$ref.pointer,
-    );
-    return NSMutableString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableString,
+        _sel_stringWithFormat_,
+        _$$ref.pointer,
+      );
+      return NSMutableString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithString:
   static NSMutableString stringWithString(NSString string) {
     final _$$ref = string.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSMutableString,
-      _sel_stringWithString_,
-      _$$ref.pointer,
-    );
-    return NSMutableString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSMutableString,
+        _sel_stringWithString_,
+        _$$ref.pointer,
+      );
+      return NSMutableString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithUTF8String:
   static NSMutableString? stringWithUTF8String(
     ffi.Pointer<ffi.Char> nullTerminatedCString,
   ) {
-    final $ret = _objc_msgSend_56zxyn(
-      _class_NSMutableString,
-      _sel_stringWithUTF8String_,
-      nullTerminatedCString,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_56zxyn(
+        _class_NSMutableString,
+        _sel_stringWithUTF8String_,
+        nullTerminatedCString,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithValidatedFormat:validFormatSpecifiers:error:
@@ -14418,17 +16279,19 @@ extension type NSMutableString._(objc.ObjCObject object$)
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1pnyuds(
-        _class_NSMutableString,
-        _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
-        _$$ref.pointer,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1pnyuds(
+          _class_NSMutableString,
+          _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
+          _$$ref.pointer,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14436,10 +16299,12 @@ extension type NSMutableString._(objc.ObjCObject object$)
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_NSMutableString,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSMutableString,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSMutableString constructed with the default `new` method.
@@ -14455,11 +16320,13 @@ extension NSMutableString$Methods on NSMutableString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytes:length:encoding:
@@ -14469,16 +16336,18 @@ extension NSMutableString$Methods on NSMutableString {
     required DartNSUInteger encoding,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_9b3h4v(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytes_length_encoding_,
-      bytes,
-      length,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_9b3h4v(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytes_length_encoding_,
+        bytes,
+        length,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:encoding:deallocator:
@@ -14491,17 +16360,19 @@ extension NSMutableString$Methods on NSMutableString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = deallocator?.ref;
-    final $ret = _objc_msgSend_1lbgrac(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_encoding_deallocator_,
-      bytes,
-      length,
-      encoding,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1lbgrac(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_encoding_deallocator_,
+        bytes,
+        length,
+        encoding,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:encoding:freeWhenDone:
@@ -14512,17 +16383,19 @@ extension NSMutableString$Methods on NSMutableString {
     required bool freeWhenDone,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_k4j8m3(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_encoding_freeWhenDone_,
-      bytes,
-      length,
-      encoding,
-      freeWhenDone,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_k4j8m3(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_encoding_freeWhenDone_,
+        bytes,
+        length,
+        encoding,
+        freeWhenDone,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCString:encoding:
@@ -14531,15 +16404,17 @@ extension NSMutableString$Methods on NSMutableString {
     required DartNSUInteger encoding,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_erqryg(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCString_encoding_,
-      nullTerminatedCString,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_erqryg(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCString_encoding_,
+        nullTerminatedCString,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCharacters:length:
@@ -14548,13 +16423,15 @@ extension NSMutableString$Methods on NSMutableString {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_9x4k8x(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCharacters_length_,
-      characters,
-      length,
-    );
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_9x4k8x(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCharacters_length_,
+        characters,
+        length,
+      );
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCharactersNoCopy:length:deallocator:
@@ -14568,14 +16445,16 @@ extension NSMutableString$Methods on NSMutableString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = deallocator?.ref;
-    final $ret = _objc_msgSend_talwei(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCharactersNoCopy_length_deallocator_,
-      chars,
-      length,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_talwei(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCharactersNoCopy_length_deallocator_,
+        chars,
+        length,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCharactersNoCopy:length:freeWhenDone:
@@ -14585,28 +16464,32 @@ extension NSMutableString$Methods on NSMutableString {
     required bool freeWhenDone,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_lh0jh5(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCharactersNoCopy_length_freeWhenDone_,
-      characters,
-      length,
-      freeWhenDone,
-    );
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_lh0jh5(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCharactersNoCopy_length_freeWhenDone_,
+        characters,
+        length,
+        freeWhenDone,
+      );
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSMutableString? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfFile:encoding:error:
@@ -14618,17 +16501,19 @@ extension NSMutableString$Methods on NSMutableString {
     final _$$ref$1 = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1nomli1(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfFile_encoding_error_,
-        _$$ref$1.pointer,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1nomli1(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfFile_encoding_error_,
+          _$$ref$1.pointer,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14643,17 +16528,19 @@ extension NSMutableString$Methods on NSMutableString {
     final _$$ref$1 = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1alewu7(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfFile_usedEncoding_error_,
-        _$$ref$1.pointer,
-        usedEncoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1alewu7(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfFile_usedEncoding_error_,
+          _$$ref$1.pointer,
+          usedEncoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14668,17 +16555,19 @@ extension NSMutableString$Methods on NSMutableString {
     final _$$ref$1 = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1nomli1(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfURL_encoding_error_,
-        _$$ref$1.pointer,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1nomli1(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfURL_encoding_error_,
+          _$$ref$1.pointer,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14693,17 +16582,19 @@ extension NSMutableString$Methods on NSMutableString {
     final _$$ref$1 = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1alewu7(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfURL_usedEncoding_error_,
-        _$$ref$1.pointer,
-        usedEncoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1alewu7(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfURL_usedEncoding_error_,
+          _$$ref$1.pointer,
+          usedEncoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14716,27 +16607,31 @@ extension NSMutableString$Methods on NSMutableString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    final $ret = _objc_msgSend_1k4kd9s(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithData_encoding_,
-      _$$ref$1.pointer,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k4kd9s(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithData_encoding_,
+        _$$ref$1.pointer,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFormat:
   NSMutableString initWithFormat(NSString format) {
     final _$$ref = object$.ref;
     final _$$ref$1 = format.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFormat_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFormat_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFormat:locale:
@@ -14744,25 +16639,29 @@ extension NSMutableString$Methods on NSMutableString {
     final _$$ref = object$.ref;
     final _$$ref$1 = format.ref;
     final _$$ref$2 = locale?.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFormat_locale_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFormat_locale_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithString:
   NSMutableString initWithString(NSString aString) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aString.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithString_,
-      _$$ref$1.pointer,
-    );
-    return NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithString_,
+        _$$ref$1.pointer,
+      );
+      return NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithUTF8String:
@@ -14770,14 +16669,16 @@ extension NSMutableString$Methods on NSMutableString {
     ffi.Pointer<ffi.Char> nullTerminatedCString,
   ) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_56zxyn(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithUTF8String_,
-      nullTerminatedCString,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_56zxyn(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithUTF8String_,
+        nullTerminatedCString,
+      );
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:error:
@@ -14798,17 +16699,19 @@ extension NSMutableString$Methods on NSMutableString {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1pnyuds(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
-        _$$ref$1.pointer,
-        _$$ref$2.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1pnyuds(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
+          _$$ref$1.pointer,
+          _$$ref$2.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14834,18 +16737,20 @@ extension NSMutableString$Methods on NSMutableString {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1k0ezzm(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
-        _$$ref$1.pointer,
-        _$$ref$2.pointer,
-        _$$ref$3?.pointer ?? ffi.nullptr,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSMutableString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1k0ezzm(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
+          _$$ref$1.pointer,
+          _$$ref$2.pointer,
+          _$$ref$3?.pointer ?? ffi.nullptr,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSMutableString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -14855,12 +16760,14 @@ extension NSMutableString$Methods on NSMutableString {
   void replaceCharactersInRange(NSRange range, {required NSString withString}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withString.ref;
-    _objc_msgSend_1tv4uax(
-      _$$ref.pointer,
-      _sel_replaceCharactersInRange_withString_,
-      range,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1tv4uax(
+        _$$ref.pointer,
+        _sel_replaceCharactersInRange_withString_,
+        range,
+        _$$ref$1.pointer,
+      );
+    });
   }
 }
 
@@ -14892,24 +16799,30 @@ extension type NSNotification._(objc.ObjCObject object$)
 
   /// alloc
   static NSNotification alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSNotification, _sel_alloc);
-    return NSNotification.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSNotification, _sel_alloc);
+      return NSNotification.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSNotification allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSNotification,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSNotification.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSNotification,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSNotification.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSNotification new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSNotification, _sel_new);
-    return NSNotification.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSNotification, _sel_new);
+      return NSNotification.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// notificationWithName:object:
@@ -14919,13 +16832,15 @@ extension type NSNotification._(objc.ObjCObject object$)
   }) {
     final _$$ref = aName.ref;
     final _$$ref$1 = object?.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSNotification,
-      _sel_notificationWithName_object_,
-      _$$ref.pointer,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSNotification.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSNotification,
+        _sel_notificationWithName_object_,
+        _$$ref.pointer,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSNotification.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// notificationWithName:object:userInfo:
@@ -14937,14 +16852,16 @@ extension type NSNotification._(objc.ObjCObject object$)
     final _$$ref = aName.ref;
     final _$$ref$1 = object?.ref;
     final _$$ref$2 = userInfo?.ref;
-    final $ret = _objc_msgSend_11spmsz(
-      _class_NSNotification,
-      _sel_notificationWithName_object_userInfo_,
-      _$$ref.pointer,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSNotification.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _class_NSNotification,
+        _sel_notificationWithName_object_userInfo_,
+        _$$ref.pointer,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSNotification.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NSNotification constructed with the default `new` method.
@@ -14956,35 +16873,41 @@ extension NSNotification$Methods on NSNotification {
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
   NSNotification init() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSNotification.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSNotification.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSNotification? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSNotification.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSNotification.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithName:object:userInfo:
@@ -15002,39 +16925,47 @@ extension NSNotification$Methods on NSNotification {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_11spmsz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithName_object_userInfo_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
-    return NSNotification.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithName_object_userInfo_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+      return NSNotification.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// name
   NSString get name {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// object
   objc.ObjCObject? get object {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_object);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_object);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// userInfo
   NSDictionary? get userInfo {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
-    return $ret.address == 0
-        ? null
-        : NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
+      return $ret.address == 0
+          ? null
+          : NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -15069,35 +17000,45 @@ extension type NSNull._(objc.ObjCObject object$)
 
   /// alloc
   static NSNull alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSNull, _sel_alloc);
-    return NSNull.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSNull, _sel_alloc);
+      return NSNull.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSNull allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSNull,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSNull.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSNull,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSNull.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSNull new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSNull, _sel_new);
-    return NSNull.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSNull, _sel_new);
+      return NSNull.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// null
   static NSNull null$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSNull, _sel_null);
-    return NSNull.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSNull, _sel_null);
+      return NSNull.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSNull, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSNull, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSNull constructed with the default `new` method.
@@ -15109,11 +17050,13 @@ extension NSNull$Methods on NSNull {
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -15124,25 +17067,29 @@ extension NSNull$Methods on NSNull {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSNull.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSNull.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSNull? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSNull.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSNull.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -15174,29 +17121,37 @@ extension type NSNumber._(objc.ObjCObject object$)
 
   /// alloc
   static NSNumber alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSNumber, _sel_alloc);
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSNumber, _sel_alloc);
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSNumber allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSNumber,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSNumber,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSNumber new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSNumber, _sel_new);
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSNumber, _sel_new);
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSNumber, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSNumber, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSNumber constructed with the default `new` method.
@@ -15207,53 +17162,65 @@ extension NSNumber$Methods on NSNumber {
   /// boolValue
   bool get boolValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_boolValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_boolValue);
+    });
   }
 
   /// charValue
   int get charValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xmlz1t(_$$ref.pointer, _sel_charValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xmlz1t(_$$ref.pointer, _sel_charValue);
+    });
   }
 
   /// compare:
   NSComparisonResult compare(NSNumber otherNumber) {
     final _$$ref = object$.ref;
     final _$$ref$1 = otherNumber.ref;
-    final $ret = _objc_msgSend_1ym6zyw(
-      _$$ref.pointer,
-      _sel_compare_,
-      _$$ref$1.pointer,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ym6zyw(
+        _$$ref.pointer,
+        _sel_compare_,
+        _$$ref$1.pointer,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// descriptionWithLocale:
   NSString descriptionWithLocale(objc.ObjCObject? locale) {
     final _$$ref = object$.ref;
     final _$$ref$1 = locale?.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_descriptionWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_descriptionWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// doubleValue
   double get doubleValue {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_doubleValue)
-        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_doubleValue);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_doubleValue)
+          : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_doubleValue);
+    });
   }
 
   /// floatValue
   double get floatValue {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_2cgrxlFpret(_$$ref.pointer, _sel_floatValue)
-        : _objc_msgSend_2cgrxl(_$$ref.pointer, _sel_floatValue);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_2cgrxlFpret(_$$ref.pointer, _sel_floatValue)
+          : _objc_msgSend_2cgrxl(_$$ref.pointer, _sel_floatValue);
+    });
   }
 
   /// init
@@ -15264,22 +17231,26 @@ extension NSNumber$Methods on NSNumber {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBool:
   NSNumber initWithBool(bool value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1t6aok9(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBool_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1t6aok9(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBool_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytes:objCType:
@@ -15288,71 +17259,83 @@ extension NSNumber$Methods on NSNumber {
     required ffi.Pointer<ffi.Char> objCType,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_e9mncn(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytes_objCType_,
-      value,
-      objCType,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_e9mncn(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytes_objCType_,
+        value,
+        objCType,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithChar:
   NSNumber initWithChar(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_13mclwd(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithChar_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_13mclwd(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithChar_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSNumber? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithDouble:
   NSNumber initWithDouble(double value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_oa8mke(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithDouble_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithDouble_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFloat:
   NSNumber initWithFloat(double value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_et8cuh(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFloat_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_et8cuh(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFloat_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithInt:
   NSNumber initWithInt(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hvw5k(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithInt_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hvw5k(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithInt_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithInteger:
@@ -15363,67 +17346,79 @@ extension NSNumber$Methods on NSNumber {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_qugqlf(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithInteger_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_qugqlf(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithInteger_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithLong:
   NSNumber initWithLong(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_qugqlf(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithLong_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_qugqlf(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithLong_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithLongLong:
   NSNumber initWithLongLong(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_16f0drb(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithLongLong_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_16f0drb(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithLongLong_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithShort:
   NSNumber initWithShort(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_68x6r1(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithShort_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_68x6r1(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithShort_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithUnsignedChar:
   NSNumber initWithUnsignedChar(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_7uautw(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithUnsignedChar_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_7uautw(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithUnsignedChar_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithUnsignedInt:
   NSNumber initWithUnsignedInt(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_degb40(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithUnsignedInt_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_degb40(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithUnsignedInt_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithUnsignedInteger:
@@ -15434,51 +17429,61 @@ extension NSNumber$Methods on NSNumber {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithUnsignedInteger_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithUnsignedInteger_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithUnsignedLong:
   NSNumber initWithUnsignedLong(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithUnsignedLong_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithUnsignedLong_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithUnsignedLongLong:
   NSNumber initWithUnsignedLongLong(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1x2hskc(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithUnsignedLongLong_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1x2hskc(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithUnsignedLongLong_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithUnsignedShort:
   NSNumber initWithUnsignedShort(int value) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1njucl2(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithUnsignedShort_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1njucl2(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithUnsignedShort_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// intValue
   int get intValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_intValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_intValue);
+    });
   }
 
   /// integerValue
@@ -15489,55 +17494,71 @@ extension NSNumber$Methods on NSNumber {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_integerValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_integerValue);
+    });
   }
 
   /// isEqualToNumber:
   bool isEqualToNumber(NSNumber number) {
     final _$$ref = object$.ref;
     final _$$ref$1 = number.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToNumber_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToNumber_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// longLongValue
   int get longLongValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1k101e3(_$$ref.pointer, _sel_longLongValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1k101e3(_$$ref.pointer, _sel_longLongValue);
+    });
   }
 
   /// longValue
   int get longValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_longValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_longValue);
+    });
   }
 
   /// shortValue
   int get shortValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1jwityx(_$$ref.pointer, _sel_shortValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1jwityx(_$$ref.pointer, _sel_shortValue);
+    });
   }
 
   /// stringValue
   NSString get stringValue {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_stringValue);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_stringValue);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// unsignedCharValue
   int get unsignedCharValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1ko4qka(_$$ref.pointer, _sel_unsignedCharValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1ko4qka(_$$ref.pointer, _sel_unsignedCharValue);
+    });
   }
 
   /// unsignedIntValue
   int get unsignedIntValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_3pyzne(_$$ref.pointer, _sel_unsignedIntValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_3pyzne(_$$ref.pointer, _sel_unsignedIntValue);
+    });
   }
 
   /// unsignedIntegerValue
@@ -15548,25 +17569,33 @@ extension NSNumber$Methods on NSNumber {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_unsignedIntegerValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_unsignedIntegerValue);
+    });
   }
 
   /// unsignedLongLongValue
   int get unsignedLongLongValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1p4gbjy(_$$ref.pointer, _sel_unsignedLongLongValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1p4gbjy(_$$ref.pointer, _sel_unsignedLongLongValue);
+    });
   }
 
   /// unsignedLongValue
   int get unsignedLongValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_unsignedLongValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_unsignedLongValue);
+    });
   }
 
   /// unsignedShortValue
   int get unsignedShortValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_ud8gg(_$$ref.pointer, _sel_unsignedShortValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_ud8gg(_$$ref.pointer, _sel_unsignedShortValue);
+    });
   }
 }
 
@@ -15574,52 +17603,62 @@ extension NSNumber$Methods on NSNumber {
 extension NSNumberCreation on NSNumber {
   /// numberWithBool:
   static NSNumber numberWithBool(bool value) {
-    final $ret = _objc_msgSend_1t6aok9(
-      _class_NSNumber,
-      _sel_numberWithBool_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1t6aok9(
+        _class_NSNumber,
+        _sel_numberWithBool_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithChar:
   static NSNumber numberWithChar(int value) {
-    final $ret = _objc_msgSend_13mclwd(
-      _class_NSNumber,
-      _sel_numberWithChar_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_13mclwd(
+        _class_NSNumber,
+        _sel_numberWithChar_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithDouble:
   static NSNumber numberWithDouble(double value) {
-    final $ret = _objc_msgSend_oa8mke(
-      _class_NSNumber,
-      _sel_numberWithDouble_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_oa8mke(
+        _class_NSNumber,
+        _sel_numberWithDouble_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithFloat:
   static NSNumber numberWithFloat(double value) {
-    final $ret = _objc_msgSend_et8cuh(
-      _class_NSNumber,
-      _sel_numberWithFloat_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_et8cuh(
+        _class_NSNumber,
+        _sel_numberWithFloat_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithInt:
   static NSNumber numberWithInt(int value) {
-    final $ret = _objc_msgSend_14hvw5k(
-      _class_NSNumber,
-      _sel_numberWithInt_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hvw5k(
+        _class_NSNumber,
+        _sel_numberWithInt_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithInteger:
@@ -15629,62 +17668,74 @@ extension NSNumberCreation on NSNumber {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_qugqlf(
-      _class_NSNumber,
-      _sel_numberWithInteger_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_qugqlf(
+        _class_NSNumber,
+        _sel_numberWithInteger_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithLong:
   static NSNumber numberWithLong(int value) {
-    final $ret = _objc_msgSend_qugqlf(
-      _class_NSNumber,
-      _sel_numberWithLong_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_qugqlf(
+        _class_NSNumber,
+        _sel_numberWithLong_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithLongLong:
   static NSNumber numberWithLongLong(int value) {
-    final $ret = _objc_msgSend_16f0drb(
-      _class_NSNumber,
-      _sel_numberWithLongLong_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_16f0drb(
+        _class_NSNumber,
+        _sel_numberWithLongLong_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithShort:
   static NSNumber numberWithShort(int value) {
-    final $ret = _objc_msgSend_68x6r1(
-      _class_NSNumber,
-      _sel_numberWithShort_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_68x6r1(
+        _class_NSNumber,
+        _sel_numberWithShort_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithUnsignedChar:
   static NSNumber numberWithUnsignedChar(int value) {
-    final $ret = _objc_msgSend_7uautw(
-      _class_NSNumber,
-      _sel_numberWithUnsignedChar_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_7uautw(
+        _class_NSNumber,
+        _sel_numberWithUnsignedChar_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithUnsignedInt:
   static NSNumber numberWithUnsignedInt(int value) {
-    final $ret = _objc_msgSend_degb40(
-      _class_NSNumber,
-      _sel_numberWithUnsignedInt_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_degb40(
+        _class_NSNumber,
+        _sel_numberWithUnsignedInt_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithUnsignedInteger:
@@ -15694,42 +17745,50 @@ extension NSNumberCreation on NSNumber {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSNumber,
-      _sel_numberWithUnsignedInteger_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSNumber,
+        _sel_numberWithUnsignedInteger_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithUnsignedLong:
   static NSNumber numberWithUnsignedLong(int value) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSNumber,
-      _sel_numberWithUnsignedLong_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSNumber,
+        _sel_numberWithUnsignedLong_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithUnsignedLongLong:
   static NSNumber numberWithUnsignedLongLong(int value) {
-    final $ret = _objc_msgSend_1x2hskc(
-      _class_NSNumber,
-      _sel_numberWithUnsignedLongLong_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1x2hskc(
+        _class_NSNumber,
+        _sel_numberWithUnsignedLongLong_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// numberWithUnsignedShort:
   static NSNumber numberWithUnsignedShort(int value) {
-    final $ret = _objc_msgSend_1njucl2(
-      _class_NSNumber,
-      _sel_numberWithUnsignedShort_,
-      value,
-    );
-    return NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1njucl2(
+        _class_NSNumber,
+        _sel_numberWithUnsignedShort_,
+        value,
+      );
+      return NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -15738,7 +17797,9 @@ extension NSNumberIsBool on NSNumber {
   /// isBool
   bool get isBool {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isBool);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isBool);
+    });
   }
 }
 
@@ -15747,7 +17808,9 @@ extension NSNumberIsFloat on NSNumber {
   /// isFloat
   bool get isFloat {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFloat);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFloat);
+    });
   }
 }
 
@@ -15789,24 +17852,30 @@ extension type NSObject._(objc.ObjCObject object$)
 
   /// alloc
   static NSObject alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_alloc);
-    return NSObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_alloc);
+      return NSObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSObject allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSObject,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSObject,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// class
   static objc.ObjCObject class$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_class);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_class);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// conformsToProtocol:
@@ -15817,11 +17886,13 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _class_NSObject,
-      _sel_conformsToProtocol_,
-      _$$ref.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _class_NSObject,
+        _sel_conformsToProtocol_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// copyWithZone:
@@ -15831,12 +17902,14 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSObject,
-      _sel_copyWithZone_,
-      zone,
-    );
-    return objc.ObjCObject($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSObject,
+        _sel_copyWithZone_,
+        zone,
+      );
+      return objc.ObjCObject($ret, retain: false, release: true);
+    });
   }
 
   /// debugDescription
@@ -15846,8 +17919,13 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_debugDescription);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSObject,
+        _sel_debugDescription,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// description
@@ -15857,8 +17935,10 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// hash
@@ -15868,7 +17948,9 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_xw2lbc(_class_NSObject, _sel_hash);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_class_NSObject, _sel_hash);
+    });
   }
 
   /// initialize
@@ -15878,7 +17960,9 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    _objc_msgSend_1pl9qdv(_class_NSObject, _sel_initialize);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_class_NSObject, _sel_initialize);
+    });
   }
 
   /// instanceMethodForSelector:
@@ -15889,23 +17973,27 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_3cnxxu(
-      _class_NSObject,
-      _sel_instanceMethodForSelector_,
-      aSelector,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_3cnxxu(
+        _class_NSObject,
+        _sel_instanceMethodForSelector_,
+        aSelector,
+      );
+    });
   }
 
   /// instanceMethodSignatureForSelector:
   static NSMethodSignature instanceMethodSignatureForSelector(
     ffi.Pointer<objc.ObjCSelector> aSelector,
   ) {
-    final $ret = _objc_msgSend_3ctkt6(
-      _class_NSObject,
-      _sel_instanceMethodSignatureForSelector_,
-      aSelector,
-    );
-    return NSMethodSignature.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3ctkt6(
+        _class_NSObject,
+        _sel_instanceMethodSignatureForSelector_,
+        aSelector,
+      );
+      return NSMethodSignature.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// instancesRespondToSelector:
@@ -15917,11 +18005,13 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_1srf6wk(
-      _class_NSObject,
-      _sel_instancesRespondToSelector_,
-      aSelector,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1srf6wk(
+        _class_NSObject,
+        _sel_instancesRespondToSelector_,
+        aSelector,
+      );
+    });
   }
 
   /// isSubclassOfClass:
@@ -15932,11 +18022,13 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _class_NSObject,
-      _sel_isSubclassOfClass_,
-      _$$ref.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _class_NSObject,
+        _sel_isSubclassOfClass_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// load
@@ -15946,7 +18038,9 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    _objc_msgSend_1pl9qdv(_class_NSObject, _sel_load);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_class_NSObject, _sel_load);
+    });
   }
 
   /// mutableCopyWithZone:
@@ -15956,18 +18050,22 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSObject,
-      _sel_mutableCopyWithZone_,
-      zone,
-    );
-    return objc.ObjCObject($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSObject,
+        _sel_mutableCopyWithZone_,
+        zone,
+      );
+      return objc.ObjCObject($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSObject new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_new);
-    return NSObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_new);
+      return NSObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// resolveClassMethod:
@@ -15977,11 +18075,13 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_1srf6wk(
-      _class_NSObject,
-      _sel_resolveClassMethod_,
-      sel,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1srf6wk(
+        _class_NSObject,
+        _sel_resolveClassMethod_,
+        sel,
+      );
+    });
   }
 
   /// resolveInstanceMethod:
@@ -15991,11 +18091,13 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_1srf6wk(
-      _class_NSObject,
-      _sel_resolveInstanceMethod_,
-      sel,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1srf6wk(
+        _class_NSObject,
+        _sel_resolveInstanceMethod_,
+        sel,
+      );
+    });
   }
 
   /// superclass
@@ -16005,8 +18107,10 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_superclass);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSObject, _sel_superclass);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NSObject constructed with the default `new` method.
@@ -16022,14 +18126,18 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copy);
-    return objc.ObjCObject($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copy);
+      return objc.ObjCObject($ret, retain: false, release: true);
+    });
   }
 
   /// dealloc
   void dealloc() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    });
   }
 
   /// doesNotRecognizeSelector:
@@ -16040,22 +18148,26 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    _objc_msgSend_1d9e4oe(
-      _$$ref.pointer,
-      _sel_doesNotRecognizeSelector_,
-      aSelector,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1d9e4oe(
+        _$$ref.pointer,
+        _sel_doesNotRecognizeSelector_,
+        aSelector,
+      );
+    });
   }
 
   /// forwardInvocation:
   void forwardInvocation(NSInvocation anInvocation) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anInvocation.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_forwardInvocation_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_forwardInvocation_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// forwardingTargetForSelector:
@@ -16068,12 +18180,14 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_3ctkt6(
-      _$$ref.pointer,
-      _sel_forwardingTargetForSelector_,
-      aSelector,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3ctkt6(
+        _$$ref.pointer,
+        _sel_forwardingTargetForSelector_,
+        aSelector,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -16084,50 +18198,60 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// isEqual:
   bool isEqual(objc.ObjCObject object) {
     final _$$ref = object$.ref;
     final _$$ref$1 = object.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqual_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqual_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isKindOfClass:
   bool isKindOfClass(objc.ObjCObject aClass) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aClass.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isKindOfClass_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isKindOfClass_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isMemberOfClass:
   bool isMemberOfClass(objc.ObjCObject aClass) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aClass.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isMemberOfClass_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isMemberOfClass_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isProxy
   bool get isProxy {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isProxy);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isProxy);
+    });
   }
 
   /// methodForSelector:
@@ -16140,11 +18264,13 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_3cnxxu(
-      _$$ref.pointer,
-      _sel_methodForSelector_,
-      aSelector,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_3cnxxu(
+        _$$ref.pointer,
+        _sel_methodForSelector_,
+        aSelector,
+      );
+    });
   }
 
   /// methodSignatureForSelector:
@@ -16152,12 +18278,14 @@ extension NSObject$Methods on NSObject {
     ffi.Pointer<objc.ObjCSelector> aSelector,
   ) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3ctkt6(
-      _$$ref.pointer,
-      _sel_methodSignatureForSelector_,
-      aSelector,
-    );
-    return NSMethodSignature.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3ctkt6(
+        _$$ref.pointer,
+        _sel_methodSignatureForSelector_,
+        aSelector,
+      );
+      return NSMethodSignature.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// mutableCopy
@@ -16168,19 +18296,23 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_mutableCopy);
-    return objc.ObjCObject($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_mutableCopy);
+      return objc.ObjCObject($ret, retain: false, release: true);
+    });
   }
 
   /// performSelector:
   objc.ObjCObject performSelector(ffi.Pointer<objc.ObjCSelector> aSelector) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3ctkt6(
-      _$$ref.pointer,
-      _sel_performSelector_,
-      aSelector,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3ctkt6(
+        _$$ref.pointer,
+        _sel_performSelector_,
+        aSelector,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// performSelector:withObject:
@@ -16190,13 +18322,15 @@ extension NSObject$Methods on NSObject {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObject.ref;
-    final $ret = _objc_msgSend_gx50so(
-      _$$ref.pointer,
-      _sel_performSelector_withObject_,
-      aSelector,
-      _$$ref$1.pointer,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_gx50so(
+        _$$ref.pointer,
+        _sel_performSelector_withObject_,
+        aSelector,
+        _$$ref$1.pointer,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// performSelector:withObject:withObject:
@@ -16208,20 +18342,24 @@ extension NSObject$Methods on NSObject {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObject.ref;
     final _$$ref$2 = withObject$1.ref;
-    final $ret = _objc_msgSend_cfx8ce(
-      _$$ref.pointer,
-      _sel_performSelector_withObject_withObject_,
-      aSelector,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_cfx8ce(
+        _$$ref.pointer,
+        _sel_performSelector_withObject_withObject_,
+        aSelector,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// zone
   ffi.Pointer<NSZone> zone() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_sz90oi(_$$ref.pointer, _sel_zone);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_sz90oi(_$$ref.pointer, _sel_zone);
+    });
   }
 }
 
@@ -16252,26 +18390,32 @@ extension NSObjectProtocol$Methods on NSObjectProtocol {
   /// autorelease
   NSObjectProtocol autorelease() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_autorelease);
-    return NSObjectProtocol.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_autorelease);
+      return NSObjectProtocol.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// class
   objc.ObjCObject class$() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_class);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_class);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// conformsToProtocol:
   bool conformsToProtocol(Protocol aProtocol) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aProtocol.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_conformsToProtocol_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_conformsToProtocol_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// debugDescription
@@ -16283,71 +18427,87 @@ extension NSObjectProtocol$Methods on NSObjectProtocol {
         'debugDescription',
       );
     }
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_debugDescription);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_debugDescription);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// description
   NSString get description {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// hash
   DartNSUInteger get hash {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_hash);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_hash);
+    });
   }
 
   /// isEqual:
   bool isEqual(objc.ObjCObject object) {
     final _$$ref = object$.ref;
     final _$$ref$1 = object.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqual_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqual_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isKindOfClass:
   bool isKindOfClass(objc.ObjCObject aClass) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aClass.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isKindOfClass_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isKindOfClass_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isMemberOfClass:
   bool isMemberOfClass(objc.ObjCObject aClass) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aClass.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isMemberOfClass_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isMemberOfClass_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// isProxy
   bool isProxy() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isProxy);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isProxy);
+    });
   }
 
   /// performSelector:
   objc.ObjCObject performSelector(ffi.Pointer<objc.ObjCSelector> aSelector) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3ctkt6(
-      _$$ref.pointer,
-      _sel_performSelector_,
-      aSelector,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3ctkt6(
+        _$$ref.pointer,
+        _sel_performSelector_,
+        aSelector,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// performSelector:withObject:
@@ -16357,13 +18517,15 @@ extension NSObjectProtocol$Methods on NSObjectProtocol {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObject.ref;
-    final $ret = _objc_msgSend_gx50so(
-      _$$ref.pointer,
-      _sel_performSelector_withObject_,
-      aSelector,
-      _$$ref$1.pointer,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_gx50so(
+        _$$ref.pointer,
+        _sel_performSelector_withObject_,
+        aSelector,
+        _$$ref$1.pointer,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// performSelector:withObject:withObject:
@@ -16375,63 +18537,79 @@ extension NSObjectProtocol$Methods on NSObjectProtocol {
     final _$$ref = object$.ref;
     final _$$ref$1 = withObject.ref;
     final _$$ref$2 = withObject$1.ref;
-    final $ret = _objc_msgSend_cfx8ce(
-      _$$ref.pointer,
-      _sel_performSelector_withObject_withObject_,
-      aSelector,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_cfx8ce(
+        _$$ref.pointer,
+        _sel_performSelector_withObject_withObject_,
+        aSelector,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// release
   void release() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_release);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_release);
+    });
   }
 
   /// respondsToSelector:
   bool respondsToSelector(ffi.Pointer<objc.ObjCSelector> aSelector) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1srf6wk(
-      _$$ref.pointer,
-      _sel_respondsToSelector_,
-      aSelector,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1srf6wk(
+        _$$ref.pointer,
+        _sel_respondsToSelector_,
+        aSelector,
+      );
+    });
   }
 
   /// retain
   NSObjectProtocol retain() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_retain);
-    return NSObjectProtocol.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_retain);
+      return NSObjectProtocol.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// retainCount
   DartNSUInteger retainCount() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_retainCount);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_retainCount);
+    });
   }
 
   /// self
   NSObjectProtocol self() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_self);
-    return NSObjectProtocol.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_self);
+      return NSObjectProtocol.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// superclass
   objc.ObjCObject get superclass {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_superclass);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_superclass);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// zone
   ffi.Pointer<NSZone> zone() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_sz90oi(_$$ref.pointer, _sel_zone);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_sz90oi(_$$ref.pointer, _sel_zone);
+    });
   }
 }
 
@@ -17547,29 +19725,33 @@ extension type NSOrderedCollectionChange._(objc.ObjCObject object$)
 
   /// alloc
   static NSOrderedCollectionChange alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSOrderedCollectionChange,
-      _sel_alloc,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSOrderedCollectionChange,
+        _sel_alloc,
+      );
+      return NSOrderedCollectionChange.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static NSOrderedCollectionChange allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSOrderedCollectionChange,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSOrderedCollectionChange,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSOrderedCollectionChange.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// changeWithObject:type:index:
@@ -17587,18 +19769,20 @@ extension type NSOrderedCollectionChange._(objc.ObjCObject object$)
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_vbymrb(
-      _class_NSOrderedCollectionChange,
-      _sel_changeWithObject_type_index_,
-      _$$ref?.pointer ?? ffi.nullptr,
-      type.value,
-      index,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_vbymrb(
+        _class_NSOrderedCollectionChange,
+        _sel_changeWithObject_type_index_,
+        _$$ref?.pointer ?? ffi.nullptr,
+        type.value,
+        index,
+      );
+      return NSOrderedCollectionChange.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   /// changeWithObject:type:index:associatedIndex:
@@ -17617,32 +19801,36 @@ extension type NSOrderedCollectionChange._(objc.ObjCObject object$)
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_1egc1c(
-      _class_NSOrderedCollectionChange,
-      _sel_changeWithObject_type_index_associatedIndex_,
-      _$$ref?.pointer ?? ffi.nullptr,
-      type.value,
-      index,
-      associatedIndex,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1egc1c(
+        _class_NSOrderedCollectionChange,
+        _sel_changeWithObject_type_index_associatedIndex_,
+        _$$ref?.pointer ?? ffi.nullptr,
+        type.value,
+        index,
+        associatedIndex,
+      );
+      return NSOrderedCollectionChange.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   /// new
   static NSOrderedCollectionChange new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSOrderedCollectionChange,
-      _sel_new,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSOrderedCollectionChange,
+        _sel_new,
+      );
+      return NSOrderedCollectionChange.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of NSOrderedCollectionChange constructed with the default `new` method.
@@ -17659,7 +19847,9 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_associatedIndex);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_associatedIndex);
+    });
   }
 
   /// iOS: introduced 13.0.0
@@ -17671,8 +19861,10 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_hc8exi(_$$ref.pointer, _sel_changeType);
-    return NSCollectionChangeType.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_hc8exi(_$$ref.pointer, _sel_changeType);
+      return NSCollectionChangeType.fromValue($ret);
+    });
   }
 
   /// iOS: introduced 13.0.0
@@ -17684,7 +19876,9 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_index);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_index);
+    });
   }
 
   /// initWithObject:type:index:
@@ -17703,18 +19897,20 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_vbymrb(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObject_type_index_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      type.value,
-      index,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_vbymrb(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObject_type_index_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        type.value,
+        index,
+      );
+      return NSOrderedCollectionChange.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithObject:type:index:associatedIndex:
@@ -17734,19 +19930,21 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_1egc1c(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObject_type_index_associatedIndex_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      type.value,
-      index,
-      associatedIndex,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1egc1c(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObject_type_index_associatedIndex_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        type.value,
+        index,
+        associatedIndex,
+      );
+      return NSOrderedCollectionChange.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// iOS: introduced 13.0.0
@@ -17758,10 +19956,12 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_object);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_object);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -17806,42 +20006,48 @@ extension type NSOrderedCollectionDifference._(objc.ObjCObject object$)
 
   /// alloc
   static NSOrderedCollectionDifference alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSOrderedCollectionDifference,
-      _sel_alloc,
-    );
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSOrderedCollectionDifference,
+        _sel_alloc,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static NSOrderedCollectionDifference allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSOrderedCollectionDifference,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSOrderedCollectionDifference,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static NSOrderedCollectionDifference new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSOrderedCollectionDifference,
-      _sel_new,
-    );
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSOrderedCollectionDifference,
+        _sel_new,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of NSOrderedCollectionDifference constructed with the default `new` method.
@@ -17857,13 +20063,15 @@ extension NSOrderedCollectionDifference$Methods
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1b5ysjl(
-      _$$ref.pointer,
-      _sel_countByEnumeratingWithState_objects_count_,
-      state,
-      objects,
-      count,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1b5ysjl(
+        _$$ref.pointer,
+        _sel_countByEnumeratingWithState_objects_count_,
+        state,
+        objects,
+        count,
+      );
+    });
   }
 
   /// differenceByTransformingChangesWithBlock:
@@ -17883,16 +20091,18 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_nnxkei(
-      _$$ref.pointer,
-      _sel_differenceByTransformingChangesWithBlock_,
-      _$$ref$1.pointer,
-    );
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_nnxkei(
+        _$$ref.pointer,
+        _sel_differenceByTransformingChangesWithBlock_,
+        _$$ref$1.pointer,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   /// iOS: introduced 13.0.0
@@ -17904,7 +20114,9 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_hasChanges);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_hasChanges);
+    });
   }
 
   /// init
@@ -17915,15 +20127,17 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithChanges:
@@ -17938,16 +20152,18 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithChanges_,
-      _$$ref$1.pointer,
-    );
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithChanges_,
+        _$$ref$1.pointer,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:
@@ -17970,19 +20186,21 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_s92gih(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3.pointer,
-      _$$ref$4?.pointer ?? ffi.nullptr,
-    );
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_s92gih(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3.pointer,
+        _$$ref$4?.pointer ?? ffi.nullptr,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:additionalChanges:
@@ -18007,20 +20225,22 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_3cbdpb(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_additionalChanges_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3.pointer,
-      _$$ref$4?.pointer ?? ffi.nullptr,
-      _$$ref$5.pointer,
-    );
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3cbdpb(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_additionalChanges_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3.pointer,
+        _$$ref$4?.pointer ?? ffi.nullptr,
+        _$$ref$5.pointer,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// iOS: introduced 13.0.0
@@ -18032,8 +20252,10 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_insertions);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_insertions);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// inverseDifference
@@ -18047,12 +20269,17 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_inverseDifference);
-    return NSOrderedCollectionDifference.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_inverseDifference,
+      );
+      return NSOrderedCollectionDifference.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   /// iOS: introduced 13.0.0
@@ -18064,8 +20291,10 @@ extension NSOrderedCollectionDifference$Methods
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_removals);
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_removals);
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -18121,24 +20350,30 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
 
   /// alloc
   static NSOrderedSet alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSOrderedSet, _sel_alloc);
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSOrderedSet, _sel_alloc);
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSOrderedSet allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSOrderedSet,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSOrderedSet,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSOrderedSet new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSOrderedSet, _sel_new);
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSOrderedSet, _sel_new);
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// orderedSet
@@ -18148,8 +20383,10 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_class_NSOrderedSet, _sel_orderedSet);
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSOrderedSet, _sel_orderedSet);
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithArray:
@@ -18160,12 +20397,14 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithArray_,
-      _$$ref.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithArray_,
+        _$$ref.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithArray:range:copyItems:
@@ -18180,14 +20419,16 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_w9bq5x(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithArray_range_copyItems_,
-      _$$ref.pointer,
-      range,
-      copyItems,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_w9bq5x(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithArray_range_copyItems_,
+        _$$ref.pointer,
+        range,
+        copyItems,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithObject:
@@ -18198,12 +20439,14 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithObject_,
-      _$$ref.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithObject_,
+        _$$ref.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithObjects:
@@ -18214,12 +20457,14 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithObjects_,
-      _$$ref.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithObjects_,
+        _$$ref.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithObjects:count:
@@ -18232,13 +20477,15 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_zmbtbd(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithOrderedSet:
@@ -18249,12 +20496,14 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithOrderedSet_,
-      _$$ref.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithOrderedSet_,
+        _$$ref.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithOrderedSet:range:copyItems:
@@ -18269,14 +20518,16 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_w9bq5x(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithOrderedSet_range_copyItems_,
-      _$$ref.pointer,
-      range,
-      copyItems,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_w9bq5x(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithOrderedSet_range_copyItems_,
+        _$$ref.pointer,
+        range,
+        copyItems,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithSet:
@@ -18287,12 +20538,14 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithSet_,
-      _$$ref.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithSet_,
+        _$$ref.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// orderedSetWithSet:copyItems:
@@ -18306,18 +20559,25 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _class_NSOrderedSet,
-      _sel_orderedSetWithSet_copyItems_,
-      _$$ref.pointer,
-      copyItems,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _class_NSOrderedSet,
+        _sel_orderedSetWithSet_copyItems_,
+        _$$ref.pointer,
+        copyItems,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSOrderedSet, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_NSOrderedSet,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of NSOrderedSet constructed with the default `new` method.
@@ -18333,7 +20593,9 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    });
   }
 
   /// countByEnumeratingWithState:objects:count:
@@ -18343,24 +20605,28 @@ extension NSOrderedSet$Methods on NSOrderedSet {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1b5ysjl(
-      _$$ref.pointer,
-      _sel_countByEnumeratingWithState_objects_count_,
-      state,
-      objects,
-      count,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1b5ysjl(
+        _$$ref.pointer,
+        _sel_countByEnumeratingWithState_objects_count_,
+        state,
+        objects,
+        count,
+      );
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// indexOfObject:
@@ -18372,11 +20638,13 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_1vd1c5m(
-      _$$ref.pointer,
-      _sel_indexOfObject_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1vd1c5m(
+        _$$ref.pointer,
+        _sel_indexOfObject_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -18387,11 +20655,13 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:
@@ -18403,12 +20673,14 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_,
-      _$$ref$1.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_,
+        _$$ref$1.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:copyItems:
@@ -18420,13 +20692,15 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:range:copyItems:
@@ -18442,28 +20716,32 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_w9bq5x(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_range_copyItems_,
-      _$$ref$1.pointer,
-      range,
-      copyItems,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_w9bq5x(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_range_copyItems_,
+        _$$ref$1.pointer,
+        range,
+        copyItems,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSOrderedSet? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObject:
@@ -18475,12 +20753,14 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObject_,
-      _$$ref$1.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObject_,
+        _$$ref$1.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:
@@ -18492,12 +20772,14 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_,
-      _$$ref$1.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_,
+        _$$ref$1.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:count:
@@ -18511,13 +20793,15 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_zmbtbd(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithOrderedSet:
@@ -18529,12 +20813,14 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithOrderedSet_,
-      _$$ref$1.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithOrderedSet_,
+        _$$ref$1.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithOrderedSet:copyItems:
@@ -18549,13 +20835,15 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithOrderedSet_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithOrderedSet_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithOrderedSet:range:copyItems:
@@ -18571,14 +20859,16 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_w9bq5x(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithOrderedSet_range_copyItems_,
-      _$$ref$1.pointer,
-      range,
-      copyItems,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_w9bq5x(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithOrderedSet_range_copyItems_,
+        _$$ref$1.pointer,
+        range,
+        copyItems,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithSet:
@@ -18590,12 +20880,14 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSet_,
-      _$$ref$1.pointer,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSet_,
+        _$$ref$1.pointer,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithSet:copyItems:
@@ -18607,13 +20899,15 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSet_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSet_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSOrderedSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// objectAtIndex:
@@ -18624,12 +20918,14 @@ extension NSOrderedSet$Methods on NSOrderedSet {
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.pointer,
-      _sel_objectAtIndex_,
-      idx,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.pointer,
+        _sel_objectAtIndex_,
+        idx,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -18664,24 +20960,30 @@ extension type NSOutputStream._(objc.ObjCObject object$)
 
   /// alloc
   static NSOutputStream alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSOutputStream, _sel_alloc);
-    return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSOutputStream, _sel_alloc);
+      return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSOutputStream allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSOutputStream,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSOutputStream,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSOutputStream new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSOutputStream, _sel_new);
-    return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSOutputStream, _sel_new);
+      return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// outputStreamToBuffer:capacity:
@@ -18689,13 +20991,15 @@ extension type NSOutputStream._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Uint8> buffer, {
     required DartNSUInteger capacity,
   }) {
-    final $ret = _objc_msgSend_158ju31(
-      _class_NSOutputStream,
-      _sel_outputStreamToBuffer_capacity_,
-      buffer,
-      capacity,
-    );
-    return NSOutputStream.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_158ju31(
+        _class_NSOutputStream,
+        _sel_outputStreamToBuffer_capacity_,
+        buffer,
+        capacity,
+      );
+      return NSOutputStream.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// outputStreamToFileAtPath:append:
@@ -18704,22 +21008,26 @@ extension type NSOutputStream._(objc.ObjCObject object$)
     required bool append,
   }) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_17amj0z(
-      _class_NSOutputStream,
-      _sel_outputStreamToFileAtPath_append_,
-      _$$ref.pointer,
-      append,
-    );
-    return NSOutputStream.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _class_NSOutputStream,
+        _sel_outputStreamToFileAtPath_append_,
+        _$$ref.pointer,
+        append,
+      );
+      return NSOutputStream.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// outputStreamToMemory
   static NSOutputStream outputStreamToMemory() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSOutputStream,
-      _sel_outputStreamToMemory,
-    );
-    return NSOutputStream.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSOutputStream,
+        _sel_outputStreamToMemory,
+      );
+      return NSOutputStream.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// outputStreamWithURL:append:
@@ -18733,15 +21041,17 @@ extension type NSOutputStream._(objc.ObjCObject object$)
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _class_NSOutputStream,
-      _sel_outputStreamWithURL_append_,
-      _$$ref.pointer,
-      append,
-    );
-    return $ret.address == 0
-        ? null
-        : NSOutputStream.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _class_NSOutputStream,
+        _sel_outputStreamWithURL_append_,
+        _$$ref.pointer,
+        append,
+      );
+      return $ret.address == 0
+          ? null
+          : NSOutputStream.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NSOutputStream constructed with the default `new` method.
@@ -18752,7 +21062,9 @@ extension NSOutputStream$Methods on NSOutputStream {
   /// hasSpaceAvailable
   bool get hasSpaceAvailable {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_hasSpaceAvailable);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_hasSpaceAvailable);
+    });
   }
 
   /// init
@@ -18763,11 +21075,13 @@ extension NSOutputStream$Methods on NSOutputStream {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initToBuffer:capacity:
@@ -18776,38 +21090,44 @@ extension NSOutputStream$Methods on NSOutputStream {
     required DartNSUInteger capacity,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_158ju31(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initToBuffer_capacity_,
-      buffer,
-      capacity,
-    );
-    return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_158ju31(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initToBuffer_capacity_,
+        buffer,
+        capacity,
+      );
+      return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initToFileAtPath:append:
   NSOutputStream? initToFileAtPath(NSString path, {required bool append}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initToFileAtPath_append_,
-      _$$ref$1.pointer,
-      append,
-    );
-    return $ret.address == 0
-        ? null
-        : NSOutputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initToFileAtPath_append_,
+        _$$ref$1.pointer,
+        append,
+      );
+      return $ret.address == 0
+          ? null
+          : NSOutputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initToMemory
   NSOutputStream initToMemory() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initToMemory,
-    );
-    return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initToMemory,
+      );
+      return NSOutputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithURL:append:
@@ -18819,15 +21139,17 @@ extension NSOutputStream$Methods on NSOutputStream {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithURL_append_,
-      _$$ref$1.pointer,
-      append,
-    );
-    return $ret.address == 0
-        ? null
-        : NSOutputStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithURL_append_,
+        _$$ref$1.pointer,
+        append,
+      );
+      return $ret.address == 0
+          ? null
+          : NSOutputStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// write:maxLength:
@@ -18836,12 +21158,14 @@ extension NSOutputStream$Methods on NSOutputStream {
     required DartNSUInteger maxLength,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_11e9f5x(
-      _$$ref.pointer,
-      _sel_write_maxLength_,
-      buffer,
-      maxLength,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_11e9f5x(
+        _$$ref.pointer,
+        _sel_write_maxLength_,
+        buffer,
+        maxLength,
+      );
+    });
   }
 }
 
@@ -18876,30 +21200,38 @@ extension type NSPort._(objc.ObjCObject object$)
 
   /// alloc
   static NSPort alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSPort, _sel_alloc);
-    return NSPort.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSPort, _sel_alloc);
+      return NSPort.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSPort allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSPort,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSPort.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSPort,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSPort.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSPort new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSPort, _sel_new);
-    return NSPort.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSPort, _sel_new);
+      return NSPort.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// port
   static NSPort port() {
-    final $ret = _objc_msgSend_151sglz(_class_NSPort, _sel_port);
-    return NSPort.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSPort, _sel_port);
+      return NSPort.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NSPort constructed with the default `new` method.
@@ -18910,21 +21242,25 @@ extension NSPort$Methods on NSPort {
   /// delegate
   NSPortDelegate? delegate() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_delegate);
-    return $ret.address == 0
-        ? null
-        : NSPortDelegate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_delegate);
+      return $ret.address == 0
+          ? null
+          : NSPortDelegate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -18935,37 +21271,45 @@ extension NSPort$Methods on NSPort {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSPort.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSPort.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSPort? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSPort.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSPort.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// invalidate
   void invalidate() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_invalidate);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_invalidate);
+    });
   }
 
   /// isValid
   bool get isValid {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isValid);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isValid);
+    });
   }
 
   /// removeFromRunLoop:forMode:
@@ -18973,18 +21317,22 @@ extension NSPort$Methods on NSPort {
     final _$$ref = object$.ref;
     final _$$ref$1 = runLoop.ref;
     final _$$ref$2 = forMode.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_removeFromRunLoop_forMode_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_removeFromRunLoop_forMode_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// reservedSpaceLength
   DartNSUInteger get reservedSpaceLength {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_reservedSpaceLength);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_reservedSpaceLength);
+    });
   }
 
   /// scheduleInRunLoop:forMode:
@@ -18992,12 +21340,14 @@ extension NSPort$Methods on NSPort {
     final _$$ref = object$.ref;
     final _$$ref$1 = runLoop.ref;
     final _$$ref$2 = forMode.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_scheduleInRunLoop_forMode_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_scheduleInRunLoop_forMode_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// sendBeforeDate:components:from:reserved:
@@ -19011,14 +21361,16 @@ extension NSPort$Methods on NSPort {
     final _$$ref$1 = limitDate.ref;
     final _$$ref$2 = components?.ref;
     final _$$ref$3 = from?.ref;
-    return _objc_msgSend_1frfu5e(
-      _$$ref.pointer,
-      _sel_sendBeforeDate_components_from_reserved_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-      reserved,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1frfu5e(
+        _$$ref.pointer,
+        _sel_sendBeforeDate_components_from_reserved_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+        reserved,
+      );
+    });
   }
 
   /// sendBeforeDate:msgid:components:from:reserved:
@@ -19033,26 +21385,30 @@ extension NSPort$Methods on NSPort {
     final _$$ref$1 = limitDate.ref;
     final _$$ref$2 = components?.ref;
     final _$$ref$3 = from?.ref;
-    return _objc_msgSend_gupwtj(
-      _$$ref.pointer,
-      _sel_sendBeforeDate_msgid_components_from_reserved_,
-      _$$ref$1.pointer,
-      msgid,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-      reserved,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_gupwtj(
+        _$$ref.pointer,
+        _sel_sendBeforeDate_msgid_components_from_reserved_,
+        _$$ref$1.pointer,
+        msgid,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+        reserved,
+      );
+    });
   }
 
   /// setDelegate:
   void setDelegate(NSPortDelegate? anObject) {
     final _$$ref = object$.ref;
     final _$$ref$1 = anObject?.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setDelegate_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setDelegate_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 }
 
@@ -19090,11 +21446,13 @@ extension NSPortDelegate$Methods on NSPortDelegate {
         'handlePortMessage:',
       );
     }
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_handlePortMessage_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_handlePortMessage_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 }
 
@@ -19279,24 +21637,30 @@ extension type NSPortMessage._(objc.ObjCObject object$)
 
   /// alloc
   static NSPortMessage alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSPortMessage, _sel_alloc);
-    return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSPortMessage, _sel_alloc);
+      return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSPortMessage allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSPortMessage,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSPortMessage,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSPortMessage new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSPortMessage, _sel_new);
-    return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSPortMessage, _sel_new);
+      return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSPortMessage constructed with the default `new` method.
@@ -19307,10 +21671,12 @@ extension NSPortMessage$Methods on NSPortMessage {
   /// components
   NSArray? get components {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_components);
-    return $ret.address == 0
-        ? null
-        : NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_components);
+      return $ret.address == 0
+          ? null
+          : NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -19321,11 +21687,13 @@ extension NSPortMessage$Methods on NSPortMessage {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithSendPort:receivePort:components:
@@ -19338,55 +21706,67 @@ extension NSPortMessage$Methods on NSPortMessage {
     final _$$ref$1 = sendPort?.ref;
     final _$$ref$2 = receivePort?.ref;
     final _$$ref$3 = components?.ref;
-    final $ret = _objc_msgSend_11spmsz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSendPort_receivePort_components_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-    );
-    return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSendPort_receivePort_components_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+      );
+      return NSPortMessage.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// msgid
   int get msgid {
     final _$$ref = object$.ref;
-    return _objc_msgSend_usggvf(_$$ref.pointer, _sel_msgid);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_usggvf(_$$ref.pointer, _sel_msgid);
+    });
   }
 
   /// receivePort
   NSPort? get receivePort {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_receivePort);
-    return $ret.address == 0
-        ? null
-        : NSPort.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_receivePort);
+      return $ret.address == 0
+          ? null
+          : NSPort.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// sendBeforeDate:
   bool sendBeforeDate(NSDate date) {
     final _$$ref = object$.ref;
     final _$$ref$1 = date.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_sendBeforeDate_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_sendBeforeDate_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// sendPort
   NSPort? get sendPort {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_sendPort);
-    return $ret.address == 0
-        ? null
-        : NSPort.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_sendPort);
+      return $ret.address == 0
+          ? null
+          : NSPort.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setMsgid:
   set msgid(int value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1xpk2hb(_$$ref.pointer, _sel_setMsgid_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1xpk2hb(_$$ref.pointer, _sel_setMsgid_, value);
+    });
   }
 }
 
@@ -19434,29 +21814,35 @@ extension type NSProgress._(objc.ObjCObject object$)
       iOS: (true, null),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_r0bo0s(
-      _class_NSProgress,
-      _sel_addSubscriberForFileURL_withPublishingHandler_,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-    );
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_r0bo0s(
+        _class_NSProgress,
+        _sel_addSubscriberForFileURL_withPublishingHandler_,
+        _$$ref.pointer,
+        _$$ref$1.pointer,
+      );
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// alloc
   static NSProgress alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSProgress, _sel_alloc);
-    return NSProgress.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSProgress, _sel_alloc);
+      return NSProgress.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSProgress allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSProgress,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSProgress.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSProgress,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSProgress.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// currentProgress
@@ -19466,10 +21852,15 @@ extension type NSProgress._(objc.ObjCObject object$)
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_class_NSProgress, _sel_currentProgress);
-    return $ret.address == 0
-        ? null
-        : NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_NSProgress,
+        _sel_currentProgress,
+      );
+      return $ret.address == 0
+          ? null
+          : NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// discreteProgressWithTotalUnitCount:
@@ -19479,18 +21870,22 @@ extension type NSProgress._(objc.ObjCObject object$)
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_1ya1kjn(
-      _class_NSProgress,
-      _sel_discreteProgressWithTotalUnitCount_,
-      unitCount,
-    );
-    return NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ya1kjn(
+        _class_NSProgress,
+        _sel_discreteProgressWithTotalUnitCount_,
+        unitCount,
+      );
+      return NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSProgress new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSProgress, _sel_new);
-    return NSProgress.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSProgress, _sel_new);
+      return NSProgress.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// progressWithTotalUnitCount:
@@ -19500,12 +21895,14 @@ extension type NSProgress._(objc.ObjCObject object$)
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_1ya1kjn(
-      _class_NSProgress,
-      _sel_progressWithTotalUnitCount_,
-      unitCount,
-    );
-    return NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ya1kjn(
+        _class_NSProgress,
+        _sel_progressWithTotalUnitCount_,
+        unitCount,
+      );
+      return NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// progressWithTotalUnitCount:parent:pendingUnitCount:
@@ -19520,14 +21917,16 @@ extension type NSProgress._(objc.ObjCObject object$)
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_553v(
-      _class_NSProgress,
-      _sel_progressWithTotalUnitCount_parent_pendingUnitCount_,
-      unitCount,
-      _$$ref.pointer,
-      pendingUnitCount,
-    );
-    return NSProgress.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_553v(
+        _class_NSProgress,
+        _sel_progressWithTotalUnitCount_parent_pendingUnitCount_,
+        unitCount,
+        _$$ref.pointer,
+        pendingUnitCount,
+      );
+      return NSProgress.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// removeSubscriber:
@@ -19541,11 +21940,13 @@ extension type NSProgress._(objc.ObjCObject object$)
       iOS: (true, null),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _class_NSProgress,
-      _sel_removeSubscriber_,
-      _$$ref.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _class_NSProgress,
+        _sel_removeSubscriber_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// Returns a new instance of NSProgress constructed with the default `new` method.
@@ -19562,12 +21963,14 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    _objc_msgSend_1m7prh1(
-      _$$ref.pointer,
-      _sel_addChild_withPendingUnitCount_,
-      _$$ref$1.pointer,
-      withPendingUnitCount,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1m7prh1(
+        _$$ref.pointer,
+        _sel_addChild_withPendingUnitCount_,
+        _$$ref$1.pointer,
+        withPendingUnitCount,
+      );
+    });
   }
 
   /// becomeCurrentWithPendingUnitCount:
@@ -19578,11 +21981,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_17gvxvj(
-      _$$ref.pointer,
-      _sel_becomeCurrentWithPendingUnitCount_,
-      unitCount,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_17gvxvj(
+        _$$ref.pointer,
+        _sel_becomeCurrentWithPendingUnitCount_,
+        unitCount,
+      );
+    });
   }
 
   /// cancel
@@ -19593,7 +21998,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_cancel);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_cancel);
+    });
   }
 
   /// cancellationHandler
@@ -19604,10 +22011,15 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_cancellationHandler);
-    return $ret.address == 0
-        ? null
-        : ObjCBlock_ffiVoid.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_uwvaik(
+        _$$ref.pointer,
+        _sel_cancellationHandler,
+      );
+      return $ret.address == 0
+          ? null
+          : ObjCBlock_ffiVoid.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// completedUnitCount
@@ -19618,7 +22030,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_completedUnitCount);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_completedUnitCount);
+    });
   }
 
   /// estimatedTimeRemaining
@@ -19629,13 +22043,15 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_estimatedTimeRemaining,
-    );
-    return $ret.address == 0
-        ? null
-        : NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_estimatedTimeRemaining,
+      );
+      return $ret.address == 0
+          ? null
+          : NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileCompletedCount
@@ -19646,10 +22062,15 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fileCompletedCount);
-    return $ret.address == 0
-        ? null
-        : NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_fileCompletedCount,
+      );
+      return $ret.address == 0
+          ? null
+          : NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileOperationKind
@@ -19660,10 +22081,15 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fileOperationKind);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_fileOperationKind,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileTotalCount
@@ -19674,10 +22100,12 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fileTotalCount);
-    return $ret.address == 0
-        ? null
-        : NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fileTotalCount);
+      return $ret.address == 0
+          ? null
+          : NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileURL
@@ -19688,10 +22116,12 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fileURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fileURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fractionCompleted
@@ -19702,9 +22132,11 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_fractionCompleted)
-        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_fractionCompleted);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_fractionCompleted)
+          : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_fractionCompleted);
+    });
   }
 
   /// init
@@ -19715,11 +22147,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSProgress.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSProgress.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithParent:userInfo:
@@ -19735,13 +22169,15 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithParent_userInfo_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSProgress.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithParent_userInfo_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSProgress.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// isCancellable
@@ -19752,7 +22188,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isCancellable);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isCancellable);
+    });
   }
 
   /// isCancelled
@@ -19763,7 +22201,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isCancelled);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isCancelled);
+    });
   }
 
   /// isFinished
@@ -19774,7 +22214,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFinished);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFinished);
+    });
   }
 
   /// isIndeterminate
@@ -19785,7 +22227,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isIndeterminate);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isIndeterminate);
+    });
   }
 
   /// iOS: unavailable
@@ -19797,7 +22241,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (true, null),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isOld);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isOld);
+    });
   }
 
   /// isPausable
@@ -19808,7 +22254,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isPausable);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isPausable);
+    });
   }
 
   /// isPaused
@@ -19819,7 +22267,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isPaused);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isPaused);
+    });
   }
 
   /// kind
@@ -19830,10 +22280,12 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_kind);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_kind);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedAdditionalDescription
@@ -19844,11 +22296,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedAdditionalDescription,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedAdditionalDescription,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedDescription
@@ -19859,11 +22313,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedDescription,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedDescription,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// pause
@@ -19874,7 +22330,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_pause);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_pause);
+    });
   }
 
   /// pausingHandler
@@ -19885,10 +22343,12 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_pausingHandler);
-    return $ret.address == 0
-        ? null
-        : ObjCBlock_ffiVoid.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_pausingHandler);
+      return $ret.address == 0
+          ? null
+          : ObjCBlock_ffiVoid.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// performAsCurrentWithPendingUnitCount:usingBlock:
@@ -19903,12 +22363,14 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_1i0cxyc(
-      _$$ref.pointer,
-      _sel_performAsCurrentWithPendingUnitCount_usingBlock_,
-      unitCount,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1i0cxyc(
+        _$$ref.pointer,
+        _sel_performAsCurrentWithPendingUnitCount_usingBlock_,
+        unitCount,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// publish
@@ -19922,7 +22384,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (true, null),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_publish);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_publish);
+    });
   }
 
   /// resignCurrent
@@ -19933,7 +22397,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_resignCurrent);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_resignCurrent);
+    });
   }
 
   /// resume
@@ -19944,7 +22410,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_resume);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_resume);
+    });
   }
 
   /// resumingHandler
@@ -19955,10 +22423,12 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_resumingHandler);
-    return $ret.address == 0
-        ? null
-        : ObjCBlock_ffiVoid.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_resumingHandler);
+      return $ret.address == 0
+          ? null
+          : ObjCBlock_ffiVoid.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setCancellable:
@@ -19969,7 +22439,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setCancellable_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setCancellable_, value);
+    });
   }
 
   /// setCancellationHandler:
@@ -19981,11 +22453,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_setCancellationHandler_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_setCancellationHandler_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setCompletedUnitCount:
@@ -19996,7 +22470,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_17gvxvj(_$$ref.pointer, _sel_setCompletedUnitCount_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_17gvxvj(_$$ref.pointer, _sel_setCompletedUnitCount_, value);
+    });
   }
 
   /// setEstimatedTimeRemaining:
@@ -20008,11 +22484,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setEstimatedTimeRemaining_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setEstimatedTimeRemaining_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setFileCompletedCount:
@@ -20024,11 +22502,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setFileCompletedCount_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setFileCompletedCount_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setFileOperationKind:
@@ -20040,11 +22520,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setFileOperationKind_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setFileOperationKind_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setFileTotalCount:
@@ -20056,11 +22538,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setFileTotalCount_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setFileTotalCount_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setFileURL:
@@ -20072,11 +22556,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setFileURL_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setFileURL_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setKind:
@@ -20088,11 +22574,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setKind_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setKind_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setLocalizedAdditionalDescription:
@@ -20104,11 +22592,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setLocalizedAdditionalDescription_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setLocalizedAdditionalDescription_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// setLocalizedDescription:
@@ -20120,11 +22610,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setLocalizedDescription_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setLocalizedDescription_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// setPausable:
@@ -20135,7 +22627,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setPausable_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setPausable_, value);
+    });
   }
 
   /// setPausingHandler:
@@ -20147,11 +22641,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_setPausingHandler_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_setPausingHandler_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setResumingHandler:
@@ -20163,11 +22659,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_setResumingHandler_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_setResumingHandler_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setThroughput:
@@ -20179,11 +22677,13 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setThroughput_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setThroughput_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setTotalUnitCount:
@@ -20194,7 +22694,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_17gvxvj(_$$ref.pointer, _sel_setTotalUnitCount_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_17gvxvj(_$$ref.pointer, _sel_setTotalUnitCount_, value);
+    });
   }
 
   /// setUserInfoObject:forKey:
@@ -20210,12 +22712,14 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_setUserInfoObject_forKey_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_setUserInfoObject_forKey_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// throughput
@@ -20226,10 +22730,12 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_throughput);
-    return $ret.address == 0
-        ? null
-        : NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_throughput);
+      return $ret.address == 0
+          ? null
+          : NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// totalUnitCount
@@ -20240,7 +22746,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_totalUnitCount);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_totalUnitCount);
+    });
   }
 
   /// unpublish
@@ -20254,7 +22762,9 @@ extension NSProgress$Methods on NSProgress {
       iOS: (true, null),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_unpublish);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_unpublish);
+    });
   }
 
   /// userInfo
@@ -20265,8 +22775,10 @@ extension NSProgress$Methods on NSProgress {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -20350,24 +22862,30 @@ extension type NSRunLoop._(objc.ObjCObject object$)
 
   /// alloc
   static NSRunLoop alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSRunLoop, _sel_alloc);
-    return NSRunLoop.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSRunLoop, _sel_alloc);
+      return NSRunLoop.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSRunLoop allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSRunLoop,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSRunLoop.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSRunLoop,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSRunLoop.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// currentRunLoop
   static NSRunLoop getCurrentRunLoop() {
-    final $ret = _objc_msgSend_151sglz(_class_NSRunLoop, _sel_currentRunLoop);
-    return NSRunLoop.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSRunLoop, _sel_currentRunLoop);
+      return NSRunLoop.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// mainRunLoop
@@ -20377,14 +22895,18 @@ extension type NSRunLoop._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_class_NSRunLoop, _sel_mainRunLoop);
-    return NSRunLoop.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSRunLoop, _sel_mainRunLoop);
+      return NSRunLoop.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSRunLoop new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSRunLoop, _sel_new);
-    return NSRunLoop.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSRunLoop, _sel_new);
+      return NSRunLoop.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSRunLoop constructed with the default `new` method.
@@ -20397,12 +22919,14 @@ extension NSRunLoop$Methods on NSRunLoop {
     final _$$ref = object$.ref;
     final _$$ref$1 = mode.ref;
     final _$$ref$2 = beforeDate.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_acceptInputForMode_beforeDate_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_acceptInputForMode_beforeDate_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// addPort:forMode:
@@ -20410,12 +22934,14 @@ extension NSRunLoop$Methods on NSRunLoop {
     final _$$ref = object$.ref;
     final _$$ref$1 = aPort.ref;
     final _$$ref$2 = forMode.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_addPort_forMode_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_addPort_forMode_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// addTimer:forMode:
@@ -20423,27 +22949,33 @@ extension NSRunLoop$Methods on NSRunLoop {
     final _$$ref = object$.ref;
     final _$$ref$1 = timer.ref;
     final _$$ref$2 = forMode.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_addTimer_forMode_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_addTimer_forMode_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// currentMode
   NSString? get currentMode {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_currentMode);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_currentMode);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// getCFRunLoop
   ffi.Pointer<CFRunLoop> getCFRunLoop() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1bbja28(_$$ref.pointer, _sel_getCFRunLoop);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1bbja28(_$$ref.pointer, _sel_getCFRunLoop);
+    });
   }
 
   /// init
@@ -20454,25 +22986,29 @@ extension NSRunLoop$Methods on NSRunLoop {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSRunLoop.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSRunLoop.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// limitDateForMode:
   NSDate? limitDateForMode(NSString mode) {
     final _$$ref = object$.ref;
     final _$$ref$1 = mode.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_limitDateForMode_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_limitDateForMode_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// removePort:forMode:
@@ -20480,12 +23016,14 @@ extension NSRunLoop$Methods on NSRunLoop {
     final _$$ref = object$.ref;
     final _$$ref$1 = aPort.ref;
     final _$$ref$2 = forMode.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_removePort_forMode_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_removePort_forMode_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 }
 
@@ -20517,25 +23055,29 @@ extension NSSecureCoding$Methods on NSSecureCoding {
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// initWithCoder:
   NSSecureCoding? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSSecureCoding.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSSecureCoding.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -20769,59 +23311,77 @@ extension type NSSet._(objc.ObjCObject object$)
 
   /// alloc
   static NSSet alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSSet, _sel_alloc);
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSSet, _sel_alloc);
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSSet allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(_class_NSSet, _sel_allocWithZone_, zone);
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSSet,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSSet new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSSet, _sel_new);
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSSet, _sel_new);
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// set
   static NSSet set() {
-    final $ret = _objc_msgSend_151sglz(_class_NSSet, _sel_set);
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSSet, _sel_set);
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithArray:
   static NSSet setWithArray(NSArray array) {
     final _$$ref = array.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSSet,
-      _sel_setWithArray_,
-      _$$ref.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSSet,
+        _sel_setWithArray_,
+        _$$ref.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithObject:
   static NSSet setWithObject(objc.ObjCObject object) {
     final _$$ref = object.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSSet,
-      _sel_setWithObject_,
-      _$$ref.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSSet,
+        _sel_setWithObject_,
+        _$$ref.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithObjects:
   static NSSet setWithObjects(objc.ObjCObject firstObj) {
     final _$$ref = firstObj.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSSet,
-      _sel_setWithObjects_,
-      _$$ref.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSSet,
+        _sel_setWithObjects_,
+        _$$ref.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithObjects:count:
@@ -20829,29 +23389,35 @@ extension type NSSet._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> objects, {
     required DartNSUInteger count,
   }) {
-    final $ret = _objc_msgSend_zmbtbd(
-      _class_NSSet,
-      _sel_setWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _class_NSSet,
+        _sel_setWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setWithSet:
   static NSSet setWithSet(NSSet set) {
     final _$$ref = set.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSSet,
-      _sel_setWithSet_,
-      _$$ref.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSSet,
+        _sel_setWithSet_,
+        _$$ref.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSSet, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSSet, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSSet constructed with the default `new` method.
@@ -20862,7 +23428,9 @@ extension NSSet$Methods on NSSet {
   /// count
   DartNSUInteger get count {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_count);
+    });
   }
 
   /// countByEnumeratingWithState:objects:count:
@@ -20872,24 +23440,28 @@ extension NSSet$Methods on NSSet {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1b5ysjl(
-      _$$ref.pointer,
-      _sel_countByEnumeratingWithState_objects_count_,
-      state,
-      objects,
-      count,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1b5ysjl(
+        _$$ref.pointer,
+        _sel_countByEnumeratingWithState_objects_count_,
+        state,
+        objects,
+        count,
+      );
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -20900,49 +23472,57 @@ extension NSSet$Methods on NSSet {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithArray:
   NSSet initWithArray(NSArray array) {
     final _$$ref = object$.ref;
     final _$$ref$1 = array.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithArray_,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithArray_,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSSet? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:
   NSSet initWithObjects(objc.ObjCObject firstObj) {
     final _$$ref = object$.ref;
     final _$$ref$1 = firstObj.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithObjects:count:
@@ -20951,59 +23531,69 @@ extension NSSet$Methods on NSSet {
     required DartNSUInteger count,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_zmbtbd(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithObjects_count_,
-      objects,
-      count,
-    );
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_zmbtbd(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithObjects_count_,
+        objects,
+        count,
+      );
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithSet:
   NSSet initWithSet(NSSet set) {
     final _$$ref = object$.ref;
     final _$$ref$1 = set.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSet_,
-      _$$ref$1.pointer,
-    );
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSet_,
+        _$$ref$1.pointer,
+      );
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithSet:copyItems:
   NSSet initWithSet$1(NSSet set, {required bool copyItems}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = set.ref;
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithSet_copyItems_,
-      _$$ref$1.pointer,
-      copyItems,
-    );
-    return NSSet.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithSet_copyItems_,
+        _$$ref$1.pointer,
+        copyItems,
+      );
+      return NSSet.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// member:
   objc.ObjCObject? member(objc.ObjCObject object) {
     final _$$ref = object$.ref;
     final _$$ref$1 = object.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_member_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_member_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// objectEnumerator
   NSEnumerator objectEnumerator() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objectEnumerator);
-    return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objectEnumerator);
+      return NSEnumerator.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -21043,24 +23633,30 @@ extension type NSStream._(objc.ObjCObject object$)
 
   /// alloc
   static NSStream alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSStream, _sel_alloc);
-    return NSStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSStream, _sel_alloc);
+      return NSStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSStream allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSStream,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSStream,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSStream new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSStream, _sel_new);
-    return NSStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSStream, _sel_new);
+      return NSStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSStream constructed with the default `new` method.
@@ -21071,16 +23667,20 @@ extension NSStream$Methods on NSStream {
   /// close
   void close() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_close);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_close);
+    });
   }
 
   /// delegate
   NSStreamDelegate? get delegate {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_delegate);
-    return $ret.address == 0
-        ? null
-        : NSStreamDelegate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_delegate);
+      return $ret.address == 0
+          ? null
+          : NSStreamDelegate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -21091,31 +23691,37 @@ extension NSStream$Methods on NSStream {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSStream.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSStream.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// open
   void open() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_open);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_open);
+    });
   }
 
   /// propertyForKey:
   objc.ObjCObject? propertyForKey(NSString key) {
     final _$$ref = object$.ref;
     final _$$ref$1 = key.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_propertyForKey_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_propertyForKey_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   /// removeFromRunLoop:forMode:
@@ -21123,12 +23729,14 @@ extension NSStream$Methods on NSStream {
     final _$$ref = object$.ref;
     final _$$ref$1 = aRunLoop.ref;
     final _$$ref$2 = forMode.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_removeFromRunLoop_forMode_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_removeFromRunLoop_forMode_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// scheduleInRunLoop:forMode:
@@ -21136,23 +23744,27 @@ extension NSStream$Methods on NSStream {
     final _$$ref = object$.ref;
     final _$$ref$1 = aRunLoop.ref;
     final _$$ref$2 = forMode.ref;
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_scheduleInRunLoop_forMode_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_scheduleInRunLoop_forMode_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// setDelegate:
   set delegate(NSStreamDelegate? value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value?.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setDelegate_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setDelegate_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// setProperty:forKey:
@@ -21160,28 +23772,34 @@ extension NSStream$Methods on NSStream {
     final _$$ref = object$.ref;
     final _$$ref$1 = property?.ref;
     final _$$ref$2 = forKey.ref;
-    return _objc_msgSend_1lsax7n(
-      _$$ref.pointer,
-      _sel_setProperty_forKey_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1lsax7n(
+        _$$ref.pointer,
+        _sel_setProperty_forKey_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// streamError
   NSError? get streamError {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_streamError);
-    return $ret.address == 0
-        ? null
-        : NSError.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_streamError);
+      return $ret.address == 0
+          ? null
+          : NSError.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// streamStatus
   NSStreamStatus get streamStatus {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1efxbd8(_$$ref.pointer, _sel_streamStatus);
-    return NSStreamStatus.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1efxbd8(_$$ref.pointer, _sel_streamStatus);
+      return NSStreamStatus.fromValue($ret);
+    });
   }
 }
 
@@ -21219,12 +23837,14 @@ extension NSStreamDelegate$Methods on NSStreamDelegate {
         'stream:handleEvent:',
       );
     }
-    _objc_msgSend_3l8zum(
-      _$$ref.pointer,
-      _sel_stream_handleEvent_,
-      _$$ref$1.pointer,
-      handleEvent,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_3l8zum(
+        _$$ref.pointer,
+        _sel_stream_handleEvent_,
+        _$$ref$1.pointer,
+        handleEvent,
+      );
+    });
   }
 }
 
@@ -21464,29 +24084,35 @@ extension type NSString._(objc.ObjCObject object$)
 
   /// alloc
   static NSString alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSString, _sel_alloc);
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSString, _sel_alloc);
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSString allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSString,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSString,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// localizedStringWithFormat:
   static NSString localizedStringWithFormat(NSString format) {
     final _$$ref = format.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSString,
-      _sel_localizedStringWithFormat_,
-      _$$ref.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSString,
+        _sel_localizedStringWithFormat_,
+        _$$ref.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedStringWithValidatedFormat:validFormatSpecifiers:error:
@@ -21503,17 +24129,19 @@ extension type NSString._(objc.ObjCObject object$)
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1pnyuds(
-        _class_NSString,
-        _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
-        _$$ref.pointer,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1pnyuds(
+          _class_NSString,
+          _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
+          _$$ref.pointer,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21521,14 +24149,18 @@ extension type NSString._(objc.ObjCObject object$)
 
   /// new
   static NSString new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSString, _sel_new);
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSString, _sel_new);
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// string
   static NSString string() {
-    final $ret = _objc_msgSend_151sglz(_class_NSString, _sel_string);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSString, _sel_string);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithCString:encoding:
@@ -21536,15 +24168,17 @@ extension type NSString._(objc.ObjCObject object$)
     ffi.Pointer<ffi.Char> cString, {
     required DartNSUInteger encoding,
   }) {
-    final $ret = _objc_msgSend_erqryg(
-      _class_NSString,
-      _sel_stringWithCString_encoding_,
-      cString,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_erqryg(
+        _class_NSString,
+        _sel_stringWithCString_encoding_,
+        cString,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithCharacters:length:
@@ -21552,13 +24186,15 @@ extension type NSString._(objc.ObjCObject object$)
     ffi.Pointer<ffi.UnsignedShort> characters, {
     required DartNSUInteger length,
   }) {
-    final $ret = _objc_msgSend_9x4k8x(
-      _class_NSString,
-      _sel_stringWithCharacters_length_,
-      characters,
-      length,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_9x4k8x(
+        _class_NSString,
+        _sel_stringWithCharacters_length_,
+        characters,
+        length,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithContentsOfFile:encoding:error:
@@ -21569,17 +24205,19 @@ extension type NSString._(objc.ObjCObject object$)
     final _$$ref = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1nomli1(
-        _class_NSString,
-        _sel_stringWithContentsOfFile_encoding_error_,
-        _$$ref.pointer,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1nomli1(
+          _class_NSString,
+          _sel_stringWithContentsOfFile_encoding_error_,
+          _$$ref.pointer,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21593,17 +24231,19 @@ extension type NSString._(objc.ObjCObject object$)
     final _$$ref = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1alewu7(
-        _class_NSString,
-        _sel_stringWithContentsOfFile_usedEncoding_error_,
-        _$$ref.pointer,
-        usedEncoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1alewu7(
+          _class_NSString,
+          _sel_stringWithContentsOfFile_usedEncoding_error_,
+          _$$ref.pointer,
+          usedEncoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21617,17 +24257,19 @@ extension type NSString._(objc.ObjCObject object$)
     final _$$ref = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1nomli1(
-        _class_NSString,
-        _sel_stringWithContentsOfURL_encoding_error_,
-        _$$ref.pointer,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1nomli1(
+          _class_NSString,
+          _sel_stringWithContentsOfURL_encoding_error_,
+          _$$ref.pointer,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21641,17 +24283,19 @@ extension type NSString._(objc.ObjCObject object$)
     final _$$ref = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1alewu7(
-        _class_NSString,
-        _sel_stringWithContentsOfURL_usedEncoding_error_,
-        _$$ref.pointer,
-        usedEncoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1alewu7(
+          _class_NSString,
+          _sel_stringWithContentsOfURL_usedEncoding_error_,
+          _$$ref.pointer,
+          usedEncoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21660,37 +24304,43 @@ extension type NSString._(objc.ObjCObject object$)
   /// stringWithFormat:
   static NSString stringWithFormat(NSString format) {
     final _$$ref = format.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSString,
-      _sel_stringWithFormat_,
-      _$$ref.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSString,
+        _sel_stringWithFormat_,
+        _$$ref.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithString:
   static NSString stringWithString(NSString string) {
     final _$$ref = string.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSString,
-      _sel_stringWithString_,
-      _$$ref.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSString,
+        _sel_stringWithString_,
+        _$$ref.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithUTF8String:
   static NSString? stringWithUTF8String(
     ffi.Pointer<ffi.Char> nullTerminatedCString,
   ) {
-    final $ret = _objc_msgSend_56zxyn(
-      _class_NSString,
-      _sel_stringWithUTF8String_,
-      nullTerminatedCString,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_56zxyn(
+        _class_NSString,
+        _sel_stringWithUTF8String_,
+        nullTerminatedCString,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringWithValidatedFormat:validFormatSpecifiers:error:
@@ -21707,17 +24357,19 @@ extension type NSString._(objc.ObjCObject object$)
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1pnyuds(
-        _class_NSString,
-        _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
-        _$$ref.pointer,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1pnyuds(
+          _class_NSString,
+          _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
+          _$$ref.pointer,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21725,7 +24377,9 @@ extension type NSString._(objc.ObjCObject object$)
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSString, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSString, _sel_supportsSecureCoding);
+    });
   }
 }
 
@@ -21733,18 +24387,26 @@ extension NSString$Methods on NSString {
   /// characterAtIndex:
   int characterAtIndex(DartNSUInteger index) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1deg8x(_$$ref.pointer, _sel_characterAtIndex_, index);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1deg8x(
+        _$$ref.pointer,
+        _sel_characterAtIndex_,
+        index,
+      );
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -21755,11 +24417,13 @@ extension NSString$Methods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytes:length:encoding:
@@ -21769,16 +24433,18 @@ extension NSString$Methods on NSString {
     required DartNSUInteger encoding,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_9b3h4v(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytes_length_encoding_,
-      bytes,
-      length,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_9b3h4v(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytes_length_encoding_,
+        bytes,
+        length,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:encoding:deallocator:
@@ -21791,17 +24457,19 @@ extension NSString$Methods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = deallocator?.ref;
-    final $ret = _objc_msgSend_1lbgrac(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_encoding_deallocator_,
-      bytes,
-      length,
-      encoding,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1lbgrac(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_encoding_deallocator_,
+        bytes,
+        length,
+        encoding,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytesNoCopy:length:encoding:freeWhenDone:
@@ -21812,17 +24480,19 @@ extension NSString$Methods on NSString {
     required bool freeWhenDone,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_k4j8m3(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytesNoCopy_length_encoding_freeWhenDone_,
-      bytes,
-      length,
-      encoding,
-      freeWhenDone,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_k4j8m3(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytesNoCopy_length_encoding_freeWhenDone_,
+        bytes,
+        length,
+        encoding,
+        freeWhenDone,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCString:encoding:
@@ -21831,15 +24501,17 @@ extension NSString$Methods on NSString {
     required DartNSUInteger encoding,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_erqryg(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCString_encoding_,
-      nullTerminatedCString,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_erqryg(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCString_encoding_,
+        nullTerminatedCString,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCharacters:length:
@@ -21848,13 +24520,15 @@ extension NSString$Methods on NSString {
     required DartNSUInteger length,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_9x4k8x(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCharacters_length_,
-      characters,
-      length,
-    );
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_9x4k8x(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCharacters_length_,
+        characters,
+        length,
+      );
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCharactersNoCopy:length:deallocator:
@@ -21868,14 +24542,16 @@ extension NSString$Methods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = deallocator?.ref;
-    final $ret = _objc_msgSend_talwei(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCharactersNoCopy_length_deallocator_,
-      chars,
-      length,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_talwei(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCharactersNoCopy_length_deallocator_,
+        chars,
+        length,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCharactersNoCopy:length:freeWhenDone:
@@ -21885,28 +24561,32 @@ extension NSString$Methods on NSString {
     required bool freeWhenDone,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_lh0jh5(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCharactersNoCopy_length_freeWhenDone_,
-      characters,
-      length,
-      freeWhenDone,
-    );
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_lh0jh5(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCharactersNoCopy_length_freeWhenDone_,
+        characters,
+        length,
+        freeWhenDone,
+      );
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSString? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithContentsOfFile:encoding:error:
@@ -21918,17 +24598,19 @@ extension NSString$Methods on NSString {
     final _$$ref$1 = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1nomli1(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfFile_encoding_error_,
-        _$$ref$1.pointer,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1nomli1(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfFile_encoding_error_,
+          _$$ref$1.pointer,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21943,17 +24625,19 @@ extension NSString$Methods on NSString {
     final _$$ref$1 = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1alewu7(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfFile_usedEncoding_error_,
-        _$$ref$1.pointer,
-        usedEncoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1alewu7(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfFile_usedEncoding_error_,
+          _$$ref$1.pointer,
+          usedEncoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21968,17 +24652,19 @@ extension NSString$Methods on NSString {
     final _$$ref$1 = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1nomli1(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfURL_encoding_error_,
-        _$$ref$1.pointer,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1nomli1(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfURL_encoding_error_,
+          _$$ref$1.pointer,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -21993,17 +24679,19 @@ extension NSString$Methods on NSString {
     final _$$ref$1 = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1alewu7(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithContentsOfURL_usedEncoding_error_,
-        _$$ref$1.pointer,
-        usedEncoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1alewu7(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithContentsOfURL_usedEncoding_error_,
+          _$$ref$1.pointer,
+          usedEncoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -22013,27 +24701,31 @@ extension NSString$Methods on NSString {
   NSString? initWithData(NSData data, {required DartNSUInteger encoding}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = data.ref;
-    final $ret = _objc_msgSend_1k4kd9s(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithData_encoding_,
-      _$$ref$1.pointer,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k4kd9s(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithData_encoding_,
+        _$$ref$1.pointer,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFormat:
   NSString initWithFormat(NSString format) {
     final _$$ref = object$.ref;
     final _$$ref$1 = format.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFormat_,
-      _$$ref$1.pointer,
-    );
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFormat_,
+        _$$ref$1.pointer,
+      );
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFormat:locale:
@@ -22041,38 +24733,44 @@ extension NSString$Methods on NSString {
     final _$$ref = object$.ref;
     final _$$ref$1 = format.ref;
     final _$$ref$2 = locale?.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFormat_locale_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFormat_locale_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithString:
   NSString initWithString(NSString aString) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aString.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithString_,
-      _$$ref$1.pointer,
-    );
-    return NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithString_,
+        _$$ref$1.pointer,
+      );
+      return NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithUTF8String:
   NSString? initWithUTF8String(ffi.Pointer<ffi.Char> nullTerminatedCString) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_56zxyn(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithUTF8String_,
-      nullTerminatedCString,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_56zxyn(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithUTF8String_,
+        nullTerminatedCString,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:error:
@@ -22093,17 +24791,19 @@ extension NSString$Methods on NSString {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1pnyuds(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
-        _$$ref$1.pointer,
-        _$$ref$2.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1pnyuds(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
+          _$$ref$1.pointer,
+          _$$ref$2.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -22129,18 +24829,20 @@ extension NSString$Methods on NSString {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1k0ezzm(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
-        _$$ref$1.pointer,
-        _$$ref$2.pointer,
-        _$$ref$3?.pointer ?? ffi.nullptr,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSString.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1k0ezzm(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
+          _$$ref$1.pointer,
+          _$$ref$2.pointer,
+          _$$ref$3?.pointer ?? ffi.nullptr,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSString.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -22149,7 +24851,9 @@ extension NSString$Methods on NSString {
   /// length
   DartNSUInteger get length {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_length);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_length);
+    });
   }
 }
 
@@ -22188,7 +24892,9 @@ extension NSStringExtensionMethods on NSString {
   /// UTF8String
   ffi.Pointer<ffi.Char> get UTF8String {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1fuqfwb(_$$ref.pointer, _sel_UTF8String);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1fuqfwb(_$$ref.pointer, _sel_UTF8String);
+    });
   }
 
   /// boolValue
@@ -22199,34 +24905,45 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_boolValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_boolValue);
+    });
   }
 
   /// cStringUsingEncoding:
   ffi.Pointer<ffi.Char> cStringUsingEncoding(DartNSUInteger encoding) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1jtxufi(
-      _$$ref.pointer,
-      _sel_cStringUsingEncoding_,
-      encoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1jtxufi(
+        _$$ref.pointer,
+        _sel_cStringUsingEncoding_,
+        encoding,
+      );
+    });
   }
 
   /// canBeConvertedToEncoding:
   bool canBeConvertedToEncoding(DartNSUInteger encoding) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6peh6o(
-      _$$ref.pointer,
-      _sel_canBeConvertedToEncoding_,
-      encoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6peh6o(
+        _$$ref.pointer,
+        _sel_canBeConvertedToEncoding_,
+        encoding,
+      );
+    });
   }
 
   /// capitalizedString
   NSString get capitalizedString {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_capitalizedString);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_capitalizedString,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// capitalizedStringWithLocale:
@@ -22238,24 +24955,28 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_capitalizedStringWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_capitalizedStringWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// caseInsensitiveCompare:
   NSComparisonResult caseInsensitiveCompare(NSString string) {
     final _$$ref = object$.ref;
     final _$$ref$1 = string.ref;
-    final $ret = _objc_msgSend_1ym6zyw(
-      _$$ref.pointer,
-      _sel_caseInsensitiveCompare_,
-      _$$ref$1.pointer,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ym6zyw(
+        _$$ref.pointer,
+        _sel_caseInsensitiveCompare_,
+        _$$ref$1.pointer,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// commonPrefixWithString:options:
@@ -22265,25 +24986,29 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = str.ref;
-    final $ret = _objc_msgSend_diypgk(
-      _$$ref.pointer,
-      _sel_commonPrefixWithString_options_,
-      _$$ref$1.pointer,
-      options,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_diypgk(
+        _$$ref.pointer,
+        _sel_commonPrefixWithString_options_,
+        _$$ref$1.pointer,
+        options,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// compare:
   NSComparisonResult compare(NSString string) {
     final _$$ref = object$.ref;
     final _$$ref$1 = string.ref;
-    final $ret = _objc_msgSend_1ym6zyw(
-      _$$ref.pointer,
-      _sel_compare_,
-      _$$ref$1.pointer,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ym6zyw(
+        _$$ref.pointer,
+        _sel_compare_,
+        _$$ref$1.pointer,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// compare:options:
@@ -22293,13 +25018,15 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = string.ref;
-    final $ret = _objc_msgSend_pg1fnv(
-      _$$ref.pointer,
-      _sel_compare_options_,
-      _$$ref$1.pointer,
-      options,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_pg1fnv(
+        _$$ref.pointer,
+        _sel_compare_options_,
+        _$$ref$1.pointer,
+        options,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// compare:options:range:
@@ -22310,14 +25037,16 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = string.ref;
-    final $ret = _objc_msgSend_xrqic1(
-      _$$ref.pointer,
-      _sel_compare_options_range_,
-      _$$ref$1.pointer,
-      options,
-      range,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_xrqic1(
+        _$$ref.pointer,
+        _sel_compare_options_range_,
+        _$$ref$1.pointer,
+        options,
+        range,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// compare:options:range:locale:
@@ -22330,15 +25059,17 @@ extension NSStringExtensionMethods on NSString {
     final _$$ref = object$.ref;
     final _$$ref$1 = string.ref;
     final _$$ref$2 = locale?.ref;
-    final $ret = _objc_msgSend_1895u4n(
-      _$$ref.pointer,
-      _sel_compare_options_range_locale_,
-      _$$ref$1.pointer,
-      options,
-      range,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1895u4n(
+        _$$ref.pointer,
+        _sel_compare_options_range_locale_,
+        _$$ref$1.pointer,
+        options,
+        range,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// componentsSeparatedByCharactersInSet:
@@ -22350,24 +25081,28 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_componentsSeparatedByCharactersInSet_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_componentsSeparatedByCharactersInSet_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// componentsSeparatedByString:
   NSArray componentsSeparatedByString(NSString separator) {
     final _$$ref = object$.ref;
     final _$$ref$1 = separator.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_componentsSeparatedByString_,
-      _$$ref$1.pointer,
-    );
-    return NSArray.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_componentsSeparatedByString_,
+        _$$ref$1.pointer,
+      );
+      return NSArray.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// containsString:
@@ -22379,24 +25114,28 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_containsString_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_containsString_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// dataUsingEncoding:
   NSData? dataUsingEncoding(DartNSUInteger encoding) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.pointer,
-      _sel_dataUsingEncoding_,
-      encoding,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.pointer,
+        _sel_dataUsingEncoding_,
+        encoding,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// dataUsingEncoding:allowLossyConversion:
@@ -22405,50 +25144,60 @@ extension NSStringExtensionMethods on NSString {
     required bool allowLossyConversion,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_hiwitm(
-      _$$ref.pointer,
-      _sel_dataUsingEncoding_allowLossyConversion_,
-      encoding,
-      allowLossyConversion,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_hiwitm(
+        _$$ref.pointer,
+        _sel_dataUsingEncoding_allowLossyConversion_,
+        encoding,
+        allowLossyConversion,
+      );
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// decomposedStringWithCanonicalMapping
   NSString get decomposedStringWithCanonicalMapping {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_decomposedStringWithCanonicalMapping,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_decomposedStringWithCanonicalMapping,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// decomposedStringWithCompatibilityMapping
   NSString get decomposedStringWithCompatibilityMapping {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_decomposedStringWithCompatibilityMapping,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_decomposedStringWithCompatibilityMapping,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// description
   NSString get description$1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_description);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// doubleValue
   double get doubleValue {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_doubleValue)
-        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_doubleValue);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_doubleValue)
+          : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_doubleValue);
+    });
   }
 
   /// enumerateLinesUsingBlock:
@@ -22462,11 +25211,13 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_f167m6(
-      _$$ref.pointer,
-      _sel_enumerateLinesUsingBlock_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_f167m6(
+        _$$ref.pointer,
+        _sel_enumerateLinesUsingBlock_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// enumerateSubstringsInRange:options:usingBlock:
@@ -22485,27 +25236,33 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    _objc_msgSend_14ew8zr(
-      _$$ref.pointer,
-      _sel_enumerateSubstringsInRange_options_usingBlock_,
-      range,
-      options,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_14ew8zr(
+        _$$ref.pointer,
+        _sel_enumerateSubstringsInRange_options_usingBlock_,
+        range,
+        options,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// fastestEncoding
   DartNSUInteger get fastestEncoding {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_fastestEncoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_fastestEncoding);
+    });
   }
 
   /// floatValue
   double get floatValue {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_2cgrxlFpret(_$$ref.pointer, _sel_floatValue)
-        : _objc_msgSend_2cgrxl(_$$ref.pointer, _sel_floatValue);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_2cgrxlFpret(_$$ref.pointer, _sel_floatValue)
+          : _objc_msgSend_2cgrxl(_$$ref.pointer, _sel_floatValue);
+    });
   }
 
   /// getBytes:maxLength:usedLength:encoding:options:range:remainingRange:
@@ -22519,17 +25276,19 @@ extension NSStringExtensionMethods on NSString {
     required ffi.Pointer<NSRange> remainingRange,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_i30zh3(
-      _$$ref.pointer,
-      _sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRange_,
-      buffer,
-      maxLength,
-      usedLength,
-      encoding,
-      options,
-      range,
-      remainingRange,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_i30zh3(
+        _$$ref.pointer,
+        _sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRange_,
+        buffer,
+        maxLength,
+        usedLength,
+        encoding,
+        options,
+        range,
+        remainingRange,
+      );
+    });
   }
 
   /// getCString:maxLength:encoding:
@@ -22539,13 +25298,15 @@ extension NSStringExtensionMethods on NSString {
     required DartNSUInteger encoding,
   }) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1lv8yz3(
-      _$$ref.pointer,
-      _sel_getCString_maxLength_encoding_,
-      buffer,
-      maxLength,
-      encoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1lv8yz3(
+        _$$ref.pointer,
+        _sel_getCString_maxLength_encoding_,
+        buffer,
+        maxLength,
+        encoding,
+      );
+    });
   }
 
   /// getCharacters:range:
@@ -22554,12 +25315,14 @@ extension NSStringExtensionMethods on NSString {
     required NSRange range,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_898fog(
-      _$$ref.pointer,
-      _sel_getCharacters_range_,
-      buffer,
-      range,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_898fog(
+        _$$ref.pointer,
+        _sel_getCharacters_range_,
+        buffer,
+        range,
+      );
+    });
   }
 
   /// getLineStart:end:contentsEnd:forRange:
@@ -22570,14 +25333,16 @@ extension NSStringExtensionMethods on NSString {
     required NSRange forRange,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_ourvf2(
-      _$$ref.pointer,
-      _sel_getLineStart_end_contentsEnd_forRange_,
-      startPtr,
-      end,
-      contentsEnd,
-      forRange,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_ourvf2(
+        _$$ref.pointer,
+        _sel_getLineStart_end_contentsEnd_forRange_,
+        startPtr,
+        end,
+        contentsEnd,
+        forRange,
+      );
+    });
   }
 
   /// getParagraphStart:end:contentsEnd:forRange:
@@ -22588,48 +25353,58 @@ extension NSStringExtensionMethods on NSString {
     required NSRange forRange,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_ourvf2(
-      _$$ref.pointer,
-      _sel_getParagraphStart_end_contentsEnd_forRange_,
-      startPtr,
-      end,
-      contentsEnd,
-      forRange,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_ourvf2(
+        _$$ref.pointer,
+        _sel_getParagraphStart_end_contentsEnd_forRange_,
+        startPtr,
+        end,
+        contentsEnd,
+        forRange,
+      );
+    });
   }
 
   /// hasPrefix:
   bool hasPrefix(NSString str) {
     final _$$ref = object$.ref;
     final _$$ref$1 = str.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_hasPrefix_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_hasPrefix_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// hasSuffix:
   bool hasSuffix(NSString str) {
     final _$$ref = object$.ref;
     final _$$ref$1 = str.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_hasSuffix_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_hasSuffix_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// hash
   DartNSUInteger get hash$1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_hash);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_hash);
+    });
   }
 
   /// intValue
   int get intValue {
     final _$$ref = object$.ref;
-    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_intValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_intValue);
+    });
   }
 
   /// integerValue
@@ -22640,34 +25415,46 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_integerValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_integerValue);
+    });
   }
 
   /// isEqualToString:
   bool isEqualToString(NSString aString) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aString.ref;
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_isEqualToString_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_isEqualToString_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// lengthOfBytesUsingEncoding:
   DartNSUInteger lengthOfBytesUsingEncoding(DartNSUInteger enc) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_12py2ux(
-      _$$ref.pointer,
-      _sel_lengthOfBytesUsingEncoding_,
-      enc,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_12py2ux(
+        _$$ref.pointer,
+        _sel_lengthOfBytesUsingEncoding_,
+        enc,
+      );
+    });
   }
 
   /// lineRangeForRange:
   NSRange lineRangeForRange(NSRange range) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_uimyc7(_$$ref.pointer, _sel_lineRangeForRange_, range);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_uimyc7(
+        _$$ref.pointer,
+        _sel_lineRangeForRange_,
+        range,
+      );
+    });
   }
 
   /// localizedCapitalizedString
@@ -22678,23 +25465,27 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedCapitalizedString,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedCapitalizedString,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedCaseInsensitiveCompare:
   NSComparisonResult localizedCaseInsensitiveCompare(NSString string) {
     final _$$ref = object$.ref;
     final _$$ref$1 = string.ref;
-    final $ret = _objc_msgSend_1ym6zyw(
-      _$$ref.pointer,
-      _sel_localizedCaseInsensitiveCompare_,
-      _$$ref$1.pointer,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ym6zyw(
+        _$$ref.pointer,
+        _sel_localizedCaseInsensitiveCompare_,
+        _$$ref$1.pointer,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// localizedCaseInsensitiveContainsString:
@@ -22706,23 +25497,27 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_localizedCaseInsensitiveContainsString_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_localizedCaseInsensitiveContainsString_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// localizedCompare:
   NSComparisonResult localizedCompare(NSString string) {
     final _$$ref = object$.ref;
     final _$$ref$1 = string.ref;
-    final $ret = _objc_msgSend_1ym6zyw(
-      _$$ref.pointer,
-      _sel_localizedCompare_,
-      _$$ref$1.pointer,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ym6zyw(
+        _$$ref.pointer,
+        _sel_localizedCompare_,
+        _$$ref$1.pointer,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// localizedLowercaseString
@@ -22733,11 +25528,13 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedLowercaseString,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedLowercaseString,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// localizedStandardCompare:
@@ -22749,12 +25546,14 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1ym6zyw(
-      _$$ref.pointer,
-      _sel_localizedStandardCompare_,
-      _$$ref$1.pointer,
-    );
-    return NSComparisonResult.fromValue($ret);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ym6zyw(
+        _$$ref.pointer,
+        _sel_localizedStandardCompare_,
+        _$$ref$1.pointer,
+      );
+      return NSComparisonResult.fromValue($ret);
+    });
   }
 
   /// localizedStandardContainsString:
@@ -22766,11 +25565,13 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    return _objc_msgSend_19nvye5(
-      _$$ref.pointer,
-      _sel_localizedStandardContainsString_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _$$ref.pointer,
+        _sel_localizedStandardContainsString_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// localizedStandardRangeOfString:
@@ -22782,11 +25583,13 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    return _objc_msgSend_182fzon(
-      _$$ref.pointer,
-      _sel_localizedStandardRangeOfString_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_182fzon(
+        _$$ref.pointer,
+        _sel_localizedStandardRangeOfString_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// localizedUppercaseString
@@ -22797,11 +25600,13 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_localizedUppercaseString,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_localizedUppercaseString,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// longLongValue
@@ -22812,14 +25617,18 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_1k101e3(_$$ref.pointer, _sel_longLongValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1k101e3(_$$ref.pointer, _sel_longLongValue);
+    });
   }
 
   /// lowercaseString
   NSString get lowercaseString {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_lowercaseString);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_lowercaseString);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// lowercaseStringWithLocale:
@@ -22831,63 +25640,75 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_lowercaseStringWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_lowercaseStringWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// maximumLengthOfBytesUsingEncoding:
   DartNSUInteger maximumLengthOfBytesUsingEncoding(DartNSUInteger enc) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_12py2ux(
-      _$$ref.pointer,
-      _sel_maximumLengthOfBytesUsingEncoding_,
-      enc,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_12py2ux(
+        _$$ref.pointer,
+        _sel_maximumLengthOfBytesUsingEncoding_,
+        enc,
+      );
+    });
   }
 
   /// paragraphRangeForRange:
   NSRange paragraphRangeForRange(NSRange range) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_uimyc7(
-      _$$ref.pointer,
-      _sel_paragraphRangeForRange_,
-      range,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_uimyc7(
+        _$$ref.pointer,
+        _sel_paragraphRangeForRange_,
+        range,
+      );
+    });
   }
 
   /// precomposedStringWithCanonicalMapping
   NSString get precomposedStringWithCanonicalMapping {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_precomposedStringWithCanonicalMapping,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_precomposedStringWithCanonicalMapping,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// precomposedStringWithCompatibilityMapping
   NSString get precomposedStringWithCompatibilityMapping {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_precomposedStringWithCompatibilityMapping,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_precomposedStringWithCompatibilityMapping,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// rangeOfCharacterFromSet:
   NSRange rangeOfCharacterFromSet(NSCharacterSet searchSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchSet.ref;
-    return _objc_msgSend_182fzon(
-      _$$ref.pointer,
-      _sel_rangeOfCharacterFromSet_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_182fzon(
+        _$$ref.pointer,
+        _sel_rangeOfCharacterFromSet_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// rangeOfCharacterFromSet:options:
@@ -22897,12 +25718,14 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchSet.ref;
-    return _objc_msgSend_102xxo4(
-      _$$ref.pointer,
-      _sel_rangeOfCharacterFromSet_options_,
-      _$$ref$1.pointer,
-      options,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_102xxo4(
+        _$$ref.pointer,
+        _sel_rangeOfCharacterFromSet_options_,
+        _$$ref$1.pointer,
+        options,
+      );
+    });
   }
 
   /// rangeOfCharacterFromSet:options:range:
@@ -22913,23 +25736,27 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchSet.ref;
-    return _objc_msgSend_1nmlvqc(
-      _$$ref.pointer,
-      _sel_rangeOfCharacterFromSet_options_range_,
-      _$$ref$1.pointer,
-      options,
-      range,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1nmlvqc(
+        _$$ref.pointer,
+        _sel_rangeOfCharacterFromSet_options_range_,
+        _$$ref$1.pointer,
+        options,
+        range,
+      );
+    });
   }
 
   /// rangeOfComposedCharacterSequenceAtIndex:
   NSRange rangeOfComposedCharacterSequenceAtIndex(DartNSUInteger index) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_d3i1uy(
-      _$$ref.pointer,
-      _sel_rangeOfComposedCharacterSequenceAtIndex_,
-      index,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_d3i1uy(
+        _$$ref.pointer,
+        _sel_rangeOfComposedCharacterSequenceAtIndex_,
+        index,
+      );
+    });
   }
 
   /// rangeOfComposedCharacterSequencesForRange:
@@ -22940,22 +25767,26 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_uimyc7(
-      _$$ref.pointer,
-      _sel_rangeOfComposedCharacterSequencesForRange_,
-      range,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_uimyc7(
+        _$$ref.pointer,
+        _sel_rangeOfComposedCharacterSequencesForRange_,
+        range,
+      );
+    });
   }
 
   /// rangeOfString:
   NSRange rangeOfString(NSString searchString) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchString.ref;
-    return _objc_msgSend_182fzon(
-      _$$ref.pointer,
-      _sel_rangeOfString_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_182fzon(
+        _$$ref.pointer,
+        _sel_rangeOfString_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// rangeOfString:options:
@@ -22965,12 +25796,14 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchString.ref;
-    return _objc_msgSend_102xxo4(
-      _$$ref.pointer,
-      _sel_rangeOfString_options_,
-      _$$ref$1.pointer,
-      options,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_102xxo4(
+        _$$ref.pointer,
+        _sel_rangeOfString_options_,
+        _$$ref$1.pointer,
+        options,
+      );
+    });
   }
 
   /// rangeOfString:options:range:
@@ -22981,13 +25814,15 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchString.ref;
-    return _objc_msgSend_1nmlvqc(
-      _$$ref.pointer,
-      _sel_rangeOfString_options_range_,
-      _$$ref$1.pointer,
-      options,
-      range,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1nmlvqc(
+        _$$ref.pointer,
+        _sel_rangeOfString_options_range_,
+        _$$ref$1.pointer,
+        options,
+        range,
+      );
+    });
   }
 
   /// rangeOfString:options:range:locale:
@@ -23005,44 +25840,52 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_gg0462(
-      _$$ref.pointer,
-      _sel_rangeOfString_options_range_locale_,
-      _$$ref$1.pointer,
-      options,
-      range,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_gg0462(
+        _$$ref.pointer,
+        _sel_rangeOfString_options_range_locale_,
+        _$$ref$1.pointer,
+        options,
+        range,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// smallestEncoding
   DartNSUInteger get smallestEncoding {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_smallestEncoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_smallestEncoding);
+    });
   }
 
   /// stringByAppendingFormat:
   NSString stringByAppendingFormat(NSString format) {
     final _$$ref = object$.ref;
     final _$$ref$1 = format.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_stringByAppendingFormat_,
-      _$$ref$1.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_stringByAppendingFormat_,
+        _$$ref$1.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringByAppendingString:
   NSString stringByAppendingString(NSString aString) {
     final _$$ref = object$.ref;
     final _$$ref$1 = aString.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_stringByAppendingString_,
-      _$$ref$1.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_stringByAppendingString_,
+        _$$ref$1.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringByApplyingTransform:reverse:
@@ -23057,15 +25900,17 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.pointer,
-      _sel_stringByApplyingTransform_reverse_,
-      _$$ref$1.pointer,
-      reverse,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.pointer,
+        _sel_stringByApplyingTransform_reverse_,
+        _$$ref$1.pointer,
+        reverse,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringByFoldingWithOptions:locale:
@@ -23080,13 +25925,15 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_11cbyu0(
-      _$$ref.pointer,
-      _sel_stringByFoldingWithOptions_locale_,
-      options,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11cbyu0(
+        _$$ref.pointer,
+        _sel_stringByFoldingWithOptions_locale_,
+        options,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringByPaddingToLength:withString:startingAtIndex:
@@ -23097,14 +25944,16 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = withString.ref;
-    final $ret = _objc_msgSend_1tfztp(
-      _$$ref.pointer,
-      _sel_stringByPaddingToLength_withString_startingAtIndex_,
-      newLength,
-      _$$ref$1.pointer,
-      startingAtIndex,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1tfztp(
+        _$$ref.pointer,
+        _sel_stringByPaddingToLength_withString_startingAtIndex_,
+        newLength,
+        _$$ref$1.pointer,
+        startingAtIndex,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringByReplacingCharactersInRange:withString:
@@ -23119,13 +25968,15 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_bstjp9(
-      _$$ref.pointer,
-      _sel_stringByReplacingCharactersInRange_withString_,
-      range,
-      _$$ref$1.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_bstjp9(
+        _$$ref.pointer,
+        _sel_stringByReplacingCharactersInRange_withString_,
+        range,
+        _$$ref$1.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringByReplacingOccurrencesOfString:withString:
@@ -23141,13 +25992,15 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.pointer,
-      _sel_stringByReplacingOccurrencesOfString_withString_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.pointer,
+        _sel_stringByReplacingOccurrencesOfString_withString_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringByReplacingOccurrencesOfString:withString:options:range:
@@ -23165,67 +26018,79 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_2u4jm6(
-      _$$ref.pointer,
-      _sel_stringByReplacingOccurrencesOfString_withString_options_range_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-      options,
-      range,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_2u4jm6(
+        _$$ref.pointer,
+        _sel_stringByReplacingOccurrencesOfString_withString_options_range_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+        options,
+        range,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// stringByTrimmingCharactersInSet:
   NSString stringByTrimmingCharactersInSet(NSCharacterSet set) {
     final _$$ref = object$.ref;
     final _$$ref$1 = set.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_stringByTrimmingCharactersInSet_,
-      _$$ref$1.pointer,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_stringByTrimmingCharactersInSet_,
+        _$$ref$1.pointer,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// substringFromIndex:
   NSString substringFromIndex(DartNSUInteger from) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.pointer,
-      _sel_substringFromIndex_,
-      from,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.pointer,
+        _sel_substringFromIndex_,
+        from,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// substringToIndex:
   NSString substringToIndex(DartNSUInteger to) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_14hpxwa(
-      _$$ref.pointer,
-      _sel_substringToIndex_,
-      to,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _$$ref.pointer,
+        _sel_substringToIndex_,
+        to,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// substringWithRange:
   NSString substringWithRange(NSRange range) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1k1o1s7(
-      _$$ref.pointer,
-      _sel_substringWithRange_,
-      range,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1k1o1s7(
+        _$$ref.pointer,
+        _sel_substringWithRange_,
+        range,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// uppercaseString
   NSString get uppercaseString {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_uppercaseString);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_uppercaseString);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// uppercaseStringWithLocale:
@@ -23237,12 +26102,14 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (6, 0, 0)),
       macOS: (false, (10, 8, 0)),
     );
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_uppercaseStringWithLocale_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_uppercaseStringWithLocale_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// writeToFile:atomically:encoding:error:
@@ -23255,16 +26122,18 @@ extension NSStringExtensionMethods on NSString {
     final _$$ref$1 = path.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_dv3z6r(
-        _$$ref.pointer,
-        _sel_writeToFile_atomically_encoding_error_,
-        _$$ref$1.pointer,
-        atomically,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_dv3z6r(
+          _$$ref.pointer,
+          _sel_writeToFile_atomically_encoding_error_,
+          _$$ref$1.pointer,
+          atomically,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -23280,16 +26149,18 @@ extension NSStringExtensionMethods on NSString {
     final _$$ref$1 = url.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_dv3z6r(
-        _$$ref.pointer,
-        _sel_writeToURL_atomically_encoding_error_,
-        _$$ref$1.pointer,
-        atomically,
-        encoding,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_dv3z6r(
+          _$$ref.pointer,
+          _sel_writeToURL_atomically_encoding_error_,
+          _$$ref$1.pointer,
+          atomically,
+          encoding,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -23297,25 +26168,31 @@ extension NSStringExtensionMethods on NSString {
 
   /// availableStringEncodings
   static ffi.Pointer<NSUInteger> getAvailableStringEncodings() {
-    return _objc_msgSend_1h2q612(
-      _class_NSString,
-      _sel_availableStringEncodings,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1h2q612(
+        _class_NSString,
+        _sel_availableStringEncodings,
+      );
+    });
   }
 
   /// defaultCStringEncoding
   static DartNSUInteger getDefaultCStringEncoding() {
-    return _objc_msgSend_xw2lbc(_class_NSString, _sel_defaultCStringEncoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_class_NSString, _sel_defaultCStringEncoding);
+    });
   }
 
   /// localizedNameOfStringEncoding:
   static NSString localizedNameOfStringEncoding(DartNSUInteger encoding) {
-    final $ret = _objc_msgSend_14hpxwa(
-      _class_NSString,
-      _sel_localizedNameOfStringEncoding_,
-      encoding,
-    );
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14hpxwa(
+        _class_NSString,
+        _sel_localizedNameOfStringEncoding_,
+        encoding,
+      );
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -23347,24 +26224,30 @@ extension type NSTimer._(objc.ObjCObject object$)
 
   /// alloc
   static NSTimer alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSTimer, _sel_alloc);
-    return NSTimer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSTimer, _sel_alloc);
+      return NSTimer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSTimer allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSTimer,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSTimer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSTimer,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSTimer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSTimer new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSTimer, _sel_new);
-    return NSTimer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSTimer, _sel_new);
+      return NSTimer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// scheduledTimerWithTimeInterval:invocation:repeats:
@@ -23374,14 +26257,16 @@ extension type NSTimer._(objc.ObjCObject object$)
     required bool repeats,
   }) {
     final _$$ref = invocation.ref;
-    final $ret = _objc_msgSend_r49ehc(
-      _class_NSTimer,
-      _sel_scheduledTimerWithTimeInterval_invocation_repeats_,
-      ti,
-      _$$ref.pointer,
-      repeats,
-    );
-    return NSTimer.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_r49ehc(
+        _class_NSTimer,
+        _sel_scheduledTimerWithTimeInterval_invocation_repeats_,
+        ti,
+        _$$ref.pointer,
+        repeats,
+      );
+      return NSTimer.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// scheduledTimerWithTimeInterval:repeats:block:
@@ -23396,14 +26281,16 @@ extension type NSTimer._(objc.ObjCObject object$)
       iOS: (false, (10, 0, 0)),
       macOS: (false, (10, 12, 0)),
     );
-    final $ret = _objc_msgSend_9a64f1(
-      _class_NSTimer,
-      _sel_scheduledTimerWithTimeInterval_repeats_block_,
-      interval,
-      repeats,
-      _$$ref.pointer,
-    );
-    return NSTimer.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_9a64f1(
+        _class_NSTimer,
+        _sel_scheduledTimerWithTimeInterval_repeats_block_,
+        interval,
+        repeats,
+        _$$ref.pointer,
+      );
+      return NSTimer.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:
@@ -23416,16 +26303,18 @@ extension type NSTimer._(objc.ObjCObject object$)
   }) {
     final _$$ref = target.ref;
     final _$$ref$1 = userInfo?.ref;
-    final $ret = _objc_msgSend_ot6jdx(
-      _class_NSTimer,
-      _sel_scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_,
-      ti,
-      _$$ref.pointer,
-      selector,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      repeats,
-    );
-    return NSTimer.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_ot6jdx(
+        _class_NSTimer,
+        _sel_scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_,
+        ti,
+        _$$ref.pointer,
+        selector,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        repeats,
+      );
+      return NSTimer.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// timerWithTimeInterval:invocation:repeats:
@@ -23435,14 +26324,16 @@ extension type NSTimer._(objc.ObjCObject object$)
     required bool repeats,
   }) {
     final _$$ref = invocation.ref;
-    final $ret = _objc_msgSend_r49ehc(
-      _class_NSTimer,
-      _sel_timerWithTimeInterval_invocation_repeats_,
-      ti,
-      _$$ref.pointer,
-      repeats,
-    );
-    return NSTimer.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_r49ehc(
+        _class_NSTimer,
+        _sel_timerWithTimeInterval_invocation_repeats_,
+        ti,
+        _$$ref.pointer,
+        repeats,
+      );
+      return NSTimer.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// timerWithTimeInterval:repeats:block:
@@ -23457,14 +26348,16 @@ extension type NSTimer._(objc.ObjCObject object$)
       iOS: (false, (10, 0, 0)),
       macOS: (false, (10, 12, 0)),
     );
-    final $ret = _objc_msgSend_9a64f1(
-      _class_NSTimer,
-      _sel_timerWithTimeInterval_repeats_block_,
-      interval,
-      repeats,
-      _$$ref.pointer,
-    );
-    return NSTimer.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_9a64f1(
+        _class_NSTimer,
+        _sel_timerWithTimeInterval_repeats_block_,
+        interval,
+        repeats,
+        _$$ref.pointer,
+      );
+      return NSTimer.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// timerWithTimeInterval:target:selector:userInfo:repeats:
@@ -23477,16 +26370,18 @@ extension type NSTimer._(objc.ObjCObject object$)
   }) {
     final _$$ref = target.ref;
     final _$$ref$1 = userInfo?.ref;
-    final $ret = _objc_msgSend_ot6jdx(
-      _class_NSTimer,
-      _sel_timerWithTimeInterval_target_selector_userInfo_repeats_,
-      ti,
-      _$$ref.pointer,
-      selector,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      repeats,
-    );
-    return NSTimer.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_ot6jdx(
+        _class_NSTimer,
+        _sel_timerWithTimeInterval_target_selector_userInfo_repeats_,
+        ti,
+        _$$ref.pointer,
+        selector,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        repeats,
+      );
+      return NSTimer.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NSTimer constructed with the default `new` method.
@@ -23497,14 +26392,18 @@ extension NSTimer$Methods on NSTimer {
   /// fire
   void fire() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_fire);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_fire);
+    });
   }
 
   /// fireDate
   NSDate get fireDate {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fireDate);
-    return NSDate.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fireDate);
+      return NSDate.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -23515,11 +26414,13 @@ extension NSTimer$Methods on NSTimer {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSTimer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSTimer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFireDate:interval:repeats:block:
@@ -23537,15 +26438,17 @@ extension NSTimer$Methods on NSTimer {
       iOS: (false, (10, 0, 0)),
       macOS: (false, (10, 12, 0)),
     );
-    final $ret = _objc_msgSend_1s0rfm3(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFireDate_interval_repeats_block_,
-      _$$ref$1.pointer,
-      interval,
-      repeats,
-      _$$ref$2.pointer,
-    );
-    return NSTimer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1s0rfm3(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFireDate_interval_repeats_block_,
+        _$$ref$1.pointer,
+        interval,
+        repeats,
+        _$$ref$2.pointer,
+      );
+      return NSTimer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithFireDate:interval:target:selector:userInfo:repeats:
@@ -23561,36 +26464,44 @@ extension NSTimer$Methods on NSTimer {
     final _$$ref$1 = date.ref;
     final _$$ref$2 = target.ref;
     final _$$ref$3 = userInfo?.ref;
-    final $ret = _objc_msgSend_14wwtbv(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithFireDate_interval_target_selector_userInfo_repeats_,
-      _$$ref$1.pointer,
-      interval,
-      _$$ref$2.pointer,
-      selector,
-      _$$ref$3?.pointer ?? ffi.nullptr,
-      repeats,
-    );
-    return NSTimer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_14wwtbv(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithFireDate_interval_target_selector_userInfo_repeats_,
+        _$$ref$1.pointer,
+        interval,
+        _$$ref$2.pointer,
+        selector,
+        _$$ref$3?.pointer ?? ffi.nullptr,
+        repeats,
+      );
+      return NSTimer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// invalidate
   void invalidate() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_invalidate);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_invalidate);
+    });
   }
 
   /// isValid
   bool get isValid {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isValid);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isValid);
+    });
   }
 
   /// setFireDate:
   set fireDate(NSDate value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setFireDate_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setFireDate_, _$$ref$1.pointer);
+    });
   }
 
   /// setTolerance:
@@ -23601,15 +26512,19 @@ extension NSTimer$Methods on NSTimer {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setTolerance_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setTolerance_, value);
+    });
   }
 
   /// timeInterval
   double get timeInterval {
     final _$$ref = object$.ref;
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_timeInterval)
-        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_timeInterval);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_timeInterval)
+          : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_timeInterval);
+    });
   }
 
   /// tolerance
@@ -23620,18 +26535,22 @@ extension NSTimer$Methods on NSTimer {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_tolerance)
-        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_tolerance);
+    return objc.autoReleasePool(() {
+      return objc.useMsgSendVariants
+          ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_tolerance)
+          : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_tolerance);
+    });
   }
 
   /// userInfo
   objc.ObjCObject? get userInfo {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -23677,17 +26596,19 @@ extension type NSURL._(objc.ObjCObject object$)
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1tiux5i(
-        _class_NSURL,
-        _sel_URLByResolvingAliasFileAtURL_options_error_,
-        _$$ref.pointer,
-        options,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSURL.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1tiux5i(
+          _class_NSURL,
+          _sel_URLByResolvingAliasFileAtURL_options_error_,
+          _$$ref.pointer,
+          options,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSURL.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -23709,19 +26630,21 @@ extension type NSURL._(objc.ObjCObject object$)
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1ceswyu(
-        _class_NSURL,
-        _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
-        _$$ref.pointer,
-        options,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-        bookmarkDataIsStale,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSURL.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1ceswyu(
+          _class_NSURL,
+          _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
+          _$$ref.pointer,
+          options,
+          _$$ref$1?.pointer ?? ffi.nullptr,
+          bookmarkDataIsStale,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSURL.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -23736,26 +26659,30 @@ extension type NSURL._(objc.ObjCObject object$)
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSURL,
-      _sel_URLWithDataRepresentation_relativeToURL_,
-      _$$ref.pointer,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSURL,
+        _sel_URLWithDataRepresentation_relativeToURL_,
+        _$$ref.pointer,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLWithString:
   static NSURL? URLWithString(NSString URLString) {
     final _$$ref = URLString.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSURL,
-      _sel_URLWithString_,
-      _$$ref.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSURL,
+        _sel_URLWithString_,
+        _$$ref.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLWithString:encodingInvalidCharacters:
@@ -23772,30 +26699,34 @@ extension type NSURL._(objc.ObjCObject object$)
       iOS: (false, (17, 0, 0)),
       macOS: (false, (14, 0, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _class_NSURL,
-      _sel_URLWithString_encodingInvalidCharacters_,
-      _$$ref.pointer,
-      encodingInvalidCharacters,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _class_NSURL,
+        _sel_URLWithString_encodingInvalidCharacters_,
+        _$$ref.pointer,
+        encodingInvalidCharacters,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// URLWithString:relativeToURL:
   static NSURL? URLWithString$2(NSString URLString, {NSURL? relativeToURL}) {
     final _$$ref = URLString.ref;
     final _$$ref$1 = relativeToURL?.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSURL,
-      _sel_URLWithString_relativeToURL_,
-      _$$ref.pointer,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSURL,
+        _sel_URLWithString_relativeToURL_,
+        _$$ref.pointer,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// absoluteURLWithDataRepresentation:relativeToURL:
@@ -23810,25 +26741,35 @@ extension type NSURL._(objc.ObjCObject object$)
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSURL,
-      _sel_absoluteURLWithDataRepresentation_relativeToURL_,
-      _$$ref.pointer,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSURL,
+        _sel_absoluteURLWithDataRepresentation_relativeToURL_,
+        _$$ref.pointer,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// alloc
   static NSURL alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSURL, _sel_alloc);
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSURL, _sel_alloc);
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSURL allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(_class_NSURL, _sel_allocWithZone_, zone);
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSURL,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// bookmarkDataWithContentsOfURL:error:
@@ -23841,16 +26782,18 @@ extension type NSURL._(objc.ObjCObject object$)
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1lhpu4m(
-        _class_NSURL,
-        _sel_bookmarkDataWithContentsOfURL_error_,
-        _$$ref.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSData.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1lhpu4m(
+          _class_NSURL,
+          _sel_bookmarkDataWithContentsOfURL_error_,
+          _$$ref.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSData.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -23868,25 +26811,29 @@ extension type NSURL._(objc.ObjCObject object$)
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_1n40f6p(
-      _class_NSURL,
-      _sel_fileURLWithFileSystemRepresentation_isDirectory_relativeToURL_,
-      path,
-      isDirectory,
-      _$$ref?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1n40f6p(
+        _class_NSURL,
+        _sel_fileURLWithFileSystemRepresentation_isDirectory_relativeToURL_,
+        path,
+        isDirectory,
+        _$$ref?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileURLWithPath:
   static NSURL fileURLWithPath(NSString path) {
     final _$$ref = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _class_NSURL,
-      _sel_fileURLWithPath_,
-      _$$ref.pointer,
-    );
-    return NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _class_NSURL,
+        _sel_fileURLWithPath_,
+        _$$ref.pointer,
+      );
+      return NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileURLWithPath:isDirectory:
@@ -23897,13 +26844,15 @@ extension type NSURL._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _class_NSURL,
-      _sel_fileURLWithPath_isDirectory_,
-      _$$ref.pointer,
-      isDirectory,
-    );
-    return NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _class_NSURL,
+        _sel_fileURLWithPath_isDirectory_,
+        _$$ref.pointer,
+        isDirectory,
+      );
+      return NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileURLWithPath:isDirectory:relativeToURL:
@@ -23919,14 +26868,16 @@ extension type NSURL._(objc.ObjCObject object$)
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_1ged0jd(
-      _class_NSURL,
-      _sel_fileURLWithPath_isDirectory_relativeToURL_,
-      _$$ref.pointer,
-      isDirectory,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ged0jd(
+        _class_NSURL,
+        _sel_fileURLWithPath_isDirectory_relativeToURL_,
+        _$$ref.pointer,
+        isDirectory,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileURLWithPath:relativeToURL:
@@ -23938,19 +26889,23 @@ extension type NSURL._(objc.ObjCObject object$)
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSURL,
-      _sel_fileURLWithPath_relativeToURL_,
-      _$$ref.pointer,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSURL,
+        _sel_fileURLWithPath_relativeToURL_,
+        _$$ref.pointer,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NSURL new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSURL, _sel_new);
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSURL, _sel_new);
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// resourceValuesForKeys:fromBookmarkData:
@@ -23965,20 +26920,24 @@ extension type NSURL._(objc.ObjCObject object$)
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _class_NSURL,
-      _sel_resourceValuesForKeys_fromBookmarkData_,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _class_NSURL,
+        _sel_resourceValuesForKeys_fromBookmarkData_,
+        _$$ref.pointer,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSURL, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSURL, _sel_supportsSecureCoding);
+    });
   }
 
   /// writeBookmarkData:toURL:options:error:
@@ -23996,16 +26955,18 @@ extension type NSURL._(objc.ObjCObject object$)
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1vxoo9h(
-        _class_NSURL,
-        _sel_writeBookmarkData_toURL_options_error_,
-        _$$ref.pointer,
-        _$$ref$1.pointer,
-        options,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1vxoo9h(
+          _class_NSURL,
+          _sel_writeBookmarkData_toURL_options_error_,
+          _$$ref.pointer,
+          _$$ref$1.pointer,
+          options,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -24019,28 +26980,34 @@ extension NSURL$Methods on NSURL {
   /// absoluteString
   NSString? get absoluteString {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_absoluteString);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_absoluteString);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// absoluteURL
   NSURL? get absoluteURL {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_absoluteURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_absoluteURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// baseURL
   NSURL? get baseURL {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_baseURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_baseURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:
@@ -24059,18 +27026,20 @@ extension NSURL$Methods on NSURL {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1wt9a7r(
-        _$$ref.pointer,
-        _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_,
-        options,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-        _$$ref$2?.pointer ?? ffi.nullptr,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSData.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1wt9a7r(
+          _$$ref.pointer,
+          _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_,
+          options,
+          _$$ref$1?.pointer ?? ffi.nullptr,
+          _$$ref$2?.pointer ?? ffi.nullptr,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSData.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -24084,19 +27053,26 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_dataRepresentation);
-    return NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_dataRepresentation,
+      );
+      return NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// filePathURL
@@ -24107,10 +27083,12 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_filePathURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_filePathURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileReferenceURL
@@ -24121,10 +27099,12 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fileReferenceURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fileReferenceURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// fileSystemRepresentation
@@ -24135,16 +27115,23 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_1fuqfwb(_$$ref.pointer, _sel_fileSystemRepresentation);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1fuqfwb(
+        _$$ref.pointer,
+        _sel_fileSystemRepresentation,
+      );
+    });
   }
 
   /// fragment
   NSString? get fragment {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fragment);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_fragment);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// getFileSystemRepresentation:maxLength:
@@ -24158,12 +27145,14 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    return _objc_msgSend_8cymbm(
-      _$$ref.pointer,
-      _sel_getFileSystemRepresentation_maxLength_,
-      buffer,
-      maxLength,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_8cymbm(
+        _$$ref.pointer,
+        _sel_getFileSystemRepresentation_maxLength_,
+        buffer,
+        maxLength,
+      );
+    });
   }
 
   /// getResourceValue:forKey:error:
@@ -24180,15 +27169,17 @@ extension NSURL$Methods on NSURL {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1j9bhml(
-        _$$ref.pointer,
-        _sel_getResourceValue_forKey_error_,
-        value,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1j9bhml(
+          _$$ref.pointer,
+          _sel_getResourceValue_forKey_error_,
+          value,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -24202,16 +27193,20 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_hasDirectoryPath);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_hasDirectoryPath);
+    });
   }
 
   /// host
   NSString? get host {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_host);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_host);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -24222,11 +27217,13 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initAbsoluteURLWithDataRepresentation:relativeToURL:
@@ -24242,13 +27239,15 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initAbsoluteURLWithDataRepresentation_relativeToURL_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initAbsoluteURLWithDataRepresentation_relativeToURL_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:
@@ -24268,19 +27267,21 @@ extension NSURL$Methods on NSURL {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1ceswyu(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
-        _$$ref$1.pointer,
-        options,
-        _$$ref$2?.pointer ?? ffi.nullptr,
-        bookmarkDataIsStale,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSURL.fromPointer($ret, retain: false, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1ceswyu(
+          _$$ref.retainAndReturnPointer(),
+          _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
+          _$$ref$1.pointer,
+          options,
+          _$$ref$2?.pointer ?? ffi.nullptr,
+          bookmarkDataIsStale,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSURL.fromPointer($ret, retain: false, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -24299,26 +27300,30 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_1n40f6p(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL_,
-      path,
-      isDirectory,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1n40f6p(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL_,
+        path,
+        isDirectory,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initFileURLWithPath:
   NSURL initFileURLWithPath(NSString path) {
     final _$$ref = object$.ref;
     final _$$ref$1 = path.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initFileURLWithPath_,
-      _$$ref$1.pointer,
-    );
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initFileURLWithPath_,
+        _$$ref$1.pointer,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initFileURLWithPath:isDirectory:
@@ -24330,13 +27335,15 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initFileURLWithPath_isDirectory_,
-      _$$ref$1.pointer,
-      isDirectory,
-    );
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initFileURLWithPath_isDirectory_,
+        _$$ref$1.pointer,
+        isDirectory,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initFileURLWithPath:isDirectory:relativeToURL:
@@ -24353,14 +27360,16 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_1ged0jd(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initFileURLWithPath_isDirectory_relativeToURL_,
-      _$$ref$1.pointer,
-      isDirectory,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1ged0jd(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initFileURLWithPath_isDirectory_relativeToURL_,
+        _$$ref$1.pointer,
+        isDirectory,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initFileURLWithPath:relativeToURL:
@@ -24373,27 +27382,31 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initFileURLWithPath_relativeToURL_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initFileURLWithPath_relativeToURL_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSURL? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithDataRepresentation:relativeToURL:
@@ -24406,27 +27419,31 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithDataRepresentation_relativeToURL_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithDataRepresentation_relativeToURL_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithString:
   NSURL? initWithString(NSString URLString) {
     final _$$ref = object$.ref;
     final _$$ref$1 = URLString.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithString_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithString_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithString:encodingInvalidCharacters:
@@ -24444,15 +27461,17 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (17, 0, 0)),
       macOS: (false, (14, 0, 0)),
     );
-    final $ret = _objc_msgSend_17amj0z(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithString_encodingInvalidCharacters_,
-      _$$ref$1.pointer,
-      encodingInvalidCharacters,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_17amj0z(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithString_encodingInvalidCharacters_,
+        _$$ref$1.pointer,
+        encodingInvalidCharacters,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithString:relativeToURL:
@@ -24460,15 +27479,17 @@ extension NSURL$Methods on NSURL {
     final _$$ref = object$.ref;
     final _$$ref$1 = URLString.ref;
     final _$$ref$2 = relativeToURL?.ref;
-    final $ret = _objc_msgSend_15qeuct(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithString_relativeToURL_,
-      _$$ref$1.pointer,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_15qeuct(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithString_relativeToURL_,
+        _$$ref$1.pointer,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// isFileReferenceURL
@@ -24479,13 +27500,17 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFileReferenceURL);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFileReferenceURL);
+    });
   }
 
   /// isFileURL
   bool get isFileURL {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFileURL);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFileURL);
+    });
   }
 
   /// iOS: introduced 2.0.0, deprecated 13.0.0
@@ -24500,62 +27525,76 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 2, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_parameterString);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_parameterString);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// password
   NSString? get password {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_password);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_password);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// path
   NSString? get path {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_path);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_path);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// port
   NSNumber? get port {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_port);
-    return $ret.address == 0
-        ? null
-        : NSNumber.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_port);
+      return $ret.address == 0
+          ? null
+          : NSNumber.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// query
   NSString? get query {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_query);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_query);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// relativePath
   NSString? get relativePath {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_relativePath);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_relativePath);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// relativeString
   NSString get relativeString {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_relativeString);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_relativeString);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// removeAllCachedResourceValues
@@ -24566,7 +27605,9 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllCachedResourceValues);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_removeAllCachedResourceValues);
+    });
   }
 
   /// removeCachedResourceValueForKey:
@@ -24578,20 +27619,27 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_removeCachedResourceValueForKey_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_removeCachedResourceValueForKey_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// resourceSpecifier
   NSString? get resourceSpecifier {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_resourceSpecifier);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_resourceSpecifier,
+      );
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// resourceValuesForKeys:error:
@@ -24605,16 +27653,18 @@ extension NSURL$Methods on NSURL {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_1lhpu4m(
-        _$$ref.pointer,
-        _sel_resourceValuesForKeys_error_,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : NSDictionary.fromPointer($ret, retain: true, release: true);
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_1lhpu4m(
+          _$$ref.pointer,
+          _sel_resourceValuesForKeys_error_,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret.address == 0
+            ? null
+            : NSDictionary.fromPointer($ret, retain: true, release: true);
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -24623,10 +27673,12 @@ extension NSURL$Methods on NSURL {
   /// scheme
   NSString? get scheme {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_scheme);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_scheme);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setResourceValue:forKey:error:
@@ -24641,15 +27693,17 @@ extension NSURL$Methods on NSURL {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_6z4k82(
-        _$$ref.pointer,
-        _sel_setResourceValue_forKey_error_,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-        _$$ref$2.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_6z4k82(
+          _$$ref.pointer,
+          _sel_setResourceValue_forKey_error_,
+          _$$ref$1?.pointer ?? ffi.nullptr,
+          _$$ref$2.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -24666,14 +27720,16 @@ extension NSURL$Methods on NSURL {
     );
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      final $ret = _objc_msgSend_l9p60w(
-        _$$ref.pointer,
-        _sel_setResourceValues_error_,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret;
+      return objc.autoReleasePool(() {
+        final $ret = _objc_msgSend_l9p60w(
+          _$$ref.pointer,
+          _sel_setResourceValues_error_,
+          _$$ref$1.pointer,
+          $err,
+        );
+        objc.NSErrorException.checkErrorPointer($err.value);
+        return $ret;
+      });
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -24692,21 +27748,25 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 9, 0)),
     );
-    _objc_msgSend_pfv6jd(
-      _$$ref.pointer,
-      _sel_setTemporaryResourceValue_forKey_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_pfv6jd(
+        _$$ref.pointer,
+        _sel_setTemporaryResourceValue_forKey_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2.pointer,
+      );
+    });
   }
 
   /// standardizedURL
   NSURL? get standardizedURL {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_standardizedURL);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_standardizedURL);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// startAccessingSecurityScopedResource
@@ -24717,10 +27777,12 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_91o635(
-      _$$ref.pointer,
-      _sel_startAccessingSecurityScopedResource,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _$$ref.pointer,
+        _sel_startAccessingSecurityScopedResource,
+      );
+    });
   }
 
   /// stopAccessingSecurityScopedResource
@@ -24731,19 +27793,23 @@ extension NSURL$Methods on NSURL {
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1pl9qdv(
-      _$$ref.pointer,
-      _sel_stopAccessingSecurityScopedResource,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(
+        _$$ref.pointer,
+        _sel_stopAccessingSecurityScopedResource,
+      );
+    });
   }
 
   /// user
   NSString? get user {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_user);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_user);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -24791,24 +27857,30 @@ extension type NSURLHandle._(objc.ObjCObject object$)
 
   /// alloc
   static NSURLHandle alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSURLHandle, _sel_alloc);
-    return NSURLHandle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSURLHandle, _sel_alloc);
+      return NSURLHandle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSURLHandle allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSURLHandle,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSURLHandle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSURLHandle,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSURLHandle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSURLHandle new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSURLHandle, _sel_new);
-    return NSURLHandle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSURLHandle, _sel_new);
+      return NSURLHandle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of NSURLHandle constructed with the default `new` method.
@@ -24824,11 +27896,13 @@ extension NSURLHandle$Methods on NSURLHandle {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSURLHandle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSURLHandle.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -24878,29 +27952,37 @@ extension type NSValue._(objc.ObjCObject object$)
 
   /// alloc
   static NSValue alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NSValue, _sel_alloc);
-    return NSValue.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSValue, _sel_alloc);
+      return NSValue.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NSValue allocWithZone(ffi.Pointer<NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NSValue,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NSValue.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NSValue,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NSValue.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static NSValue new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NSValue, _sel_new);
-    return NSValue.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSValue, _sel_new);
+      return NSValue.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSValue, _sel_supportsSecureCoding);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_class_NSValue, _sel_supportsSecureCoding);
+    });
   }
 
   /// Returns a new instance of NSValue constructed with the default `new` method.
@@ -24912,11 +27994,13 @@ extension NSValue$Methods on NSValue {
   void encodeWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_encodeWithCoder_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_encodeWithCoder_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// getValue:size:
@@ -24927,7 +28011,9 @@ extension NSValue$Methods on NSValue {
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    _objc_msgSend_zuf90e(_$$ref.pointer, _sel_getValue_size_, value, size);
+    objc.autoReleasePool(() {
+      _objc_msgSend_zuf90e(_$$ref.pointer, _sel_getValue_size_, value, size);
+    });
   }
 
   /// init
@@ -24938,11 +28024,13 @@ extension NSValue$Methods on NSValue {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSValue.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NSValue.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithBytes:objCType:
@@ -24951,33 +28039,39 @@ extension NSValue$Methods on NSValue {
     required ffi.Pointer<ffi.Char> objCType,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_e9mncn(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithBytes_objCType_,
-      value,
-      objCType,
-    );
-    return NSValue.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_e9mncn(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithBytes_objCType_,
+        value,
+        objCType,
+      );
+      return NSValue.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   NSValue? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : NSValue.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : NSValue.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// objCType
   ffi.Pointer<ffi.Char> get objCType {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1fuqfwb(_$$ref.pointer, _sel_objCType);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1fuqfwb(_$$ref.pointer, _sel_objCType);
+    });
   }
 }
 
@@ -25077,24 +28171,26 @@ abstract final class ObjCBlock_NSArray_ffiVoid {
 extension ObjCBlock_NSArray_ffiVoid$CallExtension
     on objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> {
   NSArray call(ffi.Pointer<ffi.Void> arg0) {
-    return NSArray.fromPointer(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => NSArray.fromPointer(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >()(ref.pointer, arg0),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -25251,24 +28347,26 @@ extension ObjCBlock_NSComparisonResult_objcObjCObjectImpl_objcObjCObjectImpl$Cal
   NSComparisonResult call(objc.ObjCObject arg0, objc.ObjCObject arg1) {
     final _$$ref = arg0.ref;
     final _$$ref$1 = arg1.ref;
-    return NSComparisonResult.fromValue(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Long Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<objc.ObjCObjectImpl> arg0,
-                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    return objc.autoReleasePool(
+      () => NSComparisonResult.fromValue(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Long Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                )
+              >
+            >()
+            .asFunction<
+              int Function(
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
               )
-            >
-          >()
-          .asFunction<
-            int Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >()(ref.pointer, _$$ref.pointer, _$$ref$1.pointer),
+            >()(ref.pointer, _$$ref.pointer, _$$ref$1.pointer),
+      ),
     );
   }
 }
@@ -25393,24 +28491,26 @@ extension ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString$Call
     NSString arg1,
   ) {
     final _$$ref = arg1.ref;
-    return NSItemProviderRepresentationVisibility.fromValue(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Long Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    return objc.autoReleasePool(
+      () => NSItemProviderRepresentationVisibility.fromValue(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Long Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                )
+              >
+            >()
+            .asFunction<
+              int Function(
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
               )
-            >
-          >()
-          .asFunction<
-            int Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >()(ref.pointer, arg0, _$$ref.pointer),
+            >()(ref.pointer, arg0, _$$ref.pointer),
+      ),
     );
   }
 }
@@ -25540,24 +28640,26 @@ extension ObjCBlock_NSOrderedCollectionChange_NSOrderedCollectionChange$CallExte
         > {
   NSOrderedCollectionChange call(NSOrderedCollectionChange arg0) {
     final _$$ref$1 = arg0.ref;
-    return NSOrderedCollectionChange.fromPointer(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => NSOrderedCollectionChange.fromPointer(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >()(ref.pointer, _$$ref$1.pointer),
-      retain: true,
-      release: true,
+            >()(ref.pointer, _$$ref$1.pointer),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -25681,43 +28783,46 @@ extension ObjCBlock_NSProgressUnpublishingHandler_NSProgress$CallExtension
         > {
   objc.ObjCBlock<ffi.Void Function()>? call(NSProgress arg0) {
     final _$$ref$1 = arg0.ref;
-    return ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCBlockImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCBlockImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCBlockImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer)
-                .address ==
-            0
-        ? null
-        : ObjCBlock_ffiVoid.fromPointer(
-            ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+                  >()(ref.pointer, _$$ref$1.pointer)
+                  .address ==
+              0
+          ? null
+          : ObjCBlock_ffiVoid.fromPointer(
+              ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCBlockImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCBlockImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCBlockImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer),
-            retain: true,
-            release: true,
-          );
+                  >()(ref.pointer, _$$ref$1.pointer),
+              retain: true,
+              release: true,
+            ),
+    );
   }
 }
 
@@ -25855,43 +28960,46 @@ extension ObjCBlock_NSProgress_ffiVoidNSDataNSError$CallExtension
         > {
   NSProgress? call(objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)> arg0) {
     final _$$ref$1 = arg0.ref;
-    return ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer)
-                .address ==
-            0
-        ? null
-        : NSProgress.fromPointer(
-            ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+                  >()(ref.pointer, _$$ref$1.pointer)
+                  .address ==
+              0
+          ? null
+          : NSProgress.fromPointer(
+              ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer),
-            retain: true,
-            release: true,
-          );
+                  >()(ref.pointer, _$$ref$1.pointer),
+              retain: true,
+              release: true,
+            ),
+    );
   }
 }
 
@@ -26039,43 +29147,46 @@ extension ObjCBlock_NSProgress_ffiVoidNSURLboolNSError$CallExtension
     objc.ObjCBlock<ffi.Void Function(NSURL?, ffi.Bool, NSError?)> arg0,
   ) {
     final _$$ref$1 = arg0.ref;
-    return ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer)
-                .address ==
-            0
-        ? null
-        : NSProgress.fromPointer(
-            ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+                  >()(ref.pointer, _$$ref$1.pointer)
+                  .address ==
+              0
+          ? null
+          : NSProgress.fromPointer(
+              ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer),
-            retain: true,
-            release: true,
-          );
+                  >()(ref.pointer, _$$ref$1.pointer),
+              retain: true,
+              release: true,
+            ),
+    );
   }
 }
 
@@ -26262,51 +29373,54 @@ extension ObjCBlock_NSProgress_ffiVoid_NSString_ffiVoidNSDataNSError$CallExtensi
   ) {
     final _$$ref$1 = arg1.ref;
     final _$$ref$2 = arg2.ref;
-    return ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<ffi.Void> arg0,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                        ffi.Pointer<objc.ObjCBlockImpl> arg2,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<ffi.Void> arg0,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg1,
-                      ffi.Pointer<objc.ObjCBlockImpl> arg2,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<ffi.Void>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                  )
-                >()(ref.pointer, arg0, _$$ref$1.pointer, _$$ref$2.pointer)
-                .address ==
-            0
-        ? null
-        : NSProgress.fromPointer(
-            ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+                  >()(ref.pointer, arg0, _$$ref$1.pointer, _$$ref$2.pointer)
+                  .address ==
+              0
+          ? null
+          : NSProgress.fromPointer(
+              ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<ffi.Void> arg0,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                        ffi.Pointer<objc.ObjCBlockImpl> arg2,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<ffi.Void> arg0,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg1,
-                      ffi.Pointer<objc.ObjCBlockImpl> arg2,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<ffi.Void>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                  )
-                >()(ref.pointer, arg0, _$$ref$1.pointer, _$$ref$2.pointer),
-            retain: true,
-            release: true,
-          );
+                  >()(ref.pointer, arg0, _$$ref$1.pointer, _$$ref$2.pointer),
+              retain: true,
+              release: true,
+            ),
+    );
   }
 }
 
@@ -26473,43 +29587,46 @@ extension ObjCBlock_NSProgress_ffiVoididNSItemProviderWritingNSError$CallExtensi
     arg0,
   ) {
     final _$$ref$1 = arg0.ref;
-    return ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer)
-                .address ==
-            0
-        ? null
-        : NSProgress.fromPointer(
-            ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+                  >()(ref.pointer, _$$ref$1.pointer)
+                  .address ==
+              0
+          ? null
+          : NSProgress.fromPointer(
+              ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer),
-            retain: true,
-            release: true,
-          );
+                  >()(ref.pointer, _$$ref$1.pointer),
+              retain: true,
+              release: true,
+            ),
+    );
   }
 }
 
@@ -26607,24 +29724,26 @@ abstract final class ObjCBlock_NSString_ffiVoid {
 extension ObjCBlock_NSString_ffiVoid$CallExtension
     on objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)> {
   NSString call(ffi.Pointer<ffi.Void> arg0) {
-    return NSString.fromPointer(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => NSString.fromPointer(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >()(ref.pointer, arg0),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -26716,18 +29835,20 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid {
 extension ObjCBlock_NSUInteger_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)> {
   DartNSUInteger call(ffi.Pointer<ffi.Void> arg0) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            NSUInteger Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-            )
-          >
-        >()
-        .asFunction<
-          int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
-        >()(ref.pointer, arg0);
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              NSUInteger Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
+            int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
+          >()(ref.pointer, arg0),
+    );
   }
 }
 
@@ -26921,27 +30042,29 @@ extension ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObjectImpl
     ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> arg2,
     DartNSUInteger arg3,
   ) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            NSUInteger Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<NSFastEnumerationState> arg1,
-              ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> arg2,
-              NSUInteger arg3,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              NSUInteger Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<NSFastEnumerationState> arg1,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> arg2,
+                NSUInteger arg3,
+              )
+            >
+          >()
+          .asFunction<
+            int Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<NSFastEnumerationState>,
+              ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
+              int,
             )
-          >
-        >()
-        .asFunction<
-          int Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<NSFastEnumerationState>,
-            ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-            int,
-          )
-        >()(ref.pointer, arg0, arg1, arg2, arg3);
+          >()(ref.pointer, arg0, arg1, arg2, arg3),
+    );
   }
 }
 
@@ -27036,21 +30159,23 @@ abstract final class ObjCBlock_NSZone_ffiVoid {
 extension ObjCBlock_NSZone_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)> {
   ffi.Pointer<NSZone> call(ffi.Pointer<ffi.Void> arg0) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Pointer<NSZone> Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
             ffi.Pointer<NSZone> Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
             )
-          >
-        >()
-        .asFunction<
-          ffi.Pointer<NSZone> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >()(ref.pointer, arg0);
+          >()(ref.pointer, arg0),
+    );
   }
 }
 
@@ -27227,25 +30352,27 @@ extension ObjCBlock_bool_KeyType_ObjectType_bool$CallExtension
   ) {
     final _$$ref = arg0.ref;
     final _$$ref$1 = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Bool Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-              ffi.Pointer<ffi.Bool> arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Bool Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                ffi.Pointer<ffi.Bool> arg2,
+              )
+            >
+          >()
+          .asFunction<
+            bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref.pointer, _$$ref$1.pointer, arg2);
+          >()(ref.pointer, _$$ref.pointer, _$$ref$1.pointer, arg2),
+    );
   }
 }
 
@@ -27361,23 +30488,25 @@ extension ObjCBlock_bool_NSUInteger_bool$CallExtension
           ffi.Bool Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
         > {
   bool call(DartNSUInteger arg0, ffi.Pointer<ffi.Bool> arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Bool Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              NSUInteger arg0,
-              ffi.Pointer<ffi.Bool> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Bool Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                NSUInteger arg0,
+                ffi.Pointer<ffi.Bool> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              int,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            int,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -27553,25 +30682,27 @@ extension ObjCBlock_bool_ObjectType_NSUInteger_bool$CallExtension
     ffi.Pointer<ffi.Bool> arg2,
   ) {
     final _$$ref = arg0.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Bool Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              NSUInteger arg1,
-              ffi.Pointer<ffi.Bool> arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Bool Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                NSUInteger arg1,
+                ffi.Pointer<ffi.Bool> arg2,
+              )
+            >
+          >()
+          .asFunction<
+            bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              int,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            int,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref.pointer, arg1, arg2);
+          >()(ref.pointer, _$$ref.pointer, arg1, arg2),
+    );
   }
 }
 
@@ -27711,23 +30842,25 @@ extension ObjCBlock_bool_ObjectType_bool$CallExtension
         > {
   bool call(objc.ObjCObject arg0, ffi.Pointer<ffi.Bool> arg1) {
     final _$$ref = arg0.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Bool Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<ffi.Bool> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Bool Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                ffi.Pointer<ffi.Bool> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref.pointer, arg1);
+          >()(ref.pointer, _$$ref.pointer, arg1),
+    );
   }
 }
 
@@ -27814,18 +30947,23 @@ abstract final class ObjCBlock_bool_ffiVoid {
 extension ObjCBlock_bool_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)> {
   bool call(ffi.Pointer<ffi.Void> arg0) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Bool Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Bool Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
+            bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
             )
-          >
-        >()
-        .asFunction<
-          bool Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
-        >()(ref.pointer, arg0);
+          >()(ref.pointer, arg0),
+    );
   }
 }
 
@@ -27939,23 +31077,25 @@ extension ObjCBlock_bool_ffiVoid_Protocol$CallExtension
     on objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)> {
   bool call(ffi.Pointer<ffi.Void> arg0, Protocol arg1) {
     final _$$ref = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Bool Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Bool Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
             )
-          >
-        >()
-        .asFunction<
-          bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(ref.pointer, arg0, _$$ref.pointer);
+          >()(ref.pointer, arg0, _$$ref.pointer),
+    );
   }
 }
 
@@ -28095,23 +31235,25 @@ extension ObjCBlock_bool_ffiVoid_objcObjCObjectImpl$CallExtension
         > {
   bool call(ffi.Pointer<ffi.Void> arg0, objc.ObjCObject arg1) {
     final _$$ref = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Bool Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Bool Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
             )
-          >
-        >()
-        .asFunction<
-          bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(ref.pointer, arg0, _$$ref.pointer);
+          >()(ref.pointer, arg0, _$$ref.pointer),
+    );
   }
 }
 
@@ -28241,23 +31383,25 @@ extension ObjCBlock_bool_ffiVoid_objcObjCSelector$CallExtension
           )
         > {
   bool call(ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCSelector> arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Bool Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<objc.ObjCSelector> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Bool Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCSelector> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCSelector>,
             )
-          >
-        >()
-        .asFunction<
-          bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCSelector>,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -28377,14 +31521,17 @@ abstract final class ObjCBlock_ffiVoid {
 extension ObjCBlock_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.Void Function()> {
   void call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<void Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<void Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -28648,25 +31795,27 @@ extension ObjCBlock_ffiVoid_KeyType_ObjectType_bool$CallExtension
   ) {
     final _$$ref = arg0.ref;
     final _$$ref$1 = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-              ffi.Pointer<ffi.Bool> arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                ffi.Pointer<ffi.Bool> arg2,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref.pointer, _$$ref$1.pointer, arg2);
+          >()(ref.pointer, _$$ref.pointer, _$$ref$1.pointer, arg2),
+    );
   }
 }
 
@@ -28849,26 +31998,29 @@ extension ObjCBlock_ffiVoid_NSData_NSError$CallExtension
   void call(NSData? arg0, NSError? arg1) {
     final _$$ref = arg0?.ref;
     final _$$ref$1 = arg1?.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-            )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(
-      ref.pointer,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                  )
+                >
+              >()
+              .asFunction<
+                void Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            _$$ref?.pointer ?? ffi.nullptr,
+            _$$ref$1?.pointer ?? ffi.nullptr,
+          ),
     );
   }
 }
@@ -29083,25 +32235,27 @@ extension ObjCBlock_ffiVoid_NSDictionary_NSRange_bool$CallExtension
         > {
   void call(NSDictionary arg0, NSRange arg1, ffi.Pointer<ffi.Bool> arg2) {
     final _$$ref = arg0.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              NSRange arg1,
-              ffi.Pointer<ffi.Bool> arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                NSRange arg1,
+                ffi.Pointer<ffi.Bool> arg2,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              NSRange,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            NSRange,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref.pointer, arg1, arg2);
+          >()(ref.pointer, _$$ref.pointer, arg1, arg2),
+    );
   }
 }
 
@@ -29415,25 +32569,27 @@ extension ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObjectImpl_N
     final _$$ref = arg0.ref;
     final _$$ref$1 = arg1.ref;
     final _$$ref$2 = arg2.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCBlockImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-              ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCBlockImpl> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                ffi.Pointer<objc.ObjCObjectImpl> arg2,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(ref.pointer, _$$ref.pointer, _$$ref$1.pointer, _$$ref$2.pointer);
+          >()(ref.pointer, _$$ref.pointer, _$$ref$1.pointer, _$$ref$2.pointer),
+    );
   }
 }
 
@@ -29597,23 +32753,25 @@ abstract final class ObjCBlock_ffiVoid_NSRange_bool {
 extension ObjCBlock_ffiVoid_NSRange_bool$CallExtension
     on objc.ObjCBlock<ffi.Void Function(NSRange, ffi.Pointer<ffi.Bool>)> {
   void call(NSRange arg0, ffi.Pointer<ffi.Bool> arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              NSRange arg0,
-              ffi.Pointer<ffi.Bool> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                NSRange arg0,
+                ffi.Pointer<ffi.Bool> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              NSRange,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            NSRange,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -29844,27 +33002,29 @@ extension ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool$CallExtension
     ffi.Pointer<ffi.Bool> arg3,
   ) {
     final _$$ref = arg0?.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              NSRange arg1,
-              NSRange arg2,
-              ffi.Pointer<ffi.Bool> arg3,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                NSRange arg1,
+                NSRange arg2,
+                ffi.Pointer<ffi.Bool> arg3,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              NSRange,
+              NSRange,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            NSRange,
-            NSRange,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref?.pointer ?? ffi.nullptr, arg1, arg2, arg3);
+          >()(ref.pointer, _$$ref?.pointer ?? ffi.nullptr, arg1, arg2, arg3),
+    );
   }
 }
 
@@ -30040,23 +33200,25 @@ extension ObjCBlock_ffiVoid_NSString_bool$CallExtension
     on objc.ObjCBlock<ffi.Void Function(NSString, ffi.Pointer<ffi.Bool>)> {
   void call(NSString arg0, ffi.Pointer<ffi.Bool> arg1) {
     final _$$ref = arg0.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<ffi.Bool> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                ffi.Pointer<ffi.Bool> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref.pointer, arg1);
+          >()(ref.pointer, _$$ref.pointer, arg1),
+    );
   }
 }
 
@@ -30211,21 +33373,23 @@ extension ObjCBlock_ffiVoid_NSTimer$CallExtension
     on objc.ObjCBlock<ffi.Void Function(NSTimer)> {
   void call(NSTimer arg0) {
     final _$$ref = arg0.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(ref.pointer, _$$ref.pointer);
+          >()(ref.pointer, _$$ref.pointer),
+    );
   }
 }
 
@@ -30411,23 +33575,25 @@ extension ObjCBlock_ffiVoid_NSUInteger_bool$CallExtension
           ffi.Void Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
         > {
   void call(DartNSUInteger arg0, ffi.Pointer<ffi.Bool> arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              NSUInteger arg0,
-              ffi.Pointer<ffi.Bool> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                NSUInteger arg0,
+                ffi.Pointer<ffi.Bool> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              int,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            int,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -30610,26 +33776,29 @@ extension ObjCBlock_ffiVoid_NSURL_NSError$CallExtension
   void call(NSURL? arg0, NSError? arg1) {
     final _$$ref = arg0?.ref;
     final _$$ref$1 = arg1?.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-            )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(
-      ref.pointer,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                  )
+                >
+              >()
+              .asFunction<
+                void Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            _$$ref?.pointer ?? ffi.nullptr,
+            _$$ref$1?.pointer ?? ffi.nullptr,
+          ),
     );
   }
 }
@@ -30825,29 +33994,32 @@ extension ObjCBlock_ffiVoid_NSURL_bool_NSError$CallExtension
   void call(NSURL? arg0, bool arg1, NSError? arg2) {
     final _$$ref = arg0?.ref;
     final _$$ref$1 = arg2?.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Bool arg1,
-              ffi.Pointer<objc.ObjCObjectImpl> arg2,
-            )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            bool,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(
-      ref.pointer,
-      _$$ref?.pointer ?? ffi.nullptr,
-      arg1,
-      _$$ref$1?.pointer ?? ffi.nullptr,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                    ffi.Bool arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                void Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  bool,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            _$$ref?.pointer ?? ffi.nullptr,
+            arg1,
+            _$$ref$1?.pointer ?? ffi.nullptr,
+          ),
     );
   }
 }
@@ -31058,23 +34230,25 @@ extension ObjCBlock_ffiVoid_ObjectType_bool$CallExtension
         > {
   void call(objc.ObjCObject arg0, ffi.Pointer<ffi.Bool> arg1) {
     final _$$ref = arg0.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<ffi.Bool> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                ffi.Pointer<ffi.Bool> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref.pointer, arg1);
+          >()(ref.pointer, _$$ref.pointer, arg1),
+    );
   }
 }
 
@@ -31221,18 +34395,23 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
 extension ObjCBlock_ffiVoid_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> {
   void call(ffi.Pointer<ffi.Void> arg0) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
-        >()(ref.pointer, arg0);
+          >()(ref.pointer, arg0),
+    );
   }
 }
 
@@ -31408,23 +34587,25 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSCoder$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)> {
   void call(ffi.Pointer<ffi.Void> arg0, NSCoder arg1) {
     final _$$ref = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(ref.pointer, arg0, _$$ref.pointer);
+          >()(ref.pointer, arg0, _$$ref.pointer),
+    );
   }
 }
 
@@ -31607,23 +34788,25 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSPortMessage$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSPortMessage)> {
   void call(ffi.Pointer<ffi.Void> arg0, NSPortMessage arg1) {
     final _$$ref = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(ref.pointer, arg0, _$$ref.pointer);
+          >()(ref.pointer, arg0, _$$ref.pointer),
+    );
   }
 }
 
@@ -31836,25 +35019,27 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSRange_bool$CallExtension
     NSRange arg1,
     ffi.Pointer<ffi.Bool> arg2,
   ) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              NSRange arg1,
-              ffi.Pointer<ffi.Bool> arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                NSRange arg1,
+                ffi.Pointer<ffi.Bool> arg2,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              NSRange,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            NSRange,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, arg0, arg1, arg2);
+          >()(ref.pointer, arg0, arg1, arg2),
+    );
   }
 }
 
@@ -32068,25 +35253,27 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent$CallExtension
         > {
   void call(ffi.Pointer<ffi.Void> arg0, NSStream arg1, DartNSUInteger arg2) {
     final _$$ref = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-              NSUInteger arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                NSUInteger arg2,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              int,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            int,
-          )
-        >()(ref.pointer, arg0, _$$ref.pointer, arg2);
+          >()(ref.pointer, arg0, _$$ref.pointer, arg2),
+    );
   }
 }
 
@@ -32415,35 +35602,38 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSString_objcObjCObjectImpl_NSDictionary_ffi
     final _$$ref = arg1.ref;
     final _$$ref$1 = arg2.ref;
     final _$$ref$2 = arg3.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-              ffi.Pointer<objc.ObjCObjectImpl> arg2,
-              ffi.Pointer<objc.ObjCObjectImpl> arg3,
-              ffi.Pointer<ffi.Void> arg4,
-            )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >()(
-      ref.pointer,
-      arg0,
-      _$$ref.pointer,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-      arg4,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+                    ffi.Pointer<ffi.Void> arg4,
+                  )
+                >
+              >()
+              .asFunction<
+                void Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                )
+              >()(
+            ref.pointer,
+            arg0,
+            _$$ref.pointer,
+            _$$ref$1.pointer,
+            _$$ref$2.pointer,
+            arg4,
+          ),
     );
   }
 }
@@ -32630,23 +35820,25 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSUInteger$CallExtension
           ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)
         > {
   void call(ffi.Pointer<ffi.Void> arg0, DartNSUInteger arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              NSUInteger arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                NSUInteger arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              int,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            int,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -32859,26 +36051,29 @@ extension ObjCBlock_ffiVoid_idNSItemProviderReading_NSError$CallExtension
   void call(NSItemProviderReading? arg0, NSError? arg1) {
     final _$$ref = arg0?.ref;
     final _$$ref$1 = arg1?.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-            )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(
-      ref.pointer,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                  )
+                >
+              >()
+              .asFunction<
+                void Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            _$$ref?.pointer ?? ffi.nullptr,
+            _$$ref$1?.pointer ?? ffi.nullptr,
+          ),
     );
   }
 }
@@ -33092,26 +36287,29 @@ extension ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError$CallExtension
   void call(NSItemProviderWriting? arg0, NSError? arg1) {
     final _$$ref = arg0?.ref;
     final _$$ref$1 = arg1?.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-            )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(
-      ref.pointer,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Void Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                  )
+                >
+              >()
+              .asFunction<
+                void Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            _$$ref?.pointer ?? ffi.nullptr,
+            _$$ref$1?.pointer ?? ffi.nullptr,
+          ),
     );
   }
 }
@@ -33319,23 +36517,25 @@ extension ObjCBlock_ffiVoid_idNSSecureCoding_NSError$CallExtension
   void call(NSSecureCoding? arg0, NSError arg1) {
     final _$$ref = arg0?.ref;
     final _$$ref$1 = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(ref.pointer, _$$ref?.pointer ?? ffi.nullptr, _$$ref$1.pointer);
+          >()(ref.pointer, _$$ref?.pointer ?? ffi.nullptr, _$$ref$1.pointer),
+    );
   }
 }
 
@@ -33595,25 +36795,27 @@ extension ObjCBlock_ffiVoid_objcObjCObjectImpl_NSRange_bool$CallExtension
         > {
   void call(objc.ObjCObject? arg0, NSRange arg1, ffi.Pointer<ffi.Bool> arg2) {
     final _$$ref = arg0?.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              NSRange arg1,
-              ffi.Pointer<ffi.Bool> arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                NSRange arg1,
+                ffi.Pointer<ffi.Bool> arg2,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              NSRange,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            NSRange,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref?.pointer ?? ffi.nullptr, arg1, arg2);
+          >()(ref.pointer, _$$ref?.pointer ?? ffi.nullptr, arg1, arg2),
+    );
   }
 }
 
@@ -33875,25 +37077,27 @@ extension ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool$CallExtensio
     ffi.Pointer<ffi.Bool> arg2,
   ) {
     final _$$ref = arg0.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              NSUInteger arg1,
-              ffi.Pointer<ffi.Bool> arg2,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                NSUInteger arg1,
+                ffi.Pointer<ffi.Bool> arg2,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              int,
+              ffi.Pointer<ffi.Bool>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            int,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >()(ref.pointer, _$$ref.pointer, arg1, arg2);
+          >()(ref.pointer, _$$ref.pointer, arg1, arg2),
+    );
   }
 }
 
@@ -34086,23 +37290,25 @@ extension ObjCBlock_ffiVoid_unichar_NSUInteger$CallExtension
           ffi.Void Function(ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)
         > {
   void call(ffi.Pointer<ffi.UnsignedShort> arg0, DartNSUInteger arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.UnsignedShort> arg0,
-              NSUInteger arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.UnsignedShort> arg0,
+                NSUInteger arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.UnsignedShort>,
+              int,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.UnsignedShort>,
-            int,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -34258,47 +37464,50 @@ extension ObjCBlock_instancetype_ffiVoid_NSCoder$CallExtension
         > {
   Dartinstancetype? call(ffi.Pointer<ffi.Void> arg0, NSCoder arg1) {
     final _$$ref$1 = arg1.ref;
-    return ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      instancetype Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<ffi.Void> arg0,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     instancetype Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<ffi.Void> arg0,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  instancetype Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<ffi.Void>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                  )
-                >()(ref.pointer, arg0, _$$ref$1.pointer)
-                .address ==
-            0
-        ? null
-        : objc.ObjCObject(
-            ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+                  >()(ref.pointer, arg0, _$$ref$1.pointer)
+                  .address ==
+              0
+          ? null
+          : objc.ObjCObject(
+              ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      instancetype Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<ffi.Void> arg0,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     instancetype Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<ffi.Void> arg0,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  instancetype Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<ffi.Void>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                  )
-                >()(ref.pointer, arg0, _$$ref$1.pointer),
-            retain: false,
-            release: true,
-          );
+                  >()(ref.pointer, arg0, _$$ref$1.pointer),
+              retain: false,
+              release: true,
+            ),
+    );
   }
 }
 
@@ -34434,47 +37643,50 @@ extension ObjCBlock_objcObjCObjectImpl_NSError_NSErrorUserInfoKey$CallExtension
   objc.ObjCObject? call(NSError arg0, NSString arg1) {
     final _$$ref$1 = arg0.ref;
     final _$$ref$2 = arg1.ref;
-    return ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg0,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer, _$$ref$2.pointer)
-                .address ==
-            0
-        ? null
-        : objc.ObjCObject(
-            ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+                  >()(ref.pointer, _$$ref$1.pointer, _$$ref$2.pointer)
+                  .address ==
+              0
+          ? null
+          : objc.ObjCObject(
+              ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObjectImpl> Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg0,
+                        ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     ffi.Pointer<objc.ObjCObjectImpl> Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg0,
-                      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
+                      ffi.Pointer<objc.ObjCObjectImpl>,
                     )
-                  >
-                >()
-                .asFunction<
-                  ffi.Pointer<objc.ObjCObjectImpl> Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                    ffi.Pointer<objc.ObjCObjectImpl>,
-                  )
-                >()(ref.pointer, _$$ref$1.pointer, _$$ref$2.pointer),
-            retain: true,
-            release: true,
-          );
+                  >()(ref.pointer, _$$ref$1.pointer, _$$ref$2.pointer),
+              retain: true,
+              release: true,
+            ),
+    );
   }
 }
 
@@ -34588,24 +37800,26 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid$CallExtension
           ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
         > {
   objc.ObjCObject call(ffi.Pointer<ffi.Void> arg0) {
-    return objc.ObjCObject(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => objc.ObjCObject(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >()(ref.pointer, arg0),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -34758,26 +37972,28 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone$CallExtension
           )
         > {
   objc.ObjCObject call(ffi.Pointer<ffi.Void> arg0, ffi.Pointer<NSZone> arg1) {
-    return objc.ObjCObject(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => objc.ObjCObject(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                  ffi.Pointer<NSZone> arg1,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<NSZone> arg1,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<NSZone>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<NSZone>,
-            )
-          >()(ref.pointer, arg0, arg1),
-      retain: false,
-      release: true,
+            >()(ref.pointer, arg0, arg1),
+        retain: false,
+        release: true,
+      ),
     );
   }
 }
@@ -34937,26 +38153,28 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid_objcObjCSelector$CallExtension
     ffi.Pointer<ffi.Void> arg0,
     ffi.Pointer<objc.ObjCSelector> arg1,
   ) {
-    return objc.ObjCObject(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => objc.ObjCObject(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                  ffi.Pointer<objc.ObjCSelector> arg1,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<objc.ObjCSelector> arg1,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCSelector>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<objc.ObjCSelector>,
-            )
-          >()(ref.pointer, arg0, arg1),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0, arg1),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -35139,28 +38357,30 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid_objcObjCSelector_objcObjCObjectIm
     objc.ObjCObject arg2,
   ) {
     final _$$ref$1 = arg2.ref;
-    return objc.ObjCObject(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => objc.ObjCObject(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                  ffi.Pointer<objc.ObjCSelector> arg1,
+                  ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<objc.ObjCSelector> arg1,
-                ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<objc.ObjCSelector>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >()(ref.pointer, arg0, arg1, _$$ref$1.pointer),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0, arg1, _$$ref$1.pointer),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -35363,30 +38583,32 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid_objcObjCSelector_objcObjCObjectIm
   ) {
     final _$$ref$1 = arg2.ref;
     final _$$ref$2 = arg3.ref;
-    return objc.ObjCObject(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => objc.ObjCObject(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                  ffi.Pointer<objc.ObjCSelector> arg1,
+                  ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  ffi.Pointer<objc.ObjCObjectImpl> arg3,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<objc.ObjCSelector> arg1,
-                ffi.Pointer<objc.ObjCObjectImpl> arg2,
-                ffi.Pointer<objc.ObjCObjectImpl> arg3,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<objc.ObjCSelector>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >()(ref.pointer, arg0, arg1, _$$ref$1.pointer, _$$ref$2.pointer),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0, arg1, _$$ref$1.pointer, _$$ref$2.pointer),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -35426,14 +38648,16 @@ extension Observer$Methods on Observer {
     final _$$ref$1 = keyPath.ref;
     final _$$ref$2 = ofObject.ref;
     final _$$ref$3 = change.ref;
-    _objc_msgSend_1pl4k3n(
-      _$$ref.pointer,
-      _sel_observeValueForKeyPath_ofObject_change_context_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-      _$$ref$3.pointer,
-      context,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl4k3n(
+        _$$ref.pointer,
+        _sel_observeValueForKeyPath_ofObject_change_context_,
+        _$$ref$1.pointer,
+        _$$ref$2.pointer,
+        _$$ref$3.pointer,
+        context,
+      );
+    });
   }
 }
 
@@ -35735,12 +38959,16 @@ extension type _BlockArgs_139usnw._(objc.ObjCObject object$)
 extension _BlockArgs_139usnw$Methods on _BlockArgs_139usnw {
   ffi.Pointer<ffi.UnsignedShort> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xe84da(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xe84da(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   DartNSUInteger get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_arg1);
+    });
   }
 }
 
@@ -35773,13 +39001,17 @@ extension type _BlockArgs_1599z35._(objc.ObjCObject object$)
 extension _BlockArgs_1599z35$Methods on _BlockArgs_1599z35 {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   NSCoder get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return NSCoder.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return NSCoder.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -35812,23 +39044,29 @@ extension type _BlockArgs_18aygyv._(objc.ObjCObject object$)
 extension _BlockArgs_18aygyv$Methods on _BlockArgs_18aygyv {
   NSURL? get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   bool get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_91o635(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(_$$ref.pointer, _sel_arg1);
+    });
   }
 
   NSError? get arg2 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg2);
-    return $ret.address == 0
-        ? null
-        : NSError.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg2);
+      return $ret.address == 0
+          ? null
+          : NSError.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -35861,18 +39099,26 @@ extension type _BlockArgs_1dse6r3._(objc.ObjCObject object$)
 extension _BlockArgs_1dse6r3$Methods on _BlockArgs_1dse6r3 {
   NSItemProviderReading? get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : NSItemProviderReading.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return $ret.address == 0
+          ? null
+          : NSItemProviderReading.fromPointer(
+              $ret,
+              retain: true,
+              release: true,
+            );
+    });
   }
 
   NSError? get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return $ret.address == 0
-        ? null
-        : NSError.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return $ret.address == 0
+          ? null
+          : NSError.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -35905,13 +39151,17 @@ extension type _BlockArgs_1e1kc88._(objc.ObjCObject object$)
 extension _BlockArgs_1e1kc88$Methods on _BlockArgs_1e1kc88 {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   NSPortMessage get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return NSPortMessage.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return NSPortMessage.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -35944,18 +39194,24 @@ extension type _BlockArgs_1e56rsl._(objc.ObjCObject object$)
 extension _BlockArgs_1e56rsl$Methods on _BlockArgs_1e56rsl {
   objc.ObjCObject get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   DartNSUInteger get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_arg1);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg2 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    });
   }
 }
 
@@ -35988,12 +39244,16 @@ extension type _BlockArgs_1ebqbq6._(objc.ObjCObject object$)
 extension _BlockArgs_1ebqbq6$Methods on _BlockArgs_1ebqbq6 {
   DartNSUInteger get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg1);
+    });
   }
 }
 
@@ -36026,18 +39286,22 @@ extension type _BlockArgs_1lk8uv7._(objc.ObjCObject object$)
 extension _BlockArgs_1lk8uv7$Methods on _BlockArgs_1lk8uv7 {
   NSURL? get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   NSError? get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return $ret.address == 0
-        ? null
-        : NSError.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return $ret.address == 0
+          ? null
+          : NSError.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -36070,12 +39334,16 @@ extension type _BlockArgs_1ltqoqj._(objc.ObjCObject object$)
 extension _BlockArgs_1ltqoqj$Methods on _BlockArgs_1ltqoqj {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   DartNSUInteger get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_arg1);
+    });
   }
 }
 
@@ -36108,30 +39376,40 @@ extension type _BlockArgs_1mvxr7g._(objc.ObjCObject object$)
 extension _BlockArgs_1mvxr7g$Methods on _BlockArgs_1mvxr7g {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   NSString get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   objc.ObjCObject get arg2 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg2);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg2);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   NSDictionary get arg3 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg3);
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg3);
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   ffi.Pointer<ffi.Void> get arg4 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg4);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg4);
+    });
   }
 }
 
@@ -36164,25 +39442,33 @@ extension type _BlockArgs_1pvrxoh._(objc.ObjCObject object$)
 extension _BlockArgs_1pvrxoh$Methods on _BlockArgs_1pvrxoh {
   NSString? get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   NSRange get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
+    });
   }
 
   NSRange get arg2 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg2);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg2);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg3 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg3);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg3);
+    });
   }
 }
 
@@ -36215,18 +39501,26 @@ extension type _BlockArgs_1y7l7kf._(objc.ObjCObject object$)
 extension _BlockArgs_1y7l7kf$Methods on _BlockArgs_1y7l7kf {
   NSItemProviderWriting? get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : NSItemProviderWriting.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return $ret.address == 0
+          ? null
+          : NSItemProviderWriting.fromPointer(
+              $ret,
+              retain: true,
+              release: true,
+            );
+    });
   }
 
   NSError? get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return $ret.address == 0
-        ? null
-        : NSError.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return $ret.address == 0
+          ? null
+          : NSError.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -36259,17 +39553,23 @@ extension type _BlockArgs_3djt55._(objc.ObjCObject object$)
 extension _BlockArgs_3djt55$Methods on _BlockArgs_3djt55 {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   NSRange get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg2 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    });
   }
 }
 
@@ -36302,18 +39602,24 @@ extension type _BlockArgs_64fwqt._(objc.ObjCObject object$)
 extension _BlockArgs_64fwqt$Methods on _BlockArgs_64fwqt {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   NSStream get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return NSStream.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return NSStream.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   DartNSUInteger get arg2 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1r2j3ge(_$$ref.pointer, _sel_arg2);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1r2j3ge(_$$ref.pointer, _sel_arg2);
+    });
   }
 }
 
@@ -36347,24 +39653,30 @@ extension _BlockArgs_6yk1dr$Methods on _BlockArgs_6yk1dr {
   objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)>
   get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_arg0);
-    return ObjCBlock_ffiVoid_idNSSecureCoding_NSError.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_arg0);
+      return ObjCBlock_ffiVoid_idNSSecureCoding_NSError.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   objc.ObjCObject get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   NSDictionary get arg2 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg2);
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg2);
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -36397,7 +39709,9 @@ extension type _BlockArgs_awd5mj._(objc.ObjCObject object$)
 extension _BlockArgs_awd5mj$Methods on _BlockArgs_awd5mj {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 }
 
@@ -36430,19 +39744,25 @@ extension type _BlockArgs_gk3fi2._(objc.ObjCObject object$)
 extension _BlockArgs_gk3fi2$Methods on _BlockArgs_gk3fi2 {
   objc.ObjCObject get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   objc.ObjCObject get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg2 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    });
   }
 }
 
@@ -36503,8 +39823,10 @@ extension type _BlockArgs_kr40r0._(objc.ObjCObject object$)
 extension _BlockArgs_kr40r0$Methods on _BlockArgs_kr40r0 {
   NSTimer get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return NSTimer.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return NSTimer.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -36537,16 +39859,20 @@ extension type _BlockArgs_krrtfh._(objc.ObjCObject object$)
 extension _BlockArgs_krrtfh$Methods on _BlockArgs_krrtfh {
   NSSecureCoding? get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : NSSecureCoding.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return $ret.address == 0
+          ? null
+          : NSSecureCoding.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   NSError get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return NSError.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return NSError.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -36579,13 +39905,17 @@ extension type _BlockArgs_ounrb4._(objc.ObjCObject object$)
 extension _BlockArgs_ounrb4$Methods on _BlockArgs_ounrb4 {
   NSString get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg1);
+    });
   }
 }
 
@@ -36618,20 +39948,26 @@ extension type _BlockArgs_q6fcam._(objc.ObjCObject object$)
 extension _BlockArgs_q6fcam$Methods on _BlockArgs_q6fcam {
   objc.ObjCObject? get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return $ret.address == 0
+          ? null
+          : objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   NSRange get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg2 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    });
   }
 }
 
@@ -36664,12 +40000,16 @@ extension type _BlockArgs_uckb5m._(objc.ObjCObject object$)
 extension _BlockArgs_uckb5m$Methods on _BlockArgs_uckb5m {
   NSRange get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg1);
+    });
   }
 }
 
@@ -36702,18 +40042,24 @@ extension type _BlockArgs_v8in3._(objc.ObjCObject object$)
 extension _BlockArgs_v8in3$Methods on _BlockArgs_v8in3 {
   NSDictionary get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return NSDictionary.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return NSDictionary.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   NSRange get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg2 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg2);
+    });
   }
 }
 
@@ -36746,13 +40092,17 @@ extension type _BlockArgs_wnzfgp._(objc.ObjCObject object$)
 extension _BlockArgs_wnzfgp$Methods on _BlockArgs_wnzfgp {
   objc.ObjCObject get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return objc.ObjCObject($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return objc.ObjCObject($ret, retain: true, release: true);
+    });
   }
 
   ffi.Pointer<ffi.Bool> get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1sbro63(_$$ref.pointer, _sel_arg1);
+    });
   }
 }
 
@@ -36785,18 +40135,22 @@ extension type _BlockArgs_x5cg0._(objc.ObjCObject object$)
 extension _BlockArgs_x5cg0$Methods on _BlockArgs_x5cg0 {
   NSData? get arg0 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   NSError? get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return $ret.address == 0
-        ? null
-        : NSError.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return $ret.address == 0
+          ? null
+          : NSError.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 

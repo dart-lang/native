@@ -39,24 +39,45 @@ extension type BadMethodTestObject._(objc.ObjCObject object$)
 
   /// alloc
   static BadMethodTestObject alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_BadMethodTestObject, _sel_alloc);
-    return BadMethodTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_BadMethodTestObject,
+        _sel_alloc,
+      );
+      return BadMethodTestObject.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static BadMethodTestObject allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_BadMethodTestObject,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return BadMethodTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_BadMethodTestObject,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return BadMethodTestObject.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static BadMethodTestObject new$() {
-    final $ret = _objc_msgSend_151sglz(_class_BadMethodTestObject, _sel_new);
-    return BadMethodTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadMethodTestObject, _sel_new);
+      return BadMethodTestObject.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of BadMethodTestObject constructed with the default `new` method.
@@ -67,29 +88,37 @@ extension BadMethodTestObject$Methods on BadMethodTestObject {
   /// bitFieldPointerParam:
   int bitFieldPointerParam(ffi.Pointer<BitField> x) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_zol7v(_$$ref.pointer, _sel_bitFieldPointerParam_, x);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_zol7v(_$$ref.pointer, _sel_bitFieldPointerParam_, x);
+    });
   }
 
   /// bitFieldPointerReturn
   ffi.Pointer<BitField> bitFieldPointerReturn() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_hic16b(_$$ref.pointer, _sel_bitFieldPointerReturn);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_hic16b(_$$ref.pointer, _sel_bitFieldPointerReturn);
+    });
   }
 
   /// incompletePointerParam:
   int incompletePointerParam(ffi.Pointer<IncompleteStruct> x) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1onbdcj(
-      _$$ref.pointer,
-      _sel_incompletePointerParam_,
-      x,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1onbdcj(
+        _$$ref.pointer,
+        _sel_incompletePointerParam_,
+        x,
+      );
+    });
   }
 
   /// incompletePointerReturn
   ffi.Pointer<IncompleteStruct> incompletePointerReturn() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_17u7wb(_$$ref.pointer, _sel_incompletePointerReturn);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_17u7wb(_$$ref.pointer, _sel_incompletePointerReturn);
+    });
   }
 
   /// init
@@ -100,11 +129,17 @@ extension BadMethodTestObject$Methods on BadMethodTestObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return BadMethodTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return BadMethodTestObject.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 }
 

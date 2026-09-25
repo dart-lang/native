@@ -330,20 +330,24 @@ extension MyProtocol$Methods on MyProtocol {
         'disabledMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_disabledMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_disabledMethod);
+    });
   }
 
   /// instanceMethod:withDouble:
   objc.NSString instanceMethod(objc.NSString s, {required double withDouble}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = s.ref;
-    final $ret = _objc_msgSend_6plvbo(
-      _$$ref.pointer,
-      _sel_instanceMethod_withDouble_,
-      _$$ref$1.pointer,
-      withDouble,
-    );
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_6plvbo(
+        _$$ref.pointer,
+        _sel_instanceMethod_withDouble_,
+        _$$ref$1.pointer,
+        withDouble,
+      );
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// intPtrMethod:
@@ -355,7 +359,9 @@ extension MyProtocol$Methods on MyProtocol {
         'intPtrMethod:',
       );
     }
-    _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
+    objc.autoReleasePool(() {
+      _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
+    });
   }
 
   /// objectMethod:
@@ -368,7 +374,13 @@ extension MyProtocol$Methods on MyProtocol {
         'objectMethod:',
       );
     }
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_objectMethod_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_objectMethod_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// optionalMethod:
@@ -380,7 +392,9 @@ extension MyProtocol$Methods on MyProtocol {
         'optionalMethod:',
       );
     }
-    return _objc_msgSend_lacj97(_$$ref.pointer, _sel_optionalMethod_, s);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_lacj97(_$$ref.pointer, _sel_optionalMethod_, s);
+    });
   }
 
   /// voidMethod:
@@ -392,7 +406,9 @@ extension MyProtocol$Methods on MyProtocol {
         'voidMethod:',
       );
     }
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_voidMethod_, x);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_voidMethod_, x);
+    });
   }
 }
 
@@ -869,18 +885,20 @@ abstract final class ObjCBlock_Int32_ffiVoid {
 extension ObjCBlock_Int32_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.Int32 Function(ffi.Pointer<ffi.Void>)> {
   int call(ffi.Pointer<ffi.Void> arg0) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Int32 Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-            )
-          >
-        >()
-        .asFunction<
-          int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
-        >()(ref.pointer, arg0);
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Int32 Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
+            int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
+          >()(ref.pointer, arg0),
+    );
   }
 }
 
@@ -1073,29 +1091,31 @@ extension ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32$CallExtension
           )
         > {
   int call(ffi.Pointer<ffi.Void> arg0, int arg1, int arg2, int arg3, int arg4) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Int32 Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Int32 arg1,
-              ffi.Int32 arg2,
-              ffi.Int32 arg3,
-              ffi.Int32 arg4,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Int32 Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Int32 arg1,
+                ffi.Int32 arg2,
+                ffi.Int32 arg3,
+                ffi.Int32 arg4,
+              )
+            >
+          >()
+          .asFunction<
+            int Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              int,
+              int,
+              int,
+              int,
             )
-          >
-        >()
-        .asFunction<
-          int Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            int,
-            int,
-            int,
-            int,
-          )
-        >()(ref.pointer, arg0, arg1, arg2, arg3, arg4);
+          >()(ref.pointer, arg0, arg1, arg2, arg3, arg4),
+    );
   }
 }
 
@@ -1201,23 +1221,25 @@ abstract final class ObjCBlock_Int32_ffiVoid_SomeStruct {
 extension ObjCBlock_Int32_ffiVoid_SomeStruct$CallExtension
     on objc.ObjCBlock<ffi.Int32 Function(ffi.Pointer<ffi.Void>, SomeStruct)> {
   int call(ffi.Pointer<ffi.Void> arg0, SomeStruct arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Int32 Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              SomeStruct arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Int32 Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                SomeStruct arg1,
+              )
+            >
+          >()
+          .asFunction<
+            int Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              SomeStruct,
             )
-          >
-        >()
-        .asFunction<
-          int Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            SomeStruct,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -1370,28 +1392,30 @@ extension ObjCBlock_NSString_ffiVoid_NSString_ffiDouble$CallExtension
     double arg2,
   ) {
     final _$$ref$1 = arg1.ref;
-    return objc.NSString.fromPointer(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => objc.NSString.fromPointer(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                  ffi.Double arg2,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<objc.ObjCObjectImpl> arg1,
-                ffi.Double arg2,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                double,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              double,
-            )
-          >()(ref.pointer, arg0, _$$ref$1.pointer, arg2),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0, _$$ref$1.pointer, arg2),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -1556,23 +1580,25 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_Int32 {
 extension ObjCBlock_ffiVoid_ffiVoid_Int32$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)> {
   void call(ffi.Pointer<ffi.Void> arg0, int arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Int32 arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Int32 arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              int,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            int,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -1769,23 +1795,25 @@ extension ObjCBlock_ffiVoid_ffiVoid_Int32$1$CallExtension
           ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Int32>)
         > {
   void call(ffi.Pointer<ffi.Void> arg0, ffi.Pointer<ffi.Int32> arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<ffi.Int32> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<ffi.Int32> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Int32>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<ffi.Int32>,
-          )
-        >()(ref.pointer, arg0, arg1);
+          >()(ref.pointer, arg0, arg1),
+    );
   }
 }
 
@@ -1968,23 +1996,25 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSObject$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)> {
   void call(ffi.Pointer<ffi.Void> arg0, objc.NSObject arg1) {
     final _$$ref = arg1.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              )
+            >
+          >()
+          .asFunction<
+            void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
             )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(ref.pointer, arg0, _$$ref.pointer);
+          >()(ref.pointer, arg0, _$$ref.pointer),
+    );
   }
 }
 
@@ -2098,24 +2128,26 @@ extension ObjCBlock_idMyProtocol_ffiVoid$CallExtension
           ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
         > {
   MyProtocol call(ffi.Pointer<ffi.Void> arg0) {
-    return MyProtocol.fromPointer(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => MyProtocol.fromPointer(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                )
+              >
+            >()
+            .asFunction<
               ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
               )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >()(ref.pointer, arg0),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }
@@ -2222,43 +2254,46 @@ extension ObjCBlock_instancetype_ffiVoid$CallExtension
           ffi.Pointer<objc.ObjCObjectImpl>? Function(ffi.Pointer<ffi.Void>)
         > {
   Dartinstancetype? call(ffi.Pointer<ffi.Void> arg0) {
-    return ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      instancetype Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<ffi.Void> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     instancetype Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<ffi.Void> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<ffi.Void>,
                     )
-                  >
-                >()
-                .asFunction<
-                  instancetype Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<ffi.Void>,
-                  )
-                >()(ref.pointer, arg0)
-                .address ==
-            0
-        ? null
-        : objc.ObjCObject(
-            ref.pointer.ref.invoke
-                .cast<
-                  ffi.NativeFunction<
+                  >()(ref.pointer, arg0)
+                  .address ==
+              0
+          ? null
+          : objc.ObjCObject(
+              ref.pointer.ref.invoke
+                  .cast<
+                    ffi.NativeFunction<
+                      instancetype Function(
+                        ffi.Pointer<objc.ObjCBlockImpl> block,
+                        ffi.Pointer<ffi.Void> arg0,
+                      )
+                    >
+                  >()
+                  .asFunction<
                     instancetype Function(
-                      ffi.Pointer<objc.ObjCBlockImpl> block,
-                      ffi.Pointer<ffi.Void> arg0,
+                      ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<ffi.Void>,
                     )
-                  >
-                >()
-                .asFunction<
-                  instancetype Function(
-                    ffi.Pointer<objc.ObjCBlockImpl>,
-                    ffi.Pointer<ffi.Void>,
-                  )
-                >()(ref.pointer, arg0),
-            retain: true,
-            release: true,
-          );
+                  >()(ref.pointer, arg0),
+              retain: true,
+              release: true,
+            ),
+    );
   }
 }
 
@@ -2295,24 +2330,30 @@ extension type ObjCProtocolImpl._(objc.ObjCObject object$)
 
   /// alloc
   static ObjCProtocolImpl alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_ObjCProtocolImpl, _sel_alloc);
-    return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ObjCProtocolImpl, _sel_alloc);
+      return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static ObjCProtocolImpl allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_ObjCProtocolImpl,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_ObjCProtocolImpl,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static ObjCProtocolImpl new$() {
-    final $ret = _objc_msgSend_151sglz(_class_ObjCProtocolImpl, _sel_new);
-    return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ObjCProtocolImpl, _sel_new);
+      return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// optionalClassMethod
@@ -2326,18 +2367,22 @@ extension type ObjCProtocolImpl._(objc.ObjCObject object$)
         'optionalClassMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImpl,
-      _sel_optionalClassMethod,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_ObjCProtocolImpl,
+        _sel_optionalClassMethod,
+      );
+    });
   }
 
   /// requiredClassMethod
   static int requiredClassMethod() {
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImpl,
-      _sel_requiredClassMethod,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_ObjCProtocolImpl,
+        _sel_requiredClassMethod,
+      );
+    });
   }
 
   /// unimplementedOtionalClassMethod
@@ -2351,10 +2396,12 @@ extension type ObjCProtocolImpl._(objc.ObjCObject object$)
         'unimplementedOtionalClassMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImpl,
-      _sel_unimplementedOtionalClassMethod,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_ObjCProtocolImpl,
+        _sel_unimplementedOtionalClassMethod,
+      );
+    });
   }
 
   /// Returns a new instance of ObjCProtocolImpl constructed with the default `new` method.
@@ -2371,13 +2418,17 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
         'disabledMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_disabledMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_disabledMethod);
+    });
   }
 
   /// fooMethod
   int fooMethod() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_fooMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_fooMethod);
+    });
   }
 
   /// init
@@ -2388,24 +2439,28 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// instanceMethod:withDouble:
   objc.NSString instanceMethod(objc.NSString s, {required double withDouble}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = s.ref;
-    final $ret = _objc_msgSend_6plvbo(
-      _$$ref.pointer,
-      _sel_instanceMethod_withDouble_,
-      _$$ref$1.pointer,
-      withDouble,
-    );
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_6plvbo(
+        _$$ref.pointer,
+        _sel_instanceMethod_withDouble_,
+        _$$ref$1.pointer,
+        withDouble,
+      );
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// intPtrMethod:
@@ -2417,7 +2472,9 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
         'intPtrMethod:',
       );
     }
-    _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
+    objc.autoReleasePool(() {
+      _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
+    });
   }
 
   /// objectMethod:
@@ -2430,7 +2487,13 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
         'objectMethod:',
       );
     }
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_objectMethod_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_objectMethod_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// optionalMethod:
@@ -2442,20 +2505,24 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
         'optionalMethod:',
       );
     }
-    return _objc_msgSend_lacj97(_$$ref.pointer, _sel_optionalMethod_, s);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_lacj97(_$$ref.pointer, _sel_optionalMethod_, s);
+    });
   }
 
   /// otherMethod:b:c:d:
   int otherMethod(int a, {required int b, required int c, required int d}) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_hv8ra8(
-      _$$ref.pointer,
-      _sel_otherMethod_b_c_d_,
-      a,
-      b,
-      c,
-      d,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_hv8ra8(
+        _$$ref.pointer,
+        _sel_otherMethod_b_c_d_,
+        a,
+        b,
+        c,
+        d,
+      );
+    });
   }
 
   /// returnsInstanceType
@@ -2467,13 +2534,15 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
         'returnsInstanceType',
       );
     }
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_returnsInstanceType,
-    );
-    return $ret.address == 0
-        ? null
-        : ObjCProtocolImpl.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_returnsInstanceType,
+      );
+      return $ret.address == 0
+          ? null
+          : ObjCProtocolImpl.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// returnsMyProtocol
@@ -2485,8 +2554,13 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
         'returnsMyProtocol',
       );
     }
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_returnsMyProtocol);
-    return MyProtocol.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_returnsMyProtocol,
+      );
+      return MyProtocol.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// voidMethod:
@@ -2498,7 +2572,9 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
         'voidMethod:',
       );
     }
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_voidMethod_, x);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_voidMethod_, x);
+    });
   }
 }
 
@@ -2530,44 +2606,50 @@ extension type ObjCProtocolImplMissingMethod._(objc.ObjCObject object$)
 
   /// alloc
   static ObjCProtocolImplMissingMethod alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_alloc,
-    );
-    return ObjCProtocolImplMissingMethod.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_ObjCProtocolImplMissingMethod,
+        _sel_alloc,
+      );
+      return ObjCProtocolImplMissingMethod.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static ObjCProtocolImplMissingMethod allocWithZone(
     ffi.Pointer<objc.NSZone> zone,
   ) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return ObjCProtocolImplMissingMethod.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_ObjCProtocolImplMissingMethod,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return ObjCProtocolImplMissingMethod.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static ObjCProtocolImplMissingMethod new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_new,
-    );
-    return ObjCProtocolImplMissingMethod.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_ObjCProtocolImplMissingMethod,
+        _sel_new,
+      );
+      return ObjCProtocolImplMissingMethod.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// optionalClassMethod
@@ -2581,18 +2663,22 @@ extension type ObjCProtocolImplMissingMethod._(objc.ObjCObject object$)
         'optionalClassMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_optionalClassMethod,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_ObjCProtocolImplMissingMethod,
+        _sel_optionalClassMethod,
+      );
+    });
   }
 
   /// requiredClassMethod
   static int requiredClassMethod() {
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_requiredClassMethod,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_ObjCProtocolImplMissingMethod,
+        _sel_requiredClassMethod,
+      );
+    });
   }
 
   /// unimplementedOtionalClassMethod
@@ -2606,10 +2692,12 @@ extension type ObjCProtocolImplMissingMethod._(objc.ObjCObject object$)
         'unimplementedOtionalClassMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_unimplementedOtionalClassMethod,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_ObjCProtocolImplMissingMethod,
+        _sel_unimplementedOtionalClassMethod,
+      );
+    });
   }
 
   /// Returns a new instance of ObjCProtocolImplMissingMethod constructed with the default `new` method.
@@ -2627,7 +2715,9 @@ extension ObjCProtocolImplMissingMethod$Methods
         'disabledMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_disabledMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_disabledMethod);
+    });
   }
 
   /// init
@@ -2638,28 +2728,32 @@ extension ObjCProtocolImplMissingMethod$Methods
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return ObjCProtocolImplMissingMethod.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return ObjCProtocolImplMissingMethod.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// instanceMethod:withDouble:
   objc.NSString instanceMethod(objc.NSString s, {required double withDouble}) {
     final _$$ref = object$.ref;
     final _$$ref$1 = s.ref;
-    final $ret = _objc_msgSend_6plvbo(
-      _$$ref.pointer,
-      _sel_instanceMethod_withDouble_,
-      _$$ref$1.pointer,
-      withDouble,
-    );
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_6plvbo(
+        _$$ref.pointer,
+        _sel_instanceMethod_withDouble_,
+        _$$ref$1.pointer,
+        withDouble,
+      );
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// intPtrMethod:
@@ -2671,7 +2765,9 @@ extension ObjCProtocolImplMissingMethod$Methods
         'intPtrMethod:',
       );
     }
-    _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
+    objc.autoReleasePool(() {
+      _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
+    });
   }
 
   /// objectMethod:
@@ -2684,7 +2780,13 @@ extension ObjCProtocolImplMissingMethod$Methods
         'objectMethod:',
       );
     }
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_objectMethod_, _$$ref$1.pointer);
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_objectMethod_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// optionalMethod:
@@ -2696,7 +2798,9 @@ extension ObjCProtocolImplMissingMethod$Methods
         'optionalMethod:',
       );
     }
-    return _objc_msgSend_lacj97(_$$ref.pointer, _sel_optionalMethod_, s);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_lacj97(_$$ref.pointer, _sel_optionalMethod_, s);
+    });
   }
 
   /// voidMethod:
@@ -2708,7 +2812,9 @@ extension ObjCProtocolImplMissingMethod$Methods
         'voidMethod:',
       );
     }
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_voidMethod_, x);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_voidMethod_, x);
+    });
   }
 }
 
@@ -2740,24 +2846,30 @@ extension type ProtocolConsumer._(objc.ObjCObject object$)
 
   /// alloc
   static ProtocolConsumer alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_ProtocolConsumer, _sel_alloc);
-    return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ProtocolConsumer, _sel_alloc);
+      return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static ProtocolConsumer allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_ProtocolConsumer,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_ProtocolConsumer,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static ProtocolConsumer new$() {
-    final $ret = _objc_msgSend_151sglz(_class_ProtocolConsumer, _sel_new);
-    return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ProtocolConsumer, _sel_new);
+      return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of ProtocolConsumer constructed with the default `new` method.
@@ -2769,67 +2881,79 @@ extension ProtocolConsumer$Methods on ProtocolConsumer {
   void callBlockingMethodOnRandomThread(MyProtocol protocol) {
     final _$$ref = object$.ref;
     final _$$ref$1 = protocol.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_callBlockingMethodOnRandomThread_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_callBlockingMethodOnRandomThread_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// callInstanceMethod:
   objc.NSString callInstanceMethod(SuperProtocol protocol) {
     final _$$ref = object$.ref;
     final _$$ref$1 = protocol.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_callInstanceMethod_,
-      _$$ref$1.pointer,
-    );
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_callInstanceMethod_,
+        _$$ref$1.pointer,
+      );
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// callMethodOnRandomThread:
   void callMethodOnRandomThread(MyProtocol protocol) {
     final _$$ref = object$.ref;
     final _$$ref$1 = protocol.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_callMethodOnRandomThread_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_callMethodOnRandomThread_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// callOptionalMethod:
   int callOptionalMethod(MyProtocol protocol) {
     final _$$ref = object$.ref;
     final _$$ref$1 = protocol.ref;
-    return _objc_msgSend_fd28sq(
-      _$$ref.pointer,
-      _sel_callOptionalMethod_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_fd28sq(
+        _$$ref.pointer,
+        _sel_callOptionalMethod_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// callOtherMethod:
   int callOtherMethod(SecondaryProtocol protocol) {
     final _$$ref = object$.ref;
     final _$$ref$1 = protocol.ref;
-    return _objc_msgSend_fd28sq(
-      _$$ref.pointer,
-      _sel_callOtherMethod_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_fd28sq(
+        _$$ref.pointer,
+        _sel_callOtherMethod_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// callTwoMethods:
   int callTwoMethods(MyProtocol protocol) {
     final _$$ref = object$.ref;
     final _$$ref$1 = protocol.ref;
-    return _objc_msgSend_fd28sq(
-      _$$ref.pointer,
-      _sel_callTwoMethods_,
-      _$$ref$1.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_fd28sq(
+        _$$ref.pointer,
+        _sel_callTwoMethods_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// init
@@ -2840,11 +2964,13 @@ extension ProtocolConsumer$Methods on ProtocolConsumer {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -2875,14 +3001,16 @@ extension SecondaryProtocol$Methods on SecondaryProtocol {
   /// otherMethod:b:c:d:
   int otherMethod(int a, {required int b, required int c, required int d}) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_hv8ra8(
-      _$$ref.pointer,
-      _sel_otherMethod_b_c_d_,
-      a,
-      b,
-      c,
-      d,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_hv8ra8(
+        _$$ref.pointer,
+        _sel_otherMethod_b_c_d_,
+        a,
+        b,
+        c,
+        d,
+      );
+    });
   }
 
   /// returnsInstanceType
@@ -2894,13 +3022,15 @@ extension SecondaryProtocol$Methods on SecondaryProtocol {
         'returnsInstanceType',
       );
     }
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_returnsInstanceType,
-    );
-    return $ret.address == 0
-        ? null
-        : SecondaryProtocol.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_returnsInstanceType,
+      );
+      return $ret.address == 0
+          ? null
+          : SecondaryProtocol.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// returnsMyProtocol
@@ -2912,8 +3042,13 @@ extension SecondaryProtocol$Methods on SecondaryProtocol {
         'returnsMyProtocol',
       );
     }
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_returnsMyProtocol);
-    return MyProtocol.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_returnsMyProtocol,
+      );
+      return MyProtocol.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -3127,7 +3262,9 @@ extension UnusedProtocol$Methods on UnusedProtocol {
   /// someMethod
   int someMethod() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_someMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_someMethod);
+    });
   }
 }
 
@@ -3220,12 +3357,16 @@ extension type _BlockArgs_1jgz5dp._(objc.ObjCObject object$)
 extension _BlockArgs_1jgz5dp$Methods on _BlockArgs_1jgz5dp {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   int get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_arg1);
+    });
   }
 }
 
@@ -3258,12 +3399,16 @@ extension type _BlockArgs_76xh3h._(objc.ObjCObject object$)
 extension _BlockArgs_76xh3h$Methods on _BlockArgs_76xh3h {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   ffi.Pointer<ffi.Int32> get arg1 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_obqqme(_$$ref.pointer, _sel_arg1);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_obqqme(_$$ref.pointer, _sel_arg1);
+    });
   }
 }
 
@@ -3296,13 +3441,17 @@ extension type _BlockArgs_g8o2nj._(objc.ObjCObject object$)
 extension _BlockArgs_g8o2nj$Methods on _BlockArgs_g8o2nj {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+    });
   }
 
   objc.NSObject get arg1 {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return objc.NSObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+      return objc.NSObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 

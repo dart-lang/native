@@ -39,24 +39,30 @@ extension type BadOverrideAunt._(objc.ObjCObject object$)
 
   /// alloc
   static BadOverrideAunt alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideAunt, _sel_alloc);
-    return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideAunt, _sel_alloc);
+      return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static BadOverrideAunt allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_BadOverrideAunt,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_BadOverrideAunt,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static BadOverrideAunt new$() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideAunt, _sel_new);
-    return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideAunt, _sel_new);
+      return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of BadOverrideAunt constructed with the default `new` method.
@@ -72,11 +78,13 @@ extension BadOverrideAunt$Methods on BadOverrideAunt {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -108,24 +116,30 @@ extension type BadOverrideChild._(objc.ObjCObject object$)
 
   /// alloc
   static BadOverrideChild alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideChild, _sel_alloc);
-    return BadOverrideChild.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideChild, _sel_alloc);
+      return BadOverrideChild.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static BadOverrideChild allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_BadOverrideChild,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return BadOverrideChild.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_BadOverrideChild,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return BadOverrideChild.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static BadOverrideChild new$() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideChild, _sel_new);
-    return BadOverrideChild.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideChild, _sel_new);
+      return BadOverrideChild.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of BadOverrideChild constructed with the default `new` method.
@@ -136,23 +150,27 @@ extension BadOverrideChild$Methods on BadOverrideChild {
   /// contravariantReturn
   Polygon contravariantReturn() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_contravariantReturn,
-    );
-    return Polygon.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_contravariantReturn,
+      );
+      return Polygon.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// covariantArg:
   objc.NSString covariantArg(Rectangle rect) {
     final _$$ref = object$.ref;
     final _$$ref$1 = rect.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_covariantArg_,
-      _$$ref$1.pointer,
-    );
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_covariantArg_,
+        _$$ref$1.pointer,
+      );
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -163,17 +181,21 @@ extension BadOverrideChild$Methods on BadOverrideChild {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return BadOverrideChild.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return BadOverrideChild.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// methodVsGetter
   int get methodVsGetter {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    });
   }
 }
 
@@ -205,39 +227,48 @@ extension type BadOverrideGrandchild._(objc.ObjCObject object$)
 
   /// alloc
   static BadOverrideGrandchild alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_BadOverrideGrandchild,
-      _sel_alloc,
-    );
-    return BadOverrideGrandchild.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_BadOverrideGrandchild,
+        _sel_alloc,
+      );
+      return BadOverrideGrandchild.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static BadOverrideGrandchild allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_BadOverrideGrandchild,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return BadOverrideGrandchild.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_BadOverrideGrandchild,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return BadOverrideGrandchild.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static BadOverrideGrandchild new$() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideGrandchild, _sel_new);
-    return BadOverrideGrandchild.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_BadOverrideGrandchild,
+        _sel_new,
+      );
+      return BadOverrideGrandchild.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of BadOverrideGrandchild constructed with the default `new` method.
@@ -253,21 +284,25 @@ extension BadOverrideGrandchild$Methods on BadOverrideGrandchild {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return BadOverrideGrandchild.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return BadOverrideGrandchild.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// methodVsGetter
   int get methodVsGetter {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    });
   }
 }
 
@@ -299,39 +334,48 @@ extension type BadOverrideGrandparent._(objc.ObjCObject object$)
 
   /// alloc
   static BadOverrideGrandparent alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_BadOverrideGrandparent,
-      _sel_alloc,
-    );
-    return BadOverrideGrandparent.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_BadOverrideGrandparent,
+        _sel_alloc,
+      );
+      return BadOverrideGrandparent.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static BadOverrideGrandparent allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_BadOverrideGrandparent,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return BadOverrideGrandparent.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_BadOverrideGrandparent,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return BadOverrideGrandparent.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static BadOverrideGrandparent new$() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideGrandparent, _sel_new);
-    return BadOverrideGrandparent.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_BadOverrideGrandparent,
+        _sel_new,
+      );
+      return BadOverrideGrandparent.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of BadOverrideGrandparent constructed with the default `new` method.
@@ -347,15 +391,17 @@ extension BadOverrideGrandparent$Methods on BadOverrideGrandparent {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return BadOverrideGrandparent.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return BadOverrideGrandparent.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 }
 
@@ -387,24 +433,30 @@ extension type BadOverrideParent._(objc.ObjCObject object$)
 
   /// alloc
   static BadOverrideParent alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideParent, _sel_alloc);
-    return BadOverrideParent.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideParent, _sel_alloc);
+      return BadOverrideParent.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static BadOverrideParent allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_BadOverrideParent,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return BadOverrideParent.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_BadOverrideParent,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return BadOverrideParent.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static BadOverrideParent new$() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideParent, _sel_new);
-    return BadOverrideParent.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideParent, _sel_new);
+      return BadOverrideParent.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of BadOverrideParent constructed with the default `new` method.
@@ -415,23 +467,27 @@ extension BadOverrideParent$Methods on BadOverrideParent {
   /// contravariantReturn
   Polygon contravariantReturn() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_contravariantReturn,
-    );
-    return Polygon.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_contravariantReturn,
+      );
+      return Polygon.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// covariantArg:
   objc.NSString covariantArg(Polygon poly) {
     final _$$ref = object$.ref;
     final _$$ref$1 = poly.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.pointer,
-      _sel_covariantArg_,
-      _$$ref$1.pointer,
-    );
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.pointer,
+        _sel_covariantArg_,
+        _$$ref$1.pointer,
+      );
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// init
@@ -442,17 +498,21 @@ extension BadOverrideParent$Methods on BadOverrideParent {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return BadOverrideParent.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return BadOverrideParent.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// methodVsGetter
   int get methodVsGetter {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    });
   }
 }
 
@@ -484,24 +544,45 @@ extension type BadOverrideSibbling._(objc.ObjCObject object$)
 
   /// alloc
   static BadOverrideSibbling alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideSibbling, _sel_alloc);
-    return BadOverrideSibbling.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_BadOverrideSibbling,
+        _sel_alloc,
+      );
+      return BadOverrideSibbling.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static BadOverrideSibbling allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_BadOverrideSibbling,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return BadOverrideSibbling.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_BadOverrideSibbling,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return BadOverrideSibbling.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static BadOverrideSibbling new$() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideSibbling, _sel_new);
-    return BadOverrideSibbling.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideSibbling, _sel_new);
+      return BadOverrideSibbling.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of BadOverrideSibbling constructed with the default `new` method.
@@ -517,17 +598,25 @@ extension BadOverrideSibbling$Methods on BadOverrideSibbling {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return BadOverrideSibbling.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return BadOverrideSibbling.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// methodVsGetter
   int get methodVsGetter {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    });
   }
 }
 
@@ -559,24 +648,30 @@ extension type BadOverrideUncle._(objc.ObjCObject object$)
 
   /// alloc
   static BadOverrideUncle alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideUncle, _sel_alloc);
-    return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideUncle, _sel_alloc);
+      return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static BadOverrideUncle allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_BadOverrideUncle,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_BadOverrideUncle,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static BadOverrideUncle new$() {
-    final $ret = _objc_msgSend_151sglz(_class_BadOverrideUncle, _sel_new);
-    return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_BadOverrideUncle, _sel_new);
+      return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of BadOverrideUncle constructed with the default `new` method.
@@ -592,17 +687,21 @@ extension BadOverrideUncle$Methods on BadOverrideUncle {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// methodVsGetter
   int methodVsGetter() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
+    });
   }
 }
 
@@ -634,24 +733,30 @@ extension type Polygon._(objc.ObjCObject object$)
 
   /// alloc
   static Polygon alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_Polygon, _sel_alloc);
-    return Polygon.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Polygon, _sel_alloc);
+      return Polygon.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static Polygon allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_Polygon,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return Polygon.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_Polygon,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return Polygon.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static Polygon new$() {
-    final $ret = _objc_msgSend_151sglz(_class_Polygon, _sel_new);
-    return Polygon.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Polygon, _sel_new);
+      return Polygon.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of Polygon constructed with the default `new` method.
@@ -667,18 +772,22 @@ extension Polygon$Methods on Polygon {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return Polygon.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return Polygon.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// name
   objc.NSString name() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -710,24 +819,30 @@ extension type Rectangle._(objc.ObjCObject object$)
 
   /// alloc
   static Rectangle alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_Rectangle, _sel_alloc);
-    return Rectangle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Rectangle, _sel_alloc);
+      return Rectangle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static Rectangle allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_Rectangle,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return Rectangle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_Rectangle,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return Rectangle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static Rectangle new$() {
-    final $ret = _objc_msgSend_151sglz(_class_Rectangle, _sel_new);
-    return Rectangle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Rectangle, _sel_new);
+      return Rectangle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of Rectangle constructed with the default `new` method.
@@ -743,18 +858,22 @@ extension Rectangle$Methods on Rectangle {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return Rectangle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return Rectangle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// name
   objc.NSString name() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -786,24 +905,30 @@ extension type Square._(objc.ObjCObject object$)
 
   /// alloc
   static Square alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_Square, _sel_alloc);
-    return Square.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Square, _sel_alloc);
+      return Square.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static Square allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_Square,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return Square.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_Square,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return Square.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static Square new$() {
-    final $ret = _objc_msgSend_151sglz(_class_Square, _sel_new);
-    return Square.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Square, _sel_new);
+      return Square.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of Square constructed with the default `new` method.
@@ -819,18 +944,22 @@ extension Square$Methods on Square {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return Square.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return Square.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// name
   objc.NSString name() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -862,24 +991,30 @@ extension type Triangle._(objc.ObjCObject object$)
 
   /// alloc
   static Triangle alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_Triangle, _sel_alloc);
-    return Triangle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Triangle, _sel_alloc);
+      return Triangle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static Triangle allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_Triangle,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return Triangle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_Triangle,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return Triangle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static Triangle new$() {
-    final $ret = _objc_msgSend_151sglz(_class_Triangle, _sel_new);
-    return Triangle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Triangle, _sel_new);
+      return Triangle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of Triangle constructed with the default `new` method.
@@ -895,18 +1030,22 @@ extension Triangle$Methods on Triangle {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return Triangle.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return Triangle.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// name
   objc.NSString name() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 

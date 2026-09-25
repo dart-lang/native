@@ -624,6 +624,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final convertReturn =
         kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
+    final autoReleasePool = ObjCBuiltInFunctions.autoReleasePool.gen(context);
 
     if (msgSend!.isStret) {
       assert(!convertReturn);
@@ -641,37 +642,65 @@ class ObjCMethod extends AstNode with HasLocalScope {
           ? 'Union'
           : 'Struct';
       s.write('''
-    final $ptrVar = $calloc<$returnTypeStr>();
-    $invoke;
-    final $finalizableVar = $ptrVar.cast<$uint8Type>().asTypedList(
-        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
-    return ${context.libs.prefix(ffiImport)}.$compoundKind.create<$returnTypeStr>(
-        $finalizableVar);
+    return $autoReleasePool(() {
+      final $ptrVar = $calloc<$returnTypeStr>();
+      $invoke;
+      final $finalizableVar = $ptrVar.cast<$uint8Type>().asTypedList(
+          $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
+      return ${context.libs.prefix(ffiImport)}.$compoundKind.create<$returnTypeStr>(
+          $finalizableVar);
+    });
 ''');
     } else {
       final useReturn = returnType != voidType;
       final useReturnVar = convertReturn || throwNSError;
-      if (useReturn) {
-        s.write('    ${useReturnVar ? 'final $retVar = ' : 'return '}');
-      }
-      s.write(msgSend!.invoke(context, targetStr, sel, msgSendParams));
-      s.write(';\n');
-      if (throwNSError) {
-        final nsErrorException = ObjCBuiltInFunctions.nsErrorException.gen(
+      if (!useReturn) {
+        s.write('''
+    $autoReleasePool(() {
+      ${msgSend!.invoke(context, targetStr, sel, msgSendParams)};
+''');
+        if (throwNSError) {
+          final nsErrorException = ObjCBuiltInFunctions.nsErrorException.gen(
+            context,
+          );
+          s.write(
+            '      $nsErrorException.checkErrorPointer($errVar.value);\n',
+          );
+        }
+        s.write('    });\n');
+      } else {
+        s.write('''
+    return $autoReleasePool(() {
+''');
+        final invokeStr = msgSend!.invoke(
           context,
+          targetStr,
+          sel,
+          msgSendParams,
         );
-        s.write('    $nsErrorException.checkErrorPointer($errVar.value);\n');
-      }
-      if (useReturnVar) {
-        final result = convertReturn
-            ? returnType.convertFfiDartTypeToDartType(
-                context,
-                retVar,
-                objCRetain: !returnsRetained,
-                objCEnclosingClass: targetType,
-              )
-            : retVar;
-        s.write('    return $result;');
+        if (useReturnVar) {
+          s.write('      final $retVar = $invokeStr;\n');
+          if (throwNSError) {
+            final nsErrorException = ObjCBuiltInFunctions.nsErrorException.gen(
+              context,
+            );
+            s.write(
+              '      $nsErrorException.checkErrorPointer($errVar.value);\n',
+            );
+          }
+          final result = convertReturn
+              ? returnType.convertFfiDartTypeToDartType(
+                  context,
+                  retVar,
+                  objCRetain: !returnsRetained,
+                  objCEnclosingClass: targetType,
+                )
+              : retVar;
+          s.write('      return $result;\n');
+        } else {
+          s.write('      return $invokeStr;\n');
+        }
+        s.write('    });\n');
       }
     }
     if (throwNSError) {

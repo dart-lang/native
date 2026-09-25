@@ -16,12 +16,16 @@ extension CatImplementsProto on Thing {
   /// protoMethod
   int protoMethod() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_protoMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_protoMethod);
+    });
   }
 
   /// staticProtoMethod
   static int staticProtoMethod() {
-    return _objc_msgSend_1gcq84o(_class_Thing, _sel_staticProtoMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_class_Thing, _sel_staticProtoMethod);
+    });
   }
 }
 
@@ -70,32 +74,40 @@ extension type ChildOfNSString._(objc.ObjCObject object$)
 
   /// alloc
   static ChildOfNSString alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_ChildOfNSString, _sel_alloc);
-    return ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ChildOfNSString, _sel_alloc);
+      return ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static ChildOfNSString allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_ChildOfNSString,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_ChildOfNSString,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static ChildOfNSString new$() {
-    final $ret = _objc_msgSend_151sglz(_class_ChildOfNSString, _sel_new);
-    return ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ChildOfNSString, _sel_new);
+      return ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(
-      _class_ChildOfNSString,
-      _sel_supportsSecureCoding,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_91o635(
+        _class_ChildOfNSString,
+        _sel_supportsSecureCoding,
+      );
+    });
   }
 
   /// Returns a new instance of ChildOfNSString constructed with the default `new` method.
@@ -111,25 +123,29 @@ extension ChildOfNSString$Methods on ChildOfNSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCoder:
   ChildOfNSString? initWithCoder(objc.NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    final $ret = _objc_msgSend_1sotr3r(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCoder_,
-      _$$ref$1.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1sotr3r(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCoder_,
+        _$$ref$1.pointer,
+      );
+      return $ret.address == 0
+          ? null
+          : ChildOfNSString.fromPointer($ret, retain: false, release: true);
+    });
   }
 }
 
@@ -161,32 +177,40 @@ extension type ChildOfThing._(objc.ObjCObject object$)
 
   /// alloc
   static ChildOfThing alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_ChildOfThing, _sel_alloc);
-    return ChildOfThing.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ChildOfThing, _sel_alloc);
+      return ChildOfThing.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static ChildOfThing allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_ChildOfThing,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return ChildOfThing.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_ChildOfThing,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return ChildOfThing.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// anonymousCategoryStaticMethod
   static int anonymousCategoryStaticMethod() {
-    return _objc_msgSend_1gcq84o(
-      _class_ChildOfThing,
-      _sel_anonymousCategoryStaticMethod,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_ChildOfThing,
+        _sel_anonymousCategoryStaticMethod,
+      );
+    });
   }
 
   /// new
   static ChildOfThing new$() {
-    final $ret = _objc_msgSend_151sglz(_class_ChildOfThing, _sel_new);
-    return ChildOfThing.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_ChildOfThing, _sel_new);
+      return ChildOfThing.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of ChildOfThing constructed with the default `new` method.
@@ -202,18 +226,25 @@ extension ChildOfThing$Methods on ChildOfThing {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return ChildOfThing.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return ChildOfThing.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// instancetypeMethod
   ChildOfThing instancetypeMethod() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_instancetypeMethod);
-    return ChildOfThing.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_instancetypeMethod,
+      );
+      return ChildOfThing.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -225,21 +256,30 @@ extension InterfaceOnBuiltInType on objc.NSString {
   /// instancetypeMethod
   objc.NSString instancetypeMethod() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_instancetypeMethod);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_instancetypeMethod,
+      );
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// method
   objc.NSString method() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_method);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_method);
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// staticMethod
   static objc.NSString staticMethod() {
-    final $ret = _objc_msgSend_151sglz(_class_NSString, _sel_staticMethod);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NSString, _sel_staticMethod);
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -248,13 +288,17 @@ extension Mul on Thing {
   /// mul:Y:
   int mul(int x, {required int Y}) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_mul_Y_, x, Y);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_mul_Y_, x, Y);
+    });
   }
 
   /// someProperty
   int get someProperty {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_someProperty);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_someProperty);
+    });
   }
 }
 
@@ -263,7 +307,9 @@ extension NSString on Thing {
   /// nsStringExtension
   int nsStringExtension() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_nsStringExtension);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_nsStringExtension);
+    });
   }
 }
 
@@ -272,7 +318,9 @@ extension NSURLCategory on objc.NSURL {
   /// extensionMethod
   int extensionMethod() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_extensionMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_extensionMethod);
+    });
   }
 }
 
@@ -281,12 +329,16 @@ extension StaticAndInstanceMethodsWithSameNameCategory on Thing {
   /// sameNameMethod
   int sameNameMethod() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_sameNameMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_sameNameMethod);
+    });
   }
 
   /// sameNameMethod
   static int sameNameMethod$1() {
-    return _objc_msgSend_1gcq84o(_class_Thing, _sel_sameNameMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_class_Thing, _sel_sameNameMethod);
+    });
   }
 }
 
@@ -295,12 +347,16 @@ extension Sub on Thing {
   /// sub:Y:
   int sub(int x, {required int Y}) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_sub_Y_, x, Y);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_sub_Y_, x, Y);
+    });
   }
 
   /// staticMethod
   static int staticMethod() {
-    return _objc_msgSend_1gcq84o(_class_Thing, _sel_staticMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_class_Thing, _sel_staticMethod);
+    });
   }
 }
 
@@ -332,28 +388,40 @@ extension type Thing._(objc.ObjCObject object$)
 
   /// alloc
   static Thing alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_Thing, _sel_alloc);
-    return Thing.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Thing, _sel_alloc);
+      return Thing.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static Thing allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(_class_Thing, _sel_allocWithZone_, zone);
-    return Thing.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_Thing,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return Thing.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// anonymousCategoryStaticMethod
   static int anonymousCategoryStaticMethod() {
-    return _objc_msgSend_1gcq84o(
-      _class_Thing,
-      _sel_anonymousCategoryStaticMethod,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _class_Thing,
+        _sel_anonymousCategoryStaticMethod,
+      );
+    });
   }
 
   /// new
   static Thing new$() {
-    final $ret = _objc_msgSend_151sglz(_class_Thing, _sel_new);
-    return Thing.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Thing, _sel_new);
+      return Thing.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of Thing constructed with the default `new` method.
@@ -364,13 +432,20 @@ extension Thing$Methods on Thing {
   /// add:Y:
   int add(int x, {required int Y}) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_add_Y_, x, Y);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_add_Y_, x, Y);
+    });
   }
 
   /// anonymousCategoryMethod
   int anonymousCategoryMethod() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_anonymousCategoryMethod);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(
+        _$$ref.pointer,
+        _sel_anonymousCategoryMethod,
+      );
+    });
   }
 
   /// init
@@ -381,18 +456,25 @@ extension Thing$Methods on Thing {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return Thing.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return Thing.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// instancetypeMethod
   Thing instancetypeMethod() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_instancetypeMethod);
-    return Thing.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_instancetypeMethod,
+      );
+      return Thing.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 

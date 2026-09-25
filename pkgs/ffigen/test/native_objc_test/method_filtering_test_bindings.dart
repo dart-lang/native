@@ -46,15 +46,17 @@ extension type MethodFilteringTestInterface._(objc.ObjCObject object$)
 
   /// includedStaticMethod
   static MethodFilteringTestInterface includedStaticMethod() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_MethodFilteringTestInterface,
-      _sel_includedStaticMethod,
-    );
-    return MethodFilteringTestInterface.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_MethodFilteringTestInterface,
+        _sel_includedStaticMethod,
+      );
+      return MethodFilteringTestInterface.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 }
 
@@ -65,24 +67,28 @@ extension MethodFilteringTestInterface$Methods on MethodFilteringTestInterface {
     required int with$,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_3hao97(
-      _$$ref.pointer,
-      _sel_includedInstanceMethod_with_,
-      arg,
-      with$,
-    );
-    return MethodFilteringTestInterface.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_3hao97(
+        _$$ref.pointer,
+        _sel_includedInstanceMethod_with_,
+        arg,
+        with$,
+      );
+      return MethodFilteringTestInterface.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 
   /// includedProperty
   objc.NSObject get includedProperty {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_includedProperty);
-    return objc.NSObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_includedProperty);
+      return objc.NSObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -113,15 +119,17 @@ extension MethodFilteringTestProtocol$Methods on MethodFilteringTestProtocol {
   /// includedProtocolMethod
   MethodFilteringTestProtocol includedProtocolMethod() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_includedProtocolMethod,
-    );
-    return MethodFilteringTestProtocol.fromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_includedProtocolMethod,
+      );
+      return MethodFilteringTestProtocol.fromPointer(
+        $ret,
+        retain: true,
+        release: true,
+      );
+    });
   }
 }
 
@@ -297,24 +305,26 @@ extension ObjCBlock_instancetype_ffiVoid$CallExtension
           ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
         > {
   Dartinstancetype call(ffi.Pointer<ffi.Void> arg0) {
-    return objc.ObjCObject(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
+    return objc.autoReleasePool(
+      () => objc.ObjCObject(
+        ref.pointer.ref.invoke
+            .cast<
+              ffi.NativeFunction<
+                instancetype Function(
+                  ffi.Pointer<objc.ObjCBlockImpl> block,
+                  ffi.Pointer<ffi.Void> arg0,
+                )
+              >
+            >()
+            .asFunction<
               instancetype Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
+                ffi.Pointer<objc.ObjCBlockImpl>,
+                ffi.Pointer<ffi.Void>,
               )
-            >
-          >()
-          .asFunction<
-            instancetype Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >()(ref.pointer, arg0),
-      retain: true,
-      release: true,
+            >()(ref.pointer, arg0),
+        retain: true,
+        release: true,
+      ),
     );
   }
 }

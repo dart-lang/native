@@ -39,42 +39,48 @@ extension type ClassThatWillFailToLoad._(objc.ObjCObject object$)
 
   /// alloc
   static ClassThatWillFailToLoad alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_ClassThatWillFailToLoad,
-      _sel_alloc,
-    );
-    return ClassThatWillFailToLoad.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_ClassThatWillFailToLoad,
+        _sel_alloc,
+      );
+      return ClassThatWillFailToLoad.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// allocWithZone:
   static ClassThatWillFailToLoad allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_ClassThatWillFailToLoad,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return ClassThatWillFailToLoad.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_ClassThatWillFailToLoad,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return ClassThatWillFailToLoad.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// new
   static ClassThatWillFailToLoad new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_ClassThatWillFailToLoad,
-      _sel_new,
-    );
-    return ClassThatWillFailToLoad.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_ClassThatWillFailToLoad,
+        _sel_new,
+      );
+      return ClassThatWillFailToLoad.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 
   /// Returns a new instance of ClassThatWillFailToLoad constructed with the default `new` method.
@@ -85,7 +91,9 @@ extension ClassThatWillFailToLoad$Methods on ClassThatWillFailToLoad {
   /// get123
   int get123() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_get123);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_get123);
+    });
   }
 
   /// init
@@ -96,15 +104,17 @@ extension ClassThatWillFailToLoad$Methods on ClassThatWillFailToLoad {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return ClassThatWillFailToLoad.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return ClassThatWillFailToLoad.fromPointer(
+        $ret,
+        retain: false,
+        release: true,
+      );
+    });
   }
 }
 
