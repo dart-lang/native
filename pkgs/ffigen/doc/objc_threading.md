@@ -43,7 +43,7 @@ will always be executed on the owner isolate.
   owner isolate shuts down before the block is invoked, the invocation will be
   silently ignored. Return values are not currently supported, but it would
   be possible to add support for non-`void` blocking blocks, if there is
-  user demand for it.
+  user demand for it. See [#3697](https://github.com/dart-lang/native/issues/3697).
 
 The third point means that directly calling some Apple APIs using the
 generated Dart bindings might be thread unsafe. This could crash your app, or
