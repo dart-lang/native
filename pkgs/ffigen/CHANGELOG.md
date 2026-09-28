@@ -17,6 +17,14 @@
   canonical type.
 - Generate bindings for declarations inside C++ `extern "C" { ... }`
   blocks, which were previously skipped entirely.
+- Generate bindings for C++ enums declared inside a namespace or a record.
+  Their Dart name is the scope path flattened with `$`, e.g.
+  `outer::inner::Color` becomes `outer$inner$Color`, and `originalName` is
+  the qualified C++ name, so a `Visitor` or `importType` can filter or rename
+  by it.
+- Generate bindings for C++ structs, classes and unions declared inside a
+  namespace or a record, named the same way. Scoped records are not yet
+  surfaced when C++ class support is enabled.
 - Allow `package:cli_util` versions `0.5.x` and `0.6.x`.
 
 ## 22.0.0
