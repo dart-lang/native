@@ -23,6 +23,11 @@ Set<Binding> parseTranslationUnit(
   final logger = context.logger;
   final headers = <String, bool>{};
 
+  final isCpp = _isCppTranslationUnit(translationUnitCursor);
+
+  // Whether the visitor is inside an `extern "C"` block.
+  var inExternC = false;
+
   /// Visits a child of the translation unit or, when [nested], of a C++
   /// namespace or record. Only the kinds in [_nestedDeclKinds] are surfaced
   /// from namespaces and records so far.
@@ -49,7 +54,14 @@ Set<Binding> parseTranslationUnit(
       logger.finest('cursorVisitor: ${cursor.completeStringRepr()}');
       switch (kind) {
         case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-          addToBindings(bindings, parseFunctionDeclaration(context, cursor));
+          addToBindings(
+            bindings,
+            parseFunctionDeclaration(
+              context,
+              cursor,
+              hasCppLinkage: isCpp && !inExternC,
+            ),
+          );
           break;
         case clang_types.CXCursorKind.CXCursor_StructDecl:
         case clang_types.CXCursorKind.CXCursor_ClassDecl:
@@ -85,7 +97,14 @@ Set<Binding> parseTranslationUnit(
           saveMacroDefinition(context, cursor);
           break;
         case clang_types.CXCursorKind.CXCursor_VarDecl:
-          addToBindings(bindings, parseVarDeclaration(context, cursor));
+          addToBindings(
+            bindings,
+            parseVarDeclaration(
+              context,
+              cursor,
+              hasCppLinkage: isCpp && !inExternC,
+            ),
+          );
           break;
         case clang_types.CXCursorKind.CXCursor_Namespace:
           // Anonymous namespaces are private to their translation unit. Types
@@ -94,7 +113,16 @@ Set<Binding> parseTranslationUnit(
           if (clang.clang_Cursor_isAnonymous(cursor) == 0) visitNested(cursor);
           break;
         case clang_types.CXCursorKind.CXCursor_LinkageSpec:
-          cursor.visitChildren((child) => cursorVisitor(child, nested: nested));
+          // Linkage specs nest, and the innermost one wins.
+          final wasInExternC = inExternC;
+          inExternC = !cursor.isCppLinkageSpec;
+          try {
+            cursor.visitChildren(
+              (child) => cursorVisitor(child, nested: nested),
+            );
+          } finally {
+            inExternC = wasInExternC;
+          }
           break;
         default:
           logger.finer('cursorVisitor: CursorKind not implemented');
@@ -129,6 +157,24 @@ const _nestedDeclKinds = {
 /// named by their leaf name alone, so scoped ones would collide. They are
 /// skipped until `CppClass` gets a qualified name.
 bool _mayParseNestedCompound(Context context) => context.config.cpp == null;
+
+/// Whether [translationUnitCursor] was parsed as C++, i.e. whether clang
+/// predefined `__cplusplus`. Predefined macros come first, so the scan stops
+/// at the first cursor from a file.
+bool _isCppTranslationUnit(clang_types.CXCursor translationUnitCursor) {
+  var isCpp = false;
+  translationUnitCursor.visitChildrenMayBreak((cursor) {
+    if (cursor.sourceFileName().isNotEmpty) return false;
+    if (clang.clang_getCursorKind(cursor) ==
+            clang_types.CXCursorKind.CXCursor_MacroDefinition &&
+        cursor.spelling() == '__cplusplus') {
+      isCpp = true;
+      return false;
+    }
+    return true;
+  });
+  return isCpp;
+}
 
 /// Adds to binding if unseen and not null.
 void addToBindings(Set<Binding> bindings, Binding? b) {

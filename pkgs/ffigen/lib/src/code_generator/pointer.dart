@@ -32,8 +32,13 @@ class PointerType extends Type {
       '${context.libs.prefix(ffiImport)}.Pointer<${child.getCType(context)}>';
 
   @override
-  String getNativeType(Context context, {String varName = ''}) =>
-      '${child.getNativeType(context)}* $varName';
+  String getNativeType(Context context, {String varName = ''}) {
+    // A function type is already spelled as a pointer: `int (*cb)(int)`.
+    if (child.typealiasType is NativeFunc) {
+      return child.getNativeType(context, varName: varName);
+    }
+    return '${child.getNativeType(context)}* $varName';
+  }
 
   // Both the C type and the FFI Dart type are 'Pointer<$cType>'.
   @override

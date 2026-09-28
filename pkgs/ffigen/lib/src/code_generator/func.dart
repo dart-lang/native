@@ -57,6 +57,10 @@ class Func extends LookUpBinding with HasLocalScope {
   final bool isVariadic;
   List<VarArgFunction> varArgs = [];
 
+  /// Whether this function has C++ linkage, so it's bound through an
+  /// `extern "C"` wrapper named [cppWrapperName].
+  final bool hasCppLinkage;
+
   @override
   final bool loadFromNativeAsset;
 
@@ -91,6 +95,7 @@ class Func extends LookUpBinding with HasLocalScope {
     this.loadFromNativeAsset = false,
     this.apiAvailability,
     this.isVariadic = false,
+    this.hasCppLinkage = false,
   }) : functionType = FunctionType(
          returnType: returnType,
          parameters: parameters,
@@ -140,9 +145,19 @@ class Func extends LookUpBinding with HasLocalScope {
       loadFromNativeAsset: loadFromNativeAsset,
       apiAvailability: apiAvailability,
       isVariadic: isVariadic,
+      hasCppLinkage: hasCppLinkage,
     );
     cloned.isIncluded = isIncluded;
     return cloned;
+  }
+
+  // Uses [name], not [originalName], so that overloads get distinct wrappers.
+  String get cppWrapperName => 'ffigen_${Namer.cSafeName(name)}';
+
+  String get lookupSymbol {
+    if (useNameForLookup) return name;
+    if (hasCppLinkage) return cppWrapperName;
+    return originalName;
   }
 
   @override
@@ -177,7 +192,7 @@ class Func extends LookUpBinding with HasLocalScope {
     final ffiArgDeclString = functionType.dartTypeParameters
         .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
         .join('');
-    final lookupName = useNameForLookup ? name : originalName;
+    final lookupName = lookupSymbol;
 
     final String dartReturnType;
     final String dartArgDeclString;
@@ -293,6 +308,27 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   }
 
   @override
+  String? toCppBindingString(Writer w) {
+    if (!hasCppLinkage) return null;
+    final context = w.context;
+    final parameters = functionType.dartTypeParameters;
+    final params = parameters
+        .map((p) => p.type.getNativeType(context, varName: p.name).trim())
+        .join(', ');
+    final callArgs = parameters.map(cppCallArg).join(', ');
+    final returnType = functionType.returnType;
+    final returnTypeString = returnType.getNativeType(context).trim();
+    final returnPrefix = returnType == voidType ? '' : 'return ';
+    final suffix = returnType is CppUniquePtrType ? '.release()' : '';
+    return '''
+FFIGEN_EXPORT $returnTypeString $cppWrapperName($params) {
+  $returnPrefix$originalName($callArgs)$suffix;
+}
+
+''';
+  }
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(funcVarSymbol);
@@ -311,10 +347,7 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   void visit(Visitation visitation) => visitation.visitFunc(this);
 
   (String, String)? get recordUseMapping => recordUse
-      ? (
-          needsWrapper ? funcVarSymbol!.name : name,
-          useNameForLookup ? name : originalName,
-        )
+      ? (needsWrapper ? funcVarSymbol!.name : name, lookupSymbol)
       : null;
 }
 

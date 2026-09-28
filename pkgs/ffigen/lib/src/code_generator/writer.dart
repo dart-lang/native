@@ -413,7 +413,7 @@ id objc_retainBlock(id);
   }
 
   /// Writes the Cpp glue code needed for the bindings, if any. Returns null
-  /// if there are no CppClass bindings.
+  /// if no binding needs C++ glue.
   String? generateCpp(String outFilename) {
     final s = StringBuffer();
     final outDir = p.dirname(outFilename);
@@ -478,6 +478,17 @@ class SymbolAddressWriter {
     _addresses.add(_SymbolAddressUnit(type, name, '', true));
   }
 
+  /// Adds a symbol whose address is in the top-level pointer [ptrName].
+  void addTopLevelPointer({
+    required String type,
+    required String name,
+    required String ptrName,
+  }) {
+    _addresses.add(
+      _SymbolAddressUnit(type, name, ptrName, false, topLevel: true),
+    );
+  }
+
   String writeObject(Writer w) {
     final fieldName = context.extraSymbols.symbolAddressVariableName.name;
 
@@ -514,6 +525,8 @@ class SymbolAddressWriter {
         // so we need to use a self-import.
         final arg = '${context.libs.prefix(selfImport)}.${address.name}';
         sb.writeln('${context.libs.prefix(ffiImport)}.Native.addressOf($arg);');
+      } else if (address.topLevel) {
+        sb.writeln('${address.ptrName};');
       } else {
         // For other elements, the generator will write a private field of type
         // Pointer which we can reference here.
@@ -532,7 +545,16 @@ class _SymbolAddressUnit {
   /// Whether the symbol we're looking up has been declared with `@Native`.
   final bool native;
 
-  _SymbolAddressUnit(this.type, this.name, this.ptrName, this.native);
+  /// Whether [ptrName] is top-level rather than a wrapper class field.
+  final bool topLevel;
+
+  _SymbolAddressUnit(
+    this.type,
+    this.name,
+    this.ptrName,
+    this.native, {
+    this.topLevel = false,
+  });
 }
 
 class _FindEnumsVisitation extends Visitation {

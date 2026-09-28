@@ -434,7 +434,7 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
           final String params;
           final String body;
 
-          final callArgs = method.parameters.map(_cppCallArg).join(', ');
+          final callArgs = method.parameters.map(cppCallArg).join(', ');
 
           if (method.isConstructor) {
             returnTypeString = '$originalName*';
@@ -505,7 +505,8 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
   }
 }
 
-String _cppCallArg(Parameter p) {
+/// The expression an `extern "C"` wrapper passes on for parameter [p].
+String cppCallArg(Parameter p) {
   final type = p.type;
   if (type is CppUniquePtrType) {
     final className = type.cppClass.originalName;
