@@ -25,71 +25,7 @@ env:
   PUB_ENVIRONMENT: bot.github
 
 jobs:
-  # Check code formatting and static analysis.
-  analyze:
-    runs-on: macos-latest
-    permissions:
-      contents: read
-    defaults:
-      run:
-        working-directory: pkgs/objective_c/
-    strategy:
-      fail-fast: false
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
-        with:
-          channel: stable
-      - id: install
-        name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="example/command_line" && flutter pub get --directory="example/flutter_app" && flutter pub get --directory="example/path_provider_example" && dart pub get --directory="../.."
-      - name: Check formatting
-        run: dart format --output=none --set-exit-if-changed .
-        if: always() && steps.install.outcome == 'success'
-      - name: Analyze code
-        run: flutter analyze --fatal-infos
-        if: always() && steps.install.outcome == 'success'
-      - name: Check snippets
-        run: dart run ../snippet_tool/bin/snippet_tool.dart --set-exit-if-changed .
-
-  test-mac:
-    needs: analyze
-    runs-on: 'macos-latest'
-    permissions:
-      contents: read
-    defaults:
-      run:
-        working-directory: pkgs/objective_c/
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
-        with:
-          sdk: stable
-      - name: Install dependencies
-        run: dart pub get
-      - name: Install coverage
-        run: dart pub global activate coverage
-      - name: Run VM tests and collect coverage
-        run: dart pub global run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
-      - name: Verify generated code is up to date
-        # test/generate_code_test.dart runs the code generator, so if there are
-        # any git-diffs at this point, it means the generated code is outdated.
-        run: if [[ -n $(git status --porcelain | tee /dev/stderr) ]]; then echo -e "\nDIFF:"; git diff; false; fi
-      - name: Upload coverage
-        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
-        with:
-          files: pkgs/objective_c/coverage/lcov.info
-          flags: objective_c
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false
-
-
   build-flutter-example:
-    needs: analyze
     runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
@@ -132,22 +68,3 @@ jobs:
       - name: Check for xcode for analyzer warnings
         run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES
 
-  build-command-line-example:
-    needs: analyze
-    runs-on: 'macos-latest'
-    permissions:
-      contents: read
-    defaults:
-      run:
-        working-directory: pkgs/objective_c/example/command_line
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
-        with:
-          sdk: stable
-      - name: Install dependencies
-        run: dart pub get
-      - name: Run the example app
-        run: dart run lib/main.dart

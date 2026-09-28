@@ -118,8 +118,8 @@ workspace:
   - pkgs/json_syntax_generator
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
-  # - pkgs/objective_c  # TODO
-  # - pkgs/objective_c/example/command_line  # TODO
+  - pkgs/objective_c
+  - pkgs/objective_c/example/command_line
   # - pkgs/objective_c/example/flutter_app  # Requires Flutter.
   # - pkgs/objective_c/example/path_provider_example  # Requires Flutter.
   - pkgs/pub_formats
@@ -146,6 +146,8 @@ dev_dependencies:
 # Hook user-defines are specified in the pub workspace.
 hooks:
   user_defines:
+    objective_c:
+      include_test_utils: true
     prebuilt_assets_example:
       local_build: false
     download_asset:

@@ -367,6 +367,7 @@ class GenerateTask extends Task {
       'pkgs/data_assets',
       'pkgs/web_assets',
       'pkgs/record_use',
+      'pkgs/objective_c',
     ];
     final fix = argResults['fix'] as bool;
     await _runMaybeParallel([
@@ -490,6 +491,12 @@ class ExampleTask extends Task {
           .toFilePath(),
       [],
     );
+    if (Platform.isMacOS) {
+      await _runProcess('dart', [
+        'run',
+        'pkgs/objective_c/example/command_line/lib/main.dart',
+      ]);
+    }
   }
 }
 
