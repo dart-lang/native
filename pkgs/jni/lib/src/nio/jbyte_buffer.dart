@@ -242,7 +242,18 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
 
   /// Returns this byte buffer as a [Uint8List].
   ///
-  /// If [releaseOriginal] is `true`, this byte buffer will be released.
+  /// The returned list holds a JNI global reference to this buffer, which is
+  /// only deleted when the returned [Uint8List] is garbage collected. If
+  /// [releaseOriginal] is `false` (the default), a new global reference is
+  /// created for the list and this buffer remains usable. If [releaseOriginal]
+  /// is `true`, this buffer's reference is transferred to the list and this
+  /// buffer is released.
+  ///
+  /// Some Java runtimes, such as ART on Android, limit the number of global
+  /// references that can exist at the same time, and the Dart garbage
+  /// collector is not aware of that limit. So calling [asUint8List] many
+  /// times may result in a application failure with the message:
+  /// `JNI ERROR (app bug): global reference table overflow`.
   ///
   /// Throws [StateError] if the buffer is not direct
   /// (see [JByteBuffer.allocateDirect]) or the JVM does not support the direct
