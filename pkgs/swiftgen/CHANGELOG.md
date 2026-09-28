@@ -1,3 +1,7 @@
+## 0.2.1-wip
+
+- Add `detect_classes` tool to inspect Swift classes and modules in binaries.
+
 ## 0.2.0
 
 - Bump ffigen and swift2objc versions.
