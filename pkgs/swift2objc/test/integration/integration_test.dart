@@ -12,6 +12,9 @@
 // dart test/integration/integration_test.dart --regen nested_types
 // dart test/integration/integration_test.dart nested_types structs_and_methods
 
+@TestOn('mac-os')
+library;
+
 import 'dart:io';
 
 import 'package:args/args.dart';
