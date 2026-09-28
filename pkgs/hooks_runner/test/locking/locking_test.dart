@@ -245,9 +245,10 @@ void main() async {
                     (e) => e.message,
                     'message',
                     contains(
-                      'Running hooks_runner on a project on a file system '
-                      'where process locks are not supported is not supported. '
-                      'Please move your project to a different location.',
+                      'The file system containing this project does not appear '
+                      'to support file locking (e.g. network shares like SMB '
+                      'or NFS). Build hooks require file locking. '
+                      'Please move the project to a local file system.',
                     ),
                   ),
                 ),
@@ -261,9 +262,10 @@ void main() async {
             expect(
               capturedMessages.join('\n'),
               contains(
-                'Running hooks_runner on a project on a file system where '
-                'process locks are not supported is not supported. '
-                'Please move your project to a different location.',
+                'The file system containing this project does not appear to '
+                'support file locking (e.g. network shares like SMB or NFS). '
+                'Build hooks require file locking. '
+                'Please move the project to a local file system.',
               ),
             );
             expect(
@@ -378,6 +380,68 @@ void main() async {
       });
     });
 
+    test('rethrows FileSystemException thrown by writeString', () async {
+      await inTempDir((tempUri) async {
+        final overrides = _LockTestingIOOverrides()
+          ..errorToThrowOnWriteString = const FileSystemException(
+            'writeString error',
+          );
+
+        await IOOverrides.runWithIOOverrides(() async {
+          await expectLater(
+            () => runUnderDirectoryLock<void>(
+              const LocalFileSystem(),
+              tempUri,
+              () async {},
+              logger: logger,
+            ),
+            throwsA(
+              isA<FileSystemException>().having(
+                (e) => e.message,
+                'message',
+                'writeString error',
+              ),
+            ),
+          );
+        }, overrides);
+
+        expect(overrides.lockAttempts, 1);
+        expect(overrides.lockCount, 1);
+        expect(overrides.unlockCount, 1);
+        expect(overrides.closeCount, 1);
+      });
+    });
+
+    test('rethrows FileSystemException thrown by unlock', () async {
+      await inTempDir((tempUri) async {
+        final overrides = _LockTestingIOOverrides()
+          ..errorToThrowOnUnlock = const FileSystemException('unlock error');
+
+        await IOOverrides.runWithIOOverrides(() async {
+          await expectLater(
+            () => runUnderDirectoryLock<void>(
+              const LocalFileSystem(),
+              tempUri,
+              () async {},
+              logger: logger,
+            ),
+            throwsA(
+              isA<FileSystemException>().having(
+                (e) => e.message,
+                'message',
+                'unlock error',
+              ),
+            ),
+          );
+        }, overrides);
+
+        expect(overrides.lockAttempts, 1);
+        expect(overrides.lockCount, 1);
+        expect(overrides.unlockCount, 1);
+        expect(overrides.closeCount, 1);
+      });
+    });
+
     test('runUnderDirectoriesLock locks multiple directories', () async {
       await inTempDir((tempUri) async {
         final dir1 = tempUri.resolve('dir1/');
@@ -410,6 +474,8 @@ final class _LockTestingIOOverrides extends IOOverrides {
   int closeCount = 0;
   int lockAttempts = 0;
   FileSystemException? errorToThrowOnLock;
+  FileSystemException? errorToThrowOnWriteString;
+  FileSystemException? errorToThrowOnUnlock;
   int retryAttemptsBeforeSuccess = 0;
   bool alwaysThrowOnLock = false;
 
@@ -483,7 +549,11 @@ class _LockTestingRandomAccessFile implements RandomAccessFile {
   @override
   Future<RandomAccessFile> unlock([int start = 0, int end = -1]) async {
     _overrides.unlockCount++;
+    final error = _overrides.errorToThrowOnUnlock;
     await _delegate.unlock(start, end);
+    if (error != null) {
+      throw error;
+    }
     return this;
   }
 
@@ -492,6 +562,10 @@ class _LockTestingRandomAccessFile implements RandomAccessFile {
     String string, {
     Encoding encoding = utf8,
   }) async {
+    final error = _overrides.errorToThrowOnWriteString;
+    if (error != null) {
+      throw error;
+    }
     await _delegate.writeString(string, encoding: encoding);
     return this;
   }

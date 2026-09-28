@@ -100,38 +100,23 @@ Future<T> _runUnderFileLock<T>(
   final randomAccessFile = await file.open(mode: .write);
   try {
     var printed = false;
-    var errorFromCallback = false;
     final stopwatch = Stopwatch()..start();
     while (timeout == null || stopwatch.elapsed < timeout) {
       try {
         await randomAccessFile.lock(FileLock.exclusive);
-        try {
-          await randomAccessFile.writeString(
-            'Last acquired by ${Platform.resolvedExecutable} '
-            '(pid $pid) running ${Platform.script} on ${DateTime.now()}.',
-          );
-          try {
-            return await callback();
-          } on FileSystemException {
-            errorFromCallback = true;
-            rethrow;
-          }
-        } finally {
-          await randomAccessFile.unlock();
-        }
       } on FileSystemException catch (e) {
-        if (errorFromCallback) {
-          rethrow;
-        }
         final errorCode = e.osError?.errorCode;
         final contentionErrorCodes =
-            _contentionErrorCodes[Platform.operatingSystem]!;
-        if (errorCode != null && !contentionErrorCodes.contains(errorCode)) {
+            _contentionErrorCodes[Platform.operatingSystem];
+        if (errorCode != null &&
+            contentionErrorCodes != null &&
+            !contentionErrorCodes.contains(errorCode)) {
           final message =
-              'Could not acquire the lock to ${file.path}. '
-              'Running hooks_runner on a project on a file system where '
-              'process locks are not supported is not supported. '
-              'Please move your project to a different location.';
+              'Could not acquire the lock to ${file.path}: ${e.osError}. '
+              'The file system containing this project does not appear to '
+              'support file locking (e.g. network shares like SMB or NFS). '
+              'Build hooks require file locking. '
+              'Please move the project to a local file system.';
           logger?.severe(message);
           throw FileSystemException(message, file.path, e.osError);
         }
@@ -144,6 +129,16 @@ Future<T> _runUnderFileLock<T>(
         // Don't busy wait, give the CPU some rest.
         // Magic constant taken from flutter_tools for startup lock.
         await Future<void>.delayed(const Duration(milliseconds: 50));
+        continue;
+      }
+      try {
+        await randomAccessFile.writeString(
+          'Last acquired by ${Platform.resolvedExecutable} '
+          '(pid $pid) running ${Platform.script} on ${DateTime.now()}.',
+        );
+        return await callback();
+      } finally {
+        await randomAccessFile.unlock();
       }
     }
 
