@@ -215,6 +215,11 @@ class ObjCMethod extends AstNode with HasLocalScope {
   ObjCMethod? setter;
   bool isIncluded = true;
   ObjCCategory? originCategory;
+  bool useAutoreleasePool = false;
+  bool get autoReleasePool => useAutoreleasePool;
+  set autoReleasePool(bool value) => useAutoreleasePool = value;
+  bool get useAutoReleasePool => useAutoreleasePool;
+  set useAutoReleasePool(bool value) => useAutoreleasePool = value;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -359,6 +364,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     clonedMethod.protocolMethodName = protocolMethodName?.clone();
     clonedMethod.isIncluded = isIncluded;
     clonedMethod.originCategory = originCategory ?? this.originCategory;
+    clonedMethod.useAutoreleasePool = useAutoreleasePool;
     return clonedMethod;
   }
 
@@ -379,6 +385,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
         originCategory: originCategory,
       );
       clonedSetter.isIncluded = clonedMethod.isIncluded;
+      clonedSetter.useAutoreleasePool = clonedMethod.useAutoreleasePool;
       clonedMethod.setter = clonedSetter;
     }
     return clonedMethod;
@@ -624,8 +631,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final convertReturn =
         kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
-    final autoReleasePool = ObjCBuiltInFunctions.autoReleasePool.gen(context);
-
     if (msgSend!.isStret) {
       assert(!convertReturn);
       assert(!throwNSError);
@@ -641,7 +646,11 @@ class ObjCMethod extends AstNode with HasLocalScope {
       final compoundKind = returnType.typealiasType is Union
           ? 'Union'
           : 'Struct';
-      s.write('''
+      if (useAutoreleasePool) {
+        final autoReleasePool = ObjCBuiltInFunctions.autoReleasePool.gen(
+          context,
+        );
+        s.write('''
     return $autoReleasePool(() {
       final $ptrVar = $calloc<$returnTypeStr>();
       $invoke;
@@ -651,35 +660,28 @@ class ObjCMethod extends AstNode with HasLocalScope {
           $finalizableVar);
     });
 ''');
+      } else {
+        s.write('''
+    final $ptrVar = $calloc<$returnTypeStr>();
+    $invoke;
+    final $finalizableVar = $ptrVar.cast<$uint8Type>().asTypedList(
+        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
+    return ${context.libs.prefix(ffiImport)}.$compoundKind.create<$returnTypeStr>(
+        $finalizableVar);
+''');
+      }
     } else {
       final useReturn = returnType != voidType;
       final useReturnVar = convertReturn || throwNSError;
-      if (!useReturn) {
-        s.write('''
+      if (useAutoreleasePool) {
+        final autoReleasePool = ObjCBuiltInFunctions.autoReleasePool.gen(
+          context,
+        );
+        if (!useReturn) {
+          s.write('''
     $autoReleasePool(() {
       ${msgSend!.invoke(context, targetStr, sel, msgSendParams)};
 ''');
-        if (throwNSError) {
-          final nsErrorException = ObjCBuiltInFunctions.nsErrorException.gen(
-            context,
-          );
-          s.write(
-            '      $nsErrorException.checkErrorPointer($errVar.value);\n',
-          );
-        }
-        s.write('    });\n');
-      } else {
-        s.write('''
-    return $autoReleasePool(() {
-''');
-        final invokeStr = msgSend!.invoke(
-          context,
-          targetStr,
-          sel,
-          msgSendParams,
-        );
-        if (useReturnVar) {
-          s.write('      final $retVar = $invokeStr;\n');
           if (throwNSError) {
             final nsErrorException = ObjCBuiltInFunctions.nsErrorException.gen(
               context,
@@ -688,6 +690,53 @@ class ObjCMethod extends AstNode with HasLocalScope {
               '      $nsErrorException.checkErrorPointer($errVar.value);\n',
             );
           }
+          s.write('    });\n');
+        } else {
+          s.write('''
+    return $autoReleasePool(() {
+''');
+          final invokeStr = msgSend!.invoke(
+            context,
+            targetStr,
+            sel,
+            msgSendParams,
+          );
+          if (useReturnVar) {
+            s.write('      final $retVar = $invokeStr;\n');
+            if (throwNSError) {
+              final nsErrorException = ObjCBuiltInFunctions.nsErrorException
+                  .gen(context);
+              s.write(
+                '      $nsErrorException.checkErrorPointer($errVar.value);\n',
+              );
+            }
+            final result = convertReturn
+                ? returnType.convertFfiDartTypeToDartType(
+                    context,
+                    retVar,
+                    objCRetain: !returnsRetained,
+                    objCEnclosingClass: targetType,
+                  )
+                : retVar;
+            s.write('      return $result;\n');
+          } else {
+            s.write('      return $invokeStr;\n');
+          }
+          s.write('    });\n');
+        }
+      } else {
+        if (useReturn) {
+          s.write('    ${useReturnVar ? 'final $retVar = ' : 'return '}');
+        }
+        s.write(msgSend!.invoke(context, targetStr, sel, msgSendParams));
+        s.write(';\n');
+        if (throwNSError) {
+          final nsErrorException = ObjCBuiltInFunctions.nsErrorException.gen(
+            context,
+          );
+          s.write('    $nsErrorException.checkErrorPointer($errVar.value);\n');
+        }
+        if (useReturnVar) {
           final result = convertReturn
               ? returnType.convertFfiDartTypeToDartType(
                   context,
@@ -696,11 +745,8 @@ class ObjCMethod extends AstNode with HasLocalScope {
                   objCEnclosingClass: targetType,
                 )
               : retVar;
-          s.write('      return $result;\n');
-        } else {
-          s.write('      return $invokeStr;\n');
+          s.write('    return $result;');
         }
-        s.write('    });\n');
       }
     }
     if (throwNSError) {

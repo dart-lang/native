@@ -398,13 +398,14 @@ extension $name\$CallExtension on $blockType {
 ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
   .asFunction<${_helper.trampFfiDartType}>()(
     ref.pointer, $callMethodArgs)''';
-    final invokeAndConvert = returnType.convertFfiDartTypeToDartType(
-      context,
-      callMethodInvocation,
-      objCRetain: !returnsRetained,
+    s.write(
+      returnType.convertFfiDartTypeToDartType(
+        context,
+        callMethodInvocation,
+        objCRetain: !returnsRetained,
+      ),
     );
-    final autoReleasePool = ObjCBuiltInFunctions.autoReleasePool.gen(context);
-    s.write('$autoReleasePool(() => $invokeAndConvert);\n');
+    s.write(';\n');
     s.write('  }\n');
 
     s.write('}\n\n');

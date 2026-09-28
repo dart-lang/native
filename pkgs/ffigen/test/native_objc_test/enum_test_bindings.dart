@@ -46,52 +46,42 @@ extension type EnumTestInterface._(objc.ObjCObject object$)
 
   /// alloc
   static EnumTestInterface alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_EnumTestInterface, _sel_alloc);
-      return EnumTestInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_EnumTestInterface, _sel_alloc);
+    return EnumTestInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static EnumTestInterface allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_EnumTestInterface,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return EnumTestInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_EnumTestInterface,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return EnumTestInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static EnumTestInterface new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_EnumTestInterface, _sel_new);
-      return EnumTestInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_EnumTestInterface, _sel_new);
+    return EnumTestInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// useImportedNSEnum:
   static int useImportedNSEnum(objc.NSQualityOfService x) {
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1y89lso(
-        _class_EnumTestInterface,
-        _sel_useImportedNSEnum_,
-        x.value,
-      );
-    });
+    return _objc_msgSend_1y89lso(
+      _class_EnumTestInterface,
+      _sel_useImportedNSEnum_,
+      x.value,
+    );
   }
 
   /// useImportedNSOptions:
   static int useImportedNSOptions(int x) {
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1cxnp8y(
-        _class_EnumTestInterface,
-        _sel_useImportedNSOptions_,
-        x,
-      );
-    });
+    return _objc_msgSend_1cxnp8y(
+      _class_EnumTestInterface,
+      _sel_useImportedNSOptions_,
+      x,
+    );
   }
 
   /// Returns a new instance of EnumTestInterface constructed with the default `new` method.
@@ -107,13 +97,11 @@ extension EnumTestInterface$Methods on EnumTestInterface {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return EnumTestInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return EnumTestInterface.fromPointer($ret, retain: false, release: true);
   }
 }
 

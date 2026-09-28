@@ -285,23 +285,21 @@ extension ObjCBlock_ffiVoid_NSString$CallExtension
     on objc.ObjCBlock<ffi.Void Function(objc.NSString)> {
   void call(objc.NSString arg0) {
     final _$$ref = arg0.ref;
-    return objc.autoReleasePool(
-      () => ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              )
-            >
-          >()
-          .asFunction<
-            void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<objc.ObjCObjectImpl> arg0,
             )
-          >()(ref.pointer, _$$ref.pointer),
-    );
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(ref.pointer, _$$ref.pointer);
   }
 }
 
@@ -484,25 +482,23 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSString$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString)> {
   void call(ffi.Pointer<ffi.Void> arg0, objc.NSString arg1) {
     final _$$ref = arg1.ref;
-    return objc.autoReleasePool(
-      () => ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<objc.ObjCObjectImpl> arg1,
-              )
-            >
-          >()
-          .asFunction<
-            void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
             )
-          >()(ref.pointer, arg0, _$$ref.pointer),
-    );
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(ref.pointer, arg0, _$$ref.pointer);
   }
 }
 
@@ -784,27 +780,25 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSString_ffiVoidNSString$CallExtension
   ) {
     final _$$ref = arg1.ref;
     final _$$ref$1 = arg2.ref;
-    return objc.autoReleasePool(
-      () => ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<objc.ObjCObjectImpl> arg1,
-                ffi.Pointer<objc.ObjCBlockImpl> arg2,
-              )
-            >
-          >()
-          .asFunction<
-            void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCBlockImpl>,
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              ffi.Pointer<objc.ObjCBlockImpl> arg2,
             )
-          >()(ref.pointer, arg0, _$$ref.pointer, _$$ref$1.pointer),
-    );
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCBlockImpl>,
+          )
+        >()(ref.pointer, arg0, _$$ref.pointer, _$$ref$1.pointer);
   }
 }
 
@@ -840,14 +834,12 @@ extension TestAsyncProtocol$Methods on TestAsyncProtocol {
     final _$$ref = object$.ref;
     final _$$ref$1 = param.ref;
     final _$$ref$2 = completionHandler.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_o762yo(
-        _$$ref.pointer,
-        _sel_fetchDataWithParam_completionHandler_,
-        _$$ref$1.pointer,
-        _$$ref$2.pointer,
-      );
-    });
+    _objc_msgSend_o762yo(
+      _$$ref.pointer,
+      _sel_fetchDataWithParam_completionHandler_,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+    );
   }
 }
 
@@ -1081,22 +1073,18 @@ extension type TestSwiftInvoker._(objc.ObjCObject object$)
 
   /// alloc
   static TestSwiftInvoker alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_TestSwiftInvoker, _sel_alloc);
-      return TestSwiftInvoker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_TestSwiftInvoker, _sel_alloc);
+    return TestSwiftInvoker.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static TestSwiftInvoker allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_TestSwiftInvoker,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return TestSwiftInvoker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_TestSwiftInvoker,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return TestSwiftInvoker.fromPointer($ret, retain: false, release: true);
   }
 
   /// invokeAsyncMethodOnBackgroundThreadWithProtocolInstance:param:completionHandler:
@@ -1108,15 +1096,13 @@ extension type TestSwiftInvoker._(objc.ObjCObject object$)
     final _$$ref = protocolInstance.ref;
     final _$$ref$1 = param.ref;
     final _$$ref$2 = completionHandler.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_18qun1e(
-        _class_TestSwiftInvoker,
-        _sel_invokeAsyncMethodOnBackgroundThreadWithProtocolInstance_param_completionHandler_,
-        _$$ref.pointer,
-        _$$ref$1.pointer,
-        _$$ref$2.pointer,
-      );
-    });
+    _objc_msgSend_18qun1e(
+      _class_TestSwiftInvoker,
+      _sel_invokeAsyncMethodOnBackgroundThreadWithProtocolInstance_param_completionHandler_,
+      _$$ref.pointer,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+    );
   }
 
   /// invokeAsyncMethodWithProtocolInstance:param:completionHandler:
@@ -1128,23 +1114,19 @@ extension type TestSwiftInvoker._(objc.ObjCObject object$)
     final _$$ref = protocolInstance.ref;
     final _$$ref$1 = param.ref;
     final _$$ref$2 = completionHandler.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_18qun1e(
-        _class_TestSwiftInvoker,
-        _sel_invokeAsyncMethodWithProtocolInstance_param_completionHandler_,
-        _$$ref.pointer,
-        _$$ref$1.pointer,
-        _$$ref$2.pointer,
-      );
-    });
+    _objc_msgSend_18qun1e(
+      _class_TestSwiftInvoker,
+      _sel_invokeAsyncMethodWithProtocolInstance_param_completionHandler_,
+      _$$ref.pointer,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+    );
   }
 
   /// new
   static TestSwiftInvoker new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_TestSwiftInvoker, _sel_new);
-      return TestSwiftInvoker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_TestSwiftInvoker, _sel_new);
+    return TestSwiftInvoker.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of TestSwiftInvoker constructed with the default `new` method.
@@ -1160,13 +1142,11 @@ extension TestSwiftInvoker$Methods on TestSwiftInvoker {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return TestSwiftInvoker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return TestSwiftInvoker.fromPointer($ret, retain: false, release: true);
   }
 }
 
@@ -1198,42 +1178,34 @@ extension type TestWeatherService._(objc.ObjCObject object$)
 
   /// alloc
   static TestWeatherService alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_alloc);
-      return TestWeatherService.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_alloc);
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static TestWeatherService allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_TestWeatherService,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return TestWeatherService.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_TestWeatherService,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
   }
 
   /// fetchWeatherWithDelegate:
   static void fetchWeatherWithDelegate(TestWeatherServiceDelegate delegate) {
     final _$$ref = delegate.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _class_TestWeatherService,
-        _sel_fetchWeatherWithDelegate_,
-        _$$ref.pointer,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _class_TestWeatherService,
+      _sel_fetchWeatherWithDelegate_,
+      _$$ref.pointer,
+    );
   }
 
   /// new
   static TestWeatherService new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_new);
-      return TestWeatherService.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_new);
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of TestWeatherService constructed with the default `new` method.
@@ -1249,13 +1221,11 @@ extension TestWeatherService$Methods on TestWeatherService {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return TestWeatherService.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
   }
 }
 
@@ -1287,13 +1257,11 @@ extension TestWeatherServiceDelegate$Methods on TestWeatherServiceDelegate {
   void didUpdateWeather(objc.NSString weather) {
     final _$$ref = object$.ref;
     final _$$ref$1 = weather.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_didUpdateWeather_,
-        _$$ref$1.pointer,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_didUpdateWeather_,
+      _$$ref$1.pointer,
+    );
   }
 }
 
@@ -1485,17 +1453,13 @@ extension type _BlockArgs_1t32fdx._(objc.ObjCObject object$)
 extension _BlockArgs_1t32fdx$Methods on _BlockArgs_1t32fdx {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
-    });
+    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
   }
 
   objc.NSString get arg1 {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -1528,10 +1492,8 @@ extension type _BlockArgs_1vzvc26._(objc.ObjCObject object$)
 extension _BlockArgs_1vzvc26$Methods on _BlockArgs_1vzvc26 {
   objc.NSString get arg0 {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -1564,29 +1526,23 @@ extension type _BlockArgs_nl1ebt._(objc.ObjCObject object$)
 extension _BlockArgs_nl1ebt$Methods on _BlockArgs_nl1ebt {
   ffi.Pointer<ffi.Void> get arg0 {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
-    });
+    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
   }
 
   objc.NSString get arg1 {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   objc.ObjCBlock<ffi.Void Function(objc.NSString)> get arg2 {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_arg2);
-      return ObjCBlock_ffiVoid_NSString.fromPointer(
-        $ret,
-        retain: true,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_arg2);
+    return ObjCBlock_ffiVoid_NSString.fromPointer(
+      $ret,
+      retain: true,
+      release: true,
+    );
   }
 }
 

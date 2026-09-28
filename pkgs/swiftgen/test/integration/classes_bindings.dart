@@ -42,30 +42,24 @@ extension type TestClassWrapper._(objc.ObjCObject object$)
 
   /// alloc
   static TestClassWrapper alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_alloc);
-      return TestClassWrapper.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_alloc);
+    return TestClassWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static TestClassWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_TestClassWrapper,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return TestClassWrapper.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_TestClassWrapper,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return TestClassWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// create
   static TestClassWrapper create() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_create);
-      return TestClassWrapper.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_create);
+    return TestClassWrapper.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -73,14 +67,8 @@ extension TestClassWrapper$Methods on TestClassWrapper {
   /// myMethod
   TestOtherClassWrapper myMethod() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_myMethod);
-      return TestOtherClassWrapper.fromPointer(
-        $ret,
-        retain: true,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_myMethod);
+    return TestOtherClassWrapper.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -112,33 +100,29 @@ extension type TestOtherClassWrapper._(objc.ObjCObject object$)
 
   /// alloc
   static TestOtherClassWrapper alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _class_TestOtherClassWrapper,
-        _sel_alloc,
-      );
-      return TestOtherClassWrapper.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _class_TestOtherClassWrapper,
+      _sel_alloc,
+    );
+    return TestOtherClassWrapper.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 
   /// allocWithZone:
   static TestOtherClassWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_TestOtherClassWrapper,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return TestOtherClassWrapper.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_TestOtherClassWrapper,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return TestOtherClassWrapper.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 }
 
@@ -146,9 +130,7 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
   /// times10WithX:
   int times10WithX(int x) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_12hwf9n(_$$ref.pointer, _sel_times10WithX_, x);
-    });
+    return _objc_msgSend_12hwf9n(_$$ref.pointer, _sel_times10WithX_, x);
   }
 }
 

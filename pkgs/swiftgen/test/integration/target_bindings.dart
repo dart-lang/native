@@ -42,30 +42,24 @@ extension type TestTargetWrapper._(objc.ObjCObject object$)
 
   /// alloc
   static TestTargetWrapper alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_TestTargetWrapper, _sel_alloc);
-      return TestTargetWrapper.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_TestTargetWrapper, _sel_alloc);
+    return TestTargetWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static TestTargetWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_TestTargetWrapper,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return TestTargetWrapper.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_TestTargetWrapper,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return TestTargetWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// host
   static objc.NSString host() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_TestTargetWrapper, _sel_host);
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_TestTargetWrapper, _sel_host);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
 

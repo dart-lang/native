@@ -39,30 +39,24 @@ extension type NullableBase._(objc.ObjCObject object$)
 
   /// alloc
   static NullableBase alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NullableBase, _sel_alloc);
-      return NullableBase.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NullableBase, _sel_alloc);
+    return NullableBase.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static NullableBase allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_NullableBase,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return NullableBase.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NullableBase,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NullableBase.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static NullableBase new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NullableBase, _sel_new);
-      return NullableBase.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NullableBase, _sel_new);
+    return NullableBase.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of NullableBase constructed with the default `new` method.
@@ -78,65 +72,51 @@ extension NullableBase$Methods on NullableBase {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return NullableBase.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NullableBase.fromPointer($ret, retain: false, release: true);
   }
 
   /// nonNullArg:
   bool nonNullArg(objc.NSObject x) {
     final _$$ref = object$.ref;
     final _$$ref$1 = x.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_19nvye5(
-        _$$ref.pointer,
-        _sel_nonNullArg_,
-        _$$ref$1.pointer,
-      );
-    });
+    return _objc_msgSend_19nvye5(
+      _$$ref.pointer,
+      _sel_nonNullArg_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// nonNullReturn
   objc.NSObject? nonNullReturn() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_nonNullReturn);
-      return $ret.address == 0
-          ? null
-          : objc.NSObject.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_nonNullReturn);
+    return $ret.address == 0
+        ? null
+        : objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// nullableArg:
   bool nullableArg(objc.NSObject? x) {
     final _$$ref = object$.ref;
     final _$$ref$1 = x?.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_19nvye5(
-        _$$ref.pointer,
-        _sel_nullableArg_,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-      );
-    });
+    return _objc_msgSend_19nvye5(
+      _$$ref.pointer,
+      _sel_nullableArg_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
   }
 
   /// nullableReturn:
   objc.NSObject? nullableReturn(bool r) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1t6aok9(
-        _$$ref.pointer,
-        _sel_nullableReturn_,
-        r,
-      );
-      return $ret.address == 0
-          ? null
-          : objc.NSObject.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_1t6aok9(_$$ref.pointer, _sel_nullableReturn_, r);
+    return $ret.address == 0
+        ? null
+        : objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -168,30 +148,24 @@ extension type NullableChild._(objc.ObjCObject object$)
 
   /// alloc
   static NullableChild alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NullableChild, _sel_alloc);
-      return NullableChild.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NullableChild, _sel_alloc);
+    return NullableChild.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static NullableChild allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_NullableChild,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return NullableChild.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NullableChild,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NullableChild.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static NullableChild new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NullableChild, _sel_new);
-      return NullableChild.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NullableChild, _sel_new);
+    return NullableChild.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of NullableChild constructed with the default `new` method.
@@ -207,63 +181,49 @@ extension NullableChild$Methods on NullableChild {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return NullableChild.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NullableChild.fromPointer($ret, retain: false, release: true);
   }
 
   /// nonNullArg:
   bool nonNullArg(objc.NSObject? x) {
     final _$$ref = object$.ref;
     final _$$ref$1 = x?.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_19nvye5(
-        _$$ref.pointer,
-        _sel_nonNullArg_,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-      );
-    });
+    return _objc_msgSend_19nvye5(
+      _$$ref.pointer,
+      _sel_nonNullArg_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
   }
 
   /// nonNullReturn
   objc.NSObject? nonNullReturn() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_nonNullReturn);
-      return $ret.address == 0
-          ? null
-          : objc.NSObject.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_nonNullReturn);
+    return $ret.address == 0
+        ? null
+        : objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// nullableArg:
   bool nullableArg(objc.NSObject x) {
     final _$$ref = object$.ref;
     final _$$ref$1 = x.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_19nvye5(
-        _$$ref.pointer,
-        _sel_nullableArg_,
-        _$$ref$1.pointer,
-      );
-    });
+    return _objc_msgSend_19nvye5(
+      _$$ref.pointer,
+      _sel_nullableArg_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// nullableReturn:
   objc.NSObject nullableReturn(bool r) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1t6aok9(
-        _$$ref.pointer,
-        _sel_nullableReturn_,
-        r,
-      );
-      return objc.NSObject.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_1t6aok9(_$$ref.pointer, _sel_nullableReturn_, r);
+    return objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -295,45 +255,24 @@ extension type NullableIntermediate._(objc.ObjCObject object$)
 
   /// alloc
   static NullableIntermediate alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _class_NullableIntermediate,
-        _sel_alloc,
-      );
-      return NullableIntermediate.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NullableIntermediate, _sel_alloc);
+    return NullableIntermediate.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static NullableIntermediate allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_NullableIntermediate,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return NullableIntermediate.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NullableIntermediate,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NullableIntermediate.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static NullableIntermediate new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NullableIntermediate, _sel_new);
-      return NullableIntermediate.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NullableIntermediate, _sel_new);
+    return NullableIntermediate.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of NullableIntermediate constructed with the default `new` method.
@@ -349,17 +288,11 @@ extension NullableIntermediate$Methods on NullableIntermediate {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return NullableIntermediate.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NullableIntermediate.fromPointer($ret, retain: false, release: true);
   }
 }
 

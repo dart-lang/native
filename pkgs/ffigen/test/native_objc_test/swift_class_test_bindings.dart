@@ -46,30 +46,24 @@ extension type MySwiftClass._(objc.ObjCObject object$)
 
   /// alloc
   static MySwiftClass alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_MySwiftClass, _sel_alloc);
-      return MySwiftClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_MySwiftClass, _sel_alloc);
+    return MySwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static MySwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_MySwiftClass,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return MySwiftClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_MySwiftClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return MySwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static MySwiftClass new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_MySwiftClass, _sel_new);
-      return MySwiftClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_MySwiftClass, _sel_new);
+    return MySwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of MySwiftClass constructed with the default `new` method.
@@ -80,9 +74,7 @@ extension MySwiftClass$Methods on MySwiftClass {
   /// getValue
   DartNSInteger getValue() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
-    });
+    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
   }
 
   /// init
@@ -93,21 +85,17 @@ extension MySwiftClass$Methods on MySwiftClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return MySwiftClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return MySwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// setValueWithX:
   void setValueWithX(DartNSInteger x) {
     final _$$ref = object$.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setValueWithX_, x);
-    });
+    _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setValueWithX_, x);
   }
 }
 
@@ -138,9 +126,7 @@ extension MySwiftProtocol$Methods on MySwiftProtocol {
   /// getValue
   DartNSInteger getValue() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
-    });
+    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
   }
 }
 
@@ -292,20 +278,18 @@ abstract final class ObjCBlock_NSInteger_ffiVoid {
 extension ObjCBlock_NSInteger_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)> {
   DartNSInteger call(ffi.Pointer<ffi.Void> arg0) {
-    return objc.autoReleasePool(
-      () => ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              NSInteger Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-              )
-            >
-          >()
-          .asFunction<
-            int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
-          >()(ref.pointer, arg0),
-    );
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            NSInteger Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+            )
+          >
+        >()
+        .asFunction<
+          int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
+        >()(ref.pointer, arg0);
   }
 }
 

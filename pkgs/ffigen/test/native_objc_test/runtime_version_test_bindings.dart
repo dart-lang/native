@@ -24,9 +24,7 @@ extension FutureAPICategoryMethods on objc.NSObject {
       iOS: (false, (1000, 0, 0)),
       macOS: (false, (1000, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodBoth);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodBoth);
   }
 
   /// catFutureMethodIos
@@ -37,9 +35,7 @@ extension FutureAPICategoryMethods on objc.NSObject {
       'NSObject.catFutureMethodIos',
       iOS: (false, (1000, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodIos);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodIos);
   }
 
   /// catFutureMethodMac
@@ -50,9 +46,7 @@ extension FutureAPICategoryMethods on objc.NSObject {
       'NSObject.catFutureMethodMac',
       macOS: (false, (1000, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodMac);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodMac);
   }
 
   /// catUnavailableBoth
@@ -63,9 +57,7 @@ extension FutureAPICategoryMethods on objc.NSObject {
       iOS: (true, null),
       macOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableBoth);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableBoth);
   }
 
   /// catUnavailableIos
@@ -75,9 +67,7 @@ extension FutureAPICategoryMethods on objc.NSObject {
       'NSObject.catUnavailableIos',
       iOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableIos);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableIos);
   }
 
   /// catUnavailableMac
@@ -87,9 +77,7 @@ extension FutureAPICategoryMethods on objc.NSObject {
       'NSObject.catUnavailableMac',
       macOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableMac);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableMac);
   }
 }
 
@@ -132,30 +120,24 @@ extension type FutureAPIInterface._(objc.ObjCObject object$)
 
   /// alloc
   static FutureAPIInterface alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_FutureAPIInterface, _sel_alloc);
-      return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_FutureAPIInterface, _sel_alloc);
+    return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static FutureAPIInterface allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_FutureAPIInterface,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_FutureAPIInterface,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static FutureAPIInterface new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_FutureAPIInterface, _sel_new);
-      return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_FutureAPIInterface, _sel_new);
+    return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of FutureAPIInterface constructed with the default `new` method.
@@ -171,13 +153,11 @@ extension FutureAPIInterface$Methods on FutureAPIInterface {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
   }
 }
 
@@ -209,30 +189,24 @@ extension type FutureAPIMethods._(objc.ObjCObject object$)
 
   /// alloc
   static FutureAPIMethods alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_FutureAPIMethods, _sel_alloc);
-      return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_FutureAPIMethods, _sel_alloc);
+    return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static FutureAPIMethods allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_FutureAPIMethods,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_FutureAPIMethods,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static FutureAPIMethods new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_FutureAPIMethods, _sel_new);
-      return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_FutureAPIMethods, _sel_new);
+    return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of FutureAPIMethods constructed with the default `new` method.
@@ -249,9 +223,7 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
       iOS: (false, (1000, 0, 0)),
       macOS: (false, (1000, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodBoth);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodBoth);
   }
 
   /// futureMethodIos
@@ -262,9 +234,7 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
       'FutureAPIMethods.futureMethodIos',
       iOS: (false, (1000, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodIos);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodIos);
   }
 
   /// futureMethodMac
@@ -275,9 +245,7 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
       'FutureAPIMethods.futureMethodMac',
       macOS: (false, (1000, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodMac);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodMac);
   }
 
   /// init
@@ -288,13 +256,11 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
   }
 
   /// unavailableBoth
@@ -305,9 +271,7 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
       iOS: (true, null),
       macOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableBoth);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableBoth);
   }
 
   /// unavailableIos
@@ -317,9 +281,7 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
       'FutureAPIMethods.unavailableIos',
       iOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableIos);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableIos);
   }
 
   /// unavailableMac
@@ -329,9 +291,7 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
       'FutureAPIMethods.unavailableMac',
       macOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableMac);
-    });
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableMac);
   }
 }
 

@@ -1387,5 +1387,50 @@ unions:
       expect(visitedNames, isNot(contains('internal_typealias')));
       expect(visitedNames, isNot(contains('InternalInterface')));
     });
+
+    test('public_ast.ObjCMethod.useAutoreleasePool getter and setter', () {
+      final context = testContext();
+      final cgObjCMethod = ObjCMethod(
+        context: context,
+        originalName: 'foo',
+        name: 'foo',
+        kind: ObjCMethodKind.method,
+        isClassMethod: false,
+        isOptional: false,
+        returnType: voidType,
+        family: null,
+        apiAvailability: ApiAvailability.all,
+        params: [],
+        ownershipAttribute: null,
+        consumesSelfAttribute: false,
+      );
+      final cgObjCInterface = ObjCInterface(
+        context: context,
+        originalName: 'MyItf',
+        name: 'MyItf',
+        apiAvailability: ApiAvailability.all,
+      )..addMethod(cgObjCMethod);
+      final publicObjCInterface = public_ast.ObjCInterface(cgObjCInterface);
+      final publicMethod = publicObjCInterface.methods.first;
+
+      expect(publicMethod.useAutoreleasePool, false);
+      expect(publicMethod.autoReleasePool, false);
+      expect(publicMethod.useAutoReleasePool, false);
+      expect(cgObjCMethod.useAutoreleasePool, false);
+
+      publicMethod.useAutoreleasePool = true;
+      expect(publicMethod.useAutoreleasePool, true);
+      expect(publicMethod.autoReleasePool, true);
+      expect(publicMethod.useAutoReleasePool, true);
+      expect(cgObjCMethod.useAutoreleasePool, true);
+
+      publicMethod.autoReleasePool = false;
+      expect(publicMethod.useAutoreleasePool, false);
+      expect(cgObjCMethod.useAutoreleasePool, false);
+
+      publicMethod.useAutoReleasePool = true;
+      expect(publicMethod.useAutoreleasePool, true);
+      expect(cgObjCMethod.useAutoreleasePool, true);
+    });
   });
 }

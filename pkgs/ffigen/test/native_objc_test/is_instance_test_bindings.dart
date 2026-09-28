@@ -39,45 +39,24 @@ extension type IsInstanceBaseClass._(objc.ObjCObject object$)
 
   /// alloc
   static IsInstanceBaseClass alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _class_IsInstanceBaseClass,
-        _sel_alloc,
-      );
-      return IsInstanceBaseClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(_class_IsInstanceBaseClass, _sel_alloc);
+    return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static IsInstanceBaseClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_IsInstanceBaseClass,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return IsInstanceBaseClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_IsInstanceBaseClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static IsInstanceBaseClass new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_IsInstanceBaseClass, _sel_new);
-      return IsInstanceBaseClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(_class_IsInstanceBaseClass, _sel_new);
+    return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of IsInstanceBaseClass constructed with the default `new` method.
@@ -93,17 +72,11 @@ extension IsInstanceBaseClass$Methods on IsInstanceBaseClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return IsInstanceBaseClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
   }
 }
 
@@ -135,45 +108,24 @@ extension type IsInstanceChildClass._(objc.ObjCObject object$)
 
   /// alloc
   static IsInstanceChildClass alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _class_IsInstanceChildClass,
-        _sel_alloc,
-      );
-      return IsInstanceChildClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(_class_IsInstanceChildClass, _sel_alloc);
+    return IsInstanceChildClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static IsInstanceChildClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_IsInstanceChildClass,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return IsInstanceChildClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_IsInstanceChildClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return IsInstanceChildClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static IsInstanceChildClass new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_IsInstanceChildClass, _sel_new);
-      return IsInstanceChildClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(_class_IsInstanceChildClass, _sel_new);
+    return IsInstanceChildClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of IsInstanceChildClass constructed with the default `new` method.
@@ -189,17 +141,11 @@ extension IsInstanceChildClass$Methods on IsInstanceChildClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return IsInstanceChildClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return IsInstanceChildClass.fromPointer($ret, retain: false, release: true);
   }
 }
 
@@ -231,48 +177,42 @@ extension type IsInstanceUnrelatedClass._(objc.ObjCObject object$)
 
   /// alloc
   static IsInstanceUnrelatedClass alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _class_IsInstanceUnrelatedClass,
-        _sel_alloc,
-      );
-      return IsInstanceUnrelatedClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _class_IsInstanceUnrelatedClass,
+      _sel_alloc,
+    );
+    return IsInstanceUnrelatedClass.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 
   /// allocWithZone:
   static IsInstanceUnrelatedClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_IsInstanceUnrelatedClass,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return IsInstanceUnrelatedClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_IsInstanceUnrelatedClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return IsInstanceUnrelatedClass.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 
   /// new
   static IsInstanceUnrelatedClass new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _class_IsInstanceUnrelatedClass,
-        _sel_new,
-      );
-      return IsInstanceUnrelatedClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _class_IsInstanceUnrelatedClass,
+      _sel_new,
+    );
+    return IsInstanceUnrelatedClass.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 
   /// Returns a new instance of IsInstanceUnrelatedClass constructed with the default `new` method.
@@ -288,17 +228,15 @@ extension IsInstanceUnrelatedClass$Methods on IsInstanceUnrelatedClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return IsInstanceUnrelatedClass.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return IsInstanceUnrelatedClass.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 }
 

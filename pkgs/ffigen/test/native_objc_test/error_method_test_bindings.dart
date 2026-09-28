@@ -39,48 +39,39 @@ extension type ErrorMethodTestObject._(objc.ObjCObject object$)
 
   /// alloc
   static ErrorMethodTestObject alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _class_ErrorMethodTestObject,
-        _sel_alloc,
-      );
-      return ErrorMethodTestObject.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _class_ErrorMethodTestObject,
+      _sel_alloc,
+    );
+    return ErrorMethodTestObject.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 
   /// allocWithZone:
   static ErrorMethodTestObject allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_ErrorMethodTestObject,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return ErrorMethodTestObject.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_ErrorMethodTestObject,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return ErrorMethodTestObject.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 
   /// new
   static ErrorMethodTestObject new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _class_ErrorMethodTestObject,
-        _sel_new,
-      );
-      return ErrorMethodTestObject.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(_class_ErrorMethodTestObject, _sel_new);
+    return ErrorMethodTestObject.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 
   /// Returns a new instance of ErrorMethodTestObject constructed with the default `new` method.
@@ -93,16 +84,14 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
     final _$$ref = object$.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      return objc.autoReleasePool(() {
-        final $ret = _objc_msgSend_164wts2(
-          _$$ref.pointer,
-          _sel_errorMethodReturningBool_error_,
-          isOk,
-          $err,
-        );
-        objc.NSErrorException.checkErrorPointer($err.value);
-        return $ret;
-      });
+      final $ret = _objc_msgSend_164wts2(
+        _$$ref.pointer,
+        _sel_errorMethodReturningBool_error_,
+        isOk,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -113,18 +102,16 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
     final _$$ref = object$.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      return objc.autoReleasePool(() {
-        final $ret = _objc_msgSend_28eabw(
-          _$$ref.pointer,
-          _sel_errorMethodReturningNullable_error_,
-          isOk,
-          $err,
-        );
-        objc.NSErrorException.checkErrorPointer($err.value);
-        return $ret.address == 0
-            ? null
-            : objc.NSObject.fromPointer($ret, retain: true, release: true);
-      });
+      final $ret = _objc_msgSend_28eabw(
+        _$$ref.pointer,
+        _sel_errorMethodReturningNullable_error_,
+        isOk,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : objc.NSObject.fromPointer($ret, retain: true, release: true);
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -138,17 +125,15 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return ErrorMethodTestObject.fromPointer(
-        $ret,
-        retain: false,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return ErrorMethodTestObject.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
   }
 
   /// nullableErrorMethod:error:
@@ -156,16 +141,14 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
     final _$$ref = object$.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      return objc.autoReleasePool(() {
-        final $ret = _objc_msgSend_164wts2(
-          _$$ref.pointer,
-          _sel_nullableErrorMethod_error_,
-          isOk,
-          $err,
-        );
-        objc.NSErrorException.checkErrorPointer($err.value);
-        return $ret;
-      });
+      final $ret = _objc_msgSend_164wts2(
+        _$$ref.pointer,
+        _sel_nullableErrorMethod_error_,
+        isOk,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
     } finally {
       pkg_ffi.calloc.free($err);
     }
@@ -176,16 +159,14 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
     final _$$ref = object$.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
-      return objc.autoReleasePool(() {
-        final $ret = _objc_msgSend_164wts2(
-          _$$ref.pointer,
-          _sel_outErrorMethod_outError_,
-          isOk,
-          $err,
-        );
-        objc.NSErrorException.checkErrorPointer($err.value);
-        return $ret;
-      });
+      final $ret = _objc_msgSend_164wts2(
+        _$$ref.pointer,
+        _sel_outErrorMethod_outError_,
+        isOk,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
     } finally {
       pkg_ffi.calloc.free($err);
     }

@@ -39,38 +39,30 @@ extension type BaseClass._(objc.ObjCObject object$)
 
   /// alloc
   static BaseClass alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_alloc);
-      return BaseClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_alloc);
+    return BaseClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static BaseClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_BaseClass,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return BaseClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_BaseClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return BaseClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// create
   static BaseClass create() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_create);
-      return BaseClass.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_create);
+    return BaseClass.fromPointer($ret, retain: true, release: true);
   }
 
   /// new
   static BaseClass new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_new);
-      return BaseClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_new);
+    return BaseClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of BaseClass constructed with the default `new` method.
@@ -81,10 +73,8 @@ extension BaseClass$Methods on BaseClass {
   /// getSelf
   BaseClass getSelf() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getSelf);
-      return BaseClass.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getSelf);
+    return BaseClass.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
@@ -95,13 +85,11 @@ extension BaseClass$Methods on BaseClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return BaseClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return BaseClass.fromPointer($ret, retain: false, release: true);
   }
 }
 
@@ -133,38 +121,30 @@ extension type ChildClass._(objc.ObjCObject object$)
 
   /// alloc
   static ChildClass alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_ChildClass, _sel_alloc);
-      return ChildClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_ChildClass, _sel_alloc);
+    return ChildClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static ChildClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_ChildClass,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return ChildClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_ChildClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return ChildClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// create
   static ChildClass create() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_ChildClass, _sel_create);
-      return ChildClass.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_ChildClass, _sel_create);
+    return ChildClass.fromPointer($ret, retain: true, release: true);
   }
 
   /// new
   static ChildClass new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_ChildClass, _sel_new);
-      return ChildClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_ChildClass, _sel_new);
+    return ChildClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of ChildClass constructed with the default `new` method.
@@ -175,18 +155,14 @@ extension ChildClass$Methods on ChildClass {
   /// field
   int get field {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_field);
-    });
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_field);
   }
 
   /// getSelf
   ChildClass getSelf() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getSelf);
-      return ChildClass.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getSelf);
+    return ChildClass.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
@@ -197,21 +173,17 @@ extension ChildClass$Methods on ChildClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return ChildClass.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return ChildClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// setField:
   set field(int value) {
     final _$$ref = object$.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setField_, value);
-    });
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setField_, value);
   }
 }
 

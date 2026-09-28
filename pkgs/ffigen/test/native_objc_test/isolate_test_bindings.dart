@@ -172,19 +172,18 @@ abstract final class ObjCBlock_ffiVoid_Int32 {
 extension ObjCBlock_ffiVoid_Int32$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Int32)> {
   void call(int arg0) {
-    return objc.autoReleasePool(
-      () => ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Int32 arg0,
-              )
-            >
-          >()
-          .asFunction<
-            void Function(ffi.Pointer<objc.ObjCBlockImpl>, int)
-          >()(ref.pointer, arg0),
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Int32 arg0,
+            )
+          >
+        >()
+        .asFunction<void Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
+      ref.pointer,
+      arg0,
     );
   }
 }
@@ -217,46 +216,38 @@ extension type Sendable._(objc.ObjCObject object$)
 
   /// alloc
   static Sendable alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_Sendable, _sel_alloc);
-      return Sendable.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_Sendable, _sel_alloc);
+    return Sendable.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static Sendable allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_Sendable,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return Sendable.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_Sendable,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return Sendable.fromPointer($ret, retain: false, release: true);
   }
 
   /// dummyMethodToForceGenerationOfListener
   static objc.ObjCBlock<ffi.Void Function(ffi.Int32)>
   dummyMethodToForceGenerationOfListener() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_uwvaik(
-        _class_Sendable,
-        _sel_dummyMethodToForceGenerationOfListener,
-      );
-      return ObjCBlock_ffiVoid_Int32.fromPointer(
-        $ret,
-        retain: true,
-        release: true,
-      );
-    });
+    final $ret = _objc_msgSend_uwvaik(
+      _class_Sendable,
+      _sel_dummyMethodToForceGenerationOfListener,
+    );
+    return ObjCBlock_ffiVoid_Int32.fromPointer(
+      $ret,
+      retain: true,
+      release: true,
+    );
   }
 
   /// new
   static Sendable new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_Sendable, _sel_new);
-      return Sendable.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_Sendable, _sel_new);
+    return Sendable.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of Sendable constructed with the default `new` method.
@@ -272,29 +263,23 @@ extension Sendable$Methods on Sendable {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return Sendable.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return Sendable.fromPointer($ret, retain: false, release: true);
   }
 
   /// setValue:
   set value(int value) {
     final _$$ref = object$.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setValue_, value);
-    });
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setValue_, value);
   }
 
   /// value
   int get value {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_value);
-    });
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_value);
   }
 }
 
@@ -327,9 +312,7 @@ extension type _BlockArgs_1liq3c0._(objc.ObjCObject object$)
 extension _BlockArgs_1liq3c0$Methods on _BlockArgs_1liq3c0 {
   int get arg0 {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_arg0);
-    });
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_arg0);
   }
 }
 

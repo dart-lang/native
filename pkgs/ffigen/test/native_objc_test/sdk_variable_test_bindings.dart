@@ -192,30 +192,24 @@ extension type NSColorPicker._(objc.ObjCObject object$)
 
   /// alloc
   static NSColorPicker alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NSColorPicker, _sel_alloc);
-      return NSColorPicker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NSColorPicker, _sel_alloc);
+    return NSColorPicker.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static NSColorPicker allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_NSColorPicker,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return NSColorPicker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NSColorPicker,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NSColorPicker.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static NSColorPicker new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NSColorPicker, _sel_new);
-      return NSColorPicker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NSColorPicker, _sel_new);
+    return NSColorPicker.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of NSColorPicker constructed with the default `new` method.
@@ -231,13 +225,11 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.alphaControlAddedOrRemoved:',
       iOS: (true, null),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_alphaControlAddedOrRemoved_,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_alphaControlAddedOrRemoved_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
   }
 
   /// attachColorList:
@@ -248,13 +240,11 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.attachColorList:',
       iOS: (true, null),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_attachColorList_,
-        _$$ref$1.pointer,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_attachColorList_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// buttonToolTip
@@ -264,20 +254,16 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.buttonToolTip',
       iOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_buttonToolTip);
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_buttonToolTip);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// colorPanel
   NSColorPanel get colorPanel {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal('NSColorPicker.colorPanel', iOS: (true, null));
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_colorPanel);
-      return NSColorPanel.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_colorPanel);
+    return NSColorPanel.fromPointer($ret, retain: true, release: true);
   }
 
   /// detachColorList:
@@ -288,13 +274,11 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.detachColorList:',
       iOS: (true, null),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_detachColorList_,
-        _$$ref$1.pointer,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_detachColorList_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// init
@@ -305,13 +289,11 @@ extension NSColorPicker$Methods on NSColorPicker {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return NSColorPicker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NSColorPicker.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithPickerMask:colorPanel:
@@ -325,17 +307,15 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.initWithPickerMask:colorPanel:',
       iOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_vbc8p4(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithPickerMask_colorPanel_,
-        mask,
-        _$$ref$1.pointer,
-      );
-      return $ret.address == 0
-          ? null
-          : NSColorPicker.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_vbc8p4(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithPickerMask_colorPanel_,
+      mask,
+      _$$ref$1.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NSColorPicker.fromPointer($ret, retain: false, release: true);
   }
 
   /// insertNewButtonImage:in:
@@ -350,14 +330,12 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.insertNewButtonImage:in:',
       iOS: (true, null),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_pfv6jd(
-        _$$ref.pointer,
-        _sel_insertNewButtonImage_in_,
-        _$$ref$1.pointer,
-        _$$ref$2.pointer,
-      );
-    });
+    _objc_msgSend_pfv6jd(
+      _$$ref.pointer,
+      _sel_insertNewButtonImage_in_,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+    );
   }
 
   /// minContentSize
@@ -367,9 +345,7 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.minContentSize',
       iOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1vdfken(_$$ref.pointer, _sel_minContentSize);
-    });
+    return _objc_msgSend_1vdfken(_$$ref.pointer, _sel_minContentSize);
   }
 
   /// provideNewButtonImage
@@ -379,22 +355,18 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.provideNewButtonImage',
       iOS: (true, null),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.pointer,
-        _sel_provideNewButtonImage,
-      );
-      return NSImage.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.pointer,
+      _sel_provideNewButtonImage,
+    );
+    return NSImage.fromPointer($ret, retain: true, release: true);
   }
 
   /// setMode:
   void setMode(NSColorPanelMode mode) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal('NSColorPicker.setMode:', iOS: (true, null));
-    objc.autoReleasePool(() {
-      _objc_msgSend_190ea64(_$$ref.pointer, _sel_setMode_, mode.value);
-    });
+    _objc_msgSend_190ea64(_$$ref.pointer, _sel_setMode_, mode.value);
   }
 
   /// viewSizeChanged:
@@ -405,13 +377,11 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.viewSizeChanged:',
       iOS: (true, null),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_viewSizeChanged_,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_viewSizeChanged_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
   }
 }
 
@@ -549,37 +519,29 @@ extension type NSTextList._(objc.ObjCObject object$)
 
   /// alloc
   static NSTextList alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NSTextList, _sel_alloc);
-      return NSTextList.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NSTextList, _sel_alloc);
+    return NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static NSTextList allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_NSTextList,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return NSTextList.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NSTextList,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static NSTextList new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_NSTextList, _sel_new);
-      return NSTextList.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_NSTextList, _sel_new);
+    return NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
   /// supportsSecureCoding
   static bool getSupportsSecureCoding() {
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_91o635(_class_NSTextList, _sel_supportsSecureCoding);
-    });
+    return _objc_msgSend_91o635(_class_NSTextList, _sel_supportsSecureCoding);
   }
 
   /// Returns a new instance of NSTextList constructed with the default `new` method.
@@ -591,13 +553,11 @@ extension NSTextList$Methods on NSTextList {
   void encodeWithCoder(objc.NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_encodeWithCoder_,
-        _$$ref$1.pointer,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_encodeWithCoder_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// init
@@ -608,29 +568,25 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return NSTextList.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithCoder:
   NSTextList? initWithCoder(objc.NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1sotr3r(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithCoder_,
-        _$$ref$1.pointer,
-      );
-      return $ret.address == 0
-          ? null
-          : NSTextList.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1sotr3r(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithCoder_,
+      _$$ref$1.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithMarkerFormat:options:
@@ -645,15 +601,13 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1k4kd9s(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithMarkerFormat_options_,
-        _$$ref$1.pointer,
-        options,
-      );
-      return NSTextList.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1k4kd9s(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithMarkerFormat_options_,
+      _$$ref$1.pointer,
+      options,
+    );
+    return NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithMarkerFormat:options:startingItemNumber:
@@ -669,16 +623,14 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1bh1vl9(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithMarkerFormat_options_startingItemNumber_,
-        _$$ref$1.pointer,
-        options,
-        startingItemNumber,
-      );
-      return NSTextList.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1bh1vl9(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithMarkerFormat_options_startingItemNumber_,
+      _$$ref$1.pointer,
+      options,
+      startingItemNumber,
+    );
+    return NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
   /// isOrdered
@@ -689,9 +641,7 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_91o635(_$$ref.pointer, _sel_isOrdered);
-    });
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isOrdered);
   }
 
   /// listOptions
@@ -702,9 +652,7 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_exovb9(_$$ref.pointer, _sel_listOptions);
-    });
+    return _objc_msgSend_exovb9(_$$ref.pointer, _sel_listOptions);
   }
 
   /// markerForItemNumber:
@@ -715,14 +663,12 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_qugqlf(
-        _$$ref.pointer,
-        _sel_markerForItemNumber_,
-        itemNumber,
-      );
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_qugqlf(
+      _$$ref.pointer,
+      _sel_markerForItemNumber_,
+      itemNumber,
+    );
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// markerFormat
@@ -733,10 +679,8 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_markerFormat);
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_markerFormat);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// setStartingItemNumber:
@@ -747,9 +691,7 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setStartingItemNumber_, value);
-    });
+    _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setStartingItemNumber_, value);
   }
 
   /// startingItemNumber
@@ -760,9 +702,7 @@ extension NSTextList$Methods on NSTextList {
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_startingItemNumber);
-    });
+    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_startingItemNumber);
   }
 }
 
@@ -871,16 +811,10 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.dataSource',
       iOS: (false, (2, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_dataSource);
-      return $ret.address == 0
-          ? null
-          : UIPickerViewDataSource.fromPointer(
-              $ret,
-              retain: true,
-              release: true,
-            );
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_dataSource);
+    return $ret.address == 0
+        ? null
+        : UIPickerViewDataSource.fromPointer($ret, retain: true, release: true);
   }
 
   /// delegate
@@ -890,41 +824,35 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.delegate',
       iOS: (false, (2, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_delegate);
-      return $ret.address == 0
-          ? null
-          : UIPickerViewDelegate.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_delegate);
+    return $ret.address == 0
+        ? null
+        : UIPickerViewDelegate.fromPointer($ret, retain: true, release: true);
   }
 
   /// encodeWithCoder:
   void encodeWithCoder(objc.NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_encodeWithCoder_,
-        _$$ref$1.pointer,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_encodeWithCoder_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// initWithCoder:
   UIPickerView? initWithCoder(objc.NSCoder coder) {
     final _$$ref = object$.ref;
     final _$$ref$1 = coder.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1sotr3r(
-        _$$ref.retainAndReturnPointer(),
-        _sel_initWithCoder_,
-        _$$ref$1.pointer,
-      );
-      return $ret.address == 0
-          ? null
-          : UIPickerView.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1sotr3r(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithCoder_,
+      _$$ref$1.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : UIPickerView.fromPointer($ret, retain: false, release: true);
   }
 
   /// numberOfComponents
@@ -934,9 +862,7 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.numberOfComponents',
       iOS: (false, (2, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_numberOfComponents);
-    });
+    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_numberOfComponents);
   }
 
   /// numberOfRowsInComponent:
@@ -946,13 +872,11 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.numberOfRowsInComponent:',
       iOS: (false, (2, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_12hwf9n(
-        _$$ref.pointer,
-        _sel_numberOfRowsInComponent_,
-        component,
-      );
-    });
+    return _objc_msgSend_12hwf9n(
+      _$$ref.pointer,
+      _sel_numberOfRowsInComponent_,
+      component,
+    );
   }
 
   /// reloadAllComponents
@@ -962,9 +886,7 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.reloadAllComponents',
       iOS: (false, (2, 0, 0)),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_reloadAllComponents);
-    });
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_reloadAllComponents);
   }
 
   /// reloadComponent:
@@ -974,9 +896,7 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.reloadComponent:',
       iOS: (false, (2, 0, 0)),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_reloadComponent_, component);
-    });
+    _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_reloadComponent_, component);
   }
 
   /// rowSizeForComponent:
@@ -986,13 +906,11 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.rowSizeForComponent:',
       iOS: (false, (2, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_17w0i2j(
-        _$$ref.pointer,
-        _sel_rowSizeForComponent_,
-        component,
-      );
-    });
+    return _objc_msgSend_17w0i2j(
+      _$$ref.pointer,
+      _sel_rowSizeForComponent_,
+      component,
+    );
   }
 
   /// selectRow:inComponent:animated:
@@ -1002,15 +920,13 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.selectRow:inComponent:animated:',
       iOS: (false, (2, 0, 0)),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_cy4jud(
-        _$$ref.pointer,
-        _sel_selectRow_inComponent_animated_,
-        row,
-        inComponent,
-        animated,
-      );
-    });
+    _objc_msgSend_cy4jud(
+      _$$ref.pointer,
+      _sel_selectRow_inComponent_animated_,
+      row,
+      inComponent,
+      animated,
+    );
   }
 
   /// selectedRowInComponent:
@@ -1020,13 +936,11 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.selectedRowInComponent:',
       iOS: (false, (2, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_12hwf9n(
-        _$$ref.pointer,
-        _sel_selectedRowInComponent_,
-        component,
-      );
-    });
+    return _objc_msgSend_12hwf9n(
+      _$$ref.pointer,
+      _sel_selectedRowInComponent_,
+      component,
+    );
   }
 
   /// setDataSource:
@@ -1037,13 +951,11 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.setDataSource:',
       iOS: (false, (2, 0, 0)),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_setDataSource_,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setDataSource_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
   }
 
   /// setDelegate:
@@ -1054,13 +966,11 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.setDelegate:',
       iOS: (false, (2, 0, 0)),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_xtuoz7(
-        _$$ref.pointer,
-        _sel_setDelegate_,
-        _$$ref$1?.pointer ?? ffi.nullptr,
-      );
-    });
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setDelegate_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
   }
 
   /// setShowsSelectionIndicator:
@@ -1071,13 +981,11 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.setShowsSelectionIndicator:',
       iOS: (false, (2, 0, 0)),
     );
-    objc.autoReleasePool(() {
-      _objc_msgSend_1s56lr9(
-        _$$ref.pointer,
-        _sel_setShowsSelectionIndicator_,
-        value,
-      );
-    });
+    _objc_msgSend_1s56lr9(
+      _$$ref.pointer,
+      _sel_setShowsSelectionIndicator_,
+      value,
+    );
   }
 
   /// showsSelectionIndicator
@@ -1088,9 +996,7 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.showsSelectionIndicator',
       iOS: (false, (2, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_91o635(_$$ref.pointer, _sel_showsSelectionIndicator);
-    });
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_showsSelectionIndicator);
   }
 
   /// viewForRow:forComponent:
@@ -1100,15 +1006,13 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.viewForRow:forComponent:',
       iOS: (false, (2, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1nzyvs1(
-        _$$ref.pointer,
-        _sel_viewForRow_forComponent_,
-        row,
-        forComponent,
-      );
-      return objc.ObjCObject($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_1nzyvs1(
+      _$$ref.pointer,
+      _sel_viewForRow_forComponent_,
+      row,
+      forComponent,
+    );
+    return objc.ObjCObject($ret, retain: true, release: true);
   }
 }
 
