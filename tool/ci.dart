@@ -367,6 +367,7 @@ class GenerateTask extends Task {
       'pkgs/data_assets',
       'pkgs/web_assets',
       'pkgs/record_use',
+      'pkgs/swift2objc',
     ];
     final fix = argResults['fix'] as bool;
     await _runMaybeParallel([

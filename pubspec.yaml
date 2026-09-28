@@ -131,7 +131,7 @@ workspace:
   - pkgs/snippet_tool
   - pkgs/test_case_selector
   - pkgs/web_assets
-  # - pkgs/swift2objc  # TODO
+  - pkgs/swift2objc
   # - pkgs/swiftgen  # TODO
   # - pkgs/swiftgen/example  # TODO
 
