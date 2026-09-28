@@ -8,6 +8,13 @@ import 'internal.dart';
 ///
 /// Blocks are ObjC's equivalent of lambda functions.
 ///
+/// > **WARNING:** ObjCBlocks are strictly tied to the isolate that created
+/// > them. Blocks created with `.fromFunction` will crash if invoked from the
+/// > wrong thread, or if the owner isolate has shut down. `.listener` and
+/// > `.blocking` blocks can be invoked from any thread. See
+/// > [Objective-C Threading](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Threading-topic.html)
+/// > for more information.
+///
 /// FFIgen generates utility classes for each block signature referenced in the
 /// API it is generating. These utils enable construction of an `ObjCBlock` from
 /// a Dart `Function`, and invoking an `ObjCBlock` from Dart.
