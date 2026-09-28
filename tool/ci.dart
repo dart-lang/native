@@ -365,6 +365,7 @@ class GenerateTask extends Task {
       'pkgs/hooks',
       'pkgs/code_assets',
       'pkgs/data_assets',
+      'pkgs/jni_util',
       'pkgs/web_assets',
       'pkgs/record_use',
     ];

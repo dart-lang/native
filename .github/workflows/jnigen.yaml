@@ -38,53 +38,6 @@ env:
   PUB_ENVIRONMENT: bot.github
 
 jobs:
-  analyze_jni_util:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    defaults:
-      run:
-        working-directory: ./pkgs/jni_util
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
-        with:
-          channel: 'stable'
-          cache: true
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - id: install
-        name: Install dependencies
-        run: dart pub get && dart pub get --directory="../.."
-      - name: Check formatting
-        run: dart format --output=none --set-exit-if-changed .
-      - name: Analyze code
-        run: dart analyze --fatal-infos
-      - name: Check snippets
-        run: dart run ../snippet_tool/bin/snippet_tool.dart --set-exit-if-changed .
-
-  test_jni_util:
-    needs: [analyze_jni_util]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    defaults:
-      run:
-        working-directory: ./pkgs/jni_util
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
-        with:
-          channel: 'stable'
-          cache: true
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - run: dart pub get
-      - name: Run tests
-        run: dart test --test-randomize-ordering-seed random
-
   analyze_jnigen:
     runs-on: ubuntu-latest
     permissions:
