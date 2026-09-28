@@ -11,6 +11,8 @@ import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:process/process.dart';
 
+import '../native_toolchain/clang.dart';
+import '../native_toolchain/dart_sdk.dart';
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../native_toolchain/wsl.dart';
@@ -105,7 +107,20 @@ class RunCBuilder {
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
+  Future<ToolInstance> linker() async => await _resolver.resolveLinker();
+
   Future<ToolInstance> archiver() async => await _resolver.resolveArchiver();
+
+  bool get _isLinkingPrebuiltObjects =>
+      staticLibrary == null &&
+      sources.isNotEmpty &&
+      sources.every((uri) {
+        final path = uri.path.toLowerCase();
+        return path.endsWith('.a') ||
+            path.endsWith('.o') ||
+            path.endsWith('.lib') ||
+            path.endsWith('.obj');
+      });
 
   /// Renders [uri] as a path the [tool] can open.
   ///
@@ -136,6 +151,18 @@ class RunCBuilder {
       compiler.uri.resolve('../sysroot/');
 
   Future<void> run() async {
+    if (linkerOptions != null || _isLinkingPrebuiltObjects) {
+      final linkerInstance = await linker();
+      final linkerTool = linkerInstance.tool;
+      if (linkerTool.isLdLike ||
+          linkerTool == msvcLink ||
+          linkerTool == linkIA32 ||
+          linkerTool == linkArm64) {
+        await runDirectLinker(tool: linkerInstance);
+        return;
+      }
+    }
+
     final toolInstance_ = await compiler();
     final tool = toolInstance_.tool;
 
@@ -160,6 +187,232 @@ class RunCBuilder {
     } else {
       throw UnimplementedError('This package does not know how to run $tool.');
     }
+  }
+
+  Future<void> runDirectLinker({required ToolInstance tool}) async {
+    switch (codeConfig.targetOS) {
+      case .linux || .android:
+        await _runLldElf(tool: tool);
+      case .macOS || .iOS:
+        await _runLldMachO(tool: tool);
+      case .windows:
+        await _runLldCoff(tool: tool);
+      case OS():
+        throw UnimplementedError(
+          'Direct linking is not implemented for ${codeConfig.targetOS}.',
+        );
+    }
+  }
+
+  static Iterable<String> _expandLinkerFlag(String flag) =>
+      flag.startsWith('-Wl,') ? flag.substring(4).split(',') : [flag];
+
+  Future<void> _runLldElf({required ToolInstance tool}) async {
+    final architecture = codeConfig.targetArchitecture;
+    final sourceFiles = sources.map((e) => _toolPath(e, tool)).toList();
+    final outFile = dynamicLibrary != null
+        ? outDir.resolveUri(dynamicLibrary!)
+        : outDir.resolveUri(executable!);
+    final stubsDir = resolveLinkerStubsDir(
+      codeConfig.targetOS,
+      architecture,
+      fileSystem: fileSystem,
+    );
+    final crtStub = stubsDir != null
+        ? fileSystem.file(stubsDir.uri.resolve('crt_stub.o'))
+        : null;
+    String toolPath(Uri uri) => _toolPath(uri, tool);
+
+    await runProcess(
+      launcher: tool.launcher?.uri,
+      executable: tool.uri,
+      arguments: [
+        if (tool.tool == lld) ...['-flavor', 'gnu'],
+        '-m',
+        lldElfEmulationFlags[architecture]!,
+        if (dynamicLibrary != null) ...[
+          '--shared',
+          '-soname=${outFile.pathSegments.last}',
+          '-Bsymbolic',
+          '-rpath=\$ORIGIN',
+        ],
+        if (executable != null && pic != null)
+          if (pic!) '--pie' else '--no-pie',
+        if (codeConfig.targetOS == .android) ...['-z', 'max-page-size=16384'],
+        for (final flag in flags) ..._expandLinkerFlag(flag),
+        if (crtStub != null && crtStub.existsSync()) toolPath(crtStub.uri),
+        if (linkerOptions != null)
+          ...linkerOptions!.sourceFilesToFlags(
+            tool.tool,
+            sourceFiles,
+            codeConfig.targetOS,
+            architecture,
+            fileSystem,
+          )
+        else
+          ...sourceFiles,
+        for (final directory in libraryDirectories) '-L${toolPath(directory)}',
+        if (stubsDir != null) '-L${toolPath(stubsDir.uri)}',
+        for (final library in libraries) '-l$library',
+        if (stubsDir != null) ...[
+          '--as-needed',
+          if (codeConfig.targetOS == .linux) ...[
+            '-lc',
+            '-lm',
+            '-ldl',
+            '-lpthread',
+            '-lgcc_s',
+          ] else if (codeConfig.targetOS == .android) ...[
+            '-lc',
+            '-lm',
+            '-ldl',
+            '-llog',
+          ],
+        ],
+        '-o',
+        toolPath(outFile),
+      ],
+      logger: logger,
+      processManager: processManager,
+      captureOutput: false,
+      throwOnUnexpectedExitCode: true,
+    );
+  }
+
+  Future<void> _runLldMachO({required ToolInstance tool}) async {
+    final architecture = codeConfig.targetArchitecture;
+    final sourceFiles = sources.map((e) => _toolPath(e, tool)).toList();
+    final outFile = dynamicLibrary != null
+        ? outDir.resolveUri(dynamicLibrary!)
+        : outDir.resolveUri(executable!);
+    final targetIosSdk = codeConfig.targetOS == .iOS
+        ? codeConfig.iOS.targetSdk
+        : null;
+    final stubsDir = resolveLinkerStubsDir(
+      codeConfig.targetOS,
+      architecture,
+      fileSystem: fileSystem,
+      iOSTargetSdk: targetIosSdk,
+    );
+    String toolPath(Uri uri) => _toolPath(uri, tool);
+
+    final platformName = switch (codeConfig.targetOS) {
+      .macOS => 'macos',
+      .iOS => targetIosSdk == .iPhoneSimulator ? 'ios-simulator' : 'ios',
+      _ => throw StateError('Unreachable'),
+    };
+    final minVersion = switch (codeConfig.targetOS) {
+      .macOS => '${codeConfig.macOS.targetVersion}.0',
+      .iOS => '${codeConfig.iOS.targetVersion}.0',
+      _ => throw StateError('Unreachable'),
+    };
+    final defaultInstallName = '@rpath/${outFile.pathSegments.last}';
+
+    await runProcess(
+      launcher: tool.launcher?.uri,
+      executable: tool.uri,
+      arguments: [
+        if (tool.tool == lld) ...['-flavor', 'darwin'],
+        '-arch',
+        lldMachOArchFlags[architecture]!,
+        '-platform_version',
+        platformName,
+        minVersion,
+        minVersion,
+        if (dynamicLibrary != null) ...[
+          '-dylib',
+          '-install_name',
+          installName?.toFilePath() ?? defaultInstallName,
+        ],
+        '-encryptable',
+        for (final flag in flags) ..._expandLinkerFlag(flag),
+        if (linkerOptions != null)
+          ...linkerOptions!.sourceFilesToFlags(
+            tool.tool,
+            sourceFiles,
+            codeConfig.targetOS,
+            architecture,
+            fileSystem,
+          )
+        else
+          ...sourceFiles,
+        if (stubsDir == null)
+          for (final framework in frameworks) ...['-framework', framework],
+        for (final directory in libraryDirectories) '-L${toolPath(directory)}',
+        if (stubsDir != null) '-L${toolPath(stubsDir.uri)}',
+        for (final library in libraries) '-l$library',
+        if (stubsDir != null) ...['-lSystem', '-lc++', '-lobjc'],
+        '-o',
+        toolPath(outFile),
+      ],
+      logger: logger,
+      processManager: processManager,
+      captureOutput: false,
+      throwOnUnexpectedExitCode: true,
+    );
+  }
+
+  Future<void> _runLldCoff({required ToolInstance tool}) async {
+    final environment = await _resolver.resolveEnvironment(tool);
+    final architecture = codeConfig.targetArchitecture;
+    final sourceFiles = sources.map((e) => _toolPath(e, tool)).toList();
+    final outFile = dynamicLibrary != null
+        ? outDir.resolveUri(dynamicLibrary!)
+        : outDir.resolveUri(executable!);
+    final stubsDir = resolveLinkerStubsDir(
+      codeConfig.targetOS,
+      architecture,
+      fileSystem: fileSystem,
+    );
+    final winCrtObj = stubsDir != null
+        ? fileSystem.file(stubsDir.uri.resolve('win_crt.obj'))
+        : null;
+    String toolPath(Uri uri) => _toolPath(uri, tool);
+
+    await runProcess(
+      launcher: tool.launcher?.uri,
+      executable: tool.uri,
+      workingDirectory: outDir,
+      environment: environment.isEmpty ? null : environment,
+      arguments: [
+        if (tool.tool == lld) ...['-flavor', 'link'],
+        '/MACHINE:${clTargetFlags[architecture]!}',
+        if (dynamicLibrary != null) ...['/DLL', '/NOENTRY'],
+        '/OUT:${toolPath(outFile)}',
+        ...flags,
+        if (winCrtObj != null && winCrtObj.existsSync())
+          toolPath(winCrtObj.uri),
+        if (linkerOptions != null)
+          ...linkerOptions!.sourceFilesToFlags(
+            tool.tool,
+            sourceFiles,
+            codeConfig.targetOS,
+            architecture,
+            fileSystem,
+          )
+        else
+          ...sourceFiles,
+        for (final directory in libraryDirectories)
+          '/LIBPATH:${toolPath(directory)}',
+        if (stubsDir != null) '/LIBPATH:${toolPath(stubsDir.uri)}',
+        for (final library in libraries) '$library.lib',
+        if (stubsDir != null) ...[
+          '/DEFAULTLIB:kernel32.lib',
+          '/DEFAULTLIB:ntdll.lib',
+          '/DEFAULTLIB:advapi32.lib',
+          '/DEFAULTLIB:bcrypt.lib',
+          '/DEFAULTLIB:userenv.lib',
+          '/DEFAULTLIB:ws2_32.lib',
+          '/DEFAULTLIB:ucrt.lib',
+          '/DEFAULTLIB:msvcrt.lib',
+          '/DEFAULTLIB:vcruntime140.lib',
+        ],
+      ],
+      logger: logger,
+      processManager: processManager,
+      captureOutput: false,
+      throwOnUnexpectedExitCode: true,
+    );
   }
 
   Future<void> runClangLike({required ToolInstance tool}) async {
@@ -559,9 +812,26 @@ class RunCBuilder {
   };
 
   static final clTargetFlags = {
+    Architecture.arm: 'ARM',
     Architecture.arm64: 'ARM64',
     Architecture.ia32: 'X86',
     Architecture.x64: 'X64',
+  };
+
+  static final lldElfEmulationFlags = {
+    Architecture.arm: 'armelf_linux_eabi',
+    Architecture.arm64: 'aarch64linux',
+    Architecture.ia32: 'elf_i386',
+    Architecture.x64: 'elf_x86_64',
+    Architecture.riscv32: 'elf32lriscv',
+    Architecture.riscv64: 'elf64lriscv',
+  };
+
+  static final lldMachOArchFlags = {
+    Architecture.arm: 'armv7',
+    Architecture.arm64: 'arm64',
+    Architecture.arm64e: 'arm64e',
+    Architecture.x64: 'x86_64',
   };
 
   static final defaultCppLinkStdLib = {

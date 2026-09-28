@@ -20,4 +20,48 @@ void main() {
       );
     });
   }
+
+  for (final architecture in supportedArchitecturesFor(OS.android)) {
+    group('android ($architecture):', () {
+      runTreeshakeTests(
+        OS.android,
+        architecture,
+        androidTargetNdkApi: architecture == Architecture.riscv64
+            ? AndroidApiLevel.flutterHighestSupported.value
+            : AndroidApiLevel.flutterLowestSupported.value,
+      );
+    });
+  }
+
+  for (final architecture in [Architecture.arm64, Architecture.x64]) {
+    if (OS.current != OS.macOS) {
+      group('macOS ($architecture):', () {
+        runTreeshakeTests(
+          OS.macOS,
+          architecture,
+          macOSTargetVersion: defaultMacOSVersion,
+        );
+      });
+    }
+    if (OS.current != OS.windows) {
+      group('windows ($architecture):', () {
+        runTreeshakeTests(OS.windows, architecture);
+      });
+    }
+  }
+
+  for (final (sdk, architecture) in [
+    (IOSSdk.iPhoneOS, Architecture.arm64),
+    (IOSSdk.iPhoneSimulator, Architecture.arm64),
+    (IOSSdk.iPhoneSimulator, Architecture.x64),
+  ]) {
+    group('iOS $sdk ($architecture):', () {
+      runTreeshakeTests(
+        OS.iOS,
+        architecture,
+        iOSTargetVersion: IOSVersion.flutterHighestSupported.value,
+        iOSTargetSdk: sdk,
+      );
+    });
+  }
 }

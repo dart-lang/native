@@ -132,9 +132,14 @@ void runTreeshakeTests(
 
         printOnFailure(linkInput.config.code.cCompiler.toString());
         printOnFailure(Platform.environment.keys.toList().toString());
-        await clinker
+        Future<void> runLinker() => clinker
             .linker([testArchive.toFilePath()])
             .run(input: linkInput, output: linkOutputBuilder, logger: logger);
+        if (cCompiler == null) {
+          await runWithEnvironment(const {'PATH': ''}, runLinker);
+        } else {
+          await runLinker();
+        }
 
         final linkOutput = linkOutputBuilder.build();
 

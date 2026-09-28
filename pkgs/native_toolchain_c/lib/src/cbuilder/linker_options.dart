@@ -43,7 +43,7 @@ class LinkerOptions {
     Uri? linkerScript,
     this.stripDebug = true,
     Iterable<String>? symbolsToKeep,
-  }) : _linkerFlags = flags ?? [],
+  }) : _linkerFlags = flags?.toList(growable: false) ?? const [],
        gcSections = gcSections ?? true,
        _symbols = symbolsToKeep?.toList(growable: false) ?? const [],
        _keepAllSymbols = symbolsToKeep == null,
@@ -60,7 +60,7 @@ class LinkerOptions {
     Iterable<String>? flags,
     required Iterable<String>? symbolsToKeep,
     this.stripDebug = true,
-  }) : _linkerFlags = flags?.toList(growable: false) ?? [],
+  }) : _linkerFlags = flags?.toList(growable: false) ?? const [],
        _symbols = symbolsToKeep?.toList(growable: false) ?? const [],
        _keepAllSymbols = symbolsToKeep == null,
        gcSections = true,
@@ -96,8 +96,8 @@ final class ManualLinkerScript extends LinkerScriptMode {
 }
 
 extension LinkerOptionsExt on LinkerOptions {
-  /// Takes [sourceFiles] and turns it into flags for the compiler driver while
-  /// considering the current [LinkerOptions].
+  /// Takes [sourceFiles] and turns it into flags for the compiler driver or
+  /// linker while considering the current [LinkerOptions].
   Iterable<String> sourceFilesToFlags(
     Tool tool,
     Iterable<String> sourceFiles,
@@ -105,7 +105,14 @@ extension LinkerOptionsExt on LinkerOptions {
     Architecture targetArchitecture,
     FileSystem fileSystem,
   ) {
-    if (tool.isClangLike || tool.isLdLike) {
+    if (tool.isLdLike) {
+      return _sourceFilesToFlagsForLdLike(
+        sourceFiles,
+        targetOS,
+        targetArchitecture,
+        fileSystem,
+      );
+    } else if (tool.isClangLike) {
       return _sourceFilesToFlagsForClangLike(
         tool,
         sourceFiles,
@@ -120,10 +127,100 @@ extension LinkerOptionsExt on LinkerOptions {
         targetArchitecture,
         fileSystem,
       );
+    } else if (tool == msvcLink || tool == linkIA32 || tool == linkArm64) {
+      return _sourceFilesToFlagsForLldLink(
+        sourceFiles,
+        targetArchitecture,
+        fileSystem,
+      );
     } else {
       throw UnimplementedError('This package does not know how to run $tool.');
     }
   }
+
+  static Iterable<String> _stripWlPrefix(Iterable<String> flags) =>
+      flags.expand(
+        (flag) => flag.startsWith('-Wl,')
+            ? flag.substring(4).split(',').where((s) => s.isNotEmpty)
+            : [flag],
+      );
+
+  Iterable<String> _sourceFilesToFlagsForLdLike(
+    Iterable<String> sourceFiles,
+    OS targetOS,
+    Architecture targetArchitecture,
+    FileSystem fileSystem,
+  ) {
+    switch (targetOS) {
+      case .macOS || .iOS:
+        return [
+          if (_keepAllSymbols)
+            for (final source in sourceFiles) ...['-force_load', source]
+          else
+            ...sourceFiles,
+          ..._stripWlPrefix(_linkerFlags),
+          for (final symbol in _symbols) ...['-u', '_$symbol'],
+          if (stripDebug) ...['-x', '-S'],
+          if (gcSections) '-dead_strip',
+          if (_linkerScriptMode is ManualLinkerScript) ...[
+            '-exported_symbols_list',
+            _linkerScriptMode.script.toFilePath(),
+          ] else if (_linkerScriptMode is GenerateLinkerScript) ...[
+            '-exported_symbols_list',
+            _createMacSymbolList(_symbols, fileSystem),
+          ],
+        ];
+
+      case .android || .linux:
+        final wholeArchiveSandwich =
+            _keepAllSymbols ||
+            (_linkerScriptMode == null &&
+                sourceFiles.any((source) => source.endsWith('.a')));
+        return [
+          for (final symbol in _symbols) ...['-u', symbol],
+          if (wholeArchiveSandwich) '--whole-archive',
+          ...sourceFiles,
+          if (wholeArchiveSandwich) '--no-whole-archive',
+          ..._stripWlPrefix(_linkerFlags),
+          if (stripDebug) '--strip-debug',
+          if (gcSections) '--gc-sections',
+          if (_linkerScriptMode is ManualLinkerScript)
+            '--version-script=${_linkerScriptMode.script.toFilePath()}'
+          else if (_linkerScriptMode is GenerateLinkerScript)
+            '--version-script='
+                '${_createClangLikeLinkScript(_symbols, fileSystem)}',
+        ];
+
+      case .windows:
+        return _sourceFilesToFlagsForLldLink(
+          sourceFiles,
+          targetArchitecture,
+          fileSystem,
+        );
+
+      case OS():
+        throw UnimplementedError();
+    }
+  }
+
+  Iterable<String> _sourceFilesToFlagsForLldLink(
+    Iterable<String> sourceFiles,
+    Architecture targetArch,
+    FileSystem fileSystem,
+  ) => [
+    ...sourceFiles,
+    if (_keepAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
+    ..._linkerFlags,
+    ..._symbols.map(
+      (symbol) => '/INCLUDE:${targetArch == .ia32 ? '_' : ''}$symbol',
+    ),
+    if (_linkerScriptMode is ManualLinkerScript)
+      '/DEF:${_linkerScriptMode.script.toFilePath()}'
+    else if (_linkerScriptMode is GenerateLinkerScript)
+      '/DEF:${_createClLinkScript(_symbols, fileSystem)}',
+    if (stripDebug) '/DEBUG:NONE',
+    if (gcSections) ...['/OPT:REF', '/OPT:ICF'],
+  ];
 
   Iterable<String> _sourceFilesToFlagsForClangLike(
     Tool tool,
@@ -210,7 +307,7 @@ extension LinkerOptionsExt on LinkerOptions {
     final tempDir = fileSystem.systemTempDirectory.createTempSync();
     final symbolsFileUri = tempDir.uri.resolve('exported_symbols_list.txt');
     final symbolsFile = fileSystem.file(symbolsFileUri)..createSync();
-    symbolsFile.writeAsStringSync(symbols.map((e) => '_$e').join('\n'));
+    symbolsFile.writeAsStringSync('${symbols.map((e) => '_$e').join('\n')}\n');
     return symbolsFileUri.toFilePath();
   }
 
@@ -242,7 +339,7 @@ extension LinkerOptionsExt on LinkerOptions {
     symbolsFile.writeAsStringSync('''
 LIBRARY MyDLL
 EXPORTS
-${symbols.map((s) => '    $s').join('\n')}      
+${symbols.map((s) => '    $s').join('\n')}
 ''');
     return symbolsFileUri.toFilePath();
   }

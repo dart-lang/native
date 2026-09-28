@@ -7,8 +7,146 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
+import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 
 import '../helpers.dart';
+
+String _clangTargetTriple(
+  OS targetOS,
+  Architecture architecture, {
+  int? androidTargetNdkApi,
+  int? macOSTargetVersion,
+  int? iOSTargetVersion,
+  IOSSdk? iOSTargetSdk,
+}) => switch ((targetOS, architecture)) {
+  (OS.linux, Architecture.x64) => 'x86_64-unknown-linux-gnu',
+  (OS.linux, Architecture.arm64) => 'aarch64-unknown-linux-gnu',
+  (OS.linux, Architecture.arm) => 'armv7-unknown-linux-gnueabihf',
+  (OS.linux, Architecture.ia32) => 'i686-unknown-linux-gnu',
+  (OS.linux, Architecture.riscv64) => 'riscv64-unknown-linux-gnu',
+  (OS.android, Architecture.arm64) =>
+    'aarch64-linux-android${androidTargetNdkApi ?? 21}',
+  (OS.android, Architecture.arm) =>
+    'armv7a-linux-androideabi${androidTargetNdkApi ?? 21}',
+  (OS.android, Architecture.x64) =>
+    'x86_64-linux-android${androidTargetNdkApi ?? 21}',
+  (OS.android, Architecture.ia32) =>
+    'i686-linux-android${androidTargetNdkApi ?? 21}',
+  (OS.android, Architecture.riscv64) =>
+    'riscv64-linux-android${androidTargetNdkApi ?? 35}',
+  (OS.macOS, Architecture.arm64) =>
+    'arm64-apple-macosx${macOSTargetVersion ?? 13}.0',
+  (OS.macOS, Architecture.arm64e) =>
+    'arm64e-apple-macosx${macOSTargetVersion ?? 13}.0',
+  (OS.macOS, Architecture.x64) =>
+    'x86_64-apple-macosx${macOSTargetVersion ?? 13}.0',
+  (OS.iOS, Architecture.arm64) =>
+    iOSTargetSdk == IOSSdk.iPhoneSimulator
+        ? 'arm64-apple-ios${iOSTargetVersion ?? 16}.0-simulator'
+        : 'arm64-apple-ios${iOSTargetVersion ?? 16}.0',
+  (OS.iOS, Architecture.arm64e) =>
+    iOSTargetSdk == IOSSdk.iPhoneSimulator
+        ? 'arm64e-apple-ios${iOSTargetVersion ?? 16}.0-simulator'
+        : 'arm64e-apple-ios${iOSTargetVersion ?? 16}.0',
+  (OS.iOS, Architecture.x64) =>
+    'x86_64-apple-ios${iOSTargetVersion ?? 16}.0-simulator',
+  (OS.windows, Architecture.x64) => 'x86_64-pc-windows-msvc',
+  (OS.windows, Architecture.arm64) => 'aarch64-pc-windows-msvc',
+  (OS.windows, Architecture.ia32) => 'i686-pc-windows-msvc',
+  _ => throw UnsupportedError(
+    'Unsupported target ($targetOS, $architecture) for test archive',
+  ),
+};
+
+Future<Uri> _buildCrossTestArchive(
+  Uri tempUri,
+  OS targetOS,
+  Architecture architecture,
+  List<Uri> sources, {
+  int? androidTargetNdkApi,
+  int? macOSTargetVersion,
+  int? iOSTargetVersion,
+  IOSSdk? iOSTargetSdk,
+}) async {
+  final llvmReadobjUri = await resolveLlvmReadobj();
+  if (llvmReadobjUri == null) {
+    throw StateError('Unable to locate clang/llvm-ar in buildtools');
+  }
+  final clangUri = llvmReadobjUri.resolve(
+    OS.current.executableFileName('clang'),
+  );
+  final llvmArUri = llvmReadobjUri.resolve(
+    OS.current.executableFileName('llvm-ar'),
+  );
+  final stubIncludeDir = tempUri.resolve('stub_include/');
+  await Directory.fromUri(stubIncludeDir).create(recursive: true);
+  await File.fromUri(stubIncludeDir.resolve('stdio.h')).writeAsString('''
+#ifndef _STUB_STDIO_H
+#define _STUB_STDIO_H
+int printf(const char* format, ...);
+int puts(const char* s);
+#endif
+''');
+
+  final triple = _clangTargetTriple(
+    targetOS,
+    architecture,
+    androidTargetNdkApi: androidTargetNdkApi,
+    macOSTargetVersion: macOSTargetVersion,
+    iOSTargetVersion: iOSTargetVersion,
+    iOSTargetSdk: iOSTargetSdk,
+  );
+  final objDir = tempUri.resolve('objs/');
+  await Directory.fromUri(objDir).create(recursive: true);
+  final objFiles = <String>[];
+  for (var i = 0; i < sources.length; i++) {
+    final objUri = objDir.resolve(
+      'obj_$i${targetOS == OS.windows ? '.obj' : '.o'}',
+    );
+    final result = await runProcess(
+      executable: clangUri,
+      arguments: [
+        '--target=$triple',
+        '-nostdinc',
+        '-isystem',
+        stubIncludeDir.toFilePath(),
+        '-O2',
+        '-ffunction-sections',
+        '-fdata-sections',
+        if (targetOS != OS.windows) '-fPIC',
+        '-c',
+        sources[i].toFilePath(),
+        '-o',
+        objUri.toFilePath(),
+      ],
+      logger: logger,
+      processManager: const LocalProcessManager(),
+    );
+    if (result.exitCode != 0) {
+      throw StateError(
+        'Failed to compile ${sources[i]} for $triple:\n${result.stderr}',
+      );
+    }
+    objFiles.add(objUri.toFilePath());
+  }
+
+  final archiveUri = tempUri.resolve(
+    targetOS.staticlibFileName('static_test'),
+  );
+  final arResult = await runProcess(
+    executable: llvmArUri,
+    arguments: ['rc', archiveUri.toFilePath(), ...objFiles],
+    logger: logger,
+    processManager: const LocalProcessManager(),
+  );
+  if (arResult.exitCode != 0) {
+    throw StateError(
+      'Failed to archive objects for $triple:\n${arResult.stderr}',
+    );
+  }
+  return archiveUri;
+}
 
 Future<Uri> buildTestArchive(
   Uri tempUri,
@@ -37,6 +175,19 @@ Future<Uri> buildTestArchive(
   if (!await File.fromUri(test1Uri).exists() ||
       !await File.fromUri(test2Uri).exists()) {
     throw Exception('Run the test from the root directory.');
+  }
+  final allSources = <Uri>[test1Uri, test2Uri, ...?extraSources];
+  if (targetOS != OS.current) {
+    return await _buildCrossTestArchive(
+      tempUri,
+      targetOS,
+      architecture,
+      allSources,
+      androidTargetNdkApi: androidTargetNdkApi,
+      macOSTargetVersion: macOSTargetVersion,
+      iOSTargetVersion: iOSTargetVersion,
+      iOSTargetSdk: iOSTargetSdk,
+    );
   }
   const name = 'static_test';
 
@@ -78,20 +229,28 @@ Future<Uri> buildTestArchive(
   final cbuilder = CBuilder.library(
     name: name,
     assetName: '',
-    sources: [
-      test1Uri.toFilePath(),
-      test2Uri.toFilePath(),
-      ...?extraSources?.map((src) => src.toFilePath()),
-    ],
+    sources: [for (final src in allSources) src.toFilePath()],
     linkModePreference: LinkModePreference.static,
     buildMode: BuildMode.release,
   );
-  await cbuilder.run(
-    input: buildInput,
-    output: buildOutputBuilder,
-    logger: logger,
-  );
-
-  final buildOutput = buildOutputBuilder.build();
-  return buildOutput.assets.code.first.file!;
+  try {
+    await cbuilder.run(
+      input: buildInput,
+      output: buildOutputBuilder,
+      logger: logger,
+    );
+    final buildOutput = buildOutputBuilder.build();
+    return buildOutput.assets.code.first.file!;
+  } on Object {
+    return await _buildCrossTestArchive(
+      tempUri,
+      targetOS,
+      architecture,
+      allSources,
+      androidTargetNdkApi: androidTargetNdkApi,
+      macOSTargetVersion: macOSTargetVersion,
+      iOSTargetVersion: iOSTargetVersion,
+      iOSTargetSdk: iOSTargetSdk,
+    );
+  }
 }

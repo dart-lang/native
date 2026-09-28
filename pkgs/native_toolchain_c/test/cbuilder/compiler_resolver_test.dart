@@ -10,6 +10,7 @@ import 'package:collection/collection.dart';
 import 'package:file/local.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
+import 'package:native_toolchain_c/src/cbuilder/linker_options.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart' as msvc;
@@ -83,14 +84,65 @@ void main() {
     );
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
+    final linker = await resolver.resolveLinker();
     expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
     expect(archiver.uri, buildInput.config.code.cCompiler?.archiver);
+    expect(linker.uri, buildInput.config.code.cCompiler?.linker);
     final environment = await resolver.resolveEnvironment(compiler);
     if (targetOS == OS.windows) {
       expect(environment, isNot(equals({})));
     } else {
       expect(environment, equals({}));
     }
+  });
+
+  test('Bundled SDK LLD resolved without cCompiler config', () async {
+    final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: 'dummy',
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: .windows,
+          targetArchitecture: .arm64,
+          linkModePreference: .dynamic,
+        ),
+      );
+    final buildInput = buildInputBuilder.build();
+    final resolver = CompilerResolver(
+      codeConfig: buildInput.config.code,
+      logger: logger,
+    );
+    final linker = await resolver.resolveLinker();
+    expect(linker.tool, lld);
+    expect(linker.version, isNotNull);
+  });
+
+  test('LinkerOptions.manual defensive copy and -Wl, splitting', () {
+    final inputFlags = ['-Wl,-z,max-page-size=16384', '--build-id'];
+    final options = LinkerOptions.manual(
+      flags: inputFlags,
+      symbolsToKeep: ['foo'],
+    );
+    inputFlags.add('-Wl,--fatal-warnings');
+    final generated = options
+        .sourceFilesToFlags(
+          lld,
+          ['libfoo.a'],
+          .linux,
+          .x64,
+          const LocalFileSystem(),
+        )
+        .toList();
+    expect(generated, containsAllInOrder(['-z', 'max-page-size=16384']));
+    expect(generated, contains('--build-id'));
+    expect(generated, isNot(contains('--fatal-warnings')));
   });
 
   test('No compiler found', () async {
@@ -125,5 +177,6 @@ void main() {
     );
     expect(resolver.resolveCompiler, throwsA(isA<ToolError>()));
     expect(resolver.resolveArchiver, throwsA(isA<ToolError>()));
+    expect(resolver.resolveLinker, throwsA(isA<ToolError>()));
   });
 }
