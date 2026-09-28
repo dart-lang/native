@@ -4,7 +4,7 @@
 
 import 'dart:async';
 
-import 'package:hooks_runner/src/model/target.dart';
+import 'package:code_assets/code_assets.dart';
 import 'package:hooks_runner/src/utils/run_process.dart' show RunProcessResult;
 import 'package:test/test.dart';
 
@@ -26,7 +26,10 @@ void main() async {
 
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      Future<RunProcessResult> runBuildInProcess(Target target) async {
+      Future<RunProcessResult> runBuildInProcess(
+        OS targetOS,
+        Architecture targetArchitecture,
+      ) async {
         final result = await runProcess(
           executable: dartExecutable,
           arguments: [
@@ -34,7 +37,8 @@ void main() async {
                 .resolve('test/build_runner/build_process_helper.dart')
                 .toFilePath(),
             packageUri.toFilePath(),
-            target.toString(),
+            targetOS.name,
+            targetArchitecture.name,
           ],
           workingDirectory: packageUri,
           logger: logger,
@@ -46,9 +50,9 @@ void main() async {
       // Simulate running `dart run` concurrently in 3 different terminals.
       // Twice for the same target and also for a different target.
       final results = await Future.wait([
-        runBuildInProcess(Target.androidArm64),
-        runBuildInProcess(Target.current),
-        runBuildInProcess(Target.current),
+        runBuildInProcess(OS.android, Architecture.arm64),
+        runBuildInProcess(OS.current, Architecture.current),
+        runBuildInProcess(OS.current, Architecture.current),
       ]);
       final stdouts = results.map((e) => e.stdout).join('\n');
       // One run for the two targets wins in running first.

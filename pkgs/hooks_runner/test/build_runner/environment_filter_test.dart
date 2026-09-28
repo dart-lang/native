@@ -43,7 +43,6 @@ void main() {
                 .resolve('test/build_runner/build_process_helper.dart')
                 .toFilePath(),
             packageUri.toFilePath(),
-            Target.current.toString(),
           ],
           workingDirectory: packageUri,
           logger: logger,

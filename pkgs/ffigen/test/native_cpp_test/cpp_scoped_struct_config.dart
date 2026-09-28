@@ -12,11 +12,11 @@ FfiGenerator getConfig([Uri? packageRoot]) {
   return FfiGenerator(
     output: Output(
       dart: DartOutput(
-        path: testDir.resolve('cpp_extern_c_test_bindings.dart'),
+        path: testDir.resolve('cpp_scoped_struct_test_bindings.dart'),
       ),
     ),
     input: Input(
-      entryPoints: [testDir.resolve('cpp_extern_c_test.h')],
+      entryPoints: [testDir.resolve('cpp_scoped_struct_test.h')],
       compilerOptions: [
         '-x',
         'c++',
@@ -26,17 +26,15 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     ),
     visitors: [
       Visitor(
-        func: (node) => node.isIncluded = {
-          'add',
-          'deep',
-          'reset',
-          'outside',
+        struct: (node) => node.isIncluded = {
+          'GlobalBox',
+          'GlobalBox::Lid',
+          'outer::Point',
+          'outer::inner::Point',
+          'outer::Palette::Entry',
+          'other::Point',
         }.contains(node.originalName),
-        struct: (node) => node.isIncluded = node.originalName == 'Pair',
-        union: (node) => node.isIncluded = node.originalName == 'Number',
-        enumClass: (node) =>
-            node.isIncluded = {'Fruit', 'ns::Flag'}.contains(node.originalName),
-        global: (node) => node.isIncluded = node.originalName == 'counter',
+        union: (node) => node.isIncluded = node.originalName == 'other::Value',
       ),
     ],
   );
