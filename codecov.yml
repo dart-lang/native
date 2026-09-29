@@ -87,6 +87,10 @@ component_management:
       name: record_use
       paths:
         - pkgs/record_use/**
+    - component_id: snippet_tool
+      name: snippet_tool
+      paths:
+        - pkgs/snippet_tool/**
     - component_id: swift2objc
       name: swift2objc
       paths:

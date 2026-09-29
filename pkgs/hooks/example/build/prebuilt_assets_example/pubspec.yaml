@@ -4,7 +4,7 @@
 
 name: prebuilt_assets_example
 description: Sums two numbers with native code, bundling prebuilt assets in pub package.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks/example/build/prebuilt_assets_example
 
 resolution: workspace

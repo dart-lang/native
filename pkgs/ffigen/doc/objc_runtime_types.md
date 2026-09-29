@@ -3,12 +3,16 @@
 Ordinary Dart has a distinction between an object's static type and its
 runtime type:
 
+<!-- file://./../tool/snippets/runtime_types_snippet.dart#static_vs_runtime_type -->
 ```dart
 class Base {}
+
 class Child extends Base {}
 
-Base x = Child();      // x has a static type of Base
-print(x.runtimeType);  // but a runtime type of Child
+void main() {
+  Base x = Child(); // x has a static type of Base
+  print(x.runtimeType); // but a runtime type of Child
+}
 ```
 
 The static type determines at compile time what methods are

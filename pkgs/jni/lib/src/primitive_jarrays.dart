@@ -2,6 +2,8 @@
 //
 // To regenerate, run `dart run tool/generate_primtive_arrays.dart`
 
+// coverage:ignore-file
+
 part of 'jarray.dart';
 
 final class _$JBooleanArray$Type$ extends JType<JBooleanArray> {

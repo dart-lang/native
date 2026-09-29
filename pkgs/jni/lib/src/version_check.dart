@@ -9,7 +9,7 @@ class JniVersionCheck {
   static const int actualMajorVersion = 1;
 
   @visibleForTesting
-  static const int actualMinorVersion = 0;
+  static const int actualMinorVersion = 1;
 
   const JniVersionCheck(int major, int minor)
       : assert(

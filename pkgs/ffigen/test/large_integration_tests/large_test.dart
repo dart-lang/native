@@ -40,7 +40,8 @@ void main() {
           ),
         ),
         input: Input(
-          compilerOptions: [...defaultCompilerOpts(logger), '-I$includeDir'],
+          compilerOptions: ['-I$includeDir'],
+          appendCompilerOptions: true,
           entryPoints: [
             Uri.file(
               path.join(

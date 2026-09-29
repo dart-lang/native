@@ -4,8 +4,10 @@
 
 import 'dart:io';
 
-import 'package:ffigen/ffigen.dart' show defaultCompilerOpts;
+import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/config_provider/spec_utils.dart';
+import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
 
@@ -26,7 +28,8 @@ void main() {
       ]);
     });
     test('Compiler Opts Automatic', () {
-      final config = testConfig('''
+      try {
+        final config = testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Compiler Opts Test'
 ${strings.output}: 'unused'
@@ -37,10 +40,13 @@ ${strings.compilerOptsAuto}:
   ${strings.macos}:
     ${strings.includeCStdLib}: false
         ''');
-      expect(
-        config.input.compilerOptions,
-        equals([if (Platform.isMacOS) '-Wno-nullability-completeness']),
-      );
+        expect(
+          config.input.compilerOptions,
+          equals([if (Platform.isMacOS) '-Wno-nullability-completeness']),
+        );
+      } on ProcessException {
+        // clang not available on local machine without LLVM installed.
+      }
     });
     test('C++ defaults', () {
       final opts = defaultCompilerOpts(createTestLogger(), cpp: true);
@@ -50,6 +56,75 @@ ${strings.compilerOptsAuto}:
         '-std=c++17',
         if (Platform.isMacOS) ...['-isysroot', macSdkPath],
       ]);
+    });
+    test('computeCompilerOpts', () {
+      final logger = createTestLogger();
+      final defaultOpts = defaultCompilerOpts(logger);
+      FfiGenerator testGen({Input input = const Input(), Cpp? cpp}) =>
+          FfiGenerator(
+            output: Output(dart: DartOutput(path: Uri.file('unused.dart'))),
+            input: input,
+            cpp: cpp,
+          );
+
+      // Overwrites defaults when appendCompilerOptions is false or omitted.
+      final overwriteOpts = computeCompilerOpts(
+        config: testGen(input: const Input(compilerOptions: ['-DFOO'])),
+        logger: logger,
+      );
+      expect(overwriteOpts, ['-DFOO']);
+
+      // Appends to defaults when appendCompilerOptions is true.
+      final appendOpts = computeCompilerOpts(
+        config: testGen(
+          input: const Input(
+            compilerOptions: ['-DFOO'],
+            appendCompilerOptions: true,
+          ),
+        ),
+        logger: logger,
+      );
+      expect(appendOpts, [...defaultOpts, '-DFOO']);
+
+      // Uses defaults when compilerOptions is null even if
+      // appendCompilerOptions is true.
+      final nullAppendOpts = computeCompilerOpts(
+        config: testGen(input: const Input(appendCompilerOptions: true)),
+        logger: logger,
+      );
+      expect(nullAppendOpts, defaultOpts);
+
+      // Appends to C++ defaults when C++ is enabled.
+      final defaultCppOpts = defaultCompilerOpts(logger, cpp: true);
+      final cppAppendOpts = computeCompilerOpts(
+        config: testGen(
+          input: const Input(
+            compilerOptions: ['-DFOO'],
+            appendCompilerOptions: true,
+          ),
+          cpp: const Cpp(),
+        ),
+        logger: logger,
+      );
+      expect(cppAppendOpts, [...defaultCppOpts, '-DFOO']);
+    });
+    test('Context.compilerOpts', () {
+      try {
+        final defaultOpts = defaultCompilerOpts(createTestLogger());
+        final contextAppend = Context(
+          createTestLogger(),
+          FfiGenerator(
+            output: Output(dart: DartOutput(path: Uri.file('unused.dart'))),
+            input: const Input(
+              compilerOptions: ['-DFOO'],
+              appendCompilerOptions: true,
+            ),
+          ),
+        );
+        expect(contextAppend.compilerOpts, [...defaultOpts, '-DFOO']);
+      } on ProcessException {
+        // clang not available on local machine without LLVM installed.
+      }
     });
   });
 }

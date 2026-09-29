@@ -26,6 +26,7 @@ application crashes.
 Instead of waiting for Dart GC to release the JNI global references,
 `.release()` can be called on the `JObject`s.
 
+<!-- file://./../tool/snippets/lifecycle_snippet.dart#release_manual -->
 ```dart
 // Construct the object.
 final hello = 'Hello'.toJString();
@@ -41,6 +42,7 @@ First, create an `Arena` via
 [`using`](https://pub.dev/documentation/ffi/latest/ffi/using.html). Then
 register the object to be released at the end of the callback.
 
+<!-- file://./../tool/snippets/lifecycle_snippet.dart#arena_using -->
 ```dart
 using((arena) {
   final hello = 'Hello'.toJString()..releasedBy(arena);
@@ -56,6 +58,7 @@ using((arena) {
 - Avoid storing `JObject`s in Dart collections like `List` or `Map`. Use Java
   collections such as `JList` or `JMap` instead.
 
+  <!-- file://./../tool/snippets/lifecycle_snippet.dart#java_collections -->
   ```dart
   // GOOD:
   final jstrings = JList(JString.type);
@@ -76,12 +79,13 @@ using((arena) {
 - When an original Java object is no longer needed, set `releaseOriginal` to
   `true` during conversion to Dart equivalents or casting.
 
+  <!-- file://./../tool/snippets/lifecycle_snippet.dart#release_original -->
   ```dart
   final foo = Foo();
   final String string = foo.someJString().toDartString(releaseOriginal: true);
   final JInteger jint =
-        foo.someJNumber().as(JInteger.type, releaseOriginal: true);
-  final int dartInt = castedAsInteger.intValue(releaseOriginal: true);
+      foo.someJNumber().as(JInteger.type, releaseOriginal: true);
+  final int dartInt = jint.toDartInt(releaseOriginal: true);
   foo.release();
   // All references are removed.
   ```
@@ -99,12 +103,13 @@ corresponding closures.
 One could create cycles between Dart and Java GC's when implementing interfaces.
 For example consider the following:
 
+<!-- file://./../tool/snippets/lifecycle_snippet.dart#cycle -->
 ```dart
 final foo = Foo();
 foo.bar = Bar.implement($Bar(
   f: () {
-   return foo;
-  }
+    return foo;
+  },
 ));
 ```
 
@@ -122,16 +127,17 @@ graph TD;
 To prevent cycles, use
 [`WeakReference`](https://api.dart.dev/dart-core/WeakReference-class.html)s.
 
+<!-- file://./../tool/snippets/lifecycle_snippet.dart#cycle_breaker -->
 ```dart
 final weakFoo = WeakReference(foo);
 foo.bar = Bar.implement($Bar(
   f: () {
     final foo = weakFoo.target;
     if (foo == null) {
-      throw StateError();
+      throw StateError('Foo was collected');
     }
     return foo;
-  }
+  },
 ));
 ```
 
@@ -150,6 +156,7 @@ graph TD;
 > overcapturing, implement your logic in a separate function or create a class
 > that implements `$Bar`.
 >
+> <!-- file://./../tool/snippets/lifecycle_snippet.dart#cycle_breaker_class -->
 > ```dart
 > final class BarImpl with $Bar {
 >   final WeakReference<Foo> weakFoo;
@@ -157,16 +164,16 @@ graph TD;
 >   BarImpl(this.weakFoo);
 >
 >   @override
->   void f() {
+>   Foo f() {
 >     final foo = weakFoo.target;
 >     if (foo == null) {
->       throw StateError();
+>       throw StateError('Foo was collected');
 >     }
 >     return foo;
 >   }
 > }
 >
-> void main() {
+> void cycleBreakerClassMain(Foo foo) {
 >   final weakFoo = WeakReference(foo);
 >   foo.bar = Bar.implement(BarImpl(weakFoo));
 >   // ...
