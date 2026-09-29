@@ -6,12 +6,17 @@ import 'dart:io';
 
 import 'package:meta/meta.dart' show internal;
 
+import 'jni.dart' show Jni;
 import 'third_party/generated_bindings.dart';
 
 // TODO(#567): Add the fact that [JException] is now a [JObject] to the
 // CHANGELOG.
 
 mixin _ExplainsRelease on StateError {
+  /// The stack trace where the object was released, if captured.
+  ///
+  /// Stack traces at release time can be captured by setting
+  /// [Jni.captureStackTraceOnRelease].
   String? get releaseStackTrace;
 
   @override
@@ -32,6 +37,9 @@ mixin _ExplainsRelease on StateError {
 /// JNI reference has been released.
 final class UseAfterReleaseError extends StateError with _ExplainsRelease {
   /// The stack trace where the object was released, if captured.
+  ///
+  /// Stack traces at release time can be captured by setting
+  /// [Jni.captureStackTraceOnRelease].
   @override
   final String? releaseStackTrace;
 
@@ -55,6 +63,9 @@ final class NoSuchMethodError extends StateError {
 /// Error thrown when attempting to release an already-released JNI reference.
 final class DoubleReleaseError extends StateError with _ExplainsRelease {
   /// The stack trace where the object was first released, if captured.
+  ///
+  /// Stack traces at release time can be captured by setting
+  /// [Jni.captureStackTraceOnRelease].
   @override
   final String? releaseStackTrace;
 
