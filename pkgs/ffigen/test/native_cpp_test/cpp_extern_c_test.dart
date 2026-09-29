@@ -35,6 +35,11 @@ void main() {
       expect(reset, isA<void Function()>());
     });
 
+    test('enum inside an extern "C" block in a namespace', () {
+      expect(ns$Flag.off.value, 0);
+      expect(ns$Flag.on.value, 1);
+    });
+
     test('declarations outside any extern "C" block still parse', () {
       expect(outside, isA<int Function(double)>());
     });

@@ -144,6 +144,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'clang_Cursor_isFunctionInlined',
             'clang_getCursorDefinition',
             'clang_isCursorDefinition',
+            'clang_getCursorSemanticParent',
             'clang_CXXMethod_isConst',
             'clang_CXXMethod_isStatic',
             'clang_getCXXAccessSpecifier',

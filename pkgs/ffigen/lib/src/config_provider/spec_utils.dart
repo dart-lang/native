@@ -164,13 +164,14 @@ Map<String, ImportedType> _loadSymbolFiles(
 ///
 /// Example:
 ///
+/// <!-- file://./../../../tool/snippets/symbol_files_snippet.dart#import_from_symbol_files -->
 /// ```dart
 /// final config = FfiGenerator(
-///   // ...
 ///   importType: importFromSymbolFiles([
 ///     Uri.file('path/to/symbols1.yaml'),
 ///     Uri.parse('package:other_pkg/symbols2.yaml'),
 ///   ], packageConfig: packageConfig),
+///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
 /// );
 /// ```
 ImportedType? Function(Declaration) importFromSymbolFiles(
@@ -189,12 +190,11 @@ ImportedType? Function(Declaration) importFromSymbolFiles(
 ///
 /// Example:
 ///
+/// <!-- file://./../../../tool/snippets/symbol_files_snippet.dart#import_from_symbol_file -->
 /// ```dart
 /// final config = FfiGenerator(
-///   // ...
-///   importType: importFromSymbolFile(
-///     Uri.file('path/to/symbols.yaml'),
-///   ),
+///   importType: importFromSymbolFile(Uri.file('path/to/symbols.yaml')),
+///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
 /// );
 /// ```
 ImportedType? Function(Declaration) importFromSymbolFile(

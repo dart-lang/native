@@ -93,7 +93,7 @@ void main() {
       final viaUsing = funcNamed('take_point').functionType.returnType;
       final viaNamespace = funcNamed('control_point').functionType.returnType;
       expect(viaUsing, isA<cg.Struct>());
-      expect((viaUsing as cg.Struct).originalName, 'Point');
+      expect((viaUsing as cg.Struct).originalName, 'base::Point');
       expect(
         viaUsing,
         same(viaNamespace),
@@ -106,7 +106,7 @@ void main() {
     test('a using-declared enum resolves to the enum itself', () {
       final returnType = funcNamed('take_color').functionType.returnType;
       expect(returnType, isA<cg.EnumClass>());
-      expect((returnType as cg.EnumClass).originalName, 'Color');
+      expect((returnType as cg.EnumClass).originalName, 'base::Color');
     });
   });
 }

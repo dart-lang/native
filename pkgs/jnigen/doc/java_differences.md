@@ -244,3 +244,67 @@ class Outer extends JObject {}
 
 class Outer$Inner extends JObject {}
 ```
+
+### Nullability
+
+Dart features sound null safety, whereas unannotated Java reference types can
+always hold `null` at runtime.
+To avoid Dart `TypeError`s when Java returns `null`,
+unannotated Java reference types default to **nullable** in generated Dart
+bindings (e.g. Java's `String` generates a Dart `JString?`).
+
+When JNIgen sees a Java nullability annotation, or Kotlin nullability metadata,
+it generates a Dart type with the appropriate nullability:
+* Types annotated with `@NonNull` (or non-nullable Kotlin types) map to
+  non-nullable Dart types (e.g. `JString`).
+* Types annotated with `@Nullable` map to nullable Dart types (e.g. `JString?`).
+
+For example:
+
+```java
+// Java
+public class UserService {
+  public @NotNull String getUserId() { ... }
+  public @Nullable String getNickname() { ... }
+  public String getDisplayName() { ... }
+  public void setNickname(@Nullable String nickname) { ... }
+  public void setUserId(@NotNull String id) { ... }
+  public void setDisplayName(String name) { ... }
+}
+```
+
+Generates Dart bindings like this:
+
+<!-- file://./../tool/snippets/nullability_snippet.dart#generated_methods -->
+```dart
+class UserService extends JObject {
+  JString getUserId() {
+    // ...
+  }
+
+  JString? getNickname() {
+    // ...
+  }
+
+  JString? getDisplayName() {
+    // ...
+  }
+
+  void setNickname(JString? nickname) {
+    // ...
+  }
+
+  void setUserId(JString id) {
+    // ...
+  }
+
+  void setDisplayName(JString? name) {
+    // ...
+  }
+}
+```
+
+JNIgen recognizes many popular nullability annotations out of the box based on
+[Kotlin's Java interop conventions](https://kotlinlang.org/docs/java-interop.html#nullability-annotations).
+To configure custom nullability annotations, you can use
+[`JniGenerator.nullability`](https://pub.dev/documentation/jnigen/latest/jnigen/JniGenerator/nullability.html).

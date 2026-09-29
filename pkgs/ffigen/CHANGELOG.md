@@ -1,5 +1,6 @@
 ## 22.1.0-wip
 
+- The YAML configuration format is deprecated and will be removed in a future release.
 - Added `Input.appendCompilerOptions` to allow appending custom compiler
   options to default options instead of replacing them.
 - Default to C++17 compiler options when C++ bindings are enabled.
@@ -16,7 +17,19 @@
   canonical type.
 - Generate bindings for declarations inside C++ `extern "C" { ... }`
   blocks, which were previously skipped entirely.
+- Generate bindings for C++ enums declared inside a namespace or a record.
+  Their Dart name is the scope path flattened with `$`, e.g.
+  `outer::inner::Color` becomes `outer$inner$Color`, and `originalName` is
+  the qualified C++ name, so a `Visitor` or `importType` can filter or rename
+  by it.
+- Generate bindings for C++ structs, classes and unions declared inside a
+  namespace or a record, named the same way. Scoped records are not yet
+  surfaced when C++ class support is enabled.
 - Allow `package:cli_util` versions `0.5.x` and `0.6.x`.
+- Fix a crash during code generation when a typedef refers to a function
+  pointer with an unsupported parameter type (e.g. a C++ reference). Such
+  typedefs are now skipped like other unsupported typedefs, so struct members
+  and functions using them are dropped instead of crashing the writer.
 
 ## 22.0.0
 

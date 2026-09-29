@@ -10,6 +10,7 @@ via `Visitor(objCMethod: ...)`.
 But it can be particularly helpful to use the `node.parent` and `node.selector`
 properties. For example:
 
+<!-- file://./../tool/snippets/visitor_snippet.dart#objc_method_filter -->
 ```dart
 Visitor(
   objCMethod: (node) {
@@ -31,6 +32,7 @@ Objective-C properties are parsed into getter and setter methods. You can
 inspect `node.isPropertyGetter` and `node.isPropertySetter` to specifically
 filter or customize property accessors:
 
+<!-- file://./../tool/snippets/visitor_snippet.dart#objc_property_filter -->
 ```dart
 Visitor(
   objCMethod: (node) {

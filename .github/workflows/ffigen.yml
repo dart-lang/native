@@ -9,12 +9,14 @@ on:
       - '.github/workflows/ffigen.yml'
       - 'pkgs/ffigen/**'
       - 'pkgs/objective_c/**'
+      - 'pkgs/snippet_tool/**'
   pull_request:
     branches: [main]
     paths:
       - '.github/workflows/ffigen.yml'
       - 'pkgs/ffigen/**'
       - 'pkgs/objective_c/**'
+      - 'pkgs/snippet_tool/**'
   schedule:
     - cron: "0 0 * * 0"
 
@@ -41,12 +43,14 @@ jobs:
           channel: stable
       - id: install
         name: Install dependencies
-        run: dart pub get && dart pub get --directory="example/shared_bindings" && dart pub get --directory="../objective_c" && dart pub get --directory="example/add"
+        run: dart pub get && dart pub get --directory="example/shared_bindings" && dart pub get --directory="../objective_c" && dart pub get --directory="example/add" && dart pub get --directory="../.."
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Analyze code
         run: dart analyze --fatal-infos
+      - name: Check snippets
+        run: dart run ../snippet_tool/bin/snippet_tool.dart --set-exit-if-changed .
 
   test-linux:
     needs: analyze
