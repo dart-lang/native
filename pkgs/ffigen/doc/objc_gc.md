@@ -77,8 +77,10 @@ So you may be creating these references without knowing it.
 In native Objective-C apps, and Flutter apps, autorelease pools are
 created and destroyed at event loop boundaries (e.g. every frame).
 So this is usually not a problem.
-However, until Dart 3.14 (Flutter 3.50), Flutter background isolates
-did not have an autorelease pool in their event loop.
+However, until Dart 3.14 (Flutter 3.50), there was
+[a bug](https://github.com/dart-lang/sdk/issues/61129)
+whereFlutter background isolates did not have an
+autorelease pool in their event loop.
 This also affected *all* isolates in Dart CLI apps.
 
 Even if you have an autorelease pool around the event loop,
