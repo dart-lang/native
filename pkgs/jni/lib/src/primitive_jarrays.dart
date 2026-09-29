@@ -9,6 +9,9 @@ final class _$JBooleanArray$Type$ extends JType<JBooleanArray> {
 
   @override
   String get signature => '[Z';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java Boolean.
@@ -101,6 +104,9 @@ final class _$JByteArray$Type$ extends JType<JByteArray> {
 
   @override
   String get signature => '[B';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java Byte.
@@ -195,6 +201,9 @@ final class _$JCharArray$Type$ extends JType<JCharArray> {
 
   @override
   String get signature => '[C';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java Char.
@@ -289,6 +298,9 @@ final class _$JShortArray$Type$ extends JType<JShortArray> {
 
   @override
   String get signature => '[S';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java Short.
@@ -384,6 +396,9 @@ final class _$JIntArray$Type$ extends JType<JIntArray> {
 
   @override
   String get signature => '[I';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java Int.
@@ -478,6 +493,9 @@ final class _$JLongArray$Type$ extends JType<JLongArray> {
 
   @override
   String get signature => '[J';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java Long.
@@ -572,6 +590,9 @@ final class _$JFloatArray$Type$ extends JType<JFloatArray> {
 
   @override
   String get signature => '[F';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java Float.
@@ -663,6 +684,9 @@ final class _$JDoubleArray$Type$ extends JType<JDoubleArray> {
 
   @override
   String get signature => '[D';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java Double.

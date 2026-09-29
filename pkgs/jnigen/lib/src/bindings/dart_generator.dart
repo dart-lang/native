@@ -720,27 +720,29 @@ extension type $name._($_jObject _\$this) implements $implementsClause {
 
 ''');
   }
-
   void _writeTypeClass(ClassDecl node) {
     final name = node.finalName;
     final typeClassName = node.typeClassName;
     final signature = node.signature;
+    final internalName = node.internalName;
 
     s.write('''
-final class $typeClassName extends $_jType<$name> {
-  $_internal
-  const $typeClassName();
+  final class $typeClassName extends $_jType<$name> {
+    $_internal
+    const $typeClassName();
 
-  $_internal
-  $_override
-  String get signature => r'$signature';
-}
+    $_internal
+    $_override
+    String get signature => r'$signature';
 
-''');
+    $_internal
+    $_override
+    String get name => r'$internalName';
   }
-}
 
-/// Generates the JavaDoc comments.
+  ''');
+  }
+}/// Generates the JavaDoc comments.
 class _DocGenerator extends Visitor<JavaDocComment, void> {
   final StringSink s;
   final int depth;
