@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import '../context.dart';
 import '../visitor/ast.dart';
 
@@ -22,7 +24,7 @@ class LibraryImport extends AstNode {
   const LibraryImport(
     this.name,
     this._importPath, {
-    String? importPathWhenImportedByPackageObjC,
+    @internal String? importPathWhenImportedByPackageObjC,
   }) : _importPathWhenImportedByPackageObjC =
            importPathWhenImportedByPackageObjC;
 
@@ -34,8 +36,9 @@ class LibraryImport extends AstNode {
   @override
   int get hashCode => name.hashCode;
 
-  // The import path, which may be different if this library is being imported
-  // into package:objective_c's generated code.
+  /// The import path, which may be different if this library is being imported
+  /// into package:objective_c's generated code.
+  @internal
   String importPath(bool generateForPackageObjectiveC) {
     if (!generateForPackageObjectiveC) return _importPath;
     return _importPathWhenImportedByPackageObjC ?? _importPath;
@@ -101,6 +104,27 @@ class ImportedType extends Type {
 
   @override
   bool get sameFfiDartAndCType => cType == dartType;
+
+  @override
+  bool operator ==(Object other) {
+    return other is ImportedType &&
+        libraryImport == other.libraryImport &&
+        cType == other.cType &&
+        dartType == other.dartType &&
+        nativeType == other.nativeType &&
+        defaultValue == other.defaultValue &&
+        importedDartType == other.importedDartType;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    libraryImport,
+    cType,
+    dartType,
+    nativeType,
+    defaultValue,
+    importedDartType,
+  );
 
   @override
   String toString() => '${libraryImport.name}.$cType';

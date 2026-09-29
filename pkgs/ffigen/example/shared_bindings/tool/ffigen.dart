@@ -30,7 +30,7 @@ FfiGenerator getBaseConfig([Uri? packageRoot]) {
         union: (node) => node.isIncluded = true,
         enumClass: (node) => node.isIncluded = true,
         macroConstant: (node) => node.isIncluded = true,
-        typealias: (node) => node.isIncluded = .always,
+        typealias: (node) => node.isIncluded = TypealiasInclude.always,
       ),
     ],
   );
@@ -54,7 +54,7 @@ FfiGenerator getAConfig([Uri? packageRoot]) {
         union: (node) => node.isIncluded = true,
         enumClass: (node) => node.isIncluded = true,
         macroConstant: (node) => node.isIncluded = true,
-        typealias: (node) => node.isIncluded = .always,
+        typealias: (node) => node.isIncluded = TypealiasInclude.always,
       ),
     ],
   );
@@ -84,7 +84,7 @@ FfiGenerator getASharedBaseConfig([Uri? packageRoot]) {
         union: (node) => node.isIncluded = true,
         enumClass: (node) => node.isIncluded = true,
         macroConstant: (node) => node.isIncluded = true,
-        typealias: (node) => node.isIncluded = .always,
+        typealias: (node) => node.isIncluded = TypealiasInclude.always,
       ),
     ],
   );

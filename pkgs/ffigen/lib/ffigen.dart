@@ -10,7 +10,7 @@
 /// @docImport 'src/config_provider.dart';
 library;
 
-export 'src/code_generator/imports.dart' show ImportedType, LibraryImport;
+export 'src/code_generator/imports.dart' show LibraryImport;
 export 'src/config_provider.dart'
     show
         BindingStyle,
@@ -36,7 +36,6 @@ export 'src/config_provider.dart'
         Version,
         Versions,
         YamlConfig,
-        defaultCompilerOpts,
         importFromSymbolFile,
         importFromSymbolFiles,
         iosSdkPath,

@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 import 'package:logging/logging.dart';
