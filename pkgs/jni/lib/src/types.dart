@@ -52,6 +52,9 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
   const JType();
 
   JClass get jClass {
+    if (signature.startsWith('L') && signature.endsWith(';')) {
+      return JClass.forName(signature.substring(1, signature.length - 1));
+    }
     return JClass.forName(signature);
   }
 
