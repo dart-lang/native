@@ -39,6 +39,7 @@ The FFIgen configuration is defined in `tool/ffigen.dart`. FFIgen only sees
 the Objective-C wrapper header, `swift_api.h`. So you need to enable Objective-C
 support and set the entry-point to the header.
 
+<!-- file://./tool/ffigen.dart#generator -->
 ```dart
 final generator = FfiGenerator(
   output: Output(

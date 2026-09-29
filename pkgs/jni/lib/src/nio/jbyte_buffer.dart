@@ -40,6 +40,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// such as [Uint8List.setRange].
 ///
 /// Example:
+/// <!-- file://./../../../tool/snippets/jbyte_buffer_snippet.dart#allocate_direct -->
 /// ```dart
 /// final directBuffer = JByteBuffer.allocateDirect(3);
 /// directBuffer.asUint8List().setAll(0, [1, 2, 3]);
@@ -52,6 +53,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// correctly garbage collects the buffer and frees its underlying memory.
 ///
 /// Example:
+/// <!-- file://./../../../tool/snippets/jbyte_buffer_snippet.dart#release_buffer -->
 /// ```dart
 /// final directBuffer = JByteBuffer.allocateDirect(3);
 /// final data = directBuffer.asUint8List();
@@ -63,6 +65,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// by setting the `releaseOriginal` parameter to `true`.
 ///
 /// Example:
+/// <!-- file://./../../../tool/snippets/jbyte_buffer_snippet.dart#release_original -->
 /// ```dart
 /// final directBuffer = JByteBuffer.allocateDirect(3);
 /// // [releaseOriginal] is `false` by default.

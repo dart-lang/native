@@ -4,6 +4,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// coverage:ignore-file
+
 // ignore_for_file: prefer_relative_imports
 // ignore_for_file: annotate_overrides
 // ignore_for_file: argument_type_not_assignable

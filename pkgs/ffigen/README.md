@@ -18,6 +18,9 @@ For details see https://dart.dev/guides/libraries/objective-c-interop.
 
 More FFIgen documentation can be found [here](doc/README.md).
 
+> [!NOTE]
+> The YAML configuration format is deprecated and will be removed in a future version. Please migrate to the programmatic Dart generator API. You can use the migration skill in [`skills/ffigen-migrate-yaml-to-dart`](skills/ffigen-migrate-yaml-to-dart) to automate the migration with an agent, but it also serves as good documentation if doing the migration manually.
+
 ## Getting Started
 
 This guide demonstrates how to call a custom C API from a standalone Dart
@@ -53,11 +56,12 @@ app has been created via `dart create ffigen_example`.
    `FfiGenerator`. Refer to the code comments below and the API docs to learn
    more about available configuration options.
 
+   <!-- file://./example/add/tool/ffigen.dart -->
    ```dart
    import 'dart:io';
-
+  
    import 'package:ffigen/ffigen.dart';
-
+  
    Future<void> main() async {
      final packageRoot = Platform.script.resolve('../');
      final generator = FfiGenerator(
@@ -68,9 +72,7 @@ app has been created via `dart create ffigen_example`.
        // Optional. Where to look for header files.
        input: Input(entryPoints: [packageRoot.resolve('src/add.h')]),
        // Optional. Transform and filter AST nodes.
-       visitors: [
-         Visitor(func: (node) => node.isIncluded = node.name == 'add'),
-       ],
+       visitors: [Visitor(func: (node) => node.isIncluded = node.name == 'add')],
      );
      await generator.generate();
    }
@@ -85,11 +87,10 @@ app has been created via `dart create ffigen_example`.
 5. Import `add.g.dart` in your Dart app and call the generated methods to access
    the native C API:
 
+   <!-- file://./example/add/lib/add.dart -->
    ```dart
    import 'add.g.dart';
-
-   // ...
-   
+  
    void answerToLife() {
      print('The answer to the Ultimate Question is ${add(40, 2)}!');
    }
@@ -103,11 +104,12 @@ app has been created via `dart create ffigen_example`.
    which we can add to our app by running
    `dart pub add hooks code_assets native_toolchain_c`.
 
+   <!-- file://./example/add/hook/build.dart -->
    ```dart
    import 'package:code_assets/code_assets.dart';
    import 'package:hooks/hooks.dart';
    import 'package:native_toolchain_c/native_toolchain_c.dart';
-   
+  
    void main(List<String> args) async {
      await build(args, (input, output) async {
        if (input.config.buildCodeAssets) {
@@ -163,6 +165,7 @@ The script instantiates an `FfiGenerator` with your desired configuration and ca
 
 ### Example
 
+<!-- file://./tool/snippets/readme_config_snippet.dart -->
 ```dart
 import 'dart:io';
 
@@ -178,9 +181,7 @@ Future<void> main() async {
       ),
     ),
     // Where to look for header files.
-    input: Input(
-      entryPoints: [packageRoot.resolve('src/my_header.h')],
-    ),
+    input: Input(entryPoints: [packageRoot.resolve('src/my_header.h')]),
     // Visitors transform and filter AST nodes. By default, all top level APIs
     // are excluded from the bindings. You must explicitly include the APIs
     // you're interested in. Here we include all functions and structs.

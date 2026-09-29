@@ -1,6 +1,8 @@
-## 1.6.5-wip
+## 2.0.0-wip
 
-- No user-visible changes yet.
+- **Breaking change**: Remove `KernelAssets` (and related `KernelAsset*`
+  classes) and `Target`.
+- Drop regular dependency on `package:code_assets`.
 
 ## 1.6.4
 

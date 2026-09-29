@@ -40,7 +40,6 @@ class ObjCBuiltInFunctions {
     'getProtocolMethodSignature',
   );
   static const getProtocol = ObjCImport('getProtocol');
-  static const objectRelease = ObjCImport('objectRelease');
   static const signalWaiter = ObjCImport('signalWaiter');
   static const objCContext = ObjCImport('objCContext');
   static const objectBase = ObjCImport('ObjCObject');

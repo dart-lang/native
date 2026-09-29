@@ -14,23 +14,23 @@ Here we'll list some common usecases. You can find the full list of [supported a
 ### Missing headers
 
 These are the most common source file errors. You can specify [include paths to clang](https://clang.llvm.org/docs/ClangCommandLineReference.html#id6) using `Input.compilerOptions` like this:
+<!-- file://./../tool/snippets/input_snippet.dart#missing_headers -->
 ```dart
 Input(
   entryPoints: [packageRoot.resolve('src/header.h')],
-  compilerOptions: [
-    '-I/path/to/folder',
-  ],
-)
+  compilerOptions: ['-I/path/to/folder'],
+);
 ```
 
 ### Ignoring source errors
 
 As a last resort, you can set `ignoreSourceErrors: true` on `Input`:
+<!-- file://./../tool/snippets/input_snippet.dart#ignore_source_errors -->
 ```dart
 Input(
   entryPoints: [packageRoot.resolve('src/header.h')],
   ignoreSourceErrors: true,
-)
+);
 ```
 
 **Warning: This will likely lead to incorrect bindings!**

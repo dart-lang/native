@@ -17,13 +17,15 @@ import '../helpers.dart';
 void main(List<String> args) async {
   final packageUri = Uri.directory(args[0]);
   final packageName = packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
-  final target = Target.fromString(args[1]);
+  final targetOS = args.length > 1 ? OS.fromString(args[1]) : OS.current;
+  final targetArchitecture = args.length > 2
+      ? Architecture.fromString(args[2])
+      : Architecture.current;
 
   final logger = Logger('')
     ..level = .ALL
     ..onRecord.listen((event) => print(event.message));
 
-  final targetOS = target.os;
   final packageLayout = await PackageLayout.fromWorkingDirectory(
     const LocalFileSystem(),
     packageUri,
@@ -41,7 +43,7 @@ void main(List<String> args) async {
         // in different directories.
         extensions: [
           CodeAssetExtension(
-            targetArchitecture: target.architecture,
+            targetArchitecture: targetArchitecture,
             targetOS: targetOS,
             macOS: targetOS == .macOS
                 ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)

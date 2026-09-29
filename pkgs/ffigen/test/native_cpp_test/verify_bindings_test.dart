@@ -12,7 +12,9 @@ import '../test_utils.dart';
 import 'cpp_class_config.dart' as cpp_class_config;
 import 'cpp_extern_c_config.dart' as cpp_extern_c_config;
 import 'cpp_inheritance_config.dart' as cpp_inheritance_config;
+import 'cpp_namespace_enum_config.dart' as cpp_namespace_enum_config;
 import 'cpp_pod_config.dart' as cpp_pod_config;
+import 'cpp_scoped_struct_config.dart' as cpp_scoped_struct_config;
 import 'memory_edge_cases_config.dart' as memory_edge_cases_config;
 import 'util.dart';
 
@@ -41,6 +43,8 @@ void main() {
       'cpp_pod': cpp_pod_config.getConfig(packageRoot),
       'memory_edge_cases': memory_edge_cases_config.getConfig(packageRoot),
       'cpp_inheritance': cpp_inheritance_config.getConfig(packageRoot),
+      'cpp_namespace_enum': cpp_namespace_enum_config.getConfig(packageRoot),
+      'cpp_scoped_struct': cpp_scoped_struct_config.getConfig(packageRoot),
     };
 
     for (final testFile in testFiles) {

@@ -189,10 +189,8 @@ void main() {
       void Function(Completer<EmptyObject>) producer,
     ) async {
       await using((arena) async {
-        final pool = objc_autoreleasePoolPush();
         Completer<EmptyObject>? completer = Completer<EmptyObject>();
         producer(completer);
-        objc_autoreleasePoolPop(pool);
 
         EmptyObject? obj = await completer.future;
         final objTracker = ReferenceTracker(arena);
