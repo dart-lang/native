@@ -8,7 +8,6 @@ import '../../_internal.dart';
 import '../core_bindings.dart';
 import '../jobject.dart';
 
-/// Extension on [JList] to provide a Dart [List] adapter view.
 extension JListToAdapter<E extends JObject?> on JList<E> {
   /// Wraps this [JList] in an adapter that implements a [List].
   ///
@@ -61,9 +60,7 @@ final class _JListAdapter<E extends JObject?> with ListBase<E> {
   void add(E value) => _jlist.add(value);
 }
 
-/// Extension on [Iterable] to create a [JList].
 extension ToJavaList<E extends JObject?> on Iterable<E> {
-  /// Converts this [Iterable] to a [JList].
   JList<E> toJList() {
     // TODO(https://github.com/dart-lang/native/issues/2012): Remove this as
     // hack.

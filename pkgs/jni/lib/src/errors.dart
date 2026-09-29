@@ -35,7 +35,6 @@ final class UseAfterReleaseError extends StateError with _ExplainsRelease {
   @override
   final String? releaseStackTrace;
 
-  /// Creates a [UseAfterReleaseError] with an optional [releaseStackTrace].
   UseAfterReleaseError([this.releaseStackTrace])
       : super('Use after release error');
 }
@@ -43,16 +42,13 @@ final class UseAfterReleaseError extends StateError with _ExplainsRelease {
 // TODO(#567): Use NullPointerError once it's available.
 /// Error thrown when an unexpected null reference is encountered.
 final class JNullError extends StateError {
-  /// Creates a [JNullError].
   JNullError() : super('The reference was null');
 }
 
 /// Error thrown when a Java method or field cannot be found.
 final class NoSuchMethodError extends StateError {
-  /// The name of the missing method or field.
   final String name;
 
-  /// Creates a [NoSuchMethodError] for the method or field with [name].
   NoSuchMethodError(this.name) : super('No such method or field: $name');
 }
 
@@ -62,7 +58,6 @@ final class DoubleReleaseError extends StateError with _ExplainsRelease {
   @override
   final String? releaseStackTrace;
 
-  /// Creates a [DoubleReleaseError] with an optional [releaseStackTrace].
   DoubleReleaseError([this.releaseStackTrace]) : super('Double release error');
 }
 
@@ -77,10 +72,8 @@ sealed class JniError extends Error {
     JniErrorCode.EINVAL: JniArgumentError.new,
   };
 
-  /// The error message describing this JNI error.
   final String message;
 
-  /// Creates a [JniError] with the given [message].
   JniError(this.message);
 
   @internal
@@ -99,56 +92,45 @@ sealed class JniError extends Error {
 
 /// Error representing a generic JNI failure.
 final class JniGenericError extends JniError {
-  /// Creates a [JniGenericError].
   JniGenericError() : super('Generic JNI error');
 }
 
 /// Error representing a thread detached from the Java VM.
 final class JniThreadDetachedError extends JniError {
-  /// Creates a [JniThreadDetachedError].
   JniThreadDetachedError() : super('Thread detached from VM');
 }
 
 /// Error representing a JNI version error.
 final class JniVersionError extends JniError {
-  /// Creates a [JniVersionError].
   JniVersionError() : super('JNI version error');
 }
 
 /// Error representing a JNI out of memory condition.
 final class JniOutOfMemoryError extends JniError {
-  /// Creates a [JniOutOfMemoryError].
   JniOutOfMemoryError() : super('Out of memory');
 }
 
 /// Error representing that a Java VM has already been created.
 final class JniVmExistsError extends JniError {
-  /// Creates a [JniVmExistsError].
   JniVmExistsError() : super('VM Already created');
 }
 
 /// Error representing invalid arguments passed to a JNI function.
 final class JniArgumentError extends JniError {
-  /// Creates a [JniArgumentError].
   JniArgumentError() : super('Invalid arguments');
 }
 
 /// Error thrown when attempting an operation that requires a JVM instance,
 /// but none is running.
 final class NoJvmInstanceError extends Error {
-  /// Creates a [NoJvmInstanceError].
-  NoJvmInstanceError();
-
   @override
   String toString() => 'No JNI instance is available';
 }
 
 /// Error thrown when the JNI helper shared library cannot be found.
 final class HelperNotFoundError extends Error {
-  /// The path where the helper library was expected to be.
   final String path;
 
-  /// Creates a [HelperNotFoundError] for the given [path].
   HelperNotFoundError(this.path);
 
   @override
@@ -166,10 +148,8 @@ must be called.
 
 /// Error thrown when loading a dynamic library fails.
 final class DynamicLibraryLoadError extends Error {
-  /// The path to the dynamic library that failed to load.
   final String libraryPath;
 
-  /// Creates a [DynamicLibraryLoadError] for the given [libraryPath].
   DynamicLibraryLoadError(this.libraryPath);
 
   @override
@@ -186,10 +166,8 @@ Please ensure ${Platform.isWindows ? r'that `\bin\server\jvm.dll` is in the PATH
 
 /// Exception thrown when converting a Dart string to a Java string fails.
 final class JniNewStringException implements Exception {
-  /// The string that failed to convert.
   final String string;
 
-  /// Creates a [JniNewStringException] for the given [string].
   JniNewStringException(this.string);
 
   @override

@@ -90,8 +90,6 @@ final class JGlobalReference extends JReference {
       this._isReleased, this._releasedStackTracePointer)
       : super._();
 
-  /// Creates a [JGlobalReference] from the given JNI global reference
-  /// [pointer].
   factory JGlobalReference(Pointer<Void> pointer) {
     final finalizable = _JFinalizable(pointer);
     final isReleased = calloc<Bool>();

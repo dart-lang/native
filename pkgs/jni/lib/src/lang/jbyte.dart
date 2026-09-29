@@ -4,7 +4,6 @@
 
 import '../core_bindings.dart';
 
-/// Extension on [JByte] providing conversions to Dart types.
 extension JByteExtension on JByte {
   /// Returns the value as a Dart int.
   ///

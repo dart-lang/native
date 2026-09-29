@@ -4,7 +4,6 @@
 
 import '../core_bindings.dart';
 
-/// Extension on [JNumber] providing type conversions.
 extension JNumberExtension on JNumber {
   /// Coerces the value to a JByte.
   ///
@@ -79,35 +78,19 @@ extension JNumberExtension on JNumber {
   }
 }
 
-/// Extension on [int] to convert to Java number and character types.
 extension IntToJava on int {
-  /// Converts this [int] to a [JByte].
   JByte toJByte() => JByte(this);
-
-  /// Converts this [int] to a [JShort].
   JShort toJShort() => JShort(this);
-
-  /// Converts this [int] to a [JInteger].
   JInteger toJInteger() => JInteger(this);
-
-  /// Converts this [int] to a [JCharacter].
   JCharacter toJCharacter() => JCharacter(this);
-
-  /// Converts this [int] to a [JLong].
   JLong toJLong() => JLong(this);
 }
 
-/// Extension on [double] to convert to Java floating point types.
 extension DoubleToJava on double {
-  /// Converts this [double] to a [JFloat].
   JFloat toJFloat() => JFloat(this);
-
-  /// Converts this [double] to a [JDouble].
   JDouble toJDouble() => JDouble(this);
 }
 
-/// Extension on [bool] to convert to a [JBoolean].
 extension BoolToJava on bool {
-  /// Converts this [bool] to a [JBoolean].
   JBoolean toJBoolean() => JBoolean(this);
 }

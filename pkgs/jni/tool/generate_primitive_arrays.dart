@@ -135,13 +135,11 @@ extension type $arrayName._(JObject _\$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
-  /// The element at the given [index].
   ${type.dartType} operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.Get${typeName}ArrayElement(reference.pointer, index);
   }
 
-  /// Sets the element at the given [index] to [value].
   void operator []=(int index, ${type.dartType} value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.Set${typeName}ArrayElement(reference.pointer, index, value);
@@ -193,7 +191,6 @@ final class _${arrayName}ListView
   }
 }
 
-/// Extension on [$arrayName] providing conversions to Dart [List].
 extension ${arrayName}ToList on $arrayName {
   /// Returns a [List] view into this array.
   ///

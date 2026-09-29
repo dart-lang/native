@@ -4,7 +4,6 @@
 
 import '../core_bindings.dart';
 
-/// Extension on [JShort] providing conversions to Dart types.
 extension JShortExtension on JShort {
   /// Returns the value as a Dart int.
   ///

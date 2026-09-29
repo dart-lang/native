@@ -16,36 +16,26 @@ class JClass extends JObject {
   JClass.forName(String name)
       : super.fromReference(JGlobalReference(Jni.findClass(name)));
 
-  /// Returns the constructor ID for the constructor with the given [signature].
   JConstructorId constructorId(String signature) {
     return JConstructorId._(this, signature);
   }
 
-  /// Returns the instance method ID for the method with the given [name] and
-  /// [signature].
   JInstanceMethodId instanceMethodId(String name, String signature) {
     return JInstanceMethodId._(this, name, signature);
   }
 
-  /// Returns the static method ID for the method with the given [name] and
-  /// [signature].
   JStaticMethodId staticMethodId(String name, String signature) {
     return JStaticMethodId._(this, name, signature);
   }
 
-  /// Returns the instance field ID for the field with the given [name] and
-  /// [signature].
   JInstanceFieldId instanceFieldId(String name, String signature) {
     return JInstanceFieldId._(this, name, signature);
   }
 
-  /// Returns the static field ID for the field with the given [name] and
-  /// [signature].
   JStaticFieldId staticFieldId(String name, String signature) {
     return JStaticFieldId._(this, name, signature);
   }
 
-  /// The [JType] of [JClass].
   static const JType<JClass> type = $JClass$Type$();
 }
 
@@ -73,20 +63,17 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
           return ptr;
         });
 
-  /// Gets the value of this field on [object].
   DartT get<JavaT, DartT>(JObject object, JAccessible<JavaT, DartT> type) {
     final objectRef = object.reference;
     return type._instanceGet(objectRef.pointer, pointer);
   }
 
-  /// Gets the nullable value of this field on [object].
   DartT? getNullable<JavaT, DartT>(
       JObject object, JAccessible<JavaT, DartT> type) {
     final objectRef = object.reference;
     return type._instanceGetNullable(objectRef.pointer, pointer);
   }
 
-  /// Sets the value of this field on [object] to [value].
   void set<JavaT, DartT>(
       JObject object, JAccessible<JavaT, DartT> type, DartT value) {
     final objectRef = object.reference;
@@ -110,20 +97,17 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
           return ptr;
         });
 
-  /// Gets the value of this static field on [jClass].
   DartT get<JavaT, DartT>(JClass jClass, JAccessible<JavaT, DartT> type) {
     final jClassRef = jClass.reference;
     return type._staticGet(jClassRef.pointer, pointer);
   }
 
-  /// Gets the nullable value of this static field on [jClass].
   DartT? getNullable<JavaT, DartT>(
       JClass jClass, JAccessible<JavaT, DartT> type) {
     final jClassRef = jClass.reference;
     return type._staticGetNullable(jClassRef.pointer, pointer);
   }
 
-  /// Sets the value of this static field on [object] to [value].
   void set<JavaT, DartT>(
       JObject object, JAccessible<JavaT, DartT> type, DartT value) {
     final objectRef = object.reference;

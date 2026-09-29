@@ -4,7 +4,6 @@
 
 import '../core_bindings.dart';
 
-/// Extension on [JBoolean] providing conversions to Dart types.
 extension JBooleanExtension on JBoolean {
   /// Returns the value as a Dart bool.
   ///

@@ -57,7 +57,6 @@ JObject? toNullableJObject(
   );
 }
 
-/// Extension on [Iterable] to convert elements to a [JList].
 extension DartIterableToJList on Iterable<Object?> {
   /// Converts this Dart [Iterable] to a [JList].
   ///
@@ -73,7 +72,6 @@ extension DartIterableToJList on Iterable<Object?> {
       ).toJList();
 }
 
-/// Extension on [List] to convert elements to a [JArray].
 extension DartListToJArray on List<Object?> {
   /// Converts this Dart [List] to a [JArray].
   ///
@@ -92,7 +90,6 @@ extension DartListToJArray on List<Object?> {
       );
 }
 
-/// Extension on [Iterable] to convert elements to a [JSet].
 extension DartIterableToJSet on Iterable<Object?> {
   /// Converts this Dart [Iterable] to a [JSet].
   ///
@@ -108,7 +105,6 @@ extension DartIterableToJSet on Iterable<Object?> {
       ).toJSet();
 }
 
-/// Extension on [Map] to convert entries to a [JMap].
 extension DartMapToJMap on Map<Object?, Object?> {
   /// Converts this Dart [Map] to a [JMap].
   ///
@@ -253,7 +249,6 @@ Object toDartObject(
   return convertOther(javaObject);
 }
 
-/// Extension on [JList] to convert elements to a Dart [List].
 extension JListToDartList on JList<JObject?> {
   /// Deep converts this [JList] to a Dart [List].
   ///
@@ -273,7 +268,6 @@ extension JListToDartList on JList<JObject?> {
           .toList();
 }
 
-/// Extension on [JArray] to convert elements to a Dart [List].
 extension JArrayToDartList on JArray<JObject?> {
   /// Deep converts this [JArray] to a Dart [List].
   ///
@@ -293,7 +287,6 @@ extension JArrayToDartList on JArray<JObject?> {
           .toList();
 }
 
-/// Extension on [JSet] to convert elements to a Dart [Set].
 extension JSetToDartSet on JSet<JObject?> {
   /// Deep converts this [JSet] to a Dart [Set].
   ///
@@ -313,7 +306,6 @@ extension JSetToDartSet on JSet<JObject?> {
           .toSet();
 }
 
-/// Extension on [JMap] to convert entries to a Dart [Map].
 extension JMapToDartMap on JMap<JObject?, JObject?> {
   /// Deep converts this [JMap] to a Dart [Map].
   ///

@@ -78,7 +78,6 @@ abstract final class Jni {
   static bool get captureStackTraceOnRelease =>
       _bindings.getCaptureStackTraceOnRelease() != 0;
 
-  /// Sets whether to capture the stack trace when an object is released.
   static set captureStackTraceOnRelease(bool value) =>
       _bindings.setCaptureStackTraceOnRelease(value ? 1 : 0);
 

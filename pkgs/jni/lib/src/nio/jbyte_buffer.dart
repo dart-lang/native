@@ -279,7 +279,6 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
   }
 }
 
-/// Extension on [Uint8List] to convert to a [JByteBuffer].
 extension Uint8ListToJava on Uint8List {
   /// Creates a [JByteBuffer] from the content of this list.
   ///

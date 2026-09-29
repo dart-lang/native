@@ -4,7 +4,6 @@
 
 import '../core_bindings.dart';
 
-/// Extension on [JCharacter] providing conversions to Dart types.
 extension JCharacterExtension on JCharacter {
   /// Returns the value as a Dart int.
   ///
