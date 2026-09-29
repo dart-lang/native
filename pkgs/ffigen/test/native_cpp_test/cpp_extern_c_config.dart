@@ -34,7 +34,8 @@ FfiGenerator getConfig([Uri? packageRoot]) {
         }.contains(node.originalName),
         struct: (node) => node.isIncluded = node.originalName == 'Pair',
         union: (node) => node.isIncluded = node.originalName == 'Number',
-        enumClass: (node) => node.isIncluded = node.originalName == 'Fruit',
+        enumClass: (node) =>
+            node.isIncluded = {'Fruit', 'ns::Flag'}.contains(node.originalName),
         global: (node) => node.isIncluded = node.originalName == 'counter',
       ),
     ],

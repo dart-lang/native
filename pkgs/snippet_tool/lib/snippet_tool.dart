@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:path/path.dart' as p;
 
 void main(List<String> args) {
   final stopwatch = Stopwatch()..start();
@@ -14,23 +14,50 @@ void main(List<String> args) {
       'set-exit-if-changed',
       negatable: false,
       help: 'Return a non-zero exit code if any files were changed.',
+    )
+    ..addFlag(
+      'help',
+      abbr: 'h',
+      negatable: false,
+      help: 'Show usage information.',
     );
-  final argResults = parser.parse(args);
+  final ArgResults argResults;
+  try {
+    argResults = parser.parse(args);
+  } on FormatException catch (e) {
+    stderr.writeln(e.message);
+    stderr.writeln('Usage: snippet_tool [options] <directories-or-files...>');
+    stderr.writeln(parser.usage);
+    exit(1);
+  }
+
+  if (argResults['help'] as bool) {
+    print('Usage: snippet_tool [options] <directories-or-files...>');
+    print(parser.usage);
+    exit(0);
+  }
+
+  final paths = argResults.rest;
+  if (paths.isEmpty) {
+    stderr.writeln('Error: No target directories or files specified.');
+    stderr.writeln('Usage: snippet_tool [options] <directories-or-files...>');
+    stderr.writeln(parser.usage);
+    exit(1);
+  }
+
   final setExitIfChanged = argResults['set-exit-if-changed'] as bool;
 
   final counts = Counts();
   final errors = <String>[];
-  final hooksPackageRoot = findPackageRoot('hooks');
-  for (final package in ['hooks', 'code_assets', 'data_assets', 'record_use']) {
-    final packageRoot = hooksPackageRoot.resolve('../$package/');
 
-    final files = Directory.fromUri(packageRoot)
-        .listSync(recursive: true)
-        .whereType<File>()
-        .where((e) => e.path.endsWith('.dart') || e.path.endsWith('.md'));
-
-    for (final file in files) {
-      updateSnippetsInFile(file, counts, errors);
+  for (final targetPath in paths) {
+    final type = FileSystemEntity.typeSync(targetPath);
+    if (type == FileSystemEntityType.file) {
+      updateSnippetsInFile(File(targetPath), counts, errors);
+    } else if (type == FileSystemEntityType.directory) {
+      updateSnippetsInDirectory(Directory(targetPath), counts, errors);
+    } else if (type == FileSystemEntityType.notFound) {
+      errors.add('Error: Path does not exist: $targetPath.');
     }
   }
 
@@ -45,7 +72,6 @@ void main(List<String> args) {
     for (final error in errors) {
       print(error);
     }
-    print('See pkgs/hooks/CONTRIBUTING.md for details.');
     exit(1);
   }
 
@@ -79,7 +105,7 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
   var newContent = oldContent;
 
   final markers = RegExp(
-    r'^([ \t]*/*[ ]?)```(\w*)',
+    r'^([ \t]*(?:(?:>[ \t]*)+|/{3}[ ]?)?)```(\w*)',
     multiLine: true,
   ).allMatches(oldContent);
 
@@ -141,13 +167,14 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
     final lineBeforeText = oldContent.split('\n')[lastLineOfContentBefore];
 
     final fileLineMatch = RegExp(
-      r'^(.*?)<!-- (?:file://./(\S+?)(?:#(\S+))?|(no-source-file)) -->\s*$',
+      r'^([ \t]*(?:(?:>[ \t]*)+|/{3}[ ]?)?)<!-- (?:file://./(\S+?)(?:#(\S+))?|(no-source-file)) -->\s*$',
     ).firstMatch(lineBeforeText);
 
     if (fileLineMatch == null) {
       final line = lastLineOfContentBefore + 1;
       errors.add(
-        'Error: Did not find <!-- file://./... --> comment in $fileUri at line $line. ',
+        'Error: Did not find <!-- file://./... --> comment '
+        'in $fileUri at line $line.',
       );
       continue;
     }
@@ -213,11 +240,11 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
     );
     newSnippetText = newSnippetText.replaceAll(markerRegex, '');
 
-    newSnippetText = _dedent(newSnippetText);
+    newSnippetText = dedent(newSnippetText);
     newSnippetText = newSnippetText.trim();
 
     final copyrightRegex = RegExp(r'''
-// Copyright \(c\) [0-9]*, the Dart project authors.  Please see the AUTHORS file
+// Copyright \(c\) [0-9]*, the Dart project authors.  ?Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 ''');
@@ -246,7 +273,7 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
   return newContent;
 }
 
-String _dedent(String text) {
+String dedent(String text) {
   final lines = text.split('\n');
   if (lines.isEmpty) return text;
 
@@ -268,4 +295,40 @@ String _dedent(String text) {
         return line.substring(minIndent!);
       })
       .join('\n');
+}
+
+void updateSnippetsInDirectory(
+  Directory dir,
+  Counts counts,
+  List<String> errors,
+) {
+  final files = findFiles(dir);
+  files.sort((a, b) => a.path.compareTo(b.path));
+  for (final file in files) {
+    updateSnippetsInFile(file, counts, errors);
+  }
+}
+
+List<File> findFiles(Directory dir) {
+  final result = <File>[];
+  for (final entity in dir.listSync(followLinks: false)) {
+    final baseName = p.basename(entity.path);
+    if (baseName.startsWith('.')) {
+      continue;
+    }
+    // Skip build directories (e.g. build output), but not example/build.
+    if (baseName == 'build' && p.basename(dir.path) != 'example') {
+      continue;
+    }
+    if (entity is Directory) {
+      result.addAll(findFiles(entity));
+    } else if (entity is File) {
+      if ((baseName.endsWith('.dart') || baseName.endsWith('.md')) &&
+          baseName != 'CHANGELOG.md' &&
+          baseName != 'SKILL.md') {
+        result.add(entity);
+      }
+    }
+  }
+  return result;
 }

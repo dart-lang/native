@@ -80,10 +80,10 @@ class JObject {
   ///
   /// For example:
   ///
+  /// <!-- file://./../../tool/snippets/jobject_snippet.dart -->
   /// ```dart
   /// if (object.isA(JLong.type)) {
-  ///   final i = object.as(JLong.type).longValue;
-  ///   ...
+  ///   final i = object.as(JLong.type).longValue();
   /// }
   /// ```
   bool isA<T extends JObject>(JType<T> type) {

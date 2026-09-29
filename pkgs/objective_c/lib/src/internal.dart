@@ -269,7 +269,7 @@ abstract final class _ObjCReference<T extends NativeType>
        _isReleased = _newFinalizableBool(_finalizable) {
     assert(_isValid(_finalizable.ptr));
     if (retain) {
-      _retainAutoreleasedReturnValue(_finalizable.ptr);
+      _retain(_finalizable.ptr);
     }
   }
 
@@ -322,7 +322,6 @@ abstract final class _ObjCReference<T extends NativeType>
     return ptr;
   }
 
-  void _retainAutoreleasedReturnValue(Pointer<T> ptr) => _retain(ptr);
   void _retain(Pointer<T> ptr);
   bool _isValid(Pointer<T> ptr);
 }
@@ -349,10 +348,6 @@ final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
 
   @override
   void _retain(ObjectPtr ptr) => r.objectRetain(ptr);
-
-  @override
-  void _retainAutoreleasedReturnValue(ObjectPtr ptr) =>
-      r.objectRetainAutoreleasedReturnValue(ptr);
 
   @override
   bool _isValid(ObjectPtr ptr) => _isValidObject(ptr);

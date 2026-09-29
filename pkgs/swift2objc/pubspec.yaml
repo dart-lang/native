@@ -20,8 +20,10 @@ dependencies:
   meta: ^1.16.0
   path: ^1.9.0
 
+resolution: workspace
+
 environment:
-  sdk: '>=3.9.0 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
 
 dev_dependencies:
   args: ^2.6.0

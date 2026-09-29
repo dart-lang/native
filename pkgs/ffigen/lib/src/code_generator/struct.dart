@@ -18,6 +18,7 @@ import 'compound.dart';
 /// };
 /// ```
 /// The generated dart code is -
+/// <!-- no-source-file -->
 /// ```dart
 /// final class Struct extends ffi.Struct {
 ///  @ffi.Int32()

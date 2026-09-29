@@ -3,12 +3,16 @@
 Ordinary Dart has a distinction between an object's static type and its
 runtime type:
 
+<!-- file://./../tool/snippets/runtime_types_snippet.dart#static_vs_runtime_type -->
 ```dart
 class Base {}
+
 class Child extends Base {}
 
-Base x = Child();      // x has a static type of Base
-print(x.runtimeType);  // but a runtime type of Child
+void main() {
+  Base x = Child(); // x has a static type of Base
+  print(x.runtimeType); // but a runtime type of Child
+}
 ```
 
 The static type determines at compile time what methods are
@@ -61,6 +65,7 @@ When casting using `.as()`, you can optionally release the original reference
 by passing `releaseOriginal: true`. This is useful to keep the number of active
 global JNI references low.
 
+<!-- file://./../tool/snippets/runtime_types_snippet.dart#cast_memory -->
 ```dart
 final JNumber num = foo.someJNumber();
 // Cast to JInteger and release the original JNumber reference.

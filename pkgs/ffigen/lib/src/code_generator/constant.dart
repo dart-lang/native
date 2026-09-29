@@ -14,11 +14,13 @@ import 'writer.dart';
 /// Base class for constants.
 ///
 /// Expands to -
+/// <!-- no-source-file -->
 /// ```dart
 /// const <type> <name> = <rawValue>;
 /// ```
 ///
 /// Example -
+/// <!-- no-source-file -->
 /// ```dart
 /// const int name = 10;
 /// ```
