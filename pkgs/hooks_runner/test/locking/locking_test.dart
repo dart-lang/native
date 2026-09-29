@@ -5,7 +5,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:file/local.dart';
 import 'package:hooks_runner/src/locking/locking.dart';
@@ -54,7 +53,7 @@ void main() async {
 
   test('Terminations unlock', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
-      Future<int> runProcess({Duration? killAfter}) async {
+      Future<int> runProcess({bool killWhenLocked = false}) async {
         final process = await Process.start(dartExecutable.toFilePath(), [
           packageUri
               .resolve('test/locking/locking_test_helper.dart')
@@ -65,40 +64,30 @@ void main() async {
         final stdoutSub = process.stdout
             .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
-            .listen(logger.fine);
+            .listen((line) {
+              logger.fine(line);
+              if (killWhenLocked && line == 'directory locked') {
+                printOnFailure('killing process');
+                process.kill();
+              }
+            });
         final stderrSub = process.stderr
             .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.severe);
 
-        Timer? timer;
-        if (killAfter != null) {
-          timer = Timer(killAfter, () async {
-            printOnFailure('killing process');
-            process.kill();
-          });
-        }
         final (exitCode, _, _) = await (
           process.exitCode,
           stdoutSub.asFuture<void>(),
           stderrSub.asFuture<void>(),
         ).wait;
-        if (timer != null) {
-          timer.cancel();
-        }
 
         return exitCode;
       }
 
       // Kill process before it finishes. To check lock is properly released.
-      var milliseconds = 100;
-      while (findLockFile(tempUri) == null) {
-        final result = await runProcess(
-          killAfter: Duration(milliseconds: milliseconds),
-        );
-        expect(result, isNot(0));
-        milliseconds = max((milliseconds * 1.1).round(), milliseconds + 100);
-      }
+      final result = await runProcess(killWhenLocked: true);
+      expect(result, isNot(0));
       expect(findLockFile(tempUri), isNotNull);
 
       final result2 = await runProcess();
