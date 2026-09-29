@@ -59,12 +59,13 @@ void main() {
 
 ## Autoreleased References
 
-Objective-C has a mechanism where references can be autoreleased, which means
-they are placed in an [autorelease pool](
+Objective-C has a mechanism where references can be autoreleased,
+which means they are placed in an [autorelease pool](
 https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html).
 Autorelease pools form a stack, and autoreleased references are placed in the
 top-most pool.
-When that pool is destroyed, all the references it contains are released.
+When that pool is destroyed (popped from the stack),
+all the references it contains are released.
 If the pool is too long-lived, these references are effectively leaked.
 
 Autoreleasing is primarily used for returning results from methods. If you
@@ -79,7 +80,7 @@ created and destroyed at event loop boundaries (e.g. every frame).
 So this is usually not a problem.
 However, until Dart 3.14 (Flutter 3.50), there was
 [a bug](https://github.com/dart-lang/sdk/issues/61129)
-whereFlutter background isolates did not have an
+where Flutter background isolates did not have an
 autorelease pool in their event loop.
 This also affected *all* isolates in Dart CLI apps.
 
