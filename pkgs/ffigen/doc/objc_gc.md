@@ -91,3 +91,17 @@ The fix to these problems, just like in Objective-C code,
 is to use an autorelese pool.
 The Dart API for this is [`autoReleasePool`](
 https://pub.dev/documentation/objective_c/latest/objective_c/autoReleasePool.html).
+
+<!-- file://./../../objective_c/tool/snippets/autorelease_snippet.dart#autorelease_pool -->
+```dart
+while (longRunningCondition) {
+  // When writing ObjC interop code inside a long running loop, it's a good
+  // idea to use an autorelease pool to clean up autoreleased references.
+  autoReleasePool(() {
+    // Interacting with most ObjC APIs autoreleases a lot of internal refs.
+    final someObjCObject = fooObjCApi.loadNextObject();
+    someObjCObject.greet('Hello'.toNSString());
+    barObjCApi.sendObject(someObjCObject);
+  });
+}
+```
