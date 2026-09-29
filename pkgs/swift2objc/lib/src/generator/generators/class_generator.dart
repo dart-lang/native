@@ -68,12 +68,16 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
     "Wrapped instance can't have a generic type",
   );
 
-  return 'var ${property.name}: ${property.type.swiftType}\n';
+  final prefix = property.hasObjCAnnotation ? '@objc public ' : '';
+  return '${prefix}var ${property.name}: ${property.type.swiftType}\n';
 }
 
 List<String> _generateInitializers(ClassDeclaration declaration) {
   return [
-    ...generateInitializer(declaration.wrapperInitializer, isPublic: false),
+    ...generateInitializer(
+      declaration.wrapperInitializer,
+      isPublic: declaration.wrapperInitializer?.hasObjCAnnotation ?? false,
+    ),
     for (final init in declaration.initializers)
       ...generateInitializer(init, isPublic: true),
   ];
