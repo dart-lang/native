@@ -36,10 +36,20 @@ class ObjCBlock<T extends Function> extends ObjCBlockBase {
   ObjCBlock(super.ptr, {required super.retain, required super.release});
 }
 
-/// A sentinel class representing the `ns_returns_retained` attribute for
-/// [ObjCBlock] function signatures.
+/// Type wrapper representing the `ns_returns_retained` attribute in [ObjCBlock]
+/// return types.
+///
+/// Indicates that ownership of the returned reference (+1 retain count) is
+/// transferred to the caller.
+///
+/// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
 abstract final class Retained<T> {}
 
-/// A sentinel class representing the `ns_consumed` attribute for [ObjCBlock]
-/// function signatures.
+/// Type wrapper representing the `ns_consumed` attribute in [ObjCBlock]
+/// parameter types.
+///
+/// Indicates that ownership of the argument (+1 retain count) is transferred
+/// to the block callee.
+///
+/// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
 abstract final class Consumed<T> {}
