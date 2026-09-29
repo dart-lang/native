@@ -73,7 +73,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// directBuffer.nextByte = 42; // No problem!
 /// print(data1[0]); // prints 42!
 /// final data2 = directBuffer.asUint8List(releaseOriginal: true);
-/// // directBuffer.nextByte = 42; // throws [UseAfterReleaseException]!
+/// // directBuffer.nextByte = 42; // throws [UseAfterReleaseError]!
 /// ```
 extension type JByteBuffer._(JObject _$this) implements JBuffer {
   static final _class = JClass.forName(r'java/nio/ByteBuffer');
@@ -199,6 +199,19 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
 
   static final _arrayId = _class.instanceMethodId(r'array', r'()[B');
 
+  /// The byte array that backs this buffer.
+  ///
+  /// Note that the first element of the buffer starts at element [arrayOffset]
+  /// of the backing array.
+  ///
+  /// Invoke the [hasArray] method before invoking this method in order to
+  /// ensure that this buffer has an accessible backing array.
+  ///
+  /// Throws:
+  /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is
+  ///   read-only
+  /// * `UnsupportedOperationException` - If this buffer is not backed by an
+  ///   accessible array
   JByteArray get array {
     return _arrayId(this, JByteArray.type, [])!;
   }
