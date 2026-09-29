@@ -7,7 +7,7 @@
 // This class will be included, and its Dart name will be renamed to 'MyWidget'.
 class MyClass {
 public:
-    MyClass();
+    MyClass() {}
     // This method will be included (renamed to 'greet').
     void myMethod() {}
     // This method will be filtered out via visitor filter.
@@ -17,13 +17,13 @@ public:
 // This class will be included unchanged.
 class OtherClass {
 public:
-    OtherClass();
+    OtherClass() {}
     void method() {}
 };
 
 // This class will be excluded via the include filter.
 class FilteredOutClass {
 public:
-    FilteredOutClass();
+    FilteredOutClass() {}
     void unused() {}
 };
