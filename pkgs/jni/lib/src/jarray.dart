@@ -82,16 +82,20 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
     return JObject.fromReference(JGlobalReference(pointer)) as E;
   }
 
+  /// The element at the given [index].
   E operator [](int index) {
     return _elementAt(index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, E value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     final valueRef = value?.reference ?? jNullReference;
     Jni.env.SetObjectArrayElement(reference.pointer, index, valueRef.pointer);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -122,6 +126,7 @@ final class _JArrayListView<E extends JObject?>
   }
 }
 
+/// Extension on [JArray] providing conversions to Dart [List].
 extension JArrayToList<E extends JObject?> on JArray<E> {
   /// Returns a [List] view into this array.
   ///

@@ -8,8 +8,9 @@ import '../core_bindings.dart';
 import '../jobject.dart';
 import 'jiterator.dart';
 
+/// Extension on [JMap] to provide a Dart [Map] adapter view.
 extension JMapToAdapter<K extends JObject?, V extends JObject?> on JMap<K, V> {
-  /// Wraps this [JMap] in an adapter that implements an immutable [Map].
+  /// Wraps this [JMap] in an adapter that implements a mutable [Map].
   ///
   /// This is not a conversion, doesn't create a new map, or change the
   /// elements.
@@ -77,7 +78,9 @@ final class _JMapValueCollectionsAdapter<V extends JObject?> with Iterable<V> {
   Iterator<V> get iterator => JIteratorAdapter<V>(_values.iterator()!);
 }
 
+/// Extension on [Map] to create a [JMap].
 extension ToJavaMap<K extends JObject?, V extends JObject?> on Map<K, V> {
+  /// Converts this [Map] to a [JMap].
   JMap<K, V> toJMap() {
     // TODO(https://github.com/dart-lang/native/issues/2012): Remove this as
     // hack.

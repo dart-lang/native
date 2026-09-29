@@ -7,6 +7,7 @@ import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
 
+/// Extension on [JString] providing Dart string operations and conversions.
 extension JStringExtension on JString {
   /// The number of Unicode characters in this Java string.
   int get length => Jni.env.GetStringLength(reference.pointer);
@@ -24,6 +25,7 @@ extension JStringExtension on JString {
   }
 }
 
+/// Extension on [String] to convert to a [JString].
 extension ToJStringMethod on String {
   /// Returns a [JString] with the contents of this String.
   JString toJString() {

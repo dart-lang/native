@@ -4,6 +4,7 @@
 
 import '../core_bindings.dart';
 
+/// Extension on [JFloat] providing conversions to Dart types.
 extension JFloatExtension on JFloat {
   /// Returns the value as a Dart double.
   ///

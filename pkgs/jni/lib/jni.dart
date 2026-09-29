@@ -46,9 +46,9 @@
 /// code being scheduled on the same thread.
 ///
 /// ## Debugging
-/// Debugging JNI errors hard in general.
+/// Debugging JNI errors is hard in general.
 ///
-/// * On desktop platforms you can use JniEnv.ExceptionDescribe to print any
+/// * On desktop platforms you can use `JniEnv.ExceptionDescribe` to print any
 /// pending exception to stdout.
 /// * On Android, things are slightly easier since CheckJNI is usually enabled
 /// in debug builds. If you are not getting clear stack traces on JNI errors,
@@ -56,7 +56,7 @@
 /// * As a rule of thumb, when there's a NoClassDefFound / NoMethodFound error,
 /// first check your class and method signatures for typos. Another common
 /// reason for NoClassDefFound error is missing classes in classpath.
-
+///
 /// This library provides classes and functions for JNI interop from Dart.
 library;
 

@@ -7,6 +7,7 @@ import 'package:meta/meta.dart' show internal;
 import '../core_bindings.dart';
 import '../jobject.dart';
 
+/// Extension on [JIterator] to provide a Dart [Iterator] adapter view.
 extension JIteratorToAdapter<E extends JObject?> on JIterator<E> {
   /// Wraps this [JIterator] in an adapter that implements an [Iterator].
   Iterator<E> asDart() => JIteratorAdapter<E>(this);

@@ -4,6 +4,7 @@
 
 import '../core_bindings.dart';
 
+/// Extension on [JDouble] providing conversions to Dart types.
 extension JDoubleExtension on JDouble {
   /// Returns the value as a Dart double.
   ///

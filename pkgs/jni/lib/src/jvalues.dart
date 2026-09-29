@@ -67,34 +67,49 @@ Pointer<JValue> toJValues(List<dynamic> args, {required Allocator allocator}) {
 /// Use this class as wrapper to convert an integer
 /// to Java `int` in jvalues method.
 final class JValueInt {
+  /// The wrapped integer value.
   int value;
+
+  /// Creates a [JValueInt] wrapping [value].
   JValueInt(this.value);
 }
 
 /// Use this class as wrapper to convert an integer
 /// to Java `short` in jvalues method.
 final class JValueShort {
+  /// The wrapped integer value.
   int value;
+
+  /// Creates a [JValueShort] wrapping [value].
   JValueShort(this.value);
 }
 
 /// Use this class as wrapper to convert an integer
 /// to Java `byte` in jvalues method.
 final class JValueByte {
+  /// The wrapped integer value.
   int value;
+
+  /// Creates a [JValueByte] wrapping [value].
   JValueByte(this.value);
 }
 
 /// Use this class as wrapper to convert an double
 /// to Java `float` in jvalues method.
 final class JValueFloat {
+  /// The wrapped double value.
   double value;
+
+  /// Creates a [JValueFloat] wrapping [value].
   JValueFloat(this.value);
 }
 
 /// Use this class as wrapper to convert an integer
 /// to Java `char` in jvalues method.
 final class JValueChar {
+  /// The wrapped character code point value.
   int value;
+
+  /// Creates a [JValueChar] wrapping [value].
   JValueChar(this.value);
 }

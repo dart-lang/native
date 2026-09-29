@@ -8,10 +8,11 @@ import '../core_bindings.dart';
 import '../jobject.dart';
 import 'jiterator.dart';
 
+/// Extension on [JSet] to provide a Dart [Set] adapter view.
 extension JSetToAdapter<E extends JObject?> on JSet<E> {
   /// Wraps this [JSet] in an adapter that implements a [Set].
   ///
-  /// This is not a conversion, doesn't create a new list, or change the
+  /// This is not a conversion, doesn't create a new set, or change the
   /// elements.
   Set<E> asDart() => _JSetAdapter<E>(this);
 }
@@ -48,7 +49,9 @@ final class _JSetAdapter<E extends JObject?> with SetBase<E> {
   void clear() => _jset.clear();
 }
 
+/// Extension on [Iterable] to create a [JSet].
 extension ToJavaSet<E extends JObject?> on Iterable<E> {
+  /// Converts this [Iterable] to a [JSet].
   JSet<E> toJSet() {
     // TODO(https://github.com/dart-lang/native/issues/2012): Remove this as
     // hack.

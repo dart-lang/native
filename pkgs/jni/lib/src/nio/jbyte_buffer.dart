@@ -199,6 +199,19 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
 
   static final _arrayId = _class.instanceMethodId(r'array', r'()[B');
 
+  /// The byte array that backs this buffer.
+  ///
+  /// Note that the first element of the buffer starts at element [arrayOffset]
+  /// of the backing array.
+  ///
+  /// Invoke the [hasArray] method before invoking this method in order to
+  /// ensure that this buffer has an accessible backing array.
+  ///
+  /// Throws:
+  /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is
+  ///   read-only
+  /// * `UnsupportedOperationException` - If this buffer is not backed by an
+  ///   accessible array
   JByteArray get array {
     return _arrayId(this, JByteArray.type, [])!;
   }
@@ -266,6 +279,7 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
   }
 }
 
+/// Extension on [Uint8List] to convert to a [JByteBuffer].
 extension Uint8ListToJava on Uint8List {
   /// Creates a [JByteBuffer] from the content of this list.
   ///

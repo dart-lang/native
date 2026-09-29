@@ -78,6 +78,7 @@ abstract final class Jni {
   static bool get captureStackTraceOnRelease =>
       _bindings.getCaptureStackTraceOnRelease() != 0;
 
+  /// Sets whether to capture the stack trace when an object is released.
   static set captureStackTraceOnRelease(bool value) =>
       _bindings.setCaptureStackTraceOnRelease(value ? 1 : 0);
 
@@ -210,8 +211,8 @@ abstract final class Jni {
         JGlobalReference(exception), message, stacktrace);
   }
 
-  /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over
-  /// JNIEnv without the same-thread restriction.
+  /// Returns the instance of `GlobalJniEnvStruct`, which is an abstraction over
+  /// `JNIEnv` without the same-thread restriction.
   static Pointer<GlobalJniEnvStruct> _fetchGlobalEnv() {
     final env = _bindings.GetGlobalEnv();
     if (env == nullptr) {
@@ -220,9 +221,9 @@ abstract final class Jni {
     return env;
   }
 
-  /// Points to a process-wide shared instance of [GlobalJniEnv].
+  /// Points to a process-wide shared instance of `GlobalJniEnv`.
   ///
-  /// It provides an indirection over [JniEnv] so that it can be used from
+  /// It provides an indirection over `JniEnv` so that it can be used from
   /// any thread, and always returns global object references.
   @internal
   static final env = GlobalJniEnv(_fetchGlobalEnv());

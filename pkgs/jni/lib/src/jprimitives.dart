@@ -8,12 +8,16 @@
 
 part of 'types.dart';
 
+/// Base class for Java primitive types.
 abstract final class JPrimitive {}
 
+/// The Java `byte` primitive type.
 abstract final class jbyte extends JPrimitive {
+  /// The [JType] of [jbyte].
   static const type = jbyteType();
 }
 
+/// The [JType] implementation for [jbyte].
 final class jbyteType extends JTypeBase<jbyte>
     with JCallable<jbyte, int>, JAccessible<jbyte, int> {
   @internal
@@ -77,10 +81,13 @@ final class jbyteType extends JTypeBase<jbyte>
   }
 }
 
+/// The Java `boolean` primitive type.
 abstract final class jboolean extends JPrimitive {
+  /// The [JType] of [jboolean].
   static const type = jbooleanType();
 }
 
+/// The [JType] implementation for [jboolean].
 final class jbooleanType extends JTypeBase<jboolean>
     with JCallable<jboolean, bool>, JAccessible<jboolean, bool> {
   @internal
@@ -144,10 +151,13 @@ final class jbooleanType extends JTypeBase<jboolean>
   }
 }
 
+/// The Java `char` primitive type.
 abstract final class jchar extends JPrimitive {
+  /// The [JType] of [jchar].
   static const type = jcharType();
 }
 
+/// The [JType] implementation for [jchar].
 final class jcharType extends JTypeBase<jchar>
     with JCallable<jchar, int>, JAccessible<jchar, int> {
   @internal
@@ -211,10 +221,13 @@ final class jcharType extends JTypeBase<jchar>
   }
 }
 
+/// The Java `short` primitive type.
 abstract final class jshort extends JPrimitive {
+  /// The [JType] of [jshort].
   static const type = jshortType();
 }
 
+/// The [JType] implementation for [jshort].
 final class jshortType extends JTypeBase<jshort>
     with JCallable<jshort, int>, JAccessible<jshort, int> {
   @internal
@@ -278,10 +291,13 @@ final class jshortType extends JTypeBase<jshort>
   }
 }
 
+/// The Java `int` primitive type.
 abstract final class jint extends JPrimitive {
+  /// The [JType] of [jint].
   static const type = jintType();
 }
 
+/// The [JType] implementation for [jint].
 final class jintType extends JTypeBase<jint>
     with JCallable<jint, int>, JAccessible<jint, int> {
   @internal
@@ -345,10 +361,13 @@ final class jintType extends JTypeBase<jint>
   }
 }
 
+/// The Java `long` primitive type.
 abstract final class jlong extends JPrimitive {
+  /// The [JType] of [jlong].
   static const type = jlongType();
 }
 
+/// The [JType] implementation for [jlong].
 final class jlongType extends JTypeBase<jlong>
     with JCallable<jlong, int>, JAccessible<jlong, int> {
   @internal
@@ -412,10 +431,13 @@ final class jlongType extends JTypeBase<jlong>
   }
 }
 
+/// The Java `float` primitive type.
 abstract final class jfloat extends JPrimitive {
+  /// The [JType] of [jfloat].
   static const type = jfloatType();
 }
 
+/// The [JType] implementation for [jfloat].
 final class jfloatType extends JTypeBase<jfloat>
     with JCallable<jfloat, double>, JAccessible<jfloat, double> {
   @internal
@@ -479,10 +501,13 @@ final class jfloatType extends JTypeBase<jfloat>
   }
 }
 
+/// The Java `double` primitive type.
 abstract final class jdouble extends JPrimitive {
+  /// The [JType] of [jdouble].
   static const type = jdoubleType();
 }
 
+/// The [JType] implementation for [jdouble].
 final class jdoubleType extends JTypeBase<jdouble>
     with JCallable<jdouble, double>, JAccessible<jdouble, double> {
   @internal
@@ -546,10 +571,13 @@ final class jdoubleType extends JTypeBase<jdouble>
   }
 }
 
+/// The Java `void` primitive type.
 abstract final class jvoid extends JPrimitive {
+  /// The [JType] of [jvoid].
   static const type = jvoidType();
 }
 
+/// The [JType] implementation for [jvoid].
 final class jvoidType extends JTypeBase<jvoid> with JCallable<jvoid, void> {
   @internal
   const jvoidType();

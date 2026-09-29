@@ -39,16 +39,20 @@ extension type JBooleanArray._(JObject _$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
+  /// The element at the given [index].
   bool operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetBooleanArrayElement(reference.pointer, index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, bool value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetBooleanArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Uint8List].
   Uint8List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -58,6 +62,8 @@ extension type JBooleanArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<bool> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -91,6 +97,7 @@ final class _JBooleanArrayListView
   }
 }
 
+/// Extension on [JBooleanArray] providing conversions to Dart [List].
 extension JBooleanArrayToList on JBooleanArray {
   /// Returns a [List] view into this array.
   ///
@@ -135,16 +142,20 @@ extension type JByteArray._(JObject _$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
+  /// The element at the given [index].
   int operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetByteArrayElement(reference.pointer, index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, int value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetByteArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Int8List].
   Int8List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -153,6 +164,8 @@ extension type JByteArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -185,6 +198,7 @@ final class _JByteArrayListView with ListMixin<int>, NonGrowableListMixin<int> {
   }
 }
 
+/// Extension on [JByteArray] providing conversions to Dart [List].
 extension JByteArrayToList on JByteArray {
   /// Returns a [List] view into this array.
   ///
@@ -229,16 +243,20 @@ extension type JCharArray._(JObject _$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
+  /// The element at the given [index].
   int operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetCharArrayElement(reference.pointer, index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, int value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetCharArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Uint16List].
   Uint16List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -247,6 +265,8 @@ extension type JCharArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -279,6 +299,7 @@ final class _JCharArrayListView with ListMixin<int>, NonGrowableListMixin<int> {
   }
 }
 
+/// Extension on [JCharArray] providing conversions to Dart [List].
 extension JCharArrayToList on JCharArray {
   /// Returns a [List] view into this array.
   ///
@@ -323,16 +344,20 @@ extension type JShortArray._(JObject _$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
+  /// The element at the given [index].
   int operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetShortArrayElement(reference.pointer, index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, int value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetShortArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Int16List].
   Int16List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -341,6 +366,8 @@ extension type JShortArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -374,6 +401,7 @@ final class _JShortArrayListView
   }
 }
 
+/// Extension on [JShortArray] providing conversions to Dart [List].
 extension JShortArrayToList on JShortArray {
   /// Returns a [List] view into this array.
   ///
@@ -418,16 +446,20 @@ extension type JIntArray._(JObject _$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
+  /// The element at the given [index].
   int operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetIntArrayElement(reference.pointer, index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, int value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetIntArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Int32List].
   Int32List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -436,6 +468,8 @@ extension type JIntArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -468,6 +502,7 @@ final class _JIntArrayListView with ListMixin<int>, NonGrowableListMixin<int> {
   }
 }
 
+/// Extension on [JIntArray] providing conversions to Dart [List].
 extension JIntArrayToList on JIntArray {
   /// Returns a [List] view into this array.
   ///
@@ -512,16 +547,20 @@ extension type JLongArray._(JObject _$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
+  /// The element at the given [index].
   int operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetLongArrayElement(reference.pointer, index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, int value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetLongArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Int64List].
   Int64List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -530,6 +569,8 @@ extension type JLongArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -562,6 +603,7 @@ final class _JLongArrayListView with ListMixin<int>, NonGrowableListMixin<int> {
   }
 }
 
+/// Extension on [JLongArray] providing conversions to Dart [List].
 extension JLongArrayToList on JLongArray {
   /// Returns a [List] view into this array.
   ///
@@ -602,16 +644,20 @@ extension type JFloatArray._(JObject _$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
+  /// The element at the given [index].
   double operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetFloatArrayElement(reference.pointer, index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, double value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetFloatArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Float32List].
   Float32List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -620,6 +666,8 @@ extension type JFloatArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<double> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -653,6 +701,7 @@ final class _JFloatArrayListView
   }
 }
 
+/// Extension on [JFloatArray] providing conversions to Dart [List].
 extension JFloatArrayToList on JFloatArray {
   /// Returns a [List] view into this array.
   ///
@@ -693,16 +742,20 @@ extension type JDoubleArray._(JObject _$this) implements JObject {
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
+  /// The element at the given [index].
   double operator [](int index) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetDoubleArrayElement(reference.pointer, index);
   }
 
+  /// Sets the element at the given [index] to [value].
   void operator []=(int index, double value) {
     RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetDoubleArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Float64List].
   Float64List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -711,6 +764,8 @@ extension type JDoubleArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<double> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -744,6 +799,7 @@ final class _JDoubleArrayListView
   }
 }
 
+/// Extension on [JDoubleArray] providing conversions to Dart [List].
 extension JDoubleArrayToList on JDoubleArray {
   /// Returns a [List] view into this array.
   ///

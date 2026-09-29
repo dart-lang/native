@@ -4,6 +4,7 @@
 
 import '../core_bindings.dart';
 
+/// Extension on [JLong] providing conversions to Dart types.
 extension JLongExtension on JLong {
   /// Returns the value as a Dart int.
   ///

@@ -4,6 +4,7 @@
 
 import '../core_bindings.dart';
 
+/// Extension on [JInteger] providing conversions to Dart types.
 extension JIntegerExtension on JInteger {
   /// Returns the value as a Dart int.
   ///
