@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
 
@@ -44,7 +45,11 @@ final class ToolResolvingContext {
     Map<String, String>? environment,
     ProcessManager? processManager,
     FileSystem? fileSystem,
-  }) : environment = environment ?? Platform.environment,
+  }) : environment =
+           environment ??
+           (Zone.current[#nativeToolchainTestEnvironment]
+               as Map<String, String>?) ??
+           Platform.environment,
        processManager = processManager ?? const LocalProcessManager(),
        fileSystem = fileSystem ?? const LocalFileSystem();
 }
@@ -90,6 +95,7 @@ class PathToolResolver extends ToolResolver {
     final process = await runProcess(
       executable: which,
       arguments: [executableName],
+      environment: context.environment,
       logger: context.logger,
       processManager: context.processManager,
     );
@@ -107,7 +113,6 @@ class PathToolResolver extends ToolResolver {
       return uri;
     }
     // The exit code for executable not being on the `PATH`.
-    assert(process.exitCode == 1);
     return null;
   }
 }

@@ -11,12 +11,64 @@ import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
+import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/native_toolchain/wsl.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:process/process.dart';
 import 'package:test/test.dart';
+
+/// Runs [body] with [environment] overriding the process environment in
+/// [ToolResolvingContext] and [runProcess].
+Future<T> runWithEnvironment<T>(
+  Map<String, String> environment,
+  Future<T> Function() body,
+) => runZoned(body, zoneValues: {#nativeToolchainTestEnvironment: environment});
+
+Uri? _cachedLlvmReadobjUri;
+bool _llvmReadobjResolved = false;
+
+/// Resolves `llvm-readobj` from the SDK `buildtools` or host Clang toolchain.
+Future<Uri?> resolveLlvmReadobj() async {
+  if (_llvmReadobjResolved) {
+    return _cachedLlvmReadobjUri;
+  }
+  final exeName = OS.current.executableFileName('llvm-readobj');
+  final executableUri = Uri.file(Platform.resolvedExecutable);
+  final candidates = <Uri>[
+    packageUri.resolve('../../../../buildtools/linux-x64/clang/bin/$exeName'),
+    packageUri.resolve('../../../../buildtools/mac-x64/clang/bin/$exeName'),
+    packageUri.resolve('../../../../buildtools/mac-arm64/clang/bin/$exeName'),
+    packageUri.resolve('../../../../buildtools/win-x64/clang/bin/$exeName'),
+    executableUri.resolve('../../buildtools/linux-x64/clang/bin/$exeName'),
+    executableUri.resolve('../../../buildtools/linux-x64/clang/bin/$exeName'),
+    executableUri.resolve(
+      '../../../../buildtools/linux-x64/clang/bin/$exeName',
+    ),
+  ];
+  for (final candidate in candidates) {
+    final file = File.fromUri(candidate);
+    if (await file.exists()) {
+      _cachedLlvmReadobjUri = file.uri;
+      _llvmReadobjResolved = true;
+      return _cachedLlvmReadobjUri;
+    }
+  }
+  final clangInstances = await clang.defaultResolver!.resolve(
+    ToolResolvingContext(logger: null, environment: Platform.environment),
+  );
+  for (final instance in clangInstances) {
+    final sibling = instance.uri.resolve(exeName);
+    if (await File.fromUri(sibling).exists()) {
+      _cachedLlvmReadobjUri = sibling;
+      _llvmReadobjResolved = true;
+      return _cachedLlvmReadobjUri;
+    }
+  }
+  _llvmReadobjResolved = true;
+  return null;
+}
 
 /// Returns a suffix for a test that is parameterized.
 ///
@@ -197,9 +249,27 @@ final readElfMachine = {
   Architecture.riscv64: 'RISC-V',
 };
 
+final llvmReadobjArch = {
+  Architecture.arm: 'arm',
+  Architecture.arm64: 'aarch64',
+  Architecture.arm64e: 'aarch64',
+  Architecture.ia32: 'i386',
+  Architecture.x64: 'x86_64',
+  Architecture.riscv32: 'riscv32',
+  Architecture.riscv64: 'riscv64',
+};
+
 Future<String> readelf(String filePath, String flags) async {
+  final llvmReadobjUri = await resolveLlvmReadobj();
+  final llvmReadelfUri = llvmReadobjUri?.resolve(
+    OS.current.executableFileName('llvm-readelf'),
+  );
+  final executable =
+      llvmReadelfUri != null && await File.fromUri(llvmReadelfUri).exists()
+      ? llvmReadelfUri
+      : Uri.file('readelf');
   final result = await runProcess(
-    executable: Uri.file('readelf'),
+    executable: executable,
     arguments: ['-$flags', filePath],
     logger: logger,
     processManager: const LocalProcessManager(),
@@ -217,6 +287,22 @@ List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
 /// Returns null if the tool to extract the symbols is not available.
 Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
+  final llvmReadobjUri = await resolveLlvmReadobj();
+  if (llvmReadobjUri != null) {
+    final flag = switch (targetOS) {
+      .windows => '--coff-exports',
+      .macOS || .iOS => '--symbols',
+      OS() => '--dyn-symbols',
+    };
+    final result = await runProcess(
+      executable: llvmReadobjUri,
+      arguments: [flag, assetUri.toFilePath()],
+      logger: logger,
+      processManager: const LocalProcessManager(),
+    );
+    expect(result.exitCode, 0);
+    return result.stdout;
+  }
   switch (targetOS) {
     case .windows:
       final result = await _runDumpbin(['/EXPORTS'], asset.file!);
@@ -256,10 +342,21 @@ Future<void> expectSymbolNotUndefined(
       .split('\n')
       .where((line) => line.contains(' U ') && line.contains(symbol))
       .toList();
+  final llvmUndefinedPattern = RegExp(
+    r'Symbol \{[^}]*Name:\s*' +
+        RegExp.escape(symbol) +
+        r'\b[^}]*Section:\s*Undefined',
+    multiLine: true,
+  );
   expect(
     undefinedMatches,
     isEmpty,
     reason: '$symbol should not be an undefined symbol',
+  );
+  expect(
+    llvmUndefinedPattern.hasMatch(symbols),
+    isFalse,
+    reason: '$symbol should not be an undefined symbol in llvm-readobj output',
   );
 }
 
@@ -456,13 +553,28 @@ final dumpbinFileFormat = {
 /// Checks that the provided [libUri] binary has the correct format to be
 /// executed on the provided [targetArch] architecture.
 ///
-/// On Linux, the format of the binary is determined by `readelf`. On MacOS,
-/// the `objdump` tool is used. On Windows, `dumpbin` is used.
+/// Uses `llvm-readobj` when available; otherwise falls back to `readelf` on
+/// Linux, `objdump` on macOS, or `dumpbin` on Windows.
 Future<void> expectMachineArchitecture(
   Uri libUri,
   Architecture targetArch,
   OS targetOS,
 ) async {
+  final llvmReadobjUri = await resolveLlvmReadobj();
+  if (llvmReadobjUri != null) {
+    final result = await runProcess(
+      executable: llvmReadobjUri,
+      arguments: ['-h', libUri.toFilePath()],
+      logger: logger,
+      processManager: const LocalProcessManager(),
+    );
+    expect(result.exitCode, 0);
+    final archLine = result.stdout
+        .split('\n')
+        .firstWhere((e) => e.trimLeft().startsWith('Arch:'));
+    expect(archLine, contains(llvmReadobjArch[targetArch]));
+    return;
+  }
   if (Platform.isLinux) {
     final machine = await readelfMachine(libUri.path);
     expect(machine, contains(readElfMachine[targetArch]));
@@ -524,12 +636,7 @@ Future<void> expectMachineArchitecture(
 
 List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
   .macOS || .iOS => [.arm64, .arm64e, .x64],
-  .windows => [
-    // TODO(https://github.com/dart-lang/native/issues/170): Support arm64.
-    // Architecture.arm64,
-    .ia32,
-    .x64,
-  ],
+  .windows => [.arm64, .ia32, .x64],
   OS() => [.arm, .arm64, .ia32, .x64, .riscv64],
 };
 

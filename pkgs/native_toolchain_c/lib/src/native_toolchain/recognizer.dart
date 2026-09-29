@@ -72,10 +72,13 @@ class LinkerRecognizer implements ToolResolver {
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
-    if (filePath.contains('-ld')) {
-      tool = gnuLinker;
-    } else if (filePath.endsWith(os.executableFileName('ld.lld'))) {
+    if (filePath.endsWith(os.executableFileName('ld.lld')) ||
+        filePath.endsWith(os.executableFileName('ld64.lld')) ||
+        filePath.endsWith(os.executableFileName('lld-link')) ||
+        filePath.endsWith(os.executableFileName('lld'))) {
       tool = lld;
+    } else if (filePath.contains('-ld')) {
+      tool = gnuLinker;
     } else if (filePath.endsWith(os.executableFileName('ld'))) {
       tool = appleLd;
     } else if (filePath.endsWith('link.exe')) {
@@ -89,6 +92,7 @@ class LinkerRecognizer implements ToolResolver {
         return [
           await CliVersionResolver.lookupVersion(
             toolInstance,
+            arguments: const ['-flavor', 'gnu', '--version'],
             logger: logger,
             processManager: context.processManager,
           ),
