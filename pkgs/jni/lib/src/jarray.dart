@@ -63,7 +63,7 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
     return _newArray<$E>(jClass, length, fill);
   }
 
-  /// Creates a [JArray] from `elements`.
+  /// Creates a [JArray] from [elements].
   static JArray<$E> of<$E extends JObject?>(
       JType<$E> elementType, Iterable<$E> elements) {
     final len = elements.length;

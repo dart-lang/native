@@ -13,7 +13,7 @@ import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'types.dart';
 
-/// Error thrown when casting between incompatible `JObject` subclasses.
+/// Error thrown when casting between incompatible [JObject] subclasses.
 final class CastError extends Error {
   final String _message;
 

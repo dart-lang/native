@@ -40,16 +40,17 @@
 /// * Provide the location of library to `Jni.spawn` call.
 ///
 /// ## JNIEnv
-/// `GlobalJniEnv` type provides a thin wrapper over `JNIEnv*` which can be used
-/// from across threads, and always returns JNI global references. This is
-/// needed because Dart doesn't make guarantees about even the straight-line
-/// code being scheduled on the same thread.
+/// [Jni.env] provides a thin wrapper over `JNIEnv*` which can be used from
+/// across threads, and always returns JNI global references. This is needed
+/// because Dart doesn't make guarantees about even the straight-line code being
+/// scheduled on the same thread.
 ///
 /// ## Debugging
 /// Debugging JNI errors is hard in general.
 ///
-/// * On desktop platforms you can use `JniEnv.ExceptionDescribe` to print any
-/// pending exception to stdout.
+/// * On desktop platforms, methods on [Jni.env] such as
+///   `Jni.env.ExceptionDescribe()` can be used to print any pending
+///   exception to stdout.
 /// * On Android, things are slightly easier since CheckJNI is usually enabled
 /// in debug builds. If you are not getting clear stack traces on JNI errors,
 /// check the Android NDK page on how to enable CheckJNI using ADB.
@@ -59,6 +60,8 @@
 ///
 /// This library provides classes and functions for JNI interop from Dart.
 library;
+
+import 'src/jni.dart' show Jni;
 
 export 'package:ffi/ffi.dart' show Arena, using;
 

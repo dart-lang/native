@@ -47,7 +47,7 @@ final class $JClass$Type$ extends JType<JClass> {
   String get signature => r'Ljava/lang/Class;';
 }
 
-/// A thin wrapper over a `JFieldIDPtr` of an instance field.
+/// A thin wrapper over a [JFieldIDPtr] of an instance field.
 extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
   JInstanceFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) {
@@ -81,7 +81,7 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
   }
 }
 
-/// A thin wrapper over a `JFieldIDPtr` of a static field.
+/// A thin wrapper over a [JFieldIDPtr] of a static field.
 extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   JStaticFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) {
@@ -115,7 +115,7 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   }
 }
 
-/// A thin wrapper over a `JMethodIDPtr` of an instance method.
+/// A thin wrapper over a [JMethodIDPtr] of an instance method.
 class JInstanceMethodId {
   JMethodIDPtr pointer;
 
@@ -163,7 +163,7 @@ class JInstanceMethodId {
   }
 }
 
-/// A thin wrapper over a `JMethodIDPtr` of a static method.
+/// A thin wrapper over a [JMethodIDPtr] of a static method.
 extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
   JStaticMethodId._(
     JClass jClass,
@@ -205,7 +205,7 @@ extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
   }
 }
 
-/// A thin wrapper over a `JMethodIDPtr` of a constructor.
+/// A thin wrapper over a [JMethodIDPtr] of a constructor.
 extension type JConstructorId._fromPointer(JMethodIDPtr pointer) {
   JConstructorId._(
     JClass jClass,
