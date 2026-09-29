@@ -188,7 +188,7 @@ void _parseAnyMethod(
   methods.add(
     CppMethod(
       name: Symbol(methodName, SymbolKind.method),
-      cGlueSymbol: Symbol(symbol, SymbolKind.method),
+      cBindingSymbol: Symbol(symbol, SymbolKind.method),
       originalName: methodName,
       returnType: returnType,
       parameters: parameters,

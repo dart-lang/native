@@ -18,7 +18,7 @@ enum CppMethodKind { constructor, method }
 /// A method or constructor belonging to a C++ class.
 class CppMethod extends AstNode with HasLocalScope {
   final Symbol name;
-  final Symbol cGlueSymbol;
+  final Symbol cBindingSymbol;
   final String originalName;
 
   final Type returnType;
@@ -32,7 +32,7 @@ class CppMethod extends AstNode with HasLocalScope {
 
   CppMethod({
     required this.name,
-    required this.cGlueSymbol,
+    required this.cBindingSymbol,
     required this.originalName,
     required this.returnType,
     required this.parameters,
@@ -47,7 +47,7 @@ class CppMethod extends AstNode with HasLocalScope {
   CppMethod cloneForClass(CppClass targetClass, CppClass baseClass) {
     return CppMethod(
       name: name.clone(),
-      cGlueSymbol: Symbol(
+      cBindingSymbol: Symbol(
         '${targetClass.originalName}_$originalName',
         SymbolKind.method,
       ),
@@ -74,7 +74,7 @@ class CppMethod extends AstNode with HasLocalScope {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(name);
-    visitor.visit(cGlueSymbol);
+    visitor.visit(cBindingSymbol);
     visitor.visit(returnType);
     visitor.visitAll(parameters);
     visitor.visit(originatingClass);
@@ -266,7 +266,7 @@ class $name implements $implementsClause {
 ''');
 
     for (final ctor in constructors) {
-      final glueName = ctor.cGlueSymbol.name;
+      final glueName = ctor.cBindingSymbol.name;
       final privateName = '_$glueName';
 
       final dartParams = dartParamList(ctor.parameters);
@@ -293,7 +293,7 @@ class $name implements $implementsClause {
     }
 
     for (final method in classMethods) {
-      final glue = '_${method.cGlueSymbol.name}';
+      final glue = '_${method.cBindingSymbol.name}';
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = dartParamList(method.parameters);
       final localVars = LocalVariables(method.localScope);
@@ -379,7 +379,7 @@ class $name implements $implementsClause {
     }
 
     for (final method in methods) {
-      final symbol = method.cGlueSymbol.name;
+      final symbol = method.cBindingSymbol.name;
       final glue = '_$symbol';
 
       final cReturn = method.isConstructor
@@ -437,7 +437,7 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
 
     final methodBindings = methods
         .map((method) {
-          final symbol = method.cGlueSymbol.name;
+          final symbol = method.cBindingSymbol.name;
 
           final String returnTypeString;
           final String params;
