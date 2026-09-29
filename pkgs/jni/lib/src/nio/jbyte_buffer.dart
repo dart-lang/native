@@ -73,7 +73,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// directBuffer.nextByte = 42; // No problem!
 /// print(data1[0]); // prints 42!
 /// final data2 = directBuffer.asUint8List(releaseOriginal: true);
-/// // directBuffer.nextByte = 42; // throws [UseAfterReleaseException]!
+/// // directBuffer.nextByte = 42; // throws [UseAfterReleaseError]!
 /// ```
 extension type JByteBuffer._(JObject _$this) implements JBuffer {
   static final _class = JClass.forName(r'java/nio/ByteBuffer');
