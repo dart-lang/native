@@ -15,6 +15,9 @@ final class $JBuffer$Type$ extends JType<JBuffer> {
 
   @override
   String get signature => r'Ljava/nio/Buffer;';
+
+  @override
+  String get name => r'java/nio/Buffer';
 }
 
 /// A container for data of a specific primitive type.

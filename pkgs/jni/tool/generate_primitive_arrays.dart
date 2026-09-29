@@ -87,6 +87,9 @@ final class _\$$arrayName\$Type\$ extends JType<$arrayName> {
 
   @override
   String get signature => '[${type.signature}';
+
+  @override
+  String get name => signature;
 }
 
 /// A fixed-length array of Java $typeName.
