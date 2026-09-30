@@ -244,8 +244,6 @@ extension LinkerOptionsExt on LinkerOptions {
     final tempDir = fileSystem.systemTempDirectory.createTempSync();
     final symbolsFileUri = tempDir.uri.resolve('symbols.def');
     final symbolsFile = fileSystem.file(symbolsFileUri)..createSync();
-    // Omit the `LIBRARY` statement so that the linker uses the DLL name from
-    // `/OUT`.
     symbolsFile.writeAsStringSync(
       ['EXPORTS', for (final symbol in symbols) '    $symbol', ''].join('\n'),
     );
