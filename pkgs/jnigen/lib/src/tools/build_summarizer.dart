@@ -19,11 +19,7 @@ import '../util/find_package.dart';
 import 'gradle_tools.dart';
 
 final _toolPath = join('.', '.dart_tool', 'jnigen');
-// ignore: unused_element
-final _mvnTargetDir = join(_toolPath, 'target');
-final _gradleBuildDir = join('.', 'java', 'build');
-final _gradleTargetDir = join(_gradleBuildDir, 'libs');
-final _jarFile = join(_gradleTargetDir, 'ApiSummarizer.jar');
+final _jarFile = join('.', 'java', 'build', 'libs', 'ApiSummarizer.jar');
 final _targetJarFile = join(_toolPath, 'ApiSummarizer.jar');
 
 /// Builds the ApiSummarizer JAR using Gradle.
