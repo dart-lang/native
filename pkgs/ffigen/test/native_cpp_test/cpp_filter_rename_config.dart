@@ -2,34 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:ffigen/ffigen.dart';
-import 'package:path/path.dart' as path;
 
 FfiGenerator getConfig(Uri packageRoot) {
-  final testDir = Directory.fromUri(
-    packageRoot.resolve('test/native_cpp_test/'),
-  );
-
-  final defaultCppCompilerOptions = [
-    '-x',
-    'c++',
-    '-std=c++17',
-    if (Platform.isMacOS) ...['-isysroot', macSdkPath],
-  ];
+  final testDir = packageRoot.resolve('test/native_cpp_test/');
 
   return FfiGenerator(
     output: Output(
       dart: DartOutput(path: Uri.file('cpp_filter_rename_test_bindings.dart')),
       style: const NativeExternalBindings(assetId: 'package:ffigen/cpp_test'),
     ),
-    input: Input(
-      entryPoints: [
-        Uri.file(path.join(testDir.path, 'cpp_filter_rename_test.h')),
-      ],
-      compilerOptions: defaultCppCompilerOptions,
-    ),
+    input: Input(entryPoints: [testDir.resolve('cpp_filter_rename_test.h')]),
     cpp: const Cpp(),
     visitors: [
       Visitor(
