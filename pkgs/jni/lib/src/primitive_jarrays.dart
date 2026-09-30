@@ -49,6 +49,8 @@ extension type JBooleanArray._(JObject _$this) implements JObject {
     Jni.env.SetBooleanArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Uint8List].
   Uint8List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -58,6 +60,8 @@ extension type JBooleanArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<bool> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -145,6 +149,8 @@ extension type JByteArray._(JObject _$this) implements JObject {
     Jni.env.SetByteArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Int8List].
   Int8List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -153,6 +159,8 @@ extension type JByteArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -239,6 +247,8 @@ extension type JCharArray._(JObject _$this) implements JObject {
     Jni.env.SetCharArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Uint16List].
   Uint16List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -247,6 +257,8 @@ extension type JCharArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -333,6 +345,8 @@ extension type JShortArray._(JObject _$this) implements JObject {
     Jni.env.SetShortArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Int16List].
   Int16List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -341,6 +355,8 @@ extension type JShortArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -428,6 +444,8 @@ extension type JIntArray._(JObject _$this) implements JObject {
     Jni.env.SetIntArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Int32List].
   Int32List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -436,6 +454,8 @@ extension type JIntArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -522,6 +542,8 @@ extension type JLongArray._(JObject _$this) implements JObject {
     Jni.env.SetLongArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Int64List].
   Int64List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -530,6 +552,8 @@ extension type JLongArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -612,6 +636,8 @@ extension type JFloatArray._(JObject _$this) implements JObject {
     Jni.env.SetFloatArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Float32List].
   Float32List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -620,6 +646,8 @@ extension type JFloatArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<double> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -703,6 +731,8 @@ extension type JDoubleArray._(JObject _$this) implements JObject {
     Jni.env.SetDoubleArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [Float64List].
   Float64List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -711,6 +741,8 @@ extension type JDoubleArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<double> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
