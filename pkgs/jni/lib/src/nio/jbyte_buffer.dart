@@ -248,8 +248,7 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
   /// [releaseOriginal] is `false` (the default), a new global reference is
   /// created for the [Uint8List] and this buffer remains usable. If
   /// [releaseOriginal] is `true`, this buffer's reference is transferred to the
-  /// list and this buffer is released. In either case, the total number of
-  /// JNI global references remains the same.
+  /// list and this buffer is released.
   ///
   /// Because the Dart garbage collector is not aware of the limit on JNI global
   /// references, avoid keeping many of these lists alive at once. See JNIgen's
