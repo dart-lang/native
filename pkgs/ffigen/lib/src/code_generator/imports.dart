@@ -36,8 +36,8 @@ class LibraryImport extends AstNode {
   @override
   int get hashCode => name.hashCode;
 
-  /// The import path, which may be different if this library is being imported
-  /// into package:objective_c's generated code.
+  // The import path, which may be different if this library is being imported
+  // into package:objective_c's generated code.
   @internal
   String importPath(bool generateForPackageObjectiveC) {
     if (!generateForPackageObjectiveC) return _importPath;
