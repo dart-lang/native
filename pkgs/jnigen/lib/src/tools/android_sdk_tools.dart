@@ -12,20 +12,28 @@ import '../logging/logging.dart';
 
 class _AndroidToolsException implements Exception {
   _AndroidToolsException(this.message);
+
+  /// Error message describing the failure.
   String message;
+
   @override
   String toString() => message;
 }
 
+/// Exception thrown when the Android SDK cannot be found.
 class SdkNotFoundException extends _AndroidToolsException {
   SdkNotFoundException(super.message);
 }
 
+/// Exception thrown when a Gradle operation fails.
 class GradleException extends _AndroidToolsException {
   GradleException(super.message);
 }
 
+/// Utilities for locating Android SDK components and running Gradle stubs.
 class AndroidSdkTools {
+  /// Locates and returns the Android SDK root directory from the
+  /// `ANDROID_SDK_ROOT` environment variable.
   static Uri getAndroidSdkRoot() {
     final envVar = Platform.environment['ANDROID_SDK_ROOT'];
     if (envVar == null) {
@@ -68,6 +76,7 @@ class AndroidSdkTools {
       'control system or manually remove the stub functions named '
       '$_gradleGetClasspathTaskName and / or $_gradleGetSourcesTaskName.';
 
+  /// Finds the path to `android.jar` in [sdkRoot] according to [versionOrder].
   static Future<Uri?> getAndroidJarPath(
           {required Uri sdkRoot, required List<int> versionOrder}) async =>
       await _getFile(sdkRoot, 'platforms', versionOrder, 'android.jar');
