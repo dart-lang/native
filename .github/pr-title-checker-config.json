@@ -17,6 +17,7 @@
             "[native_test_helpers] ",
             "[native_toolchain_c] ",
             "[objective_c] ",
+            "[prebuilt_code_assets] ",
             "[pub_formats] ",
             "[record_use] ",
             "[swift2objc] ",
