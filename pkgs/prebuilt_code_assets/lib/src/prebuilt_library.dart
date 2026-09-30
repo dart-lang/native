@@ -444,8 +444,6 @@ class PrebuiltLibrary {
     final code = input.config.code;
     final linkerOptions = code.targetOS == OS.windows
         ? await createWindowsLinkerOptions(
-            outputDirectory: input.outputDirectory,
-            libraryName: name,
             staticLibrary: staticLibrary,
             symbols: symbols,
             allKnownSymbols: allKnownSymbols,

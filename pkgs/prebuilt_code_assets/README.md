@@ -19,7 +19,7 @@ Modeled after `CLibrary` in `package:native_toolchain_c`, a single `PrebuiltLibr
   - `auto` (default): Tree-shakes when possible. If no static library is released for a target, or if linking fails in `fetch` mode (e.g. no C toolchain for the target), prints a warning and bundles the prebuilt dynamic library instead.
   - `on`: Always tree-shakes, and fails the build if that is not possible.
   - `off`: Never tree-shakes; bundles the dynamic library directly without running the C linker.
-  - On Windows, only exports symbols the `.lib` defines, and switches to a `.def` module-definition file when `/INCLUDE:<symbol>` flags would exceed the 32k command-line limit.
+  - On Windows, only exports symbols the `.lib` defines, via the `.def` module-definition file that `package:native_toolchain_c` generates.
   - On Windows, don't mark functions with `__declspec(dllexport)` when compiling the static library: the linker then exports, and so keeps, every such function in each object file it links, even unused ones. The `.def` file already determines the exports.
   - Any other assets routed to the package's link hook are forwarded unchanged.
 - **Maintainer CLI runners** (`package:prebuilt_code_assets/tools.dart`):

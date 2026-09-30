@@ -55,17 +55,13 @@ Set<String> definedBindingsInCoffArchive(
 /// Creates [LinkerOptions] for linking a Windows DLL exporting [symbols] (or
 /// all bound functions in [allKnownSymbols] if [symbols] is `null`).
 ///
-/// Only exports functions that [staticLibrary] actually defines, and falls back
-/// to generating a `<libraryName>.def` module-definition file when [symbols] is
-/// `null` or when `/INCLUDE:<symbol>` flags would approach Windows' 32,767
-/// character command-line limit.
+/// Only exports functions that [staticLibrary] actually defines: a DLL has to
+/// list its exports explicitly, and exporting a symbol that the archive does
+/// not define fails the link.
 Future<LinkerOptions> createWindowsLinkerOptions({
-  required Uri outputDirectory,
-  required String libraryName,
   required Uri staticLibrary,
   required List<String>? symbols,
   Iterable<String>? allKnownSymbols,
-  int maxCommandLineChars = 24000,
 }) async {
   final archiveBytes = await File.fromUri(staticLibrary).readAsBytes();
   final candidates = allKnownSymbols ?? symbols;
@@ -73,23 +69,5 @@ Future<LinkerOptions> createWindowsLinkerOptions({
       ? definedBindingsInCoffArchive(archiveBytes, candidates)
       : parseCoffArchiveSymbols(archiveBytes);
   final exports = symbols?.where(defined.contains).toList() ?? [...defined];
-
-  // `LinkerOptions.treeshake` passes an `/INCLUDE:<symbol>` per symbol, and
-  // Windows limits command lines to 32767 characters. Leave room for paths and
-  // other linker flags.
-  final includesLength = exports.fold<int>(0, (sum, s) => sum + s.length + 10);
-  if (symbols != null && includesLength < maxCommandLineChars) {
-    return LinkerOptions.treeshake(symbolsToKeep: exports);
-  }
-
-  // Link the whole archive instead and use a `.def` module-definition file to
-  // specify which symbols the DLL exports.
-  final moduleDefinition = outputDirectory.resolve('$libraryName.def');
-  await File.fromUri(moduleDefinition).writeAsString(
-    ['EXPORTS', for (final symbol in exports) '    $symbol', ''].join('\n'),
-  );
-  return LinkerOptions.manual(
-    linkerScript: moduleDefinition,
-    symbolsToKeep: null,
-  );
+  return LinkerOptions.treeshake(symbolsToKeep: exports);
 }

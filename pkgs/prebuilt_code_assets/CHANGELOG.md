@@ -45,6 +45,10 @@
 - Fixed `link` not falling back to the prebuilt dynamic library in
   `treeshake: auto` mode when reading the symbols of a Windows static library
   fails.
+- On Windows, `link` always uses `LinkerOptions.treeshake`, which no longer
+  exceeds the command-line length limit for thousands of symbols, instead of
+  writing its own `.def` file and linking the whole archive in that case.
+  Requires `package:native_toolchain_c` 0.19.6.
 - Fixed `link` dropping other assets routed to the package's link hook, and
   matching assets whose ID merely ends with `assetName`.
 - Fixed the default logger mutating the global root logger and adding a new

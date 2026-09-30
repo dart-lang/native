@@ -9,6 +9,7 @@ import 'dart:typed_data';
 import 'package:code_assets/code_assets.dart';
 import 'package:crypto/crypto.dart';
 import 'package:hooks/hooks.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart' show LinkerOptions;
 import 'package:prebuilt_code_assets/prebuilt_code_assets.dart';
 import 'package:prebuilt_code_assets/src/coff_archive.dart';
 import 'package:prebuilt_code_assets/tools.dart';
@@ -214,55 +215,26 @@ void main() {
       return libFile;
     }
 
-    test('uses /INCLUDE flags for short symbol lists', () async {
+    test('only exports symbols the archive defines', () async {
       final tempDir = await Directory.systemTemp.createTemp('coff_test_');
       addTearDown(() => tempDir.delete(recursive: true));
       final libFile = await writeLib(tempDir, ['sym_a', 'sym_b']);
 
-      await createWindowsLinkerOptions(
-        outputDirectory: tempDir.uri,
-        libraryName: 'test_lib',
+      Future<LinkerOptions> options(
+        List<String>? symbols, [
+        List<String>? allKnownSymbols,
+      ]) => createWindowsLinkerOptions(
         staticLibrary: libFile.uri,
-        symbols: const ['sym_a', 'sym_missing'],
+        symbols: symbols,
+        allKnownSymbols: allKnownSymbols,
       );
-      expect(
-        File.fromUri(tempDir.uri.resolve('test_lib.def')).existsSync(),
-        isFalse,
-      );
+
+      expect((await options(['sym_a', 'sym_missing'])).skipWholeLibrary, false);
+      expect((await options(['sym_missing'])).skipWholeLibrary, true);
+      expect((await options(null, ['sym_b', 'sym_c'])).skipWholeLibrary, false);
+      expect((await options(null, ['sym_c'])).skipWholeLibrary, true);
+      expect((await options(null)).skipWholeLibrary, false);
     });
-
-    test(
-      'generates .def file when symbols is null or exceeds max length',
-      () async {
-        final tempDir = await Directory.systemTemp.createTemp('coff_test_');
-        addTearDown(() => tempDir.delete(recursive: true));
-        final libFile = await writeLib(tempDir, ['sym_a', 'sym_b']);
-        final defFile = File.fromUri(tempDir.uri.resolve('test_lib.def'));
-
-        await createWindowsLinkerOptions(
-          outputDirectory: tempDir.uri,
-          libraryName: 'test_lib',
-          staticLibrary: libFile.uri,
-          symbols: null,
-          allKnownSymbols: const ['sym_a', 'sym_b', 'sym_c'],
-        );
-        final defContent = await defFile.readAsString();
-        expect(defContent, contains('EXPORTS'));
-        expect(defContent, contains('    sym_a'));
-        expect(defContent, contains('    sym_b'));
-        expect(defContent, isNot(contains('sym_c')));
-
-        await defFile.delete();
-        await createWindowsLinkerOptions(
-          outputDirectory: tempDir.uri,
-          libraryName: 'test_lib',
-          staticLibrary: libFile.uri,
-          symbols: const ['sym_a'],
-          maxCommandLineChars: 1,
-        );
-        expect(await defFile.readAsString(), contains('    sym_a'));
-      },
-    );
   });
 
   group('SymbolsResolvers', () {

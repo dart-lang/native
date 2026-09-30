@@ -230,6 +230,10 @@ dependencies:
   prebuilt_code_assets:
     path: ${yamlString(repoRoot.toFilePath())}
   record_use: any
+
+dependency_overrides:
+  native_toolchain_c:
+    path: ${yamlString(repoRoot.resolve('../native_toolchain_c/').toFilePath())}
 ''');
     if (defines.isNotEmpty) {
       buffer
