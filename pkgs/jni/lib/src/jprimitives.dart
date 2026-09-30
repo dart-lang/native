@@ -8,8 +8,10 @@
 
 part of 'types.dart';
 
+/// Base class for Java primitive types.
 abstract final class JPrimitive {}
 
+/// The Java `byte` primitive type.
 abstract final class jbyte extends JPrimitive {
   static const type = jbyteType();
 }
@@ -77,6 +79,7 @@ final class jbyteType extends JTypeBase<jbyte>
   }
 }
 
+/// The Java `boolean` primitive type.
 abstract final class jboolean extends JPrimitive {
   static const type = jbooleanType();
 }
@@ -144,6 +147,7 @@ final class jbooleanType extends JTypeBase<jboolean>
   }
 }
 
+/// The Java `char` primitive type.
 abstract final class jchar extends JPrimitive {
   static const type = jcharType();
 }
@@ -211,6 +215,7 @@ final class jcharType extends JTypeBase<jchar>
   }
 }
 
+/// The Java `short` primitive type.
 abstract final class jshort extends JPrimitive {
   static const type = jshortType();
 }
@@ -278,6 +283,7 @@ final class jshortType extends JTypeBase<jshort>
   }
 }
 
+/// The Java `int` primitive type.
 abstract final class jint extends JPrimitive {
   static const type = jintType();
 }
@@ -345,6 +351,7 @@ final class jintType extends JTypeBase<jint>
   }
 }
 
+/// The Java `long` primitive type.
 abstract final class jlong extends JPrimitive {
   static const type = jlongType();
 }
@@ -412,6 +419,7 @@ final class jlongType extends JTypeBase<jlong>
   }
 }
 
+/// The Java `float` primitive type.
 abstract final class jfloat extends JPrimitive {
   static const type = jfloatType();
 }
@@ -479,6 +487,7 @@ final class jfloatType extends JTypeBase<jfloat>
   }
 }
 
+/// The Java `double` primitive type.
 abstract final class jdouble extends JPrimitive {
   static const type = jdoubleType();
 }
@@ -546,6 +555,7 @@ final class jdoubleType extends JTypeBase<jdouble>
   }
 }
 
+/// The Java `void` primitive type.
 abstract final class jvoid extends JPrimitive {
   static const type = jvoidType();
 }
