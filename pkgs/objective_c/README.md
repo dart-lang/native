@@ -15,8 +15,8 @@ https://pub.dev/packages/ffigen
 For general information about interop with Objective C, see
 https://dart.dev/guides/libraries/objective-c-interop
 
-For details on Objective-C runtime types and subtyping with Dart extension types,
-see the [Objective-C Runtime Types topic](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Runtime%20Types-topic.html).
+You can find more documentation about Objective-C interop using FFIgen in
+the TOPICS section in [FFIgen's API documentation](https://pub.dev/documentation/ffigen/latest/).
 
 ## Memory management
 

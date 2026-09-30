@@ -369,9 +369,8 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 
 /// A reference to an Objective-C object.
 ///
-/// Wraps a raw Objective-C pointer and manages its retain/release lifecycle.
-///
-/// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
+/// This is an internal API for use by ffigen bindings and internal machinery.
+/// Do not use directly.
 @pragma('vm:deeply-immutable')
 final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
@@ -429,6 +428,10 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
 // a protocol and an interface.
 typedef ObjCProtocol = ObjCObject;
 
+/// A reference to an Objective-C block.
+///
+/// This is an internal API for use by ffigen bindings and internal machinery.
+/// Do not use directly.
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})
