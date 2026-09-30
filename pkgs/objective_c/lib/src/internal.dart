@@ -289,16 +289,15 @@ abstract final class _ObjCReference<T extends NativeType>
 
   /// Manually releases the underlying reference.
   ///
-  /// Disassociates the object from Dart's garbage collector. Throws a
-  /// [DoubleReleaseError] if called more than once.
+  /// Throws a [DoubleReleaseError] if this reference has already been
+  /// released.
   ///
   /// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
   void release() => _release(r.objectRelease);
 
   /// Releases the reference by adding it to the current autorelease pool.
   ///
-  /// Disassociates the object from Dart's garbage collector. Throws a
-  /// [DoubleReleaseError] if called after this reference has already been
+  /// Throws a [DoubleReleaseError] if this reference has already been
   /// released.
   ///
   /// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
