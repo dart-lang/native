@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' as meta;
-
 import '../code_generator.dart' as internal;
 import '../code_generator/imports.dart' show LibraryImport;
 import 'config.dart';
@@ -687,55 +685,36 @@ class UnnamedEnumConstant extends DeclNode {
   set isIncluded(bool value) => _constant.isIncluded = value;
 }
 
-/// An imported type which will be used in the generated code.
+/// Represents a type imported from another library.
 class ImportedType {
-  final internal.ImportedType _type;
+  /// The library from which this type is imported.
+  final LibraryImport libraryImport;
 
-  /// The [LibraryImport] representing the library where this type is defined.
-  LibraryImport get libraryImport => _type.libraryImport;
-
-  /// The Dart representation of the C type. Must be an FFI `NativeType` (e.g.
-  /// `'Int64'`, `'Pointer<Void>'`, or the name of a `Struct`).
-  String get cType => _type.cType;
+  /// The C representation of the type (e.g. `'int'`, `'void*'`).
+  final String cType;
 
   /// The Dart representation of the type (e.g. `'int'`, `'double'`).
-  String get dartType => _type.dartType;
+  final String dartType;
 
   /// The type as it appears in native code (e.g. `'int64_t'` or `'time_t'`).
-  String get nativeType => _type.nativeType;
+  final String nativeType;
 
   /// An optional default value expression for this type when used as an
   /// optional parameter.
-  String? get defaultValue => _type.defaultValue;
+  final String? defaultValue;
 
   /// Whether the [dartType] is an import from the [libraryImport].
   ///
   /// When `true`, [dartType] will be prefixed with the import prefix in
   /// generated Dart signatures.
-  bool get importedDartType => _type.importedDartType;
+  final bool importedDartType;
 
   ImportedType(
-    LibraryImport libraryImport,
-    String cType,
-    String dartType,
-    String nativeType, {
-    String? defaultValue,
-    bool importedDartType = false,
-  }) : _type = internal.ImportedType(
-         libraryImport,
-         cType,
-         dartType,
-         nativeType,
-         defaultValue: defaultValue,
-         importedDartType: importedDartType,
-       );
-
-  @meta.internal
-  ImportedType.fromInternal(this._type);
-
-  @meta.internal
-  internal.ImportedType get toInternal => _type;
-
-  @override
-  String toString() => _type.toString();
+    this.libraryImport,
+    this.cType,
+    this.dartType,
+    this.nativeType, {
+    this.defaultValue,
+    this.importedDartType = false,
+  });
 }

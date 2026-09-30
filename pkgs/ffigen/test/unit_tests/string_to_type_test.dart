@@ -213,7 +213,7 @@ void main() {
           }
           return null;
         });
-        expect(type, customType.toInternal);
+        expect(type, ImportedType.fromPublic(customType));
       });
 
       test('importType overrides primitive type', () {
@@ -229,7 +229,7 @@ void main() {
           }
           return null;
         });
-        expect(type, overrideType.toInternal);
+        expect(type, ImportedType.fromPublic(overrideType));
       });
 
       test('importType with pointers', () {
@@ -242,7 +242,7 @@ void main() {
         expect(type, isA<PointerType>());
         final c1 = (type as PointerType).child;
         expect(c1, isA<PointerType>());
-        expect((c1 as PointerType).child, customType.toInternal);
+        expect((c1 as PointerType).child, ImportedType.fromPublic(customType));
       });
     });
 

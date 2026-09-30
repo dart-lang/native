@@ -184,7 +184,7 @@ public_ast.ImportedType? Function(Declaration) importFromSymbolFiles(
     if (decl.usr.isNotEmpty) {
       final internal = typeMap[decl.usr];
       if (internal != null) {
-        return public_ast.ImportedType.fromInternal(internal);
+        return internal.toPublic;
       }
     }
     return null;
@@ -321,7 +321,7 @@ Type makeBaseTypeFromRawVarArgType(
   }
   if (importType.call(Declaration(usr: '', originalName: rawBaseType))
       case final imported?) {
-    return imported.toInternal;
+    return ImportedType.fromPublic(imported);
   } else if (cxTypeKindToImportedTypes[rawBaseType] case final type?) {
     return type;
   } else if (supportedTypedefToImportedType[rawBaseType] case final type?) {

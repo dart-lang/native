@@ -1234,9 +1234,7 @@ final class YamlConfig {
           structTypeMappings[decl.originalName] ??
           unionTypeMappings[decl.originalName] ??
           nativeTypeMappings[decl.originalName];
-      return imported != null
-          ? public_ast.ImportedType.fromInternal(imported)
-          : null;
+      return imported?.toPublic;
     }
 
     return FfiGenerator(

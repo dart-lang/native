@@ -184,7 +184,7 @@ Type getCodeGenType(
       final imported = context.config.importType(
         Declaration(usr: '', originalName: typeSpellKey),
       );
-      if (imported != null) return imported.toInternal;
+      if (imported != null) return ImportedType.fromPublic(imported);
       if (cxTypeKindToImportedTypes.containsKey(typeSpellKey)) {
         return cxTypeKindToImportedTypes[typeSpellKey]!;
       } else {
@@ -206,7 +206,7 @@ Type? _createTypeFromCursor(
   final config = context.config;
   final usr = cursor.usr();
   final imported = context.config.importType(cursor.declaration());
-  if (imported != null) return imported.toInternal;
+  if (imported != null) return ImportedType.fromPublic(imported);
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
@@ -219,7 +219,9 @@ Type? _createTypeFromCursor(
       final importedTypedef = context.config.importType(
         Declaration(usr: usr, originalName: spelling),
       );
-      if (importedTypedef != null) return importedTypedef.toInternal;
+      if (importedTypedef != null) {
+        return ImportedType.fromPublic(importedTypedef);
+      }
       // Get name from supported typedef name.
       if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
         logger.fine('  Type Mapped from supported typedef');
@@ -303,7 +305,7 @@ Type? _extractfromRecord(
   final isUnion = cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl;
   if (isClassOrStruct || isUnion) {
     final imported = context.config.importType(cursor.declaration());
-    if (imported != null) return imported.toInternal;
+    if (imported != null) return ImportedType.fromPublic(imported);
     return isUnion
         ? parseUnionDeclaration(cursor, context)
         : parseStructDeclaration(cursor, context);
