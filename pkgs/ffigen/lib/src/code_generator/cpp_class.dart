@@ -430,7 +430,9 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
         .map((method) {
           final symbol = method.name.name;
 
-          final String returnTypeString;
+          final returnTypeString = method.isConstructor
+              ? '$originalName*'
+              : method.returnType.getExternCType(context).trim();
           final String params;
           final String body;
 
@@ -441,12 +443,9 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
               .join(', ');
 
           if (method.isConstructor) {
-            returnTypeString = '$originalName*';
             params = method.parameters.map(paramDecl).join(', ');
             body = 'return new $originalName($callArgs);';
           } else {
-            returnTypeString = method.returnType.getExternCType(context).trim();
-
             final otherParams = method.parameters.map(paramDecl);
 
             final String callExpr;
@@ -508,7 +507,7 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
 
   @override
   String getExternCType(Context context, {String varName = ''}) =>
-      varName.isEmpty ? '$originalName*' : '$originalName* $varName';
+      '$originalName* $varName';
 
   @override
   bool get sameNativeAndExternCType => false;
