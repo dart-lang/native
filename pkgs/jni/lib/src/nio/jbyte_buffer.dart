@@ -255,7 +255,18 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
 
   /// Returns this byte buffer as a [Uint8List].
   ///
-  /// If [releaseOriginal] is `true`, this byte buffer will be released.
+  /// The returned [Uint8List] holds a JNI global reference to this buffer.
+  /// Unlike a [JObject], the [Uint8List] cannot be explicitly released; the
+  /// reference is only deleted when the list is garbage collected. If
+  /// [releaseOriginal] is `false` (the default), a new global reference is
+  /// created for the [Uint8List] and this buffer remains usable. If
+  /// [releaseOriginal] is `true`, this buffer's reference is transferred to the
+  /// list and this buffer is released.
+  ///
+  /// Because the Dart garbage collector is not aware of the limit on JNI global
+  /// references, avoid keeping many of these lists alive at once. See JNIgen's
+  /// [lifecycle](https://pub.dev/documentation/jnigen/latest/topics/Lifecycle-topic.html)
+  /// documentation for more information.
   ///
   /// Throws [StateError] if the buffer is not direct
   /// (see [JByteBuffer.allocateDirect]) or the JVM does not support the direct
