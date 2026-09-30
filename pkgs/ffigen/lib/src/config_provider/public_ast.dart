@@ -737,12 +737,5 @@ class ImportedType {
   internal.ImportedType get toInternal => _type;
 
   @override
-  bool operator ==(Object other) =>
-      other is ImportedType && _type == other._type;
-
-  @override
-  int get hashCode => _type.hashCode;
-
-  @override
   String toString() => _type.toString();
 }

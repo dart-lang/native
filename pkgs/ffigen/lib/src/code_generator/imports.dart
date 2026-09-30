@@ -106,27 +106,6 @@ class ImportedType extends Type {
   bool get sameFfiDartAndCType => cType == dartType;
 
   @override
-  bool operator ==(Object other) {
-    return other is ImportedType &&
-        libraryImport == other.libraryImport &&
-        cType == other.cType &&
-        dartType == other.dartType &&
-        nativeType == other.nativeType &&
-        defaultValue == other.defaultValue &&
-        importedDartType == other.importedDartType;
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    libraryImport,
-    cType,
-    dartType,
-    nativeType,
-    defaultValue,
-    importedDartType,
-  );
-
-  @override
   String toString() => '${libraryImport.name}.$cType';
 
   @override
