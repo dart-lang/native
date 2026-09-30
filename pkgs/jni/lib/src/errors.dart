@@ -6,12 +6,17 @@ import 'dart:io';
 
 import 'package:meta/meta.dart' show internal;
 
+import 'jni.dart' show Jni;
 import 'third_party/generated_bindings.dart';
 
 // TODO(#567): Add the fact that [JException] is now a [JObject] to the
 // CHANGELOG.
 
 mixin _ExplainsRelease on StateError {
+  /// The stack trace where the object was released, if captured.
+  ///
+  /// Stack traces at release time can be captured by setting
+  /// [Jni.captureStackTraceOnRelease].
   String? get releaseStackTrace;
 
   @override
@@ -28,7 +33,13 @@ mixin _ExplainsRelease on StateError {
   }
 }
 
+/// Error thrown when an operation is performed on an object whose underlying
+/// JNI reference has been released.
 final class UseAfterReleaseError extends StateError with _ExplainsRelease {
+  /// The stack trace where the object was released, if captured.
+  ///
+  /// Stack traces at release time can be captured by setting
+  /// [Jni.captureStackTraceOnRelease].
   @override
   final String? releaseStackTrace;
 
@@ -37,17 +48,24 @@ final class UseAfterReleaseError extends StateError with _ExplainsRelease {
 }
 
 // TODO(#567): Use NullPointerError once it's available.
+/// Error thrown when an unexpected null reference is encountered.
 final class JNullError extends StateError {
   JNullError() : super('The reference was null');
 }
 
+/// Error thrown when a Java method or field cannot be found.
 final class NoSuchMethodError extends StateError {
   final String name;
 
   NoSuchMethodError(this.name) : super('No such method or field: $name');
 }
 
+/// Error thrown when attempting to release an already-released JNI reference.
 final class DoubleReleaseError extends StateError with _ExplainsRelease {
+  /// The stack trace where the object was first released, if captured.
+  ///
+  /// Stack traces at release time can be captured by setting
+  /// [Jni.captureStackTraceOnRelease].
   @override
   final String? releaseStackTrace;
 
@@ -83,35 +101,44 @@ sealed class JniError extends Error {
   }
 }
 
+/// Error representing a generic JNI failure.
 final class JniGenericError extends JniError {
   JniGenericError() : super('Generic JNI error');
 }
 
+/// Error representing a thread detached from the Java VM.
 final class JniThreadDetachedError extends JniError {
   JniThreadDetachedError() : super('Thread detached from VM');
 }
 
+/// Error representing a JNI version error.
 final class JniVersionError extends JniError {
   JniVersionError() : super('JNI version error');
 }
 
+/// Error representing a JNI out of memory condition.
 final class JniOutOfMemoryError extends JniError {
   JniOutOfMemoryError() : super('Out of memory');
 }
 
+/// Error representing that a Java VM has already been created.
 final class JniVmExistsError extends JniError {
   JniVmExistsError() : super('VM Already created');
 }
 
+/// Error representing invalid arguments passed to a JNI function.
 final class JniArgumentError extends JniError {
   JniArgumentError() : super('Invalid arguments');
 }
 
+/// Error thrown when attempting an operation that requires a JVM instance,
+/// but none is running.
 final class NoJvmInstanceError extends Error {
   @override
   String toString() => 'No JNI instance is available';
 }
 
+/// Error thrown when the JNI helper shared library cannot be found.
 final class HelperNotFoundError extends Error {
   final String path;
 
@@ -130,6 +157,7 @@ must be called.
 ''';
 }
 
+/// Error thrown when loading a dynamic library fails.
 final class DynamicLibraryLoadError extends Error {
   final String libraryPath;
 
@@ -147,8 +175,10 @@ Please ensure ${Platform.isWindows ? r'that `\bin\server\jvm.dll` is in the PATH
   }
 }
 
+/// Exception thrown when converting a Dart string to a Java string fails.
 final class JniNewStringException implements Exception {
   final String string;
+
   JniNewStringException(this.string);
 
   @override
