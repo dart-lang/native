@@ -97,6 +97,7 @@ extension SwiftGenGenerator on SwiftGenerator {
       ],
       input: fg.Input(
         entryPoints: [Uri.file(objcHeader)],
+        compilerOptions: ['-Wno-nullability-completeness'],
         appendCompilerOptions: true,
       ),
     );

@@ -117,28 +117,6 @@ class ImportedType extends Type {
     super.visitChildren(visitor);
     visitor.visit(libraryImport);
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ImportedType &&
-          (identical(_type, other._type) ||
-              (libraryImport == other.libraryImport &&
-                  cType == other.cType &&
-                  dartType == other.dartType &&
-                  nativeType == other.nativeType &&
-                  defaultValue == other.defaultValue &&
-                  importedDartType == other.importedDartType));
-
-  @override
-  int get hashCode => Object.hash(
-    libraryImport,
-    cType,
-    dartType,
-    nativeType,
-    defaultValue,
-    importedDartType,
-  );
 }
 
 /// An unchecked type similar to [ImportedType] which exists in the generated
