@@ -54,7 +54,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
         enumClass: (node) => node.isIncluded = true,
         global: (node) => node.isIncluded = true,
         macroConstant: (node) => node.isIncluded = true,
-        typealias: (node) => node.isIncluded = TypealiasInclude.always,
+        typealias: (node) => node.isIncluded = .always,
       ),
     ],
   );
