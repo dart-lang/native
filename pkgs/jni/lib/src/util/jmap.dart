@@ -9,7 +9,7 @@ import '../jobject.dart';
 import 'jiterator.dart';
 
 extension JMapToAdapter<K extends JObject?, V extends JObject?> on JMap<K, V> {
-  /// Wraps this [JMap] in an adapter that implements an immutable [Map].
+  /// Wraps this [JMap] in an adapter that implements a mutable [Map].
   ///
   /// This is not a conversion, doesn't create a new map, or change the
   /// elements.

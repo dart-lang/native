@@ -4,8 +4,6 @@
 
 // dart format width=74
 
-// ignore_for_file: avoid_print, unused_local_variable
-
 import 'package:jni/jni.dart';
 
 void allocateDirectExample() {
@@ -33,6 +31,7 @@ void releaseOriginalExample() {
   directBuffer.nextByte = 42; // No problem!
   print(data1[0]); // prints 42!
   final data2 = directBuffer.asUint8List(releaseOriginal: true);
-  // directBuffer.nextByte = 42; // throws [UseAfterReleaseException]!
+  // directBuffer.nextByte = 42; // throws [UseAfterReleaseError]!
   // snippet-end#release_original
+  print(data2);
 }
