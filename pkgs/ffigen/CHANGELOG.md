@@ -1,4 +1,4 @@
-## 22.1.0-wip
+## 22.1.0
 
 - The YAML configuration format is deprecated and will be removed in a future release.
 - Added `Input.appendCompilerOptions` to allow appending custom compiler

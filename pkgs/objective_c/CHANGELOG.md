@@ -1,4 +1,4 @@
-## 9.6.2-wip
+## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`
   (via `toNSString` or the `NSString` constructor) because the created
