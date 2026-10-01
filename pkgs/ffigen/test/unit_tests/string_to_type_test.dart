@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:ffigen/ffigen.dart' as ffigen;
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/spec_utils.dart';
 import 'package:test/test.dart';
@@ -198,7 +199,7 @@ void main() {
         'custom_lib',
         'package:custom/custom.dart',
       );
-      final customType = ImportedType(
+      final customType = ffigen.ImportedType(
         customLib,
         'CustomC',
         'CustomDart',
@@ -212,18 +213,33 @@ void main() {
           }
           return null;
         });
-        expect(type, customType);
+        expect(
+          type,
+          isA<ImportedType>().having((t) => t.toPublic, 'toPublic', customType),
+        );
       });
 
       test('importType overrides primitive type', () {
-        final overrideType = ImportedType(customLib, 'MyInt', 'int', 'int');
+        final overrideType = ffigen.ImportedType(
+          customLib,
+          'MyInt',
+          'int',
+          'int',
+        );
         final type = makeTypeFromRawVarArgType('int', (d) {
           if (d.originalName == 'int') {
             return overrideType;
           }
           return null;
         });
-        expect(type, overrideType);
+        expect(
+          type,
+          isA<ImportedType>().having(
+            (t) => t.toPublic,
+            'toPublic',
+            overrideType,
+          ),
+        );
       });
 
       test('importType with pointers', () {
@@ -236,7 +252,10 @@ void main() {
         expect(type, isA<PointerType>());
         final c1 = (type as PointerType).child;
         expect(c1, isA<PointerType>());
-        expect((c1 as PointerType).child, customType);
+        expect(
+          (c1 as PointerType).child,
+          isA<ImportedType>().having((t) => t.toPublic, 'toPublic', customType),
+        );
       });
     });
 

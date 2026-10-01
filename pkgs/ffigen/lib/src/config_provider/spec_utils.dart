@@ -18,6 +18,7 @@ import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config.dart';
 import 'config_types.dart';
+import 'public_ast.dart' as public_ast;
 import 'utils.dart';
 
 Map<String, LibraryImport> libraryImportsExtractor(
@@ -174,12 +175,20 @@ Map<String, ImportedType> _loadSymbolFiles(
 ///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
 /// );
 /// ```
-ImportedType? Function(Declaration) importFromSymbolFiles(
+public_ast.ImportedType? Function(Declaration) importFromSymbolFiles(
   Iterable<Uri> symbolFiles, {
   PackageConfig? packageConfig,
 }) {
   final typeMap = _loadSymbolFiles(symbolFiles, packageConfig, {});
-  return (Declaration decl) => decl.usr.isNotEmpty ? typeMap[decl.usr] : null;
+  return (Declaration decl) {
+    if (decl.usr.isNotEmpty) {
+      final internal = typeMap[decl.usr];
+      if (internal != null) {
+        return internal.toPublic;
+      }
+    }
+    return null;
+  };
 }
 
 /// Returns a function suitable for use as [FfiGenerator.importType] that
@@ -197,7 +206,7 @@ ImportedType? Function(Declaration) importFromSymbolFiles(
 ///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
 /// );
 /// ```
-ImportedType? Function(Declaration) importFromSymbolFile(
+public_ast.ImportedType? Function(Declaration) importFromSymbolFile(
   Uri symbolFile, {
   PackageConfig? packageConfig,
 }) => importFromSymbolFiles([symbolFile], packageConfig: packageConfig);
@@ -272,7 +281,7 @@ String makePostfixFromRawVarArgType(List<String> rawVarArgType) {
 
 Type makeTypeFromRawVarArgType(
   String rawVarArgType,
-  ImportedType? Function(Declaration declaration) importType,
+  public_ast.ImportedType? Function(Declaration declaration) importType,
 ) {
   final trimmed = rawVarArgType.trim();
   if (trimmed.isEmpty) {
@@ -304,7 +313,7 @@ Type makeTypeFromRawVarArgType(
 
 Type makeBaseTypeFromRawVarArgType(
   String rawBaseType,
-  ImportedType? Function(Declaration declaration) importType,
+  public_ast.ImportedType? Function(Declaration declaration) importType,
 ) {
   final typeStringRegexp = RegExp(r'^[a-zA-Z0-9_ \.]+$');
   if (!typeStringRegexp.hasMatch(rawBaseType)) {
@@ -312,7 +321,7 @@ Type makeBaseTypeFromRawVarArgType(
   }
   if (importType.call(Declaration(usr: '', originalName: rawBaseType))
       case final imported?) {
-    return imported;
+    return ImportedType.fromPublic(imported);
   } else if (cxTypeKindToImportedTypes[rawBaseType] case final type?) {
     return type;
   } else if (supportedTypedefToImportedType[rawBaseType] case final type?) {

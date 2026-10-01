@@ -20,8 +20,12 @@ export 'package:pub_semver/pub_semver.dart' show Version;
 
 enum Language { c, objc }
 
+/// Configuration for generated comments.
 class CommentType {
+  /// The style of comments to parse.
   final CommentStyle style;
+
+  /// The length of comments to generate.
   final CommentLength length;
 
   const CommentType(this.style, this.length);
@@ -38,11 +42,35 @@ class CommentType {
       length = CommentLength.none;
 }
 
-enum CommentStyle { doxygen, any }
+/// The style of comments to parse from headers.
+enum CommentStyle {
+  /// Parse Doxygen-style comments.
+  doxygen,
 
-enum CommentLength { none, brief, full }
+  /// Match any comments.
+  any,
+}
 
-enum CompoundDependencies { full, opaque }
+/// The length of comments to generate.
+enum CommentLength {
+  /// Do not generate comments.
+  none,
+
+  /// Generate brief comments.
+  brief,
+
+  /// Generate full comments.
+  full,
+}
+
+/// How dependent structs or unions are generated.
+enum CompoundDependencies {
+  /// Generate the full definition.
+  full,
+
+  /// Generate as an opaque struct or union.
+  opaque,
+}
 
 /// Controls whether and how a `Typealias` (typedef) is included in generated
 /// code.
@@ -510,7 +538,9 @@ class VarArgFunction {
   VarArgFunction({this.postfix = '', required this.types});
 }
 
+/// Struct byte alignment packing value override.
 class PackingValue {
+  /// The byte alignment packing value.
   int? value;
   PackingValue(this.value);
 }
@@ -546,7 +576,7 @@ class Declaration {
 /// versions, the API element is not generated at all.
 ///
 /// If all fields are `null`, no version based filtering is applied. If some
-/// fields are non-`null`, filtering is based on the the non-`null` fields.
+/// fields are non-`null`, filtering is based on the non-`null` fields.
 class ExternalVersions {
   /// Target version range for iOS.
   ///
