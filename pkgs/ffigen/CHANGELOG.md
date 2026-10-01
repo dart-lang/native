@@ -1,4 +1,4 @@
-## 22.1.0
+## 23.0.0
 
 - The YAML configuration format is deprecated and will be removed in a future
   release.
