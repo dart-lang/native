@@ -662,14 +662,6 @@ class ObjCMethod extends NamedNode {
   /// Defaults to `false`.
   bool get useAutoreleasePool => _method.useAutoreleasePool;
   set useAutoreleasePool(bool value) => _method.useAutoreleasePool = value;
-
-  /// Alias for [useAutoreleasePool].
-  bool get autoReleasePool => _method.useAutoreleasePool;
-  set autoReleasePool(bool value) => _method.useAutoreleasePool = value;
-
-  /// Alias for [useAutoreleasePool].
-  bool get useAutoReleasePool => _method.useAutoreleasePool;
-  set useAutoReleasePool(bool value) => _method.useAutoReleasePool = value;
 }
 
 /// An unnamed enum constant.

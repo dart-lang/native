@@ -1414,23 +1414,15 @@ unions:
       final publicMethod = publicObjCInterface.methods.first;
 
       expect(publicMethod.useAutoreleasePool, false);
-      expect(publicMethod.autoReleasePool, false);
-      expect(publicMethod.useAutoReleasePool, false);
       expect(cgObjCMethod.useAutoreleasePool, false);
 
       publicMethod.useAutoreleasePool = true;
       expect(publicMethod.useAutoreleasePool, true);
-      expect(publicMethod.autoReleasePool, true);
-      expect(publicMethod.useAutoReleasePool, true);
       expect(cgObjCMethod.useAutoreleasePool, true);
 
-      publicMethod.autoReleasePool = false;
+      publicMethod.useAutoreleasePool = false;
       expect(publicMethod.useAutoreleasePool, false);
       expect(cgObjCMethod.useAutoreleasePool, false);
-
-      publicMethod.useAutoReleasePool = true;
-      expect(publicMethod.useAutoreleasePool, true);
-      expect(cgObjCMethod.useAutoreleasePool, true);
     });
   });
 }

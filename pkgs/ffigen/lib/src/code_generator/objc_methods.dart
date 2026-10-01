@@ -216,10 +216,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool isIncluded = true;
   ObjCCategory? originCategory;
   bool useAutoreleasePool = false;
-  bool get autoReleasePool => useAutoreleasePool;
-  set autoReleasePool(bool value) => useAutoreleasePool = value;
-  bool get useAutoReleasePool => useAutoreleasePool;
-  set useAutoReleasePool(bool value) => useAutoreleasePool = value;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
