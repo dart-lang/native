@@ -18,7 +18,7 @@ abstract class Type extends AstNode {
   /// Get base type for any type.
   ///
   /// E.g int** has base [Type] of int.
-  /// double[2][3] has base [Type] of double.
+  /// `double[2][3]` has base [Type] of double.
   Type get baseType => this;
 
   /// Get base Array type.

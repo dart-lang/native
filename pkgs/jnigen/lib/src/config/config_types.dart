@@ -31,7 +31,10 @@ final _currentVersion = Version(1, 0, 0);
 /// JAR files will be automatically added to the source path and class path
 /// respectively.
 class MavenDownloads {
+  /// Default directory for unpacking Maven sources (`mvn_java/`).
   static final defaultMavenSourceDir = Uri.directory('mvn_java');
+
+  /// Default directory for downloading Maven JAR files (`mvn_jar/`).
   static final defaultMavenJarDir = Uri.directory('mvn_jar');
 
   MavenDownloads({
@@ -194,6 +197,8 @@ enum SummarizerBackend {
   doclet,
 }
 
+/// Parses [name] into a [SummarizerBackend] enum value, or returns
+/// [defaultVal].
 SummarizerBackend? getSummarizerBackend(
   String? name,
   SummarizerBackend? defaultVal,
@@ -221,6 +226,7 @@ enum OutputStructure {
   singleFile,
 }
 
+/// Parses [name] into an [OutputStructure] enum value, or returns [defaultVal].
 OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
   return _getEnumValueFromString(
     OutputStructure.values.valuesMap(),
