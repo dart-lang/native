@@ -24,8 +24,7 @@
 - **Breaking:** `fetchPrebuiltLibrary`'s `fallbackBuildModeName` is replaced by
   `canBuildFromSource`; it also accepts `logger`, timeouts, and `maxAttempts`.
 - **Breaking:** Removed `package:prebuilt_code_assets/testing.dart` (ELF
-  helpers) and stopped exporting the COFF archive helpers, which are
-  implementation details of `PrebuiltLibrary.link`.
+  helpers) and the COFF archive helpers.
 - **Breaking:** `runPrecompileBinariesCli` throws a `UsageException`
   (re-exported from `tools.dart`) instead of calling `exit`, and requires
   `--ios-sdk` for iOS so asset names match what `fetch` requests.
@@ -39,16 +38,17 @@
   iOS and both can depend on the architecture or SDK. A `null` `frameworks`
   now keeps the `CLinker` default (`Foundation`) instead of linking no
   frameworks; pass `(_) => const []` for the previous behavior.
+- **Breaking:** On Windows, without recorded uses, `link` exports
+  `allKnownSymbols`. If that is `null` too, `link` bundles the prebuilt dynamic
+  library in the `fetch` build mode and throws a `BuildError` otherwise,
+  instead of exporting every symbol of the static library.
 - Fixed `build` routing a static library to the link hook when linking is
   disabled but the link mode preference is static, which fails hook output
   validation.
-- Fixed `link` not falling back to the prebuilt dynamic library in
-  `treeshake: auto` mode when reading the symbols of a Windows static library
-  fails.
-- On Windows, `link` always uses `LinkerOptions.treeshake`, which no longer
-  exceeds the command-line length limit for thousands of symbols, instead of
-  writing its own `.def` file and linking the whole archive in that case.
-  Requires `package:native_toolchain_c` 0.19.6.
+- On Windows, `link` uses `LinkerOptions.treeshake` like on other platforms,
+  instead of reading the symbols of the static library itself.
+  `package:native_toolchain_c` 0.19.6, which this requires, only exports the
+  symbols that the static library defines, and supports thousands of them.
 - Fixed `link` dropping other assets routed to the package's link hook, and
   matching assets whose ID merely ends with `assetName`.
 - Fixed the default logger mutating the global root logger and adding a new
@@ -63,8 +63,6 @@
   registered for them.
 - `buildStandalone` accepts `packageName` and only sets up the macOS code config
   for macOS targets.
-- Malformed Windows `.lib` archives throw `FormatException` instead of
-  `RangeError`.
 - Added CI on Linux, macOS, and Windows, and an example.
 
 ## 0.1.2

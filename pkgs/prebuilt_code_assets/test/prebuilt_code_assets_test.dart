@@ -4,14 +4,11 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:crypto/crypto.dart';
 import 'package:hooks/hooks.dart';
-import 'package:native_toolchain_c/native_toolchain_c.dart' show LinkerOptions;
 import 'package:prebuilt_code_assets/prebuilt_code_assets.dart';
-import 'package:prebuilt_code_assets/src/coff_archive.dart';
 import 'package:prebuilt_code_assets/tools.dart';
 import 'package:record_use/record_use.dart' as record_use;
 import 'package:test/test.dart';
@@ -162,78 +159,6 @@ void main() {
           reason: '$bad',
         );
       }
-    });
-  });
-
-  group('COFF archive & Windows linker options', () {
-    Uint8List buildSyntheticCoffArchive(List<String> symbols) {
-      final builder = BytesBuilder();
-      builder.add(ascii.encode('!<arch>\n'));
-      // 60-byte archive member header with name '/'
-      builder.add(ascii.encode('/'.padRight(60, ' ')));
-      // 4-byte big-endian symbol count
-      final countBytes = ByteData(4)..setUint32(0, symbols.length, Endian.big);
-      builder.add(countBytes.buffer.asUint8List());
-      // 4-byte offset per symbol
-      for (var i = 0; i < symbols.length; i++) {
-        builder.add(const [0, 0, 0, 0]);
-      }
-      // NUL-terminated symbol strings
-      for (final s in symbols) {
-        builder.add(ascii.encode(s));
-        builder.addByte(0);
-      }
-      return builder.toBytes();
-    }
-
-    test('parses symbols and handles x86 underscore prefix', () {
-      final archive = buildSyntheticCoffArchive(['foo', '_bar', 'unmapped']);
-      expect(parseCoffArchiveSymbols(archive), {'foo', '_bar', 'unmapped'});
-      expect(
-        definedBindingsInCoffArchive(archive, ['foo', 'bar', 'missing']),
-        {'foo', 'bar'},
-      );
-    });
-
-    test('throws FormatException for truncated archives', () {
-      final archive = buildSyntheticCoffArchive(['foo', 'bar']);
-      expect(
-        () => parseCoffArchiveSymbols(
-          Uint8List.sublistView(archive, 0, archive.length - 2),
-        ),
-        throwsFormatException,
-      );
-      expect(
-        () => parseCoffArchiveSymbols(Uint8List.sublistView(archive, 0, 10)),
-        throwsFormatException,
-      );
-    });
-
-    Future<File> writeLib(Directory dir, List<String> symbols) async {
-      final libFile = File.fromUri(dir.uri.resolve('test.lib'));
-      await libFile.writeAsBytes(buildSyntheticCoffArchive(symbols));
-      return libFile;
-    }
-
-    test('only exports symbols the archive defines', () async {
-      final tempDir = await Directory.systemTemp.createTemp('coff_test_');
-      addTearDown(() => tempDir.delete(recursive: true));
-      final libFile = await writeLib(tempDir, ['sym_a', 'sym_b']);
-
-      Future<LinkerOptions> options(
-        List<String>? symbols, [
-        List<String>? allKnownSymbols,
-      ]) => createWindowsLinkerOptions(
-        staticLibrary: libFile.uri,
-        symbols: symbols,
-        allKnownSymbols: allKnownSymbols,
-      );
-
-      expect((await options(['sym_a', 'sym_missing'])).skipWholeLibrary, false);
-      expect((await options(['sym_missing'])).skipWholeLibrary, true);
-      expect((await options(null, ['sym_b', 'sym_c'])).skipWholeLibrary, false);
-      expect((await options(null, ['sym_c'])).skipWholeLibrary, true);
-      expect((await options(null)).skipWholeLibrary, false);
     });
   });
 
@@ -393,12 +318,14 @@ void main() {
       PrebuiltReleaseConfig releaseConfig, {
       String? prebuiltDirectory,
       SourceBuildCallback? buildFromSource,
+      Iterable<String>? allKnownSymbols,
     }) => PrebuiltLibrary(
       name: 'demo',
       assetName: 'demo.dart',
       releaseConfig: releaseConfig,
       prebuiltDirectory: prebuiltDirectory,
       buildFromSource: buildFromSource,
+      allKnownSymbols: allKnownSymbols,
     );
 
     Future<BuildOutput> runBuild(
@@ -730,32 +657,67 @@ void main() {
         expect(requestedPaths, isEmpty);
       });
 
-      test(
-        'treeshake: auto falls back when the static library cannot be read',
-        () async {
-          // On Windows, reading the symbols of the (invalid) archive fails
-          // before the linker runs.
-          await File.fromUri(
-            tempDir.uri.resolve('libdemo.a'),
-          ).writeAsString('not-an-archive');
-          final dll = makeReleaseConfig(
-            const {},
-          ).resolveAssetName(OS.windows, Architecture.x64, static: false);
-          final input = createLinkInput(
+      LinkInput windowsLinkInput({Map<String, Object?> defines = const {}}) =>
+          createLinkInput(
             [staticAsset('demo.dart').encode()],
+            defines: defines,
             extension: CodeAssetExtension(
               targetOS: OS.windows,
               targetArchitecture: Architecture.x64,
               linkModePreference: LinkModePreference.dynamic,
             ),
           );
+      final dll = makeReleaseConfig(
+        const {},
+      ).resolveAssetName(OS.windows, Architecture.x64, static: false);
+
+      test('treeshake: auto falls back when linking fails', () async {
+        // Not a valid archive (and no MSVC on other hosts), so linking fails.
+        await File.fromUri(
+          tempDir.uri.resolve('libdemo.a'),
+        ).writeAsString('not-an-archive');
+        final output = LinkOutputBuilder();
+        await makeLibrary(
+          makeReleaseConfig({dll: dylibHash}),
+          allKnownSymbols: const ['demo_add'],
+        ).link(input: windowsLinkInput(), output: output);
+        final asset = LinkOutput(output.json).assets.code.single;
+        expect(asset.linkMode, isA<DynamicLoadingBundled>());
+        expect(requestedPaths, ['/releases/1.0.0/$dll']);
+      });
+
+      test(
+        'on Windows without recorded uses or allKnownSymbols, bundles the '
+        'prebuilt dynamic library in fetch mode',
+        () async {
           final output = LinkOutputBuilder();
           await makeLibrary(
             makeReleaseConfig({dll: dylibHash}),
-          ).link(input: input, output: output);
+          ).link(input: windowsLinkInput(), output: output);
           final asset = LinkOutput(output.json).assets.code.single;
           expect(asset.linkMode, isA<DynamicLoadingBundled>());
           expect(requestedPaths, ['/releases/1.0.0/$dll']);
+        },
+      );
+
+      test(
+        'on Windows without recorded uses or allKnownSymbols, throws in other '
+        'build modes',
+        () async {
+          await expectLater(
+            makeLibrary(makeReleaseConfig({dll: dylibHash})).link(
+              input: windowsLinkInput(defines: {'buildMode': 'build'}),
+              output: LinkOutputBuilder(),
+            ),
+            throwsA(
+              isA<BuildError>().having(
+                (e) => e.message,
+                'message',
+                contains('allKnownSymbols'),
+              ),
+            ),
+          );
+          expect(requestedPaths, isEmpty);
         },
       );
 

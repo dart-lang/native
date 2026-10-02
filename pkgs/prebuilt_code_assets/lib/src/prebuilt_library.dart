@@ -10,7 +10,6 @@ import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import 'build_options.dart';
-import 'coff_archive.dart';
 import 'fetch.dart';
 import 'logging.dart';
 import 'release_config.dart';
@@ -64,9 +63,12 @@ class PrebuiltLibrary {
   /// `LinkInput.recordedUses`.
   final SymbolsResolver? usedSymbols;
 
-  /// Optional set of all bound symbol names (used on Windows when
-  /// `LinkInput.recordedUses` is `null` or when filtering COFF archive
-  /// symbols).
+  /// The names of all bound native symbols.
+  ///
+  /// On Windows, [link] exports these if `LinkInput.recordedUses` is `null`,
+  /// because a DLL only exports the functions it lists. If this is also
+  /// `null`, [link] bundles the pre-built dynamic library instead in the
+  /// [NativeBuildMode.fetch] build mode, and throws a [BuildError] otherwise.
   final Iterable<String>? allKnownSymbols;
 
   /// Optional callback returning the system libraries to link against in
@@ -399,6 +401,29 @@ class PrebuiltLibrary {
       );
     }
 
+    if (symbols == null &&
+        allKnownSymbols == null &&
+        input.config.code.targetOS == OS.windows) {
+      // A DLL only exports the functions it lists, which are unknown here.
+      // Nothing is tree-shaken, so the pre-built dynamic library is
+      // equivalent.
+      if (buildOptions.buildMode == NativeBuildMode.fetch &&
+          await _bundlePrebuiltDynamicLibrary(input, output, pkg, log)) {
+        log.info(
+          '$pkg: bundled the pre-built dynamic library, because without '
+          'recorded uses or allKnownSymbols, the functions to export on '
+          'Windows are unknown.',
+        );
+        return;
+      }
+      throw BuildError(
+        message:
+            '$pkg: linking the static library for ${_target(input)} without '
+            'recorded uses requires `allKnownSymbols`, because a DLL only '
+            'exports the functions it lists.',
+      );
+    }
+
     try {
       await _linkStaticLibrary(
         input,
@@ -442,13 +467,13 @@ class PrebuiltLibrary {
     required Logger log,
   }) async {
     final code = input.config.code;
-    final linkerOptions = code.targetOS == OS.windows
-        ? await createWindowsLinkerOptions(
-            staticLibrary: staticLibrary,
-            symbols: symbols,
-            allKnownSymbols: allKnownSymbols,
-          )
-        : LinkerOptions.treeshake(symbolsToKeep: symbols);
+    final linkerOptions = LinkerOptions.treeshake(
+      // A DLL only exports the functions it lists, so on Windows, keeping all
+      // functions means exporting all known ones. `native_toolchain_c` only
+      // exports the ones that the static library defines.
+      symbolsToKeep:
+          symbols ?? (code.targetOS == OS.windows ? allKnownSymbols : null),
+    );
     final linkLibraries = libraries?.call(code) ?? const <String>[];
     final linkFrameworks = frameworks?.call(code);
     final linker = linkFrameworks == null
