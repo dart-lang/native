@@ -50,6 +50,17 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
   bool shouldWrapPrimitives,
   TransformationState state,
 ) {
+  if (type is OptionalType) {
+    final (wrappedChild, didWrap) = maybeGetPrimitiveWrapper(
+      type.child,
+      shouldWrapPrimitives,
+      state,
+    );
+    if (didWrap) {
+      return (OptionalType(wrappedChild), true);
+    }
+  }
+
   if (type is! DeclaredType || !shouldWrapPrimitives) {
     return (type, false);
   }

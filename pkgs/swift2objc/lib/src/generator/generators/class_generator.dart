@@ -8,6 +8,7 @@ import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/members/subscript_declaration.dart';
 import '../_core/utils.dart';
 import '../generator.dart';
 
@@ -21,6 +22,7 @@ List<String> generateClass(ClassDeclaration declaration) {
       ..._generateClassProperties(declaration),
       ..._generateInitializers(declaration),
       ..._generateClassMethods(declaration),
+      ..._generateClassSubscripts(declaration),
       ..._generateNestedDeclarations(declaration),
     ].nonNulls.indent(),
     '}\n',
@@ -181,6 +183,48 @@ List<String> generateClassProperty(PropertyDeclaration property) {
     header.toString(),
     ...getterLines.indent(),
     if (property.hasSetter) ...setterLines.indent(),
+    '}\n',
+  ];
+}
+
+List<String> _generateClassSubscripts(ClassDeclaration declaration) => [
+  for (final subscript in declaration.subscripts)
+    ..._generateClassSubscript(subscript),
+];
+
+List<String> _generateClassSubscript(SubscriptDeclaration subscript) {
+  final header = StringBuffer();
+
+  if (subscript.hasObjCAnnotation) {
+    header.write('@objc ');
+  }
+
+  if (subscript.isStatic) {
+    header.write('static ');
+  }
+
+  final params = generateParameters(subscript.params);
+  header.write(
+    'public subscript($params) -> ${subscript.returnType.swiftType} {',
+  );
+
+  final getterLines = [
+    'get {',
+    ...(subscript.getter?.statements.indent() ?? <String>[]),
+    '}',
+  ];
+
+  final setterLines = [
+    'set {',
+    ...(subscript.setter?.statements.indent() ?? <String>[]),
+    '}',
+  ];
+
+  return [
+    ...generateAvailability(subscript),
+    header.toString(),
+    ...getterLines.indent(),
+    if (subscript.hasSetter) ...setterLines.indent(),
     '}\n',
   ];
 }
