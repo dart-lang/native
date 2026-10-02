@@ -86,7 +86,7 @@ class Scope {
         // Symbol already has a name. This can happen if the symbol is in
         // multiple scopes. It's fine as long as the name isn't used by a
         // different symbol earlier in this scope.
-        namer.markUsed(symbol._name!);
+        namer.markUsed(symbol._name!, symbol.kind);
         assert(
           !_symbols.any((s) => s != symbol && s._name == symbol._name),
           symbol.oldName,
@@ -94,7 +94,7 @@ class Scope {
       }
     }
     for (final ns in _children) {
-      ns._fillNames(namer._used);
+      ns._fillNames(_parent == null ? namer.classLevelUsed : namer._used);
     }
   }
 
@@ -129,6 +129,9 @@ class Scope {
 /// time you should use those instead of this.
 class Namer {
   final Set<String> _used;
+  final _classLevelUsed = <String>{};
+
+  Set<String> get classLevelUsed => _classLevelUsed;
 
   Namer(this._used);
 
@@ -141,12 +144,17 @@ class Namer {
       newName = '$name\$$i';
     }
 
-    markUsed(newName);
+    markUsed(newName, kind);
     return newName;
   }
 
   bool isUsed(String name) => _used.contains(name);
-  void markUsed(String name) => _used.add(name);
+  void markUsed(String name, [SymbolKind? kind]) {
+    _used.add(name);
+    if (kind == SymbolKind.klass || kind == SymbolKind.lib) {
+      _classLevelUsed.add(name);
+    }
+  }
 
   /// Returns a version of [name] that can safely be used in C code. Not
   /// guaranteed to be unique.
