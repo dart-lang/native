@@ -48,6 +48,10 @@
   - changed-files:
     - any-glob-to-any-file: 'pkgs/objective_c/**'
 
+'package:prebuilt_code_assets':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/prebuilt_code_assets/**'
+
 'package:snippet_tool':
   - changed-files:
     - any-glob-to-any-file: 'pkgs/snippet_tool/**'
