@@ -16,7 +16,7 @@ If you want to filter which interfaces are included, you can use the
 on the interfaces you want to generate.
 
 It is recommended that you filter out just about everything you're not
-interested in binding (see the FFIgen config in [generate_code.dart](./generate_code.dart)).
+interested in binding (see the FFIgen config in [tool/ffigen.dart](./tool/ffigen.dart)).
 Virtually all Objective C libraries depend on Apple's internal libraries, which
 are huge. Filtering can reduce the generated bindings from millions of lines to
 thousands.
@@ -32,7 +32,7 @@ set `node.isIncluded = true` for them in your visitor.
 At the root of this example (`example/objective_c`), run:
 
 ```
-dart run generate_code.dart
+dart run tool/ffigen.dart
 ```
 
 This will generate [avf_audio_bindings.dart](./avf_audio_bindings.dart).

@@ -12,28 +12,31 @@ import 'public_ast.dart';
 ///
 /// ### Examples
 ///
-/// Filtering declarations:
+/// Filtering declarations (note: top-level declarations have
+/// `isIncluded = false` by default):
+/// <!-- file://./../../../tool/snippets/visitor_snippet.dart#filter_visitor -->
 /// ```dart
 /// final class FilterVisitor extends Visitor {
 ///   FilterVisitor() : super.base();
 ///
 ///   @override
 ///   void visitFunc(Func node) {
-///     if (node.name.startsWith('_')) {
-///       node.isIncluded = false;
+///     if (!node.originalName.startsWith('_')) {
+///       node.isIncluded = true;
 ///     }
 ///   }
 /// }
 /// ```
 ///
 /// Renaming declarations:
+/// <!-- file://./../../../tool/snippets/visitor_snippet.dart#rename_visitor -->
 /// ```dart
 /// final class RenameVisitor extends Visitor {
 ///   RenameVisitor() : super.base();
 ///
 ///   @override
 ///   void visitStruct(Struct node) {
-///     if (node.name == 'custom_type') {
+///     if (node.originalName == 'custom_type') {
 ///       node.name = 'CustomType';
 ///     }
 ///   }
@@ -46,22 +49,25 @@ abstract base class Visitor {
   ///
   /// ### Examples
   ///
-  /// Filtering declarations:
+  /// Filtering declarations (note: top-level declarations have
+  /// `isIncluded = false` by default):
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#filter_closure -->
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (node.name.startsWith('_')) {
-  ///       node.isIncluded = false;
+  ///     if (!node.originalName.startsWith('_')) {
+  ///       node.isIncluded = true;
   ///     }
   ///   },
   /// )
   /// ```
   ///
   /// Renaming declarations:
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#rename_closure -->
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
-  ///     if (node.name == 'custom_type') {
+  ///     if (node.originalName == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }
   ///   },

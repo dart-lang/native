@@ -1,5 +1,5 @@
 [![Build Status](https://github.com/dart-lang/native/actions/workflows/objective_c.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/objective_c.yaml)
-[![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
+[![Coverage Status](https://codecov.io/gh/dart-lang/native/branch/main/graph/badge.svg?component=objective_c)](https://app.codecov.io/gh/dart-lang/native)
 [![pub package](https://img.shields.io/pub/v/objective_c.svg)](https://pub.dev/packages/objective_c)
 [![package publisher](https://img.shields.io/pub/publisher/objective_c.svg)](https://pub.dev/packages/objective_c/publisher)
 
@@ -14,6 +14,9 @@ https://pub.dev/packages/ffigen
 
 For general information about interop with Objective C, see
 https://dart.dev/guides/libraries/objective-c-interop
+
+You can find more documentation about Objective-C interop using FFIgen in
+the TOPICS section in [FFIgen's API documentation](https://pub.dev/documentation/ffigen/latest/).
 
 ## Memory management
 
@@ -36,3 +39,6 @@ reference counting issue, it may occasionally be necessary to manually control
 the ref count. The ref count of the Objective C object can be controlled from
 Dart by the `retain` and `release` options in the Dart wrapper object
 constructors, and by the `retainAndReturnPointer()` and `release()` methods.
+
+For more details on avoiding reference cycles and leaks, see the
+[Objective-C Memory Management topic](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).

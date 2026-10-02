@@ -6,8 +6,11 @@
 @TestOn('mac-os')
 library;
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
+
+import 'util.dart';
 
 void main() {
   group('NSNumber', () {
@@ -53,6 +56,40 @@ void main() {
       expect(m.doubleValue, 0x7ffffffffffffff0);
       expect(m.numValue, isA<int>());
       expect(m.numValue, 0x7fffffffffffffff);
+    });
+
+    // Values small enough to be stored as tagged pointers are never
+    // deallocated, so these tests use values that are large enough to require
+    // a real object.
+    //
+    // `bool.toNSNumber` isn't tested because it always returns one of the two
+    // immortal `__NSCFBoolean` singletons.
+    test('`double.toNSNumber` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(1.2345678901234567e300.toNSNumber());
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
+
+    test('`int.toNSNumber` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(0x7fffffffffffffff.toNSNumber());
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
     });
   });
 

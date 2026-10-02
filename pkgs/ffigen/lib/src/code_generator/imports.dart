@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../visitor/ast.dart';
 
@@ -9,14 +12,20 @@ import 'type.dart';
 
 /// A library import which will be written as an import in the generated file.
 class LibraryImport extends AstNode {
+  /// The identifier prefix used to reference symbols from this library in the
+  /// generated Dart file.
   final String name;
+
+  /// The URI string or path of the library to import (e.g. `'dart:ffi'` or
+  /// `'package:my_pkg/my_pkg.dart'`).
   final String _importPath;
+
   final String? _importPathWhenImportedByPackageObjC;
 
   const LibraryImport(
     this.name,
     this._importPath, {
-    String? importPathWhenImportedByPackageObjC,
+    @internal String? importPathWhenImportedByPackageObjC,
   }) : _importPathWhenImportedByPackageObjC =
            importPathWhenImportedByPackageObjC;
 
@@ -30,6 +39,7 @@ class LibraryImport extends AstNode {
 
   // The import path, which may be different if this library is being imported
   // into package:objective_c's generated code.
+  @internal
   String importPath(bool generateForPackageObjectiveC) {
     if (!generateForPackageObjectiveC) return _importPath;
     return _importPathWhenImportedByPackageObjC ?? _importPath;
@@ -44,23 +54,34 @@ class LibraryImport extends AstNode {
 
 /// An imported type which will be used in the generated code.
 class ImportedType extends Type {
-  final LibraryImport libraryImport;
-  final String cType;
-  final String dartType;
-  final String nativeType;
-  final String? defaultValue;
+  final public_ast.ImportedType _type;
 
-  /// Whether the [dartType] is an import from the [libraryImport].
-  final bool importedDartType;
+  LibraryImport get libraryImport => _type.libraryImport;
+  String get cType => _type.cType;
+  String get dartType => _type.dartType;
+  String get nativeType => _type.nativeType;
+  String? get defaultValue => _type.defaultValue;
+  bool get importedDartType => _type.importedDartType;
+
+  public_ast.ImportedType get toPublic => _type;
 
   ImportedType(
-    this.libraryImport,
-    this.cType,
-    this.dartType,
-    this.nativeType, {
-    this.defaultValue,
-    this.importedDartType = false,
-  });
+    LibraryImport libraryImport,
+    String cType,
+    String dartType,
+    String nativeType, {
+    String? defaultValue,
+    bool importedDartType = false,
+  }) : _type = public_ast.ImportedType(
+         libraryImport,
+         cType,
+         dartType,
+         nativeType,
+         defaultValue: defaultValue,
+         importedDartType: importedDartType,
+       );
+
+  ImportedType.fromPublic(this._type);
 
   @override
   String getCType(Context context) =>

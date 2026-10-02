@@ -5,7 +5,7 @@
 import 'objective_c_bindings_generated.dart';
 
 extension DateTimeToNSDate on DateTime {
-  NSDate toNSDate() => NSDate.dateWithTimeIntervalSince1970(
+  NSDate toNSDate() => NSDate.alloc().initWithTimeIntervalSince1970(
     millisecondsSinceEpoch / Duration.millisecondsPerSecond,
   );
 }

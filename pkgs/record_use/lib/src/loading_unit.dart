@@ -30,8 +30,10 @@ final class LoadingUnit {
   @override
   int get hashCode => name.hashCode;
 
+  // coverage:ignore-start
   @override
   String toString() => 'LoadingUnit($name)';
+  // coverage:ignore-end
 }
 
 /// Package private (protected) methods for [LoadingUnit].

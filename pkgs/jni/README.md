@@ -1,5 +1,5 @@
 [![Build Status](https://github.com/dart-lang/native/actions/workflows/jnigen.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/jnigen.yaml)
-[![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
+[![Coverage Status](https://codecov.io/gh/dart-lang/native/branch/main/graph/badge.svg?component=jni)](https://app.codecov.io/gh/dart-lang/native)
 [![pub package](https://img.shields.io/pub/v/jni.svg)](https://pub.dev/packages/jni)
 [![package publisher](https://img.shields.io/pub/publisher/jni.svg)](https://pub.dev/packages/jni/publisher)
 

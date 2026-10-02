@@ -1,0 +1,2 @@
+# Prebuilt dynamic libraries are generated in CI and bundled during pub publish.
+prebuilt/

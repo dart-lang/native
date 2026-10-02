@@ -173,10 +173,12 @@ class RunProcessResult {
     required this.stdout,
   });
 
+  // coverage:ignore-start
   @override
   String toString() =>
       '''command: $command
 exitCode: $exitCode
 stdout: $stdout
 stderr: $stderr''';
+  // coverage:ignore-end
 }

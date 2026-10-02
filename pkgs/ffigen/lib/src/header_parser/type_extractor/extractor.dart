@@ -184,7 +184,7 @@ Type getCodeGenType(
       final imported = context.config.importType(
         Declaration(usr: '', originalName: typeSpellKey),
       );
-      if (imported != null) return imported;
+      if (imported != null) return ImportedType.fromPublic(imported);
       if (cxTypeKindToImportedTypes.containsKey(typeSpellKey)) {
         return cxTypeKindToImportedTypes[typeSpellKey]!;
       } else {
@@ -205,10 +205,8 @@ Type? _createTypeFromCursor(
   final logger = context.logger;
   final config = context.config;
   final usr = cursor.usr();
-  final imported = context.config.importType(
-    Declaration(usr: usr, originalName: cursor.spelling()),
-  );
-  if (imported != null) return imported;
+  final imported = context.config.importType(cursor.declaration());
+  if (imported != null) return ImportedType.fromPublic(imported);
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
@@ -221,7 +219,9 @@ Type? _createTypeFromCursor(
       final importedTypedef = context.config.importType(
         Declaration(usr: usr, originalName: spelling),
       );
-      if (importedTypedef != null) return importedTypedef;
+      if (importedTypedef != null) {
+        return ImportedType.fromPublic(importedTypedef);
+      }
       // Get name from supported typedef name.
       if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
         logger.fine('  Type Mapped from supported typedef');
@@ -280,7 +280,6 @@ Type? _extractfromRecord(
   final config = context.config;
   logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
 
-  final declSpelling = cursor.spelling();
   final cursorKind = clang.clang_getCursorKind(cursor);
 
   final isClassOrStruct =
@@ -303,18 +302,13 @@ Type? _extractfromRecord(
     }
   }
 
-  if (isClassOrStruct) {
-    final imported = context.config.importType(
-      Declaration(usr: cursor.usr(), originalName: declSpelling),
-    );
-    if (imported != null) return imported;
-    return parseStructDeclaration(cursor, context);
-  } else if (cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {
-    final imported = context.config.importType(
-      Declaration(usr: cursor.usr(), originalName: declSpelling),
-    );
-    if (imported != null) return imported;
-    return parseUnionDeclaration(cursor, context);
+  final isUnion = cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl;
+  if (isClassOrStruct || isUnion) {
+    final imported = context.config.importType(cursor.declaration());
+    if (imported != null) return ImportedType.fromPublic(imported);
+    return isUnion
+        ? parseUnionDeclaration(cursor, context)
+        : parseStructDeclaration(cursor, context);
   }
 
   logger.fine(

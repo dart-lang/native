@@ -47,9 +47,9 @@ ${strings.preamble}: |
       );
     });
 
-    test('Expected Bindings', () {
+    test('Expected Bindings', () async {
       final context = testContext();
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         actual,
         'header_parser_typedef_test_output.dart',

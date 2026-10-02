@@ -1,7 +1,7 @@
 // The Android Gradle Plugin builds the native code with the Android NDK.
 
-group 'com.example.notification_plugin'
-version '1.0'
+group = 'com.example.notification_plugin'
+version = '1.0'
 
 rootProject.allprojects {
     repositories {
@@ -13,17 +13,17 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    namespace 'com.example.notification_plugin'
+    namespace = 'com.example.notification_plugin'
 
-    compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion = 16
     }
 }

@@ -1,6 +1,11 @@
-## 0.19.5-wip
+## 0.19.6-wip
+
+- Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
+
+## 0.19.5
 
 - Support `Architecture.arm64e` for macOS and iOS.
+- Bump `package:code_assets` dependency to `^2.1.0`.
 - Access all file system state through a `package:file` `FileSystem`, exposed as
   an optional parameter on `CBuilder.run`, `CLinker.run`, `CLibrary.build`, and
   `CLibrary.link` (defaulting to `LocalFileSystem`), so file system access can be

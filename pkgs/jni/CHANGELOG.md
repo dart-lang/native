@@ -1,3 +1,8 @@
+## 1.1.0
+
+- Add deep conversion utilities for converting between Dart values and Java.
+- Documentation updates.
+
 ## 1.0.3
 
 - Fix JNI build errors on Linux arm64.

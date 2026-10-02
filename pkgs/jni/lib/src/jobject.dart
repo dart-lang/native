@@ -13,7 +13,7 @@ import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'types.dart';
 
-// Error thrown when casting between incompatible `JObject` subclasses.
+/// Error thrown when casting between incompatible [JObject] subclasses.
 final class CastError extends Error {
   final String _message;
 
@@ -80,10 +80,10 @@ class JObject {
   ///
   /// For example:
   ///
+  /// <!-- file://./../../tool/snippets/jobject_snippet.dart -->
   /// ```dart
   /// if (object.isA(JLong.type)) {
-  ///   final i = object.as(JLong.type).longValue;
-  ///   ...
+  ///   final i = object.as(JLong.type).longValue();
   /// }
   /// ```
   bool isA<T extends JObject>(JType<T> type) {
@@ -185,7 +185,7 @@ class JThrowable extends JObject implements Exception {
 }
 
 extension JObjectUseExtension<T extends JObject?> on T {
-  /// Applies [callback] on this object and then delete the underlying JNI
+  /// Applies [callback] on this object and then deletes the underlying JNI
   /// reference, returning the result of [callback].
   R use<R>(R Function(T) callback) {
     try {

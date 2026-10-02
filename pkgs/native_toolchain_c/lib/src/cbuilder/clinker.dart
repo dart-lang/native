@@ -87,9 +87,9 @@ class CLinker extends CTool implements Linker {
     logger ??= createDefaultLogger();
     processManager ??= const LocalProcessManager();
     fileSystem ??= const LocalFileSystem();
-    final effectiveLinkerOptions = linkerOptions ?? this.linkerOptions;
-    if (effectiveLinkerOptions != null &&
-        effectiveLinkerOptions.skipWholeLibrary) {
+    final effectiveLinkerOptions =
+        linkerOptions ?? this.linkerOptions ?? LinkerOptions.manual();
+    if (effectiveLinkerOptions.skipWholeLibrary) {
       logger.info('Skipping linking as no symbols are to be kept.');
       return;
     }
@@ -119,7 +119,7 @@ class CLinker extends CTool implements Linker {
     final task = RunCBuilder(
       input: input,
       codeConfig: input.config.code,
-      linkerOptions: linkerOptions ?? this.linkerOptions,
+      linkerOptions: effectiveLinkerOptions,
       logger: logger,
       processManager: processManager,
       fileSystem: fileSystem,

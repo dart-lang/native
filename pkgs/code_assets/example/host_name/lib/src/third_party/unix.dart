@@ -22,4 +22,4 @@
 import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Size)>()
-external int gethostname(ffi.Pointer<ffi.Char> arg0, int __namelen);
+external int gethostname(ffi.Pointer<ffi.Char> __name, int __len);

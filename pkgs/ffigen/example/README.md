@@ -4,7 +4,7 @@
   that shows how FFIgen can be used to call a custom C API from a Dart app.
 - [package:code_assets examples](../../code_assets/example): Various end-to-end
   examples showcasing how FFIgen can be used in real world scenarios.
-- [Simple](simple): Very simple example that generates bindigns for a very small
+- [Simple](simple): Very simple example that generates bindings for a very small
   header file.
 - [cJSON](c_json): Demonstrates generation of bindings for a C library 
   ([cJson](https://github.com/DaveGamble/cJSON)).

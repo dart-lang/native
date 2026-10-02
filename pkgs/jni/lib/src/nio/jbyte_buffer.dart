@@ -40,6 +40,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// such as [Uint8List.setRange].
 ///
 /// Example:
+/// <!-- file://./../../../tool/snippets/jbyte_buffer_snippet.dart#allocate_direct -->
 /// ```dart
 /// final directBuffer = JByteBuffer.allocateDirect(3);
 /// directBuffer.asUint8List().setAll(0, [1, 2, 3]);
@@ -52,6 +53,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// correctly garbage collects the buffer and frees its underlying memory.
 ///
 /// Example:
+/// <!-- file://./../../../tool/snippets/jbyte_buffer_snippet.dart#release_buffer -->
 /// ```dart
 /// final directBuffer = JByteBuffer.allocateDirect(3);
 /// final data = directBuffer.asUint8List();
@@ -63,6 +65,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// by setting the `releaseOriginal` parameter to `true`.
 ///
 /// Example:
+/// <!-- file://./../../../tool/snippets/jbyte_buffer_snippet.dart#release_original -->
 /// ```dart
 /// final directBuffer = JByteBuffer.allocateDirect(3);
 /// // [releaseOriginal] is `false` by default.
@@ -70,7 +73,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// directBuffer.nextByte = 42; // No problem!
 /// print(data1[0]); // prints 42!
 /// final data2 = directBuffer.asUint8List(releaseOriginal: true);
-/// // directBuffer.nextByte = 42; // throws [UseAfterReleaseException]!
+/// // directBuffer.nextByte = 42; // throws [UseAfterReleaseError]!
 /// ```
 extension type JByteBuffer._(JObject _$this) implements JBuffer {
   static final _class = JClass.forName(r'java/nio/ByteBuffer');
@@ -196,6 +199,19 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
 
   static final _arrayId = _class.instanceMethodId(r'array', r'()[B');
 
+  /// The byte array that backs this buffer.
+  ///
+  /// Note that the first element of the buffer starts at element [arrayOffset]
+  /// of the backing array.
+  ///
+  /// Invoke the [hasArray] method before invoking this method in order to
+  /// ensure that this buffer has an accessible backing array.
+  ///
+  /// Throws:
+  /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is
+  ///   read-only
+  /// * `UnsupportedOperationException` - If this buffer is not backed by an
+  ///   accessible array
   JByteArray get array {
     return _arrayId(this, JByteArray.type, [])!;
   }
@@ -239,7 +255,18 @@ extension type JByteBuffer._(JObject _$this) implements JBuffer {
 
   /// Returns this byte buffer as a [Uint8List].
   ///
-  /// If [releaseOriginal] is `true`, this byte buffer will be released.
+  /// The returned [Uint8List] holds a JNI global reference to this buffer.
+  /// Unlike a [JObject], the [Uint8List] cannot be explicitly released; the
+  /// reference is only deleted when the list is garbage collected. If
+  /// [releaseOriginal] is `false` (the default), a new global reference is
+  /// created for the [Uint8List] and this buffer remains usable. If
+  /// [releaseOriginal] is `true`, this buffer's reference is transferred to the
+  /// list and this buffer is released.
+  ///
+  /// Because the Dart garbage collector is not aware of the limit on JNI global
+  /// references, avoid keeping many of these lists alive at once. See JNIgen's
+  /// [lifecycle](https://pub.dev/documentation/jnigen/latest/topics/Lifecycle-topic.html)
+  /// documentation for more information.
   ///
   /// Throws [StateError] if the buffer is not direct
   /// (see [JByteBuffer.allocateDirect]) or the JVM does not support the direct

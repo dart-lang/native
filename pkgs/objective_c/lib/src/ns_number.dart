@@ -5,25 +5,25 @@
 import 'objective_c_bindings_generated.dart';
 
 extension IntToNSNumber on int {
-  NSNumber toNSNumber() => NSNumberCreation.numberWithLongLong(this);
+  NSNumber toNSNumber() => NSNumber.alloc().initWithLongLong(this);
 }
 
 extension DoubleToNSNumber on double {
-  NSNumber toNSNumber() => NSNumberCreation.numberWithDouble(this);
+  NSNumber toNSNumber() => NSNumber.alloc().initWithDouble(this);
 }
 
 extension NumToNSNumber on num {
   NSNumber toNSNumber() {
     final value = this;
     return switch (value) {
-      int() => NSNumberCreation.numberWithLongLong(value),
-      double() => NSNumberCreation.numberWithDouble(value),
+      int() => NSNumber.alloc().initWithLongLong(value),
+      double() => NSNumber.alloc().initWithDouble(value),
     };
   }
 }
 
 extension BoolToNSNumber on bool {
-  NSNumber toNSNumber() => NSNumberCreation.numberWithBool(this);
+  NSNumber toNSNumber() => NSNumber.alloc().initWithBool(this);
 }
 
 extension NSNumberToNum on NSNumber {

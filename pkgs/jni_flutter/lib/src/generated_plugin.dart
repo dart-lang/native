@@ -4,6 +4,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// coverage:ignore-file
+
 // ignore_for_file: prefer_relative_imports
 // ignore_for_file: annotate_overrides
 // ignore_for_file: argument_type_not_assignable
@@ -41,7 +43,7 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-const _$jniVersionCheck = jni$_.JniVersionCheck(1, 0);
+const _$jniVersionCheck = jni$_.JniVersionCheck(1, 1);
 
 /// from: `com.github.dart_lang.jni_flutter.JniFlutterPlugin`
 extension type JniFlutterPlugin._(jni$_.JObject _$this)

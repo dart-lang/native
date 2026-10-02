@@ -1,5 +1,5 @@
 [![dart](https://github.com/dart-lang/native/actions/workflows/native.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/native.yaml)
-[![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
+[![Coverage Status](https://codecov.io/gh/dart-lang/native/branch/main/graph/badge.svg?component=hooks)](https://app.codecov.io/gh/dart-lang/native)
 [![pub package](https://img.shields.io/pub/v/hooks.svg)](https://pub.dev/packages/hooks)
 [![package publisher](https://img.shields.io/pub/publisher/hooks.svg)](https://pub.dev/packages/hooks/publisher)
 

@@ -49,9 +49,9 @@ ${strings.functions}:
         ),
       );
     });
-    test('Expected Bindings', () {
+    test('Expected Bindings', () async {
       final context = testContext();
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         actual,
         'header_parser_varargs_test_output.dart',
@@ -64,7 +64,7 @@ ${strings.functions}:
       );
     });
 
-    test('Programmatic Visitor manipulation of Func.varArgs', () {
+    test('Programmatic Visitor manipulation of Func.varArgs', () async {
       final config = YamlConfig.fromYaml(
         yaml.loadYaml('''
 ${strings.name}: 'NativeLibrary'
@@ -105,7 +105,7 @@ ${strings.headers}:
       expect(myfuncSuffix.functionType.varArgParameters[0].type, intType);
       expect(myfuncSuffix.functionType.varArgParameters[1].type, doubleType);
 
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         lib,
         'header_parser_varargs_visitor_test_output.dart',

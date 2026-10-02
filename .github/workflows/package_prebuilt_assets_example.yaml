@@ -1,0 +1,152 @@
+# Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+# A workflow that goes together with the example package:prebuilt_assets_example
+# inside package:hooks.
+#
+# It builds dynamic libraries across multiple GitHub Actions runners, pulls them
+# all into a single runner into `prebuilt/`, and runs `dart pub publish`.
+name: package_prebuilt_assets_example
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - .github/workflows/package_prebuilt_assets_example.yaml
+      - pkgs/hooks/example/build/prebuilt_assets_example/
+  push:
+    tags:
+      - 'prebuilt_assets_example-v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos, windows]
+
+    runs-on: ${{ matrix.os }}-latest
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: pkgs/hooks/example/build/prebuilt_assets_example/
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
+        with:
+          sdk: stable
+
+      - uses: nttld/setup-ndk@ed92fe6cadad69be94a966a7ee3271275e62f779
+        with:
+          ndk-version: r27
+        if: ${{ matrix.os == 'ubuntu' }} # Only build on one host.
+
+      - name: Install native toolchains
+        run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
+        if: ${{ matrix.os == 'ubuntu' }}
+
+      - run: dart pub get
+
+      # Keep this list consistent with pkgs/hooks/example/build/prebuilt_assets_example/lib/src/hook_helpers/targets.dart
+      - name: Build Linux & Android targets
+        if: matrix.os == 'ubuntu'
+        run: |
+          dart tool/build.dart -oandroid -aarm
+          dart tool/build.dart -oandroid -aarm64
+          dart tool/build.dart -oandroid -aia32
+          dart tool/build.dart -oandroid -ariscv64
+          dart tool/build.dart -oandroid -ax64
+          dart tool/build.dart -olinux -aarm
+          dart tool/build.dart -olinux -aarm64
+          dart tool/build.dart -olinux -aia32
+          dart tool/build.dart -olinux -ariscv64
+          dart tool/build.dart -olinux -ax64
+
+      - name: Build macOS & iOS targets
+        if: matrix.os == 'macos'
+        run: |
+          dart tool/build.dart -omacos -aarm64
+          dart tool/build.dart -omacos -ax64
+          dart tool/build.dart -oios -iiphoneos -aarm64
+          dart tool/build.dart -oios -iiphonesimulator -aarm64
+          dart tool/build.dart -oios -iiphonesimulator -ax64
+
+      - name: Build Windows targets
+        if: matrix.os == 'windows'
+        run: |
+          dart tool/build.dart -owindows -aarm64
+          dart tool/build.dart -owindows -aia32
+          dart tool/build.dart -owindows -ax64
+
+      - name: Upload prebuilt assets
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ${{ matrix.os }}-prebuilt-assets
+          path: |
+            pkgs/hooks/example/build/prebuilt_assets_example/prebuilt/*.dll
+            pkgs/hooks/example/build/prebuilt_assets_example/prebuilt/*.dylib
+            pkgs/hooks/example/build/prebuilt_assets_example/prebuilt/*.so
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Needed for automated publishing to pub.dev via OIDC
+
+    defaults:
+      run:
+        working-directory: pkgs/hooks/example/build/prebuilt_assets_example/
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
+        with:
+          sdk: stable
+
+      - name: Pull all prebuilt assets into prebuilt/ directory
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          merge-multiple: true
+          path: pkgs/hooks/example/build/prebuilt_assets_example/prebuilt/
+
+      - name: Display bundled assets
+        run: ls -la prebuilt/
+
+      - name: Install dependencies and run tests using bundled prebuilt assets
+        run: |
+          dart pub get
+          dart test
+
+      - name: Verify package with dart pub publish --dry-run
+        # Detach from the monorepo workspace and initialize a clean standalone
+        # git repository so `dart pub publish` does not read parent
+        # `pkgs/hooks/.pubignore` or warn about modified files in git status.
+        run: |
+          sed -i.bak '/resolution: workspace/d' pubspec.yaml
+          rm -f pubspec.yaml.bak
+          git init
+          git config user.email "ci@example.com"
+          git config user.name "CI"
+          git add -A
+          git commit -m "Prepare standalone package for publish"
+          dart pub publish --dry-run
+
+      - name: Publish to pub.dev
+        if: startsWith(github.ref, 'refs/tags/prebuilt_assets_example-v')
+        run: dart pub publish --force

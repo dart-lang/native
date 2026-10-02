@@ -153,5 +153,37 @@ void main() {
         }
       });
     });
+
+    test('`NSDictionary.of` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(NSDictionary.of({'key'.toNSString(): NSObject()}));
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
+
+    test('`NSDictionary.fromEntries` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(
+            NSDictionary.fromEntries([
+              MapEntry('key'.toNSString(), NSObject()),
+            ]),
+          );
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
   });
 }

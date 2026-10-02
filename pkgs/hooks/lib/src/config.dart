@@ -263,7 +263,7 @@ final class HookInputUserDefines {
   /// hooks:
   ///   user_defines:
   ///     my_package:
-  ///       prebuilt_assets_dir: assets/prebuilt/
+  ///       prebuilt_assets_dir: prebuilt/
   /// ```
   /// The resolved path can be accessed and registered as a dependency:
   /// <!-- file://./../../example/api/config_snippet_7.dart -->

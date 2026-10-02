@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 
-import 'config_provider.dart' show FfiGenerator;
+import 'config_provider/config.dart';
 import 'context.dart';
 import 'header_parser.dart' show parse;
 import 'logger.dart';

@@ -5,6 +5,7 @@
 @Timeout(Duration(seconds: 120))
 library;
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -87,19 +88,20 @@ Future<void> runProcess({
   final workingDirectoryString = workingDirectory?.toFilePath();
 
   print('Running `$commandString`.');
-  final process =
-      await Process.start(
-        executable,
-        arguments,
-        runInShell: true,
-        includeParentEnvironment: true,
-        workingDirectory: workingDirectoryString,
-        environment: environment,
-      ).then((process) {
-        process.stdout.transform(utf8.decoder).forEach((s) => print('  $s'));
-        process.stderr.transform(utf8.decoder).forEach((s) => print('  $s'));
-        return process;
-      });
+  final process = await Process.start(
+    executable,
+    arguments,
+    runInShell: true,
+    includeParentEnvironment: true,
+    workingDirectory: workingDirectoryString,
+    environment: environment,
+  );
+  unawaited(
+    process.stdout.transform(utf8.decoder).forEach((s) => print('  $s')),
+  );
+  unawaited(
+    process.stderr.transform(utf8.decoder).forEach((s) => print('  $s')),
+  );
   final exitCode = await process.exitCode;
   if (exitCode != 0) {
     final message = 'Command `$commandString` failed with exit code $exitCode.';

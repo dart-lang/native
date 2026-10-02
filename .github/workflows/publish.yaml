@@ -14,6 +14,7 @@ on:
       - '!jni-v**'
       - '!jnigen-v**'
       - '!objective_c-v**'
+      - '!prebuilt_assets_example-v**'
 
 jobs:
   publish:
@@ -26,4 +27,4 @@ jobs:
     with:
       write-comments: false
       sdk: dev # use beta/stable after 3.3.0
-      ignore-packages: pkgs/objective_c,pkgs/ffigen,pkgs/jni,pkgs/jnigen
+      ignore-packages: pkgs/objective_c,pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/hooks/example/build/prebuilt_assets_example

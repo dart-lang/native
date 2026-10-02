@@ -19,11 +19,12 @@ import 'util/jlist.dart';
 /// A builder that builds proxy objects that implement one or more interfaces.
 ///
 /// Example:
+/// <!-- file://./../../tool/snippets/jimplementer_snippet.dart -->
 /// ```dart
-/// final implementer = JImplemeneter();
+/// final implementer = JImplementer();
 /// Foo.implementIn(implementer, fooImpl);
 /// Bar.implementIn(implementer, barImpl);
-/// final foobar = implementer.build(Foo.type); // Or `Bar.type`.
+/// final foobar = implementer.implement<Foo>(); // Or Bar.
 /// ```
 class JImplementer extends JObject {
   JImplementer.fromReference(super.reference) : super.fromReference();
@@ -108,8 +109,8 @@ class JImplementer extends JObject {
             JMethodIDPtr,
           )>();
 
-  /// Builds an proxy object with the specified [type] that implements all the
-  /// added interfaces with the given implementations.
+  /// Builds a proxy object with the specified type `<T>` that implements all
+  /// the added interfaces with the given implementations.
   ///
   /// Releases this implementer.
   T implement<T extends JObject>() {

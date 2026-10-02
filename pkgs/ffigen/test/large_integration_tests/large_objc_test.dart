@@ -20,15 +20,17 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 Future<int> run(String exe, List<String> args) async {
-  final process = await Process.start(exe, args).then((process) {
+  final process = await Process.start(exe, args);
+  unawaited(
     process.stdout
         .transform(utf8.decoder)
-        .forEach((s) => printOnFailure('  $s'));
+        .forEach((s) => printOnFailure('  $s')),
+  );
+  unawaited(
     process.stderr
         .transform(utf8.decoder)
-        .forEach((s) => printOnFailure('  $s'));
-    return process;
-  });
+        .forEach((s) => printOnFailure('  $s')),
+  );
   return await process.exitCode;
 }
 

@@ -106,5 +106,33 @@ void main() {
         }
       });
     });
+
+    test('`NSArray.filled` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(NSArray.filled(3, NSObject()));
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
+
+    test('`NSArray.of` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(NSArray.of([NSObject(), NSObject()]));
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
   });
 }

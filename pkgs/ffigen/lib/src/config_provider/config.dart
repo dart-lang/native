@@ -7,10 +7,10 @@ import 'dart:ffi';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-import '../code_generator.dart';
 import '../ffigen.dart';
 import 'config_types.dart';
 import 'public_ast.dart';
+import 'spec_utils.dart';
 
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
 /// headers.
@@ -20,22 +20,15 @@ import 'public_ast.dart';
 ///
 /// ### Example
 ///
+/// <!-- file://./../../../tool/snippets/generator_snippet.dart#main -->
 /// ```dart
 /// import 'package:ffigen/ffigen.dart';
 ///
 /// Future<void> main() async {
 ///   final generator = FfiGenerator(
-///     output: Output(
-///       dart: DartOutput(path: Uri.file('lib/bindings.dart')),
-///     ),
-///     input: Input(
-///       entryPoints: [Uri.file('src/my_c_header.h')],
-///     ),
-///     visitors: [
-///       Visitor(
-///         func: (node) => node.isIncluded = true,
-///       ),
-///     ],
+///     output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
+///     input: Input(entryPoints: [Uri.file('src/my_c_header.h')]),
+///     visitors: [Visitor(func: (node) => node.isIncluded = true)],
 ///   );
 ///   await generator.generate();
 /// }
@@ -79,22 +72,25 @@ final class FfiGenerator {
   ///
   /// ### Examples
   ///
-  /// Filtering declarations:
+  /// Filtering declarations (note: top-level declarations have
+  /// `isIncluded = false` by default):
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#filter_closure -->
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (node.name.startsWith('_')) {
-  ///       node.isIncluded = false;
+  ///     if (!node.originalName.startsWith('_')) {
+  ///       node.isIncluded = true;
   ///     }
   ///   },
   /// )
   /// ```
   ///
   /// Renaming declarations:
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#rename_closure -->
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
-  ///     if (node.name == 'custom_type') {
+  ///     if (node.originalName == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }
   ///   },
@@ -104,6 +100,39 @@ final class FfiGenerator {
 
   /// Returns an [ImportedType] if the given [Declaration] should be imported
   /// from another Dart library, or `null` otherwise.
+  ///
+  /// To import from YAML symbol files, call [importFromSymbolFile] or
+  /// [importFromSymbolFiles], and pass the result here.
+  ///
+  /// It can also be used to manually map native types to Dart types:
+  ///
+  /// <!-- file://./../../../tool/snippets/symbol_files_snippet.dart#import_type -->
+  /// ```dart
+  /// const ffiImport = LibraryImport('ffi', 'dart:ffi');
+  /// const customImport = LibraryImport(
+  ///   'custom',
+  ///   'package:my_pkg/types.dart',
+  /// );
+  ///
+  /// final generator = FfiGenerator(
+  ///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
+  ///   importType: (declaration) {
+  ///     if (declaration.originalName == 'time_t') {
+  ///       return ImportedType(ffiImport, 'Int64', 'int', 'time_t');
+  ///     }
+  ///     if (declaration.originalName == 'MyCustomStruct') {
+  ///       return ImportedType(
+  ///         customImport,
+  ///         'MyCustomStruct',
+  ///         'MyCustomStruct',
+  ///         'MyCustomStruct',
+  ///         importedDartType: true,
+  ///       );
+  ///     }
+  ///     return null;
+  ///   },
+  /// );
+  /// ```
   final ImportedType? Function(Declaration declaration) importType;
 
   static ImportedType? _defaultImportType(Declaration declaration) => null;
@@ -122,7 +151,10 @@ final class FfiGenerator {
     this.visitors = const [],
     this.importType = _defaultImportType,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
-  });
+  }) : assert(
+         cpp == null || objectiveC == null,
+         'Cannot use C++ and Objective-C together.',
+       );
 
   /// Run this generator.
   ///
@@ -147,15 +179,23 @@ final class Input {
   static bool _includeDefault(Uri header) => true;
 
   /// Command line arguments to pass to clang_compiler.
+  ///
+  /// By default, these options replace the default compiler options. To append
+  /// them to the default options instead, set [appendCompilerOptions] to true.
   final List<String>? compilerOptions;
 
-  /// Where to ignore compiler warnings/errors in source header files.
+  /// Whether [compilerOptions] should be appended to the default compiler
+  /// options, instead of replacing them.
+  final bool appendCompilerOptions;
+
+  /// Whether to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
 
   const Input({
     this.entryPoints = const [],
     this.include = _includeDefault,
     this.compilerOptions,
+    this.appendCompilerOptions = false,
     this.ignoreSourceErrors = false,
   });
 }
@@ -212,17 +252,27 @@ final class Output {
   final DartOutput dart;
 
   /// The output Objective-C file for the generated Objective-C bindings.
+  ///
+  /// Defaults to the [dart] output path with a `.m` extension.
+  ///
+  /// This file is generated only when necessary for Objective-C interop. If
+  /// generated, this file must be compiled by a build hook.
   final Uri? objectiveCFile;
 
-  Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
-
-  /// The output Cpp glue file for the generated Cpp class bindings.
+  /// The output Cpp file for the generated Cpp class bindings.
+  ///
+  /// Defaults to the [dart] output path with a `.cpp` extension.
+  ///
+  /// This file is generated only when necessary for C++ interop. If generated,
+  /// this file must be compiled by a build hook.
   final Uri? cppFile;
 
-  Uri get cppBindingsFile =>
-      cppFile ?? Uri.file('${dart.path.toFilePath()}.cpp');
-
-  /// The config for the symbol file.
+  /// The configuration for generating a symbol file.
+  ///
+  /// When specified, FFIgen will export a YAML symbol file containing symbol
+  /// signatures and metadata, which allows other FFIgen configurations to
+  /// import types from this library (via [FfiGenerator.importType]) instead
+  /// of re-generating them.
   final SymbolFile? symbolFile;
 
   /// The type of comments to generate.
@@ -275,7 +325,7 @@ final class NativeExternalBindings implements BindingStyle {
 /// Generate bindings which take a [DynamicLibrary] or [DynamicLibrary.lookup]
 /// parameter.
 ///
-/// Generates a wrapper class which takes takes a [DynamicLibrary] or lookup
+/// Generates a wrapper class which takes a [DynamicLibrary] or lookup
 /// function in its constructor.
 ///
 /// To generate static bindings use [NativeExternalBindings].
@@ -290,4 +340,13 @@ final class DynamicLibraryBindings implements BindingStyle {
     this.wrapperName = 'NativeLibrary',
     this.wrapperDocComment,
   });
+}
+
+/// Internal extensions on [Output] for resolving output paths.
+@internal
+extension OutputInternal on Output {
+  Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
+
+  Uri get cppBindingsFile =>
+      cppFile ?? Uri.file('${dart.path.toFilePath()}.cpp');
 }

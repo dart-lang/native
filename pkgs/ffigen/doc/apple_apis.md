@@ -1,24 +1,30 @@
-## Generating bindings for Apple APIs
+# Generating bindings for Apple APIs
 
-It can be tricky to locate header files containing Apple's ObjC frameworks, and
+It can be tricky to locate header files containing Apple's Objective-C frameworks, and
 the paths can vary between computers depending on which version of Xcode you are
-using and where it is installed. So FFIgen provides the following variable
-substitutions that can be used in the `headers.entry-points` list:
+using and where it is installed. FFIgen provides helper getters that can be used
+when configuring `Input.entryPoints`:
 
-- `$XCODE`: Replaced with the result of `xcode-select -p`, which is the
-  directory where Xcode's APIs are installed.
-- `$IOS_SDK`: Replaced with `xcrun --show-sdk-path --sdk iphoneos`, which is the
-  directory within `$XCODE` where the iOS SDK is installed.
-- `$MACOS_SDK`: Replaced with `xcrun --show-sdk-path --sdk macosx`, which is the
-  directory within `$XCODE` where the macOS SDK is installed.
+- `xcodeUri` / `xcodePath`: The directory where Xcode's APIs are installed
+  (resolved via `xcode-select -p`).
+- `iosSdkUri` / `iosSdkPath`: The directory within Xcode where the iOS SDK is
+  installed (resolved via `xcrun --show-sdk-path --sdk iphoneos`).
+- `macSdkUri` / `macSdkPath`: The directory within Xcode where the macOS SDK is
+  installed (resolved via `xcrun --show-sdk-path --sdk macosx`).
 
 For example:
 
-```Yaml
-headers:
-  entry-points:
-    - '$MACOS_SDK/System/Library/Frameworks/Foundation.framework/Headers/NSDate.h'
+<!-- file://./../tool/snippets/apple_apis_snippet.dart#apple_apis -->
+```dart
+final generator = FfiGenerator(
+  input: Input(
+    entryPoints: [
+      // Use macSdkUri to resolve headers within the macOS SDK.
+      macSdkUri.resolve(
+        'System/Library/Frameworks/Foundation.framework/Headers/NSDate.h',
+      ),
+    ],
+  ),
+  output: Output(dart: DartOutput(path: Uri.file('nsdate.dart'))),
+);
 ```
-
-In the Dart API you can use these getters:
-`xcodePath`, `iosSdkPath`, and `macSdkPath`.

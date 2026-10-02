@@ -1,3 +1,7 @@
+// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
@@ -17,12 +21,6 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// > [!IMPORTANT]
   /// > `NSInputStream.read` must be called from a different thread or [Isolate]
   /// > than the one that calls [toNSInputStream]. Otherwise,
-  /// > `NSInputStream.read` will deadlock waiting for data to be added from the
-  /// > [Stream].
-  ///
-  /// > [!IMPORTANT]
-  /// > `NSInputStream.read` must be called from a different thread or [Isolate]
-  /// > than the one that calls `toNSInputStream`. Otherwise,
   /// > `NSInputStream.read` will deadlock waiting for data to be added from the
   /// > [Stream].
   ///
@@ -123,7 +121,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         }
       },
       onDone: () {
-        dataSubscription.cancel();
+        unawaited(dataSubscription.cancel());
       },
     );
 

@@ -34,6 +34,13 @@ int deep(void);
 // Single-declaration form, without braces.
 extern "C" void reset(void);
 
+// A linkage spec nested inside a namespace.
+namespace ns {
+extern "C" {
+enum Flag { off = 0, on = 1 };
+}
+}  // namespace ns
+
 // A declaration outside any linkage spec, to check that regular declarations
 // still parse alongside `extern "C"` blocks.
 int outside(double d);

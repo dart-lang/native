@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace "com.example.maven_libs_groovy_example"
-    compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    namespace = "com.example.maven_libs_groovy_example"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
@@ -19,22 +19,22 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.maven_libs_groovy_example"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutter.versionCode
-        versionName flutter.versionName
+        applicationId = "com.example.maven_libs_groovy_example"
+        minSdkVersion = flutter.minSdkVersion
+        targetSdkVersion = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig = signingConfigs.debug
         }
     }
 }
 
 flutter {
-    source "../.."
+    source = "../.."
 }
 
 dependencies {

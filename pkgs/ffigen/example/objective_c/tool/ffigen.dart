@@ -54,6 +54,6 @@ FfiGenerator getConfig([Uri? packageRoot]) {
 }
 
 Future<void> main() async {
-  Logger.root.level = Level.SEVERE;
+  Logger.root.level = .SEVERE;
   await getConfig().generate(logger: Logger.root);
 }

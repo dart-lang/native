@@ -7,8 +7,9 @@ import 'runtime_bindings_generated.dart';
 /// Creates an Objective-C autorelease pool, runs [function], then releases the
 /// pool.
 ///
-/// ```
-/// while (longRunningCondiditon) {
+/// <!-- file://./../../tool/snippets/autorelease_snippet.dart#autorelease_pool -->
+/// ```dart
+/// while (longRunningCondition) {
 ///   // When writing ObjC interop code inside a long running loop, it's a good
 ///   // idea to use an autorelease pool to clean up autoreleased references.
 ///   autoReleasePool(() {
@@ -21,8 +22,8 @@ import 'runtime_bindings_generated.dart';
 /// ```
 ///
 /// This is analogous to the Objective-C `@autoreleasepool` block:
-/// ```
-/// while (longRunningCondiditon) {
+/// ```objc
+/// while (longRunningCondition) {
 ///   @autoreleasepool {
 ///     SomeObjCObject *someObjCObject = [fooObjCApi loadNextObject];
 ///     [someObjCObject greet:@"Hello"];
@@ -35,6 +36,8 @@ import 'runtime_bindings_generated.dart';
 /// here (the [Future] it returns will not be awaited). Objective-C autorelease
 /// pools form a strict stack, and allowing async execution gaps inside the pool
 /// scope could easily break this nesting, so async functions are not supported.
+///
+/// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
 T autoReleasePool<T>(T Function() function) {
   final pool = autoreleasePoolPush();
   try {

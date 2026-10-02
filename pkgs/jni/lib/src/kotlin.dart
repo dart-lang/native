@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:meta/meta.dart' show internal;
 
 import 'jni.dart';
@@ -70,7 +72,7 @@ class KotlinContinuation extends JObject {
   }
 
   JObject resumeWithFuture(Future<JObject?> future) {
-    future.then(resumeWith, onError: resumeWithException);
+    unawaited(future.then(resumeWith, onError: resumeWithException));
     return _coroutineSuspended;
   }
 

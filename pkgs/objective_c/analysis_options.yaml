@@ -9,5 +9,12 @@ analyzer:
     - windows/**
     - macos/**
     - linux/**
+    - example/flutter_app/**
+    - example/path_provider_example/**
   language:
     strict-raw-types: true
+
+linter:
+  rules:
+    unawaited_futures: true
+    discarded_futures: true

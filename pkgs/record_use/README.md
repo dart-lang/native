@@ -1,3 +1,8 @@
+[![package:record_use](https://github.com/dart-lang/native/actions/workflows/native.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/native.yaml)
+[![Coverage Status](https://codecov.io/gh/dart-lang/native/branch/main/graph/badge.svg?component=record_use)](https://app.codecov.io/gh/dart-lang/native)
+[![pub package](https://img.shields.io/pub/v/record_use.svg)](https://pub.dev/packages/record_use)
+[![package publisher](https://img.shields.io/pub/publisher/record_use.svg)](https://pub.dev/packages/record_use/publisher)
+
 Dart API to access `@RecordUse()` recorded usages in link hooks.
 
 During compilation, usages of declarations annotated with `@RecordUse()` in
