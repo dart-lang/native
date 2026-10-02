@@ -29,4 +29,9 @@ class Bindings {
 
 final class JniEnv extends ffi.Struct {
   external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> FindClass;
+
+  static ffi.Pointer<JniEnv> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> FindClass,
+  }) => $allocator<JniEnv>()..ref.FindClass = FindClass;
 }

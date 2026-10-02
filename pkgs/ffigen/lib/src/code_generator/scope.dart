@@ -21,9 +21,15 @@ class Scope {
   final _children = <Scope>[];
   final Scope? _parent;
   final Set<String> _preUsedNames;
+  final bool _typesOnly;
   Namer? _namer;
 
-  Scope._(this._parent, this._debugName, this._preUsedNames);
+  Scope._(
+    this._parent,
+    this._debugName,
+    this._preUsedNames, {
+    bool typesOnly = false,
+  }) : _typesOnly = typesOnly;
 
   static Scope createRoot(String debugName) =>
       Scope._(null, debugName, const {});
@@ -31,9 +37,13 @@ class Scope {
   /// Create a new [Scope] as a child of this one.
   ///
   /// [fillNames] must not have been called yet.
-  Scope addChild(String debugName, {Set<String> preUsedNames = const {}}) {
+  Scope addChild(
+    String debugName, {
+    Set<String> preUsedNames = const {},
+    bool typesOnly = false,
+  }) {
     assert(!_filled);
-    final ns = Scope._(this, debugName, preUsedNames);
+    final ns = Scope._(this, debugName, preUsedNames, typesOnly: typesOnly);
     _children.add(ns);
     return ns;
   }
@@ -94,7 +104,7 @@ class Scope {
       }
     }
     for (final ns in _children) {
-      ns._fillNames(_parent == null ? namer.classLevelUsed : namer._used);
+      ns._fillNames(ns._typesOnly ? namer.classLevelUsed : namer._used);
     }
   }
 
