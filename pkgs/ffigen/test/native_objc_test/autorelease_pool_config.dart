@@ -11,10 +11,12 @@ FfiGenerator getConfig([Uri? packageRoot]) {
   final testDir = packageRoot.resolve('test/native_objc_test/');
   return FfiGenerator(
     output: Output(
-      dart: DartOutput(path: testDir.resolve('ref_count_test_bindings.dart')),
+      dart: DartOutput(
+        path: testDir.resolve('autorelease_pool_test_bindings.dart'),
+      ),
       style: const NativeExternalBindings(assetId: 'package:ffigen/objc_test'),
     ),
-    input: Input(entryPoints: [testDir.resolve('ref_count_test.m')]),
+    input: Input(entryPoints: [testDir.resolve('autorelease_pool_test.m')]),
     objectiveC: const ObjectiveC(),
     visitors: [
       Visitor(
@@ -26,11 +28,11 @@ FfiGenerator getConfig([Uri? packageRoot]) {
           node.isIncluded = include.contains(node.name);
         },
         objCInterface: (node) {
-          const include = {'RefCountTestObject', 'RefCounted'};
-          node.isIncluded = include.contains(node.originalName);
+          node.isIncluded = node.originalName == 'AutoreleasePoolTestObject';
         },
         objCMethod: (node) {
-          node.useAutoreleasePool = true;
+          node.useAutoreleasePool =
+              node.selector == 'makeAndAutoreleaseWithPool:';
         },
       ),
     ],
