@@ -462,6 +462,36 @@ class NodeManager implements ffi.Finalizable {
     return _NodeManager_consumeNode(_ptr, node.detachPointer());
   }
 
+  int passNodeByValue(Node node) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _NodeManager_passNodeByValue(_ptr, node._ptr);
+  }
+
+  Node returnNodeByValue(int value, ffi.Pointer<ffi.Int> destructorCounter) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return Node.fromPointer(
+      _NodeManager_returnNodeByValue(_ptr, value, destructorCounter),
+      takeOwnership: true,
+    );
+  }
+
+  Node passAndReturnNode(Node node) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return Node.fromPointer(
+      _NodeManager_passAndReturnNode(_ptr, node._ptr),
+      takeOwnership: true,
+    );
+  }
+
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
@@ -565,6 +595,35 @@ external ffi.Pointer<ffi.Void> _NodeManager_makeNode(
   symbol: 'NodeManager_consumeNode',
 )
 external int _NodeManager_consumeNode(
+  ffi.Pointer<ffi.Void> self,
+  ffi.Pointer<ffi.Void> node,
+);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: 'NodeManager_passNodeByValue',
+)
+external int _NodeManager_passNodeByValue(
+  ffi.Pointer<ffi.Void> self,
+  ffi.Pointer<ffi.Void> node,
+);
+
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+    ffi.Pointer<ffi.Int>,
+  )
+>(symbol: 'NodeManager_returnNodeByValue')
+external ffi.Pointer<ffi.Void> _NodeManager_returnNodeByValue(
+  ffi.Pointer<ffi.Void> self,
+  int value,
+  ffi.Pointer<ffi.Int> destructorCounter,
+);
+
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)
+>(symbol: 'NodeManager_passAndReturnNode')
+external ffi.Pointer<ffi.Void> _NodeManager_passAndReturnNode(
   ffi.Pointer<ffi.Void> self,
   ffi.Pointer<ffi.Void> node,
 );
