@@ -69,6 +69,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'CXTranslationUnitImpl',
             'CXUnsavedFile',
             'CXSourceRange',
+            'CXToken',
           };
           node.dependencies = CompoundDependencies.full;
           node.isIncluded = included.contains(node.name);
@@ -166,6 +167,10 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'clang_Type_getObjCProtocolDecl',
             'clang_Type_getNumTemplateArguments',
             'clang_Type_getTemplateArgumentAsType',
+            'clang_Cursor_getTranslationUnit',
+            'clang_tokenize',
+            'clang_getTokenSpelling',
+            'clang_disposeTokens',
           };
           node.isIncluded = included.contains(node.name);
         },

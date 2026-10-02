@@ -29,6 +29,14 @@
 - Generate bindings for C++ structs, classes and unions declared inside a
   namespace or a record, named the same way. Scoped records are not yet
   surfaced when C++ class support is enabled.
+- Fix a bug where a C++ free function or global variable declared outside any
+  `extern "C"` block was looked up by its unmangled name, which fails at
+  runtime because the exported symbol is mangled. With C++ support enabled,
+  ffigen now emits an `extern "C"` wrapper for such declarations into the
+  generated C++ file and binds to that instead. Without C++ support a warning
+  is logged for every such declaration.
+- Fix the C++ spelling of function pointer parameters in generated wrappers,
+  which was emitted with an extra `*`.
 - Allow `package:cli_util` versions `0.5.x` and `0.6.x`.
 - Fix a crash during code generation when a typedef refers to a function
   pointer with an unsupported parameter type (e.g. a C++ reference). Such
