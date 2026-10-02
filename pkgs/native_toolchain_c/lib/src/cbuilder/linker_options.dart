@@ -4,10 +4,12 @@
 
 import 'package:code_assets/code_assets.dart';
 import 'package:file/file.dart' show FileSystem;
+import 'package:logging/logging.dart';
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../tool/tool.dart';
+import '../utils/archive_symbols.dart';
 
 /// Options to pass to the linker.
 ///
@@ -56,6 +58,11 @@ class LinkerOptions {
   /// The [symbolsToKeep] specify the symbols which should be kept. Passing
   /// `null` implies that all symbols should be kept. Passing an empty list
   /// implies that no library will be output at all.
+  ///
+  /// On Windows, a DLL only exports the [symbolsToKeep] that the input
+  /// archives define. If an input is not an archive, such as an object file,
+  /// all [symbolsToKeep] are exported, and linking fails if one of them is not
+  /// defined.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbolsToKeep,
@@ -103,8 +110,9 @@ extension LinkerOptionsExt on LinkerOptions {
     Iterable<String> sourceFiles,
     OS targetOS,
     Architecture targetArchitecture,
-    FileSystem fileSystem,
-  ) {
+    FileSystem fileSystem, {
+    Logger? logger,
+  }) {
     if (tool.isClangLike || tool.isLdLike) {
       return _sourceFilesToFlagsForClangLike(
         tool,
@@ -119,6 +127,7 @@ extension LinkerOptionsExt on LinkerOptions {
         targetOS,
         targetArchitecture,
         fileSystem,
+        logger,
       );
     } else {
       throw UnimplementedError('This package does not know how to run $tool.');
@@ -181,6 +190,7 @@ extension LinkerOptionsExt on LinkerOptions {
     OS targetOS,
     Architecture targetArch,
     FileSystem fileSystem,
+    Logger? logger,
   ) => [
     ...sourceFiles,
     '/link',
@@ -197,10 +207,54 @@ extension LinkerOptionsExt on LinkerOptions {
     if (_linkerScriptMode is ManualLinkerScript)
       '/DEF:${_linkerScriptMode.script.toFilePath()}'
     else if (_linkerScriptMode is GenerateLinkerScript)
-      '/DEF:${_createClLinkScript(_symbols, fileSystem)}',
+      '/DEF:${_createClLinkScript(
+        _definedSymbols(sourceFiles, targetArch, fileSystem, logger),
+        fileSystem,
+      )}',
     if (stripDebug) '/PDBSTRIPPED',
     if (gcSections) '/OPT:REF',
   ];
+
+  /// The symbols to keep that [sourceFiles] define.
+  ///
+  /// The linker fails if a module-definition file exports a symbol that is not
+  /// defined, and tree-shaking can ask for symbols that a library doesn't
+  /// define, for example functions that are not available on the target.
+  ///
+  /// Returns all symbols to keep if one of the [sourceFiles] is not an archive
+  /// with a symbol table, such as an object file.
+  List<String> _definedSymbols(
+    Iterable<String> sourceFiles,
+    Architecture targetArch,
+    FileSystem fileSystem,
+    Logger? logger,
+  ) {
+    if (sourceFiles.isEmpty) return _symbols;
+    final defined = <String>{};
+    for (final sourceFile in sourceFiles) {
+      final symbols = readArchiveSymbols(fileSystem.file(sourceFile));
+      if (symbols == null) return _symbols;
+      defined.addAll(symbols);
+    }
+    final result = <String>[];
+    final undefined = <String>[];
+    for (final symbol in _symbols) {
+      // C symbols have a leading underscore on 32-bit x86.
+      if (defined.contains(symbol) ||
+          (targetArch == .ia32 && defined.contains('_$symbol'))) {
+        result.add(symbol);
+      } else {
+        undefined.add(symbol);
+      }
+    }
+    if (undefined.isNotEmpty) {
+      logger?.info(
+        'Not exporting ${undefined.length} symbols that '
+        '${sourceFiles.join(', ')} do not define: ${undefined.join(', ')}',
+      );
+    }
+    return result;
+  }
 
   /// This creates a list of exported symbols.
   ///
