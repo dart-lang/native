@@ -32,6 +32,10 @@ final class $JObject$Type$ extends JType<JObject> {
   @internal
   @override
   String get signature => r'Ljava/lang/Object;';
+
+  @internal
+  @override
+  String get name => r'java/lang/Object';
 }
 
 /// A high-level wrapper for JNI global object reference.

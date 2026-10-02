@@ -52,8 +52,12 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
   @internal
   const JType();
 
+  /// The name used to look up this class.
+  @internal
+  String get name;
+
   JClass get jClass {
-    return JClass.forName(signature);
+    return JClass.forName(name);
   }
 
   @override
