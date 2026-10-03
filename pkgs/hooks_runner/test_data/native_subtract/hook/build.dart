@@ -11,7 +11,7 @@ void main(List<String> arguments) async {
     final cbuilder = CBuilder.library(
       name: packageName,
       assetName: 'src/${packageName}_bindings_generated.dart',
-      sources: ['src/$packageName.c'],
+      sources: ['src/$packageName.c', 'src/$packageName.h'],
     );
     await cbuilder.run(input: input, output: output);
   });
