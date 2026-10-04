@@ -16,10 +16,10 @@ Rust. For more details, see https://dart.dev/guides/libraries/c-interop.
 FFIgen also supports calling ObjC code.
 For details see https://dart.dev/guides/libraries/objective-c-interop.
 
-More FFIgen documentation can be found [here](doc/README.md).
+More FFIgen documentation can be found [here](https://github.com/dart-lang/native/tree/main/pkgs/ffigen/doc).
 
 > [!NOTE]
-> The YAML configuration format is deprecated and will be removed in a future version. Please migrate to the programmatic Dart generator API. You can use the migration skill in [`skills/ffigen-migrate-yaml-to-dart`](skills/ffigen-migrate-yaml-to-dart) to automate the migration with an agent, but it also serves as good documentation if doing the migration manually.
+> The YAML configuration format is deprecated and will be removed in a future version. Please migrate to the programmatic Dart generator API. You can use the migration skill in [`skills/ffigen-migrate-yaml-to-dart`](https://github.com/dart-lang/native/tree/main/pkgs/ffigen/skills/ffigen-migrate-yaml-to-dart) to automate the migration with an agent, but it also serves as good documentation if doing the migration manually.
 
 ## Getting Started
 
@@ -126,13 +126,13 @@ app has been created via `dart create ffigen_example`.
 
 That's it! Run your app with `dart run` to see it in action!
 
-The complete and runnable example can be found in [example/add](example/add).
+The complete and runnable example can be found in [example/add](https://github.com/dart-lang/native/tree/main/pkgs/ffigen/example/add).
 
 ## More Examples
 
-The `code_asset` package contains [comprehensive examples](../code_assets/example)
+The `code_asset` package contains [comprehensive examples](https://github.com/dart-lang/native/tree/main/pkgs/code_assets/example)
 that showcase FFIgen. Additional examples that show how FFIgen can be used
-in different scenarios can also be found in the [example](example/) directory.
+in different scenarios can also be found in the [example](https://github.com/dart-lang/native/tree/main/pkgs/ffigen/example) directory.
 
 ## Requirements
 

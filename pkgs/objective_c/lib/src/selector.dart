@@ -20,7 +20,7 @@ extension StringToSelector on String {
 extension SelectorToString on Pointer<r.ObjCSelector> {
   /// Returns the string that this Objective-C selector represents.
   ///
-  /// This is equivalent to the Objective-C `NSSelectorFromString` function.
+  /// This is equivalent to the Objective-C `NSStringFromSelector` function.
   String toDartString() => r.getName(this).cast<Utf8>().toDartString();
 }
 

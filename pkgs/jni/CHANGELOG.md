@@ -1,7 +1,7 @@
-## 1.1.0-wip
+## 1.1.0
 
 - Add deep conversion utilities for converting between Dart values and Java.
-- Clarify the memory behavior of `JByteBuffer.asUint8List`.
+- Documentation updates.
 
 ## 1.0.3
 

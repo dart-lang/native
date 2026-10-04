@@ -15,6 +15,9 @@ https://pub.dev/packages/ffigen
 For general information about interop with Objective C, see
 https://dart.dev/guides/libraries/objective-c-interop
 
+You can find more documentation about Objective-C interop using FFIgen in
+the TOPICS section in [FFIgen's API documentation](https://pub.dev/documentation/ffigen/latest/).
+
 ## Memory management
 
 Objective C and Dart use different styles of memory management. Dart is garbage
@@ -36,3 +39,6 @@ reference counting issue, it may occasionally be necessary to manually control
 the ref count. The ref count of the Objective C object can be controlled from
 Dart by the `retain` and `release` options in the Dart wrapper object
 constructors, and by the `retainAndReturnPointer()` and `release()` methods.
+
+For more details on avoiding reference cycles and leaks, see the
+[Objective-C Memory Management topic](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).

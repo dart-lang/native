@@ -643,6 +643,7 @@ objc-interfaces:
 
       final cgCppMethod = CppMethod(
         name: Symbol('cppFunc', SymbolKind.method),
+        cBindingSymbol: Symbol('CppClass_cppFunc', SymbolKind.method),
         originalName: 'cppFunc',
         returnType: voidType,
         parameters: [Parameter(name: 'cppArg', type: intType)],

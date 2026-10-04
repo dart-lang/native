@@ -159,7 +159,7 @@ Execute the complete Dart verification suite in the target package root:
 | `headers.entry-points` | `List<String>` | `Input(entryPoints: [packageRoot.resolve('header.h')])` | Takes `List<Uri>`. Globs can be resolved via `Directory.listSync()` or explicit file lists. |
 | `headers.include-directives` | `List<String>` | `Input(include: (Uri header) => bool)` | Filter closure to include/exclude transitively imported headers. |
 | `compiler-opts` | `String` or `List<String>` | `Input(compilerOptions: ['-I/path', ...])` | List of command-line compiler options passed directly to libclang. |
-| `compiler-opts-automatic.macos.include-c-standard-library` | `bool` | `defaultCompilerOpts(Logger.root, macIncludeStdLib: true)` | Automatically includes macOS standard library headers when compiling with Clang on macOS. |
+| `compiler-opts-automatic.macos.include-c-standard-library` | `bool` | `Input(appendCompilerOptions: true)` | Automatically included by default when compiler options are appended or omitted. |
 | `ignore-source-errors` | `bool` | `Input(ignoreSourceErrors: true)` | Silences compiler warnings/errors occurring inside native source headers. |
 | `llvm-path` | `List<String>` | `FfiGenerator(..., libclangDylib: Uri.file('/path/to/libclang.dylib'))` | Custom libclang path. By default, FFIgen automatically locates libclang on Linux, macOS, and Windows. |
 | `language` | `'c'` or `'objc'` | `FfiGenerator(objectiveC: const ObjectiveC())` | Set `objectiveC` to enable Objective-C parsing. Default (`null`) is C. |

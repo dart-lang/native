@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Documentation updates.
+
 ## 0.3.0
 
 - Added support for Swift subscripts. Non-representable subscripts (static,
