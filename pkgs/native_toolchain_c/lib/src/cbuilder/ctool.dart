@@ -43,6 +43,9 @@ abstract class CTool {
   /// Resolved against [LinkInput.packageRoot].
   ///
   /// The sources will be reported as dependencies of the hook.
+  ///
+  /// When using [CBuilder], include header files so changes to them trigger
+  /// recompilation. Files ending in `.h` are not passed to the compiler.
   final List<String> sources;
 
   /// Include directories to pass to the compiler.

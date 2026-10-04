@@ -51,6 +51,10 @@ void main() async {
           result.dependencies,
           contains(packageUri.resolve('src/native_add.c')),
         );
+        expect(
+          result.dependencies,
+          contains(packageUri.resolve('src/native_add.h')),
+        );
 
         final dependenciesAsPaths = result.dependencies
             .map((uri) => uri.toFilePath(windows: false))
@@ -104,6 +108,30 @@ void main() async {
           result.dependencies,
           contains(packageUri.resolve('src/native_add.c')),
         );
+      }
+
+      {
+        final headerUri = packageUri.resolve('src/native_add.h');
+        final headerFile = File.fromUri(headerUri);
+        await headerFile.writeAsString('${await headerFile.readAsString()}\n');
+
+        final logMessages = <String>[];
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          buildAssetTypes: [.code],
+          userDefines: userDefines,
+        )).success;
+        expect(
+          logMessages.join('\n'),
+          stringContainsInOrder([
+            'Rerunning build for native_add in',
+            'File contents changed: ${headerUri.toFilePath()}.',
+          ]),
+        );
+        expect(result.dependencies, contains(headerUri));
       }
 
       {
