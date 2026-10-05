@@ -318,14 +318,16 @@ void main() {
       PrebuiltReleaseConfig releaseConfig, {
       String? prebuiltDirectory,
       SourceBuildCallback? buildFromSource,
-      Iterable<String>? allKnownSymbols,
+      SymbolsResolver? usedSymbols = _demoSymbols,
+      List<String> Function(CodeConfig code)? libraries,
     }) => PrebuiltLibrary(
       name: 'demo',
       assetName: 'demo.dart',
       releaseConfig: releaseConfig,
       prebuiltDirectory: prebuiltDirectory,
       buildFromSource: buildFromSource,
-      allKnownSymbols: allKnownSymbols,
+      usedSymbols: usedSymbols,
+      libraries: libraries,
     );
 
     Future<BuildOutput> runBuild(
@@ -434,6 +436,42 @@ void main() {
           );
         },
       );
+
+      test(
+        'bundles the dynamic library directly without usedSymbols',
+        () async {
+          final built = await runBuild(
+            makeLibrary(makeReleaseConfig(bothHashes), usedSymbols: null),
+            createInput(linkingEnabled: true),
+          );
+          expect(
+            built.assets.code.single.linkMode,
+            isA<DynamicLoadingBundled>(),
+          );
+          expect(built.assets.encodedAssetsForLinking['demo'], isNull);
+          expect(requestedPaths, ['/releases/1.0.0/$dylibAsset']);
+        },
+      );
+
+      test('treeshake: on fails without usedSymbols', () async {
+        await expectLater(
+          makeLibrary(makeReleaseConfig(bothHashes), usedSymbols: null).build(
+            input: createInput(
+              linkingEnabled: true,
+              defines: {'treeshake': 'on'},
+            ),
+            output: BuildOutputBuilder(),
+          ),
+          throwsA(
+            isA<BuildError>().having(
+              (e) => e.message,
+              'message',
+              contains('usedSymbols'),
+            ),
+          ),
+        );
+        expect(requestedPaths, isEmpty);
+      });
 
       test('throws BuildError on SHA-256 mismatch', () async {
         await expectLater(
@@ -581,22 +619,36 @@ void main() {
         List<EncodedAsset> assets, {
         Map<String, Object?> defines = const {},
         CodeAssetExtension? extension,
-      }) =>
-          (LinkInputBuilder()
-                ..setupShared(
-                  packageRoot: tempDir.uri,
-                  packageName: 'demo',
-                  outputFile: tempDir.uri.resolve('link_output.json'),
-                  outputDirectoryShared: tempDir.uri.resolve('shared/'),
-                  userDefines: userDefines(defines),
-                )
-                ..setupLink(
-                  assets: assets,
-                  assetsFromLinking: const [],
-                  recordedUsesFile: null,
-                )
-                ..addExtension(extension ?? linuxX64()))
-              .build();
+        bool withRecordedUses = false,
+      }) {
+        Uri? recordedUsesFile;
+        if (withRecordedUses) {
+          recordedUsesFile = tempDir.uri.resolve('recorded_uses.json');
+          File.fromUri(recordedUsesFile).writeAsStringSync(
+            jsonEncode(
+              record_use.Recordings(
+                calls: const {},
+                instances: const {},
+              ).toJson(),
+            ),
+          );
+        }
+        return (LinkInputBuilder()
+              ..setupShared(
+                packageRoot: tempDir.uri,
+                packageName: 'demo',
+                outputFile: tempDir.uri.resolve('link_output.json'),
+                outputDirectoryShared: tempDir.uri.resolve('shared/'),
+                userDefines: userDefines(defines),
+              )
+              ..setupLink(
+                assets: assets,
+                assetsFromLinking: const [],
+                recordedUsesFile: recordedUsesFile,
+              )
+              ..addExtension(extension ?? linuxX64()))
+            .build();
+      }
 
       CodeAsset staticAsset(String name) => CodeAsset(
         package: 'demo',
@@ -657,16 +709,20 @@ void main() {
         expect(requestedPaths, isEmpty);
       });
 
-      LinkInput windowsLinkInput({Map<String, Object?> defines = const {}}) =>
-          createLinkInput(
-            [staticAsset('demo.dart').encode()],
-            defines: defines,
-            extension: CodeAssetExtension(
-              targetOS: OS.windows,
-              targetArchitecture: Architecture.x64,
-              linkModePreference: LinkModePreference.dynamic,
-            ),
-          );
+      LinkInput staticLinkInput(
+        OS os, {
+        Map<String, Object?> defines = const {},
+        bool withRecordedUses = false,
+      }) => createLinkInput(
+        [staticAsset('demo.dart').encode()],
+        defines: defines,
+        withRecordedUses: withRecordedUses,
+        extension: CodeAssetExtension(
+          targetOS: os,
+          targetArchitecture: Architecture.x64,
+          linkModePreference: LinkModePreference.dynamic,
+        ),
+      );
       final dll = makeReleaseConfig(
         const {},
       ).resolveAssetName(OS.windows, Architecture.x64, static: false);
@@ -676,50 +732,120 @@ void main() {
         await File.fromUri(
           tempDir.uri.resolve('libdemo.a'),
         ).writeAsString('not-an-archive');
+        var linked = false;
         final output = LinkOutputBuilder();
         await makeLibrary(
           makeReleaseConfig({dll: dylibHash}),
-          allKnownSymbols: const ['demo_add'],
-        ).link(input: windowsLinkInput(), output: output);
+          libraries: (_) {
+            linked = true;
+            return const [];
+          },
+        ).link(
+          input: staticLinkInput(OS.windows, withRecordedUses: true),
+          output: output,
+        );
+        expect(linked, isTrue);
         final asset = LinkOutput(output.json).assets.code.single;
         expect(asset.linkMode, isA<DynamicLoadingBundled>());
         expect(requestedPaths, ['/releases/1.0.0/$dll']);
       });
 
+      for (final (os, prebuilt) in [
+        (OS.linux, dylibAsset),
+        (OS.windows, dll),
+      ]) {
+        test(
+          'on $os without recorded uses, bundles the prebuilt dynamic library '
+          'in fetch mode without linking',
+          () async {
+            var linked = false;
+            final output = LinkOutputBuilder();
+            await makeLibrary(
+              makeReleaseConfig({prebuilt: dylibHash}),
+              libraries: (_) {
+                linked = true;
+                return const [];
+              },
+            ).link(input: staticLinkInput(os), output: output);
+            final asset = LinkOutput(output.json).assets.code.single;
+            expect(asset.linkMode, isA<DynamicLoadingBundled>());
+            expect(requestedPaths, ['/releases/1.0.0/$prebuilt']);
+            expect(linked, isFalse, reason: 'Needs no C toolchain');
+          },
+        );
+      }
+
       test(
-        'on Windows without recorded uses or allKnownSymbols, bundles the '
-        'prebuilt dynamic library in fetch mode',
+        'without recorded uses, links keeping all functions when building '
+        'from source',
         () async {
-          final output = LinkOutputBuilder();
-          await makeLibrary(
-            makeReleaseConfig({dll: dylibHash}),
-          ).link(input: windowsLinkInput(), output: output);
-          final asset = LinkOutput(output.json).assets.code.single;
-          expect(asset.linkMode, isA<DynamicLoadingBundled>());
-          expect(requestedPaths, ['/releases/1.0.0/$dll']);
+          var linked = false;
+          await expectLater(
+            makeLibrary(
+              makeReleaseConfig(bothHashes),
+              libraries: (_) {
+                linked = true;
+                return const [];
+              },
+            ).link(
+              // There is no static library to link, so linking fails.
+              input: staticLinkInput(OS.linux, defines: {'buildMode': 'build'}),
+              output: LinkOutputBuilder(),
+            ),
+            throwsA(anything),
+          );
+          expect(linked, isTrue);
+          expect(requestedPaths, isEmpty);
         },
       );
 
       test(
-        'on Windows without recorded uses or allKnownSymbols, throws in other '
-        'build modes',
+        'on Windows without recorded uses, throws when building from source',
         () async {
           await expectLater(
             makeLibrary(makeReleaseConfig({dll: dylibHash})).link(
-              input: windowsLinkInput(defines: {'buildMode': 'build'}),
+              input: staticLinkInput(
+                OS.windows,
+                defines: {'buildMode': 'build'},
+              ),
               output: LinkOutputBuilder(),
             ),
             throwsA(
               isA<BuildError>().having(
                 (e) => e.message,
                 'message',
-                contains('allKnownSymbols'),
+                contains('treeshake: off'),
               ),
             ),
           );
           expect(requestedPaths, isEmpty);
         },
       );
+
+      test('treeshake: on throws without recorded uses', () async {
+        var linked = false;
+        await expectLater(
+          makeLibrary(
+            makeReleaseConfig(bothHashes),
+            libraries: (_) {
+              linked = true;
+              return const [];
+            },
+          ).link(
+            input: staticLinkInput(OS.linux, defines: {'treeshake': 'on'}),
+            output: LinkOutputBuilder(),
+          ),
+          throwsA(
+            isA<BuildError>().having(
+              (e) => e.message,
+              'message',
+              contains('no recorded uses'),
+            ),
+          ),
+        );
+        expect(linked, isFalse);
+        expect(requestedPaths, isEmpty);
+      });
 
       test('passes the CodeConfig to libraries and frameworks', () async {
         final configs = <String, CodeConfig>{};
@@ -733,10 +859,12 @@ void main() {
             staticAsset('demo.dart').encode(),
           ],
           defines: {'treeshake': 'on'},
+          withRecordedUses: true,
         );
         final library = PrebuiltLibrary(
           name: 'demo',
           assetName: 'demo.dart',
+          usedSymbols: _demoSymbols,
           libraries: (code) {
             configs['libraries'] = code;
             return const ['m'];
@@ -883,3 +1011,7 @@ extension on PrebuiltReleaseConfig {
     resolveLibraryFileName: resolveLibraryFileName,
   );
 }
+
+List<String> _demoSymbols(record_use.Recordings recordings) => const [
+  'demo_add',
+];

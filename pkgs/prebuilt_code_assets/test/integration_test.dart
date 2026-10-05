@@ -204,7 +204,6 @@ final mathLibrary = PrebuiltLibrary(
     const record_use.Library('package:math_pkg/bindings.dart'),
     recordUseMapping,
   ),
-  allKnownSymbols: recordUseMapping.values,
 );
 ''';
 

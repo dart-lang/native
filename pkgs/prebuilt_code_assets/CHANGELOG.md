@@ -38,10 +38,15 @@
   iOS and both can depend on the architecture or SDK. A `null` `frameworks`
   now keeps the `CLinker` default (`Foundation`) instead of linking no
   frameworks; pass `(_) => const []` for the previous behavior.
-- **Breaking:** On Windows, without recorded uses, `link` exports
-  `allKnownSymbols`. If that is `null` too, `link` bundles the prebuilt dynamic
-  library in the `fetch` build mode and throws a `BuildError` otherwise,
-  instead of exporting every symbol of the static library.
+- **Breaking:** Without `usedSymbols`, `build` bundles the dynamic library
+  directly instead of routing a static library to the link hook, and
+  `treeshake: on` fails the build.
+- **Breaking:** Without recorded uses, `link` bundles the prebuilt dynamic
+  library in the `fetch` build mode instead of linking the static library. In
+  other build modes, it still links the static library keeping all functions,
+  except on Windows, where it throws a `BuildError` (a DLL only exports the
+  functions it lists) instead of exporting every symbol of the static library.
+  With `treeshake: on`, it fails the build.
 - Fixed `build` routing a static library to the link hook when linking is
   disabled but the link mode preference is static, which fails hook output
   validation.

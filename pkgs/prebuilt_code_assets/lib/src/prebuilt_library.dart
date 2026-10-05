@@ -61,15 +61,10 @@ class PrebuiltLibrary {
 
   /// Extracts the native symbols used by the application from
   /// `LinkInput.recordedUses`.
-  final SymbolsResolver? usedSymbols;
-
-  /// The names of all bound native symbols.
   ///
-  /// On Windows, [link] exports these if `LinkInput.recordedUses` is `null`,
-  /// because a DLL only exports the functions it lists. If this is also
-  /// `null`, [link] bundles the pre-built dynamic library instead in the
-  /// [NativeBuildMode.fetch] build mode, and throws a [BuildError] otherwise.
-  final Iterable<String>? allKnownSymbols;
+  /// If `null`, the library is never tree-shaken: [build] bundles the dynamic
+  /// library directly.
+  final SymbolsResolver? usedSymbols;
 
   /// Optional callback returning the system libraries to link against in
   /// [link] for the target [CodeConfig] (passed as `-l<name>`, or `<name>.lib`
@@ -100,7 +95,6 @@ class PrebuiltLibrary {
     this.fallbackToBuildOnFetchFailure = true,
     this.strictBuildOptions = true,
     this.usedSymbols,
-    this.allKnownSymbols,
     this.libraries,
     this.frameworks,
     this.optimizationLevel = OptimizationLevel.o3,
@@ -109,8 +103,8 @@ class PrebuiltLibrary {
   /// Runs the build hook (`hook/build.dart`) for this library.
   ///
   /// When linking is enabled (`input.config.linkingEnabled`), `buildMode` is
-  /// not [NativeBuildMode.local], and `treeshake` is not
-  /// [TreeshakeMode.off], obtains a static library and routes it to this
+  /// not [NativeBuildMode.local], `treeshake` is not [TreeshakeMode.off], and
+  /// [usedSymbols] is set, obtains a static library and routes it to this
   /// package's link hook. Otherwise obtains a dynamic library and bundles it
   /// directly.
   ///
@@ -135,10 +129,17 @@ class PrebuiltLibrary {
     final buildOptions = _buildOptions(input, pkg);
     log.info('$pkg: $buildOptions');
 
-    final static =
+    final treeshake =
         input.config.linkingEnabled &&
         buildOptions.buildMode != NativeBuildMode.local &&
         buildOptions.treeshake != TreeshakeMode.off;
+    if (treeshake &&
+        usedSymbols == null &&
+        buildOptions.treeshake == TreeshakeMode.on) {
+      throw BuildError(message: _noUsedSymbolsMessage(pkg));
+    }
+    // Without `usedSymbols`, nothing can be tree-shaken.
+    final static = treeshake && usedSymbols != null;
 
     switch (buildOptions.buildMode) {
       case NativeBuildMode.fetch:
@@ -335,14 +336,20 @@ class PrebuiltLibrary {
   /// library emitted by [build] into a dynamic library containing only the
   /// functions referenced in `input.recordedUses`.
   ///
+  /// Without recorded uses, nothing can be tree-shaken. Then [link] bundles
+  /// the prebuilt dynamic library in [NativeBuildMode.fetch] if available.
+  /// Otherwise it links the static library keeping all functions, except on
+  /// Windows, where it throws a [BuildError] because a DLL only exports the
+  /// functions it lists.
+  ///
   /// All other assets sent to this link hook are forwarded unchanged.
   ///
   /// Behavior is controlled by `hooks.user_defines.<package>.treeshake`:
   /// - [TreeshakeMode.auto] (default): Tries to tree-shake, and if linking
   ///   fails in [NativeBuildMode.fetch], prints a warning and falls back to
   ///   bundling the prebuilt dynamic library.
-  /// - [TreeshakeMode.on]: Always tries to tree-shake, and rethrows if linking
-  ///   fails.
+  /// - [TreeshakeMode.on]: Always tries to tree-shake, and throws if there are
+  ///   no recorded uses or linking fails.
   /// - [TreeshakeMode.off]: Never tree-shakes. [build] then bundles the
   ///   dynamic library directly; if a static library still reaches [link], the
   ///   prebuilt dynamic library is bundled instead.
@@ -389,38 +396,45 @@ class PrebuiltLibrary {
     final staticLibraryFile = staticLibrary.file!;
 
     final recordedUses = input.recordedUses;
+    final resolver = usedSymbols;
     final List<String>? symbols;
-    if (recordedUses == null || usedSymbols == null) {
-      log.info('$pkg: no recorded uses, keeping all functions.');
-      symbols = null;
-    } else {
-      symbols = usedSymbols!(recordedUses);
-      log.info(
-        '$pkg: keeping the ${symbols.length} functions the application '
-        'uses:\n  ${symbols.join('\n  ')}',
-      );
-    }
-
-    if (symbols == null &&
-        allKnownSymbols == null &&
-        input.config.code.targetOS == OS.windows) {
-      // A DLL only exports the functions it lists, which are unknown here.
-      // Nothing is tree-shaken, so the pre-built dynamic library is
-      // equivalent.
+    if (recordedUses == null || resolver == null) {
+      if (buildOptions.treeshake == TreeshakeMode.on) {
+        throw BuildError(
+          message: resolver == null
+              ? _noUsedSymbolsMessage(pkg)
+              : '$pkg: treeshake is on, but the link hook received no '
+                    'recorded uses, so it cannot tell which functions the '
+                    'application uses. Build with record use enabled, or set '
+                    '`treeshake` to `auto`.',
+        );
+      }
+      // Nothing can be tree-shaken, so the pre-built dynamic library is
+      // equivalent, and doesn't need a C toolchain.
       if (buildOptions.buildMode == NativeBuildMode.fetch &&
           await _bundlePrebuiltDynamicLibrary(input, output, pkg, log)) {
         log.info(
-          '$pkg: bundled the pre-built dynamic library, because without '
-          'recorded uses or allKnownSymbols, the functions to export on '
-          'Windows are unknown.',
+          '$pkg: no recorded uses, bundled the pre-built dynamic library.',
         );
         return;
       }
-      throw BuildError(
-        message:
-            '$pkg: linking the static library for ${_target(input)} without '
-            'recorded uses requires `allKnownSymbols`, because a DLL only '
-            'exports the functions it lists.',
+      if (input.config.code.targetOS == OS.windows) {
+        throw BuildError(
+          message:
+              '$pkg: cannot link the static library for ${_target(input)} '
+              'without recorded uses, because a DLL only exports the '
+              'functions it lists. Build with record use enabled, or set '
+              '`treeshake: off` under `hooks.user_defines.$pkg` to bundle a '
+              'dynamic library instead.',
+        );
+      }
+      log.info('$pkg: no recorded uses, keeping all functions.');
+      symbols = null;
+    } else {
+      symbols = resolver(recordedUses);
+      log.info(
+        '$pkg: keeping the ${symbols.length} functions the application '
+        'uses:\n  ${symbols.join('\n  ')}',
       );
     }
 
@@ -456,8 +470,9 @@ class PrebuiltLibrary {
     }
   }
 
-  /// Links [staticLibrary] into a dynamic library exporting [symbols] (or all
-  /// functions if `null`).
+  /// Links [staticLibrary] into a dynamic library exporting [symbols], or all
+  /// functions if `null` (not on Windows, where a DLL only exports the
+  /// functions it lists).
   Future<void> _linkStaticLibrary(
     LinkInput input,
     LinkOutputBuilder output, {
@@ -467,13 +482,7 @@ class PrebuiltLibrary {
     required Logger log,
   }) async {
     final code = input.config.code;
-    final linkerOptions = LinkerOptions.treeshake(
-      // A DLL only exports the functions it lists, so on Windows, keeping all
-      // functions means exporting all known ones. `native_toolchain_c` only
-      // exports the ones that the static library defines.
-      symbolsToKeep:
-          symbols ?? (code.targetOS == OS.windows ? allKnownSymbols : null),
-    );
+    final linkerOptions = LinkerOptions.treeshake(symbolsToKeep: symbols);
     final linkLibraries = libraries?.call(code) ?? const <String>[];
     final linkFrameworks = frameworks?.call(code);
     final linker = linkFrameworks == null
@@ -570,6 +579,10 @@ class PrebuiltLibrary {
     final code = input.config.code;
     return '${code.targetOS}_${code.targetArchitecture}';
   }
+
+  static String _noUsedSymbolsMessage(String pkg) =>
+      '$pkg: treeshake is on, but this package does not support '
+      'tree-shaking, because its `PrebuiltLibrary` has no `usedSymbols`.';
 
   /// Synthesizes a [BuildInput] via [BuildInputBuilder] (following the
   /// `download_asset/tool/build.dart` pattern in `package:hooks`) and invokes

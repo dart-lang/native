@@ -44,7 +44,6 @@ final myLibrary = PrebuiltLibrary(
     const record_use.Library('package:my_package/src/bindings.dart'),
     _recordUseMapping,
   ),
-  allKnownSymbols: _recordUseMapping.values,
 );
 ```
 
