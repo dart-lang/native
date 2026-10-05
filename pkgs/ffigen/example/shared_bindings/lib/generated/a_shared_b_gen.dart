@@ -89,11 +89,15 @@ enum A_Enum {
   final int value;
   const A_Enum(this.value);
 
-  static A_Enum fromValue(int value) => switch (value) {
+  static A_Enum? fromValueOrNull(int value) => switch (value) {
     0 => A_ENUM_1,
     1 => A_ENUM_2,
-    _ => throw ArgumentError('Unknown value for A_Enum: $value'),
+    _ => null,
   };
+
+  static A_Enum fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for A_Enum: $value'));
 }
 
 const int A_MACRO_1 = 1;
