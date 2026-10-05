@@ -1,3 +1,9 @@
+## 22.2.0-wip
+
+- Generate a [non-throwing `fromValueOrNull`](https://github.com/dart-lang/native/issues/3712)
+  method on Dart enums, which returns `null` for unknown values. `fromValue`
+  now delegates to it, and still throws an `ArgumentError`.
+
 ## 22.1.0
 
 - The YAML configuration format is deprecated and will be removed in a future
