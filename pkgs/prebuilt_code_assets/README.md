@@ -19,7 +19,8 @@ Modeled after `CLibrary` in `package:native_toolchain_c`, a single `PrebuiltLibr
   - `auto` (default): Tree-shakes when possible. If no static library is released for a target, or if linking fails in `fetch` mode (e.g. no C toolchain for the target), prints a warning and bundles the prebuilt dynamic library instead.
   - `on`: Always tree-shakes, and fails the build if that is not possible.
   - `off`: Never tree-shakes; bundles the dynamic library directly without running the C linker.
-  - Without recorded uses (for example, when record use is disabled), nothing can be tree-shaken. Then `fetch` mode bundles the prebuilt dynamic library. When building from source, the link hook links the static library keeping all functions, except on Windows, where a DLL only exports the functions it lists; that fails the build (use `treeshake: off` instead).
+  - If the application uses none of the library's functions, the link hook bundles no library at all.
+  - If record use is disabled, it is unknown which functions the application uses, so nothing can be tree-shaken. Then `fetch` mode bundles the prebuilt dynamic library. When building from source, the link hook links the static library keeping all functions, except on Windows, where a DLL only exports the functions it lists; that fails the build (use `treeshake: off` instead).
   - On Windows, `package:native_toolchain_c` only exports the used functions that the `.lib` defines.
   - On Windows, don't mark functions with `__declspec(dllexport)` when compiling the static library: the linker then exports, and so keeps, every such function in each object file it links, even unused ones. The `.def` file already determines the exports.
   - Any other assets routed to the package's link hook are forwarded unchanged.

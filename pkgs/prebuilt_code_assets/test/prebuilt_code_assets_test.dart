@@ -619,10 +619,12 @@ void main() {
         List<EncodedAsset> assets, {
         Map<String, Object?> defines = const {},
         CodeAssetExtension? extension,
-        bool withRecordedUses = false,
+        bool recordUseEnabled = false,
       }) {
+        // With record use enabled, the link hook gets recorded uses even if
+        // the application uses nothing.
         Uri? recordedUsesFile;
-        if (withRecordedUses) {
+        if (recordUseEnabled) {
           recordedUsesFile = tempDir.uri.resolve('recorded_uses.json');
           File.fromUri(recordedUsesFile).writeAsStringSync(
             jsonEncode(
@@ -712,11 +714,11 @@ void main() {
       LinkInput staticLinkInput(
         OS os, {
         Map<String, Object?> defines = const {},
-        bool withRecordedUses = false,
+        bool recordUseEnabled = false,
       }) => createLinkInput(
         [staticAsset('demo.dart').encode()],
         defines: defines,
-        withRecordedUses: withRecordedUses,
+        recordUseEnabled: recordUseEnabled,
         extension: CodeAssetExtension(
           targetOS: os,
           targetArchitecture: Architecture.x64,
@@ -741,7 +743,7 @@ void main() {
             return const [];
           },
         ).link(
-          input: staticLinkInput(OS.windows, withRecordedUses: true),
+          input: staticLinkInput(OS.windows, recordUseEnabled: true),
           output: output,
         );
         expect(linked, isTrue);
@@ -750,13 +752,50 @@ void main() {
         expect(requestedPaths, ['/releases/1.0.0/$dll']);
       });
 
+      for (final os in [OS.linux, OS.windows]) {
+        for (final treeshake in ['auto', 'on']) {
+          test(
+            'on $os with treeshake: $treeshake, bundles no library if the '
+            'application uses none of its functions',
+            () async {
+              var linked = false;
+              final input = staticLinkInput(
+                os,
+                defines: {'treeshake': treeshake},
+                recordUseEnabled: true,
+              );
+              final output = LinkOutputBuilder();
+              await makeLibrary(
+                makeReleaseConfig(bothHashes),
+                usedSymbols: SymbolsResolvers.fromRecordUseMapping(
+                  const record_use.Library('package:demo/demo.dart'),
+                  const {'demoAdd': 'demo_add'},
+                ),
+                libraries: (_) {
+                  linked = true;
+                  return const [];
+                },
+              ).link(input: input, output: output);
+              final linkOutput = LinkOutput(output.json);
+              expect(
+                await ProtocolBase.validateLinkOutput(input, linkOutput),
+                isEmpty,
+              );
+              expect(linkOutput.assets.encodedAssets, isEmpty);
+              expect(linked, isFalse, reason: 'Needs no C toolchain');
+              expect(requestedPaths, isEmpty);
+            },
+          );
+        }
+      }
+
       for (final (os, prebuilt) in [
         (OS.linux, dylibAsset),
         (OS.windows, dll),
       ]) {
         test(
-          'on $os without recorded uses, bundles the prebuilt dynamic library '
-          'in fetch mode without linking',
+          'on $os with record use disabled, bundles the prebuilt dynamic '
+          'library in fetch mode without linking',
           () async {
             var linked = false;
             final output = LinkOutputBuilder();
@@ -776,7 +815,7 @@ void main() {
       }
 
       test(
-        'without recorded uses, links keeping all functions when building '
+        'with record use disabled, links keeping all functions when building '
         'from source',
         () async {
           var linked = false;
@@ -800,7 +839,7 @@ void main() {
       );
 
       test(
-        'on Windows without recorded uses, throws when building from source',
+        'on Windows with record use disabled, throws when building from source',
         () async {
           await expectLater(
             makeLibrary(makeReleaseConfig({dll: dylibHash})).link(
@@ -822,7 +861,7 @@ void main() {
         },
       );
 
-      test('treeshake: on throws without recorded uses', () async {
+      test('treeshake: on throws with record use disabled', () async {
         var linked = false;
         await expectLater(
           makeLibrary(
@@ -839,7 +878,7 @@ void main() {
             isA<BuildError>().having(
               (e) => e.message,
               'message',
-              contains('no recorded uses'),
+              contains('record use is disabled'),
             ),
           ),
         );
@@ -859,7 +898,7 @@ void main() {
             staticAsset('demo.dart').encode(),
           ],
           defines: {'treeshake': 'on'},
-          withRecordedUses: true,
+          recordUseEnabled: true,
         );
         final library = PrebuiltLibrary(
           name: 'demo',

@@ -334,13 +334,15 @@ class PrebuiltLibrary {
 
   /// Runs the link hook (`hook/link.dart`) to link and tree-shake the static
   /// library emitted by [build] into a dynamic library containing only the
-  /// functions referenced in `input.recordedUses`.
+  /// functions referenced in `input.recordedUses`. If the application uses
+  /// none of them, no library is bundled.
   ///
-  /// Without recorded uses, nothing can be tree-shaken. Then [link] bundles
-  /// the prebuilt dynamic library in [NativeBuildMode.fetch] if available.
-  /// Otherwise it links the static library keeping all functions, except on
-  /// Windows, where it throws a [BuildError] because a DLL only exports the
-  /// functions it lists.
+  /// If record use is disabled (`input.recordedUses` is `null`), it is unknown
+  /// which functions the application uses, so nothing can be tree-shaken. Then
+  /// [link] bundles the prebuilt dynamic library in [NativeBuildMode.fetch] if
+  /// available. Otherwise it links the static library keeping all functions,
+  /// except on Windows, where it throws a [BuildError] because a DLL only
+  /// exports the functions it lists.
   ///
   /// All other assets sent to this link hook are forwarded unchanged.
   ///
@@ -348,8 +350,8 @@ class PrebuiltLibrary {
   /// - [TreeshakeMode.auto] (default): Tries to tree-shake, and if linking
   ///   fails in [NativeBuildMode.fetch], prints a warning and falls back to
   ///   bundling the prebuilt dynamic library.
-  /// - [TreeshakeMode.on]: Always tries to tree-shake, and throws if there are
-  ///   no recorded uses or linking fails.
+  /// - [TreeshakeMode.on]: Always tries to tree-shake, and throws if record use
+  ///   is disabled or linking fails.
   /// - [TreeshakeMode.off]: Never tree-shakes. [build] then bundles the
   ///   dynamic library directly; if a static library still reaches [link], the
   ///   prebuilt dynamic library is bundled instead.
@@ -399,22 +401,26 @@ class PrebuiltLibrary {
     final resolver = usedSymbols;
     final List<String>? symbols;
     if (recordedUses == null || resolver == null) {
+      // It's unknown which functions the application uses, so nothing can be
+      // tree-shaken. [build] only routes a static library here if there is a
+      // `usedSymbols`, so record use is disabled.
       if (buildOptions.treeshake == TreeshakeMode.on) {
         throw BuildError(
           message: resolver == null
               ? _noUsedSymbolsMessage(pkg)
-              : '$pkg: treeshake is on, but the link hook received no '
-                    'recorded uses, so it cannot tell which functions the '
-                    'application uses. Build with record use enabled, or set '
-                    '`treeshake` to `auto`.',
+              : '$pkg: treeshake is on, but record use is disabled, so the '
+                    'link hook cannot tell which functions the application '
+                    'uses. Build with record use enabled, or set `treeshake` '
+                    'to `auto`.',
         );
       }
-      // Nothing can be tree-shaken, so the pre-built dynamic library is
-      // equivalent, and doesn't need a C toolchain.
+      // The pre-built dynamic library is equivalent, and doesn't need a C
+      // toolchain.
       if (buildOptions.buildMode == NativeBuildMode.fetch &&
           await _bundlePrebuiltDynamicLibrary(input, output, pkg, log)) {
         log.info(
-          '$pkg: no recorded uses, bundled the pre-built dynamic library.',
+          '$pkg: record use is disabled, bundled the pre-built dynamic '
+          'library.',
         );
         return;
       }
@@ -422,16 +428,23 @@ class PrebuiltLibrary {
         throw BuildError(
           message:
               '$pkg: cannot link the static library for ${_target(input)} '
-              'without recorded uses, because a DLL only exports the '
+              'while record use is disabled, because a DLL only exports the '
               'functions it lists. Build with record use enabled, or set '
               '`treeshake: off` under `hooks.user_defines.$pkg` to bundle a '
               'dynamic library instead.',
         );
       }
-      log.info('$pkg: no recorded uses, keeping all functions.');
+      log.info('$pkg: record use is disabled, keeping all functions.');
       symbols = null;
     } else {
       symbols = resolver(recordedUses);
+      if (symbols.isEmpty) {
+        log.info(
+          '$pkg: the application uses none of the functions, so no library is '
+          'bundled.',
+        );
+        return;
+      }
       log.info(
         '$pkg: keeping the ${symbols.length} functions the application '
         'uses:\n  ${symbols.join('\n  ')}',

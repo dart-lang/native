@@ -461,6 +461,30 @@ dependency_overrides:
   );
 
   test(
+    'dart build cli bundles no library if the application uses none of its '
+    'functions, even with treeshake: on',
+    () async {
+      final pkgDir = await createPackage(buildMode: 'fetch', treeshake: 'on');
+      await writeFile(pkgDir, 'bin/main.dart', '''
+void main() {
+  print('No FFI calls');
+}
+''');
+      final bundle = await buildCli(pkgDir);
+      final result = await Process.run(
+        bundle.resolve(exeName).toFilePath(),
+        [],
+      );
+      expect(result.exitCode, 0, reason: '${result.stdout}\n${result.stderr}');
+      expect(result.stdout, contains('No FFI calls'));
+      expect(
+        File.fromUri(bundle.resolve('lib/$dylibFileName')).existsSync(),
+        isFalse,
+      );
+    },
+  );
+
+  test(
     'treeshake: off bundles the dynamic library without tree-shaking',
     () async {
       final pkgDir = await createPackage(buildMode: 'fetch', treeshake: 'off');

@@ -41,7 +41,7 @@
 - **Breaking:** Without `usedSymbols`, `build` bundles the dynamic library
   directly instead of routing a static library to the link hook, and
   `treeshake: on` fails the build.
-- **Breaking:** Without recorded uses, `link` bundles the prebuilt dynamic
+- **Breaking:** If record use is disabled, `link` bundles the prebuilt dynamic
   library in the `fetch` build mode instead of linking the static library. In
   other build modes, it still links the static library keeping all functions,
   except on Windows, where it throws a `BuildError` (a DLL only exports the
