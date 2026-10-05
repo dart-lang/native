@@ -26,6 +26,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:prebuilt_code_assets/prebuilt_code_assets.dart';
 import 'package:prebuilt_code_assets/tools.dart';
@@ -117,7 +118,7 @@ void main() {
   late HttpServer server;
   late Uri serverBaseUri;
 
-  final repoRoot = Directory.current.uri;
+  final packageRoot = findPackageRoot('prebuilt_code_assets');
   final currentOS = OS.current;
   final currentArch = Architecture.current;
   final triple = targetTripleFor(currentOS, currentArch);
@@ -227,12 +228,12 @@ dependencies:
   meta: any
   native_toolchain_c: any
   prebuilt_code_assets:
-    path: ${yamlString(repoRoot.toFilePath())}
+    path: ${yamlString(packageRoot.toFilePath())}
   record_use: any
 
 dependency_overrides:
   native_toolchain_c:
-    path: ${yamlString(repoRoot.resolve('../native_toolchain_c/').toFilePath())}
+    path: ${yamlString(packageRoot.resolve('../native_toolchain_c/').toFilePath())}
 ''');
     if (defines.isNotEmpty) {
       buffer
