@@ -82,6 +82,9 @@ void main() async {
     final dependencies = buildOutput.dependencies;
     expect(assets.length, 1);
     expect(await assets.allExist(), true);
-    expect(dependencies, [testPackageUri.resolve('src/$name.c')]);
+    expect(dependencies, [
+      testPackageUri.resolve('src/$name.c'),
+      testPackageUri.resolve('src/$name.h'),
+    ]);
   });
 }

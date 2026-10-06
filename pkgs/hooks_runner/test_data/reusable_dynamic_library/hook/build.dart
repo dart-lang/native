@@ -10,7 +10,7 @@ void main(List<String> args) async {
     final builder = CBuilder.library(
       name: 'add',
       assetName: 'add.dart',
-      sources: ['src/add.c'],
+      sources: ['src/add.c', 'src/add.h'],
       buildMode: BuildMode.debug,
     );
 
