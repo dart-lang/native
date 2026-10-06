@@ -338,6 +338,17 @@ class CppUniquePtrType extends CppClassPointerType {
   }) => '${cppClass.name}.fromPointer($value, takeOwnership: true)';
 
   @override
+  bool get sameNativeAndExternCType => false;
+
+  @override
+  String convertExternCTypeToNativeType(Context context, String value) =>
+      'std::unique_ptr<${cppClass.originalName}>($value)';
+
+  @override
+  String convertNativeTypeToExternCType(Context context, String value) =>
+      '$value.release()';
+
+  @override
   String toString() => 'unique_ptr<${cppClass.name}>';
 
   @override
