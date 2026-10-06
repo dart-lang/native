@@ -137,6 +137,9 @@ void main() {
         final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();
 
+        final logMessages = <String>[];
+        final logger = createCapturingLogger(logMessages);
+
         final cbuilder = CBuilder.library(
           name: name,
           assetName: name,
@@ -151,6 +154,17 @@ void main() {
           output: buildOutput,
           logger: logger,
         );
+
+        final compilerInvocation = logMessages.singleWhere(
+          (message) => message.contains(sourceUri.toFilePath()),
+        );
+        if (linkMode == DynamicLoadingBundled()) {
+          expect(compilerInvocation, contains('-Wl,-encryptable'));
+          expect(compilerInvocation, contains('-framework Foundation'));
+        } else {
+          expect(compilerInvocation, isNot(contains('-Wl,-encryptable')));
+          expect(compilerInvocation, isNot(contains('-framework')));
+        }
 
         final libUri = buildInput.outputDirectory.resolve(libName);
         final objdumpResult = await runProcess(

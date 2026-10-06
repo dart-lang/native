@@ -5,6 +5,9 @@
   pass an `/INCLUDE:` flag per symbol in addition to the generated
   module-definition file, which exceeded the Windows command-line length limit.
   The generated module-definition file also no longer names the DLL `MyDLL`.
+- Do not pass linker flags (`-Wl,-encryptable`, `-Wl,-z,max-page-size=16384`,
+  `-framework`, and C++ standard library link flags) when compiling object files
+  for static libraries (`-c`).
 
 ## 0.19.5
 

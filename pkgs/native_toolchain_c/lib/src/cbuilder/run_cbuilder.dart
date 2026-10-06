@@ -346,30 +346,34 @@ class RunCBuilder {
         if (language == .cpp) ...[
           '-x',
           'c++',
-          // On Android with c++_static, use -Bstatic/-Bdynamic to force
-          // static resolution of -lc++. This picks up the NDK's libc++.a
-          // linker script which expands to INPUT(-lc++_static -lc++abi),
-          // ensuring libc++abi is also linked. Passing -l c++_static directly
-          // would miss libc++abi. See:
-          // https://android.googlesource.com/platform/ndk/+show/refs/heads/main/docs/BuildSystemMaintainers.md
-          if (codeConfig.targetOS == .android &&
-              (cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!) ==
-                  'c++_static') ...[
-            '-Wl,-Bstatic',
-            '-l',
-            'c++',
-            '-Wl,-Bdynamic',
-          ] else ...[
-            '-l',
-            cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
+          if (executable != null || dynamicLibrary != null) ...[
+            // On Android with c++_static, use -Bstatic/-Bdynamic to force
+            // static resolution of -lc++. This picks up the NDK's libc++.a
+            // linker script which expands to INPUT(-lc++_static -lc++abi),
+            // ensuring libc++abi is also linked. Passing -l c++_static directly
+            // would miss libc++abi. See:
+            // https://android.googlesource.com/platform/ndk/+show/refs/heads/main/docs/BuildSystemMaintainers.md
+            if (codeConfig.targetOS == .android &&
+                (cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!) ==
+                    'c++_static') ...[
+              '-Wl,-Bstatic',
+              '-l',
+              'c++',
+              '-Wl,-Bdynamic',
+            ] else ...[
+              '-l',
+              cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
+            ],
           ],
         ],
         if (optimizationLevel != .unspecified) optimizationLevel.clangFlag(),
-        // Support Android 15 page size by default, can be overridden by
-        // passing [flags].
-        if (codeConfig.targetOS == .android) '-Wl,-z,max-page-size=16384',
-        if (codeConfig.targetOS == .iOS || codeConfig.targetOS == .macOS)
-          '-Wl,-encryptable',
+        if (executable != null || dynamicLibrary != null) ...[
+          // Support Android 15 page size by default, can be overridden by
+          // passing [flags].
+          if (codeConfig.targetOS == .android) '-Wl,-z,max-page-size=16384',
+          if (codeConfig.targetOS == .iOS || codeConfig.targetOS == .macOS)
+            '-Wl,-encryptable',
+        ],
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -386,9 +390,6 @@ class RunCBuilder {
           )
         else
           ...sourceFiles,
-        if (codeConfig.targetOS case .iOS || .macOS) ...[
-          for (final framework in frameworks) ...['-framework', framework],
-        ],
         if (executable != null) ...[
           '-o',
           toolPath(outDir.resolveUri(executable!)),
@@ -402,6 +403,9 @@ class RunCBuilder {
           toolPath(outFile!),
         ],
         if (executable != null || dynamicLibrary != null) ...[
+          if (codeConfig.targetOS case .iOS || .macOS) ...[
+            for (final framework in frameworks) ...['-framework', framework],
+          ],
           if (codeConfig.targetOS case .android || .linux)
             // During bundling code assets are all placed in the same directory.
             // Setting this rpath allows the binary to find other code assets
