@@ -5,8 +5,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
+import 'package:file/local.dart';
+import 'package:hooks_runner/src/locking/locking.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:test/test.dart';
 
@@ -52,7 +53,7 @@ void main() async {
 
   test('Terminations unlock', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
-      Future<int> runProcess({Duration? killAfter}) async {
+      Future<int> runProcess({bool killWhenLocked = false}) async {
         final process = await Process.start(dartExecutable.toFilePath(), [
           packageUri
               .resolve('test/locking/locking_test_helper.dart')
@@ -63,40 +64,30 @@ void main() async {
         final stdoutSub = process.stdout
             .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
-            .listen(logger.fine);
+            .listen((line) {
+              logger.fine(line);
+              if (killWhenLocked && line == 'directory locked') {
+                printOnFailure('killing process');
+                process.kill();
+              }
+            });
         final stderrSub = process.stderr
             .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.severe);
 
-        Timer? timer;
-        if (killAfter != null) {
-          timer = Timer(killAfter, () async {
-            printOnFailure('killing process');
-            process.kill();
-          });
-        }
         final (exitCode, _, _) = await (
           process.exitCode,
           stdoutSub.asFuture<void>(),
           stderrSub.asFuture<void>(),
         ).wait;
-        if (timer != null) {
-          timer.cancel();
-        }
 
         return exitCode;
       }
 
       // Kill process before it finishes. To check lock is properly released.
-      var milliseconds = 100;
-      while (findLockFile(tempUri) == null) {
-        final result = await runProcess(
-          killAfter: Duration(milliseconds: milliseconds),
-        );
-        expect(result, isNot(0));
-        milliseconds = max((milliseconds * 1.1).round(), milliseconds + 100);
-      }
+      final result = await runProcess(killWhenLocked: true);
+      expect(result, isNot(0));
       expect(findLockFile(tempUri), isNotNull);
 
       final result2 = await runProcess();
@@ -187,4 +178,393 @@ void main() async {
       expect(timeoutCompletedFirst, isFalse);
     });
   });
+
+  group('IOOverrides locking tests', () {
+    const contentionCodesByOs = <String, List<(String, int)>>{
+      'linux': [('Linux EAGAIN', 11), ('POSIX EACCES', 13)],
+      'macos': [('macOS EAGAIN', 35), ('POSIX EACCES', 13)],
+      'windows': [
+        ('Windows ERROR_SHARING_VIOLATION', 32),
+        ('Windows ERROR_LOCK_VIOLATION', 33),
+      ],
+    };
+    final currentOsContentionCodes =
+        contentionCodesByOs[Platform.operatingSystem]!;
+    final currentOsContentionCodeNumbers = currentOsContentionCodes
+        .map((e) => e.$2)
+        .toSet();
+
+    for (final (String name, int errorCode) in <(String, int)>[
+      ('macOS ENOTSUP', 45),
+      ('macOS ENOLCK', 77),
+      ('macOS ENOSYS', 78),
+      ('POSIX EINVAL', 22),
+      ('Linux ENOTSUP', 95),
+      ('Linux ENOLCK', 37),
+      ('Linux ENOSYS', 38),
+      ('Windows ERROR_NOT_SUPPORTED', 50),
+      for (final entry in contentionCodesByOs.entries)
+        if (entry.key != Platform.operatingSystem)
+          for (final code in entry.value)
+            if (!currentOsContentionCodeNumbers.contains(code.$2)) code,
+    ]) {
+      test(
+        'fails eagerly on FileSystemException with $name ($errorCode)',
+        () async {
+          await inTempDir((tempUri) async {
+            final overrides = _LockTestingIOOverrides()
+              ..errorToThrowOnLock = FileSystemException(
+                'lock failed',
+                tempUri.resolve('.lock').toFilePath(),
+                OSError('Unsupported', errorCode),
+              );
+            final capturedMessages = <String>[];
+            final testLogger = createCapturingLogger(capturedMessages);
+
+            await IOOverrides.runWithIOOverrides(() async {
+              await expectLater(
+                () => runUnderDirectoryLock<void>(
+                  const LocalFileSystem(),
+                  tempUri,
+                  () async {},
+                  logger: testLogger,
+                ),
+                throwsA(
+                  isA<FileSystemException>().having(
+                    (e) => e.message,
+                    'message',
+                    contains(
+                      'The file system containing this project does not appear '
+                      'to support file locking (e.g. network shares like SMB '
+                      'or NFS). Build hooks require file locking. '
+                      'Please move the project to a local file system.',
+                    ),
+                  ),
+                ),
+              );
+            }, overrides);
+
+            expect(overrides.lockAttempts, 1);
+            expect(overrides.lockCount, 0);
+            expect(overrides.unlockCount, 0);
+            expect(overrides.closeCount, 1);
+            expect(
+              capturedMessages.join('\n'),
+              contains(
+                'The file system containing this project does not appear to '
+                'support file locking (e.g. network shares like SMB or NFS). '
+                'Build hooks require file locking. '
+                'Please move the project to a local file system.',
+              ),
+            );
+            expect(
+              capturedMessages.join('\n'),
+              isNot(contains('Waiting to be able to obtain lock')),
+            );
+          });
+        },
+      );
+    }
+
+    for (final (String name, int? errorCode) in <(String, int?)>[
+      ('null OSError', null),
+      ...currentOsContentionCodes,
+    ]) {
+      test('retries on lock contention with $name and succeeds', () async {
+        await inTempDir((tempUri) async {
+          final overrides = _LockTestingIOOverrides()
+            ..retryAttemptsBeforeSuccess = 1
+            ..errorToThrowOnLock = FileSystemException(
+              'lock failed',
+              tempUri.resolve('.lock').toFilePath(),
+              errorCode == null ? null : OSError('Contention', errorCode),
+            );
+          final capturedMessages = <String>[];
+          final testLogger = createCapturingLogger(capturedMessages);
+
+          final result = await IOOverrides.runWithIOOverrides(
+            () => runUnderDirectoryLock<String>(
+              const LocalFileSystem(),
+              tempUri,
+              () async => 'success',
+              logger: testLogger,
+            ),
+            overrides,
+          );
+
+          expect(result, 'success');
+          expect(overrides.lockAttempts, 2);
+          expect(overrides.lockCount, 1);
+          expect(overrides.unlockCount, 1);
+          expect(overrides.closeCount, 1);
+          expect(
+            capturedMessages.join('\n'),
+            contains('Waiting to be able to obtain lock of directory:'),
+          );
+        });
+      });
+    }
+
+    test('times out when lock contention persists', () async {
+      await inTempDir((tempUri) async {
+        final overrides = _LockTestingIOOverrides()
+          ..alwaysThrowOnLock = true
+          ..errorToThrowOnLock = FileSystemException(
+            'lock failed',
+            tempUri.resolve('.lock').toFilePath(),
+            OSError('Contention', currentOsContentionCodes.first.$2),
+          );
+        final capturedMessages = <String>[];
+        final testLogger = createCapturingLogger(capturedMessages);
+
+        await IOOverrides.runWithIOOverrides(() async {
+          await expectLater(
+            () => runUnderDirectoryLock<void>(
+              const LocalFileSystem(),
+              tempUri,
+              () async {},
+              timeout: const Duration(milliseconds: 60),
+              logger: testLogger,
+            ),
+            throwsA(isA<TimeoutException>()),
+          );
+        }, overrides);
+
+        expect(overrides.lockAttempts, greaterThanOrEqualTo(1));
+        expect(overrides.lockCount, 0);
+        expect(overrides.closeCount, 1);
+        expect(
+          capturedMessages.join('\n'),
+          contains('Could not acquire the lock to'),
+        );
+      });
+    });
+
+    test('rethrows FileSystemException thrown by callback', () async {
+      await inTempDir((tempUri) async {
+        final overrides = _LockTestingIOOverrides();
+
+        await IOOverrides.runWithIOOverrides(() async {
+          await expectLater(
+            () => runUnderDirectoryLock<void>(
+              const LocalFileSystem(),
+              tempUri,
+              () async => throw const FileSystemException('callback error'),
+              logger: logger,
+            ),
+            throwsA(
+              isA<FileSystemException>().having(
+                (e) => e.message,
+                'message',
+                'callback error',
+              ),
+            ),
+          );
+        }, overrides);
+
+        expect(overrides.lockAttempts, 1);
+        expect(overrides.lockCount, 1);
+        expect(overrides.unlockCount, 1);
+        expect(overrides.closeCount, 1);
+      });
+    });
+
+    test('rethrows FileSystemException thrown by writeString', () async {
+      await inTempDir((tempUri) async {
+        final overrides = _LockTestingIOOverrides()
+          ..errorToThrowOnWriteString = const FileSystemException(
+            'writeString error',
+          );
+
+        await IOOverrides.runWithIOOverrides(() async {
+          await expectLater(
+            () => runUnderDirectoryLock<void>(
+              const LocalFileSystem(),
+              tempUri,
+              () async {},
+              logger: logger,
+            ),
+            throwsA(
+              isA<FileSystemException>().having(
+                (e) => e.message,
+                'message',
+                'writeString error',
+              ),
+            ),
+          );
+        }, overrides);
+
+        expect(overrides.lockAttempts, 1);
+        expect(overrides.lockCount, 1);
+        expect(overrides.unlockCount, 1);
+        expect(overrides.closeCount, 1);
+      });
+    });
+
+    test('rethrows FileSystemException thrown by unlock', () async {
+      await inTempDir((tempUri) async {
+        final overrides = _LockTestingIOOverrides()
+          ..errorToThrowOnUnlock = const FileSystemException('unlock error');
+
+        await IOOverrides.runWithIOOverrides(() async {
+          await expectLater(
+            () => runUnderDirectoryLock<void>(
+              const LocalFileSystem(),
+              tempUri,
+              () async {},
+              logger: logger,
+            ),
+            throwsA(
+              isA<FileSystemException>().having(
+                (e) => e.message,
+                'message',
+                'unlock error',
+              ),
+            ),
+          );
+        }, overrides);
+
+        expect(overrides.lockAttempts, 1);
+        expect(overrides.lockCount, 1);
+        expect(overrides.unlockCount, 1);
+        expect(overrides.closeCount, 1);
+      });
+    });
+
+    test('runUnderDirectoriesLock locks multiple directories', () async {
+      await inTempDir((tempUri) async {
+        final dir1 = tempUri.resolve('dir1/');
+        final dir2 = tempUri.resolve('dir2/');
+        final overrides = _LockTestingIOOverrides();
+
+        final result = await IOOverrides.runWithIOOverrides(
+          () => runUnderDirectoriesLock<int>(
+            const LocalFileSystem(),
+            [dir1, dir2],
+            () async => 42,
+            logger: logger,
+          ),
+          overrides,
+        );
+
+        expect(result, 42);
+        expect(overrides.lockAttempts, 2);
+        expect(overrides.lockCount, 2);
+        expect(overrides.unlockCount, 2);
+        expect(overrides.closeCount, 2);
+      });
+    });
+  });
+}
+
+final class _LockTestingIOOverrides extends IOOverrides {
+  int lockCount = 0;
+  int unlockCount = 0;
+  int closeCount = 0;
+  int lockAttempts = 0;
+  FileSystemException? errorToThrowOnLock;
+  FileSystemException? errorToThrowOnWriteString;
+  FileSystemException? errorToThrowOnUnlock;
+  int retryAttemptsBeforeSuccess = 0;
+  bool alwaysThrowOnLock = false;
+
+  @override
+  File createFile(String path) =>
+      _LockTestingFile(this, super.createFile(path));
+}
+
+class _LockTestingFile implements File {
+  _LockTestingFile(this._overrides, this._delegate);
+
+  final _LockTestingIOOverrides _overrides;
+  final File _delegate;
+
+  @override
+  String get path => _delegate.path;
+
+  @override
+  Uri get uri => _delegate.uri;
+
+  @override
+  Future<bool> exists() => _delegate.exists();
+
+  @override
+  Future<File> create({bool recursive = false, bool exclusive = false}) async {
+    await _delegate.create(recursive: recursive, exclusive: exclusive);
+    return this;
+  }
+
+  @override
+  Future<RandomAccessFile> open({FileMode mode = FileMode.read}) async =>
+      _LockTestingRandomAccessFile(
+        _overrides,
+        await _delegate.open(mode: mode),
+      );
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _LockTestingRandomAccessFile implements RandomAccessFile {
+  _LockTestingRandomAccessFile(this._overrides, this._delegate);
+
+  final _LockTestingIOOverrides _overrides;
+  final RandomAccessFile _delegate;
+
+  @override
+  Future<RandomAccessFile> lock([
+    FileLock mode = FileLock.exclusive,
+    int start = 0,
+    int end = -1,
+  ]) async {
+    _overrides.lockAttempts++;
+    final error = _overrides.errorToThrowOnLock;
+    if (error != null) {
+      if (_overrides.alwaysThrowOnLock) {
+        throw error;
+      }
+      if (_overrides.retryAttemptsBeforeSuccess > 0) {
+        _overrides.retryAttemptsBeforeSuccess--;
+        throw error;
+      } else if (_overrides.lockAttempts == 1) {
+        throw error;
+      }
+    }
+    await _delegate.lock(mode, start, end);
+    _overrides.lockCount++;
+    return this;
+  }
+
+  @override
+  Future<RandomAccessFile> unlock([int start = 0, int end = -1]) async {
+    _overrides.unlockCount++;
+    final error = _overrides.errorToThrowOnUnlock;
+    await _delegate.unlock(start, end);
+    if (error != null) {
+      throw error;
+    }
+    return this;
+  }
+
+  @override
+  Future<RandomAccessFile> writeString(
+    String string, {
+    Encoding encoding = utf8,
+  }) async {
+    final error = _overrides.errorToThrowOnWriteString;
+    if (error != null) {
+      throw error;
+    }
+    await _delegate.writeString(string, encoding: encoding);
+    return this;
+  }
+
+  @override
+  Future<void> close() async {
+    _overrides.closeCount++;
+    await _delegate.close();
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
