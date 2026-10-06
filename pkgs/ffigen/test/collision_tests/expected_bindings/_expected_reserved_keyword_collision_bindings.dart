@@ -59,10 +59,14 @@ enum export$ {
   final int value;
   const export$(this.value);
 
-  static export$ fromValue(int value) => switch (value) {
+  static export$? fromValueOrNull(int value) => switch (value) {
     0 => covariant,
-    _ => throw ArgumentError('Unknown value for export\$: $value'),
+    _ => null,
   };
+
+  static export$ fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for export\$: $value'));
 }
 
 final class show extends ffi.Opaque {}

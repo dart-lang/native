@@ -114,13 +114,17 @@ enum Fruit {
   final int value;
   const Fruit(this.value);
 
-  static Fruit fromValue(int value) => switch (value) {
+  static Fruit? fromValueOrNull(int value) => switch (value) {
     0 => FruitApple,
     1 => FruitBanana,
     2 => FruitOrange,
     3 => FruitPear,
-    _ => throw ArgumentError('Unknown value for Fruit: $value'),
+    _ => null,
   };
+
+  static Fruit fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for Fruit: $value'));
 }
 
 const int SOME_MACRO = 123;

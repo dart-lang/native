@@ -19,9 +19,13 @@ enum Constants {
   final int value;
   const Constants(this.value);
 
-  static Constants fromValue(int value) => switch (value) {
+  static Constants? fromValueOrNull(int value) => switch (value) {
     10 => a,
     -1 => b,
-    _ => throw ArgumentError('Unknown value for Constants: $value'),
+    _ => null,
   };
+
+  static Constants fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for Constants: $value'));
 }
