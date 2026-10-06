@@ -28,6 +28,9 @@ public:
     int takeNode(Node* node);
     std::unique_ptr<Node> makeNode(int value, int* destructorCounter);
     int consumeNode(std::unique_ptr<Node> node);
+    int passNodeByValue(Node node);
+    Node returnNodeByValue(int value, int* destructorCounter);
+    Node passAndReturnNode(Node node);
 };
 
 class NodeContainer {
