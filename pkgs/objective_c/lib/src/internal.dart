@@ -401,7 +401,22 @@ bool _isValidObject(ObjectPtr ptr) {
 
 final _allClasses = <ObjectPtr>{};
 
+/// Whether, in debug mode, wrapped Objective-C object pointers are verified to
+/// point at an instance of a registered class.
+///
+/// Enabled by default. Disable it with
+/// `--dart-define=OBJECTIVE_C_VALIDATE_OBJECTS=false`. The check enumerates
+/// every registered class through `objc_copyClassList`, which realizes all
+/// classes. On some runtimes that can deadlock when another thread is
+/// initializing Swift metadata at the same time (observed on the iOS 27.1
+/// simulator runtime), leaving the app stuck at launch.
+const bool _validateObjects = bool.fromEnvironment(
+  'OBJECTIVE_C_VALIDATE_OBJECTS',
+  defaultValue: true,
+);
+
 bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
+  if (!_validateObjects) return true;
   if (!forceReloadClasses && _allClasses.contains(clazz)) return true;
 
   // If the class is missing from the list, it either means we haven't created

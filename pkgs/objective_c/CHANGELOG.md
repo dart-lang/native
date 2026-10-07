@@ -1,3 +1,12 @@
+## 9.6.3-wip
+
+- Add the `OBJECTIVE_C_VALIDATE_OBJECTS` compile-time define. Passing
+  `--dart-define=OBJECTIVE_C_VALIDATE_OBJECTS=false` disables the debug-mode
+  check that wrapped object pointers belong to a registered class. That check
+  enumerates every class via `objc_copyClassList`, which can deadlock on some
+  runtimes (seen on the iOS 27.1 simulator runtime) and leave the app stuck at
+  launch.
+
 ## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`
