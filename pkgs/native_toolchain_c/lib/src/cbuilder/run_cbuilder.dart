@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
 import 'dart:math';
 
 import 'package:code_assets/code_assets.dart';
@@ -11,6 +10,7 @@ import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:process/process.dart';
 
+import '../native_toolchain/apple_clang.dart';
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../native_toolchain/wsl.dart';
@@ -218,15 +218,18 @@ class RunCBuilder {
         );
         objectFiles.add(objectFile);
       }
-      final isMacToElfCross =
-          Platform.isMacOS &&
+      // Apple's ar can't build a symbol table for ELF objects, as its ranlib
+      // only understands Mach-O. The other archivers can, and LinkerOptions
+      // reads the symbol table to skip undefined symbols to keep.
+      final isAppleArWithElf =
+          archiver_!.tool == appleAr &&
           (codeConfig.targetOS == OS.linux ||
               codeConfig.targetOS == OS.android);
       await runProcess(
-        launcher: archiver_!.launcher?.uri,
+        launcher: archiver_.launcher?.uri,
         executable: archiver_.uri,
         arguments: [
-          isMacToElfCross ? 'rcS' : 'rc',
+          isAppleArWithElf ? 'rcS' : 'rc',
           _toolPath(outDir.resolveUri(staticLibrary!), archiver_),
           ...objectFiles.map(
             (objectFile) => _toolPath(objectFile, archiver_!),

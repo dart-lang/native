@@ -18,7 +18,8 @@ void runWindowsModuleDefinitionTests(List<Architecture> architectures) {
 
   for (final architecture in architectures) {
     test(
-      'Module definition script can export unexported function ($architecture)',
+      'Module definition script can export unexported function and skips '
+      'undefined symbols ($architecture)',
       () async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
@@ -59,7 +60,13 @@ void runWindowsModuleDefinitionTests(List<Architecture> architectures) {
           name: name,
           assetName: '',
           linkerOptions: LinkerOptions.treeshake(
-            symbolsToKeep: ['my_func', 'my_unexported_func'],
+            // `my_undefined_func` is not defined. It is not exported instead
+            // of failing the link.
+            symbolsToKeep: [
+              'my_func',
+              'my_unexported_func',
+              'my_undefined_func',
+            ],
           ),
           sources: [uri.toFilePath()],
         ).run(input: linkInput, output: linkOutput, logger: logger);
@@ -74,7 +81,7 @@ void runWindowsModuleDefinitionTests(List<Architecture> architectures) {
           asset: asset,
           targetOS: targetOS,
           symbols: ['my_func', 'my_unexported_func'],
-          symbolsNotToContain: ['my_other_func'],
+          symbolsNotToContain: ['my_other_func', 'my_undefined_func'],
         );
       },
     );

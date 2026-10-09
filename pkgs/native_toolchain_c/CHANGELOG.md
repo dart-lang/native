@@ -1,10 +1,14 @@
-## 0.19.6-wip
+## 0.19.6
 
 - Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
 - Fix `LinkerOptions.treeshake` on Windows for thousands of symbols: no longer
   pass an `/INCLUDE:` flag per symbol in addition to the generated
   module-definition file, which exceeded the Windows command-line length limit.
   The generated module-definition file also no longer names the DLL `MyDLL`.
+- `LinkerOptions.treeshake` and `LinkerOptions.manual` only keep the
+  `symbolsToKeep` that the input archives define, instead of failing to link
+  on Windows, macOS and iOS if one of them is not defined, or making the
+  library depend on it at load time elsewhere. The skipped symbols are logged.
 
 ## 0.19.5
 

@@ -4,10 +4,12 @@
 
 import 'package:code_assets/code_assets.dart';
 import 'package:file/file.dart' show FileSystem;
+import 'package:logging/logging.dart';
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../tool/tool.dart';
+import '../utils/archive_symbols.dart';
 
 /// Options to pass to the linker.
 ///
@@ -36,7 +38,9 @@ class LinkerOptions {
 
   /// Create linking options manually for fine-grained control.
   ///
-  /// If [symbolsToKeep] is null, all symbols will be kept.
+  /// If [symbolsToKeep] is null, all symbols will be kept. Only the
+  /// [symbolsToKeep] that the input archives define are passed to the linker,
+  /// see [LinkerOptions.treeshake]. A [linkerScript] is passed as is.
   LinkerOptions.manual({
     List<String>? flags,
     bool? gcSections,
@@ -56,6 +60,14 @@ class LinkerOptions {
   /// The [symbolsToKeep] specify the symbols which should be kept. Passing
   /// `null` implies that all symbols should be kept. Passing an empty list
   /// implies that no library will be output at all.
+  ///
+  /// Only the [symbolsToKeep] that the input archives define are kept, since
+  /// the linker fails on Windows, macOS and iOS if a symbol to keep is not
+  /// defined, and the library would depend on it at load time elsewhere, while
+  /// tree-shaking often asks for symbols that a library doesn't define, such as
+  /// functions that aren't available on the target. The skipped symbols are
+  /// logged. Nothing is skipped if an input is not an archive with a symbol
+  /// table, such as an object file.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbolsToKeep,
@@ -68,8 +80,75 @@ class LinkerOptions {
            ? GenerateLinkerScript()
            : null;
 
+  LinkerOptions._({
+    required List<String> linkerFlags,
+    required this.gcSections,
+    required LinkerScriptMode? linkerScriptMode,
+    required this.stripDebug,
+    required List<String> symbols,
+    required bool keepAllSymbols,
+  }) : _linkerFlags = linkerFlags,
+       _linkerScriptMode = linkerScriptMode,
+       _symbols = symbols,
+       _keepAllSymbols = keepAllSymbols;
+
   /// Whether to skip linking because no symbols are to be kept.
   bool get skipWholeLibrary => !_keepAllSymbols && _symbols.isEmpty;
+
+  /// These options with only the symbols to keep that the archives in
+  /// [sources] define, see [LinkerOptions.treeshake].
+  ///
+  /// Returns these options unchanged if there are no symbols to keep, or if one
+  /// of the [sources] is not an archive with a symbol table, such as an object
+  /// file.
+  LinkerOptions withSymbolsDefinedIn(
+    Iterable<Uri> sources, {
+    required OS targetOS,
+    required Architecture targetArchitecture,
+    required FileSystem fileSystem,
+    Logger? logger,
+  }) {
+    if (_symbols.isEmpty || sources.isEmpty) return this;
+    final defined = <String>{};
+    for (final source in sources) {
+      final symbols = readArchiveSymbols(fileSystem.file(source));
+      if (symbols == null) return this;
+      defined.addAll(symbols);
+    }
+    // C symbols have a leading underscore in Mach-O, and in COFF on 32-bit
+    // x86, which the linker flags add and the module-definition file omits.
+    bool isDefined(String symbol) => switch (targetOS) {
+      .macOS || .iOS => defined.contains('_$symbol'),
+      .windows when targetArchitecture == .ia32 =>
+        defined.contains(symbol) || defined.contains('_$symbol'),
+      _ => defined.contains(symbol),
+    };
+    final kept = _symbols.where(isDefined).toList(growable: false);
+    final skipped = _symbols.where((symbol) => !isDefined(symbol));
+    if (kept.isEmpty) {
+      // Most likely a mistake, such as symbol names with a prefix the archives
+      // don't have. The library would keep and export nothing.
+      logger?.warning(
+        'None of the symbols to keep is defined by '
+        '${sources.map((e) => e.toFilePath()).join(', ')}: '
+        '${skipped.join(', ')}',
+      );
+    } else if (skipped.isNotEmpty) {
+      logger?.info(
+        'Skipping the symbols to keep that '
+        '${sources.map((e) => e.toFilePath()).join(', ')} do not define: '
+        '${skipped.join(', ')}',
+      );
+    }
+    return LinkerOptions._(
+      linkerFlags: _linkerFlags,
+      gcSections: gcSections,
+      linkerScriptMode: _linkerScriptMode,
+      stripDebug: stripDebug,
+      symbols: kept,
+      keepAllSymbols: _keepAllSymbols,
+    );
+  }
 
   Iterable<String> _toLinkerSyntax(Tool linker, Iterable<String> flagList) {
     if (linker.isClangLike) {

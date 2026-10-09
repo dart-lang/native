@@ -119,7 +119,13 @@ class CLinker extends CTool implements Linker {
     final task = RunCBuilder(
       input: input,
       codeConfig: input.config.code,
-      linkerOptions: effectiveLinkerOptions,
+      linkerOptions: effectiveLinkerOptions.withSymbolsDefinedIn(
+        resolvedSources,
+        targetOS: input.config.code.targetOS,
+        targetArchitecture: input.config.code.targetArchitecture,
+        fileSystem: fileSystem,
+        logger: logger,
+      ),
       logger: logger,
       processManager: processManager,
       fileSystem: fileSystem,
