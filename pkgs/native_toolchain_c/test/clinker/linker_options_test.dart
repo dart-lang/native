@@ -14,9 +14,12 @@ import 'package:test/test.dart';
 
 import '../utils/fake_archive.dart';
 
-/// Host-independent tests of the linker flags for tree-shaking.
+/// Host-independent tests of keeping only the symbols that the input archives
+/// define, and of the linker flags that result.
 void main() {
   late MemoryFileSystem fileSystem;
+  late List<LogRecord> logRecords;
+  late Logger logger;
 
   setUp(() {
     fileSystem = MemoryFileSystem.test(
@@ -24,54 +27,110 @@ void main() {
           ? FileSystemStyle.windows
           : FileSystemStyle.posix,
     );
+    logRecords = [];
+    logger = Logger.detached('')
+      ..level = Level.ALL
+      ..onRecord.listen(logRecords.add);
   });
 
-  String archive(String name, List<String> symbols) =>
+  Uri file(String name, List<int> contents) =>
       (fileSystem.systemTempDirectory.childFile(
         name,
-      )..writeAsBytesSync(archiveWithSymbols(symbols))).path;
+      )..writeAsBytesSync(contents)).uri;
 
-  /// The exports of the module-definition file for linking [sources].
-  List<String> exports(
+  /// A COFF or GNU archive whose symbol table lists [symbols].
+  Uri archive(String name, List<String> symbols) =>
+      file(name, archiveWithSymbols(symbols));
+
+  /// A BSD archive, as on macOS and iOS, whose symbol table lists [symbols].
+  Uri bsdArchive(String name, List<String> symbols) =>
+      file(name, bsdArchiveWithSymbols(symbols));
+
+  /// The symbols that [LinkerOptions.treeshake] keeps for [sources], read from
+  /// the flags for [tool].
+  List<String> symbolsKept(
     List<String> symbolsToKeep,
-    List<String> sources, {
-    Architecture architecture = Architecture.x64,
-    Logger? logger,
+    List<Uri> sources, {
+    OS targetOS = OS.windows,
+    Architecture targetArchitecture = Architecture.x64,
   }) {
-    final flags = LinkerOptions.treeshake(symbolsToKeep: symbolsToKeep)
-        .sourceFilesToFlags(
-          cl,
+    final options = LinkerOptions.treeshake(symbolsToKeep: symbolsToKeep)
+        .withSymbolsDefinedIn(
           sources,
-          OS.windows,
-          architecture,
-          fileSystem,
+          targetOS: targetOS,
+          targetArchitecture: targetArchitecture,
+          fileSystem: fileSystem,
           logger: logger,
+        );
+    final flags = options
+        .sourceFilesToFlags(
+          targetOS == OS.windows ? cl : clang,
+          sources.map((source) => source.toFilePath()),
+          targetOS,
+          targetArchitecture,
+          fileSystem,
         )
         .toList();
-    expect(flags.where((flag) => flag.startsWith('/INCLUDE:')), isEmpty);
-    final moduleDefinition = flags
-        .singleWhere((flag) => flag.startsWith('/DEF:'))
-        .substring('/DEF:'.length);
-    final lines = fileSystem.file(moduleDefinition).readAsLinesSync();
-    expect(lines.first, 'EXPORTS');
-    return [for (final line in lines.skip(1)) line.trim()];
+    // The generated module-definition file, exported symbols list, or version
+    // script lists the symbols; so do the `-u` flags outside of Windows.
+    switch (targetOS) {
+      case OS.windows:
+        expect(flags.where((flag) => flag.startsWith('/INCLUDE:')), isEmpty);
+        final lines = fileSystem
+            .file(
+              flags
+                  .singleWhere((flag) => flag.startsWith('/DEF:'))
+                  .substring('/DEF:'.length),
+            )
+            .readAsLinesSync();
+        expect(lines.first, 'EXPORTS');
+        return [for (final line in lines.skip(1)) line.trim()];
+      case OS.macOS || OS.iOS:
+        final symbols = flags
+            .where((flag) => flag.startsWith('-Wl,-u,_'))
+            .map((flag) => flag.substring('-Wl,-u,_'.length))
+            .toList();
+        final exported = fileSystem
+            .file(
+              flags
+                  .singleWhere(
+                    (flag) => flag.startsWith('-Wl,-exported_symbols_list,'),
+                  )
+                  .substring('-Wl,-exported_symbols_list,'.length),
+            )
+            .readAsLinesSync();
+        expect(exported, symbols.map((symbol) => '_$symbol'));
+        return symbols;
+      case _:
+        final symbols = flags
+            .where((flag) => flag.startsWith('-Wl,-u,'))
+            .map((flag) => flag.substring('-Wl,-u,'.length))
+            .toList();
+        final script = fileSystem
+            .file(
+              flags
+                  .singleWhere(
+                    (flag) => flag.startsWith('-Wl,--version-script='),
+                  )
+                  .substring('-Wl,--version-script='.length),
+            )
+            .readAsStringSync();
+        for (final symbol in symbolsToKeep) {
+          expect(script.contains('$symbol;'), symbols.contains(symbol));
+        }
+        return symbols;
+    }
   }
 
-  test('only exports symbols that the archives define', () {
-    final records = <LogRecord>[];
-    final logger = Logger.detached('')
-      ..level = Level.ALL
-      ..onRecord.listen(records.add);
+  test('keeps only the symbols that the archives define', () {
     final sources = [
       archive('a.lib', ['foo', 'unused']),
       archive('b.lib', ['bar']),
     ];
 
-    expect(exports(['foo', 'bar', 'missing'], sources, logger: logger), [
-      'foo',
-      'bar',
-    ]);
-    expect(records.single.message, contains('missing'));
+    expect(symbolsKept(['foo', 'bar', 'missing'], sources), ['foo', 'bar']);
+    expect(logRecords.single.level, Level.INFO);
+    expect(logRecords.single.message, contains('missing'));
   });
 
   test('matches the leading underscore of C symbols on 32-bit x86', () {
@@ -79,113 +138,93 @@ void main() {
       archive('a.lib', ['_foo', 'bar']),
     ];
 
-    expect(exports(['foo', 'bar'], sources, architecture: Architecture.ia32), [
-      'foo',
-      'bar',
-    ]);
-    expect(exports(['foo', 'bar'], sources), ['bar']);
-  });
-
-  test('warns if the archives define none of the symbols', () {
-    final records = <LogRecord>[];
-    final logger = Logger.detached('')
-      ..level = Level.ALL
-      ..onRecord.listen(records.add);
-    final sources = [
-      archive('a.lib', ['_foo']),
-    ];
-
-    expect(exports(['foo'], sources, logger: logger), isEmpty);
-    expect(records.single.level, Level.WARNING);
-    expect(records.single.message, contains('foo'));
-  });
-
-  test('only includes symbols that the archives define with a manual '
-      'module-definition file', () {
-    final moduleDefinition = fileSystem.systemTempDirectory.childFile(
-      'symbols.def',
-    )..writeAsStringSync('EXPORTS\n    foo\n');
-    final sources = [
-      archive('a.lib', ['foo']),
-    ];
-
-    final flags = LinkerOptions.manual(
-      symbolsToKeep: ['foo', 'missing'],
-      linkerScript: moduleDefinition.uri,
-    ).sourceFilesToFlags(cl, sources, OS.windows, Architecture.x64, fileSystem);
     expect(
-      flags.where((flag) => flag.startsWith('/INCLUDE:')),
-      ['/INCLUDE:foo'],
+      symbolsKept(['foo', 'bar'], sources, targetArchitecture: .ia32),
+      ['foo', 'bar'],
     );
-    expect(flags, contains('/DEF:${moduleDefinition.path}'));
+    expect(symbolsKept(['foo', 'bar'], sources), ['bar']);
   });
 
-  test('only keeps symbols that the archives define on macOS and iOS', () {
-    final records = <LogRecord>[];
-    final logger = Logger.detached('')
-      ..level = Level.ALL
-      ..onRecord.listen(records.add);
-    // Mach-O symbols have a leading underscore.
+  test('matches the leading underscore of Mach-O symbols', () {
     final sources = [
-      (fileSystem.systemTempDirectory.childFile(
-        'liba.a',
-      )..writeAsBytesSync(bsdArchiveWithSymbols(['_foo', '_bar']))).path,
+      bsdArchive('liba.a', ['_foo', '_bar']),
     ];
 
     for (final os in [OS.macOS, OS.iOS]) {
-      final flags = LinkerOptions.treeshake(symbolsToKeep: ['foo', 'missing'])
-          .sourceFilesToFlags(
-            clang,
-            sources,
-            os,
-            Architecture.arm64,
-            fileSystem,
-            logger: logger,
-          )
-          .toList();
-      expect(flags, contains('-Wl,-u,_foo'));
-      expect(flags, isNot(contains('-Wl,-u,_missing')));
-      final exportedSymbols = flags
-          .singleWhere((flag) => flag.startsWith('-Wl,-exported_symbols_list,'))
-          .substring('-Wl,-exported_symbols_list,'.length);
-      expect(fileSystem.file(exportedSymbols).readAsLinesSync(), ['_foo']);
+      expect(
+        symbolsKept(
+          ['foo', 'missing'],
+          sources,
+          targetOS: os,
+          targetArchitecture: .arm64,
+        ),
+        ['foo'],
+        reason: '$os',
+      );
     }
-    expect(records, hasLength(2));
-    expect(records.first.message, contains('missing'));
   });
 
-  test('only keeps symbols that the archives define on Linux', () {
+  test('keeps only the symbols that the archives define on Linux', () {
     final sources = [
       archive('liba.a', ['foo']),
     ];
 
-    final flags = LinkerOptions.treeshake(symbolsToKeep: ['foo', 'missing'])
-        .sourceFilesToFlags(
-          clang,
-          sources,
-          OS.linux,
-          Architecture.x64,
-          fileSystem,
-        )
-        .toList();
-    expect(flags, contains('-Wl,-u,foo'));
-    expect(flags, isNot(contains('-Wl,-u,missing')));
-    final versionScript = flags
-        .singleWhere((flag) => flag.startsWith('-Wl,--version-script='))
-        .substring('-Wl,--version-script='.length);
-    final script = fileSystem.file(versionScript).readAsStringSync();
-    expect(script, contains('foo;'));
-    expect(script, isNot(contains('missing')));
+    expect(symbolsKept(['foo', 'missing'], sources, targetOS: .linux), [
+      'foo',
+    ]);
   });
 
-  test('exports all symbols if an input is not an archive', () {
-    final object = (fileSystem.systemTempDirectory.childFile('b.obj')
-      ..writeAsBytesSync([0x64, 0x86, ...List.filled(80, 0)]));
+  test('warns if the archives define none of the symbols', () {
     final sources = [
-      archive('a.lib', ['foo']),
-      object.path,
+      archive('a.lib', ['_foo']),
     ];
 
-    expect(exports(['foo', 'bar'], sources), ['foo', 'bar']);
+    expect(symbolsKept(['foo'], sources), isEmpty);
+    expect(logRecords.single.level, Level.WARNING);
+    expect(logRecords.single.message, contains('foo'));
+  });
+
+  test('keeps all symbols if an input is not an archive', () {
+    final sources = [
+      archive('a.lib', ['foo']),
+      // The start of an x64 COFF object file.
+      file('b.obj', [0x64, 0x86, 0x02, 0x00, ...List.filled(80, 0)]),
+    ];
+
+    expect(symbolsKept(['foo', 'bar'], sources), ['foo', 'bar']);
+    expect(logRecords, isEmpty);
+  });
+
+  test('also applies to the /INCLUDE flags of manual options', () {
+    final moduleDefinition = file(
+      'symbols.def',
+      'EXPORTS\n    foo\n'.codeUnits,
+    );
+    final sources = [
+      archive('a.lib', ['foo']),
+    ];
+
+    final flags =
+        LinkerOptions.manual(
+              symbolsToKeep: ['foo', 'missing'],
+              linkerScript: moduleDefinition,
+            )
+            .withSymbolsDefinedIn(
+              sources,
+              targetOS: .windows,
+              targetArchitecture: .x64,
+              fileSystem: fileSystem,
+            )
+            .sourceFilesToFlags(
+              cl,
+              sources.map((source) => source.toFilePath()),
+              .windows,
+              .x64,
+              fileSystem,
+            );
+    expect(flags.where((flag) => flag.startsWith('/INCLUDE:')), [
+      '/INCLUDE:foo',
+    ]);
+    expect(flags, contains('/DEF:${moduleDefinition.toFilePath()}'));
   });
 }

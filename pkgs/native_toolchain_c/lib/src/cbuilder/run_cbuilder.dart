@@ -383,7 +383,6 @@ class RunCBuilder {
             codeConfig.targetOS,
             codeConfig.targetArchitecture,
             fileSystem,
-            logger: logger,
           )
         else
           ...sourceFiles,
@@ -459,7 +458,6 @@ class RunCBuilder {
             codeConfig.targetOS,
             codeConfig.targetArchitecture,
             fileSystem,
-            logger: logger,
           )
         else ...[
           ...sourceFiles,

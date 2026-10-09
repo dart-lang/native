@@ -38,10 +38,9 @@ class LinkerOptions {
 
   /// Create linking options manually for fine-grained control.
   ///
-  /// If [symbolsToKeep] is null, all symbols will be kept.
-  ///
-  /// Only the [symbolsToKeep] that the input archives define are passed to the
-  /// linker, see [LinkerOptions.treeshake]. A [linkerScript] is passed as is.
+  /// If [symbolsToKeep] is null, all symbols will be kept. Only the
+  /// [symbolsToKeep] that the input archives define are passed to the linker,
+  /// see [LinkerOptions.treeshake]. A [linkerScript] is passed as is.
   LinkerOptions.manual({
     List<String>? flags,
     bool? gcSections,
@@ -62,13 +61,13 @@ class LinkerOptions {
   /// `null` implies that all symbols should be kept. Passing an empty list
   /// implies that no library will be output at all.
   ///
-  /// Only the [symbolsToKeep] that the input archives define are kept. The
-  /// linker fails if a symbol to keep is not defined on Windows, macOS and iOS,
-  /// and the library would depend on it at load time elsewhere, while
-  /// tree-shaking can easily ask for symbols that a library doesn't define, for
-  /// example functions that aren't available on the target. The skipped
-  /// symbols are logged. If an input is not an archive with a symbol table,
-  /// such as an object file, all [symbolsToKeep] are kept.
+  /// Only the [symbolsToKeep] that the input archives define are kept, since
+  /// the linker fails on Windows, macOS and iOS if a symbol to keep is not
+  /// defined, and the library would depend on it at load time elsewhere, while
+  /// tree-shaking often asks for symbols that a library doesn't define, such as
+  /// functions that aren't available on the target. The skipped symbols are
+  /// logged. Nothing is skipped if an input is not an archive with a symbol
+  /// table, such as an object file.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbolsToKeep,
@@ -81,8 +80,75 @@ class LinkerOptions {
            ? GenerateLinkerScript()
            : null;
 
+  LinkerOptions._({
+    required List<String> linkerFlags,
+    required this.gcSections,
+    required LinkerScriptMode? linkerScriptMode,
+    required this.stripDebug,
+    required List<String> symbols,
+    required bool keepAllSymbols,
+  }) : _linkerFlags = linkerFlags,
+       _linkerScriptMode = linkerScriptMode,
+       _symbols = symbols,
+       _keepAllSymbols = keepAllSymbols;
+
   /// Whether to skip linking because no symbols are to be kept.
   bool get skipWholeLibrary => !_keepAllSymbols && _symbols.isEmpty;
+
+  /// These options with only the symbols to keep that the archives in
+  /// [sources] define, see [LinkerOptions.treeshake].
+  ///
+  /// Returns these options unchanged if there are no symbols to keep, or if one
+  /// of the [sources] is not an archive with a symbol table, such as an object
+  /// file.
+  LinkerOptions withSymbolsDefinedIn(
+    Iterable<Uri> sources, {
+    required OS targetOS,
+    required Architecture targetArchitecture,
+    required FileSystem fileSystem,
+    Logger? logger,
+  }) {
+    if (_symbols.isEmpty || sources.isEmpty) return this;
+    final defined = <String>{};
+    for (final source in sources) {
+      final symbols = readArchiveSymbols(fileSystem.file(source));
+      if (symbols == null) return this;
+      defined.addAll(symbols);
+    }
+    // C symbols have a leading underscore in Mach-O, and in COFF on 32-bit
+    // x86, which the linker flags add and the module-definition file omits.
+    bool isDefined(String symbol) => switch (targetOS) {
+      .macOS || .iOS => defined.contains('_$symbol'),
+      .windows when targetArchitecture == .ia32 =>
+        defined.contains(symbol) || defined.contains('_$symbol'),
+      _ => defined.contains(symbol),
+    };
+    final kept = _symbols.where(isDefined).toList(growable: false);
+    final skipped = _symbols.where((symbol) => !isDefined(symbol));
+    if (kept.isEmpty) {
+      // Most likely a mistake, such as symbol names with a prefix the archives
+      // don't have. The library would keep and export nothing.
+      logger?.warning(
+        'None of the symbols to keep is defined by '
+        '${sources.map((e) => e.toFilePath()).join(', ')}: '
+        '${skipped.join(', ')}',
+      );
+    } else if (skipped.isNotEmpty) {
+      logger?.info(
+        'Skipping the symbols to keep that '
+        '${sources.map((e) => e.toFilePath()).join(', ')} do not define: '
+        '${skipped.join(', ')}',
+      );
+    }
+    return LinkerOptions._(
+      linkerFlags: _linkerFlags,
+      gcSections: gcSections,
+      linkerScriptMode: _linkerScriptMode,
+      stripDebug: stripDebug,
+      symbols: kept,
+      keepAllSymbols: _keepAllSymbols,
+    );
+  }
 
   Iterable<String> _toLinkerSyntax(Tool linker, Iterable<String> flagList) {
     if (linker.isClangLike) {
@@ -116,17 +182,14 @@ extension LinkerOptionsExt on LinkerOptions {
     Iterable<String> sourceFiles,
     OS targetOS,
     Architecture targetArchitecture,
-    FileSystem fileSystem, {
-    Logger? logger,
-  }) {
+    FileSystem fileSystem,
+  ) {
     if (tool.isClangLike || tool.isLdLike) {
       return _sourceFilesToFlagsForClangLike(
         tool,
         sourceFiles,
         targetOS,
-        targetArchitecture,
         fileSystem,
-        logger,
       );
     } else if (tool == cl) {
       return _sourceFilesToFlagsForCl(
@@ -135,7 +198,6 @@ extension LinkerOptionsExt on LinkerOptions {
         targetOS,
         targetArchitecture,
         fileSystem,
-        logger,
       );
     } else {
       throw UnimplementedError('This package does not know how to run $tool.');
@@ -146,17 +208,8 @@ extension LinkerOptionsExt on LinkerOptions {
     Tool tool,
     Iterable<String> sourceFiles,
     OS targetOS,
-    Architecture targetArch,
     FileSystem fileSystem,
-    Logger? logger,
   ) {
-    final symbols = _definedSymbols(
-      sourceFiles,
-      targetOS,
-      targetArch,
-      fileSystem,
-      logger,
-    );
     switch (targetOS) {
       case .macOS || .iOS:
         return [
@@ -164,14 +217,14 @@ extension LinkerOptionsExt on LinkerOptions {
           ..._toLinkerSyntax(tool, [
             if (_keepAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
             ..._linkerFlags,
-            ...symbols.map((symbol) => '-u,_$symbol'),
+            ..._symbols.map((symbol) => '-u,_$symbol'),
             if (stripDebug) '-S',
             if (gcSections) '-dead_strip',
             if (_linkerScriptMode is ManualLinkerScript)
               '-exported_symbols_list,${_linkerScriptMode.script.toFilePath()}'
             else if (_linkerScriptMode is GenerateLinkerScript)
               '-exported_symbols_list,'
-                  '${_createMacSymbolList(symbols, fileSystem)}',
+                  '${_createMacSymbolList(_symbols, fileSystem)}',
           ]),
         ];
 
@@ -185,14 +238,14 @@ extension LinkerOptionsExt on LinkerOptions {
           ...sourceFiles,
           ..._toLinkerSyntax(tool, [
             ..._linkerFlags,
-            ...symbols.map((symbol) => '-u,$symbol'),
+            ..._symbols.map((symbol) => '-u,$symbol'),
             if (stripDebug) '--strip-debug',
             if (gcSections) '--gc-sections',
             if (_linkerScriptMode is ManualLinkerScript)
               '--version-script=${_linkerScriptMode.script.toFilePath()}'
             else if (_linkerScriptMode is GenerateLinkerScript)
               '--version-script='
-                  '${_createClangLikeLinkScript(symbols, fileSystem)}',
+                  '${_createClangLikeLinkScript(_symbols, fileSystem)}',
             if (wholeArchiveSandwich) '--no-whole-archive',
           ]),
         ];
@@ -207,88 +260,26 @@ extension LinkerOptionsExt on LinkerOptions {
     OS targetOS,
     Architecture targetArch,
     FileSystem fileSystem,
-    Logger? logger,
-  ) {
-    final symbols = _definedSymbols(
-      sourceFiles,
-      targetOS,
-      targetArch,
-      fileSystem,
-      logger,
-    );
-    return [
-      ...sourceFiles,
-      '/link',
-      if (_keepAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
-      ..._linkerFlags,
-      // The generated module-definition file exports, and therefore keeps, all
-      // symbols. Passing an `/INCLUDE:` per symbol as well is redundant, and
-      // for thousands of symbols exceeds the 32,767 character command-line
-      // limit of Windows.
-      if (_linkerScriptMode is! GenerateLinkerScript)
-        ...symbols.map(
-          (symbol) => '/INCLUDE:${targetArch == .ia32 ? '_' : ''}$symbol',
-        ),
-      if (_linkerScriptMode is ManualLinkerScript)
-        '/DEF:${_linkerScriptMode.script.toFilePath()}'
-      else if (_linkerScriptMode is GenerateLinkerScript)
-        '/DEF:${_createClLinkScript(symbols, fileSystem)}',
-      if (stripDebug) '/PDBSTRIPPED',
-      if (gcSections) '/OPT:REF',
-    ];
-  }
-
-  /// The symbols to keep that [sourceFiles] define, see
-  /// [LinkerOptions.treeshake].
-  ///
-  /// Returns all symbols to keep if one of the [sourceFiles] is not an archive
-  /// with a symbol table, such as an object file.
-  List<String> _definedSymbols(
-    Iterable<String> sourceFiles,
-    OS targetOS,
-    Architecture targetArch,
-    FileSystem fileSystem,
-    Logger? logger,
-  ) {
-    if (_symbols.isEmpty || sourceFiles.isEmpty) return _symbols;
-    final defined = <String>{};
-    for (final sourceFile in sourceFiles) {
-      final symbols = readArchiveSymbols(fileSystem.file(sourceFile));
-      if (symbols == null) return _symbols;
-      defined.addAll(symbols);
-    }
-    // C symbols have a leading underscore in Mach-O, and in COFF on 32-bit
-    // x86, which the linker flags add or the module-definition file omits.
-    bool isDefined(String symbol) => switch (targetOS) {
-      .macOS || .iOS => defined.contains('_$symbol'),
-      .windows when targetArch == .ia32 =>
-        defined.contains(symbol) || defined.contains('_$symbol'),
-      _ => defined.contains(symbol),
-    };
-    final result = <String>[];
-    final undefined = <String>[];
-    for (final symbol in _symbols) {
-      if (isDefined(symbol)) {
-        result.add(symbol);
-      } else {
-        undefined.add(symbol);
-      }
-    }
-    if (result.isEmpty) {
-      // Most likely a mistake, such as symbol names with a prefix the archives
-      // don't have, and the library would export nothing.
-      logger?.warning(
-        'None of the ${_symbols.length} symbols to keep is defined by '
-        '${sourceFiles.join(', ')}: ${undefined.join(', ')}',
-      );
-    } else if (undefined.isNotEmpty) {
-      logger?.info(
-        'Skipping ${undefined.length} symbols to keep that '
-        '${sourceFiles.join(', ')} do not define: ${undefined.join(', ')}',
-      );
-    }
-    return result;
-  }
+  ) => [
+    ...sourceFiles,
+    '/link',
+    if (_keepAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
+    ..._linkerFlags,
+    // The generated module-definition file exports, and therefore keeps, all
+    // symbols. Passing an `/INCLUDE:` per symbol as well is redundant, and for
+    // thousands of symbols exceeds the 32,767 character command-line limit of
+    // Windows.
+    if (_linkerScriptMode is! GenerateLinkerScript)
+      ..._symbols.map(
+        (symbol) => '/INCLUDE:${targetArch == .ia32 ? '_' : ''}$symbol',
+      ),
+    if (_linkerScriptMode is ManualLinkerScript)
+      '/DEF:${_linkerScriptMode.script.toFilePath()}'
+    else if (_linkerScriptMode is GenerateLinkerScript)
+      '/DEF:${_createClLinkScript(_symbols, fileSystem)}',
+    if (stripDebug) '/PDBSTRIPPED',
+    if (gcSections) '/OPT:REF',
+  ];
 
   /// This creates a list of exported symbols.
   ///
