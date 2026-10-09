@@ -85,6 +85,40 @@ void main() {
     expect(exports(['foo', 'bar'], sources), ['bar']);
   });
 
+  test('warns if the archives define none of the symbols', () {
+    final records = <LogRecord>[];
+    final logger = Logger.detached('')
+      ..level = Level.ALL
+      ..onRecord.listen(records.add);
+    final sources = [
+      archive('a.lib', ['_foo']),
+    ];
+
+    expect(exports(['foo'], sources, logger: logger), isEmpty);
+    expect(records.single.level, Level.WARNING);
+    expect(records.single.message, contains('foo'));
+  });
+
+  test('only includes symbols that the archives define with a manual '
+      'module-definition file', () {
+    final moduleDefinition = fileSystem.systemTempDirectory.childFile(
+      'symbols.def',
+    )..writeAsStringSync('EXPORTS\n    foo\n');
+    final sources = [
+      archive('a.lib', ['foo']),
+    ];
+
+    final flags = LinkerOptions.manual(
+      symbolsToKeep: ['foo', 'missing'],
+      linkerScript: moduleDefinition.uri,
+    ).sourceFilesToFlags(cl, sources, OS.windows, Architecture.x64, fileSystem);
+    expect(
+      flags.where((flag) => flag.startsWith('/INCLUDE:')),
+      ['/INCLUDE:foo'],
+    );
+    expect(flags, contains('/DEF:${moduleDefinition.path}'));
+  });
+
   test('exports all symbols if an input is not an archive', () {
     final object = (fileSystem.systemTempDirectory.childFile('b.obj')
       ..writeAsBytesSync([0x64, 0x86, ...List.filled(80, 0)]));

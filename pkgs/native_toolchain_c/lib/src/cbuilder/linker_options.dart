@@ -39,6 +39,10 @@ class LinkerOptions {
   /// Create linking options manually for fine-grained control.
   ///
   /// If [symbolsToKeep] is null, all symbols will be kept.
+  ///
+  /// On Windows, only the [symbolsToKeep] that the input archives define are
+  /// passed to the linker (as `/INCLUDE:` flags), see [LinkerOptions.treeshake].
+  /// A [linkerScript] is passed as is.
   LinkerOptions.manual({
     List<String>? flags,
     bool? gcSections,
@@ -60,9 +64,10 @@ class LinkerOptions {
   /// implies that no library will be output at all.
   ///
   /// On Windows, a DLL only exports the [symbolsToKeep] that the input
-  /// archives define. If an input is not an archive, such as an object file,
-  /// all [symbolsToKeep] are exported, and linking fails if one of them is not
-  /// defined.
+  /// archives define, as the linker fails if a symbol to export is not defined.
+  /// The skipped symbols are logged. If an input is not an archive, such as an
+  /// object file, all [symbolsToKeep] are exported, and linking fails if one of
+  /// them is not defined.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbolsToKeep,
@@ -191,35 +196,40 @@ extension LinkerOptionsExt on LinkerOptions {
     Architecture targetArch,
     FileSystem fileSystem,
     Logger? logger,
-  ) => [
-    ...sourceFiles,
-    '/link',
-    if (_keepAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
-    ..._linkerFlags,
-    // The generated module-definition file exports, and therefore keeps, all
-    // symbols. Passing an `/INCLUDE:` per symbol as well is redundant, and for
-    // thousands of symbols exceeds the 32,767 character command-line limit of
-    // Windows.
-    if (_linkerScriptMode is! GenerateLinkerScript)
-      ..._symbols.map(
-        (symbol) => '/INCLUDE:${targetArch == .ia32 ? '_' : ''}$symbol',
-      ),
-    if (_linkerScriptMode is ManualLinkerScript)
-      '/DEF:${_linkerScriptMode.script.toFilePath()}'
-    else if (_linkerScriptMode is GenerateLinkerScript)
-      '/DEF:${_createClLinkScript(
-        _definedSymbols(sourceFiles, targetArch, fileSystem, logger),
-        fileSystem,
-      )}',
-    if (stripDebug) '/PDBSTRIPPED',
-    if (gcSections) '/OPT:REF',
-  ];
+  ) {
+    final symbols = _definedSymbols(
+      sourceFiles,
+      targetArch,
+      fileSystem,
+      logger,
+    );
+    return [
+      ...sourceFiles,
+      '/link',
+      if (_keepAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
+      ..._linkerFlags,
+      // The generated module-definition file exports, and therefore keeps, all
+      // symbols. Passing an `/INCLUDE:` per symbol as well is redundant, and
+      // for thousands of symbols exceeds the 32,767 character command-line
+      // limit of Windows.
+      if (_linkerScriptMode is! GenerateLinkerScript)
+        ...symbols.map(
+          (symbol) => '/INCLUDE:${targetArch == .ia32 ? '_' : ''}$symbol',
+        ),
+      if (_linkerScriptMode is ManualLinkerScript)
+        '/DEF:${_linkerScriptMode.script.toFilePath()}'
+      else if (_linkerScriptMode is GenerateLinkerScript)
+        '/DEF:${_createClLinkScript(symbols, fileSystem)}',
+      if (stripDebug) '/PDBSTRIPPED',
+      if (gcSections) '/OPT:REF',
+    ];
+  }
 
   /// The symbols to keep that [sourceFiles] define.
   ///
-  /// The linker fails if a module-definition file exports a symbol that is not
-  /// defined, and tree-shaking can ask for symbols that a library doesn't
-  /// define, for example functions that are not available on the target.
+  /// The linker fails if a symbol to include or to export is not defined, and
+  /// tree-shaking can ask for symbols that a library doesn't define, for
+  /// example functions that are not available on the target.
   ///
   /// Returns all symbols to keep if one of the [sourceFiles] is not an archive
   /// with a symbol table, such as an object file.
@@ -229,7 +239,7 @@ extension LinkerOptionsExt on LinkerOptions {
     FileSystem fileSystem,
     Logger? logger,
   ) {
-    if (sourceFiles.isEmpty) return _symbols;
+    if (_symbols.isEmpty || sourceFiles.isEmpty) return _symbols;
     final defined = <String>{};
     for (final sourceFile in sourceFiles) {
       final symbols = readArchiveSymbols(fileSystem.file(sourceFile));
@@ -247,9 +257,16 @@ extension LinkerOptionsExt on LinkerOptions {
         undefined.add(symbol);
       }
     }
-    if (undefined.isNotEmpty) {
+    if (result.isEmpty) {
+      // Most likely a mistake, such as symbol names with a prefix the archives
+      // don't have, and the library would export nothing.
+      logger?.warning(
+        'None of the ${_symbols.length} symbols to keep is defined by '
+        '${sourceFiles.join(', ')}: ${undefined.join(', ')}',
+      );
+    } else if (undefined.isNotEmpty) {
       logger?.info(
-        'Not exporting ${undefined.length} symbols that '
+        'Skipping ${undefined.length} symbols to keep that '
         '${sourceFiles.join(', ')} do not define: ${undefined.join(', ')}',
       );
     }
