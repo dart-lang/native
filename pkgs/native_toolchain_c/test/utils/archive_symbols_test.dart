@@ -49,13 +49,57 @@ void main() {
     expect(read([]), isNull);
   });
 
+  test('reads BSD symbol tables', () {
+    final symbols = ['_foo', '_bar_long_function_name', '_baz'];
+    // Apple's ar and libtool.
+    expect(read(bsdArchiveWithSymbols(symbols)), symbols.toSet());
+    // llvm-ar --format=darwin.
+    expect(
+      read(bsdArchiveWithSymbols(symbols, symbolTableName: '__.SYMDEF')),
+      symbols.toSet(),
+    );
+    // A name that fits the header.
+    expect(
+      read(bsdArchiveWithSymbols(symbols, longName: false)),
+      symbols.toSet(),
+    );
+    expect(read(bsdArchiveWithSymbols([])), isEmpty);
+  });
+
+  test('reads 64-bit BSD symbol tables', () {
+    for (final name in ['__.SYMDEF_64', '__.SYMDEF_64 SORTED']) {
+      expect(
+        read(
+          bsdArchiveWithSymbols(['_foo'], symbolTableName: name, wordSize: 8),
+        ),
+        {'_foo'},
+        reason: name,
+      );
+    }
+  });
+
+  test('returns null for truncated BSD symbol tables', () {
+    final archive = bsdArchiveWithSymbols(['_foo', '_bar']);
+    for (final length in [70, 90, archive.length - 3]) {
+      expect(
+        read(Uint8List.sublistView(archive, 0, length)),
+        isNull,
+        reason: 'Truncated to $length bytes.',
+      );
+    }
+  });
+
   test('returns null for archives without a symbol table', () {
     expect(
-      read(archiveWithSymbols(['foo'], symbolTableName: '__.SYMDEF')),
+      read(archiveWithSymbols(['foo'], symbolTableName: 'foo.obj/')),
       isNull,
     );
     expect(
       read(archiveWithSymbols(['foo'], symbolTableName: '/SYM64/')),
+      isNull,
+    );
+    expect(
+      read(bsdArchiveWithSymbols(['_foo'], symbolTableName: 'foo.o')),
       isNull,
     );
   });

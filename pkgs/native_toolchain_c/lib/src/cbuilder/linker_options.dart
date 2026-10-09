@@ -40,9 +40,8 @@ class LinkerOptions {
   ///
   /// If [symbolsToKeep] is null, all symbols will be kept.
   ///
-  /// On Windows, only the [symbolsToKeep] that the input archives define are
-  /// passed to the linker (as `/INCLUDE:` flags), see [LinkerOptions.treeshake].
-  /// A [linkerScript] is passed as is.
+  /// Only the [symbolsToKeep] that the input archives define are passed to the
+  /// linker, see [LinkerOptions.treeshake]. A [linkerScript] is passed as is.
   LinkerOptions.manual({
     List<String>? flags,
     bool? gcSections,
@@ -63,11 +62,13 @@ class LinkerOptions {
   /// `null` implies that all symbols should be kept. Passing an empty list
   /// implies that no library will be output at all.
   ///
-  /// On Windows, a DLL only exports the [symbolsToKeep] that the input
-  /// archives define, as the linker fails if a symbol to export is not defined.
-  /// The skipped symbols are logged. If an input is not an archive, such as an
-  /// object file, all [symbolsToKeep] are exported, and linking fails if one of
-  /// them is not defined.
+  /// Only the [symbolsToKeep] that the input archives define are kept. The
+  /// linker fails if a symbol to keep is not defined on Windows, macOS and iOS,
+  /// and the library would depend on it at load time elsewhere, while
+  /// tree-shaking can easily ask for symbols that a library doesn't define, for
+  /// example functions that aren't available on the target. The skipped
+  /// symbols are logged. If an input is not an archive with a symbol table,
+  /// such as an object file, all [symbolsToKeep] are kept.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbolsToKeep,
@@ -123,7 +124,9 @@ extension LinkerOptionsExt on LinkerOptions {
         tool,
         sourceFiles,
         targetOS,
+        targetArchitecture,
         fileSystem,
+        logger,
       );
     } else if (tool == cl) {
       return _sourceFilesToFlagsForCl(
@@ -143,8 +146,17 @@ extension LinkerOptionsExt on LinkerOptions {
     Tool tool,
     Iterable<String> sourceFiles,
     OS targetOS,
+    Architecture targetArch,
     FileSystem fileSystem,
+    Logger? logger,
   ) {
+    final symbols = _definedSymbols(
+      sourceFiles,
+      targetOS,
+      targetArch,
+      fileSystem,
+      logger,
+    );
     switch (targetOS) {
       case .macOS || .iOS:
         return [
@@ -152,14 +164,14 @@ extension LinkerOptionsExt on LinkerOptions {
           ..._toLinkerSyntax(tool, [
             if (_keepAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
             ..._linkerFlags,
-            ..._symbols.map((symbol) => '-u,_$symbol'),
+            ...symbols.map((symbol) => '-u,_$symbol'),
             if (stripDebug) '-S',
             if (gcSections) '-dead_strip',
             if (_linkerScriptMode is ManualLinkerScript)
               '-exported_symbols_list,${_linkerScriptMode.script.toFilePath()}'
             else if (_linkerScriptMode is GenerateLinkerScript)
               '-exported_symbols_list,'
-                  '${_createMacSymbolList(_symbols, fileSystem)}',
+                  '${_createMacSymbolList(symbols, fileSystem)}',
           ]),
         ];
 
@@ -173,14 +185,14 @@ extension LinkerOptionsExt on LinkerOptions {
           ...sourceFiles,
           ..._toLinkerSyntax(tool, [
             ..._linkerFlags,
-            ..._symbols.map((symbol) => '-u,$symbol'),
+            ...symbols.map((symbol) => '-u,$symbol'),
             if (stripDebug) '--strip-debug',
             if (gcSections) '--gc-sections',
             if (_linkerScriptMode is ManualLinkerScript)
               '--version-script=${_linkerScriptMode.script.toFilePath()}'
             else if (_linkerScriptMode is GenerateLinkerScript)
               '--version-script='
-                  '${_createClangLikeLinkScript(_symbols, fileSystem)}',
+                  '${_createClangLikeLinkScript(symbols, fileSystem)}',
             if (wholeArchiveSandwich) '--no-whole-archive',
           ]),
         ];
@@ -199,6 +211,7 @@ extension LinkerOptionsExt on LinkerOptions {
   ) {
     final symbols = _definedSymbols(
       sourceFiles,
+      targetOS,
       targetArch,
       fileSystem,
       logger,
@@ -225,16 +238,14 @@ extension LinkerOptionsExt on LinkerOptions {
     ];
   }
 
-  /// The symbols to keep that [sourceFiles] define.
-  ///
-  /// The linker fails if a symbol to include or to export is not defined, and
-  /// tree-shaking can ask for symbols that a library doesn't define, for
-  /// example functions that are not available on the target.
+  /// The symbols to keep that [sourceFiles] define, see
+  /// [LinkerOptions.treeshake].
   ///
   /// Returns all symbols to keep if one of the [sourceFiles] is not an archive
   /// with a symbol table, such as an object file.
   List<String> _definedSymbols(
     Iterable<String> sourceFiles,
+    OS targetOS,
     Architecture targetArch,
     FileSystem fileSystem,
     Logger? logger,
@@ -246,12 +257,18 @@ extension LinkerOptionsExt on LinkerOptions {
       if (symbols == null) return _symbols;
       defined.addAll(symbols);
     }
+    // C symbols have a leading underscore in Mach-O, and in COFF on 32-bit
+    // x86, which the linker flags add or the module-definition file omits.
+    bool isDefined(String symbol) => switch (targetOS) {
+      .macOS || .iOS => defined.contains('_$symbol'),
+      .windows when targetArch == .ia32 =>
+        defined.contains(symbol) || defined.contains('_$symbol'),
+      _ => defined.contains(symbol),
+    };
     final result = <String>[];
     final undefined = <String>[];
     for (final symbol in _symbols) {
-      // C symbols have a leading underscore on 32-bit x86.
-      if (defined.contains(symbol) ||
-          (targetArch == .ia32 && defined.contains('_$symbol'))) {
+      if (isDefined(symbol)) {
         result.add(symbol);
       } else {
         undefined.add(symbol);

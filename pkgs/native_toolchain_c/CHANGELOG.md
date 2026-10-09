@@ -5,10 +5,10 @@
   pass an `/INCLUDE:` flag per symbol in addition to the generated
   module-definition file, which exceeded the Windows command-line length limit.
   The generated module-definition file also no longer names the DLL `MyDLL`.
-- On Windows, `LinkerOptions.treeshake` only exports, and
-  `LinkerOptions.manual` only includes, the `symbolsToKeep` that the input
-  archives define, instead of failing to link if one of them is not defined.
-  The skipped symbols are logged.
+- `LinkerOptions.treeshake` and `LinkerOptions.manual` only keep the
+  `symbolsToKeep` that the input archives define, instead of failing to link
+  on Windows, macOS and iOS if one of them is not defined, or making the
+  library depend on it at load time elsewhere. The skipped symbols are logged.
 
 ## 0.19.5
 

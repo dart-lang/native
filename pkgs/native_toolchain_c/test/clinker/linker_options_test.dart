@@ -8,12 +8,13 @@ import 'package:code_assets/code_assets.dart';
 import 'package:file/memory.dart';
 import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/src/cbuilder/linker_options.dart';
+import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:test/test.dart';
 
 import '../utils/fake_archive.dart';
 
-/// Host-independent tests of the MSVC linker flags for tree-shaking.
+/// Host-independent tests of the linker flags for tree-shaking.
 void main() {
   late MemoryFileSystem fileSystem;
 
@@ -117,6 +118,64 @@ void main() {
       ['/INCLUDE:foo'],
     );
     expect(flags, contains('/DEF:${moduleDefinition.path}'));
+  });
+
+  test('only keeps symbols that the archives define on macOS and iOS', () {
+    final records = <LogRecord>[];
+    final logger = Logger.detached('')
+      ..level = Level.ALL
+      ..onRecord.listen(records.add);
+    // Mach-O symbols have a leading underscore.
+    final sources = [
+      (fileSystem.systemTempDirectory.childFile(
+        'liba.a',
+      )..writeAsBytesSync(bsdArchiveWithSymbols(['_foo', '_bar']))).path,
+    ];
+
+    for (final os in [OS.macOS, OS.iOS]) {
+      final flags = LinkerOptions.treeshake(symbolsToKeep: ['foo', 'missing'])
+          .sourceFilesToFlags(
+            clang,
+            sources,
+            os,
+            Architecture.arm64,
+            fileSystem,
+            logger: logger,
+          )
+          .toList();
+      expect(flags, contains('-Wl,-u,_foo'));
+      expect(flags, isNot(contains('-Wl,-u,_missing')));
+      final exportedSymbols = flags
+          .singleWhere((flag) => flag.startsWith('-Wl,-exported_symbols_list,'))
+          .substring('-Wl,-exported_symbols_list,'.length);
+      expect(fileSystem.file(exportedSymbols).readAsLinesSync(), ['_foo']);
+    }
+    expect(records, hasLength(2));
+    expect(records.first.message, contains('missing'));
+  });
+
+  test('only keeps symbols that the archives define on Linux', () {
+    final sources = [
+      archive('liba.a', ['foo']),
+    ];
+
+    final flags = LinkerOptions.treeshake(symbolsToKeep: ['foo', 'missing'])
+        .sourceFilesToFlags(
+          clang,
+          sources,
+          OS.linux,
+          Architecture.x64,
+          fileSystem,
+        )
+        .toList();
+    expect(flags, contains('-Wl,-u,foo'));
+    expect(flags, isNot(contains('-Wl,-u,missing')));
+    final versionScript = flags
+        .singleWhere((flag) => flag.startsWith('-Wl,--version-script='))
+        .substring('-Wl,--version-script='.length);
+    final script = fileSystem.file(versionScript).readAsStringSync();
+    expect(script, contains('foo;'));
+    expect(script, isNot(contains('missing')));
   });
 
   test('exports all symbols if an input is not an archive', () {

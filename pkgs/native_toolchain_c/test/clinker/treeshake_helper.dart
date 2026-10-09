@@ -56,7 +56,11 @@ void runTreeshakeTests(
     name: 'mylibname',
     assetName: '',
     sources: sources,
-    linkerOptions: LinkerOptions.treeshake(symbolsToKeep: ['my_other_func']),
+    linkerOptions: LinkerOptions.treeshake(
+      // `my_undefined_func` is not defined. It is skipped instead of failing
+      // the link.
+      symbolsToKeep: ['my_other_func', 'my_undefined_func'],
+    ),
   );
   CLinker linkerAutoKeepAll(List<String> sources) => CLinker.library(
     name: 'mylibname',
