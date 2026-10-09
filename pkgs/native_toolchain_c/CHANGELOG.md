@@ -1,4 +1,4 @@
-## 0.19.6-wip
+## 0.19.6
 
 - Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
 - Fix `LinkerOptions.treeshake` on Windows for thousands of symbols: no longer
