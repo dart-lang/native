@@ -5,6 +5,13 @@
   pass an `/INCLUDE:` flag per symbol in addition to the generated
   module-definition file, which exceeded the Windows command-line length limit.
   The generated module-definition file also no longer names the DLL `MyDLL`.
+- Fix `environmentFromBatchFile`, and with it finding the MSVC environment on
+  Windows, when the `NoDefaultCurrentDirectoryInExePath` environment variable
+  is set. The batch file was run by its bare file name, which cmd.exe then
+  doesn't look for in the working directory, so the environment came back
+  empty. It now runs as `.\<name>.bat`.
+- `environmentFromBatchFile` now throws a `ProcessException` if running the
+  batch file fails, instead of returning an empty environment.
 
 ## 0.19.5
 
