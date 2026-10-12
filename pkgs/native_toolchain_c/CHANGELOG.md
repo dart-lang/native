@@ -1,10 +1,15 @@
 ## 0.19.6-wip
 
+- Support listing `.h` files in `CBuilder.sources` to track header changes as
+  build dependencies without passing them to the compiler.
 - Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
 - Fix `LinkerOptions.treeshake` on Windows for thousands of symbols: no longer
   pass an `/INCLUDE:` flag per symbol in addition to the generated
   module-definition file, which exceeded the Windows command-line length limit.
   The generated module-definition file also no longer names the DLL `MyDLL`.
+- Do not pass linker flags (`-Wl,-encryptable`, `-Wl,-z,max-page-size=16384`,
+  `-framework`, and C++ standard library link flags) when compiling object files
+  for static libraries (`-c`).
 - Fix `environmentFromBatchFile`, and with it finding the MSVC environment on
   Windows, when the `NoDefaultCurrentDirectoryInExePath` environment variable
   is set. The batch file was run by its bare file name, which cmd.exe then

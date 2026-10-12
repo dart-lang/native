@@ -20,14 +20,14 @@ void main(List<String> arguments) async {
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',
-      sources: ['src/native_add.c'],
+      sources: ['src/native_add.c', 'src/native_add.h'],
       linkModePreference: LinkModePreference.dynamic,
     ).run(input: input, output: output, logger: logger, routing: routing);
 
     await CBuilder.library(
       name: 'multiply',
       assetName: 'dylib_multiply',
-      sources: ['src/native_multiply.c'],
+      sources: ['src/native_multiply.c', 'src/native_multiply.h'],
       linkModePreference: LinkModePreference.dynamic,
     ).run(input: input, output: output, logger: logger, routing: routing);
   });

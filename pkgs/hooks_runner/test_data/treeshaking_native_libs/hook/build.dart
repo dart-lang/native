@@ -11,7 +11,12 @@ void main(List<String> arguments) async {
     final cbuilder = CBuilder.library(
       name: input.packageName + (input.config.linkingEnabled ? '_static' : ''),
       assetName: 'src/${input.packageName}_bindings_generated.dart',
-      sources: ['src/native_add.c', 'src/native_multiply.c'],
+      sources: [
+        'src/native_add.c',
+        'src/native_add.h',
+        'src/native_multiply.c',
+        'src/native_multiply.h',
+      ],
       linkModePreference: input.config.linkingEnabled
           ? LinkModePreference.static
           : LinkModePreference.dynamic,
