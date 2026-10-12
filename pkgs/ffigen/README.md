@@ -116,7 +116,7 @@ app has been created via `dart create ffigen_example`.
          final builder = CBuilder.library(
            name: 'add',
            assetName: 'add.g.dart',
-           sources: ['src/add.c'],
+           sources: ['src/add.c', 'src/add.h'],
          );
          await builder.run(input: input, output: output);
        }

@@ -312,6 +312,9 @@ void main() {
     );
     const name = 'includes';
 
+    final logMessages = <String>[];
+    final logger = createCapturingLogger(logMessages);
+
     final buildInputBuilder = BuildInputBuilder()
       ..setupShared(
         packageName: name,
@@ -338,7 +341,7 @@ void main() {
       name: name,
       assetName: name,
       includes: [includeDirectoryUri.toFilePath()],
-      sources: [includesCUri.toFilePath()],
+      sources: [includesCUri.toFilePath(), includesHUri.toFilePath()],
       buildMode: .release,
     );
     await cbuilder.run(
@@ -349,6 +352,11 @@ void main() {
 
     final buildOutput = buildOutputBuilder.build();
     expect(buildOutput.dependencies, contains(includesHUri));
+
+    final compilerInvocation = logMessages.singleWhere(
+      (message) => message.contains(includesCUri.toFilePath()),
+    );
+    expect(compilerInvocation, isNot(contains(includesHUri.toFilePath())));
 
     final dylibUri = buildInput.outputDirectory.resolve(
       OS.current.dylibFileName(name),
@@ -584,6 +592,8 @@ void main() {
     );
     final debugCUri = dynamicallyLinkedSrcUri.resolve('debug.c');
     final mathCUri = dynamicallyLinkedSrcUri.resolve('math.c');
+    final debugHUri = dynamicallyLinkedSrcUri.resolve('debug.h');
+    final mathHUri = dynamicallyLinkedSrcUri.resolve('math.h');
 
     if (!await File.fromUri(dynamicallyLinkedCUri).exists()) {
       throw Exception('Run the test from the root directory.');
@@ -619,7 +629,7 @@ void main() {
       name: 'debug',
       assetName: 'debug',
       includes: [dynamicallyLinkedSrcUri.toFilePath()],
-      sources: [debugCUri.toFilePath()],
+      sources: [debugCUri.toFilePath(), debugHUri.toFilePath()],
       buildMode: .release,
     );
 
@@ -644,7 +654,11 @@ void main() {
       name: 'math',
       assetName: 'math',
       includes: [dynamicallyLinkedSrcUri.toFilePath()],
-      sources: [mathCUri.toFilePath()],
+      sources: [
+        mathCUri.toFilePath(),
+        mathHUri.toFilePath(),
+        debugHUri.toFilePath(),
+      ],
       libraries: ['debug'],
       libraryDirectories: ['debug'],
     );
@@ -660,7 +674,7 @@ void main() {
     final executableBuilder = CBuilder.executable(
       name: name,
       includes: [dynamicallyLinkedSrcUri.toFilePath()],
-      sources: [dynamicallyLinkedCUri.toFilePath()],
+      sources: [dynamicallyLinkedCUri.toFilePath(), mathHUri.toFilePath()],
       libraries: ['math'],
     );
 

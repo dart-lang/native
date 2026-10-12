@@ -59,6 +59,10 @@ void main() {
     fileSystem.file(sourceUri)
       ..createSync(recursive: true)
       ..writeAsStringSync('int foo() { return 0; }\n');
+    final headerUri = packageRoot.resolve('src.h');
+    fileSystem.file(headerUri)
+      ..createSync(recursive: true)
+      ..writeAsStringSync('int foo();\n');
 
     final ccPath = ccUri.toFilePath();
 
@@ -105,7 +109,7 @@ void main() {
     final cbuilder = CBuilder.library(
       name: name,
       assetName: name,
-      sources: [sourceUri.toFilePath()],
+      sources: [sourceUri.toFilePath(), headerUri.toFilePath()],
     );
 
     await cbuilder.run(
@@ -128,6 +132,8 @@ void main() {
     final compileCommand = invocations[2].command;
     expect(compileCommand.first, ccPath);
     expect(compileCommand, contains(sourceUri.toFilePath()));
+    expect(compileCommand, isNot(contains(headerUri.toFilePath())));
+    expect(buildOutput.build().dependencies, contains(headerUri));
     expect(compileCommand, contains('--shared'));
     final outIndex = compileCommand.indexOf('-o');
     expect(outIndex, greaterThanOrEqualTo(0));

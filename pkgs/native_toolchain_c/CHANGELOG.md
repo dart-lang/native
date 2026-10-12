@@ -1,5 +1,7 @@
 ## 0.19.6-wip
 
+- Support listing `.h` files in `CBuilder.sources` to track header changes as
+  build dependencies without passing them to the compiler.
 - Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
 - Fix `LinkerOptions.treeshake` on Windows for thousands of symbols: no longer
   pass an `/INCLUDE:` flag per symbol in addition to the generated
