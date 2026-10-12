@@ -140,4 +140,120 @@ void main() {
       endsWith(targetOS.libraryFileName(name, DynamicLoadingBundled())),
     );
   });
+
+  test(
+    'CBuilder static library does not pass linker flags to clang -c',
+    () async {
+      final fileSystem = MemoryFileSystem(
+        style: Platform.isWindows
+            ? FileSystemStyle.windows
+            : FileSystemStyle.posix,
+      );
+
+      final outputDirectoryShared = await tempDirForTest();
+      final packageRoot = await tempDirForTest();
+
+      const name = 'mylib';
+      const targetOS = OS.android;
+      const targetArchitecture = Architecture.arm64;
+
+      final ccUri = packageRoot.resolve(OS.current.executableFileName('clang'));
+      final arUri = packageRoot.resolve(
+        OS.current.executableFileName('llvm-ar'),
+      );
+      final ldUri = packageRoot.resolve(
+        OS.current.executableFileName('ld.lld'),
+      );
+      for (final toolUri in [ccUri, arUri, ldUri]) {
+        fileSystem.file(toolUri)
+          ..createSync(recursive: true)
+          ..writeAsStringSync('');
+      }
+
+      final sourceUri = packageRoot.resolve('src.cc');
+      fileSystem.file(sourceUri)
+        ..createSync(recursive: true)
+        ..writeAsStringSync('int foo() { return 0; }\n');
+
+      final ccPath = ccUri.toFilePath();
+      final arPath = arUri.toFilePath();
+
+      const versionStdout = 'clang version 14.0.0\n';
+      const arVersionStdout = 'LLVM version 14.0.0\n';
+      final fakeProcessManager = FakeProcessManager([
+        FakeCommand(command: [ccPath, '--version'], stdout: versionStdout),
+        FakeCommand(command: [ccPath, '--version'], stdout: versionStdout),
+        FakeCommand(command: [arPath, '--version'], stdout: arVersionStdout),
+        FakeCommand(
+          onRun: (command) {
+            final outIndex = command.indexOf('-o');
+            expect(outIndex, greaterThanOrEqualTo(0));
+            fileSystem.file(command[outIndex + 1]).createSync(recursive: true);
+          },
+        ),
+        FakeCommand(
+          onRun: (command) {
+            fileSystem.file(command[2]).createSync(recursive: true);
+          },
+        ),
+      ]);
+
+      final buildInputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageName: name,
+          packageRoot: packageRoot,
+          outputFile: outputDirectoryShared.resolve('output.json'),
+          outputDirectoryShared: outputDirectoryShared,
+        )
+        ..config.setupBuild(linkingEnabled: false)
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: targetOS,
+            targetArchitecture: targetArchitecture,
+            android: AndroidCodeConfig(targetNdkApi: 21),
+            linkModePreference: LinkModePreference.static,
+            cCompiler: CCompilerConfig(
+              archiver: arUri,
+              compiler: ccUri,
+              linker: ldUri,
+            ),
+          ),
+        );
+      final buildInput = buildInputBuilder.build();
+      final buildOutput = BuildOutputBuilder();
+
+      final cbuilder = CBuilder.library(
+        name: name,
+        assetName: name,
+        sources: [sourceUri.toFilePath()],
+        language: .cpp,
+        cppLinkStdLib: 'c++_static',
+        libraries: ['bar'],
+        libraryDirectories: ['baz'],
+      );
+
+      await cbuilder.run(
+        input: buildInput,
+        output: buildOutput,
+        logger: logger,
+        processManager: fakeProcessManager,
+        fileSystem: fileSystem,
+      );
+
+      expect(fakeProcessManager.allCommandsConsumed, true);
+      final invocations = fakeProcessManager.invocations;
+      expect(invocations.length, 5);
+
+      final compileCommand = invocations[3].command;
+      expect(compileCommand.first, ccPath);
+      expect(compileCommand, contains('-c'));
+      expect(compileCommand, containsAllInOrder(['-x', 'c++']));
+      expect(compileCommand, isNot(contains('-Wl,-z,max-page-size=16384')));
+      expect(compileCommand, isNot(contains('-Wl,-Bstatic')));
+      expect(compileCommand, isNot(contains('-Wl,-Bdynamic')));
+      expect(compileCommand, isNot(contains('-l')));
+      expect(compileCommand, isNot(contains('-Wl,-rpath,\$ORIGIN')));
+      expect(compileCommand, isNot(contains('-lbar')));
+    },
+  );
 }
