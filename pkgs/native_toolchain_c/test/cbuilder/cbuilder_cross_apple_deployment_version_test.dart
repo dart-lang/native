@@ -14,16 +14,15 @@ import '../helpers.dart';
 void main() {
   if (!Platform.isMacOS) return;
 
-  for (final (os, sdk, architecture, major, minor, patch) in [
-    (OS.iOS, IOSSdk.iPhoneOS, Architecture.arm64, 16, 4, 0),
-    (OS.iOS, IOSSdk.iPhoneOS, Architecture.arm64, 17, 2, 1),
-    (OS.iOS, IOSSdk.iPhoneSimulator, Architecture.arm64, 16, 4, 0),
-    (OS.iOS, IOSSdk.iPhoneSimulator, Architecture.x64, 17, 2, 1),
-    (OS.macOS, null, Architecture.arm64, 14, 4, 0),
-    (OS.macOS, null, Architecture.x64, 14, 4, 1),
-    (OS.macOS, null, Architecture.arm64, 13, 0, 0),
+  for (final (os, sdk, architecture, version) in [
+    (OS.iOS, IOSSdk.iPhoneOS, Architecture.arm64, '16.4'),
+    (OS.iOS, IOSSdk.iPhoneOS, Architecture.arm64, '17.2.1'),
+    (OS.iOS, IOSSdk.iPhoneSimulator, Architecture.arm64, '16.4'),
+    (OS.iOS, IOSSdk.iPhoneSimulator, Architecture.x64, '17.2.1'),
+    (OS.macOS, null, Architecture.arm64, '14.4'),
+    (OS.macOS, null, Architecture.x64, '14.4.1'),
+    (OS.macOS, null, Architecture.arm64, '13.0'),
   ]) {
-    final version = patch == 0 ? '$major.$minor' : '$major.$minor.$patch';
     test('$os $sdk $architecture preserves minos $version', () async {
       final tempUri = await tempDirForTest();
       final sharedUri = await tempDirForTest();
@@ -73,18 +72,15 @@ void main() {
         RegExp(r'\bminos (\S+)').firstMatch(result.stdout as String)?.group(1),
         version,
       );
-      if (minor != 0 || patch != 0) {
-        final flag = os == OS.iOS ? '-mios-version-min' : '-mmacos-version-min';
-        expect(messages.join('\n'), contains('$flag=$version'));
-      }
+      final flag = os == OS.iOS ? '-mios-version-min' : '-mmacos-version-min';
+      expect(messages.join('\n'), contains('$flag=$version'));
     });
   }
 
-  for (final (os, major, minor, patch) in [
-    (OS.iOS, 17, 2, 1),
-    (OS.macOS, 14, 4, 1),
+  for (final (os, version) in [
+    (OS.iOS, '17.2.1'),
+    (OS.macOS, '14.4.1'),
   ]) {
-    final version = '$major.$minor.$patch';
     test(
       '$os CLinker preserves minos $version from a static archive',
       () async {

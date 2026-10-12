@@ -145,6 +145,8 @@ final class IOSCodeConfig {
   /// supported by Apple deployment-target flags.
   ///
   /// Older SDKs supplying only the integer version are supported.
+  /// Throws [FormatException] if the supplied deployment version is malformed
+  /// or its major component disagrees with the legacy integer version.
   String get targetVersionString => _readAppleDeploymentVersion(
     _syntax.targetVersion,
     _syntax.targetVersionString,
@@ -210,6 +212,8 @@ final class MacOSCodeConfig {
   /// supported by Apple deployment-target flags.
   ///
   /// Older SDKs supplying only the integer version are supported.
+  /// Throws [FormatException] if the supplied deployment version is malformed
+  /// or its major component disagrees with the legacy integer version.
   String get targetVersionString => _readAppleDeploymentVersion(
     _syntax.targetVersion,
     _syntax.targetVersionString,
@@ -235,13 +239,12 @@ final class MacOSCodeConfig {
   }
 }
 
-final _appleDeploymentVersionPattern = RegExp(r'[0-9]+(?:\.[0-9]+){0,2}');
+final _appleDeploymentVersionPattern = RegExp(r'([0-9]+)(?:\.[0-9]+){0,2}');
 
 int? _tryAppleDeploymentVersionMajor(String version) {
   final match = _appleDeploymentVersionPattern.matchAsPrefix(version);
-  final major = int.tryParse(version.split('.').first);
   if (match == null || match.end != version.length) return null;
-  return major;
+  return int.tryParse(match.group(1)!);
 }
 
 (int, String) _appleDeploymentVersion(int? major, String? version) {

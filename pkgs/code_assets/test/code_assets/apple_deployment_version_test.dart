@@ -145,6 +145,7 @@ void main() {
       '16.4.1-beta.1',
       '16.4.1+build.1',
       '16.4.1.2',
+      '9223372036854775808',
     ]) {
       test('$os constructor rejects invalid version ${jsonEncode(value)}', () {
         expect(() => extension(version: value), throwsArgumentError);
@@ -162,6 +163,7 @@ void main() {
       '16.4.1-beta.1',
       '16.4.1+build.1',
       '16.4.1.2',
+      '9223372036854775808',
       16,
       16.4,
       true,
