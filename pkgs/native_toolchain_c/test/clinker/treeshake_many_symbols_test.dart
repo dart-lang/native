@@ -73,7 +73,10 @@ void main() {
                     linkModePreference: LinkModePreference.dynamic,
                     cCompiler: cCompiler,
                     macOS: macOSTargetVersion != null
-                        ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+                        ? MacOSCodeConfig(
+                            targetVersionString: (macOSTargetVersion)
+                                .toString(),
+                          )
                         : null,
                   ),
                 ))

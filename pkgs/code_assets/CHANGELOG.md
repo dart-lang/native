@@ -1,7 +1,7 @@
 ## 2.2.0-wip
 
-- Support minor and patch deployment-version components in `IOSCodeConfig` and
-  `MacOSCodeConfig`, with `targetVersionString` for compiler and linker arguments.
+- Support complete iOS and macOS deployment versions through `targetVersionString`,
+  and deprecate the integer `targetVersion` API while preserving compatibility.
 
 ## 2.1.0
 

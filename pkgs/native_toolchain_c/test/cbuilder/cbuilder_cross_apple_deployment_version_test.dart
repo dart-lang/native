@@ -42,24 +42,14 @@ void main() {
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: cCompiler,
             iOS: os == OS.iOS
-                ? IOSCodeConfig(targetSdk: sdk!, targetVersion: major)
+                ? IOSCodeConfig(targetSdk: sdk!, targetVersionString: version)
                 : null,
             macOS: os == OS.macOS
-                ? MacOSCodeConfig(targetVersion: major)
+                ? MacOSCodeConfig(targetVersionString: version)
                 : null,
           ),
         );
       final input = builder.build();
-      final config = input.json['config']! as Map<String, Object?>;
-      final extensions = config['extensions']! as Map<String, Object?>;
-      final code = extensions['code_assets']! as Map<String, Object?>;
-      final apple =
-          code[os == OS.iOS ? 'ios' : 'macos']! as Map<String, Object?>;
-      if (minor != 0 || patch != 0) {
-        apple['target_version_minor'] = minor;
-        apple['target_version_patch'] = patch;
-      }
-
       final messages = <String>[];
       await CBuilder.library(
         name: 'add',
@@ -108,16 +98,12 @@ void main() {
           iOS: os == OS.iOS
               ? IOSCodeConfig(
                   targetSdk: IOSSdk.iPhoneOS,
-                  targetVersion: major,
-                  targetVersionMinor: minor,
-                  targetVersionPatch: patch,
+                  targetVersionString: version,
                 )
               : null,
           macOS: os == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersion: major,
-                  targetVersionMinor: minor,
-                  targetVersionPatch: patch,
+                  targetVersionString: version,
                 )
               : null,
         );

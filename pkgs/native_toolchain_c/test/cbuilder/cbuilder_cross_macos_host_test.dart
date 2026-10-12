@@ -155,7 +155,9 @@ void main() async {
                   ? .dynamic
                   : .static,
               cCompiler: chosenCCompiler,
-              macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+              macOS: MacOSCodeConfig(
+                targetVersionString: defaultMacOSVersion.toString(),
+              ),
             ),
           );
         final buildInput = buildInputBuilder.build();
@@ -217,7 +219,9 @@ void main() async {
           targetOS: .macOS,
           targetArchitecture: Architecture.current,
           linkModePreference: .dynamic,
-          macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+          macOS: MacOSCodeConfig(
+            targetVersionString: defaultMacOSVersion.toString(),
+          ),
           cCompiler: cCompiler,
         ),
       );
@@ -362,7 +366,9 @@ Future<Uri> buildLib(
         linkModePreference: linkMode == DynamicLoadingBundled()
             ? .dynamic
             : .static,
-        macOS: MacOSCodeConfig(targetVersion: targetMacOSVersion),
+        macOS: MacOSCodeConfig(
+          targetVersionString: targetMacOSVersion.toString(),
+        ),
         cCompiler: cCompiler,
       ),
     );

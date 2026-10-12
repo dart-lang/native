@@ -134,48 +134,44 @@ final class IOSCodeConfig {
   IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk);
 
   /// The major component of the lowest compatible iOS version.
-  ///
-  /// Use [targetVersionString] when passing the deployment target to a
-  /// compiler.
+  @Deprecated('Use targetVersionString instead.')
   int get targetVersion => _syntax.targetVersion;
 
-  /// The minor component of the deployment target.
+  /// The complete lowest compatible iOS deployment version.
   ///
-  /// Defaults to zero when the SDK omits this component.
-  int get targetVersionMinor =>
-      _versionComponent(_syntax.targetVersionMinor, 'targetVersionMinor');
-
-  /// The patch component of the deployment target.
+  /// Numeric major, major/minor, and major/minor/patch versions are supported,
+  /// for example `16`, `16.4`, and `17.2.1`. The spelling is preserved for
+  /// compiler and linker arguments. Prerelease and build suffixes are not
+  /// supported by Apple deployment-target flags.
   ///
-  /// Defaults to zero when the SDK omits this component.
-  int get targetVersionPatch =>
-      _versionComponent(_syntax.targetVersionPatch, 'targetVersionPatch');
-
-  /// The complete deployment target for compiler and linker arguments.
-  ///
-  /// A major-only target retains its existing spelling, such as `16`.
-  String get targetVersionString =>
-      _versionString(targetVersion, targetVersionMinor, targetVersionPatch);
+  /// Older SDKs supplying only the integer version are supported.
+  String get targetVersionString => _readAppleDeploymentVersion(
+    _syntax.targetVersion,
+    _syntax.targetVersionString,
+  );
 
   /// Constructs a new [IOSCodeConfig].
   ///
-  /// [targetVersion] is the major component. Optional minor and patch
-  /// components must be non-negative and default to zero when omitted.
-  /// Hooks using older versions of `package:code_assets` only read the major
-  /// component.
-  IOSCodeConfig({
+  /// Supply exactly one of [targetVersionString] or the deprecated
+  /// [targetVersion]. Throws [ArgumentError] for both, neither, or an invalid
+  /// deployment version. Both protocol fields are populated so older hooks
+  /// can still read the major version.
+  factory IOSCodeConfig({
     required IOSSdk targetSdk,
-    required int targetVersion,
-    int? targetVersionMinor,
-    int? targetVersionPatch,
-  }) : _syntax = IOSCodeConfigSyntax(
-         targetSdk: targetSdk.type,
-         targetVersion: targetVersion,
-         targetVersionMinor: targetVersionMinor,
-         targetVersionPatch: targetVersionPatch,
-       ) {
-    _versionComponent(targetVersionMinor, 'targetVersionMinor');
-    _versionComponent(targetVersionPatch, 'targetVersionPatch');
+    @Deprecated('Use targetVersionString instead.') int? targetVersion,
+    String? targetVersionString,
+  }) {
+    final (major, version) = _appleDeploymentVersion(
+      targetVersion,
+      targetVersionString,
+    );
+    return IOSCodeConfig._(
+      IOSCodeConfigSyntax(
+        targetSdk: targetSdk.type,
+        targetVersion: major,
+        targetVersionString: version,
+      ),
+    );
   }
 }
 
@@ -203,61 +199,85 @@ final class MacOSCodeConfig {
   MacOSCodeConfig._(this._syntax);
 
   /// The major component of the lowest compatible macOS version.
-  ///
-  /// Use [targetVersionString] when passing the deployment target to a
-  /// compiler.
+  @Deprecated('Use targetVersionString instead.')
   int get targetVersion => _syntax.targetVersion;
 
-  /// The minor component of the deployment target.
+  /// The complete lowest compatible macOS deployment version.
   ///
-  /// Defaults to zero when the SDK omits this component.
-  int get targetVersionMinor =>
-      _versionComponent(_syntax.targetVersionMinor, 'targetVersionMinor');
-
-  /// The patch component of the deployment target.
+  /// Numeric major, major/minor, and major/minor/patch versions are supported,
+  /// for example `13`, `14.4`, and `14.4.1`. The spelling is preserved for
+  /// compiler and linker arguments. Prerelease and build suffixes are not
+  /// supported by Apple deployment-target flags.
   ///
-  /// Defaults to zero when the SDK omits this component.
-  int get targetVersionPatch =>
-      _versionComponent(_syntax.targetVersionPatch, 'targetVersionPatch');
-
-  /// The complete deployment target for compiler and linker arguments.
-  ///
-  /// A major-only target retains its existing spelling, such as `13`.
-  String get targetVersionString =>
-      _versionString(targetVersion, targetVersionMinor, targetVersionPatch);
+  /// Older SDKs supplying only the integer version are supported.
+  String get targetVersionString => _readAppleDeploymentVersion(
+    _syntax.targetVersion,
+    _syntax.targetVersionString,
+  );
 
   /// Constructs a new [MacOSCodeConfig].
   ///
-  /// [targetVersion] is the major component. Optional minor and patch
-  /// components must be non-negative and default to zero when omitted.
-  /// Hooks using older versions of `package:code_assets` only read the major
-  /// component.
-  MacOSCodeConfig({
-    required int targetVersion,
-    int? targetVersionMinor,
-    int? targetVersionPatch,
-  }) : _syntax = MacOSCodeConfigSyntax(
-         targetVersion: targetVersion,
-         targetVersionMinor: targetVersionMinor,
-         targetVersionPatch: targetVersionPatch,
-       ) {
-    _versionComponent(targetVersionMinor, 'targetVersionMinor');
-    _versionComponent(targetVersionPatch, 'targetVersionPatch');
+  /// Supply exactly one of [targetVersionString] or the deprecated
+  /// [targetVersion]. Throws [ArgumentError] for both, neither, or an invalid
+  /// deployment version. Both protocol fields are populated so older hooks
+  /// can still read the major version.
+  factory MacOSCodeConfig({
+    @Deprecated('Use targetVersionString instead.') int? targetVersion,
+    String? targetVersionString,
+  }) {
+    final (major, version) = _appleDeploymentVersion(
+      targetVersion,
+      targetVersionString,
+    );
+    return MacOSCodeConfig._(
+      MacOSCodeConfigSyntax(targetVersion: major, targetVersionString: version),
+    );
   }
 }
 
-int _versionComponent(int? value, String name) {
-  final component = value ?? 0;
-  if (component < 0) {
-    throw ArgumentError.value(component, name, 'Must not be negative.');
-  }
-  return component;
+final _appleDeploymentVersionPattern = RegExp(r'[0-9]+(?:\.[0-9]+){0,2}');
+
+int? _tryAppleDeploymentVersionMajor(String version) {
+  final match = _appleDeploymentVersionPattern.matchAsPrefix(version);
+  final major = int.tryParse(version.split('.').first);
+  if (match == null || match.end != version.length) return null;
+  return major;
 }
 
-String _versionString(int major, int minor, int patch) {
-  if (patch != 0) return '$major.$minor.$patch';
-  if (minor != 0) return '$major.$minor';
-  return '$major';
+(int, String) _appleDeploymentVersion(int? major, String? version) {
+  if ((major == null) == (version == null)) {
+    throw ArgumentError(
+      'Supply exactly one of targetVersion or targetVersionString.',
+    );
+  }
+  version ??= '$major';
+  final parsedMajor = _tryAppleDeploymentVersionMajor(version);
+  if (parsedMajor == null) {
+    throw ArgumentError.value(
+      version,
+      'targetVersionString',
+      'Expected a numeric deployment version such as 16, 16.4, or 17.2.1.',
+    );
+  }
+  return (parsedMajor, version);
+}
+
+String _readAppleDeploymentVersion(int major, String? version) {
+  version ??= '$major';
+  final parsedMajor = _tryAppleDeploymentVersionMajor(version);
+  if (parsedMajor == null) {
+    throw FormatException(
+      'Invalid Apple deployment version: "$version". '
+      'Expected a numeric version such as 16, 16.4, or 17.2.1.',
+    );
+  }
+  if (parsedMajor != major) {
+    throw const FormatException(
+      'targetVersion and targetVersionString must '
+      'agree on the major version.',
+    );
+  }
+  return version;
 }
 
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
@@ -389,9 +409,8 @@ extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
   /// Converts this [MacOSCodeConfig] to its corresponding
   /// [MacOSCodeConfigSyntax].
   MacOSCodeConfigSyntax toSyntax() => MacOSCodeConfigSyntax(
-    targetVersion: targetVersion,
-    targetVersionMinor: _syntax.targetVersionMinor,
-    targetVersionPatch: _syntax.targetVersionPatch,
+    targetVersion: _syntax.targetVersion,
+    targetVersionString: _syntax.targetVersionString,
   );
 }
 
@@ -401,9 +420,8 @@ extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
   /// Converts this [IOSCodeConfig] to its corresponding [IOSCodeConfigSyntax].
   IOSCodeConfigSyntax toSyntax() => IOSCodeConfigSyntax(
     targetSdk: targetSdk.type,
-    targetVersion: targetVersion,
-    targetVersionMinor: _syntax.targetVersionMinor,
-    targetVersionPatch: _syntax.targetVersionPatch,
+    targetVersion: _syntax.targetVersion,
+    targetVersionString: _syntax.targetVersionString,
   );
 }
 

@@ -40,22 +40,38 @@ void main() {
             schemas[packageUri.resolve(
               'doc/schema/$party/${hook}_input.generated.schema.json',
             )]!;
-        test('$os $hook $party accepts full deployment version', () {
-          final json = input();
-          final apple = appleConfig(json, os);
-          apple['target_version_minor'] = 4;
-          apple['target_version_patch'] = 1;
-          expect(schema.validate(json).isValid, isTrue);
+        for (final version in ['16', '16.4', '17.2.1']) {
+          test('$os $hook $party accepts deployment version $version', () {
+            final json = input();
+            final apple = appleConfig(json, os);
+            apple['target_version'] = int.parse(version.split('.').first);
+            apple['target_version_string'] = version;
+            expect(schema.validate(json).isValid, isTrue);
+          });
+        }
+        test('$os $hook $party accepts legacy integer-only input', () {
+          expect(schema.validate(input()).isValid, isTrue);
         });
-        for (final component in ['minor', 'patch']) {
-          for (final value in [-1, '4', 4.5]) {
-            test('$os $hook $party rejects $component=$value', () {
-              final json = input();
-              final apple = appleConfig(json, os);
-              apple['target_version_$component'] = value;
-              expect(schema.validate(json).isValid, isFalse);
-            });
-          }
+        for (final value in <Object>[
+          '',
+          '-1',
+          '16.',
+          '16..4',
+          'v16.4',
+          ' 16.4',
+          '16.4 ',
+          '16.4.1-beta.1',
+          '16.4.1+build.1',
+          '16.4.1.2',
+          16,
+          16.4,
+          true,
+        ]) {
+          test('$os $hook $party rejects version ${jsonEncode(value)}', () {
+            final json = input();
+            appleConfig(json, os)['target_version_string'] = value;
+            expect(schema.validate(json).isValid, isFalse);
+          });
         }
       }
     }

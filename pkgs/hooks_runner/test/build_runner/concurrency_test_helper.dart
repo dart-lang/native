@@ -46,7 +46,9 @@ void main(List<String> args) async {
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: dartCICompilerConfig,
             macOS: targetOS == .macOS
-                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                ? MacOSCodeConfig(
+                    targetVersionString: defaultMacOSVersion.toString(),
+                  )
                 : null,
           ),
           DataAssetsExtension(),

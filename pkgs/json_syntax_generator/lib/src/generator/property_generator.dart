@@ -175,6 +175,12 @@ List<String> $validateName() {
       }
 
       final pattern = dartType.pattern!;
+      final patternError =
+          "'Value does not satisfy pattern: \${_${fieldName}Pattern.pattern}.'";
+      final patternErrorLines = patternError.length + 8 > 80
+          ? "'Value does not satisfy pattern: '\n"
+                "'\${_${fieldName}Pattern.pattern}.'"
+          : patternError;
       buffer.writeln('''
 static final _${fieldName}Pattern = RegExp(r'${pattern.pattern}');
 
@@ -185,7 +191,7 @@ set $setterName($dartType value) {
     throw ArgumentError.value(
       value,
       'value',
-      'Value does not satisfy pattern: \${_${fieldName}Pattern.pattern}.',
+      $patternErrorLines,
     );
   }
   json.setOrRemove('$jsonKey', value);

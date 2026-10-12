@@ -68,12 +68,14 @@ void runObjectsTests(
                 ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
                 : null,
             macOS: macOSTargetVersion != null
-                ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+                ? MacOSCodeConfig(
+                    targetVersionString: macOSTargetVersion.toString(),
+                  )
                 : null,
             iOS: iOSTargetVersion != null && iOSTargetSdk != null
                 ? IOSCodeConfig(
                     targetSdk: iOSTargetSdk,
-                    targetVersion: iOSTargetVersion,
+                    targetVersionString: iOSTargetVersion.toString(),
                   )
                 : null,
           ),

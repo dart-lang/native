@@ -627,14 +627,12 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   IOSCodeConfigSyntax({
     required String targetSdk,
     required int targetVersion,
-    required int? targetVersionMinor,
-    required int? targetVersionPatch,
+    required String? targetVersionString,
     super.path = const [],
   }) : super() {
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
-    _targetVersionMinor = targetVersionMinor;
-    _targetVersionPatch = targetVersionPatch;
+    _targetVersionString = targetVersionString;
     json.sortOnKey();
   }
 
@@ -655,31 +653,38 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   List<String> _validateTargetVersion() =>
       _reader.validate<int>('target_version');
 
-  int? get targetVersionMinor => _reader.get<int?>('target_version_minor');
+  static final _targetVersionStringPattern = RegExp(
+    r'^[0-9]+(?:\.[0-9]+){0,2}$',
+  );
 
-  set _targetVersionMinor(int? value) {
-    json.setOrRemove('target_version_minor', value);
+  String? get targetVersionString => _reader.optionalString(
+    'target_version_string',
+    _targetVersionStringPattern,
+  );
+
+  set _targetVersionString(String? value) {
+    if (value != null && !_targetVersionStringPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisfy pattern: '
+            '${_targetVersionStringPattern.pattern}.',
+      );
+    }
+    json.setOrRemove('target_version_string', value);
   }
 
-  List<String> _validateTargetVersionMinor() =>
-      _reader.validate<int?>('target_version_minor');
-
-  int? get targetVersionPatch => _reader.get<int?>('target_version_patch');
-
-  set _targetVersionPatch(int? value) {
-    json.setOrRemove('target_version_patch', value);
-  }
-
-  List<String> _validateTargetVersionPatch() =>
-      _reader.validate<int?>('target_version_patch');
+  List<String> _validateTargetVersionString() => _reader.validateOptionalString(
+    'target_version_string',
+    _targetVersionStringPattern,
+  );
 
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateTargetSdk(),
     ..._validateTargetVersion(),
-    ..._validateTargetVersionMinor(),
-    ..._validateTargetVersionPatch(),
+    ..._validateTargetVersionString(),
   ];
 
   @override
@@ -790,13 +795,11 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
 
   MacOSCodeConfigSyntax({
     required int targetVersion,
-    required int? targetVersionMinor,
-    required int? targetVersionPatch,
+    required String? targetVersionString,
     super.path = const [],
   }) : super() {
     _targetVersion = targetVersion;
-    _targetVersionMinor = targetVersionMinor;
-    _targetVersionPatch = targetVersionPatch;
+    _targetVersionString = targetVersionString;
     json.sortOnKey();
   }
 
@@ -809,30 +812,37 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
   List<String> _validateTargetVersion() =>
       _reader.validate<int>('target_version');
 
-  int? get targetVersionMinor => _reader.get<int?>('target_version_minor');
+  static final _targetVersionStringPattern = RegExp(
+    r'^[0-9]+(?:\.[0-9]+){0,2}$',
+  );
 
-  set _targetVersionMinor(int? value) {
-    json.setOrRemove('target_version_minor', value);
+  String? get targetVersionString => _reader.optionalString(
+    'target_version_string',
+    _targetVersionStringPattern,
+  );
+
+  set _targetVersionString(String? value) {
+    if (value != null && !_targetVersionStringPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisfy pattern: '
+            '${_targetVersionStringPattern.pattern}.',
+      );
+    }
+    json.setOrRemove('target_version_string', value);
   }
 
-  List<String> _validateTargetVersionMinor() =>
-      _reader.validate<int?>('target_version_minor');
-
-  int? get targetVersionPatch => _reader.get<int?>('target_version_patch');
-
-  set _targetVersionPatch(int? value) {
-    json.setOrRemove('target_version_patch', value);
-  }
-
-  List<String> _validateTargetVersionPatch() =>
-      _reader.validate<int?>('target_version_patch');
+  List<String> _validateTargetVersionString() => _reader.validateOptionalString(
+    'target_version_string',
+    _targetVersionStringPattern,
+  );
 
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateTargetVersion(),
-    ..._validateTargetVersionMinor(),
-    ..._validateTargetVersionPatch(),
+    ..._validateTargetVersionString(),
   ];
 
   @override

@@ -121,9 +121,11 @@ BuildInput createBuildInput(
             ? null
             : IOSCodeConfig(
                 targetSdk: iOSSdk!,
-                targetVersion: iOSTargetVersion,
+                targetVersionString: iOSTargetVersion.toString(),
               ),
-        macOS: MacOSCodeConfig(targetVersion: macOSTargetVersion),
+        macOS: MacOSCodeConfig(
+          targetVersionString: macOSTargetVersion.toString(),
+        ),
       ),
     );
   return inputBuilder.build();

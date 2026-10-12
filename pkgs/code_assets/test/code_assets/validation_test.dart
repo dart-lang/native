@@ -312,7 +312,7 @@ void main() {
               linkModePreference: LinkModePreference.dynamic,
               iOS: IOSCodeConfig(
                 targetSdk: IOSSdk.iPhoneOS,
-                targetVersion: 123,
+                targetVersionString: '123',
               ),
             ),
           );
@@ -372,7 +372,7 @@ void main() {
             targetOS: OS.macOS,
             targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic,
-            macOS: MacOSCodeConfig(targetVersion: 123),
+            macOS: MacOSCodeConfig(targetVersionString: '123'),
           ),
         );
 

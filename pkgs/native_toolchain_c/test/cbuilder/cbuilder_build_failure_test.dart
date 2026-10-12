@@ -47,7 +47,9 @@ void main() {
         CodeAssetExtension(
           targetOS: targetOS,
           macOS: targetOS == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              ? MacOSCodeConfig(
+                  targetVersionString: defaultMacOSVersion.toString(),
+                )
               : null,
           targetArchitecture: Architecture.current,
           linkModePreference: .dynamic,

@@ -229,13 +229,10 @@
         "target_version": {
           "type": "integer"
         },
-        "target_version_minor": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "target_version_patch": {
-          "type": "integer",
-          "minimum": 0
+        "target_version_string": {
+          "description": "The lowest compatible Apple deployment version.",
+          "type": "string",
+          "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$"
         }
       },
       "required": [
@@ -293,13 +290,10 @@
         "target_version": {
           "type": "integer"
         },
-        "target_version_minor": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "target_version_patch": {
-          "type": "integer",
-          "minimum": 0
+        "target_version_string": {
+          "description": "The lowest compatible Apple deployment version.",
+          "type": "string",
+          "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$"
         }
       },
       "required": [

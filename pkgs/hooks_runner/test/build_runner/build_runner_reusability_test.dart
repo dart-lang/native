@@ -42,7 +42,9 @@ void main() async {
         targetArchitecture: Architecture.current,
         targetOS: OS.current,
         macOS: targetOS == OS.macOS
-            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+            ? MacOSCodeConfig(
+                targetVersionString: defaultMacOSVersion.toString(),
+              )
             : null,
         linkModePreference: LinkModePreference.dynamic,
       );

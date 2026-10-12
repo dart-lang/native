@@ -128,7 +128,7 @@ void main() {
                   : .static,
               iOS: IOSCodeConfig(
                 targetSdk: targetIOSSdk,
-                targetVersion: iOSVersion.value,
+                targetVersionString: iOSVersion.value.toString(),
               ),
               cCompiler: cCompiler,
             ),
