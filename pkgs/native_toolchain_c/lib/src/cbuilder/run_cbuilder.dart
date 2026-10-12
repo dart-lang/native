@@ -193,10 +193,10 @@ class RunCBuilder {
     }
 
     final targetIOSVersion = codeConfig.targetOS == .iOS
-        ? codeConfig.iOS.targetVersion
+        ? codeConfig.iOS.targetVersionString
         : null;
     final targetMacOSVersion = codeConfig.targetOS == .macOS
-        ? codeConfig.macOS.targetVersion
+        ? codeConfig.macOS.targetVersionString
         : null;
 
     final architecture = codeConfig.targetArchitecture;
@@ -259,8 +259,8 @@ class RunCBuilder {
     Architecture? architecture,
     int? targetAndroidNdkApi,
     IOSSdk? targetIosSdk,
-    int? targetIOSVersion,
-    int? targetMacOSVersion,
+    String? targetIOSVersion,
+    String? targetMacOSVersion,
     Iterable<String> sourceFiles,
     Uri? outFile,
     Map<String, String> environment,

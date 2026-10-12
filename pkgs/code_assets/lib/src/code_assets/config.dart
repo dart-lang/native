@@ -133,15 +133,50 @@ final class IOSCodeConfig {
   /// Whether to target device or simulator.
   IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk);
 
-  /// The lowest iOS version that the compiled code will be compatible with.
+  /// The major component of the lowest compatible iOS version.
+  ///
+  /// Use [targetVersionString] when passing the deployment target to a
+  /// compiler.
   int get targetVersion => _syntax.targetVersion;
 
+  /// The minor component of the deployment target.
+  ///
+  /// Defaults to zero when the SDK omits this component.
+  int get targetVersionMinor =>
+      _versionComponent(_syntax.targetVersionMinor, 'targetVersionMinor');
+
+  /// The patch component of the deployment target.
+  ///
+  /// Defaults to zero when the SDK omits this component.
+  int get targetVersionPatch =>
+      _versionComponent(_syntax.targetVersionPatch, 'targetVersionPatch');
+
+  /// The complete deployment target for compiler and linker arguments.
+  ///
+  /// A major-only target retains its existing spelling, such as `16`.
+  String get targetVersionString =>
+      _versionString(targetVersion, targetVersionMinor, targetVersionPatch);
+
   /// Constructs a new [IOSCodeConfig].
-  IOSCodeConfig({required IOSSdk targetSdk, required int targetVersion})
-    : _syntax = IOSCodeConfigSyntax(
-        targetSdk: targetSdk.type,
-        targetVersion: targetVersion,
-      );
+  ///
+  /// [targetVersion] is the major component. Optional minor and patch
+  /// components must be non-negative and default to zero when omitted.
+  /// Hooks using older versions of `package:code_assets` only read the major
+  /// component.
+  IOSCodeConfig({
+    required IOSSdk targetSdk,
+    required int targetVersion,
+    int? targetVersionMinor,
+    int? targetVersionPatch,
+  }) : _syntax = IOSCodeConfigSyntax(
+         targetSdk: targetSdk.type,
+         targetVersion: targetVersion,
+         targetVersionMinor: targetVersionMinor,
+         targetVersionPatch: targetVersionPatch,
+       ) {
+    _versionComponent(targetVersionMinor, 'targetVersionMinor');
+    _versionComponent(targetVersionPatch, 'targetVersionPatch');
+  }
 }
 
 /// The configuration for [CodeAsset]s for target OS [OS.android] in
@@ -167,12 +202,62 @@ final class MacOSCodeConfig {
 
   MacOSCodeConfig._(this._syntax);
 
-  /// The lowest MacOS version that the compiled code will be compatible with.
+  /// The major component of the lowest compatible macOS version.
+  ///
+  /// Use [targetVersionString] when passing the deployment target to a
+  /// compiler.
   int get targetVersion => _syntax.targetVersion;
 
+  /// The minor component of the deployment target.
+  ///
+  /// Defaults to zero when the SDK omits this component.
+  int get targetVersionMinor =>
+      _versionComponent(_syntax.targetVersionMinor, 'targetVersionMinor');
+
+  /// The patch component of the deployment target.
+  ///
+  /// Defaults to zero when the SDK omits this component.
+  int get targetVersionPatch =>
+      _versionComponent(_syntax.targetVersionPatch, 'targetVersionPatch');
+
+  /// The complete deployment target for compiler and linker arguments.
+  ///
+  /// A major-only target retains its existing spelling, such as `13`.
+  String get targetVersionString =>
+      _versionString(targetVersion, targetVersionMinor, targetVersionPatch);
+
   /// Constructs a new [MacOSCodeConfig].
-  MacOSCodeConfig({required int targetVersion})
-    : _syntax = MacOSCodeConfigSyntax(targetVersion: targetVersion);
+  ///
+  /// [targetVersion] is the major component. Optional minor and patch
+  /// components must be non-negative and default to zero when omitted.
+  /// Hooks using older versions of `package:code_assets` only read the major
+  /// component.
+  MacOSCodeConfig({
+    required int targetVersion,
+    int? targetVersionMinor,
+    int? targetVersionPatch,
+  }) : _syntax = MacOSCodeConfigSyntax(
+         targetVersion: targetVersion,
+         targetVersionMinor: targetVersionMinor,
+         targetVersionPatch: targetVersionPatch,
+       ) {
+    _versionComponent(targetVersionMinor, 'targetVersionMinor');
+    _versionComponent(targetVersionPatch, 'targetVersionPatch');
+  }
+}
+
+int _versionComponent(int? value, String name) {
+  final component = value ?? 0;
+  if (component < 0) {
+    throw ArgumentError.value(component, name, 'Must not be negative.');
+  }
+  return component;
+}
+
+String _versionString(int major, int minor, int patch) {
+  if (patch != 0) return '$major.$minor.$patch';
+  if (minor != 0) return '$major.$minor';
+  return '$major';
 }
 
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
@@ -303,8 +388,11 @@ extension LinkOutputCodeAssets on LinkOutputAssets {
 extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
   /// Converts this [MacOSCodeConfig] to its corresponding
   /// [MacOSCodeConfigSyntax].
-  MacOSCodeConfigSyntax toSyntax() =>
-      MacOSCodeConfigSyntax(targetVersion: targetVersion);
+  MacOSCodeConfigSyntax toSyntax() => MacOSCodeConfigSyntax(
+    targetVersion: targetVersion,
+    targetVersionMinor: _syntax.targetVersionMinor,
+    targetVersionPatch: _syntax.targetVersionPatch,
+  );
 }
 
 /// Extension methods for [IOSCodeConfig] to convert to and from the syntax
@@ -314,6 +402,8 @@ extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
   IOSCodeConfigSyntax toSyntax() => IOSCodeConfigSyntax(
     targetSdk: targetSdk.type,
     targetVersion: targetVersion,
+    targetVersionMinor: _syntax.targetVersionMinor,
+    targetVersionPatch: _syntax.targetVersionPatch,
   );
 }
 

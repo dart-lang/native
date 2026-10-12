@@ -627,10 +627,14 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   IOSCodeConfigSyntax({
     required String targetSdk,
     required int targetVersion,
+    required int? targetVersionMinor,
+    required int? targetVersionPatch,
     super.path = const [],
   }) : super() {
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
+    _targetVersionMinor = targetVersionMinor;
+    _targetVersionPatch = targetVersionPatch;
     json.sortOnKey();
   }
 
@@ -651,11 +655,31 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   List<String> _validateTargetVersion() =>
       _reader.validate<int>('target_version');
 
+  int? get targetVersionMinor => _reader.get<int?>('target_version_minor');
+
+  set _targetVersionMinor(int? value) {
+    json.setOrRemove('target_version_minor', value);
+  }
+
+  List<String> _validateTargetVersionMinor() =>
+      _reader.validate<int?>('target_version_minor');
+
+  int? get targetVersionPatch => _reader.get<int?>('target_version_patch');
+
+  set _targetVersionPatch(int? value) {
+    json.setOrRemove('target_version_patch', value);
+  }
+
+  List<String> _validateTargetVersionPatch() =>
+      _reader.validate<int?>('target_version_patch');
+
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateTargetSdk(),
     ..._validateTargetVersion(),
+    ..._validateTargetVersionMinor(),
+    ..._validateTargetVersionPatch(),
   ];
 
   @override
@@ -764,9 +788,15 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
   MacOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  MacOSCodeConfigSyntax({required int targetVersion, super.path = const []})
-    : super() {
+  MacOSCodeConfigSyntax({
+    required int targetVersion,
+    required int? targetVersionMinor,
+    required int? targetVersionPatch,
+    super.path = const [],
+  }) : super() {
     _targetVersion = targetVersion;
+    _targetVersionMinor = targetVersionMinor;
+    _targetVersionPatch = targetVersionPatch;
     json.sortOnKey();
   }
 
@@ -779,8 +809,31 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
   List<String> _validateTargetVersion() =>
       _reader.validate<int>('target_version');
 
+  int? get targetVersionMinor => _reader.get<int?>('target_version_minor');
+
+  set _targetVersionMinor(int? value) {
+    json.setOrRemove('target_version_minor', value);
+  }
+
+  List<String> _validateTargetVersionMinor() =>
+      _reader.validate<int?>('target_version_minor');
+
+  int? get targetVersionPatch => _reader.get<int?>('target_version_patch');
+
+  set _targetVersionPatch(int? value) {
+    json.setOrRemove('target_version_patch', value);
+  }
+
+  List<String> _validateTargetVersionPatch() =>
+      _reader.validate<int?>('target_version_patch');
+
   @override
-  List<String> validate() => [...super.validate(), ..._validateTargetVersion()];
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateTargetVersion(),
+    ..._validateTargetVersionMinor(),
+    ..._validateTargetVersionPatch(),
+  ];
 
   @override
   String toString() => 'MacOSCodeConfigSyntax($json)';

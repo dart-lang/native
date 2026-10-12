@@ -1,3 +1,8 @@
+## 2.2.0-wip
+
+- Support minor and patch deployment-version components in `IOSCodeConfig` and
+  `MacOSCodeConfig`, with `targetVersionString` for compiler and linker arguments.
+
 ## 2.1.0
 
 - Added `Architecture.arm64e`.

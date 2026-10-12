@@ -200,11 +200,11 @@ String firstLineOfStdout(String cmd, List<String> args) {
 
 String minOSVersion(CodeConfig codeConfig) {
   if (codeConfig.targetOS == OS.iOS) {
-    final targetVersion = codeConfig.iOS.targetVersion;
+    final targetVersion = codeConfig.iOS.targetVersionString;
     return '-mios-version-min=$targetVersion';
   }
   assert(codeConfig.targetOS == OS.macOS);
-  final targetVersion = codeConfig.macOS.targetVersion;
+  final targetVersion = codeConfig.macOS.targetVersionString;
   return '-mmacos-version-min=$targetVersion';
 }
 
@@ -304,19 +304,19 @@ class CustomBuilder {
         : 'arm64';
     final String target;
     if (_codeConfig.targetOS == OS.iOS) {
-      final version = _codeConfig.iOS.targetVersion;
+      final version = _codeConfig.iOS.targetVersionString;
       final sdk = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS
           ? 'ios'
           : 'ios-simulator';
       target = '$arch-apple-$sdk$version';
     } else {
-      final version = _codeConfig.macOS.targetVersion;
+      final version = _codeConfig.macOS.targetVersionString;
       target = '$arch-apple-macosx$version';
     }
 
     if (_codeConfig.targetOS == OS.macOS &&
         _codeConfig.targetArchitecture == Architecture.arm64) {
-      final version = _codeConfig.macOS.targetVersion;
+      final version = _codeConfig.macOS.targetVersionString;
       await _run('swiftc', [
         ...baseArgs,
         '-emit-objc-header-path',

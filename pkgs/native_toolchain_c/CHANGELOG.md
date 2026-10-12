@@ -1,5 +1,7 @@
 ## 0.19.6-wip
 
+- Preserve minor and patch components of iOS and macOS deployment targets in
+  `CBuilder` and `CLinker`. Requires `package:code_assets` 2.2.0.
 - Support listing `.h` files in `CBuilder.sources` to track header changes as
   build dependencies without passing them to the compiler.
 - Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.

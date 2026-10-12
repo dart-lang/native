@@ -1,3 +1,9 @@
+## 23.0.1-wip
+
+- Preserve minor and patch components of Apple deployment targets in the native
+  test hook's Clang flags and Swift target triples. Requires `package:code_assets`
+  2.2.0.
+
 ## 23.0.0
 
 - The YAML configuration format is deprecated and will be removed in a future

@@ -228,6 +228,14 @@
         },
         "target_version": {
           "type": "integer"
+        },
+        "target_version_minor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target_version_patch": {
+          "type": "integer",
+          "minimum": 0
         }
       },
       "required": [
@@ -284,6 +292,14 @@
       "properties": {
         "target_version": {
           "type": "integer"
+        },
+        "target_version_minor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target_version_patch": {
+          "type": "integer",
+          "minimum": 0
         }
       },
       "required": [

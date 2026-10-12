@@ -47,7 +47,11 @@ Future<void> testCodeBuildHook({
   OS? targetOS,
   IOSSdk? targetIOSSdk = IOSSdk.iPhoneOS,
   int? targetIOSVersion = 17,
+  int? targetIOSVersionMinor,
+  int? targetIOSVersionPatch,
   int? targetMacOSVersion = 13,
+  int? targetMacOSVersionMinor,
+  int? targetMacOSVersionPatch,
   int? targetAndroidNdkApi = 30,
   CCompilerConfig? cCompiler,
   LinkModePreference? linkModePreference = LinkModePreference.dynamic,
@@ -66,10 +70,16 @@ Future<void> testCodeBuildHook({
         ? IOSCodeConfig(
             targetSdk: targetIOSSdk!,
             targetVersion: targetIOSVersion!,
+            targetVersionMinor: targetIOSVersionMinor,
+            targetVersionPatch: targetIOSVersionPatch,
           )
         : null,
     macOS: targetOS == OS.macOS
-        ? MacOSCodeConfig(targetVersion: targetMacOSVersion!)
+        ? MacOSCodeConfig(
+            targetVersion: targetMacOSVersion!,
+            targetVersionMinor: targetMacOSVersionMinor,
+            targetVersionPatch: targetMacOSVersionPatch,
+          )
         : null,
     android: targetOS == OS.android
         ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)

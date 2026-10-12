@@ -47,6 +47,27 @@ ValidationErrors _validateConfig(String inputName, HookConfig config) {
 
   final code = config.code;
   final errors = <String>[];
+  for (final (name, minor, patch) in [
+    if (code.targetOS == OS.iOS)
+      (
+        '$inputName.iOS',
+        code.iOS.toSyntax().targetVersionMinor,
+        code.iOS.toSyntax().targetVersionPatch,
+      ),
+    if (code.targetOS == OS.macOS)
+      (
+        '$inputName.macOS',
+        code.macOS.toSyntax().targetVersionMinor,
+        code.macOS.toSyntax().targetVersionPatch,
+      ),
+  ]) {
+    if (minor != null && minor < 0) {
+      errors.add('$name.targetVersionMinor must not be negative.');
+    }
+    if (patch != null && patch < 0) {
+      errors.add('$name.targetVersionPatch must not be negative.');
+    }
+  }
   final cCompiler = code.cCompiler;
   if (cCompiler != null) {
     errors.addAll([
