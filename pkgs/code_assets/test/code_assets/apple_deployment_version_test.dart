@@ -181,6 +181,16 @@ void main() {
         },
       );
     }
+    test('$os reader and validation reject negative legacy input', () async {
+      final json = builder(extension(version: '16')).json;
+      apple(json)
+        ..remove('target_version_string')
+        ..['target_version'] = -1;
+      expect(() => version(BuildInput(json).config), throwsFormatException);
+      expect(await validateCodeAssetBuildInput(BuildInput(json)), isNotEmpty);
+      json['assets'] = <Object?>[];
+      expect(await validateCodeAssetLinkInput(LinkInput(json)), isNotEmpty);
+    });
     test(
       '$os reader and validation reject conflicting major versions',
       () async {
