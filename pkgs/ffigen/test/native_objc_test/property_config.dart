@@ -19,7 +19,30 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          node.isIncluded = node.originalName == 'PropertyInterface';
+          const include = {
+            'PropertyInterface',
+            'PropertyAsMethodInterface',
+            'PropertyAsMethodParent',
+            'PropertyAsMethodChild',
+          };
+          node.isIncluded = include.contains(node.originalName);
+        },
+        objCMethod: (node) {
+          final parent = node.parent;
+          if (parent is! ObjCInterface) return;
+          // Changing either accessor of a property changes both of them.
+          const asMethods = {
+            'PropertyAsMethodInterface': {
+              'readOnlyAsMethod',
+              'readWriteAsMethod',
+              'setClassReadWriteAsMethod:',
+            },
+            'PropertyAsMethodParent': {'overriddenProperty'},
+          };
+          if (asMethods[parent.originalName]?.contains(node.selector) ??
+              false) {
+            node.isProperty = false;
+          }
         },
       ),
     ],
