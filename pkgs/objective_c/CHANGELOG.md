@@ -1,7 +1,7 @@
 ## 9.6.3-wip
 
-- Preserve minor and patch components of iOS and macOS deployment targets when
-  compiling the native support library. Requires `package:code_assets` 2.2.0.
+- Use minor and patch versions of iOS and macOS deployment targets from
+  `package:code_assets` 2.2.0 in the native support library's build hook.
 
 ## 9.6.2
 

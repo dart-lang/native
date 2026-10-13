@@ -25,7 +25,7 @@ void main() {
 
   final targetOS = OS.current;
   final macOSConfig = targetOS == OS.macOS
-      ? MacOSCodeConfig(targetVersionString: defaultMacOSVersion.toString())
+      ? MacOSCodeConfig(targetVersionString: defaultMacOSVersion)
       : null;
   for (final pic in [null, true, false]) {
     final picTag = switch (pic) {
@@ -727,7 +727,7 @@ Future<void> testDefines({
         targetOS: targetOS,
         macOS: targetOS == OS.macOS
             ? MacOSCodeConfig(
-                targetVersionString: defaultMacOSVersion.toString(),
+                targetVersionString: defaultMacOSVersion,
               )
             : null,
         targetArchitecture: Architecture.current,

@@ -230,7 +230,7 @@
           "type": "integer"
         },
         "target_version_string": {
-          "description": "The lowest compatible Apple deployment version.",
+          "description": "The lowest compatible Apple deployment version, with one to three unsigned 32-bit numeric components. Its major component must equal target_version.",
           "type": "string",
           "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$"
         }
@@ -291,7 +291,7 @@
           "type": "integer"
         },
         "target_version_string": {
-          "description": "The lowest compatible Apple deployment version.",
+          "description": "The lowest compatible Apple deployment version, with one to three unsigned 32-bit numeric components. Its major component must equal target_version.",
           "type": "string",
           "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$"
         }

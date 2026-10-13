@@ -68,6 +68,10 @@ void main() {
       '17.0.1',
       '16.10',
       '16.4.0',
+      '016.04',
+      '4294967295',
+      '16.4294967295',
+      '16.4.4294967295',
     ]) {
       test('$os $value round trips through build and link inputs', () {
         final json = builder(extension(version: value)).json;
@@ -130,9 +134,18 @@ void main() {
     test('$os constructor rejects both versions', () {
       expect(() => extension(major: 16, version: '16.4'), throwsArgumentError);
     });
-    test('$os legacy constructor rejects a negative version', () {
-      expect(() => extension(major: -1), throwsArgumentError);
-    });
+    for (final major in [-1, 4294967296]) {
+      test('$os legacy constructor rejects version $major', () {
+        expect(
+          () => extension(major: major),
+          throwsA(
+            isA<ArgumentError>()
+                .having((error) => error.name, 'name', 'targetVersion')
+                .having((error) => error.invalidValue, 'value', major),
+          ),
+        );
+      });
+    }
     for (final value in [
       '',
       '-1',
@@ -146,6 +159,10 @@ void main() {
       '16.4.1+build.1',
       '16.4.1.2',
       '9223372036854775808',
+      '4294967296',
+      '16.4294967296',
+      '16.4.4294967296',
+      '16.4294967301',
     ]) {
       test('$os constructor rejects invalid version ${jsonEncode(value)}', () {
         expect(() => extension(version: value), throwsArgumentError);
@@ -164,6 +181,10 @@ void main() {
       '16.4.1+build.1',
       '16.4.1.2',
       '9223372036854775808',
+      '4294967296',
+      '16.4294967296',
+      '16.4.4294967296',
+      '16.4294967301',
       16,
       16.4,
       true,
@@ -183,16 +204,18 @@ void main() {
         },
       );
     }
-    test('$os reader and validation reject negative legacy input', () async {
-      final json = builder(extension(version: '16')).json;
-      apple(json)
-        ..remove('target_version_string')
-        ..['target_version'] = -1;
-      expect(() => version(BuildInput(json).config), throwsFormatException);
-      expect(await validateCodeAssetBuildInput(BuildInput(json)), isNotEmpty);
-      json['assets'] = <Object?>[];
-      expect(await validateCodeAssetLinkInput(LinkInput(json)), isNotEmpty);
-    });
+    for (final major in [-1, 4294967296]) {
+      test('$os reader and validation reject legacy $major', () async {
+        final json = builder(extension(version: '16')).json;
+        apple(json)
+          ..remove('target_version_string')
+          ..['target_version'] = major;
+        expect(() => version(BuildInput(json).config), throwsFormatException);
+        expect(await validateCodeAssetBuildInput(BuildInput(json)), isNotEmpty);
+        json['assets'] = <Object?>[];
+        expect(await validateCodeAssetLinkInput(LinkInput(json)), isNotEmpty);
+      });
+    }
     test(
       '$os reader and validation reject conflicting major versions',
       () async {

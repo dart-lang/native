@@ -19,7 +19,7 @@ import '../helpers.dart';
 void main() {
   final targetOS = OS.current;
   final macOSConfig = targetOS == OS.macOS
-      ? MacOSCodeConfig(targetVersionString: defaultMacOSVersion.toString())
+      ? MacOSCodeConfig(targetVersionString: defaultMacOSVersion)
       : null;
 
   for (final sanitizer in Sanitizer.values) {

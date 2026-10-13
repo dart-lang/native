@@ -156,7 +156,7 @@ void main() async {
                   : .static,
               cCompiler: chosenCCompiler,
               macOS: MacOSCodeConfig(
-                targetVersionString: defaultMacOSVersion.toString(),
+                targetVersionString: defaultMacOSVersion,
               ),
             ),
           );
@@ -220,7 +220,7 @@ void main() async {
           targetArchitecture: Architecture.current,
           linkModePreference: .dynamic,
           macOS: MacOSCodeConfig(
-            targetVersionString: defaultMacOSVersion.toString(),
+            targetVersionString: defaultMacOSVersion,
           ),
           cCompiler: cCompiler,
         ),

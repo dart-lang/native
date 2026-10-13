@@ -143,6 +143,7 @@ final class IOSCodeConfig {
   /// for example `16`, `16.4`, and `17.2.1`. The spelling is preserved for
   /// compiler and linker arguments. Prerelease and build suffixes are not
   /// supported by Apple deployment-target flags.
+  /// Each component must fit in an unsigned 32-bit integer.
   ///
   /// Older SDKs supplying only the integer version are supported.
   /// Throws [FormatException] if the supplied deployment version is malformed
@@ -210,6 +211,7 @@ final class MacOSCodeConfig {
   /// for example `13`, `14.4`, and `14.4.1`. The spelling is preserved for
   /// compiler and linker arguments. Prerelease and build suffixes are not
   /// supported by Apple deployment-target flags.
+  /// Each component must fit in an unsigned 32-bit integer.
   ///
   /// Older SDKs supplying only the integer version are supported.
   /// Throws [FormatException] if the supplied deployment version is malformed
@@ -239,12 +241,21 @@ final class MacOSCodeConfig {
   }
 }
 
-final _appleDeploymentVersionPattern = RegExp(r'([0-9]+)(?:\.[0-9]+){0,2}');
+final _appleDeploymentVersionPattern = RegExp(r'[0-9]+(?:\.[0-9]+){0,2}');
+const _maxAppleDeploymentVersionComponent = 0xffffffff;
 
 int? _tryAppleDeploymentVersionMajor(String version) {
   final match = _appleDeploymentVersionPattern.matchAsPrefix(version);
   if (match == null || match.end != version.length) return null;
-  return int.tryParse(match.group(1)!);
+  int? major;
+  for (final component in version.split('.')) {
+    final value = int.tryParse(component);
+    if (value == null || value > _maxAppleDeploymentVersionComponent) {
+      return null;
+    }
+    major ??= value;
+  }
+  return major;
 }
 
 (int, String) _appleDeploymentVersion(int? major, String? version) {
@@ -257,9 +268,10 @@ int? _tryAppleDeploymentVersionMajor(String version) {
   final parsedMajor = _tryAppleDeploymentVersionMajor(version);
   if (parsedMajor == null) {
     throw ArgumentError.value(
-      version,
-      'targetVersionString',
-      'Expected a numeric deployment version such as 16, 16.4, or 17.2.1.',
+      major ?? version,
+      major != null ? 'targetVersion' : 'targetVersionString',
+      'Expected one to three numeric components fitting unsigned '
+      '32-bit integers, such as 16, 16.4, or 17.2.1.',
     );
   }
   return (parsedMajor, version);
@@ -271,7 +283,8 @@ String _readAppleDeploymentVersion(int major, String? version) {
   if (parsedMajor == null) {
     throw FormatException(
       'Invalid Apple deployment version: "$version". '
-      'Expected a numeric version such as 16, 16.4, or 17.2.1.',
+      'Expected one to three numeric components fitting unsigned '
+      '32-bit integers, such as 16, 16.4, or 17.2.1.',
     );
   }
   if (parsedMajor != major) {

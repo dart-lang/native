@@ -177,7 +177,7 @@ List<String> $validateName() {
       final pattern = dartType.pattern!;
       final patternError =
           "'Value does not satisfy pattern: \${_${fieldName}Pattern.pattern}.'";
-      final patternErrorLines = patternError.length + 8 > 80
+      final patternErrorLines = patternError.length + 9 > 80
           ? "'Value does not satisfy pattern: '\n"
                 "'\${_${fieldName}Pattern.pattern}.'"
           : patternError;

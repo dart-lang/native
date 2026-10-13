@@ -95,7 +95,6 @@ void main() {
     // If format or algorithm for checksumming changes we'd like to know (by
     // needing to update this list).
 
-    // Apple configurations now also serialize target_version_string.
     final expectedChecksums = <String>[
       '61ab5ef403',
       'e3a77db8c8',

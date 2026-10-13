@@ -17,7 +17,7 @@ Future<Uri> buildTestArchive(
   Architecture architecture, {
   List<Uri>? extraSources,
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
-  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
+  String? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
   int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
   IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
 }) async {
@@ -62,7 +62,7 @@ Future<Uri> buildTestArchive(
             : null,
         macOS: macOSTargetVersion != null
             ? MacOSCodeConfig(
-                targetVersionString: macOSTargetVersion.toString(),
+                targetVersionString: macOSTargetVersion,
               )
             : null,
         iOS: iOSTargetVersion != null && iOSTargetSdk != null

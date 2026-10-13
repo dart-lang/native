@@ -74,8 +74,7 @@ void main() {
                     cCompiler: cCompiler,
                     macOS: macOSTargetVersion != null
                         ? MacOSCodeConfig(
-                            targetVersionString: (macOSTargetVersion)
-                                .toString(),
+                            targetVersionString: macOSTargetVersion,
                           )
                         : null,
                   ),
