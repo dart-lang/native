@@ -21,9 +21,15 @@ class Scope {
   final _children = <Scope>[];
   final Scope? _parent;
   final Set<String> _preUsedNames;
+  final bool _typesOnly;
   Namer? _namer;
 
-  Scope._(this._parent, this._debugName, this._preUsedNames);
+  Scope._(
+    this._parent,
+    this._debugName,
+    this._preUsedNames, {
+    bool typesOnly = false,
+  }) : _typesOnly = typesOnly;
 
   static Scope createRoot(String debugName) =>
       Scope._(null, debugName, const {});
@@ -31,9 +37,13 @@ class Scope {
   /// Create a new [Scope] as a child of this one.
   ///
   /// [fillNames] must not have been called yet.
-  Scope addChild(String debugName, {Set<String> preUsedNames = const {}}) {
+  Scope addChild(
+    String debugName, {
+    Set<String> preUsedNames = const {},
+    bool typesOnly = false,
+  }) {
     assert(!_filled);
-    final ns = Scope._(this, debugName, preUsedNames);
+    final ns = Scope._(this, debugName, preUsedNames, typesOnly: typesOnly);
     _children.add(ns);
     return ns;
   }
@@ -86,7 +96,7 @@ class Scope {
         // Symbol already has a name. This can happen if the symbol is in
         // multiple scopes. It's fine as long as the name isn't used by a
         // different symbol earlier in this scope.
-        namer.markUsed(symbol._name!);
+        namer.markUsed(symbol._name!, symbol.kind);
         assert(
           !_symbols.any((s) => s != symbol && s._name == symbol._name),
           symbol.oldName,
@@ -94,7 +104,7 @@ class Scope {
       }
     }
     for (final ns in _children) {
-      ns._fillNames(namer._used);
+      ns._fillNames(ns._typesOnly ? namer.classLevelUsed : namer._used);
     }
   }
 
@@ -129,6 +139,9 @@ class Scope {
 /// time you should use those instead of this.
 class Namer {
   final Set<String> _used;
+  final _classLevelUsed = <String>{};
+
+  Set<String> get classLevelUsed => _classLevelUsed;
 
   Namer(this._used);
 
@@ -141,12 +154,17 @@ class Namer {
       newName = '$name\$$i';
     }
 
-    markUsed(newName);
+    markUsed(newName, kind);
     return newName;
   }
 
   bool isUsed(String name) => _used.contains(name);
-  void markUsed(String name) => _used.add(name);
+  void markUsed(String name, [SymbolKind? kind]) {
+    _used.add(name);
+    if (kind == SymbolKind.klass || kind == SymbolKind.lib) {
+      _classLevelUsed.add(name);
+    }
+  }
 
   /// Returns a version of [name] that can safely be used in C code. Not
   /// guaranteed to be unique.
