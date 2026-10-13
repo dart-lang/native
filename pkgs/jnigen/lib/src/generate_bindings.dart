@@ -16,6 +16,7 @@ import 'bindings/renamer.dart';
 import 'bindings/stub_collector.dart';
 import 'bindings/visitor.dart';
 import 'config/config.dart';
+import 'elements/api_dumper.dart';
 import 'elements/elements.dart';
 import 'elements/j_elements.dart' as j_ast;
 import 'logging/logging.dart';
@@ -27,11 +28,7 @@ void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
 
 extension JniGenGenerator on JniGenerator {
-  /// Runs the entire generation pipeline for this config.
-  ///
-  /// If provided, uses [logger] to output logs. Otherwise, uses a default
-  /// logger that logs to stderr and the log file.
-  Future<void> generate({Logger? logger}) async {
+  Future<(Classes, j_ast.Classes)> _getUserClasses({Logger? logger}) async {
     logger ??= createDefaultLogger();
     if (logger != log) {
       setLoggingLevel(logger.level);
@@ -51,7 +48,6 @@ extension JniGenGenerator on JniGenerator {
     }
 
     final Classes classes;
-
     try {
       classes = await getSummary(this);
     } on SummaryParseException catch (e) {
@@ -61,7 +57,29 @@ extension JniGenGenerator on JniGenerator {
       log.fatal(e.message);
     }
 
-    final userClasses = j_ast.Classes(classes);
+    return (classes, j_ast.Classes(classes));
+  }
+
+  /// Parses the Java input according to this config and dumps all user-visible
+  /// AST nodes.
+  ///
+  /// Returns the formatted dump string.
+  Future<String> dumpApi({Logger? logger}) async {
+    final (_, userClasses) = await _getUserClasses(logger: logger);
+
+    final buffer = StringBuffer();
+    final dumper = ApiDumperVisitor(buffer);
+    userClasses.accept(dumper);
+
+    return buffer.toString();
+  }
+
+  /// Runs the entire generation pipeline for this config.
+  ///
+  /// If provided, uses [logger] to output logs. Otherwise, uses a default
+  /// logger that logs to stderr and the log file.
+  Future<void> generate({Logger? logger}) async {
+    final (classes, userClasses) = await _getUserClasses(logger: logger);
     visitors.forEach(userClasses.accept);
 
     // Keep the order in sync with `elements/elements.dart`.
