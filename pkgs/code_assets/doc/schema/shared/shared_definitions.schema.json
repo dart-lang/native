@@ -13,6 +13,32 @@
         "target_ndk_api"
       ]
     },
+    "AppleVersion": {
+      "description": "An Apple deployment version with all three numeric components required, each between 0 and 2147483647. API defaults for minor and patch are serialized as zero.",
+      "type": "object",
+      "properties": {
+        "major": {
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "minor": {
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "patch": {
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "major",
+        "minor",
+        "patch"
+      ]
+    },
     "Architecture": {
       "type": "string",
       "anyOf": [
@@ -227,12 +253,13 @@
           "type": "string"
         },
         "target_version": {
-          "type": "integer"
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
         },
-        "target_version_string": {
-          "description": "The lowest compatible Apple deployment version, with one to three unsigned 32-bit numeric components. Its major component must equal target_version.",
-          "type": "string",
-          "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$"
+        "target_version_v2": {
+          "$ref": "#/definitions/AppleVersion",
+          "description": "The lowest compatible Apple deployment version. All three numeric components are required, and its major component must equal target_version."
         }
       },
       "required": [
@@ -288,12 +315,13 @@
       "type": "object",
       "properties": {
         "target_version": {
-          "type": "integer"
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
         },
-        "target_version_string": {
-          "description": "The lowest compatible Apple deployment version, with one to three unsigned 32-bit numeric components. Its major component must equal target_version.",
-          "type": "string",
-          "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$"
+        "target_version_v2": {
+          "$ref": "#/definitions/AppleVersion",
+          "description": "The lowest compatible Apple deployment version. All three numeric components are required, and its major component must equal target_version."
         }
       },
       "required": [

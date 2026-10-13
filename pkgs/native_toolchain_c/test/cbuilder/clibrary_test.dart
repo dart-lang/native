@@ -48,7 +48,7 @@ void main() {
           cCompiler: cCompiler,
           macOS: OS.current == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersionString: defaultMacOSVersion,
+                  targetVersion2: defaultMacOSVersion,
                 )
               : null,
         ),
@@ -93,7 +93,7 @@ void main() {
           cCompiler: cCompiler,
           macOS: OS.current == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersionString: defaultMacOSVersion,
+                  targetVersion2: defaultMacOSVersion,
                 )
               : null,
         ),
@@ -154,7 +154,7 @@ void main() {
           cCompiler: cCompiler,
           macOS: OS.current == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersionString: defaultMacOSVersion,
+                  targetVersion2: defaultMacOSVersion,
                 )
               : null,
         ),

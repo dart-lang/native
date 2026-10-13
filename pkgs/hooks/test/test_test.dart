@@ -27,7 +27,7 @@ void main() {
           targetOS: OS.current,
           linkModePreference: LinkModePreference.preferDynamic,
           macOS: OS.current == OS.macOS
-              ? MacOSCodeConfig(targetVersionString: '13')
+              ? MacOSCodeConfig(targetVersion2: AppleVersion(13))
               : null,
         ),
       ],

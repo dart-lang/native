@@ -28,7 +28,7 @@ void main(List<String> arguments) async {
           linkModePreference: codeConfig.linkModePreference,
           cCompiler: codeConfig.cCompiler,
           macOS: MacOSCodeConfig(
-            targetVersionString: codeConfig.macOS.targetVersionString,
+            targetVersion2: codeConfig.macOS.targetVersion2,
           ),
           sanitizer: codeConfig.sanitizer,
         ),

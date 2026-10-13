@@ -17,7 +17,12 @@ void main() {
   });
   tearDown(() async => directory.delete(recursive: true));
   for (final os in [OS.iOS, OS.macOS]) {
-    for (final version in ['16', '16.4', '16.4.1']) {
+    for (final (version, target) in [
+      (AppleVersion(16), '16'),
+      (AppleVersion(16, minor: 4), '16.4'),
+      (AppleVersion(16, minor: 4, patch: 1), '16.4.1'),
+      (AppleVersion(16, patch: 1), '16.0.1'),
+    ]) {
       test('$os hook forwards deployment target $version', () {
         final builder = BuildInputBuilder()
           ..setupShared(
@@ -34,19 +39,16 @@ void main() {
               iOS: os == OS.iOS
                   ? IOSCodeConfig(
                       targetSdk: IOSSdk.iPhoneOS,
-                      targetVersionString: version,
+                      targetVersion2: version,
                     )
                   : null,
               macOS: os == OS.macOS
-                  ? MacOSCodeConfig(targetVersionString: version)
+                  ? MacOSCodeConfig(targetVersion2: version)
                   : null,
             ),
           );
         final flag = os == OS.iOS ? '-mios-version-min' : '-mmacos-version-min';
-        expect(
-          hook.minOSVersion(builder.build().config.code),
-          '$flag=$version',
-        );
+        expect(hook.minOSVersion(builder.build().config.code), '$flag=$target');
       });
     }
   }

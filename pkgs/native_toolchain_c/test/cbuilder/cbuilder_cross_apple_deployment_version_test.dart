@@ -14,14 +14,80 @@ import '../helpers.dart';
 void main() {
   if (!Platform.isMacOS) return;
 
-  for (final (os, sdk, architecture, version) in [
-    (OS.iOS, IOSSdk.iPhoneOS, Architecture.arm64, '16.4'),
-    (OS.iOS, IOSSdk.iPhoneOS, Architecture.arm64, '17.2.1'),
-    (OS.iOS, IOSSdk.iPhoneSimulator, Architecture.arm64, '16.4'),
-    (OS.iOS, IOSSdk.iPhoneSimulator, Architecture.x64, '17.2.1'),
-    (OS.macOS, null, Architecture.arm64, '14.4'),
-    (OS.macOS, null, Architecture.x64, '14.4.1'),
-    (OS.macOS, null, Architecture.arm64, '13.0'),
+  for (final (os, sdk, architecture, version, target, minos) in [
+    (
+      OS.iOS,
+      IOSSdk.iPhoneOS,
+      Architecture.arm64,
+      AppleVersion(16, minor: 4),
+      '16.4',
+      '16.4',
+    ),
+    (
+      OS.iOS,
+      IOSSdk.iPhoneOS,
+      Architecture.arm64,
+      AppleVersion(17, minor: 2, patch: 1),
+      '17.2.1',
+      '17.2.1',
+    ),
+    (
+      OS.iOS,
+      IOSSdk.iPhoneSimulator,
+      Architecture.arm64,
+      AppleVersion(16, minor: 4),
+      '16.4',
+      '16.4',
+    ),
+    (
+      OS.iOS,
+      IOSSdk.iPhoneSimulator,
+      Architecture.x64,
+      AppleVersion(17, minor: 2, patch: 1),
+      '17.2.1',
+      '17.2.1',
+    ),
+    (
+      OS.macOS,
+      null,
+      Architecture.arm64,
+      AppleVersion(14, minor: 4),
+      '14.4',
+      '14.4',
+    ),
+    (
+      OS.macOS,
+      null,
+      Architecture.x64,
+      AppleVersion(14, minor: 4, patch: 1),
+      '14.4.1',
+      '14.4.1',
+    ),
+    (OS.macOS, null, Architecture.arm64, AppleVersion(13), '13', '13.0'),
+    (
+      OS.iOS,
+      IOSSdk.iPhoneOS,
+      Architecture.arm64,
+      AppleVersion(17),
+      '17',
+      '17.0',
+    ),
+    (
+      OS.iOS,
+      IOSSdk.iPhoneSimulator,
+      Architecture.arm64,
+      AppleVersion(17),
+      '17',
+      '17.0',
+    ),
+    (
+      OS.macOS,
+      null,
+      Architecture.arm64,
+      AppleVersion(14, patch: 1),
+      '14.0.1',
+      '14.0.1',
+    ),
   ]) {
     test('$os $sdk $architecture preserves minos $version', () async {
       final tempUri = await tempDirForTest();
@@ -41,10 +107,10 @@ void main() {
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: cCompiler,
             iOS: os == OS.iOS
-                ? IOSCodeConfig(targetSdk: sdk!, targetVersionString: version)
+                ? IOSCodeConfig(targetSdk: sdk!, targetVersion2: version)
                 : null,
             macOS: os == OS.macOS
-                ? MacOSCodeConfig(targetVersionString: version)
+                ? MacOSCodeConfig(targetVersion2: version)
                 : null,
           ),
         );
@@ -70,16 +136,16 @@ void main() {
       expect(result.exitCode, 0, reason: '${result.stderr}');
       expect(
         RegExp(r'\bminos (\S+)').firstMatch(result.stdout as String)?.group(1),
-        version,
+        minos,
       );
       final flag = os == OS.iOS ? '-mios-version-min' : '-mmacos-version-min';
-      expect(messages.join('\n'), contains('$flag=$version'));
+      expect(messages.join('\n'), contains('$flag=$target'));
     });
   }
 
-  for (final (os, version) in [
-    (OS.iOS, '17.2.1'),
-    (OS.macOS, '14.4.1'),
+  for (final (os, version, target) in [
+    (OS.iOS, AppleVersion(17, minor: 2, patch: 1), '17.2.1'),
+    (OS.macOS, AppleVersion(14, minor: 4, patch: 1), '14.4.1'),
   ]) {
     test(
       '$os CLinker preserves minos $version from a static archive',
@@ -94,12 +160,12 @@ void main() {
           iOS: os == OS.iOS
               ? IOSCodeConfig(
                   targetSdk: IOSSdk.iPhoneOS,
-                  targetVersionString: version,
+                  targetVersion2: version,
                 )
               : null,
           macOS: os == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersionString: version,
+                  targetVersion2: version,
                 )
               : null,
         );
@@ -156,11 +222,11 @@ void main() {
           RegExp(
             r'\bminos (\S+)',
           ).firstMatch(result.stdout as String)?.group(1),
-          version,
+          target,
         );
         final flag = os == OS.iOS ? '-mios-version-min' : '-mmacos-version-min';
         expect(
-          messages.where((message) => message.contains('$flag=$version')),
+          messages.where((message) => message.contains('$flag=$target')),
           hasLength(2),
         );
       },

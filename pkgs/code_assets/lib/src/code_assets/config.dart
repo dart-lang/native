@@ -4,6 +4,7 @@
 
 import 'package:hooks/hooks.dart';
 
+import 'apple_version.dart';
 import 'architecture.dart';
 import 'c_compiler_config.dart';
 import 'code_asset.dart';
@@ -134,45 +135,40 @@ final class IOSCodeConfig {
   IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk);
 
   /// The major component of the lowest compatible iOS version.
-  @Deprecated('Use targetVersionString instead.')
+  @Deprecated('Use targetVersion2.major instead.')
   int get targetVersion => _syntax.targetVersion;
 
   /// The complete lowest compatible iOS deployment version.
   ///
-  /// Numeric major, major/minor, and major/minor/patch versions are supported,
-  /// for example `16`, `16.4`, and `17.2.1`. The spelling is preserved for
-  /// compiler and linker arguments. Prerelease and build suffixes are not
-  /// supported by Apple deployment-target flags.
-  /// Each component must fit in an unsigned 32-bit integer.
-  ///
-  /// Older SDKs supplying only the integer version are supported.
-  /// Throws [FormatException] if the supplied deployment version is malformed
-  /// or its major component disagrees with the legacy integer version.
-  String get targetVersionString => _readAppleDeploymentVersion(
+  /// Older SDKs supplying only the integer version are supported, with minor
+  /// and patch components defaulting to zero.
+  /// When the nested protocol version is present, all three components are
+  /// required.
+  /// Throws [FormatException] if the supplied version is malformed or its
+  /// major component disagrees with the legacy integer version.
+  AppleVersion get targetVersion2 => _readAppleDeploymentVersion(
     _syntax.targetVersion,
-    _syntax.targetVersionString,
+    _syntax.targetVersionV2,
+    _syntax.json.containsKey('target_version_v2'),
   );
 
   /// Constructs a new [IOSCodeConfig].
   ///
-  /// Supply exactly one of [targetVersionString] or the deprecated
-  /// [targetVersion]. Throws [ArgumentError] for both, neither, or an invalid
-  /// deployment version. Both protocol fields are populated so older hooks
-  /// can still read the major version.
+  /// Supply exactly one of [targetVersion2] or the deprecated [targetVersion].
+  /// Throws [ArgumentError] for both, neither, or an invalid legacy version.
+  /// Both protocol fields are populated so older hooks can read the major
+  /// version.
   factory IOSCodeConfig({
     required IOSSdk targetSdk,
-    @Deprecated('Use targetVersionString instead.') int? targetVersion,
-    String? targetVersionString,
+    @Deprecated('Use targetVersion2 instead.') int? targetVersion,
+    AppleVersion? targetVersion2,
   }) {
-    final (major, version) = _appleDeploymentVersion(
-      targetVersion,
-      targetVersionString,
-    );
+    final version = _appleDeploymentVersion(targetVersion, targetVersion2);
     return IOSCodeConfig._(
       IOSCodeConfigSyntax(
         targetSdk: targetSdk.type,
-        targetVersion: major,
-        targetVersionString: version,
+        targetVersion: version.major,
+        targetVersionV2: version.toSyntax(),
       ),
     );
   }
@@ -202,95 +198,79 @@ final class MacOSCodeConfig {
   MacOSCodeConfig._(this._syntax);
 
   /// The major component of the lowest compatible macOS version.
-  @Deprecated('Use targetVersionString instead.')
+  @Deprecated('Use targetVersion2.major instead.')
   int get targetVersion => _syntax.targetVersion;
 
   /// The complete lowest compatible macOS deployment version.
   ///
-  /// Numeric major, major/minor, and major/minor/patch versions are supported,
-  /// for example `13`, `14.4`, and `14.4.1`. The spelling is preserved for
-  /// compiler and linker arguments. Prerelease and build suffixes are not
-  /// supported by Apple deployment-target flags.
-  /// Each component must fit in an unsigned 32-bit integer.
-  ///
-  /// Older SDKs supplying only the integer version are supported.
-  /// Throws [FormatException] if the supplied deployment version is malformed
-  /// or its major component disagrees with the legacy integer version.
-  String get targetVersionString => _readAppleDeploymentVersion(
+  /// Older SDKs supplying only the integer version are supported, with minor
+  /// and patch components defaulting to zero.
+  /// When the nested protocol version is present, all three components are
+  /// required.
+  /// Throws [FormatException] if the supplied version is malformed or its
+  /// major component disagrees with the legacy integer version.
+  AppleVersion get targetVersion2 => _readAppleDeploymentVersion(
     _syntax.targetVersion,
-    _syntax.targetVersionString,
+    _syntax.targetVersionV2,
+    _syntax.json.containsKey('target_version_v2'),
   );
 
   /// Constructs a new [MacOSCodeConfig].
   ///
-  /// Supply exactly one of [targetVersionString] or the deprecated
-  /// [targetVersion]. Throws [ArgumentError] for both, neither, or an invalid
-  /// deployment version. Both protocol fields are populated so older hooks
-  /// can still read the major version.
+  /// Supply exactly one of [targetVersion2] or the deprecated [targetVersion].
+  /// Throws [ArgumentError] for both, neither, or an invalid legacy version.
+  /// Both protocol fields are populated so older hooks can read the major
+  /// version.
   factory MacOSCodeConfig({
-    @Deprecated('Use targetVersionString instead.') int? targetVersion,
-    String? targetVersionString,
+    @Deprecated('Use targetVersion2 instead.') int? targetVersion,
+    AppleVersion? targetVersion2,
   }) {
-    final (major, version) = _appleDeploymentVersion(
-      targetVersion,
-      targetVersionString,
-    );
+    final version = _appleDeploymentVersion(targetVersion, targetVersion2);
     return MacOSCodeConfig._(
-      MacOSCodeConfigSyntax(targetVersion: major, targetVersionString: version),
+      MacOSCodeConfigSyntax(
+        targetVersion: version.major,
+        targetVersionV2: version.toSyntax(),
+      ),
     );
   }
 }
 
-final _appleDeploymentVersionPattern = RegExp(r'[0-9]+(?:\.[0-9]+){0,2}');
-const _maxAppleDeploymentVersionComponent = 0xffffffff;
-
-int? _tryAppleDeploymentVersionMajor(String version) {
-  final match = _appleDeploymentVersionPattern.matchAsPrefix(version);
-  if (match == null || match.end != version.length) return null;
-  int? major;
-  for (final component in version.split('.')) {
-    final value = int.tryParse(component);
-    if (value == null || value > _maxAppleDeploymentVersionComponent) {
-      return null;
-    }
-    major ??= value;
-  }
-  return major;
-}
-
-(int, String) _appleDeploymentVersion(int? major, String? version) {
+AppleVersion _appleDeploymentVersion(int? major, AppleVersion? version) {
   if ((major == null) == (version == null)) {
     throw ArgumentError(
-      'Supply exactly one of targetVersion or targetVersionString.',
+      'Supply exactly one of targetVersion or targetVersion2.',
     );
   }
-  version ??= '$major';
-  final parsedMajor = _tryAppleDeploymentVersionMajor(version);
-  if (parsedMajor == null) {
+  if (version != null) return version;
+  if (major! < 0 || major > maxAppleVersionComponent) {
     throw ArgumentError.value(
-      major ?? version,
-      major != null ? 'targetVersion' : 'targetVersionString',
-      'Expected one to three numeric components fitting unsigned '
-      '32-bit integers, such as 16, 16.4, or 17.2.1.',
+      major,
+      'targetVersion',
+      'Expected an integer between 0 and $maxAppleVersionComponent.',
     );
   }
-  return (parsedMajor, version);
+  return AppleVersion(major);
 }
 
-String _readAppleDeploymentVersion(int major, String? version) {
-  version ??= '$major';
-  final parsedMajor = _tryAppleDeploymentVersionMajor(version);
-  if (parsedMajor == null) {
-    throw FormatException(
-      'Invalid Apple deployment version: "$version". '
-      'Expected one to three numeric components fitting unsigned '
-      '32-bit integers, such as 16, 16.4, or 17.2.1.',
+AppleVersion _readAppleDeploymentVersion(
+  int major,
+  AppleVersionSyntax? syntax,
+  bool hasVersion,
+) {
+  if (hasVersion && syntax == null) {
+    throw const FormatException('target_version_v2 must be an object.');
+  }
+  final AppleVersion version;
+  if (syntax != null) {
+    version = AppleVersionSyntaxExtension.fromSyntax(syntax);
+  } else {
+    version = AppleVersionSyntaxExtension.fromSyntax(
+      AppleVersionSyntax(major: major, minor: 0, patch: 0),
     );
   }
-  if (parsedMajor != major) {
+  if (version.major != major) {
     throw const FormatException(
-      'targetVersion and targetVersionString must '
-      'agree on the major version.',
+      'targetVersion and targetVersion2 must agree on the major version.',
     );
   }
   return version;
@@ -426,7 +406,7 @@ extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
   /// [MacOSCodeConfigSyntax].
   MacOSCodeConfigSyntax toSyntax() => MacOSCodeConfigSyntax(
     targetVersion: _syntax.targetVersion,
-    targetVersionString: _syntax.targetVersionString,
+    targetVersionV2: _syntax.targetVersionV2,
   );
 }
 
@@ -437,7 +417,7 @@ extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
   IOSCodeConfigSyntax toSyntax() => IOSCodeConfigSyntax(
     targetSdk: targetSdk.type,
     targetVersion: _syntax.targetVersion,
-    targetVersionString: _syntax.targetVersionString,
+    targetVersionV2: _syntax.targetVersionV2,
   );
 }
 

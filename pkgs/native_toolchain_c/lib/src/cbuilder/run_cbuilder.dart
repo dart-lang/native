@@ -193,10 +193,10 @@ class RunCBuilder {
     }
 
     final targetIOSVersion = codeConfig.targetOS == .iOS
-        ? codeConfig.iOS.targetVersionString
+        ? _appleDeploymentTarget(codeConfig.iOS.targetVersion2)
         : null;
     final targetMacOSVersion = codeConfig.targetOS == .macOS
-        ? codeConfig.macOS.targetVersionString
+        ? _appleDeploymentTarget(codeConfig.macOS.targetVersion2)
         : null;
 
     final architecture = codeConfig.targetArchitecture;
@@ -585,4 +585,13 @@ class RunCBuilder {
   static final _msvcSanitizers = {
     Sanitizer.asan: '/fsanitize=address',
   };
+}
+
+String _appleDeploymentTarget(AppleVersion version) {
+  final major = version.major;
+  final minor = version.minor;
+  final patch = version.patch;
+  if (patch != 0) return '$major.$minor.$patch';
+  if (minor != 0) return '$major.$minor';
+  return '$major';
 }

@@ -59,7 +59,7 @@ void main() async {
               targetOS: targetOS,
               macOS: targetOS == OS.macOS
                   ? MacOSCodeConfig(
-                      targetVersionString: defaultMacOSVersion.toString(),
+                      targetVersion2: AppleVersion(defaultMacOSVersion),
                     )
                   : null,
               linkModePreference: LinkModePreference.dynamic,

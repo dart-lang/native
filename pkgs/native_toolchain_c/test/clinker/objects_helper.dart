@@ -16,7 +16,8 @@ void runObjectsTests(
   OS targetOS,
   List<Architecture> architectures, {
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
-  String? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
+  AppleVersion?
+  macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
   int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
   IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
   Timeout? timeout,
@@ -69,13 +70,13 @@ void runObjectsTests(
                 : null,
             macOS: macOSTargetVersion != null
                 ? MacOSCodeConfig(
-                    targetVersionString: macOSTargetVersion,
+                    targetVersion2: macOSTargetVersion,
                   )
                 : null,
             iOS: iOSTargetVersion != null && iOSTargetSdk != null
                 ? IOSCodeConfig(
                     targetSdk: iOSTargetSdk,
-                    targetVersionString: iOSTargetVersion.toString(),
+                    targetVersion2: AppleVersion(iOSTargetVersion),
                   )
                 : null,
           ),

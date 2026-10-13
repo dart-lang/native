@@ -200,11 +200,11 @@ String firstLineOfStdout(String cmd, List<String> args) {
 
 String minOSVersion(CodeConfig codeConfig) {
   if (codeConfig.targetOS == OS.iOS) {
-    final targetVersion = codeConfig.iOS.targetVersionString;
+    final targetVersion = _appleDeploymentTarget(codeConfig.iOS.targetVersion2);
     return '-mios-version-min=$targetVersion';
   }
   assert(codeConfig.targetOS == OS.macOS);
-  final targetVersion = codeConfig.macOS.targetVersionString;
+  final targetVersion = _appleDeploymentTarget(codeConfig.macOS.targetVersion2);
   return '-mmacos-version-min=$targetVersion';
 }
 
@@ -304,19 +304,19 @@ class CustomBuilder {
         : 'arm64';
     final String target;
     if (_codeConfig.targetOS == OS.iOS) {
-      final version = _codeConfig.iOS.targetVersionString;
+      final version = _appleDeploymentTarget(_codeConfig.iOS.targetVersion2);
       final sdk = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS
           ? 'ios'
           : 'ios-simulator';
       target = '$arch-apple-$sdk$version';
     } else {
-      final version = _codeConfig.macOS.targetVersionString;
+      final version = _appleDeploymentTarget(_codeConfig.macOS.targetVersion2);
       target = '$arch-apple-macosx$version';
     }
 
     if (_codeConfig.targetOS == OS.macOS &&
         _codeConfig.targetArchitecture == Architecture.arm64) {
-      final version = _codeConfig.macOS.targetVersionString;
+      final version = _appleDeploymentTarget(_codeConfig.macOS.targetVersion2);
       await _run('swiftc', [
         ...baseArgs,
         '-emit-objc-header-path',
@@ -348,4 +348,13 @@ class CustomBuilder {
       );
     }
   }
+}
+
+String _appleDeploymentTarget(AppleVersion version) {
+  final major = version.major;
+  final minor = version.minor;
+  final patch = version.patch;
+  if (patch != 0) return '$major.$minor.$patch';
+  if (minor != 0) return '$major.$minor';
+  return '$major';
 }

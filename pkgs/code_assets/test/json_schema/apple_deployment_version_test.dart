@@ -30,7 +30,10 @@ void main() {
         if (hook == 'link' && os == 'ios') {
           code.remove('macos');
           code['target_os'] = 'ios';
-          code['ios'] = {'target_sdk': 'iphonesimulator', 'target_version': 16};
+          code['ios'] = <String, Object?>{
+            'target_sdk': 'iphonesimulator',
+            'target_version': 16,
+          };
         }
         return json;
       }
@@ -40,36 +43,71 @@ void main() {
             schemas[packageUri.resolve(
               'doc/schema/$party/${hook}_input.generated.schema.json',
             )]!;
-        for (final version in ['16', '16.4', '17.2.1']) {
+        for (final version in [
+          {'major': 16, 'minor': 0, 'patch': 0},
+          {'major': 16, 'minor': 4, 'patch': 0},
+          {'major': 17, 'minor': 2, 'patch': 1},
+          {'major': 2147483647, 'minor': 2147483647, 'patch': 2147483647},
+        ]) {
           test('$os $hook $party accepts deployment version $version', () {
             final json = input();
             final apple = appleConfig(json, os);
-            apple['target_version'] = int.parse(version.split('.').first);
-            apple['target_version_string'] = version;
+            apple['target_version'] = version['major']!;
+            apple['target_version_v2'] = version;
             expect(schema.validate(json).isValid, isTrue);
           });
         }
         test('$os $hook $party accepts legacy integer-only input', () {
-          expect(schema.validate(input()).isValid, isTrue);
+          final json = input();
+          appleConfig(json, os).remove('target_version_v2');
+          expect(schema.validate(json).isValid, isTrue);
         });
-        for (final value in <Object>[
+        test(
+          '$os $hook $party requires the legacy major with a nested version',
+          () {
+            final json = input();
+            appleConfig(json, os)
+              ..['target_version_v2'] = {'major': 16, 'minor': 4, 'patch': 1}
+              ..remove('target_version');
+            expect(schema.validate(json).isValid, isFalse);
+          },
+        );
+        for (final major in [-1, 2147483648, 2147483649, 4294967296]) {
+          test('$os $hook $party rejects legacy major $major', () {
+            final json = input();
+            appleConfig(json, os)
+              ..remove('target_version_v2')
+              ..['target_version'] = major;
+            expect(schema.validate(json).isValid, isFalse);
+          });
+        }
+        for (final value in <Object?>[
+          null,
           '',
-          '-1',
-          '16.',
-          '16..4',
-          'v16.4',
-          ' 16.4',
-          '16.4 ',
           '16.4.1-beta.1',
-          '16.4.1+build.1',
-          '16.4.1.2',
           16,
           16.4,
           true,
+          <Object?>[],
+          <String, Object?>{},
+          {'major': 16},
+          {'major': 16, 'minor': 4},
+          for (final component in ['major', 'minor', 'patch'])
+            for (final invalid in <Object?>[
+              -1,
+              2147483648,
+              2147483649,
+              4294967296,
+              '4',
+              4.5,
+              true,
+              null,
+            ])
+              {'major': 16, 'minor': 4, 'patch': 1, component: invalid},
         ]) {
           test('$os $hook $party rejects version ${jsonEncode(value)}', () {
             final json = input();
-            appleConfig(json, os)['target_version_string'] = value;
+            appleConfig(json, os)['target_version_v2'] = value;
             expect(schema.validate(json).isValid, isFalse);
           });
         }

@@ -384,8 +384,9 @@ class MacOSVersion {
   static const flutterLowestSupported = MacOSVersion(13);
 }
 
-final String defaultMacOSVersion = MacOSVersion.flutterLowestSupported
-    .toString();
+final defaultMacOSVersion = AppleVersion(
+  MacOSVersion.flutterLowestSupported.value,
+);
 
 /// File-format strings used by the `objdump` tool for Android binaries that
 /// run on a given architecture.

@@ -15,13 +15,45 @@ import 'package:hooks/hooks.dart';
 import 'package:test/test.dart';
 
 void main() {
+  test('AppleVersion defaults, equality, hashing, and diagnostic string', () {
+    final version = AppleVersion(17);
+    expect(version.major, 17);
+    expect(version.minor, 0);
+    expect(version.patch, 0);
+    expect(version, AppleVersion(17, minor: 0, patch: 0));
+    expect(version.hashCode, AppleVersion(17).hashCode);
+    expect(version, isNot(AppleVersion(18)));
+    expect(version, isNot(AppleVersion(17, minor: 1)));
+    expect(version, isNot(AppleVersion(17, patch: 1)));
+    expect(version, isNot('17.0.0'));
+    expect(version.toString(), 'AppleVersion(17, minor: 0, patch: 0)');
+  });
+  for (final component in ['major', 'minor', 'patch']) {
+    for (final value in [-1, 2147483648, 2147483649, 4294967296]) {
+      test('AppleVersion rejects $component $value', () {
+        expect(
+          () => AppleVersion(
+            component == 'major' ? value : 17,
+            minor: component == 'minor' ? value : 0,
+            patch: component == 'patch' ? value : 0,
+          ),
+          throwsA(
+            isA<ArgumentError>()
+                .having((error) => error.name, 'name', component)
+                .having((error) => error.invalidValue, 'value', value),
+          ),
+        );
+      });
+    }
+  }
+
   late Directory directory;
   setUp(() async {
     directory = await Directory.systemTemp.createTemp('apple_version_');
   });
   tearDown(() async => directory.delete(recursive: true));
   for (final os in [OS.iOS, OS.macOS]) {
-    CodeAssetExtension extension({int? major, String? version}) =>
+    CodeAssetExtension extension({int? major, AppleVersion? version}) =>
         CodeAssetExtension(
           targetOS: os,
           targetArchitecture: Architecture.arm64,
@@ -30,14 +62,11 @@ void main() {
               ? IOSCodeConfig(
                   targetSdk: IOSSdk.iPhoneOS,
                   targetVersion: major,
-                  targetVersionString: version,
+                  targetVersion2: version,
                 )
               : null,
           macOS: os == OS.macOS
-              ? MacOSCodeConfig(
-                  targetVersion: major,
-                  targetVersionString: version,
-                )
+              ? MacOSCodeConfig(targetVersion: major, targetVersion2: version)
               : null,
         );
     BuildInputBuilder builder(CodeAssetExtension config) => BuildInputBuilder()
@@ -56,26 +85,24 @@ void main() {
       return code[os == OS.iOS ? 'ios' : 'macos']! as Map<String, Object?>;
     }
 
-    String version(HookConfig config) => os == OS.iOS
-        ? config.code.iOS.targetVersionString
-        : config.code.macOS.targetVersionString;
+    AppleVersion version(HookConfig config) => os == OS.iOS
+        ? config.code.iOS.targetVersion2
+        : config.code.macOS.targetVersion2;
 
     for (final value in [
-      '16',
-      '16.0',
-      '16.4',
-      '17.2.1',
-      '17.0.1',
-      '16.10',
-      '16.4.0',
-      '016.04',
-      '4294967295',
-      '16.4294967295',
-      '16.4.4294967295',
+      AppleVersion(0),
+      AppleVersion(16),
+      AppleVersion(16, minor: 4),
+      AppleVersion(17, minor: 2, patch: 1),
+      AppleVersion(17, patch: 1),
+      AppleVersion(16, minor: 10),
+      AppleVersion(2147483647),
+      AppleVersion(16, minor: 2147483647),
+      AppleVersion(16, minor: 4, patch: 2147483647),
     ]) {
       test('$os $value round trips through build and link inputs', () {
         final json = builder(extension(version: value)).json;
-        final major = int.parse(value.split('.').first);
+        final major = value.major;
         for (final config in [
           BuildInput(
             jsonDecode(jsonEncode(json)) as Map<String, Object?>,
@@ -90,7 +117,11 @@ void main() {
           expect(syntax, {
             if (os == OS.iOS) 'target_sdk': 'iphoneos',
             'target_version': major,
-            'target_version_string': value,
+            'target_version_v2': {
+              'major': value.major,
+              'minor': value.minor,
+              'patch': value.patch,
+            },
           });
           expect(version(config), value);
           expect(
@@ -105,23 +136,27 @@ void main() {
     test('$os legacy constructor populates both fields', () {
       final json = builder(extension(major: 16)).json;
       expect(apple(json)['target_version'], 16);
-      expect(apple(json)['target_version_string'], '16');
-      expect(version(BuildInput(json).config), '16');
+      expect(apple(json)['target_version_v2'], {
+        'major': 16,
+        'minor': 0,
+        'patch': 0,
+      });
+      expect(version(BuildInput(json).config), AppleVersion(16));
     });
     test(
       '$os old SDK input falls back to integer version without changing JSON',
       () async {
-        final json = builder(extension(version: '16')).json;
-        apple(json).remove('target_version_string');
+        final json = builder(extension(version: AppleVersion(16))).json;
+        apple(json).remove('target_version_v2');
         for (final config in [
           BuildInput(json).config,
           LinkInput(json).config,
         ]) {
-          expect(version(config), '16');
+          expect(version(config), AppleVersion(16));
           final syntax = os == OS.iOS
               ? config.code.iOS.toSyntax().json
               : config.code.macOS.toSyntax().json;
-          expect(syntax.containsKey('target_version_string'), isFalse);
+          expect(syntax.containsKey('target_version_v2'), isFalse);
         }
         expect(await validateCodeAssetBuildInput(BuildInput(json)), isEmpty);
         json['assets'] = <Object?>[];
@@ -132,9 +167,12 @@ void main() {
       expect(extension, throwsArgumentError);
     });
     test('$os constructor rejects both versions', () {
-      expect(() => extension(major: 16, version: '16.4'), throwsArgumentError);
+      expect(
+        () => extension(major: 16, version: AppleVersion(16, minor: 4)),
+        throwsArgumentError,
+      );
     });
-    for (final major in [-1, 4294967296]) {
+    for (final major in [-1, 2147483648, 2147483649, 4294967296]) {
       test('$os legacy constructor rejects version $major', () {
         expect(
           () => extension(major: major),
@@ -146,54 +184,36 @@ void main() {
         );
       });
     }
-    for (final value in [
-      '',
-      '-1',
-      '16.',
-      '16..4',
-      'v16.4',
-      ' 16.4',
-      '16.4 ',
-      '16.4\n',
-      '16.4.1-beta.1',
-      '16.4.1+build.1',
-      '16.4.1.2',
-      '9223372036854775808',
-      '4294967296',
-      '16.4294967296',
-      '16.4.4294967296',
-      '16.4294967301',
-    ]) {
-      test('$os constructor rejects invalid version ${jsonEncode(value)}', () {
-        expect(() => extension(version: value), throwsArgumentError);
-      });
-    }
-    for (final value in <Object>[
-      '',
-      '-1',
-      '16.',
-      '16..4',
-      'v16.4',
-      ' 16.4',
-      '16.4 ',
-      '16.4\n',
-      '16.4.1-beta.1',
-      '16.4.1+build.1',
-      '16.4.1.2',
-      '9223372036854775808',
-      '4294967296',
-      '16.4294967296',
-      '16.4.4294967296',
-      '16.4294967301',
+    for (final value in <Object?>[
+      null,
+      '16.4',
       16,
       16.4,
       true,
+      <Object?>[],
+      <String, Object?>{},
+      {'major': 16},
+      {'major': 16, 'minor': 4},
+      for (final component in ['major', 'minor', 'patch'])
+        for (final invalid in <Object?>[
+          -1,
+          2147483648,
+          2147483649,
+          4294967296,
+          '4',
+          4.5,
+          true,
+          null,
+        ])
+          {'major': 16, 'minor': 4, 'patch': 1, component: invalid},
     ]) {
       test(
         '$os reader and build/link validation reject ${jsonEncode(value)}',
         () async {
-          final json = builder(extension(version: '16.4')).json;
-          apple(json)['target_version_string'] = value;
+          final json = builder(
+            extension(version: AppleVersion(16, minor: 4)),
+          ).json;
+          apple(json)['target_version_v2'] = value;
           expect(() => version(BuildInput(json).config), throwsFormatException);
           expect(
             await validateCodeAssetBuildInput(BuildInput(json)),
@@ -204,11 +224,11 @@ void main() {
         },
       );
     }
-    for (final major in [-1, 4294967296]) {
+    for (final major in [-1, 2147483648, 2147483649, 4294967296]) {
       test('$os reader and validation reject legacy $major', () async {
-        final json = builder(extension(version: '16')).json;
+        final json = builder(extension(version: AppleVersion(16))).json;
         apple(json)
-          ..remove('target_version_string')
+          ..remove('target_version_v2')
           ..['target_version'] = major;
         expect(() => version(BuildInput(json).config), throwsFormatException);
         expect(await validateCodeAssetBuildInput(BuildInput(json)), isNotEmpty);
@@ -219,7 +239,9 @@ void main() {
     test(
       '$os reader and validation reject conflicting major versions',
       () async {
-        final json = builder(extension(version: '16.4')).json;
+        final json = builder(
+          extension(version: AppleVersion(16, minor: 4)),
+        ).json;
         apple(json)['target_version'] = 17;
         expect(() => version(BuildInput(json).config), throwsFormatException);
         expect(await validateCodeAssetBuildInput(BuildInput(json)), isNotEmpty);
@@ -227,21 +249,58 @@ void main() {
         expect(await validateCodeAssetLinkInput(LinkInput(json)), isNotEmpty);
       },
     );
+    test('$os reader and validation require the legacy major', () async {
+      final json = builder(extension(version: AppleVersion(16, minor: 4))).json;
+      apple(json).remove('target_version');
+      expect(() => version(BuildInput(json).config), throwsFormatException);
+      expect(await validateCodeAssetBuildInput(BuildInput(json)), isNotEmpty);
+      json['assets'] = <Object?>[];
+      expect(() => version(LinkInput(json).config), throwsFormatException);
+      expect(await validateCodeAssetLinkInput(LinkInput(json)), isNotEmpty);
+    });
     test('$os minor and patch changes invalidate the input cache', () {
       final checksums = {
-        for (final value in ['16.4', '16.5', '16.4.1'])
+        for (final value in [
+          AppleVersion(16, minor: 4),
+          AppleVersion(16, minor: 5),
+          AppleVersion(16, minor: 4, patch: 1),
+        ])
           builder(extension(version: value)).computeChecksum(),
       };
       expect(checksums, hasLength(3));
     });
+    test('$os omitted and explicit zero components have the same checksum', () {
+      expect(
+        builder(extension(version: AppleVersion(16))).computeChecksum(),
+        builder(
+          extension(version: AppleVersion(16, minor: 0, patch: 0)),
+        ).computeChecksum(),
+      );
+    });
+    test('$os testing helper retains the default deployment version', () async {
+      await testCodeBuildHook(
+        targetOS: os,
+        mainMethod: (args) => build(args, (input, output) async {}),
+        check: (input, output) =>
+            expect(version(input.config), AppleVersion(os == OS.iOS ? 17 : 13)),
+      );
+    });
     test('$os testing helper forwards the full version', () async {
       await testCodeBuildHook(
         targetOS: os,
-        targetIOSVersionString: os == OS.iOS ? '17.2.1' : null,
-        targetMacOSVersionString: os == OS.macOS ? '14.4.1' : null,
+        targetIOSVersion2: os == OS.iOS
+            ? AppleVersion(17, minor: 2, patch: 1)
+            : null,
+        targetMacOSVersion2: os == OS.macOS
+            ? AppleVersion(14, minor: 4, patch: 1)
+            : null,
         mainMethod: (args) => build(args, (input, output) async {}),
-        check: (input, output) =>
-            expect(version(input.config), os == OS.iOS ? '17.2.1' : '14.4.1'),
+        check: (input, output) => expect(
+          version(input.config),
+          os == OS.iOS
+              ? AppleVersion(17, minor: 2, patch: 1)
+              : AppleVersion(14, minor: 4, patch: 1),
+        ),
       );
     });
     test('$os testing helper rejects both version arguments', () async {
@@ -249,9 +308,13 @@ void main() {
         testCodeBuildHook(
           targetOS: os,
           targetIOSVersion: os == OS.iOS ? 17 : null,
-          targetIOSVersionString: os == OS.iOS ? '17.2.1' : null,
+          targetIOSVersion2: os == OS.iOS
+              ? AppleVersion(17, minor: 2, patch: 1)
+              : null,
           targetMacOSVersion: os == OS.macOS ? 14 : null,
-          targetMacOSVersionString: os == OS.macOS ? '14.4.1' : null,
+          targetMacOSVersion2: os == OS.macOS
+              ? AppleVersion(14, minor: 4, patch: 1)
+              : null,
           mainMethod: (args) => build(args, (input, output) async {}),
           check: (input, output) {},
         ),
@@ -265,7 +328,7 @@ void main() {
         targetMacOSVersion: os == OS.macOS ? 14 : null,
         mainMethod: (args) => build(args, (input, output) async {}),
         check: (input, output) =>
-            expect(version(input.config), os == OS.iOS ? '17' : '14'),
+            expect(version(input.config), AppleVersion(os == OS.iOS ? 17 : 14)),
       );
     });
   }

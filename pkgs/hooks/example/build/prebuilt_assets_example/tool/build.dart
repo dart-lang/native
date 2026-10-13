@@ -121,10 +121,10 @@ BuildInput createBuildInput(
             ? null
             : IOSCodeConfig(
                 targetSdk: iOSSdk!,
-                targetVersionString: iOSTargetVersion.toString(),
+                targetVersion2: AppleVersion(iOSTargetVersion),
               ),
         macOS: MacOSCodeConfig(
-          targetVersionString: macOSTargetVersion.toString(),
+          targetVersion2: AppleVersion(macOSTargetVersion),
         ),
       ),
     );

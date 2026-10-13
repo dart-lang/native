@@ -18,7 +18,8 @@ void runTreeshakeTests(
   OS targetOS,
   Architecture targetArchitecture, {
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
-  String? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
+  AppleVersion?
+  macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
   int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
   IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
 }) {
@@ -117,13 +118,13 @@ void runTreeshakeTests(
                   : null,
               macOS: macOSTargetVersion != null
                   ? MacOSCodeConfig(
-                      targetVersionString: macOSTargetVersion,
+                      targetVersion2: macOSTargetVersion,
                     )
                   : null,
               iOS: iOSTargetVersion != null && iOSTargetSdk != null
                   ? IOSCodeConfig(
                       targetSdk: iOSTargetSdk,
-                      targetVersionString: iOSTargetVersion.toString(),
+                      targetVersion2: AppleVersion(iOSTargetVersion),
                     )
                   : null,
             ),

@@ -156,7 +156,7 @@ void main() async {
                   : .static,
               cCompiler: chosenCCompiler,
               macOS: MacOSCodeConfig(
-                targetVersionString: defaultMacOSVersion,
+                targetVersion2: defaultMacOSVersion,
               ),
             ),
           );
@@ -220,7 +220,7 @@ void main() async {
           targetArchitecture: Architecture.current,
           linkModePreference: .dynamic,
           macOS: MacOSCodeConfig(
-            targetVersionString: defaultMacOSVersion,
+            targetVersion2: defaultMacOSVersion,
           ),
           cCompiler: cCompiler,
         ),
@@ -367,7 +367,7 @@ Future<Uri> buildLib(
             ? .dynamic
             : .static,
         macOS: MacOSCodeConfig(
-          targetVersionString: targetMacOSVersion.toString(),
+          targetVersion2: AppleVersion(targetMacOSVersion),
         ),
         cCompiler: cCompiler,
       ),

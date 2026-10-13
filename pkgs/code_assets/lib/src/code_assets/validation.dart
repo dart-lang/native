@@ -49,9 +49,9 @@ ValidationErrors _validateConfig(String inputName, HookConfig config) {
   final errors = <String>[];
   for (final (name, readVersion) in [
     if (code.targetOS == OS.iOS)
-      ('$inputName.iOS', () => code.iOS.targetVersionString),
+      ('$inputName.iOS', () => code.iOS.targetVersion2),
     if (code.targetOS == OS.macOS)
-      ('$inputName.macOS', () => code.macOS.targetVersionString),
+      ('$inputName.macOS', () => code.macOS.targetVersion2),
   ]) {
     try {
       readVersion();

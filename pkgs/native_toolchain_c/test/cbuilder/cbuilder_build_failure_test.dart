@@ -48,7 +48,7 @@ void main() {
           targetOS: targetOS,
           macOS: targetOS == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersionString: defaultMacOSVersion,
+                  targetVersion2: defaultMacOSVersion,
                 )
               : null,
           targetArchitecture: Architecture.current,

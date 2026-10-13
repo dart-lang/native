@@ -13,7 +13,12 @@
         },
         "ios": {
           "target_sdk": "iphonesimulator",
-          "target_version": 12
+          "target_version": 12,
+          "target_version_v2": {
+            "major": 12,
+            "minor": 0,
+            "patch": 0
+          }
         },
         "link_mode_preference": "dynamic",
         "target_architecture": "arm64",

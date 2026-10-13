@@ -13,11 +13,16 @@ import '../../hook/build.dart' as hook;
 void main() {
   late Directory directory;
   setUp(() async {
-    directory = await Directory.systemTemp.createTemp('objc_version_');
+    directory = await Directory.systemTemp.createTemp('ffigen_version_');
   });
   tearDown(() async => directory.delete(recursive: true));
   for (final os in [OS.iOS, OS.macOS]) {
-    for (final version in ['16', '16.4', '16.4.1']) {
+    for (final (version, target) in [
+      (AppleVersion(16), '16'),
+      (AppleVersion(16, minor: 4), '16.4'),
+      (AppleVersion(16, minor: 4, patch: 1), '16.4.1'),
+      (AppleVersion(16, patch: 1), '16.0.1'),
+    ]) {
       test('$os hook forwards deployment target $version', () {
         final builder = BuildInputBuilder()
           ..setupShared(
@@ -34,24 +39,25 @@ void main() {
               iOS: os == OS.iOS
                   ? IOSCodeConfig(
                       targetSdk: IOSSdk.iPhoneOS,
-                      targetVersionString: version,
+                      targetVersion2: version,
                     )
                   : null,
               macOS: os == OS.macOS
-                  ? MacOSCodeConfig(targetVersionString: version)
+                  ? MacOSCodeConfig(targetVersion2: version)
                   : null,
             ),
           );
         final flag = os == OS.iOS ? '-mios-version-min' : '-mmacos-version-min';
-        expect(
-          hook.minOSVersion(builder.build().config.code),
-          '$flag=$version',
-        );
+        expect(hook.minOSVersion(builder.build().config.code), '$flag=$target');
       });
     }
   }
   if (!Platform.isMacOS) return;
-  for (final version in ['14.0', '14.4', '14.4.1']) {
+  for (final (version, minos) in [
+    (AppleVersion(14), '14.0'),
+    (AppleVersion(14, minor: 4), '14.4'),
+    (AppleVersion(14, minor: 4, patch: 1), '14.4.1'),
+  ]) {
     test('Swift compilation preserves macOS minos $version', () async {
       final input =
           (BuildInputBuilder()
@@ -66,7 +72,7 @@ void main() {
                     targetOS: OS.macOS,
                     targetArchitecture: Architecture.arm64,
                     linkModePreference: LinkModePreference.dynamic,
-                    macOS: MacOSCodeConfig(targetVersionString: version),
+                    macOS: MacOSCodeConfig(targetVersion2: version),
                   ),
                 ))
               .build();
@@ -86,7 +92,7 @@ void main() {
       expect(result.exitCode, 0, reason: '${result.stderr}');
       expect(
         RegExp(r'\bminos (\S+)').firstMatch(result.stdout as String)?.group(1),
-        version,
+        minos,
       );
     });
   }

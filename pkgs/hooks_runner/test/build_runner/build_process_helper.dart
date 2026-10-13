@@ -47,7 +47,7 @@ void main(List<String> args) async {
             targetOS: targetOS,
             macOS: targetOS == .macOS
                 ? MacOSCodeConfig(
-                    targetVersionString: defaultMacOSVersion.toString(),
+                    targetVersion2: AppleVersion(defaultMacOSVersion),
                   )
                 : null,
             android: targetOS == .android

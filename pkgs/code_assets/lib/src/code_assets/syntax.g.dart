@@ -36,6 +36,58 @@ class AndroidCodeConfigSyntax extends JsonObjectSyntax {
   String toString() => 'AndroidCodeConfigSyntax($json)';
 }
 
+class AppleVersionSyntax extends JsonObjectSyntax {
+  AppleVersionSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  AppleVersionSyntax({
+    required int major,
+    required int minor,
+    required int patch,
+    super.path = const [],
+  }) : super() {
+    _major = major;
+    _minor = minor;
+    _patch = patch;
+    json.sortOnKey();
+  }
+
+  int get major => _reader.get<int>('major');
+
+  set _major(int value) {
+    json.setOrRemove('major', value);
+  }
+
+  List<String> _validateMajor() => _reader.validate<int>('major');
+
+  int get minor => _reader.get<int>('minor');
+
+  set _minor(int value) {
+    json.setOrRemove('minor', value);
+  }
+
+  List<String> _validateMinor() => _reader.validate<int>('minor');
+
+  int get patch => _reader.get<int>('patch');
+
+  set _patch(int value) {
+    json.setOrRemove('patch', value);
+  }
+
+  List<String> _validatePatch() => _reader.validate<int>('patch');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateMajor(),
+    ..._validateMinor(),
+    ..._validatePatch(),
+  ];
+
+  @override
+  String toString() => 'AppleVersionSyntax($json)';
+}
+
 class ArchitectureSyntax {
   final String name;
 
@@ -627,12 +679,12 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   IOSCodeConfigSyntax({
     required String targetSdk,
     required int targetVersion,
-    required String? targetVersionString,
+    required AppleVersionSyntax? targetVersionV2,
     super.path = const [],
   }) : super() {
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
-    _targetVersionString = targetVersionString;
+    _targetVersionV2 = targetVersionV2;
     json.sortOnKey();
   }
 
@@ -653,38 +705,35 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   List<String> _validateTargetVersion() =>
       _reader.validate<int>('target_version');
 
-  static final _targetVersionStringPattern = RegExp(
-    r'^[0-9]+(?:\.[0-9]+){0,2}$',
-  );
-
-  String? get targetVersionString => _reader.optionalString(
-    'target_version_string',
-    _targetVersionStringPattern,
-  );
-
-  set _targetVersionString(String? value) {
-    if (value != null && !_targetVersionStringPattern.hasMatch(value)) {
-      throw ArgumentError.value(
-        value,
-        'value',
-        'Value does not satisfy pattern: '
-            '${_targetVersionStringPattern.pattern}.',
-      );
-    }
-    json.setOrRemove('target_version_string', value);
+  AppleVersionSyntax? get targetVersionV2 {
+    final jsonValue = _reader.optionalMap('target_version_v2');
+    if (jsonValue == null) return null;
+    return AppleVersionSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'target_version_v2'],
+    );
   }
 
-  List<String> _validateTargetVersionString() => _reader.validateOptionalString(
-    'target_version_string',
-    _targetVersionStringPattern,
-  );
+  set _targetVersionV2(AppleVersionSyntax? value) {
+    json.setOrRemove('target_version_v2', value?.json);
+  }
+
+  List<String> _validateTargetVersionV2() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'target_version_v2',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return targetVersionV2?.validate() ?? [];
+  }
 
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateTargetSdk(),
     ..._validateTargetVersion(),
-    ..._validateTargetVersionString(),
+    ..._validateTargetVersionV2(),
   ];
 
   @override
@@ -795,11 +844,11 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
 
   MacOSCodeConfigSyntax({
     required int targetVersion,
-    required String? targetVersionString,
+    required AppleVersionSyntax? targetVersionV2,
     super.path = const [],
   }) : super() {
     _targetVersion = targetVersion;
-    _targetVersionString = targetVersionString;
+    _targetVersionV2 = targetVersionV2;
     json.sortOnKey();
   }
 
@@ -812,37 +861,34 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
   List<String> _validateTargetVersion() =>
       _reader.validate<int>('target_version');
 
-  static final _targetVersionStringPattern = RegExp(
-    r'^[0-9]+(?:\.[0-9]+){0,2}$',
-  );
-
-  String? get targetVersionString => _reader.optionalString(
-    'target_version_string',
-    _targetVersionStringPattern,
-  );
-
-  set _targetVersionString(String? value) {
-    if (value != null && !_targetVersionStringPattern.hasMatch(value)) {
-      throw ArgumentError.value(
-        value,
-        'value',
-        'Value does not satisfy pattern: '
-            '${_targetVersionStringPattern.pattern}.',
-      );
-    }
-    json.setOrRemove('target_version_string', value);
+  AppleVersionSyntax? get targetVersionV2 {
+    final jsonValue = _reader.optionalMap('target_version_v2');
+    if (jsonValue == null) return null;
+    return AppleVersionSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'target_version_v2'],
+    );
   }
 
-  List<String> _validateTargetVersionString() => _reader.validateOptionalString(
-    'target_version_string',
-    _targetVersionStringPattern,
-  );
+  set _targetVersionV2(AppleVersionSyntax? value) {
+    json.setOrRemove('target_version_v2', value?.json);
+  }
+
+  List<String> _validateTargetVersionV2() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'target_version_v2',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return targetVersionV2?.validate() ?? [];
+  }
 
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateTargetVersion(),
-    ..._validateTargetVersionString(),
+    ..._validateTargetVersionV2(),
   ];
 
   @override
