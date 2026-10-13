@@ -4,6 +4,9 @@
 
 ## 0.3.0
 
+- Added support for Swift subscripts. Non-representable subscripts (static,
+  throwing, async, or with multiple/optional parameters) are automatically
+  transformed into @objc methods.
 - Fix extensions of nested types to use fully qualified generated wrapper names.
 
 ## 0.2.0
