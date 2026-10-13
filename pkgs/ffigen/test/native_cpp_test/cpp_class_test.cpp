@@ -30,6 +30,52 @@ int Animal::addAges(int otherAge, float scale) {
 
 int Animal::sum(int a, int b) { return a + b; }
 
+extern "C" {
+  Animal* createAnimalPointer(int age) {
+    return new Animal(age);
+  }
+
+  int getAgeFromPointer(Animal* animal) {
+    return animal != nullptr ? animal->age : -1;
+  }
+
+  void setAgeFromPointer(Animal* animal, int age) {
+    if (animal != nullptr) {
+      animal->age = age;
+    }
+  }
+
+  Animal* globalAnimal = nullptr;
+
+  int getGlobalAnimalAge() {
+    return globalAnimal != nullptr ? globalAnimal->age : -1;
+  }
+
+  void setGlobalAnimalAge(int age) {
+    if (globalAnimal != nullptr) {
+      globalAnimal->age = age;
+    }
+  }
+
+  AnimalOwner createAnimalOwner(Animal* animal, int id) {
+    AnimalOwner owner;
+    owner.animal = animal;
+    owner.id = id;
+    return owner;
+  }
+
+  int getAnimalOwnerAge(const AnimalOwner* owner) {
+    return (owner != nullptr && owner->animal != nullptr)
+        ? owner->animal->age
+        : -1;
+  }
+
+  void setAnimalOwnerAge(AnimalOwner* owner, int age) {
+    if (owner != nullptr && owner->animal != nullptr) {
+      owner->animal->age = age;
+    }
+  }
+}
 Animal Animal::copyAndAddAge(Animal other) const {
   return Animal(age + other.age);
 }

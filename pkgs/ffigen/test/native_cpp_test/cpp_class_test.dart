@@ -222,4 +222,75 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
   });
+
+  group('Pointer management', () {
+    test('Top-level function args and returns with Animal*', () {
+      final animal = createAnimalPointer(15);
+      expect(animal.getAge(), 15);
+
+      expect(getAgeFromPointer(animal), 15);
+      setAgeFromPointer(animal, 25);
+      expect(animal.getAge(), 25);
+
+      animal.retainOwnership();
+      animal.dispose();
+    });
+
+    test('Global Animal pointer', () {
+      expect(getGlobalAnimalAge(), -1);
+      expect(globalAnimal.getAge, throwsStateError);
+
+      final animal = Animal(7);
+      globalAnimal = animal;
+
+      expect(getGlobalAnimalAge(), 7);
+      expect(globalAnimal.getAge(), 7);
+      setGlobalAnimalAge(42);
+      expect(globalAnimal.getAge(), 42);
+      expect(animal.getAge(), 42);
+
+      globalAnimal = Animal.fromPointer(nullptr);
+      expect(getGlobalAnimalAge(), -1);
+      animal.dispose();
+    });
+
+    test('Struct with Animal* field', () {
+      final owner = calloc<AnimalOwner>();
+      expect(getAnimalOwnerAge(owner), -1);
+      expect(owner.ref.animal.getAge, throwsStateError);
+
+      final animal = Animal(12);
+      owner.ref.animal = animal;
+      owner.ref.id = 101;
+
+      expect(owner.ref.id, 101);
+      expect(getAnimalOwnerAge(owner), 12);
+      expect(owner.ref.animal.getAge(), 12);
+
+      setAnimalOwnerAge(owner, 33);
+      expect(owner.ref.animal.getAge(), 33);
+      expect(animal.getAge(), 33);
+
+      final allocatedOwner = AnimalOwner.$allocate(
+        calloc,
+        animal: animal,
+        id: 202,
+      );
+      expect(allocatedOwner.ref.id, 202);
+      expect(allocatedOwner.ref.animal.getAge(), 33);
+      expect(getAnimalOwnerAge(allocatedOwner), 33);
+      calloc.free(allocatedOwner);
+
+      final ownerByVal = createAnimalOwner(animal, 303);
+      expect(ownerByVal.id, 303);
+      expect(ownerByVal.animal.getAge(), 33);
+
+      owner.ref.animal = Animal.fromPointer(nullptr);
+      expect(getAnimalOwnerAge(owner), -1);
+      expect(owner.ref.animal.getAge, throwsStateError);
+
+      animal.dispose();
+      calloc.free(owner);
+    });
+  });
 }

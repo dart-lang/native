@@ -20,3 +20,20 @@ public:
     Animal copyAndAddAge(Animal other) const;
     static bool haveSameAge(Animal a, Animal b);
 };
+
+struct AnimalOwner {
+    Animal* animal;
+    int id;
+};
+
+extern "C" {
+    Animal* createAnimalPointer(int age);
+    int getAgeFromPointer(Animal* animal);
+    void setAgeFromPointer(Animal* animal, int age);
+    extern Animal* globalAnimal;
+    int getGlobalAnimalAge();
+    void setGlobalAnimalAge(int age);
+    AnimalOwner createAnimalOwner(Animal* animal, int id);
+    int getAnimalOwnerAge(const AnimalOwner* owner);
+    void setAnimalOwnerAge(AnimalOwner* owner, int age);
+}
