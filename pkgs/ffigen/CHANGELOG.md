@@ -1,3 +1,8 @@
+## 23.0.1-wip
+
+- Add `ffigen` to `executables` in `pubspec.yaml` and support running `ffigen`
+  as a standalone AOT-compiled executable (`dart install` / `dart run ffigen@`).
+
 ## 23.0.0
 
 - The YAML configuration format is deprecated and will be removed in a future
