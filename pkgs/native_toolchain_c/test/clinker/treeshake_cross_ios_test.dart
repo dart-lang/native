@@ -66,7 +66,7 @@ void main() {
   for (final config in configurations) {
     final architecture = config.get<Architecture>();
     final iOSTargetSdk = config.get<IOSSdk>();
-    final iOSVersion = config.get<IOSVersion>().value;
+    final iOSVersion = AppleVersion(config.get<IOSVersion>().value);
 
     group('$iOSTargetSdk $iOSVersion ($architecture):', () {
       runTreeshakeTests(

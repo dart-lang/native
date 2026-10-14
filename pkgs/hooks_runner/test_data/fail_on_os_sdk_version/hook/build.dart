@@ -24,7 +24,7 @@ void main(List<String> arguments) async {
         );
       }
     } else if (input.config.code.targetOS == OS.iOS) {
-      final iosVersion = input.config.code.iOS.targetVersion2;
+      final iosVersion = input.config.code.iOS.deploymentVersion;
       if (iosVersion.major < minIosVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
@@ -32,7 +32,7 @@ void main(List<String> arguments) async {
         );
       }
     } else if (input.config.code.targetOS == OS.macOS) {
-      final macosVersion = input.config.code.macOS.targetVersion2;
+      final macosVersion = input.config.code.macOS.deploymentVersion;
       if (macosVersion.major < minMacOSVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '

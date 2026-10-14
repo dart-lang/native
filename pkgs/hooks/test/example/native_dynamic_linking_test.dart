@@ -62,7 +62,7 @@ void main() async {
             targetOS: targetOS,
             macOS: targetOS == OS.macOS
                 ? MacOSCodeConfig(
-                    targetVersion2: AppleVersion(defaultMacOSVersion),
+                    deploymentVersion: AppleVersion(defaultMacOSVersion),
                   )
                 : null,
             targetArchitecture: Architecture.current,

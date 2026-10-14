@@ -39,11 +39,11 @@ void main() {
               iOS: os == OS.iOS
                   ? IOSCodeConfig(
                       targetSdk: IOSSdk.iPhoneOS,
-                      targetVersion2: version,
+                      deploymentVersion: version,
                     )
                   : null,
               macOS: os == OS.macOS
-                  ? MacOSCodeConfig(targetVersion2: version)
+                  ? MacOSCodeConfig(deploymentVersion: version)
                   : null,
             ),
           );
@@ -72,7 +72,7 @@ void main() {
                     targetOS: OS.macOS,
                     targetArchitecture: Architecture.arm64,
                     linkModePreference: LinkModePreference.dynamic,
-                    macOS: MacOSCodeConfig(targetVersion2: version),
+                    macOS: MacOSCodeConfig(deploymentVersion: version),
                   ),
                 ))
               .build();

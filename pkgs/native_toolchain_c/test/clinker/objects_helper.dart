@@ -12,14 +12,16 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'build_testfiles.dart';
 
+/// Uses [androidTargetNdkApi] for Android, [macOSTargetVersion] for macOS,
+/// and [iOSTargetVersion] with [iOSTargetSdk] for iOS. Supply only the target's
+/// platform-specific configuration.
 void runObjectsTests(
   OS targetOS,
   List<Architecture> architectures, {
-  int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
-  AppleVersion?
-  macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
-  int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
-  IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
+  int? androidTargetNdkApi,
+  AppleVersion? macOSTargetVersion,
+  AppleVersion? iOSTargetVersion,
+  IOSSdk? iOSTargetSdk,
   Timeout? timeout,
 }) {
   if (targetOS == OS.android) {
@@ -70,13 +72,13 @@ void runObjectsTests(
                 : null,
             macOS: macOSTargetVersion != null
                 ? MacOSCodeConfig(
-                    targetVersion2: macOSTargetVersion,
+                    deploymentVersion: macOSTargetVersion,
                   )
                 : null,
             iOS: iOSTargetVersion != null && iOSTargetSdk != null
                 ? IOSCodeConfig(
                     targetSdk: iOSTargetSdk,
-                    targetVersion2: AppleVersion(iOSTargetVersion),
+                    deploymentVersion: iOSTargetVersion,
                   )
                 : null,
           ),
@@ -98,6 +100,17 @@ void runObjectsTests(
       expect(codeAssets, hasLength(1));
       final asset = codeAssets.first;
       expect(asset, isA<CodeAsset>());
+      if (Platform.isMacOS && (targetOS == OS.iOS || targetOS == OS.macOS)) {
+        final result = await Process.run('otool', [
+          '-l',
+          asset.file!.toFilePath(),
+        ]);
+        expect(result.exitCode, 0, reason: '${result.stderr}');
+        expectAppleDeploymentVersion(
+          result.stdout as String,
+          targetOS == OS.iOS ? iOSTargetVersion! : macOSTargetVersion!,
+        );
+      }
       await expectSymbols(
         asset: asset,
         targetOS: targetOS,

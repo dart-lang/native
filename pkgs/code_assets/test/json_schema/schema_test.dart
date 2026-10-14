@@ -111,12 +111,12 @@ FieldsFunction _codeFields(AllTestData allTestData) {
           expectRequiredFieldMissing,
         ),
         (
-          [..._codeConfigPath, 'macos', 'target_version_v2'],
+          [..._codeConfigPath, 'macos', 'deployment_version'],
           expectOptionalFieldMissing,
         ),
         for (final component in ['major', 'minor', 'patch'])
           (
-            [..._codeConfigPath, 'macos', 'target_version_v2', component],
+            [..._codeConfigPath, 'macos', 'deployment_version', component],
             expectRequiredFieldMissing,
           ),
         if (hook == Hook.link) ...[
@@ -205,12 +205,12 @@ List<(List<Object>, void Function(ValidationResults result))> _codeFieldsIOS({
     ([..._codeConfigPath, 'ios', 'target_sdk'], expectRequiredFieldMissing),
     ([..._codeConfigPath, 'ios', 'target_version'], expectRequiredFieldMissing),
     (
-      [..._codeConfigPath, 'ios', 'target_version_v2'],
+      [..._codeConfigPath, 'ios', 'deployment_version'],
       expectOptionalFieldMissing,
     ),
     for (final component in ['major', 'minor', 'patch'])
       (
-        [..._codeConfigPath, 'ios', 'target_version_v2', component],
+        [..._codeConfigPath, 'ios', 'deployment_version', component],
         expectRequiredFieldMissing,
       ),
   ],

@@ -53,13 +53,13 @@ void main() {
             final json = input();
             final apple = appleConfig(json, os);
             apple['target_version'] = version['major']!;
-            apple['target_version_v2'] = version;
+            apple['deployment_version'] = version;
             expect(schema.validate(json).isValid, isTrue);
           });
         }
         test('$os $hook $party accepts legacy integer-only input', () {
           final json = input();
-          appleConfig(json, os).remove('target_version_v2');
+          appleConfig(json, os).remove('deployment_version');
           expect(schema.validate(json).isValid, isTrue);
         });
         test(
@@ -67,7 +67,7 @@ void main() {
           () {
             final json = input();
             appleConfig(json, os)
-              ..['target_version_v2'] = {'major': 16, 'minor': 4, 'patch': 1}
+              ..['deployment_version'] = {'major': 16, 'minor': 4, 'patch': 1}
               ..remove('target_version');
             expect(schema.validate(json).isValid, isFalse);
           },
@@ -76,7 +76,7 @@ void main() {
           test('$os $hook $party rejects legacy major $major', () {
             final json = input();
             appleConfig(json, os)
-              ..remove('target_version_v2')
+              ..remove('deployment_version')
               ..['target_version'] = major;
             expect(schema.validate(json).isValid, isFalse);
           });
@@ -107,7 +107,7 @@ void main() {
         ]) {
           test('$os $hook $party rejects version ${jsonEncode(value)}', () {
             final json = input();
-            appleConfig(json, os)['target_version_v2'] = value;
+            appleConfig(json, os)['deployment_version'] = value;
             expect(schema.validate(json).isValid, isFalse);
           });
         }

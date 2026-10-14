@@ -193,10 +193,10 @@ class RunCBuilder {
     }
 
     final targetIOSVersion = codeConfig.targetOS == .iOS
-        ? _appleDeploymentTarget(codeConfig.iOS.targetVersion2)
+        ? _appleDeploymentTarget(codeConfig.iOS.deploymentVersion)
         : null;
     final targetMacOSVersion = codeConfig.targetOS == .macOS
-        ? _appleDeploymentTarget(codeConfig.macOS.targetVersion2)
+        ? _appleDeploymentTarget(codeConfig.macOS.deploymentVersion)
         : null;
 
     final architecture = codeConfig.targetArchitecture;

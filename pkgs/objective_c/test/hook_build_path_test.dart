@@ -77,7 +77,7 @@ exit 0
           targetArchitecture: Architecture.current,
           targetOS: OS.macOS,
           linkModePreference: LinkModePreference.dynamic,
-          macOS: MacOSCodeConfig(targetVersion2: AppleVersion(13)),
+          macOS: MacOSCodeConfig(deploymentVersion: AppleVersion(13)),
           cCompiler: CCompilerConfig(
             compiler: Uri.file(compilerScript),
             linker: Uri.file(compilerScript),

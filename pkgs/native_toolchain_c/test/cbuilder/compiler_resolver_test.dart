@@ -56,7 +56,7 @@ void main() {
           targetOS: targetOS,
           macOS: targetOS == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersion2: defaultMacOSVersion,
+                  deploymentVersion: defaultMacOSVersion,
                 )
               : null,
           targetArchitecture: Architecture.current,

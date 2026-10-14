@@ -51,10 +51,10 @@ Future<void> testCodeBuildHook({
   Architecture? targetArchitecture,
   OS? targetOS,
   IOSSdk? targetIOSSdk = IOSSdk.iPhoneOS,
-  @Deprecated('Use targetIOSVersion2 instead.') int? targetIOSVersion,
-  AppleVersion? targetIOSVersion2,
-  @Deprecated('Use targetMacOSVersion2 instead.') int? targetMacOSVersion,
-  AppleVersion? targetMacOSVersion2,
+  @Deprecated('Use iOSDeploymentVersion instead.') int? targetIOSVersion,
+  AppleVersion? iOSDeploymentVersion,
+  @Deprecated('Use macOSDeploymentVersion instead.') int? targetMacOSVersion,
+  AppleVersion? macOSDeploymentVersion,
   int? targetAndroidNdkApi = 30,
   CCompilerConfig? cCompiler,
   LinkModePreference? linkModePreference = LinkModePreference.dynamic,
@@ -72,18 +72,18 @@ Future<void> testCodeBuildHook({
     iOS: targetOS == OS.iOS
         ? IOSCodeConfig(
             targetSdk: targetIOSSdk!,
-            targetVersion2: _testAppleVersion(
+            deploymentVersion: _testAppleVersion(
               targetIOSVersion,
-              targetIOSVersion2,
+              iOSDeploymentVersion,
               17,
             ),
           )
         : null,
     macOS: targetOS == OS.macOS
         ? MacOSCodeConfig(
-            targetVersion2: _testAppleVersion(
+            deploymentVersion: _testAppleVersion(
               targetMacOSVersion,
-              targetMacOSVersion2,
+              macOSDeploymentVersion,
               13,
             ),
           )

@@ -52,29 +52,56 @@ class AppleVersionSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  int get major => _reader.get<int>('major');
+  int get major =>
+      _reader.number<int>('major', minimum: 0, maximum: 2147483647);
 
   set _major(int value) {
+    if (!(value >= 0 && value <= 2147483647)) {
+      throw ArgumentError.value(
+        value,
+        'major',
+        'Expected at least 0 and at most 2147483647.',
+      );
+    }
     json.setOrRemove('major', value);
   }
 
-  List<String> _validateMajor() => _reader.validate<int>('major');
+  List<String> _validateMajor() =>
+      _reader.validateNumber<int>('major', minimum: 0, maximum: 2147483647);
 
-  int get minor => _reader.get<int>('minor');
+  int get minor =>
+      _reader.number<int>('minor', minimum: 0, maximum: 2147483647);
 
   set _minor(int value) {
+    if (!(value >= 0 && value <= 2147483647)) {
+      throw ArgumentError.value(
+        value,
+        'minor',
+        'Expected at least 0 and at most 2147483647.',
+      );
+    }
     json.setOrRemove('minor', value);
   }
 
-  List<String> _validateMinor() => _reader.validate<int>('minor');
+  List<String> _validateMinor() =>
+      _reader.validateNumber<int>('minor', minimum: 0, maximum: 2147483647);
 
-  int get patch => _reader.get<int>('patch');
+  int get patch =>
+      _reader.number<int>('patch', minimum: 0, maximum: 2147483647);
 
   set _patch(int value) {
+    if (!(value >= 0 && value <= 2147483647)) {
+      throw ArgumentError.value(
+        value,
+        'patch',
+        'Expected at least 0 and at most 2147483647.',
+      );
+    }
     json.setOrRemove('patch', value);
   }
 
-  List<String> _validatePatch() => _reader.validate<int>('patch');
+  List<String> _validatePatch() =>
+      _reader.validateNumber<int>('patch', minimum: 0, maximum: 2147483647);
 
   @override
   List<String> validate() => [
@@ -677,15 +704,38 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
     : super.fromJson();
 
   IOSCodeConfigSyntax({
+    required AppleVersionSyntax? deploymentVersion,
     required String targetSdk,
     required int targetVersion,
-    required AppleVersionSyntax? targetVersionV2,
     super.path = const [],
   }) : super() {
+    _deploymentVersion = deploymentVersion;
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
-    _targetVersionV2 = targetVersionV2;
     json.sortOnKey();
+  }
+
+  AppleVersionSyntax? get deploymentVersion {
+    final jsonValue = _reader.optionalMap('deployment_version');
+    if (jsonValue == null) return null;
+    return AppleVersionSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'deployment_version'],
+    );
+  }
+
+  set _deploymentVersion(AppleVersionSyntax? value) {
+    json.setOrRemove('deployment_version', value?.json);
+  }
+
+  List<String> _validateDeploymentVersion() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'deployment_version',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return deploymentVersion?.validate() ?? [];
   }
 
   String get targetSdk => _reader.get<String>('target_sdk');
@@ -696,44 +746,32 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
 
   List<String> _validateTargetSdk() => _reader.validate<String>('target_sdk');
 
-  int get targetVersion => _reader.get<int>('target_version');
+  int get targetVersion =>
+      _reader.number<int>('target_version', minimum: 0, maximum: 2147483647);
 
   set _targetVersion(int value) {
+    if (!(value >= 0 && value <= 2147483647)) {
+      throw ArgumentError.value(
+        value,
+        'targetVersion',
+        'Expected at least 0 and at most 2147483647.',
+      );
+    }
     json.setOrRemove('target_version', value);
   }
 
-  List<String> _validateTargetVersion() =>
-      _reader.validate<int>('target_version');
-
-  AppleVersionSyntax? get targetVersionV2 {
-    final jsonValue = _reader.optionalMap('target_version_v2');
-    if (jsonValue == null) return null;
-    return AppleVersionSyntax.fromJson(
-      jsonValue,
-      path: [...path, 'target_version_v2'],
-    );
-  }
-
-  set _targetVersionV2(AppleVersionSyntax? value) {
-    json.setOrRemove('target_version_v2', value?.json);
-  }
-
-  List<String> _validateTargetVersionV2() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>(
-      'target_version_v2',
-    );
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return targetVersionV2?.validate() ?? [];
-  }
+  List<String> _validateTargetVersion() => _reader.validateNumber<int>(
+    'target_version',
+    minimum: 0,
+    maximum: 2147483647,
+  );
 
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateDeploymentVersion(),
     ..._validateTargetSdk(),
     ..._validateTargetVersion(),
-    ..._validateTargetVersionV2(),
   ];
 
   @override
@@ -843,52 +881,63 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
     : super.fromJson();
 
   MacOSCodeConfigSyntax({
+    required AppleVersionSyntax? deploymentVersion,
     required int targetVersion,
-    required AppleVersionSyntax? targetVersionV2,
     super.path = const [],
   }) : super() {
+    _deploymentVersion = deploymentVersion;
     _targetVersion = targetVersion;
-    _targetVersionV2 = targetVersionV2;
     json.sortOnKey();
   }
 
-  int get targetVersion => _reader.get<int>('target_version');
-
-  set _targetVersion(int value) {
-    json.setOrRemove('target_version', value);
-  }
-
-  List<String> _validateTargetVersion() =>
-      _reader.validate<int>('target_version');
-
-  AppleVersionSyntax? get targetVersionV2 {
-    final jsonValue = _reader.optionalMap('target_version_v2');
+  AppleVersionSyntax? get deploymentVersion {
+    final jsonValue = _reader.optionalMap('deployment_version');
     if (jsonValue == null) return null;
     return AppleVersionSyntax.fromJson(
       jsonValue,
-      path: [...path, 'target_version_v2'],
+      path: [...path, 'deployment_version'],
     );
   }
 
-  set _targetVersionV2(AppleVersionSyntax? value) {
-    json.setOrRemove('target_version_v2', value?.json);
+  set _deploymentVersion(AppleVersionSyntax? value) {
+    json.setOrRemove('deployment_version', value?.json);
   }
 
-  List<String> _validateTargetVersionV2() {
+  List<String> _validateDeploymentVersion() {
     final mapErrors = _reader.validate<Map<String, Object?>?>(
-      'target_version_v2',
+      'deployment_version',
     );
     if (mapErrors.isNotEmpty) {
       return mapErrors;
     }
-    return targetVersionV2?.validate() ?? [];
+    return deploymentVersion?.validate() ?? [];
   }
+
+  int get targetVersion =>
+      _reader.number<int>('target_version', minimum: 0, maximum: 2147483647);
+
+  set _targetVersion(int value) {
+    if (!(value >= 0 && value <= 2147483647)) {
+      throw ArgumentError.value(
+        value,
+        'targetVersion',
+        'Expected at least 0 and at most 2147483647.',
+      );
+    }
+    json.setOrRemove('target_version', value);
+  }
+
+  List<String> _validateTargetVersion() => _reader.validateNumber<int>(
+    'target_version',
+    minimum: 0,
+    maximum: 2147483647,
+  );
 
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateDeploymentVersion(),
     ..._validateTargetVersion(),
-    ..._validateTargetVersionV2(),
   ];
 
   @override
@@ -1200,6 +1249,43 @@ class _JsonReader {
     return [
       errorString(value, [key], expectedType: T),
     ];
+  }
+
+  T number<T extends num?>(String key, {num? minimum, num? maximum}) {
+    final value = get<T>(key);
+    final error = _numberError(value, key, minimum: minimum, maximum: maximum);
+    if (error != null) throw FormatException(error);
+    return value;
+  }
+
+  List<String> validateNumber<T extends num?>(
+    String key, {
+    num? minimum,
+    num? maximum,
+  }) {
+    final errors = validate<T>(key);
+    if (errors.isNotEmpty) return errors;
+    final error = _numberError(
+      get<T>(key),
+      key,
+      minimum: minimum,
+      maximum: maximum,
+    );
+    return error == null ? [] : [error];
+  }
+
+  String? _numberError(num? value, String key, {num? minimum, num? maximum}) {
+    if (value == null ||
+        ((minimum == null || value >= minimum) &&
+            (maximum == null || value <= maximum))) {
+      return null;
+    }
+    final bounds = [
+      if (minimum != null) 'at least $minimum',
+      if (maximum != null) 'at most $maximum',
+    ].join(' and ');
+    return "Unexpected value '$value' for '${_jsonPathToString([key])}'."
+        ' Expected $bounds.';
   }
 
   List<T> list<T extends Object?>(String key) =>

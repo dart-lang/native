@@ -249,6 +249,10 @@
     "IOSCodeConfig": {
       "type": "object",
       "properties": {
+        "deployment_version": {
+          "$ref": "#/definitions/AppleVersion",
+          "description": "The lowest compatible Apple deployment version. All three numeric components are required. This version takes precedence over target_version."
+        },
         "target_sdk": {
           "type": "string"
         },
@@ -256,10 +260,6 @@
           "type": "integer",
           "maximum": 2147483647,
           "minimum": 0
-        },
-        "target_version_v2": {
-          "$ref": "#/definitions/AppleVersion",
-          "description": "The lowest compatible Apple deployment version. All three numeric components are required, and its major component must equal target_version."
         }
       },
       "required": [
@@ -314,14 +314,14 @@
     "MacOSCodeConfig": {
       "type": "object",
       "properties": {
+        "deployment_version": {
+          "$ref": "#/definitions/AppleVersion",
+          "description": "The lowest compatible Apple deployment version. All three numeric components are required. This version takes precedence over target_version."
+        },
         "target_version": {
           "type": "integer",
           "maximum": 2147483647,
           "minimum": 0
-        },
-        "target_version_v2": {
-          "$ref": "#/definitions/AppleVersion",
-          "description": "The lowest compatible Apple deployment version. All three numeric components are required, and its major component must equal target_version."
         }
       },
       "required": [

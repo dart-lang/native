@@ -47,7 +47,7 @@ void main(List<String> args) async {
             cCompiler: dartCICompilerConfig,
             macOS: targetOS == .macOS
                 ? MacOSCodeConfig(
-                    targetVersion2: AppleVersion(defaultMacOSVersion),
+                    deploymentVersion: AppleVersion(defaultMacOSVersion),
                   )
                 : null,
           ),

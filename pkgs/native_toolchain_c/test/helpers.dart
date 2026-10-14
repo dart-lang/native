@@ -593,3 +593,18 @@ class NoDefaultCurrentDirectoryInExePathProcessManager
     stderrEncoding: stderrEncoding,
   );
 }
+
+/// Verifies the deployment version recorded in Mach-O load-command output.
+void expectAppleDeploymentVersion(
+  String otoolOutput,
+  AppleVersion version,
+) {
+  final expected = version.patch == 0
+      ? '${version.major}.${version.minor}'
+      : '${version.major}.${version.minor}.${version.patch}';
+  final versions = RegExp(
+    r'\bminos (\S+)',
+  ).allMatches(otoolOutput).map((match) => match.group(1)).toList();
+  expect(versions, isNotEmpty);
+  expect(versions, everyElement(expected));
+}

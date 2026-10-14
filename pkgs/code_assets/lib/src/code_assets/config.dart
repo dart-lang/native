@@ -135,8 +135,8 @@ final class IOSCodeConfig {
   IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk);
 
   /// The major component of the lowest compatible iOS version.
-  @Deprecated('Use targetVersion2.major instead.')
-  int get targetVersion => _syntax.targetVersion;
+  @Deprecated('Use deploymentVersion.major instead.')
+  int get targetVersion => deploymentVersion.major;
 
   /// The complete lowest compatible iOS deployment version.
   ///
@@ -144,31 +144,31 @@ final class IOSCodeConfig {
   /// and patch components defaulting to zero.
   /// When the nested protocol version is present, all three components are
   /// required.
-  /// Throws [FormatException] if the supplied version is malformed or its
-  /// major component disagrees with the legacy integer version.
-  AppleVersion get targetVersion2 => _readAppleDeploymentVersion(
-    _syntax.targetVersion,
-    _syntax.targetVersionV2,
-    _syntax.json.containsKey('target_version_v2'),
-  );
+  /// The nested version takes precedence over the legacy integer.
+  /// Malformed components throw [FormatException] when accessed.
+  AppleVersion get deploymentVersion => switch (_syntax.deploymentVersion) {
+    final version? => AppleVersionSyntaxExtension.fromSyntax(version),
+    null => AppleVersion(_syntax.targetVersion),
+  };
 
   /// Constructs a new [IOSCodeConfig].
   ///
-  /// Supply exactly one of [targetVersion2] or the deprecated [targetVersion].
+  /// Supply exactly one of [deploymentVersion] or the deprecated
+  /// [targetVersion].
   /// Throws [ArgumentError] for both, neither, or an invalid legacy version.
   /// Both protocol fields are populated so older hooks can read the major
   /// version.
   factory IOSCodeConfig({
     required IOSSdk targetSdk,
-    @Deprecated('Use targetVersion2 instead.') int? targetVersion,
-    AppleVersion? targetVersion2,
+    @Deprecated('Use deploymentVersion instead.') int? targetVersion,
+    AppleVersion? deploymentVersion,
   }) {
-    final version = _appleDeploymentVersion(targetVersion, targetVersion2);
+    final version = _appleDeploymentVersion(targetVersion, deploymentVersion);
     return IOSCodeConfig._(
       IOSCodeConfigSyntax(
         targetSdk: targetSdk.type,
         targetVersion: version.major,
-        targetVersionV2: version.toSyntax(),
+        deploymentVersion: version.toSyntax(),
       ),
     );
   }
@@ -198,8 +198,8 @@ final class MacOSCodeConfig {
   MacOSCodeConfig._(this._syntax);
 
   /// The major component of the lowest compatible macOS version.
-  @Deprecated('Use targetVersion2.major instead.')
-  int get targetVersion => _syntax.targetVersion;
+  @Deprecated('Use deploymentVersion.major instead.')
+  int get targetVersion => deploymentVersion.major;
 
   /// The complete lowest compatible macOS deployment version.
   ///
@@ -207,29 +207,29 @@ final class MacOSCodeConfig {
   /// and patch components defaulting to zero.
   /// When the nested protocol version is present, all three components are
   /// required.
-  /// Throws [FormatException] if the supplied version is malformed or its
-  /// major component disagrees with the legacy integer version.
-  AppleVersion get targetVersion2 => _readAppleDeploymentVersion(
-    _syntax.targetVersion,
-    _syntax.targetVersionV2,
-    _syntax.json.containsKey('target_version_v2'),
-  );
+  /// The nested version takes precedence over the legacy integer.
+  /// Malformed components throw [FormatException] when accessed.
+  AppleVersion get deploymentVersion => switch (_syntax.deploymentVersion) {
+    final version? => AppleVersionSyntaxExtension.fromSyntax(version),
+    null => AppleVersion(_syntax.targetVersion),
+  };
 
   /// Constructs a new [MacOSCodeConfig].
   ///
-  /// Supply exactly one of [targetVersion2] or the deprecated [targetVersion].
+  /// Supply exactly one of [deploymentVersion] or the deprecated
+  /// [targetVersion].
   /// Throws [ArgumentError] for both, neither, or an invalid legacy version.
   /// Both protocol fields are populated so older hooks can read the major
   /// version.
   factory MacOSCodeConfig({
-    @Deprecated('Use targetVersion2 instead.') int? targetVersion,
-    AppleVersion? targetVersion2,
+    @Deprecated('Use deploymentVersion instead.') int? targetVersion,
+    AppleVersion? deploymentVersion,
   }) {
-    final version = _appleDeploymentVersion(targetVersion, targetVersion2);
+    final version = _appleDeploymentVersion(targetVersion, deploymentVersion);
     return MacOSCodeConfig._(
       MacOSCodeConfigSyntax(
         targetVersion: version.major,
-        targetVersionV2: version.toSyntax(),
+        deploymentVersion: version.toSyntax(),
       ),
     );
   }
@@ -238,42 +238,11 @@ final class MacOSCodeConfig {
 AppleVersion _appleDeploymentVersion(int? major, AppleVersion? version) {
   if ((major == null) == (version == null)) {
     throw ArgumentError(
-      'Supply exactly one of targetVersion or targetVersion2.',
+      'Supply exactly one of targetVersion or deploymentVersion.',
     );
   }
   if (version != null) return version;
-  if (major! < 0 || major > maxAppleVersionComponent) {
-    throw ArgumentError.value(
-      major,
-      'targetVersion',
-      'Expected an integer between 0 and $maxAppleVersionComponent.',
-    );
-  }
-  return AppleVersion(major);
-}
-
-AppleVersion _readAppleDeploymentVersion(
-  int major,
-  AppleVersionSyntax? syntax,
-  bool hasVersion,
-) {
-  if (hasVersion && syntax == null) {
-    throw const FormatException('target_version_v2 must be an object.');
-  }
-  final AppleVersion version;
-  if (syntax != null) {
-    version = AppleVersionSyntaxExtension.fromSyntax(syntax);
-  } else {
-    version = AppleVersionSyntaxExtension.fromSyntax(
-      AppleVersionSyntax(major: major, minor: 0, patch: 0),
-    );
-  }
-  if (version.major != major) {
-    throw const FormatException(
-      'targetVersion and targetVersion2 must agree on the major version.',
-    );
-  }
-  return version;
+  return AppleVersion(major!);
 }
 
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
@@ -405,8 +374,8 @@ extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
   /// Converts this [MacOSCodeConfig] to its corresponding
   /// [MacOSCodeConfigSyntax].
   MacOSCodeConfigSyntax toSyntax() => MacOSCodeConfigSyntax(
-    targetVersion: _syntax.targetVersion,
-    targetVersionV2: _syntax.targetVersionV2,
+    targetVersion: deploymentVersion.major,
+    deploymentVersion: _syntax.deploymentVersion,
   );
 }
 
@@ -416,8 +385,8 @@ extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
   /// Converts this [IOSCodeConfig] to its corresponding [IOSCodeConfigSyntax].
   IOSCodeConfigSyntax toSyntax() => IOSCodeConfigSyntax(
     targetSdk: targetSdk.type,
-    targetVersion: _syntax.targetVersion,
-    targetVersionV2: _syntax.targetVersionV2,
+    targetVersion: deploymentVersion.major,
+    deploymentVersion: _syntax.deploymentVersion,
   );
 }
 

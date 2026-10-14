@@ -109,12 +109,12 @@ Future<Result<BuildResult, HooksRunnerFailure>> build(
                 iOS: targetOS == OS.iOS
                     ? IOSCodeConfig(
                         targetSdk: targetIOSSdk!,
-                        targetVersion2: AppleVersion(targetIOSVersion!),
+                        deploymentVersion: AppleVersion(targetIOSVersion!),
                       )
                     : null,
                 macOS: targetOS == OS.macOS
                     ? MacOSCodeConfig(
-                        targetVersion2: AppleVersion(
+                        deploymentVersion: AppleVersion(
                           targetMacOSVersion ?? defaultMacOSVersion,
                         ),
                       )
@@ -187,12 +187,12 @@ Future<Result<LinkResult, HooksRunnerFailure>> link(
                 iOS: targetOS == OS.iOS
                     ? IOSCodeConfig(
                         targetSdk: targetIOSSdk!,
-                        targetVersion2: AppleVersion(targetIOSVersion!),
+                        deploymentVersion: AppleVersion(targetIOSVersion!),
                       )
                     : null,
                 macOS: targetOS == OS.macOS
                     ? MacOSCodeConfig(
-                        targetVersion2: AppleVersion(
+                        deploymentVersion: AppleVersion(
                           targetMacOSVersion ?? defaultMacOSVersion,
                         ),
                       )
@@ -260,12 +260,12 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           iOS: targetOS == OS.iOS
               ? IOSCodeConfig(
                   targetSdk: targetIOSSdk!,
-                  targetVersion2: AppleVersion(targetIOSVersion!),
+                  deploymentVersion: AppleVersion(targetIOSVersion!),
                 )
               : null,
           macOS: targetOS == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersion2: AppleVersion(
+                  deploymentVersion: AppleVersion(
                     targetMacOSVersion ?? defaultMacOSVersion,
                   ),
                 )
@@ -298,12 +298,12 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           iOS: targetOS == OS.iOS
               ? IOSCodeConfig(
                   targetSdk: targetIOSSdk!,
-                  targetVersion2: AppleVersion(targetIOSVersion!),
+                  deploymentVersion: AppleVersion(targetIOSVersion!),
                 )
               : null,
           macOS: targetOS == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersion2: AppleVersion(
+                  deploymentVersion: AppleVersion(
                     targetMacOSVersion ?? defaultMacOSVersion,
                   ),
                 )
