@@ -1,5 +1,6 @@
 ## 2.0.0-wip
 
+- Refresh internal JSON validation helpers.
 - **Breaking change**: Remove `KernelAssets` (and related `KernelAsset*`
   classes) and `Target`.
 - Drop regular dependency on `package:code_assets`.

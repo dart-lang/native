@@ -1,5 +1,7 @@
 ## 2.2.1-wip
 
+- Update native examples for the full Apple deployment-version API and refresh
+  internal JSON validation helpers.
 - Track header dependencies in the C build examples so header changes trigger
   recompilation.
 
