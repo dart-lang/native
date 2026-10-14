@@ -12,6 +12,13 @@
 - Do not pass linker flags (`-Wl,-encryptable`, `-Wl,-z,max-page-size=16384`,
   `-framework`, and C++ standard library link flags) when compiling object files
   for static libraries (`-c`).
+- Fix `environmentFromBatchFile`, and with it finding the MSVC environment on
+  Windows, when the `NoDefaultCurrentDirectoryInExePath` environment variable
+  is set. The batch file was run by its bare file name, which cmd.exe then
+  doesn't look for in the working directory, so the environment came back
+  empty. It now runs as `.\<name>.bat`.
+- `environmentFromBatchFile` now throws a `ProcessException` if running the
+  batch file fails, instead of returning an empty environment.
 
 ## 0.19.5
 

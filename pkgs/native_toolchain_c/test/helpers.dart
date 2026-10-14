@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:math' as math;
@@ -541,3 +542,54 @@ List<Architecture> iOSSupportedArchitecturesFor(IOSSdk iosSdk) =>
       .iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
       IOSSdk() => throw UnimplementedError(),
     };
+
+/// A [LocalProcessManager] that sets `NoDefaultCurrentDirectoryInExePath` for
+/// every process it spawns.
+///
+/// With that variable set, cmd.exe doesn't search the working directory for
+/// bare command names.
+class NoDefaultCurrentDirectoryInExePathProcessManager
+    extends LocalProcessManager {
+  const NoDefaultCurrentDirectoryInExePathProcessManager();
+
+  static Map<String, String> _environment(Map<String, String>? environment) => {
+    ...?environment,
+    'NoDefaultCurrentDirectoryInExePath': '1',
+  };
+
+  @override
+  Future<Process> start(
+    List<Object> command, {
+    String? workingDirectory,
+    Map<String, String>? environment,
+    bool includeParentEnvironment = true,
+    bool runInShell = false,
+    ProcessStartMode mode = ProcessStartMode.normal,
+  }) => super.start(
+    command,
+    workingDirectory: workingDirectory,
+    environment: _environment(environment),
+    includeParentEnvironment: includeParentEnvironment,
+    runInShell: runInShell,
+    mode: mode,
+  );
+
+  @override
+  Future<ProcessResult> run(
+    List<Object> command, {
+    String? workingDirectory,
+    Map<String, String>? environment,
+    bool includeParentEnvironment = true,
+    bool runInShell = false,
+    Encoding? stdoutEncoding = systemEncoding,
+    Encoding? stderrEncoding = systemEncoding,
+  }) => super.run(
+    command,
+    workingDirectory: workingDirectory,
+    environment: _environment(environment),
+    includeParentEnvironment: includeParentEnvironment,
+    runInShell: runInShell,
+    stdoutEncoding: stdoutEncoding,
+    stderrEncoding: stderrEncoding,
+  );
+}

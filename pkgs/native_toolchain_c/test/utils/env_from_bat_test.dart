@@ -2,9 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:native_toolchain_c/src/utils/env_from_bat.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
 import 'fake_process_manager.dart';
 
 void main() {
@@ -27,4 +30,72 @@ void main() {
     // is new, so both are reported.
     expect(result, {'CHANGED': '2', 'NEWVAR': 'NEWVALUE'});
   });
+
+  test('runs the batch file by a path relative to its directory', () async {
+    final processManager = FakeProcessManager([
+      const FakeCommand(stdout: '=======\r\n'),
+    ]);
+
+    await environmentFromBatchFile(
+      Uri.file('C:/some/path/vcvars64.bat'),
+      processManager: processManager,
+    );
+
+    // A bare `vcvars64.bat` isn't found if `NoDefaultCurrentDirectoryInExePath`
+    // is set.
+    expect(
+      processManager.invocations.single.command.single,
+      contains(r'&& .\vcvars64.bat '),
+    );
+  });
+
+  test('throws if running the batch file fails', () async {
+    // If the batch file fails, the trailing `set` doesn't run, so there is no
+    // environment to report.
+    final processManager = FakeProcessManager([
+      const FakeCommand(
+        stdout: 'EXISTING=old\r\n=======\r\n',
+        stderr: "'vcvars64.bat' is not recognized",
+        exitCode: 1,
+      ),
+    ]);
+
+    await expectLater(
+      environmentFromBatchFile(
+        Uri.file('C:/some/path/vcvars64.bat'),
+        processManager: processManager,
+      ),
+      throwsA(
+        isA<ProcessException>()
+            .having((e) => e.errorCode, 'errorCode', 1)
+            .having(
+              (e) => e.message,
+              'message',
+              contains("'vcvars64.bat' is not recognized"),
+            ),
+      ),
+    );
+  });
+
+  test(
+    'finds the batch file if NoDefaultCurrentDirectoryInExePath is set',
+    () async {
+      if (!Platform.isWindows) {
+        // Running a batch file needs cmd.exe.
+        return;
+      }
+      final tempUri = await tempDirForTest();
+      final batchFile = File.fromUri(tempUri.resolve('set_env.bat'));
+      await batchFile.writeAsString('@set NTC_ENV_FROM_BAT_TEST=%1\r\n');
+
+      final result = await environmentFromBatchFile(
+        batchFile.uri,
+        arguments: ['hello'],
+        processManager:
+            const NoDefaultCurrentDirectoryInExePathProcessManager(),
+      );
+
+      expect(result, {'NTC_ENV_FROM_BAT_TEST': 'hello'});
+    },
+  );
 }
