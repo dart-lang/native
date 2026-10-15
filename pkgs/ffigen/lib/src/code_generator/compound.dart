@@ -97,8 +97,15 @@ abstract class Compound extends BindingType with HasLocalScope {
 
   String _memberStorageName(CompoundMember member) => member.name;
 
-  String _memberParameterType(CompoundMember member) =>
-      member.type.getDartType(context);
+  String _memberParameterType(CompoundMember member) {
+    final type = member.type;
+    // Keep the old output for types where Dart and FFI-Dart types are equal
+    // (e.g. typedefs of int/double).
+    if (type.sameDartAndFfiDartType) {
+      return type.getFfiDartType(context);
+    }
+    return type.getDartType(context);
+  }
 
   String _generateAllocateMethod(String enclosingClassName, String ffiPrefix) {
     final usedParamNames = <String>{};
