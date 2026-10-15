@@ -1,3 +1,8 @@
+## 9.6.3-wip
+
+- Use minor and patch versions of iOS and macOS deployment targets from
+  `package:code_assets` 2.2.0 in the native support library's build hook.
+
 ## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`
