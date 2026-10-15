@@ -316,6 +316,10 @@ ${generateInstanceMethodBindings(w, this)}
       '(__bridge id)(__bridge_retained void*)($value)';
 
   @override
+  String? generateRelease(Context context, String value) =>
+      '$value.ref.release();';
+
+  @override
   void visit(Visitation visitation) => visitation.visitObjCInterface(this);
 
   // Set typeGraphOnly to true to skip iterating methods and other children, and
