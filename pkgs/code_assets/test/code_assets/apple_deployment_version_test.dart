@@ -35,6 +35,33 @@ void main() {
     expect(values[1].compareTo(values[0]), greaterThan(0));
     expect(values[1].compareTo(AppleVersion(14, minor: 9)), 0);
   });
+  test('AppleVersion relational operators compare every component', () {
+    final values = [
+      AppleVersion(13, minor: 99, patch: 99),
+      AppleVersion(14),
+      AppleVersion(14, minor: 9),
+      AppleVersion(14, minor: 9, patch: 1),
+      AppleVersion(14, minor: 10),
+    ];
+    for (var i = 0; i < values.length; i++) {
+      for (var j = 0; j < values.length; j++) {
+        expect(values[i] < values[j], i < j);
+        expect(values[i] <= values[j], i <= j);
+        expect(values[i] > values[j], i > j);
+        expect(values[i] >= values[j], i >= j);
+      }
+      final equal = AppleVersion(
+        values[i].major,
+        minor: values[i].minor,
+        patch: values[i].patch,
+      );
+      expect(values[i] < equal, isFalse);
+      expect(values[i] <= equal, isTrue);
+      expect(values[i] > equal, isFalse);
+      expect(values[i] >= equal, isTrue);
+    }
+  });
+
   test('AppleVersion syntax fields are read lazily', () {
     final version = AppleVersionSyntaxExtension.fromSyntax(
       AppleVersionSyntax.fromJson({'major': 17}),
@@ -117,12 +144,9 @@ void main() {
       return code[os == OS.iOS ? 'ios' : 'macos']! as Map<String, Object?>;
     }
 
-    AppleVersion version(HookConfig config) {
-      final value = os == OS.iOS
-          ? config.code.iOS.deploymentVersion
-          : config.code.macOS.deploymentVersion;
-      return AppleVersion(value.major, minor: value.minor, patch: value.patch);
-    }
+    AppleVersion version(HookConfig config) => os == OS.iOS
+        ? config.code.iOS.deploymentVersion
+        : config.code.macOS.deploymentVersion;
 
     for (final value in [
       AppleVersion(0),
@@ -168,6 +192,17 @@ void main() {
         }
       });
     }
+    test('$os syntax conversion preserves unknown fields', () {
+      final json = builder(extension(version: AppleVersion(16, minor: 4))).json;
+      apple(json)['future_field'] = {'enabled': true};
+      for (final config in [BuildInput(json).config, LinkInput(json).config]) {
+        final syntax = os == OS.iOS
+            ? config.code.iOS.toSyntax().json
+            : config.code.macOS.toSyntax().json;
+        expect(syntax, apple(json));
+        expect(syntax['future_field'], {'enabled': true});
+      }
+    });
     test('$os legacy constructor populates both fields', () {
       final json = builder(extension(major: 16)).json;
       expect(apple(json)['target_version'], 16);
@@ -248,7 +283,11 @@ void main() {
             extension(version: AppleVersion(16, minor: 4)),
           ).json;
           apple(json)['deployment_version'] = value;
-          expect(() => version(BuildInput(json).config), throwsFormatException);
+          expect(() {
+            final value = version(BuildInput(json).config);
+            // Read every lazy field so malformed minor/patch values also throw.
+            return [value.major, value.minor, value.patch];
+          }, throwsFormatException);
           expect(
             await validateCodeAssetBuildInput(BuildInput(json)),
             isNotEmpty,
@@ -299,7 +338,7 @@ void main() {
       final syntax = os == OS.iOS
           ? BuildInput(json).config.code.iOS.toSyntax().json
           : BuildInput(json).config.code.macOS.toSyntax().json;
-      expect(syntax['target_version'], 16);
+      expect(syntax.containsKey('target_version'), isFalse);
       expect(version(BuildInput(json).config), AppleVersion(16, minor: 4));
       expect(
         os == OS.iOS

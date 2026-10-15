@@ -46,6 +46,18 @@ final class AppleVersion implements Comparable<AppleVersion> {
     return patch.compareTo(other.patch);
   }
 
+  /// Whether this version is earlier than [other].
+  bool operator <(AppleVersion other) => compareTo(other) < 0;
+
+  /// Whether this version is earlier than or equal to [other].
+  bool operator <=(AppleVersion other) => compareTo(other) <= 0;
+
+  /// Whether this version is later than [other].
+  bool operator >(AppleVersion other) => compareTo(other) > 0;
+
+  /// Whether this version is later than or equal to [other].
+  bool operator >=(AppleVersion other) => compareTo(other) >= 0;
+
   @override
   bool operator ==(Object other) =>
       other is AppleVersion &&

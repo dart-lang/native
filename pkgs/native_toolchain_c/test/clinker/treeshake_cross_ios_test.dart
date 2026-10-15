@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: lines_longer_than_80_chars
+
 @TestOn('mac-os')
 library;
 
@@ -19,13 +21,13 @@ const targetOS = OS.iOS;
 /// This comment is generated. To regenerate, run:
 /// `REGENERATE_TEST_CONFIGS=true dart test`
 ///
-/// | #   | Architecture | IOSSdk          | IOSVersion |
-/// |-----|--------------|-----------------|------------|
-/// | 1   | arm64        | iphoneos        | 16         |
-/// | 2   | arm64        | iphonesimulator | 17         |
-/// | 3   | arm64e       | iphoneos        | 17         |
-/// | 4   | arm64e       | iphonesimulator | 17         |
-/// | 5   | x64          | iphonesimulator | 16         |
+/// | #   | Architecture | IOSSdk          | Apple Version                        |
+/// |-----|--------------|-----------------|--------------------------------------|
+/// | 1   | arm64        | iphoneos        | AppleVersion(26, minor: 7, patch: 1) |
+/// | 2   | arm64        | iphonesimulator | AppleVersion(27, minor: 0, patch: 0) |
+/// | 3   | arm64e       | iphoneos        | AppleVersion(27, minor: 0, patch: 0) |
+/// | 4   | arm64e       | iphonesimulator | AppleVersion(26, minor: 7, patch: 1) |
+/// | 5   | x64          | iphonesimulator | AppleVersion(26, minor: 7, patch: 1) |
 final configurations =
     TestCaseSelector(
       dimensions: {
@@ -35,14 +37,14 @@ final configurations =
           Architecture.x64,
         ],
         IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
-        IOSVersion: [
+        AppleVersion: [
           IOSVersion.flutterHighestBestEffort,
           IOSVersion.flutterHighestSupported,
         ],
       },
       interactionGroups: [
         {Architecture, IOSSdk},
-        {IOSSdk, IOSVersion},
+        {IOSSdk, AppleVersion},
       ],
       isValid: (config) {
         if (config.get<IOSSdk>() == IOSSdk.iPhoneOS &&
@@ -66,7 +68,7 @@ void main() {
   for (final config in configurations) {
     final architecture = config.get<Architecture>();
     final iOSTargetSdk = config.get<IOSSdk>();
-    final iOSVersion = AppleVersion(config.get<IOSVersion>().value);
+    final iOSVersion = config.get<AppleVersion>();
 
     group('$iOSTargetSdk $iOSVersion ($architecture):', () {
       runTreeshakeTests(

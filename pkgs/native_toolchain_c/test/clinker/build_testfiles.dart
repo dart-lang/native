@@ -10,6 +10,8 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import '../helpers.dart';
 
+/// Builds a static archive from the linker test sources.
+///
 /// Uses [androidTargetNdkApi] for Android, [macOSTargetVersion] for macOS,
 /// and [iOSTargetVersion] with [iOSTargetSdk] for iOS. Supply only the target's
 /// platform-specific configuration.

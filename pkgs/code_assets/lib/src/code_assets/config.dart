@@ -373,21 +373,14 @@ extension LinkOutputCodeAssets on LinkOutputAssets {
 extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
   /// Converts this [MacOSCodeConfig] to its corresponding
   /// [MacOSCodeConfigSyntax].
-  MacOSCodeConfigSyntax toSyntax() => MacOSCodeConfigSyntax(
-    targetVersion: deploymentVersion.major,
-    deploymentVersion: _syntax.deploymentVersion,
-  );
+  MacOSCodeConfigSyntax toSyntax() => _syntax;
 }
 
 /// Extension methods for [IOSCodeConfig] to convert to and from the syntax
 /// model.
 extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
   /// Converts this [IOSCodeConfig] to its corresponding [IOSCodeConfigSyntax].
-  IOSCodeConfigSyntax toSyntax() => IOSCodeConfigSyntax(
-    targetSdk: targetSdk.type,
-    targetVersion: deploymentVersion.major,
-    deploymentVersion: _syntax.deploymentVersion,
-  );
+  IOSCodeConfigSyntax toSyntax() => _syntax;
 }
 
 /// Extension methods for [AndroidCodeConfig] to convert to and from the syntax

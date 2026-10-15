@@ -363,31 +363,24 @@ class AndroidApiLevel {
   static const flutterHighestSupported = AndroidApiLevel(34);
 }
 
-class IOSVersion {
-  final int value;
-  const IOSVersion(this.value);
+abstract final class IOSVersion {
+  /// Highest supported major not CI-tested by Flutter.
+  /// https://docs.flutter.dev/reference/supported-platforms
+  static final flutterHighestBestEffort = AppleVersion(27);
 
-  @override
-  String toString() => '$value';
-
-  static const flutterHighestBestEffort = IOSVersion(16);
-  static const flutterHighestSupported = IOSVersion(17);
+  /// Flutter CI-tests iOS 26. Use a released patch in that major to exercise
+  /// nonzero minor and patch components without adding compiler test cases.
+  /// https://docs.flutter.dev/reference/supported-platforms
+  /// https://support.apple.com/en-us/100100
+  static final flutterHighestSupported = AppleVersion(26, minor: 7, patch: 1);
 }
 
-class MacOSVersion {
-  final int value;
-  const MacOSVersion(this.value);
-
-  @override
-  String toString() => '$value';
-
-  static const flutterLowestBestEffort = MacOSVersion(12);
-  static const flutterLowestSupported = MacOSVersion(13);
+abstract final class MacOSVersion {
+  static final flutterLowestBestEffort = AppleVersion(12);
+  static final flutterLowestSupported = AppleVersion(13);
 }
 
-final defaultMacOSVersion = AppleVersion(
-  MacOSVersion.flutterLowestSupported.value,
-);
+final defaultMacOSVersion = MacOSVersion.flutterLowestSupported;
 
 /// File-format strings used by the `objdump` tool for Android binaries that
 /// run on a given architecture.

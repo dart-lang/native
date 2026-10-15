@@ -14,6 +14,8 @@ import 'build_testfiles.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
+/// Tests tree shaking for the target architecture.
+///
 /// Uses [androidTargetNdkApi] for Android, [macOSTargetVersion] for macOS,
 /// and [iOSTargetVersion] with [iOSTargetSdk] for iOS. Supply only the target's
 /// platform-specific configuration.

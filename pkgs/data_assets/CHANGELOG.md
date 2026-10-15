@@ -1,6 +1,6 @@
 ## 0.20.1-wip
 
-- Refresh internal JSON validation helpers.
+- No user-visible changes yet.
 
 ## 0.20.0
 

@@ -1,6 +1,5 @@
 ## 1.1.2-wip
 
-- Refresh internal JSON validation helpers.
 - Track header dependencies in the native code test project.
 
 ## 1.1.1

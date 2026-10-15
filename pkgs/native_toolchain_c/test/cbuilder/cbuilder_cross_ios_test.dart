@@ -27,15 +27,12 @@ const name = 'add';
 ///
 /// | #   | Architecture | IOSSdk          | Apple Version                        | Link Mode | Language    | Optimization Level |
 /// |-----|--------------|-----------------|--------------------------------------|-----------|-------------|--------------------|
-/// | 1   | arm64        | iphoneos        | AppleVersion(16, minor: 4, patch: 0) | static    | c           | O0                 |
-/// | 2   | arm64        | iphoneos        | AppleVersion(17, minor: 0, patch: 1) | static    | c           | unspecified        |
-/// | 3   | arm64        | iphoneos        | AppleVersion(17, minor: 2, patch: 1) | bundled   | c           | O1                 |
-/// | 4   | arm64        | iphonesimulator | AppleVersion(17, minor: 0, patch: 1) | bundled   | objective c | O3                 |
-/// | 5   | arm64e       | iphoneos        | AppleVersion(16, minor: 0, patch: 0) | bundled   | c           | O0                 |
-/// | 6   | arm64e       | iphonesimulator | AppleVersion(17, minor: 2, patch: 1) | static    | objective c | O2                 |
-/// | 7   | x64          | iphonesimulator | AppleVersion(16, minor: 0, patch: 0) | static    | objective c | Os                 |
-/// | 8   | x64          | iphonesimulator | AppleVersion(16, minor: 4, patch: 0) | bundled   | objective c | O1                 |
-/// | 9   | x64          | iphonesimulator | AppleVersion(16, minor: 4, patch: 0) | static    | c           | O3                 |
+/// | 1   | arm64        | iphoneos        | AppleVersion(27, minor: 0, patch: 0) | static    | c           | unspecified        |
+/// | 2   | arm64        | iphonesimulator | AppleVersion(27, minor: 0, patch: 0) | bundled   | objective c | O3                 |
+/// | 3   | arm64e       | iphoneos        | AppleVersion(26, minor: 7, patch: 1) | bundled   | c           | O2                 |
+/// | 4   | arm64e       | iphonesimulator | AppleVersion(27, minor: 0, patch: 0) | static    | objective c | O0                 |
+/// | 5   | x64          | iphonesimulator | AppleVersion(26, minor: 7, patch: 1) | bundled   | objective c | O1                 |
+/// | 6   | x64          | iphonesimulator | AppleVersion(26, minor: 7, patch: 1) | static    | c           | Os                 |
 final configurations =
     TestCaseSelector(
       dimensions: {
@@ -46,10 +43,8 @@ final configurations =
         ],
         IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
         AppleVersion: [
-          AppleVersion(16),
-          AppleVersion(16, minor: 4),
-          AppleVersion(17, minor: 2, patch: 1),
-          AppleVersion(17, patch: 1),
+          IOSVersion.flutterHighestBestEffort,
+          IOSVersion.flutterHighestSupported,
         ],
         LinkMode: [DynamicLoadingBundled(), StaticLinking()],
         Language: [Language.c, Language.objectiveC],

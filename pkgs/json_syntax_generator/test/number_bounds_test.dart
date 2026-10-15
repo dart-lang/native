@@ -9,6 +9,54 @@ import 'package:json_syntax_generator/json_syntax_generator.dart';
 import 'package:test/test.dart';
 
 void main() {
+  for (final isInteger in [true, false]) {
+    final name = isInteger ? 'int' : 'double';
+    NumberDartType create({
+      bool isNullable = false,
+      num? minimum,
+      num? maximum,
+    }) => isInteger
+        ? IntDartType(
+            isNullable: isNullable,
+            minimum: minimum,
+            maximum: maximum,
+          )
+        : DoubleDartType(
+            isNullable: isNullable,
+            minimum: minimum,
+            maximum: maximum,
+          );
+    test('$name type equality and hashing retain bounds and nullability', () {
+      final value = create(minimum: 0, maximum: 10);
+      final equal = create(minimum: 0, maximum: 10);
+      expect(value, equal);
+      expect(equal, value);
+      expect(value.hashCode, equal.hashCode);
+      final distinct = <NumberDartType>{
+        value,
+        equal,
+        create(),
+        create(minimum: 1, maximum: 10),
+        create(minimum: 0, maximum: 11),
+        create(isNullable: true, minimum: 0, maximum: 10),
+      };
+      expect(distinct, hasLength(5));
+      for (final other in distinct) {
+        if (identical(other, value)) continue;
+        expect(value, isNot(other));
+        expect(other, isNot(value));
+      }
+      expect(value, isNot(const StringDartType(isNullable: false)));
+    });
+  }
+  test('integer and double types remain distinct with identical bounds', () {
+    const integer = IntDartType(isNullable: false, minimum: 0, maximum: 10);
+    const decimal = DoubleDartType(isNullable: false, minimum: 0, maximum: 10);
+    expect(integer, isNot(decimal));
+    expect(decimal, isNot(integer));
+    expect({integer, decimal}, hasLength(2));
+  });
+
   test(
     'generated numeric bounds protect reads, writes, and validation',
     () async {

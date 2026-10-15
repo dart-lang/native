@@ -249,11 +249,9 @@ void main() async {
   });
 
   for (final macosVersion in [
-    AppleVersion(12),
-    AppleVersion(13),
-    AppleVersion(14, minor: 4),
+    MacOSVersion.flutterLowestBestEffort,
+    MacOSVersion.flutterLowestSupported,
     AppleVersion(14, minor: 4, patch: 1),
-    AppleVersion(14, patch: 1),
   ]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       test('$linkMode macos min version $macosVersion', () async {

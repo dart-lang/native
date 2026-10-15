@@ -12,6 +12,8 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'build_testfiles.dart';
 
+/// Tests linking object files for the target architectures.
+///
 /// Uses [androidTargetNdkApi] for Android, [macOSTargetVersion] for macOS,
 /// and [iOSTargetVersion] with [iOSTargetSdk] for iOS. Supply only the target's
 /// platform-specific configuration.
