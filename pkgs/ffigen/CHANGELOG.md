@@ -1,3 +1,8 @@
+## 23.1.0-wip
+
+- When generating typedefs for `NativeFunction<Function>`, also generate a
+  companion typedef for the `Function` (fixes #944).
+
 ## 23.0.0
 
 - The YAML configuration format is deprecated and will be removed in a future
