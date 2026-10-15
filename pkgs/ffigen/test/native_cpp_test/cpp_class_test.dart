@@ -316,9 +316,10 @@ void main() {
 
   group('Function pointer args/returns', () {
     test('Function pointer returning Animal* (factory)', () {
-      final factoryPtr = Native.addressOf<
-        NativeFunction<Pointer<Void> Function(Int age)>
-      >(_nativeFactory);
+      final factoryPtr =
+          Native.addressOf<NativeFunction<Pointer<Void> Function(Int age)>>(
+            _nativeFactory,
+          );
 
       final animal = applyFactory(factoryPtr, 42);
       expect(animal.getAge(), 42);
@@ -328,9 +329,10 @@ void main() {
 
     test('Function pointer taking Animal* (processor)', () {
       final animal = Animal(17);
-      final processorPtr = Native.addressOf<
-        NativeFunction<Int Function(Pointer<Void> a)>
-      >(_nativeProcessor);
+      final processorPtr =
+          Native.addressOf<NativeFunction<Int Function(Pointer<Void> a)>>(
+            _nativeProcessor,
+          );
 
       final age = applyProcessor(processorPtr, animal);
       expect(age, 17);
@@ -339,9 +341,10 @@ void main() {
 
     test('Function pointer taking Animal* and mutating it (transform)', () {
       final animal = Animal(5);
-      final transformPtr = Native.addressOf<
-        NativeFunction<Void Function(Pointer<Void> a, Int value)>
-      >(_nativeTransform);
+      final transformPtr =
+          Native.addressOf<
+            NativeFunction<Void Function(Pointer<Void> a, Int value)>
+          >(_nativeTransform);
 
       applyTransform(transformPtr, animal, 99);
       expect(animal.getAge(), 99);
