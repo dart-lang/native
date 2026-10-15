@@ -7,6 +7,83 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int age)>
+    >,
+    ffi.Int,
+  )
+>(symbol: 'applyFactory')
+external ffi.Pointer<ffi.Void> _applyFactory(
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int age)>>
+  factory,
+  int age,
+);
+
+Animal applyFactory(
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int age)>>
+  factory,
+  int age,
+) {
+  return Animal.fromPointer(_applyFactory(factory, age));
+}
+
+@ffi.Native<
+  ffi.Int Function(
+    ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> a)>>,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: 'applyProcessor')
+external int _applyProcessor(
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> a)>>
+  processor,
+  ffi.Pointer<ffi.Void> animal,
+);
+
+int applyProcessor(
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> a)>>
+  processor,
+  Animal animal,
+) {
+  return _applyProcessor(processor, animal._ptr);
+}
+
+@ffi.Native<
+  ffi.Void Function(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<ffi.Void> a, ffi.Int value)
+      >
+    >,
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+  )
+>(symbol: 'applyTransform')
+external void _applyTransform(
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Void> a, ffi.Int value)
+    >
+  >
+  transform,
+  ffi.Pointer<ffi.Void> animal,
+  int value,
+);
+
+void applyTransform(
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Void> a, ffi.Int value)
+    >
+  >
+  transform,
+  Animal animal,
+  int value,
+) {
+  return _applyTransform(transform, animal._ptr, value);
+}
+
 @ffi.Native<AnimalOwner Function(ffi.Pointer<ffi.Void>, ffi.Int)>(
   symbol: 'createAnimalOwner',
 )

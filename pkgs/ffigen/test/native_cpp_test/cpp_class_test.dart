@@ -17,6 +17,26 @@ import 'cpp_class_test_bindings.dart';
 )
 external void _testFinalizerTestSubjectDelete(Pointer<Void> self);
 
+// Top-level @Native declarations needed by Native.addressOf in
+// 'Function pointer args/returns' tests.
+@Native<Pointer<Void> Function(Int age)>(
+  symbol: 'createAnimalPointer',
+  assetId: 'package:ffigen/cpp_test',
+)
+external Pointer<Void> _nativeFactory(int age);
+
+@Native<Int Function(Pointer<Void> a)>(
+  symbol: 'getAgeFromPointer',
+  assetId: 'package:ffigen/cpp_test',
+)
+external int _nativeProcessor(Pointer<Void> a);
+
+@Native<Void Function(Pointer<Void> a, Int value)>(
+  symbol: 'setAgeFromPointer',
+  assetId: 'package:ffigen/cpp_test',
+)
+external void _nativeTransform(Pointer<Void> a, int value);
+
 final _customDeleteFinalizer = NativeFinalizer(
   Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
     _testFinalizerTestSubjectDelete,
@@ -291,6 +311,41 @@ void main() {
 
       animal.dispose();
       calloc.free(owner);
+    });
+  });
+
+  group('Function pointer args/returns', () {
+    test('Function pointer returning Animal* (factory)', () {
+      final factoryPtr = Native.addressOf<
+        NativeFunction<Pointer<Void> Function(Int age)>
+      >(_nativeFactory);
+
+      final animal = applyFactory(factoryPtr, 42);
+      expect(animal.getAge(), 42);
+      animal.retainOwnership();
+      animal.dispose();
+    });
+
+    test('Function pointer taking Animal* (processor)', () {
+      final animal = Animal(17);
+      final processorPtr = Native.addressOf<
+        NativeFunction<Int Function(Pointer<Void> a)>
+      >(_nativeProcessor);
+
+      final age = applyProcessor(processorPtr, animal);
+      expect(age, 17);
+      animal.dispose();
+    });
+
+    test('Function pointer taking Animal* and mutating it (transform)', () {
+      final animal = Animal(5);
+      final transformPtr = Native.addressOf<
+        NativeFunction<Void Function(Pointer<Void> a, Int value)>
+      >(_nativeTransform);
+
+      applyTransform(transformPtr, animal, 99);
+      expect(animal.getAge(), 99);
+      animal.dispose();
     });
   });
 }

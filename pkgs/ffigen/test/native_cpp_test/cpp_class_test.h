@@ -36,4 +36,10 @@ extern "C" {
     AnimalOwner createAnimalOwner(Animal* animal, int id);
     int getAnimalOwnerAge(const AnimalOwner* owner);
     void setAnimalOwnerAge(AnimalOwner* owner, int age);
+
+    // Function pointer args/returns: Animal* in function pointer signatures.
+    Animal* applyFactory(Animal* (*factory)(int age), int age);
+    int applyProcessor(int (*processor)(Animal* a), Animal* animal);
+    void applyTransform(void (*transform)(Animal* a, int value),
+                        Animal* animal, int value);
 }

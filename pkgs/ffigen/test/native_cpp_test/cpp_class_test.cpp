@@ -75,6 +75,19 @@ extern "C" {
       owner->animal->age = age;
     }
   }
+
+  Animal* applyFactory(Animal* (*factory)(int age), int age) {
+    return factory(age);
+  }
+
+  int applyProcessor(int (*processor)(Animal* a), Animal* animal) {
+    return processor(animal);
+  }
+
+  void applyTransform(void (*transform)(Animal* a, int value),
+                      Animal* animal, int value) {
+    transform(animal, value);
+  }
 }
 Animal Animal::copyAndAddAge(Animal other) const {
   return Animal(age + other.age);
