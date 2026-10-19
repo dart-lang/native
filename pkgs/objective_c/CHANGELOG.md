@@ -1,3 +1,11 @@
+## 9.6.3-wip
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/3750) in the
+  `NSInputStream` returned by `toNSInputStream` where a read that was waiting
+  for data never returned if the stream was closed or if the isolate that
+  created the stream exited. The read now returns `-1`, and sets `streamError`
+  if the isolate exited.
+
 ## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`
