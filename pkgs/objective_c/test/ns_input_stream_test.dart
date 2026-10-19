@@ -232,7 +232,7 @@ void main() {
           await Isolate.spawn((SendPort sendPort) {
             final controller = StreamController<List<int>>(
               // Exit the isolate during the native read.
-              onResume: () => Isolate.exit(),
+              onResume: Isolate.exit,
             );
             sendPort.send(controller.stream.toNSInputStream());
           }, ready.sendPort);
