@@ -46,11 +46,15 @@ void main() {
     expect(first.title, 'C toolchain (package:my_package)');
     expect(first.type, DoctorValidationType.success);
     expect(first.statusInfo, 'Clang 16.0.0');
+    expect(first.json['title'], 'C toolchain (package:my_package)');
+    expect(first.toString(), contains('C toolchain (package:my_package)'));
     expect(first.messages, hasLength(2));
     expect(first.messages[0].type, DoctorValidationMessageType.information);
+    expect(first.messages[0].type.toString(), 'information');
     expect(first.messages[0].message, 'Clang found at /usr/bin/clang');
     expect(first.messages[0].contextUrl, 'https://example.com');
     expect(first.messages[0].piiStrippedMessage, 'Clang found at <path>');
+    expect(first.messages[0].json['message'], 'Clang found at /usr/bin/clang');
     expect(first.messages[0].toString(), 'Clang found at /usr/bin/clang');
     expect(first.messages[1].type, DoctorValidationMessageType.hint);
     expect(first.messages[1].message, 'Consider upgrading to Clang 17');
@@ -93,5 +97,28 @@ void main() {
       second.messages.single.hashCode,
       DoctorValidationMessage.error('CMake not found on PATH').hashCode,
     );
+
+    final unknownOutput = DoctorOutput({
+      'validations': [
+        {
+          'title': 'Future category',
+          'type': 'future_validation_type',
+          'messages': [
+            {'message': 'Future message', 'type': 'future_message_type'},
+          ],
+        },
+      ],
+    });
+    final unknownValidation = unknownOutput.validations.single;
+    expect(unknownValidation.type.name, 'future_validation_type');
+    expect(
+      unknownValidation.messages.single.type.name,
+      'future_message_type',
+    );
+    final roundTripped = DoctorValidationResult(
+      title: unknownValidation.title,
+      type: unknownValidation.type,
+    );
+    expect(roundTripped.type.name, 'future_validation_type');
   });
 }

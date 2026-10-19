@@ -8,6 +8,7 @@ import 'package:hooks/hooks.dart';
 
 void main(List<String> arguments) async {
   await doctor(arguments, (input, output) async {
+    print('Doctor hook stdout before crash');
     throw Exception('Unhandled exception in doctor hook');
   });
 }
