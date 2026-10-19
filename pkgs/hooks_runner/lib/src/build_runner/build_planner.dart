@@ -50,14 +50,20 @@ class NativeAssetsBuildPlanner {
     );
     assert(await packageGraphJsonFile.exists());
     final packageGraphJson = await packageGraphJsonFile.readAsString();
+    // TODO(https://github.com/dart-lang/native/issues/3748): Pass
+    // `runPackageName` and `includeDevDependencies` directly instead of reading
+    // them from `packageLayout`.
     final packageGraph = PackageGraph.fromPackageGraphJsonString(
       packageGraphJson,
       packageLayout.runPackageName,
       includeDevDependencies: packageLayout.includeDevDependencies,
     );
-    final packageGraphFromRunPackage = packageGraph.subGraph(
-      packageLayout.runPackageName,
-    );
+    final runPackageName = packageLayout.runPackageName;
+    final packageGraphFromRunPackage = runPackageName != null
+        ? packageGraph.subGraph(runPackageName)
+        : packageGraph.roots.isNotEmpty
+        ? packageGraph.subGraphFromRoots(packageGraph.roots)
+        : packageGraph;
     return NativeAssetsBuildPlanner._(
       packageGraph: packageGraphFromRunPackage,
       dartExecutable: dartExecutable,
@@ -71,18 +77,20 @@ class NativeAssetsBuildPlanner {
   /// All packages in [PackageLayout.packageConfig] with native assets.
   ///
   /// Whether a package has native assets is defined by whether it contains
-  /// a `hook/build.dart` or `hook/link.dart`.
+  /// a `hook/build.dart`, `hook/link.dart`, or `hook/doctor.dart`.
   Future<List<Package>> packagesWithHook(Hook hook) async => _timeAsync(
     'BuildPlanner.packagesWithHook',
     arguments: {'hook': hook.toString()},
     () async => switch (hook) {
       .build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
       .link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
+      .doctor => _packagesWithDoctorHook ??= await _runPackagesWithHook(hook),
     },
   );
 
   List<Package>? _packagesWithBuildHook;
   List<Package>? _packagesWithLinkHook;
+  List<Package>? _packagesWithDoctorHook;
 
   Future<List<Package>> _runPackagesWithHook(Hook hook) async {
     final packageNamesInDependencies = packageGraph.vertices.toSet();
@@ -113,6 +121,7 @@ class NativeAssetsBuildPlanner {
 
   BuildPlan? _buildHookPlan;
   BuildPlan? _linkHookPlan;
+  BuildPlan? _doctorHookPlan;
 
   /// Plans in what order to run build hooks.
   ///
@@ -157,6 +166,18 @@ class NativeAssetsBuildPlanner {
           cachedPlan: _linkHookPlan,
           setCachedPlan: (plan) => _linkHookPlan = plan,
           reverseOrder: true, // Key difference from [makeBuildHookPlan]
+        ),
+      );
+
+  /// Plans in what order to run doctor hooks.
+  Future<Result<BuildPlan, HooksRunnerFailure>> makeDoctorHookPlan() async =>
+      _timeAsync(
+        'BuildPlanner.makeDoctorHookPlan',
+        () async => _makeHookPlan(
+          hookType: Hook.doctor,
+          cachedPlan: _doctorHookPlan,
+          setCachedPlan: (plan) => _doctorHookPlan = plan,
+          reverseOrder: false,
         ),
       );
 
@@ -226,9 +247,10 @@ class NativeAssetsBuildPlanner {
 /// dependencies.
 class PackageGraph {
   final Map<String, List<String>> map;
+  final List<String> roots;
   late final Map<String, List<String>> _inverseMap = _computeInverseMap(map);
 
-  PackageGraph(this.map);
+  PackageGraph(this.map, {this.roots = const []});
 
   /// Instead of a map of package -> dependencies, get the map of package ->
   /// dependents.
@@ -247,7 +269,7 @@ class PackageGraph {
 
   factory PackageGraph.fromPackageGraphJsonString(
     String json,
-    String runPackageName, {
+    String? runPackageName, {
     required bool includeDevDependencies,
   }) => PackageGraph.fromPackageGraphJson(
     jsonDecode(json) as Map<dynamic, dynamic>,
@@ -257,10 +279,13 @@ class PackageGraph {
 
   factory PackageGraph.fromPackageGraphJson(
     Map<dynamic, dynamic> map,
-    String runPackageName, {
+    String? runPackageName, {
     required bool includeDevDependencies,
   }) {
     final result = <String, List<String>>{};
+    final roots =
+        (map['roots'] as List<dynamic>?)?.whereType<String>().toList() ?? [];
+    final rootSet = roots.toSet();
     final packages = map['packages'] as List<dynamic>;
     for (final package in packages) {
       final package_ = package as Map<dynamic, dynamic>;
@@ -268,7 +293,10 @@ class PackageGraph {
       final dependencies = (package_['dependencies'] as List<dynamic>)
           .whereType<String>()
           .toList();
-      if (name == runPackageName && includeDevDependencies) {
+      final isRootPackage = runPackageName != null
+          ? name == runPackageName
+          : rootSet.contains(name);
+      if (isRootPackage && includeDevDependencies) {
         final devDependencies =
             (package_['devDependencies'] as List<dynamic>?)
                 ?.whereType<String>()
@@ -278,7 +306,7 @@ class PackageGraph {
       }
       result[name] = dependencies;
     }
-    return PackageGraph(result);
+    return PackageGraph(result, roots: roots);
   }
 
   Iterable<String> neighborsOf(String vertex) => map[vertex] ?? [];
@@ -291,24 +319,34 @@ class PackageGraph {
   List<List<String>> computeStrongComponents() =>
       graphs.stronglyConnectedComponents(vertices, neighborsOf);
 
-  PackageGraph subGraph(String rootPackageName) {
-    if (!vertices.contains(rootPackageName)) {
+  PackageGraph subGraph(String rootPackageName) =>
+      subGraphFromRoots([rootPackageName]);
+
+  PackageGraph subGraphFromRoots(Iterable<String> rootPackageNames) {
+    final validRoots = rootPackageNames.where(vertices.contains).toList();
+    if (validRoots.isEmpty) {
       // Some downstream tooling requested a package that doesn't exist.
       // This will likely lead to an error, so avoid building native assets.
       return PackageGraph({});
     }
-    final subgraphVertices = [
-      ...graphs.transitiveClosure(vertices, neighborsOf)[rootPackageName]!,
-      rootPackageName,
-    ];
-    return PackageGraph({
-      for (final vertex in map.keys)
-        if (subgraphVertices.contains(vertex))
-          vertex: [
-            for (final neighbor in map[vertex]!)
-              if (subgraphVertices.contains(neighbor)) neighbor,
-          ],
-    });
+    final closure = graphs.transitiveClosure(vertices, neighborsOf);
+    final subgraphVertices = <String>{
+      for (final root in validRoots) ...[
+        ...closure[root]!,
+        root,
+      ],
+    };
+    return PackageGraph(
+      {
+        for (final vertex in map.keys)
+          if (subgraphVertices.contains(vertex))
+            vertex: [
+              for (final neighbor in map[vertex]!)
+                if (subgraphVertices.contains(neighbor)) neighbor,
+            ],
+      },
+      roots: validRoots,
+    );
   }
 
   // coverage:ignore-start
@@ -328,13 +366,16 @@ class PackageGraph {
   // coverage:ignore-end
 }
 
-/// The two types of scripts which are hooked into the compilation process.
+/// The types of scripts which are hooked into the compilation or diagnostics
+/// process.
 ///
 /// The `build.dart` hook runs before, and the `link.dart` hook after
-/// compilation. This enum holds static information about these hooks.
+/// compilation. The `doctor.dart` hook runs during diagnostics. This enum holds
+/// static information about these hooks.
 enum Hook {
   link('link'),
-  build('build');
+  build('build'),
+  doctor('doctor');
 
   final String _scriptName;
 
