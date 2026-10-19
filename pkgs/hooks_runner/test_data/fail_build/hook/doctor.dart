@@ -1,0 +1,14 @@
+// Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+// ignore_for_file: experimental_member_use
+
+import 'package:hooks/hooks.dart';
+
+void main(List<String> arguments) async {
+  await doctor(arguments, (input, output) async {
+    print('Doctor hook stdout before crash');
+    throw Exception('Unhandled exception in doctor hook');
+  });
+}

@@ -6,6 +6,10 @@
 - Track header dependencies in C build test projects.
 - Fail eagerly instead of waiting for timeout when running on a file system that
   does not support process locks.
+- Add experimental support for running `hook/doctor.dart` hooks across the
+  dependency graph (`NativeAssetsBuildRunner.doctor`,
+  `PackageLayout.forDoctorFromPackageConfig`,
+  `PackageLayout.forDoctorFromWorkingDirectory`, `DoctorResult`).
 
 ## 1.6.4
 

@@ -29,6 +29,26 @@
         }
       ]
     },
+    "DoctorInput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/DoctorInput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/DoctorInput"
+        }
+      ]
+    },
+    "DoctorOutput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/DoctorOutput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/DoctorOutput"
+        }
+      ]
+    },
     "HookInput": {
       "allOf": [
         {
