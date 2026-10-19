@@ -92,6 +92,8 @@
                        "DartInputStreamAdapter: close after the Dart port was closed");
     }
   }
+  // `read:maxLength:` could be waiting for data, wake it up.
+  [_dataCondition broadcast];
   [_dataCondition unlock];
 }
 
@@ -146,7 +148,11 @@
     return -1;
   }
 
-  while (([_data length] == 0) && !_done && _error == nil) {
+  while (([_data length] == 0) && !_done && _error == nil &&
+         _status != NSStreamStatusClosed) {
+    // Posting fails once the isolate that owns the port has exited. The
+    // isolate can exit without notifying this stream, so re-posting after
+    // each timed wait below is how a waiting read notices that.
     if (!Dart_PostInteger_DL(_sendPort, len)) {
       // The Dart port is closed, so no data can ever arrive: fail the read
       // instead of waiting forever (or aborting the process).
@@ -160,7 +166,13 @@
       break;
     }
 
-    [_dataCondition wait];
+    [_dataCondition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
+
+  if (_status == NSStreamStatusClosed) {
+    // `close` was called while this read was waiting.
+    [_dataCondition unlock];
+    return -1;
   }
 
   NSInteger copySize;
