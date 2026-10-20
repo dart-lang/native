@@ -477,135 +477,148 @@ class NativeAssetsBuildRunner {
   }) async => _timeAsync(
     '_runHookForPackageCached',
     arguments: {'hook': hook.name, 'package': input.packageName},
-    () async => await runUnderDirectoriesLock(
-      _fileSystem,
-      [
-        _fileSystem.directory(input.outputDirectoryShared).parent.uri,
-        _fileSystem.directory(outputDirectory).parent.uri,
-      ],
-      timeout: singleHookTimeout,
-      logger: logger,
-      () async {
-        final hookCompileResult = await _compileHookForPackageCached(
-          input.packageName,
-          buildDirUri,
-          input.packageRoot.resolve('hook/${hook.scriptName}'),
-        );
-        if (hookCompileResult.isFailure) return hookCompileResult.asFailure;
-        final (hookKernelFile, hookHashes, didRecompile) =
-            hookCompileResult.success;
-
-        final inputFile = _fileSystem.file(buildDirUri.resolve('input.json'));
-        final outputFile = _fileSystem.file(input.outputFile);
-
-        final dependenciesHashFile = buildDirUri.resolve(
-          'dependencies.dependencies_hash_file.json',
-        );
-        final dependenciesHashes = DependenciesHashFile(
+    () async {
+      try {
+        return await runUnderDirectoriesLock(
           _fileSystem,
-          fileUri: dependenciesHashFile,
-          task: _task,
-        );
-        final lastModifiedCutoffTime = DateTime.now();
-        if (await inputFile.exists() &&
-            await outputFile.exists() &&
-            await dependenciesHashes.exists()) {
-          final String? outdatedDependencyString;
-          if (didRecompile) {
-            // Note, we can only rely on didRecompile as long as the hook
-            // compilations are not shared across different `BuildConfig`s. Once
-            // we start sharing compilations across different `BuildConfig`s,
-            // we'll need to actually hash the dill file (slow because it's big)
-            // or the dart sources.
-
-            // At least one of the Dart sources of the hook changed, rerun it.
-            outdatedDependencyString =
-                'Hook Dart sources and ${hookKernelFile.path}';
-          } else {
-            final inputResult = await _readHookInputFromUri(
-              hook,
-              inputFile,
+          [
+            _fileSystem.directory(input.outputDirectoryShared).parent.uri,
+            _fileSystem.directory(outputDirectory).parent.uri,
+          ],
+          timeout: singleHookTimeout,
+          logger: logger,
+          () async {
+            final hookCompileResult = await _compileHookForPackageCached(
               input.packageName,
+              buildDirUri,
+              input.packageRoot.resolve('hook/${hook.scriptName}'),
             );
-            if (inputResult.isFailure) {
-              return const Failure(HooksRunnerFailure.hookRun);
-            }
-            final inputOld = inputResult.success;
-            if (!const DeepCollectionEquality().equals(
-              inputOld.json,
-              input.json,
-            )) {
-              outdatedDependencyString = 'Input changed';
-            } else {
-              final outputResult = await _readHookOutputFromUri(
-                hook,
-                outputFile,
-                input.packageName,
-              );
-              if (outputResult.isFailure) {
-                return const Failure(HooksRunnerFailure.hookRun);
-              }
-              final output = outputResult.success;
+            if (hookCompileResult.isFailure) return hookCompileResult.asFailure;
+            final (hookKernelFile, hookHashes, didRecompile) =
+                hookCompileResult.success;
 
-              final outdatedDependency = await dependenciesHashes
-                  .findOutdatedDependency(hookEnvironment);
-              if (outdatedDependency != null) {
-                // At least one of the build output dependencies changed, rerun
-                // the hook.
-                outdatedDependencyString = outdatedDependency;
+            final inputFile = _fileSystem.file(
+              buildDirUri.resolve('input.json'),
+            );
+            final outputFile = _fileSystem.file(input.outputFile);
+
+            final dependenciesHashFile = buildDirUri.resolve(
+              'dependencies.dependencies_hash_file.json',
+            );
+            final dependenciesHashes = DependenciesHashFile(
+              _fileSystem,
+              fileUri: dependenciesHashFile,
+              task: _task,
+            );
+            final lastModifiedCutoffTime = DateTime.now();
+            if (await inputFile.exists() &&
+                await outputFile.exists() &&
+                await dependenciesHashes.exists()) {
+              final String? outdatedDependencyString;
+              if (didRecompile) {
+                // Note, we can only rely on didRecompile as long as the hook
+                // compilations are not shared across different `BuildConfig`s.
+                // Once we start sharing compilations across different
+                // `BuildConfig`s, we'll need to actually hash the dill file
+                // (slow because it's big) or the dart sources.
+
+                // At least one of the Dart sources of the hook changed, rerun
+                // it.
+                outdatedDependencyString =
+                    'Hook Dart sources and ${hookKernelFile.path}';
               } else {
-                logger.info(
-                  'Skipping ${hook.name} for ${input.packageName}'
-                  ' in ${buildDirUri.toFilePath()}.'
-                  ' Last build on ${output.timestamp}.',
+                final inputResult = await _readHookInputFromUri(
+                  hook,
+                  inputFile,
+                  input.packageName,
                 );
-                return Success((
-                  output,
-                  [...hookHashes.fileSystemEntities, ?resources],
-                ));
-              }
-            }
-          }
-          logger.info(
-            'Rerunning ${hook.name} for ${input.packageName}'
-            ' in ${buildDirUri.toFilePath()}. '
-            '$outdatedDependencyString',
-          );
-        }
+                if (inputResult.isFailure) {
+                  return const Failure(HooksRunnerFailure.hookRun);
+                }
+                final inputOld = inputResult.success;
+                if (!const DeepCollectionEquality().equals(
+                  inputOld.json,
+                  input.json,
+                )) {
+                  outdatedDependencyString = 'Input changed';
+                } else {
+                  final outputResult = await _readHookOutputFromUri(
+                    hook,
+                    outputFile,
+                    input.packageName,
+                  );
+                  if (outputResult.isFailure) {
+                    return const Failure(HooksRunnerFailure.hookRun);
+                  }
+                  final output = outputResult.success;
 
-        final result = await _runHookForPackage(
-          hook,
-          input,
-          validator,
-          resources,
-          hookKernelFile,
-          hookEnvironment,
-          buildDirUri,
-          outputDirectory,
+                  final outdatedDependency = await dependenciesHashes
+                      .findOutdatedDependency(hookEnvironment);
+                  if (outdatedDependency != null) {
+                    // At least one of the build output dependencies changed,
+                    // rerun the hook.
+                    outdatedDependencyString = outdatedDependency;
+                  } else {
+                    logger.info(
+                      'Skipping ${hook.name} for ${input.packageName}'
+                      ' in ${buildDirUri.toFilePath()}.'
+                      ' Last build on ${output.timestamp}.',
+                    );
+                    return Success((
+                      output,
+                      [...hookHashes.fileSystemEntities, ?resources],
+                    ));
+                  }
+                }
+              }
+              logger.info(
+                'Rerunning ${hook.name} for ${input.packageName}'
+                ' in ${buildDirUri.toFilePath()}. '
+                '$outdatedDependencyString',
+              );
+            }
+
+            final result = await _runHookForPackage(
+              hook,
+              input,
+              validator,
+              resources,
+              hookKernelFile,
+              hookEnvironment,
+              buildDirUri,
+              outputDirectory,
+            );
+            if (result.isFailure) {
+              if (await dependenciesHashes.exists()) {
+                await dependenciesHashes.delete();
+              }
+              return result.asFailure;
+            } else {
+              final success = result.success;
+              final modifiedDuringBuild = await dependenciesHashes.updateHashes(
+                [...success.dependencies, ?resources],
+                lastModifiedCutoffTime,
+                hookEnvironment,
+                outputFiles: _assetFiles(success, extensions),
+              );
+              if (modifiedDuringBuild != null) {
+                logger.severe(
+                  'File modified during build. Build must be rerun.',
+                );
+              }
+              return Success((
+                success,
+                [...hookHashes.fileSystemEntities, ?resources],
+              ));
+            }
+          },
         );
-        if (result.isFailure) {
-          if (await dependenciesHashes.exists()) {
-            await dependenciesHashes.delete();
-          }
-          return result.asFailure;
-        } else {
-          final success = result.success;
-          final modifiedDuringBuild = await dependenciesHashes.updateHashes(
-            [...success.dependencies, ?resources],
-            lastModifiedCutoffTime,
-            hookEnvironment,
-            outputFiles: _assetFiles(success, extensions),
-          );
-          if (modifiedDuringBuild != null) {
-            logger.severe('File modified during build. Build must be rerun.');
-          }
-          return Success((
-            success,
-            [...hookHashes.fileSystemEntities, ?resources],
-          ));
-        }
-      },
-    ),
+      } on TimeoutException {
+        return const Failure(HooksRunnerFailure.infra);
+      } on FileSystemException {
+        return const Failure(HooksRunnerFailure.infra);
+      }
+    },
   );
 
   /// Environment variables respected by [HttpClient.findProxyFromEnvironment].
