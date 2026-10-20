@@ -98,9 +98,6 @@ static void DOBJCPerformRunLoopSource(void *info) {
   NSError *_error;
   id<NSStreamDelegate> __weak _delegate;
 
-  // Run loop scheduling. A reader that schedules the stream in a run loop
-  // only calls `read:maxLength:` after `hasBytesAvailable` returns YES or the
-  // stream sends it an event, so it never waits in `read:maxLength:`.
   NSMutableArray<DOBJCScheduledRunLoop *> *_scheduledRunLoops;
   CFRunLoopSourceRef _runLoopSource;
   BOOL _openCompletedPending;
@@ -254,8 +251,6 @@ static void DOBJCPerformRunLoopSource(void *info) {
   [_scheduledRunLoops removeAllObjects];
 }
 
-#pragma mark - Private, called without _dataCondition locked
-
 - (void)requestDataIfNeeded {
   [_dataCondition lock];
   if (_status != NSStreamStatusOpen || _done || _error != nil ||
@@ -303,8 +298,6 @@ static void DOBJCPerformRunLoopSource(void *info) {
     [delegate stream:self handleEvent:event];
   }
 }
-
-#pragma mark - NSStream
 
 - (void)scheduleInRunLoop:(NSRunLoop *)runLoop forMode:(NSString *)mode {
   if (runLoop == nil || mode == nil) {
@@ -429,8 +422,6 @@ static void DOBJCPerformRunLoopSource(void *info) {
 - (NSStreamStatus)streamStatus {
   return _status;
 }
-
-#pragma mark - NSInputStream
 
 - (NSInteger)read:(uint8_t *)buffer maxLength:(NSUInteger)len {
   if (_status == NSStreamStatusNotOpen) {
