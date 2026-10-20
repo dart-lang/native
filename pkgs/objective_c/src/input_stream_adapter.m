@@ -13,19 +13,8 @@
 // waiting stream notices that.
 static const NSTimeInterval kRetryInterval = 0.1;
 
-// The size of the data requests that a stream scheduled in a run loop sends
-// before it is read. The Dart side only checks that the value isn't -1.
+// The default amount of data to request from the Dart stream.
 static const NSUInteger kScheduledRequestSize = 4096;
-
-static NSError *DOBJCDartSideGoneError(void) {
-  return [NSError
-      errorWithDomain:@"DartInputStreamAdapter"
-                 code:0
-             userInfo:@{
-               NSLocalizedDescriptionKey :
-                   @"The Dart side of the stream is no longer available."
-             }];
-}
 
 /// A run loop, and mode, that a stream is scheduled in.
 @interface DOBJCScheduledRunLoop : NSObject
@@ -146,7 +135,13 @@ static void DOBJCPerformRunLoopSource(void *info) {
     return YES;
   }
   // The Dart port is closed, so no data can ever arrive.
-  _error = DOBJCDartSideGoneError();
+  _error = [NSError
+      errorWithDomain:@"DartInputStreamAdapter"
+                 code:0
+             userInfo:@{
+               NSLocalizedDescriptionKey :
+                   @"The Dart side of the stream is no longer available."
+             }];
   [self stopRetryTimer];
   [_dataCondition broadcast];
   [self signalScheduledRunLoops];
