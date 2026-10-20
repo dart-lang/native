@@ -39,7 +39,17 @@ static const NSUInteger kScheduledRequestSize = 4096;
 @end
 
 @interface DOBJCDartInputStreamAdapter ()
+/// Delivers XXX events to the delegate based on the current state of the stream.
+///
+/// For example, it will deliver `NSStreamEventHasBytesAvailable` if `_data` is not empty.
 - (void)deliverEvents;
+/// If the Dart stream is still active and there is no data in the buffer, sends
+/// a request to Dart for more data.
+///  This:
+/// 1. Causes `_error` to be set if `_sendPort` is unavailable, preventing a
+/// deadlock
+/// 2. Causes some data to be loaded so that `hasBytesAvailable` returns `YES`,
+/// and `read:maxLength:` can be called without blocking.
 - (void)checkDartSide;
 @end
 
