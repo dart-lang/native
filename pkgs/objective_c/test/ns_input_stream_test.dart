@@ -38,6 +38,51 @@ Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
   );
 });
 
+/// Reads [stream] asynchronously: schedules it in a run loop and only reads
+/// after a stream event, while `hasBytesAvailable` is true.
+///
+/// Returns the data, the stream events, and the final status and error.
+Future<(List<int>, List<int>, NSStreamStatus, NSError?)> readScheduled(
+  NSInputStream stream,
+) => Isolate.run(() {
+  final data = <int>[];
+  final events = <int>[];
+  var finished = false;
+  final buffer = calloc<Uint8>(1024);
+  final delegate = NSStreamDelegate$Builder.implement(
+    stream_handleEvent_: (_, event) {
+      events.add(event);
+      while (stream.hasBytesAvailable) {
+        final count = stream.read(buffer, maxLength: 1024);
+        if (count <= 0) break;
+        data.addAll(buffer.asTypedList(count));
+      }
+      if (event == NSStreamEvent.NSStreamEventEndEncountered ||
+          event == NSStreamEvent.NSStreamEventErrorOccurred) {
+        finished = true;
+      }
+    },
+  );
+  final runLoop = NSRunLoop.getCurrentRunLoop();
+  // Created at run time, unlike the `kCFRunLoopDefaultMode` constant.
+  final mode = 'kCFRunLoopDefaultMode'.toNSString();
+  stream.delegate = delegate;
+  stream.scheduleInRunLoop(runLoop, forMode: mode);
+  stream.open();
+  final deadline = DateTime.now().add(const Duration(seconds: 5));
+  while (!finished && DateTime.now().isBefore(deadline)) {
+    runLoop.acceptInputForMode(
+      mode,
+      beforeDate: NSDate.dateWithTimeIntervalSinceNow(0.1),
+    );
+  }
+  calloc.free(buffer);
+  stream.removeFromRunLoop(runLoop, forMode: mode);
+  stream.delegate = null;
+  delegate.ref.release();
+  return (data, events, stream.streamStatus, stream.streamError);
+});
+
 void main() {
   group('NSInputStream', () {
     group('toNSInputStream', () {
@@ -248,6 +293,115 @@ void main() {
           expect(hasBytesAvailable, false);
           expect(status, NSStreamStatus.NSStreamStatusError);
           expect(error, isNotNull);
+        });
+      });
+
+      group('scheduled in a run loop', () {
+        test('hasBytesAvailable', () async {
+          final controller = StreamController<List<int>>();
+          final inputStream = controller.stream.toNSInputStream();
+          addTearDown(inputStream.close);
+          inputStream.scheduleInRunLoop(
+            NSRunLoop.getCurrentRunLoop(),
+            forMode: 'kCFRunLoopDefaultMode'.toNSString(),
+          );
+          inputStream.open();
+          expect(inputStream.hasBytesAvailable, isFalse);
+
+          controller.add([1]);
+          final deadline = DateTime.now().add(const Duration(seconds: 5));
+          while (!inputStream.hasBytesAvailable &&
+              DateTime.now().isBefore(deadline)) {
+            await Future<void>.delayed(const Duration(milliseconds: 10));
+          }
+          expect(inputStream.hasBytesAvailable, isTrue);
+        });
+
+        test('read', () async {
+          final controller = StreamController<List<int>>();
+          final inputStream = controller.stream.toNSInputStream();
+          addTearDown(inputStream.close);
+          final reading = readScheduled(inputStream);
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          controller.add([1, 2, 3]);
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          controller.add([4, 5]);
+          // Without run loop support, the subscription stays paused and this
+          // never completes.
+          unawaited(controller.close());
+          final (data, events, status, error) = await reading;
+          expect(data, [1, 2, 3, 4, 5]);
+          expect(
+            events,
+            containsAllInOrder([
+              NSStreamEvent.NSStreamEventOpenCompleted,
+              NSStreamEvent.NSStreamEventHasBytesAvailable,
+              NSStreamEvent.NSStreamEventEndEncountered,
+            ]),
+          );
+          expect(status, NSStreamStatus.NSStreamStatusAtEnd);
+          expect(error, isNull);
+        });
+
+        test('isolate exits', () async {
+          final ready = ReceivePort();
+          await Isolate.spawn((SendPort sendPort) {
+            final controller = StreamController<List<int>>(
+              // Exit the isolate when the stream asks for data.
+              onResume: Isolate.exit,
+            );
+            sendPort.send(controller.stream.toNSInputStream());
+          }, ready.sendPort);
+          final inputStream = await ready.first as NSInputStream;
+          addTearDown(inputStream.close);
+          final (data, events, status, error) = await readScheduled(
+            inputStream,
+          );
+          expect(data, isEmpty);
+          expect(events, contains(NSStreamEvent.NSStreamEventErrorOccurred));
+          expect(status, NSStreamStatus.NSStreamStatusError);
+          expect(error, isNotNull);
+        });
+
+        test('scheduled again after being removed', () async {
+          var paused = Completer<void>();
+          final resumed = Completer<void>();
+          final controller = StreamController<List<int>>(
+            onPause: () {
+              if (!paused.isCompleted) paused.complete();
+            },
+            onResume: () {
+              if (!resumed.isCompleted) resumed.complete();
+            },
+          );
+          final inputStream = controller.stream.toNSInputStream();
+          addTearDown(inputStream.close);
+          // `toNSInputStream` pauses the stream until data is requested.
+          paused = Completer<void>();
+          final runLoop = NSRunLoop.getCurrentRunLoop();
+          final mode = 'kCFRunLoopDefaultMode'.toNSString();
+          inputStream.scheduleInRunLoop(runLoop, forMode: mode);
+          inputStream.open();
+          await resumed.future;
+          inputStream.removeFromRunLoop(runLoop, forMode: mode);
+
+          // Add more than the stream buffers ahead, so that the stream is
+          // paused, and then empty the buffer with an unscheduled read.
+          controller.add(List.filled(5000, 1));
+          await paused.future;
+          final buffer = calloc<Uint8>(5000);
+          addTearDown(() => calloc.free(buffer));
+          expect(inputStream.read(buffer, maxLength: 5000), 5000);
+
+          controller.add([1, 2, 3]);
+          unawaited(controller.close());
+          final (data, events, status, error) = await readScheduled(
+            inputStream,
+          );
+          expect(data, [1, 2, 3]);
+          expect(events, contains(NSStreamEvent.NSStreamEventEndEncountered));
+          expect(status, NSStreamStatus.NSStreamStatusAtEnd);
+          expect(error, isNull);
         });
       });
     });
