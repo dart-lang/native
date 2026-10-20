@@ -45,11 +45,12 @@ static const NSUInteger kScheduledRequestSize = 4096;
 - (void)deliverEvents;
 /// If the Dart stream is still active and there is no data in the buffer, sends
 /// a request to Dart for more data.
-///  This:
-/// 1. Causes `_error` to be set if `_sendPort` is unavailable, preventing a
-/// deadlock
-/// 2. Causes some data to be loaded so that `hasBytesAvailable` returns `YES`,
-/// and `read:maxLength:` can be called without blocking.
+///  This Causes `_error` to be set if `_sendPort` is closed, preventing a
+/// deadlock because XXX.
+///  If the `_sendPort` is still active, then Dart will (eventually) respond by
+/// providing more data, calling `setError` or calling `setDone`. Any of these will
+/// cause `hasBytesAvailable` to return `YES` and cause `deliverEvents` to deliver
+/// an appropriate message.
 - (void)checkDartSide;
 @end
 
