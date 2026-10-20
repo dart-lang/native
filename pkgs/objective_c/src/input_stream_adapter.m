@@ -75,7 +75,7 @@ static const NSUInteger kScheduledRequestSize = 4096;
 ///
 /// Stops `_retryTimer` once the stream is closed, done, has an error, or is no
 /// longer scheduled in any run loop.
-- (void)checkDartSide;
+- (void)requestDataIfNeeded;
 @end
 
 // The perform callback of the run loop source that delivers stream events.
@@ -230,7 +230,7 @@ static void DOBJCPerformRunLoopSource(void *info) {
                             interval, interval / 10);
   dispatch_source_set_event_handler(_retryTimer, ^{
     @autoreleasepool {
-      [holder.adapter checkDartSide];
+      [holder.adapter requestDataIfNeeded];
     }
   });
   dispatch_resume(_retryTimer);
@@ -256,7 +256,7 @@ static void DOBJCPerformRunLoopSource(void *info) {
 
 #pragma mark - Private, called without _dataCondition locked
 
-- (void)checkDartSide {
+- (void)requestDataIfNeeded {
   [_dataCondition lock];
   if (_status != NSStreamStatusOpen || _done || _error != nil ||
       _scheduledRunLoops.count == 0) {
