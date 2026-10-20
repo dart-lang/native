@@ -39,18 +39,42 @@ static const NSUInteger kScheduledRequestSize = 4096;
 @end
 
 @interface DOBJCDartInputStreamAdapter ()
-/// Delivers XXX events to the delegate based on the current state of the stream.
+/// Delivers `NSStreamEvent` events to the delegate based on the current state
+/// of the stream.
 ///
-/// For example, it will deliver `NSStreamEventHasBytesAvailable` if `_data` is not empty.
+/// Invoked on the run loops that the stream is scheduled in after
+/// `signalScheduledRunLoops` signals `_runLoopSource`.
+///
+/// Delivers `NSStreamEventOpenCompleted` (once after `open`), followed by at
+/// most one of:
+/// - `NSStreamEventErrorOccurred` (once, if `_error` is set),
+/// - `NSStreamEventHasBytesAvailable` (whenever `_data` is not empty), or
+/// - `NSStreamEventEndEncountered` (once, when `_done` is `YES` and `_data` is
+///   empty).
 - (void)deliverEvents;
-/// If the Dart stream is still active and there is no data in the buffer, sends
-/// a request to Dart for more data.
-///  This Causes `_error` to be set if `_sendPort` is closed, preventing a
-/// deadlock because XXX.
-///  If the `_sendPort` is still active, then Dart will (eventually) respond by
-/// providing more data, calling `setError` or calling `setDone`. Any of these will
-/// cause `hasBytesAvailable` to return `YES` and cause `deliverEvents` to deliver
-/// an appropriate message.
+
+/// Periodically called by `_retryTimer` while the stream is scheduled in a run
+/// loop.
+///
+/// If the stream is still active and `_data` is empty, sends a request to Dart
+/// for more data:
+/// - If `_sendPort` has been closed (for example, because the Dart isolate
+///   exited without closing the stream), `requestData:` sets `_error` and
+///   signals the scheduled run loops. This prevents a deadlock because a
+///   run-loop reader waits for a stream event before calling `read:maxLength:`
+///   and would otherwise wait forever.
+/// - If `_sendPort` is still active, Dart will eventually respond by calling
+///   `addData:`, `setError:`, or `setDone`. Any of these causes
+///   `hasBytesAvailable` to return `YES` and signals the scheduled run loops so
+///   `deliverEvents` delivers the appropriate event.
+///
+/// Does not request data when `_data` is non-empty because every request
+/// resumes the Dart `StreamSubscription` (which would bypass Dart's read-ahead
+/// limit), and `read:maxLength:` requests more data itself once `_data` is
+/// drained.
+///
+/// Stops `_retryTimer` once the stream is closed, done, has an error, or is no
+/// longer scheduled in any run loop.
 - (void)checkDartSide;
 @end
 
@@ -232,7 +256,6 @@ static void DOBJCPerformRunLoopSource(void *info) {
 
 #pragma mark - Private, called without _dataCondition locked
 
-// Called by the retry timer.
 - (void)checkDartSide {
   [_dataCondition lock];
   if (_status != NSStreamStatusOpen || _done || _error != nil ||
@@ -244,8 +267,6 @@ static void DOBJCPerformRunLoopSource(void *info) {
   [_dataCondition unlock];
 }
 
-// Sends stream events to the delegate. Runs on the run loops that the stream
-// is scheduled in, after `signalScheduledRunLoops`.
 - (void)deliverEvents {
   [_dataCondition lock];
   if (_status == NSStreamStatusNotOpen || _status == NSStreamStatusClosed) {
