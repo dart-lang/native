@@ -33,7 +33,9 @@
 - Fix a crash during code generation when a typedef refers to a function
   pointer with an unsupported parameter type (e.g. a C++ reference). Such
   typedefs are now skipped like other unsupported typedefs, so struct members
-  and functions using them are dropped instead of crashing the writer.
+- Handle ambiguous C++ diamond inheritance by generating disambiguated methods
+  named `<method>$<Base>` and qualifying C++ member access with the base class
+  name (#3544).
 
 ## 22.0.0
 
