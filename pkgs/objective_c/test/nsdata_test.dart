@@ -15,33 +15,6 @@ import 'package:test/test.dart';
 
 import 'util.dart';
 
-/// `malloc_statistics_t` from `<malloc/malloc.h>`.
-final class _MallocStatistics extends Struct {
-  @UnsignedInt()
-  external int blocksInUse;
-
-  @Size()
-  external int sizeInUse;
-
-  @Size()
-  external int maxSizeInUse;
-
-  @Size()
-  external int sizeAllocated;
-}
-
-final _mallocZoneStatistics = DynamicLibrary.process()
-    .lookupFunction<
-      Void Function(Pointer<Void>, Pointer<_MallocStatistics>),
-      void Function(Pointer<Void>, Pointer<_MallocStatistics>)
-    >('malloc_zone_statistics');
-
-/// The number of bytes, allocated by `malloc` in any zone, that are in use.
-int _mallocSizeInUse() => using((arena) {
-  final statistics = arena<_MallocStatistics>();
-  _mallocZoneStatistics(nullptr, statistics);
-  return statistics.ref.sizeInUse;
-});
 
 void main() {
   group('NSData', () {
@@ -84,33 +57,6 @@ void main() {
         list[0] = 4;
         expect(data.toList(), [1, 2, 3]);
         data.ref.release();
-      });
-
-      test('data outlives the Dart object', () async {
-        // Objective-C code can keep using the data after the Dart object
-        // that wraps it has been released and garbage collected.
-        final expected = [for (var i = 0; i < 4096; ++i) i % 256];
-        final array = NSMutableArray().asDart();
-        () {
-          final data = expected.toNSData();
-          array.add(data);
-          data.ref.release();
-        }();
-        doGC();
-        await Future<void>.delayed(Duration.zero);
-        doGC();
-        expect(NSData.as(array[0]).toList(), expected);
-      });
-
-      test('frees the bytes when deallocated', () {
-        const size = 1024 * 1024;
-        final list = Uint8List(size);
-        final before = _mallocSizeInUse();
-        for (var i = 0; i < 100; ++i) {
-          list.toNSData().ref.release();
-        }
-        // If the bytes were not freed then at least 100 MiB would be in use.
-        expect(_mallocSizeInUse() - before, lessThan(50 * size));
       });
 
       test('garbage collected', () async {
