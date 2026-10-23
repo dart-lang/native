@@ -1,3 +1,7 @@
+## 9.6.3-wip
+
+- Make `toNSData` copy the data once, rather than twice.
+
 ## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`
