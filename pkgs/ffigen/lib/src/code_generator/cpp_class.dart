@@ -27,6 +27,9 @@ class CppMethod extends AstNode with HasLocalScope {
   final bool isStatic;
   final CppMethodKind kind;
   final CppClass? originatingClass;
+  final bool qualifySelf;
+  final bool isAmbiguous;
+  final List<CppClass> ambiguousBases;
 
   bool isIncluded = true;
 
@@ -40,17 +43,30 @@ class CppMethod extends AstNode with HasLocalScope {
     this.isStatic = false,
     this.kind = CppMethodKind.method,
     this.originatingClass,
+    this.qualifySelf = false,
+    this.isAmbiguous = false,
+    this.ambiguousBases = const [],
   });
 
   bool get isConstructor => kind == .constructor;
 
-  CppMethod cloneForClass(CppClass targetClass, CppClass baseClass) {
+  CppMethod cloneForClass(
+    CppClass targetClass,
+    CppClass baseClass, {
+    String? disambiguationSuffix,
+    bool qualifySelf = false,
+  }) {
+    final dartName = disambiguationSuffix != null
+        ? '${name.oldName}\$$disambiguationSuffix'
+        : null;
+    final cSymbolName = disambiguationSuffix != null
+        ? '${targetClass.originalName}_${originalName}_$disambiguationSuffix'
+        : '${targetClass.originalName}_$originalName';
     return CppMethod(
-      name: name.clone(),
-      cBindingSymbol: Symbol(
-        '${targetClass.originalName}_$originalName',
-        SymbolKind.method,
-      ),
+      name: dartName != null
+          ? Symbol(dartName, SymbolKind.method)
+          : name.clone(),
+      cBindingSymbol: Symbol(cSymbolName, SymbolKind.method),
       originalName: originalName,
       returnType: returnType,
       parameters: parameters.map((p) => p.clone()).toList(),
@@ -58,6 +74,7 @@ class CppMethod extends AstNode with HasLocalScope {
       isStatic: isStatic,
       kind: kind,
       originatingClass: baseClass,
+      qualifySelf: qualifySelf,
     );
   }
 
@@ -139,6 +156,35 @@ class CppClass extends BindingType with HasLocalScope {
   void copyMethod(CppMethod method, CppClass originatingBase) {
     final cloned = method.cloneForClass(this, originatingBase);
     methods.add(cloned);
+  }
+
+  void copyDisambiguatedMethod(CppMethod method, CppClass baseBranch) {
+    final cloned = method.cloneForClass(
+      this,
+      baseBranch,
+      disambiguationSuffix: baseBranch.name,
+      qualifySelf: true,
+    );
+    methods.add(cloned);
+  }
+
+  void addAmbiguousMethod(CppMethod method, List<CppClass> ambiguousBases) {
+    final ambiguous = CppMethod(
+      name: method.name.clone(),
+      cBindingSymbol: Symbol(
+        '${originalName}_${method.originalName}',
+        SymbolKind.method,
+      ),
+      originalName: method.originalName,
+      returnType: method.returnType,
+      parameters: method.parameters.map((p) => p.clone()).toList(),
+      isConstant: method.isConstant,
+      isStatic: method.isStatic,
+      kind: method.kind,
+      isAmbiguous: true,
+      ambiguousBases: ambiguousBases,
+    );
+    methods.add(ambiguous);
   }
 
   void filterMethods(bool Function(CppMethod method) predicate) {
@@ -293,6 +339,25 @@ class $name implements $implementsClause {
     }
 
     for (final method in classMethods) {
+      if (method.isAmbiguous) {
+        final dartReturn = method.returnType.getDartType(ctx);
+        final dartParams = dartParamList(method.parameters);
+        final callAlternatives = method.ambiguousBases
+            .map((b) => '${method.name}\$${b.name}()')
+            .join(' or ');
+        final escapedAlternatives = Namer.stringLiteral(callAlternatives);
+        s.write('''
+  @override
+  $dartReturn ${method.name}($dartParams) {
+    throw UnsupportedError(
+      '${method.name} is ambiguous on $name. '
+      'Call $escapedAlternatives instead.',
+    );
+  }
+''');
+        continue;
+      }
+
       final glue = '_${method.cBindingSymbol.name}';
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = dartParamList(method.parameters);
@@ -379,6 +444,7 @@ class $name implements $implementsClause {
     }
 
     for (final method in methods) {
+      if (method.isAmbiguous) continue;
       final symbol = method.cBindingSymbol.name;
       final glue = '_$symbol';
 
@@ -436,6 +502,7 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
 }''';
 
     final methodBindings = methods
+        .where((method) => !method.isAmbiguous)
         .map((method) {
           final symbol = method.cBindingSymbol.name;
 
@@ -468,7 +535,11 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
               final selfType = '$constPrefix$originalName';
               params = ['$selfType* self', ...otherParams].join(', ');
               final methodName = method.originalName;
-              callExpr = 'self->$methodName($callArgs)';
+              final qualifier =
+                  method.qualifySelf && method.originatingClass != null
+                  ? '${method.originatingClass!.originalName}::'
+                  : '';
+              callExpr = 'self->$qualifier$methodName($callArgs)';
             }
 
             if (method.returnType == voidType) {
