@@ -7,10 +7,26 @@
 #import <Foundation/Foundation.h>
 #include <os/log.h>
 
+// Data smaller than this is copied into a shared buffer, so that reads copy
+// from fewer, larger chunks. Larger data is kept as-is, without copying it.
+static const NSUInteger kCoalesceLimit = 32 * 1024;
+
+// The maximum size of a shared buffer.
+static const NSUInteger kCoalesceBufferSize = 64 * 1024;
+
 @implementation DOBJCDartInputStreamAdapter {
   Dart_Port _sendPort;
   NSCondition *_dataCondition;
-  NSMutableData *_data;
+  // The data that has been added but not yet read, oldest first. Data is read
+  // directly from these chunks, so reading doesn't move the data that hasn't
+  // been read yet.
+  NSMutableArray<NSData *> *_chunks;
+  // The number of bytes of `_chunks[0]` that have already been read.
+  NSUInteger _chunkOffset;
+  // The number of bytes in `_chunks` that have not been read.
+  NSUInteger _available;
+  // The last element of `_chunks`, if small data can be appended to it.
+  NSMutableData *_coalesceBuffer;
   NSStreamStatus _status;
   BOOL _done;
   NSError *_error;
@@ -22,7 +38,9 @@
   if (stream != nil) {
     stream->_sendPort = sendPort;
     stream->_dataCondition = [[NSCondition alloc] init];
-    stream->_data = [[NSMutableData alloc] init];
+    stream->_chunks = [[NSMutableArray alloc] init];
+    stream->_chunkOffset = 0;
+    stream->_available = 0;
     stream->_done = NO;
     stream->_status = NSStreamStatusNotOpen;
     stream->_error = nil;
@@ -40,11 +58,27 @@
 }
 
 - (NSUInteger)addData:(NSData *)data {
+  const NSUInteger length = [data length];
+  // `copy` doesn't copy the bytes of immutable data.
+  NSData *chunk = length >= kCoalesceLimit ? [data copy] : nil;
   [_dataCondition lock];
-  [_data appendData:data];
+  if (chunk != nil) {
+    [_chunks addObject:chunk];
+    _coalesceBuffer = nil;
+  } else if (length > 0) {
+    if (_coalesceBuffer == nil ||
+        [_coalesceBuffer length] + length > kCoalesceBufferSize) {
+      _coalesceBuffer =
+          [[NSMutableData alloc] initWithCapacity:kCoalesceBufferSize];
+      [_chunks addObject:_coalesceBuffer];
+    }
+    [_coalesceBuffer appendData:data];
+  }
+  _available += length;
+  const NSUInteger available = _available;
   [_dataCondition broadcast];
   [_dataCondition unlock];
-  return [_data length];
+  return available;
 }
 
 - (void)setDone {
@@ -146,7 +180,7 @@
     return -1;
   }
 
-  while (([_data length] == 0) && !_done && _error == nil) {
+  while (_available == 0 && !_done && _error == nil) {
     if (!Dart_PostInteger_DL(_sendPort, len)) {
       // The Dart port is closed, so no data can ever arrive: fail the read
       // instead of waiting forever (or aborting the process).
@@ -165,14 +199,26 @@
 
   NSInteger copySize;
   if (_error == nil) {
-    copySize = MIN(len, [_data length]);
-    NSRange readRange = NSMakeRange(0, copySize);
-    [_data getBytes:(void *)buffer range:readRange];
-    // Shift the remaining data over to the beginning of the buffer.
-    // NOTE: this makes small reads expensive!
-    [_data replaceBytesInRange:readRange withBytes:NULL length:0];
+    NSUInteger copied = 0;
+    while (copied < len && [_chunks count] > 0) {
+      NSData *chunk = _chunks[0];
+      const NSUInteger chunkLength = [chunk length];
+      const NSUInteger count = MIN(len - copied, chunkLength - _chunkOffset);
+      [chunk getBytes:buffer + copied range:NSMakeRange(_chunkOffset, count)];
+      copied += count;
+      _chunkOffset += count;
+      if (_chunkOffset == chunkLength) {
+        if (chunk == _coalesceBuffer) {
+          _coalesceBuffer = nil;
+        }
+        [_chunks removeObjectAtIndex:0];
+        _chunkOffset = 0;
+      }
+    }
+    _available -= copied;
+    copySize = copied;
 
-    if (_done && [_data length] == 0) {
+    if (_done && _available == 0) {
       _status = NSStreamStatusAtEnd;
     }
   } else {
