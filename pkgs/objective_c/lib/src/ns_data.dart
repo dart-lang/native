@@ -46,9 +46,12 @@ extension NSDataListExtension on List<int> {
     final buffer = malloc<Uint8>(length);
     buffer.asTypedList(length).setAll(0, this);
 
-    final nsData = NSData.alloc().initWithBytes(buffer.cast(), length: length);
-    malloc.free(buffer);
-
-    return nsData;
+    // The `NSData` takes ownership of `buffer`, and frees it with `free` when
+    // it is deallocated, so that the bytes are only copied once.
+    return NSData.alloc().initWithBytesNoCopy$2(
+      buffer.cast(),
+      length: length,
+      freeWhenDone: true,
+    );
   }
 }

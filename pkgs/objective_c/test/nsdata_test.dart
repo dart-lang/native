@@ -7,12 +7,41 @@
 library;
 
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
 import 'util.dart';
+
+/// `malloc_statistics_t` from `<malloc/malloc.h>`.
+final class _MallocStatistics extends Struct {
+  @UnsignedInt()
+  external int blocksInUse;
+
+  @Size()
+  external int sizeInUse;
+
+  @Size()
+  external int maxSizeInUse;
+
+  @Size()
+  external int sizeAllocated;
+}
+
+final _mallocZoneStatistics = DynamicLibrary.process()
+    .lookupFunction<
+      Void Function(Pointer<Void>, Pointer<_MallocStatistics>),
+      void Function(Pointer<Void>, Pointer<_MallocStatistics>)
+    >('malloc_zone_statistics');
+
+/// The number of bytes, allocated by `malloc` in any zone, that are in use.
+int _mallocSizeInUse() => using((arena) {
+  final statistics = arena<_MallocStatistics>();
+  _mallocZoneStatistics(nullptr, statistics);
+  return statistics.ref.sizeInUse;
+});
 
 void main() {
   group('NSData', () {
@@ -37,6 +66,51 @@ void main() {
         expect(data.length, 1);
         expect(data.bytes.cast<Uint8>().value, 1);
         data.ref.release(); // Make sure that dealloc succeeds.
+      });
+
+      test('large', () {
+        final list = Uint8List.fromList([
+          for (var i = 0; i < 1024 * 1024; ++i) i * 7,
+        ]);
+        final data = list.toNSData();
+        expect(data.length, list.length);
+        expect(data.toList(), list);
+        data.ref.release(); // Make sure that dealloc succeeds.
+      });
+
+      test('copies the list', () {
+        final list = [1, 2, 3];
+        final data = list.toNSData();
+        list[0] = 4;
+        expect(data.toList(), [1, 2, 3]);
+        data.ref.release();
+      });
+
+      test('data outlives the Dart object', () async {
+        // Objective-C code can keep using the data after the Dart object
+        // that wraps it has been released and garbage collected.
+        final expected = [for (var i = 0; i < 4096; ++i) i % 256];
+        final array = NSMutableArray().asDart();
+        () {
+          final data = expected.toNSData();
+          array.add(data);
+          data.ref.release();
+        }();
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(NSData.as(array[0]).toList(), expected);
+      });
+
+      test('frees the bytes when deallocated', () {
+        const size = 1024 * 1024;
+        final list = Uint8List(size);
+        final before = _mallocSizeInUse();
+        for (var i = 0; i < 100; ++i) {
+          list.toNSData().ref.release();
+        }
+        // If the bytes were not freed then at least 100 MiB would be in use.
+        expect(_mallocSizeInUse() - before, lessThan(50 * size));
       });
 
       test('garbage collected', () async {
