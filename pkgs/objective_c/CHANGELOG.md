@@ -1,3 +1,10 @@
+## 9.6.3-wip
+
+- Make the `NSInputStream` returned by `toNSInputStream` avoid copying the
+  data added to it, and avoid moving the unread data after every read. For
+  large chunks of data, this makes reading up to 1.8x faster and halves memory
+  use.
+
 ## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`

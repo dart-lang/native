@@ -10,7 +10,15 @@
 @implementation DOBJCDartInputStreamAdapter {
   Dart_Port _sendPort;
   NSCondition *_dataCondition;
-  NSMutableData *_data;
+  // The data that has been added with `addData:` but not yet read, oldest first.
+  //
+  // In the pathological case, the Dart stream will produce a single byte,
+  // which will cause `_chunks` to use about 50 MiB for 1 MiB of data.
+  NSMutableArray<NSData *> *_chunks;
+  // The number of bytes of `_chunks[0]` that have already been read.
+  NSUInteger _chunkOffset;
+  // The number of bytes in all `_chunks` that have not been read.
+  NSUInteger _available;
   NSStreamStatus _status;
   BOOL _done;
   NSError *_error;
@@ -22,7 +30,9 @@
   if (stream != nil) {
     stream->_sendPort = sendPort;
     stream->_dataCondition = [[NSCondition alloc] init];
-    stream->_data = [[NSMutableData alloc] init];
+    stream->_chunks = [[NSMutableArray alloc] init];
+    stream->_chunkOffset = 0;
+    stream->_available = 0;
     stream->_done = NO;
     stream->_status = NSStreamStatusNotOpen;
     stream->_error = nil;
@@ -40,11 +50,18 @@
 }
 
 - (NSUInteger)addData:(NSData *)data {
+  // `copy:` doesn't copy the bytes of immutable data, which is what the Dart
+  // side provides.
+  NSData *chunk = [data copy];
   [_dataCondition lock];
-  [_data appendData:data];
+  if ([chunk length] > 0) {
+    [_chunks addObject:chunk];
+    _available += [chunk length];
+  }
+  const NSUInteger available = _available;
   [_dataCondition broadcast];
   [_dataCondition unlock];
-  return [_data length];
+  return available;
 }
 
 - (void)setDone {
@@ -146,7 +163,7 @@
     return -1;
   }
 
-  while (([_data length] == 0) && !_done && _error == nil) {
+  while (_available == 0 && !_done && _error == nil) {
     if (!Dart_PostInteger_DL(_sendPort, len)) {
       // The Dart port is closed, so no data can ever arrive: fail the read
       // instead of waiting forever (or aborting the process).
@@ -165,14 +182,24 @@
 
   NSInteger copySize;
   if (_error == nil) {
-    copySize = MIN(len, [_data length]);
-    NSRange readRange = NSMakeRange(0, copySize);
-    [_data getBytes:(void *)buffer range:readRange];
-    // Shift the remaining data over to the beginning of the buffer.
-    // NOTE: this makes small reads expensive!
-    [_data replaceBytesInRange:readRange withBytes:NULL length:0];
+    NSUInteger copied = 0;
+    while (copied < len && [_chunks count] > 0) {
+      NSData *chunk = _chunks[0];
+      const NSUInteger chunkLength = [chunk length];
+      const NSUInteger count = MIN(len - copied, chunkLength - _chunkOffset);
+      [chunk getBytes:buffer + copied range:NSMakeRange(_chunkOffset, count)];
+      copied += count;
+      _chunkOffset += count;
+      if (_chunkOffset == chunkLength) {
+        // `NSMutableArray` is a implemented using a circular buffer, so this is efficient.
+        [_chunks removeObjectAtIndex:0];
+        _chunkOffset = 0;
+      }
+    }
+    _available -= copied;
+    copySize = copied;
 
-    if (_done && [_data length] == 0) {
+    if (_done && _available == 0) {
       _status = NSStreamStatusAtEnd;
     }
   } else {
