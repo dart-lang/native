@@ -14,6 +14,7 @@ import '../built_in/built_in_declaration.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
+import 'members/subscript_declaration.dart';
 import 'protocol_declaration.dart';
 
 /// Describes the declaration of a Swift class.
@@ -39,6 +40,9 @@ class ClassDeclaration extends AstNode
 
   @override
   List<MethodDeclaration> methods;
+
+  @override
+  List<SubscriptDeclaration> subscripts;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -82,6 +86,7 @@ class ClassDeclaration extends AstNode
     this.lineNumber,
     this.properties = const [],
     this.methods = const [],
+    this.subscripts = const [],
     this.nestingParent,
     this.nestedDeclarations = const [],
     this.conformedProtocols = const [],
@@ -107,6 +112,7 @@ class ClassDeclaration extends AstNode
     super.visitChildren(visitor);
     visitor.visitAll(properties);
     visitor.visitAll(methods);
+    visitor.visitAll(subscripts);
     visitor.visitAll(conformedProtocols);
     visitor.visitAll(typeParams);
     visitor.visit(superClass);

@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/_core/shared/parameter.dart';
-import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
 import '../../../context.dart';
@@ -28,7 +27,7 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
     name: parseSymbolName(symbol.json),
     source: symbol.source,
     availability: parseAvailability(symbol.json),
-    returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
+    returnType: parseReturnType(context, symbol.json, symbolgraph),
     params: info.params,
     throws: info.throws,
     async: info.async,
@@ -54,7 +53,7 @@ MethodDeclaration parseMethodDeclaration(
     source: symbol.source,
     lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
-    returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
+    returnType: parseReturnType(context, symbol.json, symbolgraph),
     params: info.params,
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
     isStatic: isStatic,
@@ -79,6 +78,7 @@ ParsedFunctionInfo parseFunctionInfo(
   ParsedSymbolgraph symbolgraph, {
   bool isEnumCase = false,
   bool isOperator = false,
+  bool isSubscript = false,
 }) {
   // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc.
@@ -116,7 +116,10 @@ ParsedFunctionInfo parseFunctionInfo(
   while (true) {
     final keyword = maybeConsume('keyword');
     if (keyword != null) {
-      if (keyword == 'func' || keyword == 'init' || keyword == 'case') {
+      if (keyword == 'func' ||
+          keyword == 'init' ||
+          keyword == 'case' ||
+          keyword == 'subscript') {
         if (keyword == 'func' && isOperator) {
           final ws1 = maybeConsume('text');
           final op = maybeConsume('identifier');
@@ -144,6 +147,11 @@ ParsedFunctionInfo parseFunctionInfo(
     // Parse parameters until we find a ')'.
     if (maybeConsume('text') == ')') {
       // Empty param list.
+      if (isSubscript &&
+          tokens.isNotEmpty &&
+          getSpellingForKind(tokens[0], 'text') == ']') {
+        maybeConsume('text');
+      }
     } else {
       while (true) {
         final externalParam = maybeConsume('externalParam');
@@ -169,6 +177,11 @@ ParsedFunctionInfo parseFunctionInfo(
           if (maybeConsume('text') != ':') {
             throw malformedInitializerException;
           }
+        } else if (isSubscript) {
+          internalParam = maybeConsume('internalParam');
+          if (maybeConsume('text') != ':') {
+            throw malformedInitializerException;
+          }
         } else if (!isEnumCase) {
           // Enum cases are allowed to omit both param names. Other param lists
           // must at least specify the external name.
@@ -179,14 +192,23 @@ ParsedFunctionInfo parseFunctionInfo(
 
         parameters.add(
           Parameter(
-            name: isOperator ? (internalParam ?? '') : (externalParam ?? ''),
+            name: isOperator
+                ? (internalParam ?? '')
+                : (externalParam ?? (isSubscript ? '_' : '')),
             internalName: isOperator ? null : internalParam,
             type: type,
           ),
         );
 
         final end = maybeConsume('text');
-        if (end == ')') break;
+        if (end == ')') {
+          if (isSubscript &&
+              tokens.isNotEmpty &&
+              getSpellingForKind(tokens[0], 'text') == ']') {
+            maybeConsume('text');
+          }
+          break;
+        }
         if (end != ',') {
           throw malformedInitializerException;
         }
@@ -197,12 +219,21 @@ ParsedFunctionInfo parseFunctionInfo(
   // Parse annotations until we run out. The annotations are keywords separated
   // by whitespace tokens.
   final annotations = <String>{};
-  while (true) {
-    final keyword = maybeConsume('keyword');
-    if (keyword == null) {
-      if (maybeConsume('text') != '') break;
-    } else {
-      annotations.add(keyword);
+  if (isSubscript) {
+    for (final token in tokens) {
+      final keyword = getSpellingForKind(token, 'keyword');
+      if (keyword != null) {
+        annotations.add(keyword);
+      }
+    }
+  } else {
+    while (true) {
+      final keyword = maybeConsume('keyword');
+      if (keyword == null) {
+        if (maybeConsume('text') != '') break;
+      } else {
+        annotations.add(keyword);
+      }
     }
   }
 
@@ -212,15 +243,4 @@ ParsedFunctionInfo parseFunctionInfo(
     async: annotations.contains('async'),
     mutating: prefixAnnotations.contains('mutating'),
   );
-}
-
-ReferredType _parseFunctionReturnType(
-  Context context,
-  Json symbolJson,
-  ParsedSymbolgraph symbolgraph,
-) {
-  final returnJson = TokenList(symbolJson['functionSignature']['returns']);
-  final (returnType, unparsed) = parseType(context, symbolgraph, returnJson);
-  assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
-  return returnType;
 }
