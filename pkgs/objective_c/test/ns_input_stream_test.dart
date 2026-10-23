@@ -64,7 +64,6 @@ Future<(List<int>, List<int>, NSStreamStatus, NSError?)> readScheduled(
     },
   );
   final runLoop = NSRunLoop.getCurrentRunLoop();
-  // Created at run time, unlike the `kCFRunLoopDefaultMode` constant.
   final mode = 'kCFRunLoopDefaultMode'.toNSString();
   stream.delegate = delegate;
   stream.scheduleInRunLoop(runLoop, forMode: mode);
