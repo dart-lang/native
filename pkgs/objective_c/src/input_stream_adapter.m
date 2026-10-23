@@ -10,11 +10,14 @@
 @implementation DOBJCDartInputStreamAdapter {
   Dart_Port _sendPort;
   NSCondition *_dataCondition;
-  // The data that has been added but not yet read, oldest first.
+  // The data that has been added with `addData:` but not yet read, oldest first.
+  //
+  // In the pathological case, the Dart stream will produce a single byte,
+  // which will cause `_chunks` to use about 50 MiB for 1 MiB of data.
   NSMutableArray<NSData *> *_chunks;
   // The number of bytes of `_chunks[0]` that have already been read.
   NSUInteger _chunkOffset;
-  // The number of bytes in `_chunks` that have not been read.
+  // The number of bytes in all `_chunks` that have not been read.
   NSUInteger _available;
   NSStreamStatus _status;
   BOOL _done;
@@ -47,7 +50,8 @@
 }
 
 - (NSUInteger)addData:(NSData *)data {
-  // `copy` doesn't copy the bytes of immutable data.
+  // `copy:` doesn't copy the bytes of immutable data, which is what the Dart
+  // side provides.
   NSData *chunk = [data copy];
   [_dataCondition lock];
   if ([chunk length] > 0) {
@@ -187,6 +191,7 @@
       copied += count;
       _chunkOffset += count;
       if (_chunkOffset == chunkLength) {
+        // `NSMutableArray` is a implemented using a circular buffer, so this is efficient.
         [_chunks removeObjectAtIndex:0];
         _chunkOffset = 0;
       }
