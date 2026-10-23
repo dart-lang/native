@@ -15,7 +15,6 @@ import 'package:test/test.dart';
 
 import 'util.dart';
 
-
 void main() {
   group('NSData', () {
     group('toNSData', () {
