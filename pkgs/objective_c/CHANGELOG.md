@@ -1,3 +1,9 @@
+## 9.6.3-wip
+
+- Increase the amount of data that `toNSInputStream` buffers ahead of the
+  reader from 4 KiB to 1 MiB, which makes reading the returned `NSInputStream`
+  up to 7x faster.
+
 ## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`
