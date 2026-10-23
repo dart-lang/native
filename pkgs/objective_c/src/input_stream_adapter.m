@@ -7,26 +7,15 @@
 #import <Foundation/Foundation.h>
 #include <os/log.h>
 
-// Data smaller than this is copied into a shared buffer, so that reads copy
-// from fewer, larger chunks. Larger data is kept as-is, without copying it.
-static const NSUInteger kCoalesceLimit = 32 * 1024;
-
-// The maximum size of a shared buffer.
-static const NSUInteger kCoalesceBufferSize = 64 * 1024;
-
 @implementation DOBJCDartInputStreamAdapter {
   Dart_Port _sendPort;
   NSCondition *_dataCondition;
-  // The data that has been added but not yet read, oldest first. Data is read
-  // directly from these chunks, so reading doesn't move the data that hasn't
-  // been read yet.
+  // The data that has been added but not yet read, oldest first.
   NSMutableArray<NSData *> *_chunks;
   // The number of bytes of `_chunks[0]` that have already been read.
   NSUInteger _chunkOffset;
   // The number of bytes in `_chunks` that have not been read.
   NSUInteger _available;
-  // The last element of `_chunks`, if small data can be appended to it.
-  NSMutableData *_coalesceBuffer;
   NSStreamStatus _status;
   BOOL _done;
   NSError *_error;
@@ -58,23 +47,13 @@ static const NSUInteger kCoalesceBufferSize = 64 * 1024;
 }
 
 - (NSUInteger)addData:(NSData *)data {
-  const NSUInteger length = [data length];
   // `copy` doesn't copy the bytes of immutable data.
-  NSData *chunk = length >= kCoalesceLimit ? [data copy] : nil;
+  NSData *chunk = [data copy];
   [_dataCondition lock];
-  if (chunk != nil) {
+  if ([chunk length] > 0) {
     [_chunks addObject:chunk];
-    _coalesceBuffer = nil;
-  } else if (length > 0) {
-    if (_coalesceBuffer == nil ||
-        [_coalesceBuffer length] + length > kCoalesceBufferSize) {
-      _coalesceBuffer =
-          [[NSMutableData alloc] initWithCapacity:kCoalesceBufferSize];
-      [_chunks addObject:_coalesceBuffer];
-    }
-    [_coalesceBuffer appendData:data];
+    _available += [chunk length];
   }
-  _available += length;
   const NSUInteger available = _available;
   [_dataCondition broadcast];
   [_dataCondition unlock];
@@ -208,9 +187,6 @@ static const NSUInteger kCoalesceBufferSize = 64 * 1024;
       copied += count;
       _chunkOffset += count;
       if (_chunkOffset == chunkLength) {
-        if (chunk == _coalesceBuffer) {
-          _coalesceBuffer = nil;
-        }
         [_chunks removeObjectAtIndex:0];
         _chunkOffset = 0;
       }
