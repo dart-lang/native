@@ -81,6 +81,44 @@ void main() {
       expect(PropertyInterface.getInstStaticSameName$1(), 456);
     });
 
+    group('properties generated as methods', () {
+      test('read-only property', () {
+        expect(PropertyAsMethodInterface().readOnlyAsMethod(), 8);
+      });
+
+      test('read-write property', () {
+        final inst = PropertyAsMethodInterface();
+        inst.setReadWriteAsMethod(23);
+        expect(inst.readWriteAsMethod(), 23);
+      });
+
+      test('class property', () {
+        PropertyAsMethodInterface.setClassReadWriteAsMethod(101);
+        expect(PropertyAsMethodInterface.classReadWriteAsMethod(), 101);
+      });
+
+      test('properties not selected by the config are unchanged', () {
+        final inst = PropertyAsMethodInterface();
+        inst.keptAsProperty = 5;
+        expect(inst.keptAsProperty, 5);
+      });
+
+      test('property stays a property when an override is a property', () {
+        // The config turns only the parent's property into methods. The
+        // child's property is still a getter and setter. Dart doesn't let
+        // those override methods. The parent's property reverts as a whole.
+        final parent = PropertyAsMethodParent();
+        parent.overriddenProperty = 4;
+        expect(parent.overriddenProperty, 4);
+
+        final child = PropertyAsMethodChild();
+        child.overriddenProperty = 4;
+        expect(child.overriddenProperty, 104);
+        final PropertyAsMethodParent upcast = child;
+        expect(upcast.overriddenProperty, 104);
+      });
+    });
+
     test('Regress #1268', () {
       // Test for https://github.com/dart-lang/native/issues/1268
       final array = PropertyInterface.getRegressGH1268().asDart();

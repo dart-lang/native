@@ -11,6 +11,346 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 6);
 
+/// PropertyAsMethodChild
+extension type PropertyAsMethodChild._(objc.ObjCObject object$)
+    implements objc.ObjCObject, PropertyAsMethodParent {
+  /// Constructs a [PropertyAsMethodChild] that points to the same underlying object as [other].
+  PropertyAsMethodChild.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [PropertyAsMethodChild] that wraps the given raw object pointer.
+  PropertyAsMethodChild.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [PropertyAsMethodChild].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_PropertyAsMethodChild,
+        );
+
+  /// alloc
+  static PropertyAsMethodChild alloc() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_PropertyAsMethodChild,
+      _sel_alloc,
+    );
+    return PropertyAsMethodChild.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static PropertyAsMethodChild allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_PropertyAsMethodChild,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return PropertyAsMethodChild.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// new
+  static PropertyAsMethodChild new$() {
+    final $ret = _objc_msgSend_151sglz(_class_PropertyAsMethodChild, _sel_new);
+    return PropertyAsMethodChild.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Returns a new instance of PropertyAsMethodChild constructed with the default `new` method.
+  PropertyAsMethodChild() : this.as(new$().object$);
+}
+
+extension PropertyAsMethodChild$Methods on PropertyAsMethodChild {
+  /// init
+  PropertyAsMethodChild init() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'PropertyAsMethodChild.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return PropertyAsMethodChild.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// overriddenProperty
+  int get overriddenProperty {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_overriddenProperty);
+  }
+
+  /// setOverriddenProperty:
+  set overriddenProperty(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setOverriddenProperty_, value);
+  }
+}
+
+/// PropertyAsMethodInterface
+extension type PropertyAsMethodInterface._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [PropertyAsMethodInterface] that points to the same underlying object as [other].
+  PropertyAsMethodInterface.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [PropertyAsMethodInterface] that wraps the given raw object pointer.
+  PropertyAsMethodInterface.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [PropertyAsMethodInterface].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_PropertyAsMethodInterface,
+        );
+
+  /// alloc
+  static PropertyAsMethodInterface alloc() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_PropertyAsMethodInterface,
+      _sel_alloc,
+    );
+    return PropertyAsMethodInterface.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static PropertyAsMethodInterface allocWithZone(
+    ffi.Pointer<objc.NSZone> zone,
+  ) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_PropertyAsMethodInterface,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return PropertyAsMethodInterface.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// classReadWriteAsMethod
+  static int classReadWriteAsMethod() {
+    return _objc_msgSend_1gcq84o(
+      _class_PropertyAsMethodInterface,
+      _sel_classReadWriteAsMethod,
+    );
+  }
+
+  /// new
+  static PropertyAsMethodInterface new$() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_PropertyAsMethodInterface,
+      _sel_new,
+    );
+    return PropertyAsMethodInterface.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// setClassReadWriteAsMethod:
+  static void setClassReadWriteAsMethod(int value) {
+    _objc_msgSend_1bqef4y(
+      _class_PropertyAsMethodInterface,
+      _sel_setClassReadWriteAsMethod_,
+      value,
+    );
+  }
+
+  /// Returns a new instance of PropertyAsMethodInterface constructed with the default `new` method.
+  PropertyAsMethodInterface() : this.as(new$().object$);
+}
+
+extension PropertyAsMethodInterface$Methods on PropertyAsMethodInterface {
+  /// init
+  PropertyAsMethodInterface init() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'PropertyAsMethodInterface.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return PropertyAsMethodInterface.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// keptAsProperty
+  int get keptAsProperty {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_keptAsProperty);
+  }
+
+  /// readOnlyAsMethod
+  int readOnlyAsMethod() {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readOnlyAsMethod);
+  }
+
+  /// readWriteAsMethod
+  int readWriteAsMethod() {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readWriteAsMethod);
+  }
+
+  /// setKeptAsProperty:
+  set keptAsProperty(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setKeptAsProperty_, value);
+  }
+
+  /// setReadWriteAsMethod:
+  void setReadWriteAsMethod(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setReadWriteAsMethod_, value);
+  }
+}
+
+/// PropertyAsMethodParent
+extension type PropertyAsMethodParent._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [PropertyAsMethodParent] that points to the same underlying object as [other].
+  PropertyAsMethodParent.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [PropertyAsMethodParent] that wraps the given raw object pointer.
+  PropertyAsMethodParent.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [PropertyAsMethodParent].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_PropertyAsMethodParent,
+        );
+
+  /// alloc
+  static PropertyAsMethodParent alloc() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_PropertyAsMethodParent,
+      _sel_alloc,
+    );
+    return PropertyAsMethodParent.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static PropertyAsMethodParent allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_PropertyAsMethodParent,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return PropertyAsMethodParent.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// new
+  static PropertyAsMethodParent new$() {
+    final $ret = _objc_msgSend_151sglz(_class_PropertyAsMethodParent, _sel_new);
+    return PropertyAsMethodParent.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Returns a new instance of PropertyAsMethodParent constructed with the default `new` method.
+  PropertyAsMethodParent() : this.as(new$().object$);
+}
+
+extension PropertyAsMethodParent$Methods on PropertyAsMethodParent {
+  /// init
+  PropertyAsMethodParent init() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'PropertyAsMethodParent.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return PropertyAsMethodParent.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// overriddenProperty
+  int get overriddenProperty {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_overriddenProperty);
+  }
+
+  /// setOverriddenProperty:
+  set overriddenProperty(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setOverriddenProperty_, value);
+  }
+}
+
 /// PropertyInterface
 extension type PropertyInterface._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -246,6 +586,36 @@ final class Vec4 extends ffi.Struct {
     ..ref.w = w;
 }
 
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_PropertyAsMethodChild',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_PropertyAsMethodChild_raw;
+final _class_PropertyAsMethodChild = objc.getClass(
+  "PropertyAsMethodChild",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_PropertyAsMethodChild_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_PropertyAsMethodInterface',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_PropertyAsMethodInterface_raw;
+final _class_PropertyAsMethodInterface = objc.getClass(
+  "PropertyAsMethodInterface",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_PropertyAsMethodInterface_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_PropertyAsMethodParent',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_PropertyAsMethodParent_raw;
+final _class_PropertyAsMethodParent = objc.getClass(
+  "PropertyAsMethodParent",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_PropertyAsMethodParent_raw,
+  ).cast(),
+);
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_PropertyInterface',
 )
@@ -485,6 +855,9 @@ late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_classReadOnlyProperty = objc.registerName(
   "classReadOnlyProperty",
 );
+late final _sel_classReadWriteAsMethod = objc.registerName(
+  "classReadWriteAsMethod",
+);
 late final _sel_classReadWriteProperty = objc.registerName(
   "classReadWriteProperty",
 );
@@ -493,16 +866,30 @@ late final _sel_floatProperty = objc.registerName("floatProperty");
 late final _sel_init = objc.registerName("init");
 late final _sel_instStaticSameName = objc.registerName("instStaticSameName");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+late final _sel_keptAsProperty = objc.registerName("keptAsProperty");
 late final _sel_new = objc.registerName("new");
+late final _sel_overriddenProperty = objc.registerName("overriddenProperty");
+late final _sel_readOnlyAsMethod = objc.registerName("readOnlyAsMethod");
 late final _sel_readOnlyProperty = objc.registerName("readOnlyProperty");
+late final _sel_readWriteAsMethod = objc.registerName("readWriteAsMethod");
 late final _sel_readWriteProperty = objc.registerName("readWriteProperty");
 late final _sel_regressGH1268 = objc.registerName("regressGH1268");
 late final _sel_regressGH436 = objc.registerName("regressGH436");
+late final _sel_setClassReadWriteAsMethod_ = objc.registerName(
+  "setClassReadWriteAsMethod:",
+);
 late final _sel_setClassReadWriteProperty_ = objc.registerName(
   "setClassReadWriteProperty:",
 );
 late final _sel_setDoubleProperty_ = objc.registerName("setDoubleProperty:");
 late final _sel_setFloatProperty_ = objc.registerName("setFloatProperty:");
+late final _sel_setKeptAsProperty_ = objc.registerName("setKeptAsProperty:");
+late final _sel_setOverriddenProperty_ = objc.registerName(
+  "setOverriddenProperty:",
+);
+late final _sel_setReadWriteAsMethod_ = objc.registerName(
+  "setReadWriteAsMethod:",
+);
 late final _sel_setReadWriteProperty_ = objc.registerName(
   "setReadWriteProperty:",
 );

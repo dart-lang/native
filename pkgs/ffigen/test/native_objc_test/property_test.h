@@ -30,3 +30,31 @@ typedef struct {
 @property(class, readonly) int32_t instStaticSameName;
 
 @end
+
+// Properties that the config generates as ordinary methods.
+@interface PropertyAsMethodInterface : NSObject {
+}
+
+@property (readonly) int32_t readOnlyAsMethod;
+@property int32_t readWriteAsMethod;
+@property (class) int32_t classReadWriteAsMethod;
+@property int32_t keptAsProperty;
+
+@end
+
+// The config only turns the parent's property into methods, but the child's
+// property overrides it. Dart doesn't allow a getter to override a method, so
+// the parent's getter has to stay a getter.
+@interface PropertyAsMethodParent : NSObject {
+}
+
+@property int32_t overriddenProperty;
+
+@end
+
+@interface PropertyAsMethodChild : PropertyAsMethodParent {
+}
+
+@property int32_t overriddenProperty;
+
+@end
