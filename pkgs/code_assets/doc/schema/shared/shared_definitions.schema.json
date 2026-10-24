@@ -13,6 +13,32 @@
         "target_ndk_api"
       ]
     },
+    "AppleVersion": {
+      "description": "An Apple deployment version with all three numeric components required, each between 0 and 2147483647. API defaults for minor and patch are serialized as zero.",
+      "type": "object",
+      "properties": {
+        "major": {
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "minor": {
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        },
+        "patch": {
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "major",
+        "minor",
+        "patch"
+      ]
+    },
     "Architecture": {
       "type": "string",
       "anyOf": [
@@ -223,11 +249,17 @@
     "IOSCodeConfig": {
       "type": "object",
       "properties": {
+        "deployment_version": {
+          "$ref": "#/definitions/AppleVersion",
+          "description": "The lowest compatible Apple deployment version. All three numeric components are required. This version takes precedence over target_version."
+        },
         "target_sdk": {
           "type": "string"
         },
         "target_version": {
-          "type": "integer"
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
         }
       },
       "required": [
@@ -282,8 +314,14 @@
     "MacOSCodeConfig": {
       "type": "object",
       "properties": {
+        "deployment_version": {
+          "$ref": "#/definitions/AppleVersion",
+          "description": "The lowest compatible Apple deployment version. All three numeric components are required. This version takes precedence over target_version."
+        },
         "target_version": {
-          "type": "integer"
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": 0
         }
       },
       "required": [
