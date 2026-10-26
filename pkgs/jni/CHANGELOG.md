@@ -1,3 +1,8 @@
+## 1.1.1-wip
+
+- Preserve the Kotlin runtime classes used by JNI suspend calls in minified
+  Android release builds.
+
 ## 1.1.0
 
 - Add deep conversion utilities for converting between Dart values and Java.
