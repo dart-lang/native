@@ -57,14 +57,15 @@ void main(List<String> args) async {
 
     // Build all C++ test files. Works on all platforms.
     final cppTestDir = input.packageRoot.resolve('test/native_cpp_test/');
-    final cppFiles = _findFiles(cppTestDir, '.cpp')
-        .map(
-          (uri) => p.relative(
-            uri.toFilePath(),
-            from: input.packageRoot.toFilePath(),
-          ),
-        )
-        .toList();
+    final cppFiles =
+        [..._findFiles(cppTestDir, '.cpp'), ..._findFiles(cppTestDir, '.h')]
+            .map(
+              (uri) => p.relative(
+                uri.toFilePath(),
+                from: input.packageRoot.toFilePath(),
+              ),
+            )
+            .toList();
     await CBuilder.library(
       name: 'cpp_test',
       assetName: 'cpp_test',

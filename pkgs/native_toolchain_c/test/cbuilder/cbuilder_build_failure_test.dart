@@ -82,6 +82,7 @@ void main() {
     final source = packageUri.resolve(
       'test/cbuilder/testfiles/build_failure/cl.c',
     );
+    final header = source.resolve('cl.h');
     const name = 'cl';
 
     final buildInputBuilder = BuildInputBuilder()
@@ -107,7 +108,7 @@ void main() {
     final logs = <LogRecord>[];
     final logger = createCapturingRecordLogger(logs);
     final cbuilder = CBuilder.library(
-      sources: [source.toFilePath()],
+      sources: [source.toFilePath(), header.toFilePath()],
       name: name,
       assetName: name,
       includes: [],

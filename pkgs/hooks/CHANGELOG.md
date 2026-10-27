@@ -1,6 +1,7 @@
 ## 2.2.1-wip
 
-- No user-visible changes yet.
+- Track header dependencies in the C build examples so header changes trigger
+  recompilation.
 
 ## 2.2.0
 
