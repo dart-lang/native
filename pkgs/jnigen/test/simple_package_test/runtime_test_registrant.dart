@@ -33,6 +33,9 @@ void _jnigenConsumerIsolateEntry(
     $MyConsumer(
       consume: (arg) {
         arg?.release();
+        // Defer notifying the main isolate until the next event-loop turn so
+        // the generated handler finishes `$i.args?.release()` and
+        // `returnResult` before the main isolate kills this isolate.
         Timer.run(() => callbackPort.send('callback_executed'));
       },
       consume$async: isAsync,
