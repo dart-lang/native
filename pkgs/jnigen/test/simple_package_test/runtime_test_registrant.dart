@@ -33,7 +33,7 @@ void _jnigenConsumerIsolateEntry(
     $MyConsumer(
       consume: (arg) {
         arg?.release();
-        Future(() => callbackPort.send('callback_executed'));
+        Timer.run(() => callbackPort.send('callback_executed'));
       },
       consume$async: isAsync,
     ),
