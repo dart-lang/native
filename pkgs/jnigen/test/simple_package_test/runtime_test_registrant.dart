@@ -32,8 +32,8 @@ void _jnigenConsumerIsolateEntry(
   final consumer = MyConsumer.implement(
     $MyConsumer(
       consume: (arg) {
-        callbackPort.send('callback_executed');
         arg?.release();
+        callbackPort.send('callback_executed');
       },
       consume$async: isAsync,
     ),
