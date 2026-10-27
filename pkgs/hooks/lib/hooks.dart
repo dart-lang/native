@@ -158,7 +158,7 @@
 /// All other environment variables are stripped.
 library;
 
-export 'src/api/build_and_link.dart' show build, link;
+export 'src/api/build_and_link.dart' show build, doctor, link;
 export 'src/api/builder.dart' show Builder;
 export 'src/api/linker.dart' show Linker;
 export 'src/config.dart'
@@ -178,6 +178,14 @@ export 'src/config.dart'
         BuildOutputFailure,
         BuildOutputMaybeFailure,
         BuildOutputMetadataBuilder,
+        DoctorInput,
+        DoctorInputBuilder,
+        DoctorOutput,
+        DoctorOutputBuilder,
+        DoctorValidationMessage,
+        DoctorValidationMessageType,
+        DoctorValidationResult,
+        DoctorValidationType,
         FailureType,
         HookConfig,
         HookConfigBuilder,

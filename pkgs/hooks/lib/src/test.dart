@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:yaml/yaml.dart';
 
 import 'config.dart';
@@ -116,6 +117,80 @@ Future<void> testBuildHook({
     if (outputErrors.isNotEmpty) {
       throw ValidationFailure(
         'Encountered build output validation issues: $outputErrors',
+      );
+    }
+
+    await check(input, output);
+  } finally {
+    final keepTempDir = (Platform.environment[keepTempKey] ?? '').isNotEmpty;
+    if (!keepTempDir) {
+      tempDir.deleteSync(recursive: true);
+    } else {
+      print('$keepTempKey ${tempDir.uri}');
+    }
+  }
+}
+
+/// Tests the main function of a `hook/doctor.dart`.
+///
+/// This method will throw an exception on validation errors.
+///
+/// This is intended to be used from tests, e.g.:
+///
+/// <!-- file://./../../example/api/test_doctor_snippet.dart -->
+/// ```dart
+/// import 'package:hooks/src/test.dart';
+/// import 'package:test/test.dart';
+///
+/// void main() {
+///   test('test my doctor hook', () async {
+///     await testDoctorHook(mainMethod: (args) {}, check: (input, output) {});
+///   });
+/// }
+/// ```
+@experimental
+Future<void> testDoctorHook({
+  required FutureOr<void> Function(List<String> arguments) mainMethod,
+  required FutureOr<void> Function(DoctorInput input, DoctorOutput output)
+  check,
+  // TODO(dcharkes): Add `userDefines`, `extensions`, and enabled target
+  // platforms parameters once `DoctorInput` supports them.
+}) async {
+  const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
+
+  final tempDir = await Directory.systemTemp.createTemp();
+
+  try {
+    // Deal with Windows temp folder aliases.
+    final tempUri = Directory(
+      await tempDir.resolveSymbolicLinks(),
+    ).uri.normalizePath();
+    final outputFile = tempUri.resolve('output.json');
+
+    final inputBuilder = DoctorInputBuilder()
+      ..setupDoctor(
+        packageRoot: Directory.current.uri,
+        packageName: _readPackageNameFromPubspec(),
+        outputFile: outputFile,
+      );
+    final input = inputBuilder.build();
+
+    final inputErrors = await ProtocolBase.validateDoctorInput(input);
+    if (inputErrors.isNotEmpty) {
+      throw ValidationFailure(
+        'Encountered doctor input validation issues: $inputErrors',
+      );
+    }
+
+    final inputUri = tempUri.resolve('input.json');
+    _writeJsonTo(inputUri, input.json);
+    await mainMethod(['--config=${inputUri.toFilePath()}']);
+    final output = DoctorOutput(_readJsonFrom(input.outputFile));
+
+    final outputErrors = await ProtocolBase.validateDoctorOutput(input, output);
+    if (outputErrors.isNotEmpty) {
+      throw ValidationFailure(
+        'Encountered doctor output validation issues: $outputErrors',
       );
     }
 

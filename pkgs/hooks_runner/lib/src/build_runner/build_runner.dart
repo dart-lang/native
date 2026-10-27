@@ -19,6 +19,7 @@ import 'package:yaml/yaml.dart';
 import '../dependencies_hash_file/dependencies_hash_file.dart';
 import '../locking/locking.dart';
 import '../model/build_result.dart';
+import '../model/doctor_result.dart';
 import '../model/hook_result.dart';
 import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
@@ -48,6 +49,13 @@ typedef _HookValidator =
 /// The native assets build runner does not support reentrancy for identical
 /// [BuildInput] and [LinkInput]! For more info see:
 /// https://github.com/dart-lang/native/issues/1319
+// TODO(https://github.com/dart-lang/native/issues/3748):
+// `NativeAssetsBuildRunner` has a split personality: on the one hand we want
+// one object per workspace (where `runPackageName` would be passed per `build`
+// and `link` invocation), on the other hand it caches things (like `_planner`)
+// that are computed for a single `runPackageName`. For now we provide a
+// separate `NativeAssetsBuildRunner.doctor` constructor and
+// `PackageLayout.forDoctor*` constructors.
 class NativeAssetsBuildRunner {
   /// The sequential parts of a build are reported on a single task.
   ///
@@ -100,6 +108,28 @@ class NativeAssetsBuildRunner {
     _fileSystem = TracingFileSystem(fileSystem, _task);
   }
 
+  /// Creates a [NativeAssetsBuildRunner] for running `hook/doctor.dart` hooks.
+  // TODO(https://github.com/dart-lang/native/issues/3748): Unify with the
+  // default constructor once `runPackageName` is passed per method.
+  // TODO(dcharkes): Accept `userDefines` here once `DoctorInput` supports
+  // user-defines.
+  @experimental
+  NativeAssetsBuildRunner.doctor({
+    required Logger logger,
+    required Uri dartExecutable,
+    required FileSystem fileSystem,
+    required PackageLayout packageLayout,
+    Duration? singleHookTimeout,
+    Map<String, String>? hookEnvironment,
+  }) : this(
+         logger: logger,
+         dartExecutable: dartExecutable,
+         fileSystem: fileSystem,
+         packageLayout: packageLayout,
+         singleHookTimeout: singleHookTimeout,
+         hookEnvironment: hookEnvironment,
+       );
+
   /// Checks whether any hooks need to be run.
   ///
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
@@ -107,6 +137,15 @@ class NativeAssetsBuildRunner {
   Future<List<String>> packagesWithBuildHooks() async {
     final planner = await _planner;
     final packagesWithHook = await planner.packagesWithHook(Hook.build);
+    return packagesWithHook.map((e) => e.name).toList();
+  }
+
+  /// Checks which packages in the dependency graph have `hook/doctor.dart`
+  /// hooks.
+  @experimental
+  Future<List<String>> packagesWithDoctorHooks() async {
+    final planner = await _planner;
+    final packagesWithHook = await planner.packagesWithHook(Hook.doctor);
     return packagesWithHook.map((e) => e.name).toList();
   }
 
@@ -429,6 +468,229 @@ class NativeAssetsBuildRunner {
     _printErrors('Application asset verification failed', errors);
     return const Failure(HooksRunnerFailure.hookRun);
   });
+
+  /// Runs `hook/doctor.dart` hooks across packages in the dependency graph.
+  ///
+  /// Unlike [build] and [link], doctor hook invocations are never skipped due
+  /// to caching, as diagnostics inspect the live system environment.
+  // TODO(dcharkes): Accept `List<ProtocolExtension> extensions` (e.g., for
+  // Flutter extensions like `impellerc` location) and enabled target platforms
+  // once `DoctorInput` supports them.
+  @experimental
+  Future<Result<DoctorResult, HooksRunnerFailure>> doctor() async =>
+      _timeAsync('BuildRunner.doctor', () async {
+        final planResult = await _makePlan(hook: .doctor);
+        if (planResult.isFailure) {
+          return planResult.asFailure;
+        }
+        final (doctorPlan, _) = planResult.success;
+        if (doctorPlan.isEmpty) {
+          return Success(DoctorResult());
+        }
+
+        // TODO(dcharkes): Load and validate `userDefines` via
+        // `_checkUserDefines()` and pass `loadedUserDefines?[package.name]` to
+        // `DoctorInputBuilder` once `DoctorInput` supports user-defines.
+        // TODO(dcharkes): Consider whether doctor hooks should be executed in
+        // parallel. Currently, doctor hooks do not depend on each other's
+        // outputs, though they might in the future.
+        final packageValidations = <String, List<DoctorValidationResult>>{};
+        for (final package in doctorPlan) {
+          final buildDirUri = packageLayout.dartToolHooksRunner.resolve(
+            '${package.name}/doctor/',
+          );
+          final buildDir = _fileSystem.directory(buildDirUri);
+          if (!await buildDir.exists()) {
+            await buildDir.create(recursive: true);
+          }
+
+          final inputBuilder = DoctorInputBuilder()
+            ..setupDoctor(
+              packageName: package.name,
+              packageRoot: packageLayout.packageRoot(package.name),
+              outputFile: buildDirUri.resolve('output.json'),
+            );
+
+          final input = inputBuilder.build();
+          final errors = await ProtocolBase.validateDoctorInput(input);
+          if (errors.isNotEmpty) {
+            _printErrors(
+              'Doctor input for ${package.name} contains errors',
+              errors,
+            );
+            return const Failure(HooksRunnerFailure.internal);
+          }
+
+          final validations = await _runDoctorHookForPackage(
+            input,
+            buildDirUri,
+          );
+          packageValidations[package.name] = validations;
+        }
+
+        return Success(DoctorResult(packageValidations: packageValidations));
+      });
+
+  @experimental
+  Future<List<DoctorValidationResult>> _runDoctorHookForPackage(
+    DoctorInput input,
+    Uri buildDirUri,
+  ) async => _timeAsync(
+    '_runDoctorHookForPackage',
+    arguments: {'package': input.packageName},
+    () async => await runUnderDirectoriesLock(
+      _fileSystem,
+      [buildDirUri],
+      timeout: singleHookTimeout,
+      logger: logger,
+      () async {
+        final hookCompileResult = await _compileHookForPackageCached(
+          input.packageName,
+          buildDirUri,
+          input.packageRoot.resolve('hook/${Hook.doctor.scriptName}'),
+        );
+        if (hookCompileResult.isFailure) {
+          return [
+            DoctorValidationResult(
+              title: 'package:${input.packageName}',
+              type: DoctorValidationType.crash,
+              statusInfo: 'hook/doctor.dart failed to compile',
+              messages: [
+                DoctorValidationMessage.error(
+                  'Compiling hook/doctor.dart for '
+                  'package:${input.packageName} failed.',
+                ),
+              ],
+            ),
+          ];
+        }
+        final (hookKernelFile, _, _) = hookCompileResult.success;
+
+        final inputFile = buildDirUri.resolve('input.json');
+        final inputFileContents = _jsonEncoder.convert(input.json);
+        logger.info('input.json contents:\n$inputFileContents');
+        await _fileSystem.file(inputFile).writeAsString(inputFileContents);
+        final hookOutputUri = input.outputFile;
+        final hookOutputFile = _fileSystem.file(hookOutputUri);
+        if (await hookOutputFile.exists()) {
+          await hookOutputFile.delete();
+        }
+
+        final arguments = [
+          '--packages=${packageLayout.packageConfigUri.toFilePath()}',
+          hookKernelFile.path,
+          '--config=${inputFile.toFilePath()}',
+        ];
+        final wrappedLogger = await _createFileStreamingLogger(buildDirUri);
+        final workingDirectory = input.packageRoot;
+        final result = await runProcess(
+          filesystem: _fileSystem,
+          workingDirectory: workingDirectory,
+          executable: dartExecutable,
+          arguments: arguments,
+          logger: wrappedLogger,
+          includeParentEnvironment: false,
+          environment: hookEnvironment,
+          task: _task,
+        );
+
+        var deleteOutputIfExists = false;
+        try {
+          if (result.exitCode != 0) {
+            final printWorkingDir =
+                workingDirectory != _fileSystem.currentDirectory.uri;
+            final commandString = [
+              if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
+              dartExecutable.toFilePath(),
+              ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
+              if (printWorkingDir) ')',
+            ].join(' ');
+            logger.severe('''
+  Running doctor for package:${input.packageName} failed.
+  ${Hook.doctor.scriptName} returned with exit code: ${result.exitCode}.
+  To reproduce run:
+  $commandString
+  stderr:
+  ${result.stderr}
+  stdout:
+  ${result.stdout}
+          ''');
+            deleteOutputIfExists = true;
+            return [
+              DoctorValidationResult(
+                title: 'package:${input.packageName}',
+                type: DoctorValidationType.crash,
+                statusInfo: 'the doctor check crashed',
+                messages: [
+                  DoctorValidationMessage.error(
+                    'Due to an error, the doctor check for '
+                    'package:${input.packageName} did not complete '
+                    '(exit code ${result.exitCode}).',
+                  ),
+                  if (result.stderr.trim().isNotEmpty)
+                    DoctorValidationMessage.error(result.stderr.trim()),
+                  if (result.stdout.trim().isNotEmpty)
+                    DoctorValidationMessage(result.stdout.trim()),
+                ],
+              ),
+            ];
+          }
+
+          final outputResult = await _readDoctorOutputFromUri(
+            hookOutputFile,
+            input.packageName,
+          );
+          if (outputResult.isFailure) {
+            deleteOutputIfExists = true;
+            return [
+              DoctorValidationResult(
+                title: 'package:${input.packageName}',
+                type: DoctorValidationType.crash,
+                statusInfo: 'the doctor check produced invalid output',
+                messages: [
+                  DoctorValidationMessage.error(
+                    'The doctor hook for package:${input.packageName} '
+                    'produced invalid output.',
+                  ),
+                ],
+              ),
+            ];
+          }
+          final output = outputResult.success;
+          final errors = await ProtocolBase.validateDoctorOutput(input, output);
+          if (errors.isNotEmpty) {
+            _printErrors(
+              'doctor hook of package:${input.packageName} has invalid output',
+              errors,
+            );
+            deleteOutputIfExists = true;
+            return [
+              DoctorValidationResult(
+                title: 'package:${input.packageName}',
+                type: DoctorValidationType.crash,
+                statusInfo: 'the doctor check produced invalid output',
+                messages: [
+                  DoctorValidationMessage.error(
+                    'The doctor hook for package:${input.packageName} '
+                    'produced invalid output.',
+                  ),
+                  for (final error in errors)
+                    DoctorValidationMessage.error(error),
+                ],
+              ),
+            ];
+          }
+          return output.validations;
+        } finally {
+          if (deleteOutputIfExists) {
+            if (await hookOutputFile.exists()) {
+              await hookOutputFile.delete();
+            }
+          }
+        }
+      },
+    ),
+  );
 
   void _printErrors(String message, ValidationErrors errors) {
     assert(errors.isNotEmpty);
@@ -997,6 +1259,9 @@ ${compileResult.stdout}
     return errors;
   }
 
+  // TODO(https://github.com/dart-lang/native/issues/3748): Scope or parameterize
+  // planner by `(runPackageName, includeDevDependencies)` instead of reading
+  // them from `packageLayout`.
   late final _planner = () async {
     final planner = await NativeAssetsBuildPlanner.fromPackageConfigUri(
       packageConfigUri: packageLayout.packageConfigUri,
@@ -1014,22 +1279,16 @@ ${compileResult.stdout}
   >
   _makePlan({required Hook hook, BuildResult? buildResult}) async =>
       _timeAsync('_makePlan', () async {
-        switch (hook) {
-          case .build:
-            final planner = await _planner;
-            final planResult = await planner.makeBuildHookPlan();
-            if (planResult.isFailure) {
-              return planResult.asFailure;
-            }
-            return Success((planResult.success, planner.packageGraph));
-          case .link:
-            final planner = await _planner;
-            final planResult = await planner.makeLinkHookPlan();
-            if (planResult.isFailure) {
-              return planResult.asFailure;
-            }
-            return Success((planResult.success, planner.packageGraph));
+        final planner = await _planner;
+        final planResult = switch (hook) {
+          .build => await planner.makeBuildHookPlan(),
+          .link => await planner.makeLinkHookPlan(),
+          .doctor => await planner.makeDoctorHookPlan(),
+        };
+        if (planResult.isFailure) {
+          return planResult.asFailure;
         }
+        return Success((planResult.success, planner.packageGraph));
       });
 
   Future<Result<HookInput, HooksRunnerFailure>> _readHookInputFromUri(
@@ -1059,18 +1318,16 @@ ${e.message}''');
       case .link:
         final linkInput = LinkInput(hookInputJson);
         return Success(linkInput);
+      case .doctor:
+        throw StateError('Doctor inputs are not cached.');
     }
   }
 
-  Future<Result<HookOutput, HooksRunnerFailure>> _readHookOutputFromUri(
-    Hook hook,
-    File hookOutputFile,
-    String packageName,
-  ) async {
-    final file = hookOutputFile;
+  Future<Result<Map<String, Object?>, HooksRunnerFailure>>
+  _readOutputJsonFromUri(File hookOutputFile, String packageName) async {
     final String fileContents;
     try {
-      fileContents = await file.readAsString();
+      fileContents = await hookOutputFile.readAsString();
     } on FileSystemException catch (e) {
       logger.severe('''
 Building assets for package:$packageName failed.
@@ -1080,13 +1337,12 @@ ${e.message}''');
       return const Failure(HooksRunnerFailure.hookRun);
     }
     logger.info('output.json contents:\n$fileContents');
-    final Map<String, Object?> hookOutputJson;
     try {
       final decoded = jsonDecode(fileContents);
       if (decoded is! Map<String, Object?>) {
         throw const FormatException('Expected a JSON object.');
       }
-      hookOutputJson = decoded;
+      return Success(decoded);
     } on FormatException catch (e) {
       logger.severe('''
 Building assets for package:$packageName failed.
@@ -1096,6 +1352,32 @@ Contents: $fileContents.
 ${e.message}''');
       return const Failure(HooksRunnerFailure.hookRun);
     }
+  }
+
+  @experimental
+  Future<Result<DoctorOutput, HooksRunnerFailure>> _readDoctorOutputFromUri(
+    File hookOutputFile,
+    String packageName,
+  ) async {
+    final jsonResult = await _readOutputJsonFromUri(
+      hookOutputFile,
+      packageName,
+    );
+    if (jsonResult.isFailure) return jsonResult.asFailure;
+    return Success(DoctorOutput(jsonResult.success));
+  }
+
+  Future<Result<HookOutput, HooksRunnerFailure>> _readHookOutputFromUri(
+    Hook hook,
+    File hookOutputFile,
+    String packageName,
+  ) async {
+    final jsonResult = await _readOutputJsonFromUri(
+      hookOutputFile,
+      packageName,
+    );
+    if (jsonResult.isFailure) return jsonResult.asFailure;
+    final hookOutputJson = jsonResult.success;
     switch (hook) {
       case .build:
         final output = BuildOutputMaybeFailure(hookOutputJson);
@@ -1117,6 +1399,8 @@ ${e.message}''');
           case LinkOutputFailure _:
             return const Failure(HooksRunnerFailure.hookRun);
         }
+      case .doctor:
+        throw StateError('Use _readDoctorOutputFromUri for doctor hooks.');
     }
   }
 

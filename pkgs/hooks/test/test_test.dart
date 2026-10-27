@@ -68,6 +68,51 @@ void main() {
     expect(await ext.validateApplicationAssets([]), isEmpty);
     expect(ext.outputFiles([]), isEmpty);
   });
+
+  test('testDoctorHook', () async {
+    await testDoctorHook(
+      mainMethod: (args) async {
+        await doctor(args, (input, output) async {
+          output.addValidation(
+            DoctorValidationResult(
+              title: 'Doctor check (${input.packageName})',
+              type: .success,
+              statusInfo: 'OK',
+              messages: [DoctorValidationMessage('All good')],
+            ),
+          );
+        });
+      },
+      check: expectAsync2((input, output) {
+        expect(output.validations, hasLength(1));
+        expect(output.validations.single.type, DoctorValidationType.success);
+        expect(output.validations.single.statusInfo, 'OK');
+        expect(output.validations.single.messages.single.message, 'All good');
+      }),
+    );
+  });
+
+  test('testDoctorHook throws on output error', () async {
+    final testResult = testDoctorHook(
+      mainMethod: (args) async {
+        await doctor(args, (input, output) async {
+          output.json['unexpected_key'] = 123;
+        });
+      },
+      check: expectAsync2((_, _) {}, count: 0),
+    );
+
+    expect(
+      testResult,
+      throwsA(
+        isA<ValidationFailure>().having(
+          (e) => e.message,
+          'message',
+          contains('Encountered doctor output validation issues:'),
+        ),
+      ),
+    );
+  });
 }
 
 final class _EmptyExtension extends ProtocolExtension {}
