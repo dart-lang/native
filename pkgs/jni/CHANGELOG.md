@@ -1,4 +1,4 @@
-## 1.1.1-wip
+## 1.1.1
 
 - Add ProGuard consumer rules for Kotlin classes used by suspend functions.
 
