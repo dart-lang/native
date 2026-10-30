@@ -2,8 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:io';
 
+import 'package:cli_util/cli_util.dart' as cli_util;
+import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
@@ -76,6 +79,54 @@ void main() {
       expect(
         normalizePath(p.joinAll(['./src/.././header.h']), null),
         p.joinAll(['header.h']),
+      );
+    });
+  });
+
+  group('dartExecutable', () {
+    test('resolves dart via cli_util when running as an AOT binary', () {
+      final nonSdkBinary = p.join(abs, 'nonexistent', 'bin', 'ffigen');
+      final dartPath = runZoned(
+        () => dartExecutable,
+        zoneValues: {
+          cli_util.environmentOverridesKey: {
+            ...Platform.environment,
+            '_DART_RESOLVED_EXECUTABLE': nonSdkBinary,
+          },
+        },
+      );
+      expect(p.basenameWithoutExtension(dartPath), 'dart');
+      expect(File(dartPath).existsSync(), isTrue);
+    });
+  });
+
+  group('findPackageRoot', () {
+    test('resolves from currentDirUri when scriptUri is an AOT binary', () {
+      final aotScript = Uri.file(p.join(abs, 'tmp', 'ffigen_test'));
+      final pkgDir = Uri.directory(p.join(abs, 'work', 'pkgs', 'ffigen'));
+      expect(
+        findPackageRoot('ffigen', scriptUri: aotScript, currentDirUri: pkgDir),
+        pkgDir,
+      );
+    });
+
+    test('resolves from scriptUri when inside package', () {
+      final script = Uri.file(
+        p.join(abs, 'work', 'pkgs', 'ffigen', 'test', 'some_test.dart'),
+      );
+      final cwd = Uri.directory(p.join(abs, 'tmp'));
+      expect(
+        findPackageRoot('ffigen', scriptUri: script, currentDirUri: cwd),
+        Uri.directory(p.join(abs, 'work', 'pkgs', 'ffigen')),
+      );
+    });
+
+    test('throws StateError cleanly when not in package or workspace', () {
+      final script = Uri.file(p.join(abs, 'tmp', 'other_binary'));
+      final cwd = Uri.directory(p.join(abs, 'tmp'));
+      expect(
+        () => findPackageRoot('ffigen', scriptUri: script, currentDirUri: cwd),
+        throwsStateError,
       );
     });
   });
