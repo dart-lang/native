@@ -1,5 +1,6 @@
 ## 9.6.3-wip
 
+- Make `toNSData` copy the data once, rather than twice.
 - Increase the amount of data that `toNSInputStream` buffers ahead of the
   reader from 4 KiB to 1 MiB, which makes reading the returned `NSInputStream`
   up to 7x faster.
