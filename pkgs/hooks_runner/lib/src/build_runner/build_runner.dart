@@ -345,19 +345,9 @@ class NativeAssetsBuildRunner {
         package,
       );
 
-      File? resourcesFile;
-      if (packageRecordings != null) {
-        resourcesFile = _fileSystem.file(
-          buildDirUri.resolve('recorded_uses.json'),
-        );
-        await resourcesFile.create();
-        final filteredRecordings = packageRecordings.filter(
-          definitionPackageName: package.name,
-        );
-        await resourcesFile.writeAsString(
-          _jsonEncoder.convert(filteredRecordings.toJson()),
-        );
-      }
+      final recordedUsesFile = packageRecordings != null
+          ? buildDirUri.resolve('recorded_uses.json')
+          : null;
 
       inputBuilder.setupShared(
         packageName: package.name,
@@ -369,7 +359,7 @@ class NativeAssetsBuildRunner {
 
       inputBuilder.setupLink(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
-        recordedUsesFile: resourcesFile?.uri,
+        recordedUsesFile: recordedUsesFile,
         assetsFromLinking: assetsFromLinking,
       );
 
@@ -393,7 +383,7 @@ class NativeAssetsBuildRunner {
               output as LinkOutput,
             ),
         ],
-        resourcesFile?.uri,
+        packageRecordings,
         buildDirUri,
         outDirUri,
         extensions: extensions,
@@ -470,7 +460,7 @@ class NativeAssetsBuildRunner {
     Hook hook,
     HookInput input,
     _HookValidator validator,
-    Uri? resources,
+    Recordings? packageRecordings,
     Uri buildDirUri,
     Uri outputDirectory, {
     required List<ProtocolExtension> extensions,
@@ -494,6 +484,21 @@ class NativeAssetsBuildRunner {
         if (hookCompileResult.isFailure) return hookCompileResult.asFailure;
         final (hookKernelFile, hookHashes, didRecompile) =
             hookCompileResult.success;
+
+        Uri? resources;
+        if (packageRecordings != null) {
+          final resourcesFile = _fileSystem.file(
+            buildDirUri.resolve('recorded_uses.json'),
+          );
+          resources = resourcesFile.uri;
+          await resourcesFile.create();
+          final filteredRecordings = packageRecordings.filter(
+            definitionPackageName: input.packageName,
+          );
+          await resourcesFile.writeAsString(
+            _jsonEncoder.convert(filteredRecordings.toJson()),
+          );
+        }
 
         final inputFile = _fileSystem.file(buildDirUri.resolve('input.json'));
         final outputFile = _fileSystem.file(input.outputFile);
