@@ -15,6 +15,38 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
+  test('failed hook preserves UTF-8 output', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('fail_build/');
+      await File.fromUri(packageUri.resolve('hook/build.dart')).writeAsString(
+        '''
+void main(List<String> arguments) {
+  print('你好');
+  throw StateError('爱你 😀');
+}
+''',
+      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+
+      final logMessages = <String>[];
+      final result = await build(
+        packageUri,
+        createCapturingLogger(logMessages, level: Level.ALL),
+        dartExecutable,
+        buildAssetTypes: [.code],
+      );
+
+      expect(result.isFailure, isTrue);
+      expect(result.failure, HooksRunnerFailure.hookRun);
+      final fullLog = logMessages.join('\n');
+      expect(fullLog, contains('你好'));
+      expect(fullLog, contains('爱你 😀'));
+      expect(fullLog, contains('Unhandled exception:'));
+      expect(fullLog, contains('To reproduce run:'));
+    });
+  });
+
   test('break build', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
