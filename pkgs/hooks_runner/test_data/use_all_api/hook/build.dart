@@ -27,8 +27,8 @@ void main(List<String> args) async {
     input.config.code.targetOS;
     input.config.code.android.targetNdkApi;
     input.config.code.iOS.targetSdk;
-    input.config.code.iOS.targetVersion;
-    input.config.code.macOS.targetVersion;
+    input.config.code.iOS.deploymentVersion;
+    input.config.code.macOS.deploymentVersion;
     input.config.code.cCompiler?.archiver;
     input.config.code.cCompiler?.compiler;
     input.config.code.cCompiler?.linker;
