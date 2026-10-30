@@ -1,3 +1,11 @@
+## 2.2.0-wip
+
+- Support complete iOS and macOS deployment versions through `AppleVersion` and
+  `deploymentVersion`, and deprecate the integer `targetVersion` API while
+  preserving compatibility. `AppleVersion` supports numeric comparison.
+- Add `iOSDeploymentVersion` and `macOSDeploymentVersion` to `testCodeBuildHook`, and
+  deprecate its integer version parameters.
+
 ## 2.1.0
 
 - Added `Architecture.arm64e`.

@@ -25,15 +25,14 @@ const name = 'add';
 /// This comment is generated. To regenerate, run:
 /// `REGENERATE_TEST_CONFIGS=true dart test`
 ///
-/// | #   | Architecture | IOSSdk          | IOSVersion | Link Mode | Language    | Optimization Level |
-/// |-----|--------------|-----------------|------------|-----------|-------------|--------------------|
-/// | 1   | arm64        | iphoneos        | 16         | bundled   | objective c | Os                 |
-/// | 2   | arm64        | iphoneos        | 16         | static    | c           | unspecified        |
-/// | 3   | arm64        | iphonesimulator | 16         | bundled   | objective c | O3                 |
-/// | 4   | arm64e       | iphoneos        | 17         | static    | c           | O2                 |
-/// | 5   | arm64e       | iphonesimulator | 17         | bundled   | objective c | O1                 |
-/// | 6   | x64          | iphonesimulator | 16         | static    | objective c | O0                 |
-/// | 7   | x64          | iphonesimulator | 17         | bundled   | c           | Os                 |
+/// | #   | Architecture | IOSSdk          | Apple Version                        | Link Mode | Language    | Optimization Level |
+/// |-----|--------------|-----------------|--------------------------------------|-----------|-------------|--------------------|
+/// | 1   | arm64        | iphoneos        | AppleVersion(27, minor: 0, patch: 0) | static    | c           | unspecified        |
+/// | 2   | arm64        | iphonesimulator | AppleVersion(27, minor: 0, patch: 0) | bundled   | objective c | O3                 |
+/// | 3   | arm64e       | iphoneos        | AppleVersion(26, minor: 7, patch: 1) | bundled   | c           | O2                 |
+/// | 4   | arm64e       | iphonesimulator | AppleVersion(27, minor: 0, patch: 0) | static    | objective c | O0                 |
+/// | 5   | x64          | iphonesimulator | AppleVersion(26, minor: 7, patch: 1) | bundled   | objective c | O1                 |
+/// | 6   | x64          | iphonesimulator | AppleVersion(26, minor: 7, patch: 1) | static    | c           | Os                 |
 final configurations =
     TestCaseSelector(
       dimensions: {
@@ -43,7 +42,7 @@ final configurations =
           Architecture.x64,
         ],
         IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
-        IOSVersion: [
+        AppleVersion: [
           IOSVersion.flutterHighestBestEffort,
           IOSVersion.flutterHighestSupported,
         ],
@@ -53,13 +52,13 @@ final configurations =
       },
       interactionGroups: [
         {Architecture, IOSSdk},
-        {IOSSdk, IOSVersion},
+        {IOSSdk, AppleVersion},
         {Architecture, LinkMode},
         {Architecture, Language},
         {Language, LinkMode},
         {IOSSdk, LinkMode},
-        {IOSVersion, LinkMode},
-        {Language, IOSVersion},
+        {AppleVersion, LinkMode},
+        {Language, AppleVersion},
       ],
       isValid: (config) {
         if (config.get<IOSSdk>() == IOSSdk.iPhoneOS &&
@@ -85,7 +84,7 @@ void main() {
     final linkMode = config.get<LinkMode>();
     final language = config.get<Language>();
     final targetIOSSdk = config.get<IOSSdk>();
-    final iOSVersion = config.get<IOSVersion>();
+    final iOSVersion = config.get<AppleVersion>();
     final optimizationLevel = config.get<OptimizationLevel>();
 
     final hasInstallName =
@@ -128,7 +127,7 @@ void main() {
                   : .static,
               iOS: IOSCodeConfig(
                 targetSdk: targetIOSSdk,
-                targetVersion: iOSVersion.value,
+                deploymentVersion: iOSVersion,
               ),
               cCompiler: cCompiler,
             ),
@@ -186,7 +185,7 @@ void main() {
           processManager: const LocalProcessManager(),
         );
         expect(otoolResult.exitCode, 0);
-        expect(otoolResult.stdout, contains('minos $iOSVersion.0'));
+        expectAppleDeploymentVersion(otoolResult.stdout, iOSVersion);
         // As of native_assets_cli 0.10.0, the min target OS version is
         // always being passed in.
         expect(otoolResult.stdout, isNot(contains('LC_VERSION_MIN_IPHONEOS')));
