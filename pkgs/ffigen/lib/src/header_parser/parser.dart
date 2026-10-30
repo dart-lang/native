@@ -205,6 +205,13 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   for (final visitor in config.visitors) {
     visitor.visitAll(publicNodes);
   }
+  // Visitors can turn properties into methods, which may conflict with the
+  // overrides in the rest of the hierarchy.
+  visit(
+    context,
+    FixOverriddenMethodsVisitation(context, onlyMethodsVsProperties: true),
+    almostAllBindings,
+  );
 
   final allBindings = visit(
     context,

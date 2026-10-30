@@ -1,3 +1,9 @@
+## 23.1.0-wip
+
+- Added an `ObjCMethod.isProperty` setter to the visitor API: set it to `false`
+  to generate an Objective-C property as plain methods.
+  ([#1711](https://github.com/dart-lang/native/issues/1711))
+
 ## 23.0.0
 
 - The YAML configuration format is deprecated and will be removed in a future
