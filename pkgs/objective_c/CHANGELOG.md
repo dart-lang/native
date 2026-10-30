@@ -1,5 +1,9 @@
 ## 9.6.3-wip
 
+- Make the `NSInputStream` returned by `toNSInputStream` avoid copying the
+  data added to it, and avoid moving the unread data after every read. For
+  large chunks of data, this makes reading up to 1.8x faster and halves memory
+  use.
 - Make `toNSData` copy the data once, rather than twice.
 - Increase the amount of data that `toNSInputStream` buffers ahead of the
   reader from 4 KiB to 1 MiB, which makes reading the returned `NSInputStream`
