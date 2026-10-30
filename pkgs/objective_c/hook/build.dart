@@ -196,11 +196,15 @@ String firstLineOfStdout(String cmd, List<String> args) {
 
 String minOSVersion(CodeConfig codeConfig) {
   if (codeConfig.targetOS == OS.iOS) {
-    final targetVersion = codeConfig.iOS.targetVersion;
+    final targetVersion = _appleDeploymentTarget(
+      codeConfig.iOS.deploymentVersion,
+    );
     return '-mios-version-min=$targetVersion';
   }
   assert(codeConfig.targetOS == OS.macOS);
-  final targetVersion = codeConfig.macOS.targetVersion;
+  final targetVersion = _appleDeploymentTarget(
+    codeConfig.macOS.deploymentVersion,
+  );
   return '-mmacos-version-min=$targetVersion';
 }
 
@@ -230,3 +234,12 @@ final appleClangIosTargetFlags = {
   },
   Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
 };
+
+String _appleDeploymentTarget(AppleVersion version) {
+  final major = version.major;
+  final minor = version.minor;
+  final patch = version.patch;
+  if (patch != 0) return '$major.$minor.$patch';
+  if (minor != 0) return '$major.$minor';
+  return '$major';
+}

@@ -23,10 +23,13 @@ const preamble = '''
 
 ''';
 
-void compileKotlinSources(String workingDir) async {
+void compileKotlinSources(String workingDir, {Directory? targetDir}) {
   final procRes = Process.runSync(
     'mvn',
-    ['package'],
+    [
+      'package',
+      if (targetDir != null) '-Dbuild.dir=${targetDir.absolute.path}',
+    ],
     workingDirectory: workingDir,
     runInShell: true,
     environment: jni_util.javaEnvironment,
@@ -38,14 +41,16 @@ void compileKotlinSources(String workingDir) async {
   }
 }
 
-JniGenerator getConfig({SummarizerBackend? backend}) {
-  compileKotlinSources(kotlinPath);
+JniGenerator getConfig({SummarizerBackend? backend, Directory? targetDir}) {
+  compileKotlinSources(kotlinPath, targetDir: targetDir);
+  final compiledJarPath =
+      targetDir != null ? join(targetDir.path, jarFile) : jarPath;
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
   );
   final config = JniGenerator(
     input: Input(
-      classPath: [Uri.file(jarPath)],
+      classPath: [Uri.file(compiledJarPath)],
       classes: [
         // Generating the entire library.
         //

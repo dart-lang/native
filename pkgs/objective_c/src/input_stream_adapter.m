@@ -48,16 +48,16 @@ static const NSUInteger kScheduledRequestSize = 4096;
 /// Delivers `NSStreamEventOpenCompleted` (once after `open`), followed by at
 /// most one of:
 /// - `NSStreamEventErrorOccurred` (once, if `_error` is set),
-/// - `NSStreamEventHasBytesAvailable` (whenever `_data` is not empty), or
-/// - `NSStreamEventEndEncountered` (once, when `_done` is `YES` and `_data` is
-///   empty).
+/// - `NSStreamEventHasBytesAvailable` (whenever `_available` is not zero), or
+/// - `NSStreamEventEndEncountered` (once, when `_done` is `YES` and
+///   `_available` is zero).
 - (void)deliverEvents;
 
 /// Periodically called by `_retryTimer` while the stream is scheduled in a run
 /// loop.
 ///
-/// If the stream is still active and `_data` is empty, sends a request to Dart
-/// for more data:
+/// If the stream is still active and `_available` is zero, sends a request to
+/// Dart for more data:
 /// - If `_sendPort` has been closed (for example, because the Dart isolate
 ///   exited without closing the stream), `requestData:` sets `_error` and
 ///   signals the scheduled run loops. This prevents a deadlock because a
@@ -68,10 +68,10 @@ static const NSUInteger kScheduledRequestSize = 4096;
 ///   `hasBytesAvailable` to return `YES` and signals the scheduled run loops so
 ///   `deliverEvents` delivers the appropriate event.
 ///
-/// Does not request data when `_data` is non-empty because every request
+/// Does not request data when `_available` is not zero because every request
 /// resumes the Dart `StreamSubscription` (which would bypass Dart's read-ahead
-/// limit), and `read:maxLength:` requests more data itself once `_data` is
-/// drained.
+/// limit), and `read:maxLength:` requests more data itself once `_available`
+/// reaches zero.
 ///
 /// Stops `_retryTimer` once the stream is closed, done, has an error, or is no
 /// longer scheduled in any run loop.
@@ -92,7 +92,15 @@ static void DOBJCPerformRunLoopSource(void *info) {
 @implementation DOBJCDartInputStreamAdapter {
   Dart_Port _sendPort;
   NSCondition *_dataCondition;
-  NSMutableData *_data;
+  // The data that has been added with `addData:` but not yet read, oldest first.
+  //
+  // In the pathological case, the Dart stream will produce a single byte,
+  // which will cause `_chunks` to use about 50 MiB for 1 MiB of data.
+  NSMutableArray<NSData *> *_chunks;
+  // The number of bytes of `_chunks[0]` that have already been read.
+  NSUInteger _chunkOffset;
+  // The number of bytes in all `_chunks` that have not been read.
+  NSUInteger _available;
   NSStreamStatus _status;
   BOOL _done;
   NSError *_error;
@@ -111,7 +119,9 @@ static void DOBJCPerformRunLoopSource(void *info) {
   if (stream != nil) {
     stream->_sendPort = sendPort;
     stream->_dataCondition = [[NSCondition alloc] init];
-    stream->_data = [[NSMutableData alloc] init];
+    stream->_chunks = [[NSMutableArray alloc] init];
+    stream->_chunkOffset = 0;
+    stream->_available = 0;
     stream->_done = NO;
     stream->_status = NSStreamStatusNotOpen;
     stream->_error = nil;
@@ -131,13 +141,19 @@ static void DOBJCPerformRunLoopSource(void *info) {
 }
 
 - (NSUInteger)addData:(NSData *)data {
+  // `copy:` doesn't copy the bytes of immutable data, which is what the Dart
+  // side provides.
+  NSData *chunk = [data copy];
   [_dataCondition lock];
-  [_data appendData:data];
-  NSUInteger length = [_data length];
+  if ([chunk length] > 0) {
+    [_chunks addObject:chunk];
+    _available += [chunk length];
+  }
+  const NSUInteger available = _available;
   [_dataCondition broadcast];
   [self signalScheduledRunLoops];
   [_dataCondition unlock];
-  return length;
+  return available;
 }
 
 - (void)setDone {
@@ -205,7 +221,7 @@ static void DOBJCPerformRunLoopSource(void *info) {
   }
   // The stream may have been read without being scheduled, which doesn't ask
   // for more data when it empties the buffer, so ask now if there is no data.
-  if ([_data length] > 0 || [self requestData:kScheduledRequestSize]) {
+  if (_available > 0 || [self requestData:kScheduledRequestSize]) {
     [self startRetryTimer];
   }
 }
@@ -256,7 +272,7 @@ static void DOBJCPerformRunLoopSource(void *info) {
   if (_status != NSStreamStatusOpen || _done || _error != nil ||
       _scheduledRunLoops.count == 0) {
     [self stopRetryTimer];
-  } else if ([_data length] == 0) {
+  } else if (_available == 0) {
     [self requestData:kScheduledRequestSize];
   }
   [_dataCondition unlock];
@@ -276,7 +292,7 @@ static void DOBJCPerformRunLoopSource(void *info) {
       _errorOccurredSent = YES;
       event = NSStreamEventErrorOccurred;
     }
-  } else if ([_data length] > 0) {
+  } else if (_available > 0) {
     event = NSStreamEventHasBytesAvailable;
   } else if (_done && !_endEncounteredSent) {
     _endEncounteredSent = YES;
@@ -441,7 +457,7 @@ static void DOBJCPerformRunLoopSource(void *info) {
     return -1;
   }
 
-  while (([_data length] == 0) && !_done && _error == nil &&
+  while (_available == 0 && !_done && _error == nil &&
          _status != NSStreamStatusClosed) {
     // Posting fails once the isolate that owns the port has exited. The
     // isolate can exit without notifying this stream, so re-posting after
@@ -464,19 +480,29 @@ static void DOBJCPerformRunLoopSource(void *info) {
 
   NSInteger copySize;
   if (_error == nil) {
-    copySize = MIN(len, [_data length]);
-    NSRange readRange = NSMakeRange(0, copySize);
-    [_data getBytes:(void *)buffer range:readRange];
-    // Shift the remaining data over to the beginning of the buffer.
-    // NOTE: this makes small reads expensive!
-    [_data replaceBytesInRange:readRange withBytes:NULL length:0];
+    NSUInteger copied = 0;
+    while (copied < len && [_chunks count] > 0) {
+      NSData *chunk = _chunks[0];
+      const NSUInteger chunkLength = [chunk length];
+      const NSUInteger count = MIN(len - copied, chunkLength - _chunkOffset);
+      [chunk getBytes:buffer + copied range:NSMakeRange(_chunkOffset, count)];
+      copied += count;
+      _chunkOffset += count;
+      if (_chunkOffset == chunkLength) {
+        // `NSMutableArray` is a implemented using a circular buffer, so this is efficient.
+        [_chunks removeObjectAtIndex:0];
+        _chunkOffset = 0;
+      }
+    }
+    _available -= copied;
+    copySize = copied;
 
-    if (_done && [_data length] == 0) {
+    if (_done && _available == 0) {
       _status = NSStreamStatusAtEnd;
     }
 
     if (_scheduledRunLoops.count > 0) {
-      if ([_data length] > 0 || _done) {
+      if (_available > 0 || _done) {
         // There is more to read, or the end to report.
         [self signalScheduledRunLoops];
       } else {
@@ -515,7 +541,7 @@ static void DOBJCPerformRunLoopSource(void *info) {
     // 2. the stream is done (`read:maxLength:` returns 0), or
     // 3. an error occurred (`read:maxLength:` returns -1).
     hasBytesAvailable = _status == NSStreamStatusOpen &&
-                        ([_data length] > 0 || _done || _error != nil);
+                        (_available > 0 || _done || _error != nil);
   }
   [_dataCondition unlock];
   return hasBytesAvailable;

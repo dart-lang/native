@@ -384,13 +384,14 @@ void main() {
           await resumed.future;
           inputStream.removeFromRunLoop(runLoop, forMode: mode);
 
-          // Add more than the stream buffers ahead, so that the stream is
-          // paused, and then empty the buffer with an unscheduled read.
-          controller.add(List.filled(5000, 1));
+          // Add more than the stream buffers ahead (1 MiB), so that the stream
+          // is paused, and then empty the buffer with an unscheduled read.
+          const size = 1024 * 1024 + 1;
+          controller.add(List.filled(size, 1));
           await paused.future;
-          final buffer = calloc<Uint8>(5000);
+          final buffer = calloc<Uint8>(size);
           addTearDown(() => calloc.free(buffer));
-          expect(inputStream.read(buffer, maxLength: 5000), 5000);
+          expect(inputStream.read(buffer, maxLength: size), size);
 
           controller.add([1, 2, 3]);
           unawaited(controller.close());
