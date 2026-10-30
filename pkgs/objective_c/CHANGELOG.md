@@ -5,6 +5,8 @@
   for data never returned if the stream was closed or if the isolate that
   created the stream exited. The read now returns `-1`, and sets `streamError`
   if the isolate exited.
+- Use minor and patch versions of iOS and macOS deployment targets from
+  `package:code_assets` 2.2.0 in the native support library's build hook.
 
 ## 9.6.2
 

@@ -4,6 +4,7 @@
 
 import 'package:hooks/hooks.dart';
 
+import 'apple_version.dart';
 import 'architecture.dart';
 import 'c_compiler_config.dart';
 import 'code_asset.dart';
@@ -133,15 +134,44 @@ final class IOSCodeConfig {
   /// Whether to target device or simulator.
   IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk);
 
-  /// The lowest iOS version that the compiled code will be compatible with.
-  int get targetVersion => _syntax.targetVersion;
+  /// The major component of the lowest compatible iOS version.
+  @Deprecated('Use deploymentVersion.major instead.')
+  int get targetVersion => deploymentVersion.major;
+
+  /// The complete lowest compatible iOS deployment version.
+  ///
+  /// Older SDKs supplying only the integer version are supported, with minor
+  /// and patch components defaulting to zero.
+  /// When the nested protocol version is present, all three components are
+  /// required.
+  /// The nested version takes precedence over the legacy integer.
+  /// Malformed components throw [FormatException] when accessed.
+  AppleVersion get deploymentVersion => switch (_syntax.deploymentVersion) {
+    final version? => AppleVersionSyntaxExtension.fromSyntax(version),
+    null => AppleVersion(_syntax.targetVersion),
+  };
 
   /// Constructs a new [IOSCodeConfig].
-  IOSCodeConfig({required IOSSdk targetSdk, required int targetVersion})
-    : _syntax = IOSCodeConfigSyntax(
+  ///
+  /// Supply exactly one of [deploymentVersion] or the deprecated
+  /// [targetVersion].
+  /// Throws [ArgumentError] for both, neither, or an invalid legacy version.
+  /// Both protocol fields are populated so older hooks can read the major
+  /// version.
+  factory IOSCodeConfig({
+    required IOSSdk targetSdk,
+    @Deprecated('Use deploymentVersion instead.') int? targetVersion,
+    AppleVersion? deploymentVersion,
+  }) {
+    final version = _appleDeploymentVersion(targetVersion, deploymentVersion);
+    return IOSCodeConfig._(
+      IOSCodeConfigSyntax(
         targetSdk: targetSdk.type,
-        targetVersion: targetVersion,
-      );
+        targetVersion: version.major,
+        deploymentVersion: version.toSyntax(),
+      ),
+    );
+  }
 }
 
 /// The configuration for [CodeAsset]s for target OS [OS.android] in
@@ -167,12 +197,52 @@ final class MacOSCodeConfig {
 
   MacOSCodeConfig._(this._syntax);
 
-  /// The lowest MacOS version that the compiled code will be compatible with.
-  int get targetVersion => _syntax.targetVersion;
+  /// The major component of the lowest compatible macOS version.
+  @Deprecated('Use deploymentVersion.major instead.')
+  int get targetVersion => deploymentVersion.major;
+
+  /// The complete lowest compatible macOS deployment version.
+  ///
+  /// Older SDKs supplying only the integer version are supported, with minor
+  /// and patch components defaulting to zero.
+  /// When the nested protocol version is present, all three components are
+  /// required.
+  /// The nested version takes precedence over the legacy integer.
+  /// Malformed components throw [FormatException] when accessed.
+  AppleVersion get deploymentVersion => switch (_syntax.deploymentVersion) {
+    final version? => AppleVersionSyntaxExtension.fromSyntax(version),
+    null => AppleVersion(_syntax.targetVersion),
+  };
 
   /// Constructs a new [MacOSCodeConfig].
-  MacOSCodeConfig({required int targetVersion})
-    : _syntax = MacOSCodeConfigSyntax(targetVersion: targetVersion);
+  ///
+  /// Supply exactly one of [deploymentVersion] or the deprecated
+  /// [targetVersion].
+  /// Throws [ArgumentError] for both, neither, or an invalid legacy version.
+  /// Both protocol fields are populated so older hooks can read the major
+  /// version.
+  factory MacOSCodeConfig({
+    @Deprecated('Use deploymentVersion instead.') int? targetVersion,
+    AppleVersion? deploymentVersion,
+  }) {
+    final version = _appleDeploymentVersion(targetVersion, deploymentVersion);
+    return MacOSCodeConfig._(
+      MacOSCodeConfigSyntax(
+        targetVersion: version.major,
+        deploymentVersion: version.toSyntax(),
+      ),
+    );
+  }
+}
+
+AppleVersion _appleDeploymentVersion(int? major, AppleVersion? version) {
+  if ((major == null) == (version == null)) {
+    throw ArgumentError(
+      'Supply exactly one of targetVersion or deploymentVersion.',
+    );
+  }
+  if (version != null) return version;
+  return AppleVersion(major!);
 }
 
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
@@ -303,18 +373,14 @@ extension LinkOutputCodeAssets on LinkOutputAssets {
 extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
   /// Converts this [MacOSCodeConfig] to its corresponding
   /// [MacOSCodeConfigSyntax].
-  MacOSCodeConfigSyntax toSyntax() =>
-      MacOSCodeConfigSyntax(targetVersion: targetVersion);
+  MacOSCodeConfigSyntax toSyntax() => _syntax;
 }
 
 /// Extension methods for [IOSCodeConfig] to convert to and from the syntax
 /// model.
 extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
   /// Converts this [IOSCodeConfig] to its corresponding [IOSCodeConfigSyntax].
-  IOSCodeConfigSyntax toSyntax() => IOSCodeConfigSyntax(
-    targetSdk: targetSdk.type,
-    targetVersion: targetVersion,
-  );
+  IOSCodeConfigSyntax toSyntax() => _syntax;
 }
 
 /// Extension methods for [AndroidCodeConfig] to convert to and from the syntax

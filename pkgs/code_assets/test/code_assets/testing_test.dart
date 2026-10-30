@@ -23,27 +23,27 @@ void main() {
         targetOS: OS.iOS,
         targetArchitecture: Architecture.arm64,
         targetIOSSdk: IOSSdk.iPhoneOS,
-        targetIOSVersion: 17,
+        iOSDeploymentVersion: AppleVersion(17),
         mainMethod: (args) async {
           await build(args, (input, output) async {});
         },
         check: (input, output) {
           expect(input.config.code.targetOS, OS.iOS);
           expect(input.config.code.iOS.targetSdk, IOSSdk.iPhoneOS);
-          expect(input.config.code.iOS.targetVersion, 17);
+          expect(input.config.code.iOS.deploymentVersion, AppleVersion(17));
         },
       );
 
       await testCodeBuildHook(
         targetOS: OS.macOS,
         targetArchitecture: Architecture.arm64,
-        targetMacOSVersion: 14,
+        macOSDeploymentVersion: AppleVersion(14),
         mainMethod: (args) async {
           await build(args, (input, output) async {});
         },
         check: (input, output) {
           expect(input.config.code.targetOS, OS.macOS);
-          expect(input.config.code.macOS.targetVersion, 14);
+          expect(input.config.code.macOS.deploymentVersion, AppleVersion(14));
         },
       );
 
