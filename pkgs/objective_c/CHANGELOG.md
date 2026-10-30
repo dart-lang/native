@@ -4,6 +4,17 @@
   data added to it, and avoid moving the unread data after every read. For
   large chunks of data, this makes reading up to 1.8x faster and halves memory
   use.
+- Make `toNSData` copy the data once, rather than twice.
+- Increase the amount of data that `toNSInputStream` buffers ahead of the
+  reader from 4 KiB to 1 MiB, which makes reading the returned `NSInputStream`
+  up to 7x faster.
+- Fix a [bug](https://github.com/dart-lang/native/issues/3750) in the
+  `NSInputStream` returned by `toNSInputStream` where a read that was waiting
+  for data never returned if the stream was closed or if the isolate that
+  created the stream exited. The read now returns `-1`, and sets `streamError`
+  if the isolate exited.
+- Use minor and patch versions of iOS and macOS deployment targets from
+  `package:code_assets` 2.2.0 in the native support library's build hook.
 
 ## 9.6.2
 

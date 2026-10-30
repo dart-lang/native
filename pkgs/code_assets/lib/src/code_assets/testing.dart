@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:hooks/hooks.dart';
 
+import 'apple_version.dart';
 import 'architecture.dart';
 import 'c_compiler_config.dart';
 import 'code_asset.dart';
@@ -39,6 +40,10 @@ import 'os.dart';
 /// The hook is run in isolation. No user-defines are read from the pubspec,
 /// they must be provided via [userDefines]. No other hooks are run, if the hook
 /// requires assets from other build hooks, the must be provided in [assets].
+///
+/// Apple deployment versions default to `17` for iOS and `13` for macOS.
+/// Supply an [AppleVersion] or the deprecated integer version for each target,
+/// but not both.
 Future<void> testCodeBuildHook({
   required FutureOr<void> Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildInput, BuildOutput) check,
@@ -46,8 +51,10 @@ Future<void> testCodeBuildHook({
   Architecture? targetArchitecture,
   OS? targetOS,
   IOSSdk? targetIOSSdk = IOSSdk.iPhoneOS,
-  int? targetIOSVersion = 17,
-  int? targetMacOSVersion = 13,
+  @Deprecated('Use iOSDeploymentVersion instead.') int? targetIOSVersion,
+  AppleVersion? iOSDeploymentVersion,
+  @Deprecated('Use macOSDeploymentVersion instead.') int? targetMacOSVersion,
+  AppleVersion? macOSDeploymentVersion,
   int? targetAndroidNdkApi = 30,
   CCompilerConfig? cCompiler,
   LinkModePreference? linkModePreference = LinkModePreference.dynamic,
@@ -65,11 +72,21 @@ Future<void> testCodeBuildHook({
     iOS: targetOS == OS.iOS
         ? IOSCodeConfig(
             targetSdk: targetIOSSdk!,
-            targetVersion: targetIOSVersion!,
+            deploymentVersion: _testAppleVersion(
+              targetIOSVersion,
+              iOSDeploymentVersion,
+              17,
+            ),
           )
         : null,
     macOS: targetOS == OS.macOS
-        ? MacOSCodeConfig(targetVersion: targetMacOSVersion!)
+        ? MacOSCodeConfig(
+            deploymentVersion: _testAppleVersion(
+              targetMacOSVersion,
+              macOSDeploymentVersion,
+              13,
+            ),
+          )
         : null,
     android: targetOS == OS.android
         ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
@@ -83,4 +100,15 @@ Future<void> testCodeBuildHook({
     assets: assets,
     extensions: [extension],
   );
+}
+
+AppleVersion _testAppleVersion(
+  int? major,
+  AppleVersion? version,
+  int defaultVersion,
+) {
+  if (major != null && version != null) {
+    throw ArgumentError('Supply only one Apple deployment version per target.');
+  }
+  return version ?? AppleVersion(major ?? defaultVersion);
 }
