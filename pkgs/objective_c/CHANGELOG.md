@@ -1,5 +1,8 @@
 ## 9.6.3-wip
 
+- Increase the amount of data that `toNSInputStream` buffers ahead of the
+  reader from 4 KiB to 1 MiB, which makes reading the returned `NSInputStream`
+  up to 7x faster.
 - Fix a [bug](https://github.com/dart-lang/native/issues/3750) in the
   `NSInputStream` returned by `toNSInputStream` where a read that was waiting
   for data never returned if the stream was closed or if the isolate that
