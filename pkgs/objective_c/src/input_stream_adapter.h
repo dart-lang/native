@@ -11,9 +11,12 @@
 @interface DOBJCDartInputStreamAdapter : NSInputStream <NSStreamDelegate>
 
 /// Creates the adapter.
-/// @param sendPort A port to that is will receive two types of messages:
+/// @param sendPort A port that will receive two types of messages:
 /// -1 => The `NSInputStream` has been closed and the port can be closed.
-/// _  => The number of types being required in a `read:maxLength` call.
+/// _  => The `NSInputStream` wants more data for a `read:maxLength:` call
+///       that is waiting, or, if it is scheduled in a run loop, for its next
+///       read. The value is the number of bytes wanted, but is only a hint.
+///       The stream repeats the request while it waits for data.
 + (instancetype)inputStreamWithPort:(Dart_Port)sendPort;
 
 - (NSUInteger)addData:(NSData *)data;
