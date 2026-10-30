@@ -162,6 +162,40 @@ List<String> $validateName() {
     final fieldName = property.name;
     final validateName = property.validateName;
 
+    if (dartType is NumberDartType &&
+        (dartType.minimum != null || dartType.maximum != null)) {
+      final arguments = [
+        if (dartType.minimum != null) 'minimum: ${dartType.minimum}',
+        if (dartType.maximum != null) 'maximum: ${dartType.maximum}',
+      ].join(', ');
+      final conditions = [
+        if (dartType.minimum != null) 'value >= ${dartType.minimum}',
+        if (dartType.maximum != null) 'value <= ${dartType.maximum}',
+      ].join(' && ');
+      final guard = dartType.isNullable
+          ? 'value != null && !($conditions)'
+          : '!($conditions)';
+      final expected = [
+        if (dartType.minimum != null) 'at least ${dartType.minimum}',
+        if (dartType.maximum != null) 'at most ${dartType.maximum}',
+      ].join(' and ');
+      buffer.writeln("""
+$dartType get $fieldName => _reader.number<$dartType>('$jsonKey', $arguments);
+
+set $setterName($dartType value) {
+  if ($guard) {
+    throw ArgumentError.value(value, '$fieldName', 'Expected $expected.');
+  }
+  json.setOrRemove('$jsonKey', value);
+  $sortOnKey
+}
+
+List<String> $validateName() =>
+    _reader.validateNumber<$dartType>('$jsonKey', $arguments);
+""");
+      return;
+    }
+
     if (dartType is StringDartType && dartType.pattern != null) {
       final String readerGetter, readerValidate, setterGuard;
       if (dartType.isNullable) {
