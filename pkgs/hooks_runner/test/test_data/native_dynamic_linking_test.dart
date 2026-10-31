@@ -50,7 +50,9 @@ void main() async {
             targetArchitecture: Architecture.current,
             targetOS: targetOS,
             macOS: targetOS == OS.macOS
-                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                ? MacOSCodeConfig(
+                    deploymentVersion: AppleVersion(defaultMacOSVersion),
+                  )
                 : null,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: cCompiler,
@@ -87,8 +89,13 @@ void main() async {
       expect(await assets.allExist(), true);
       expect(dependencies, [
         testPackageUri.resolve('src/debug.c'),
+        testPackageUri.resolve('src/debug.h'),
         testPackageUri.resolve('src/math.c'),
+        testPackageUri.resolve('src/math.h'),
+        testPackageUri.resolve('src/debug.h'),
         testPackageUri.resolve('src/add.c'),
+        testPackageUri.resolve('src/add.h'),
+        testPackageUri.resolve('src/math.h'),
       ]);
 
       final addLibraryPath = assets
