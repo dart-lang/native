@@ -167,6 +167,10 @@ class ObjCObjectPointer extends PointerType {
       '(__bridge id)(__bridge_retained void*)($value)';
 
   @override
+  String? generateRelease(Context context, String value) =>
+      '$value.ref.release();';
+
+  @override
   bool isSupertypeOf(Type other) {
     other = other.typealiasType;
     // id/Object* is a supertype of all ObjC objects and blocks.

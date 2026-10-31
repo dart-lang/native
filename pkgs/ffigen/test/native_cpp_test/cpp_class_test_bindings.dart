@@ -7,6 +7,140 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int age)>
+    >,
+    ffi.Int,
+  )
+>(symbol: 'applyFactory')
+external ffi.Pointer<ffi.Void> _applyFactory(
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int age)>>
+  factory,
+  int age,
+);
+
+Animal applyFactory(
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int age)>>
+  factory,
+  int age,
+) {
+  return Animal.fromPointer(_applyFactory(factory, age));
+}
+
+@ffi.Native<
+  ffi.Int Function(
+    ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> a)>>,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: 'applyProcessor')
+external int _applyProcessor(
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> a)>>
+  processor,
+  ffi.Pointer<ffi.Void> animal,
+);
+
+int applyProcessor(
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> a)>>
+  processor,
+  Animal animal,
+) {
+  return _applyProcessor(processor, animal._ptr);
+}
+
+@ffi.Native<
+  ffi.Void Function(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<ffi.Void> a, ffi.Int value)
+      >
+    >,
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+  )
+>(symbol: 'applyTransform')
+external void _applyTransform(
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Void> a, ffi.Int value)
+    >
+  >
+  transform,
+  ffi.Pointer<ffi.Void> animal,
+  int value,
+);
+
+void applyTransform(
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Void> a, ffi.Int value)
+    >
+  >
+  transform,
+  Animal animal,
+  int value,
+) {
+  return _applyTransform(transform, animal._ptr, value);
+}
+
+@ffi.Native<AnimalOwner Function(ffi.Pointer<ffi.Void>, ffi.Int)>(
+  symbol: 'createAnimalOwner',
+)
+external AnimalOwner _createAnimalOwner(ffi.Pointer<ffi.Void> animal, int id);
+
+AnimalOwner createAnimalOwner(Animal animal, int id) {
+  return _createAnimalOwner(animal._ptr, id);
+}
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(
+  symbol: 'createAnimalPointer',
+)
+external ffi.Pointer<ffi.Void> _createAnimalPointer(int age);
+
+Animal createAnimalPointer(int age) {
+  return Animal.fromPointer(_createAnimalPointer(age));
+}
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'getAgeFromPointer',
+)
+external int _getAgeFromPointer(ffi.Pointer<ffi.Void> animal);
+
+int getAgeFromPointer(Animal animal) {
+  return _getAgeFromPointer(animal._ptr);
+}
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<AnimalOwner>)>()
+external int getAnimalOwnerAge(ffi.Pointer<AnimalOwner> owner);
+
+@ffi.Native<ffi.Int Function()>()
+external int getGlobalAnimalAge();
+
+@ffi.Native<ffi.Pointer<ffi.Void>>(symbol: 'globalAnimal')
+external ffi.Pointer<ffi.Void> _globalAnimal;
+
+Animal get globalAnimal => Animal.fromPointer(_globalAnimal);
+
+set globalAnimal(Animal value) {
+  _globalAnimal = value._ptr;
+}
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int)>(
+  symbol: 'setAgeFromPointer',
+)
+external void _setAgeFromPointer(ffi.Pointer<ffi.Void> animal, int age);
+
+void setAgeFromPointer(Animal animal, int age) {
+  return _setAgeFromPointer(animal._ptr, age);
+}
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<AnimalOwner>, ffi.Int)>()
+external void setAnimalOwnerAge(ffi.Pointer<AnimalOwner> owner, int age);
+
+@ffi.Native<ffi.Void Function(ffi.Int)>()
+external void setGlobalAnimalAge(int age);
+
 class Animal implements ffi.Finalizable {
   ffi.Pointer<ffi.Void> _ptr;
   static final _defaultFinalizer = ffi.NativeFinalizer(
@@ -256,6 +390,25 @@ external bool _Animal_haveSameAge(
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
 external void _Animal_delete(ffi.Pointer<ffi.Void> self);
+
+final class AnimalOwner extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> _animal;
+
+  Animal get animal => Animal.fromPointer(_animal);
+
+  set animal(Animal value) => _animal = value._ptr;
+
+  @ffi.Int()
+  external int id;
+
+  static ffi.Pointer<AnimalOwner> $allocate(
+    ffi.Allocator $allocator, {
+    required Animal animal,
+    required int id,
+  }) => $allocator<AnimalOwner>()
+    ..ref.animal = animal
+    ..ref.id = id;
+}
 
 class FinalizerTestSubject implements ffi.Finalizable {
   ffi.Pointer<ffi.Void> _ptr;
