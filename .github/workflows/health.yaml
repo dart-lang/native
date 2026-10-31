@@ -8,15 +8,18 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 jobs:
   health:
-    uses: dart-lang/ecosystem/.github/workflows/health.yaml@fc3dd9a17a8e18b3b4aa5abac8a0f4a679fe2d57
+    uses: dart-lang/ecosystem/.github/workflows/health.yaml@78abf72b3cfcc7c6c822032d8915153019fe79b7 # main
     with:
       coverage_web: false
       # TODO(https://github.com/dart-lang/native/issues/1242): Add coverage back.
       # TODO(https://github.com/dart-lang/native/issues/3148): Add copyright back.
-      checks: "changelog,do-not-submit,breaking,leaking"
-      flutter_packages: "pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/objective_c"
+      checks: "changelog,do-not-submit,breaking,leaking,publish"
+      fail_on: "changelog,do-not-submit,publish"
+      warn_on: "license,coverage,breaking,leaking,unused-dependencies"
+      flutter_packages: "pkgs/ffigen,pkgs/jni,pkgs/jni_flutter,pkgs/jnigen,pkgs/objective_c"
       ignore_license: "**.g.dart"
       ignore_coverage: "**.mock.dart,**.g.dart"
+      ignore_publish: "pkgs/objective_c,pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/hooks/example/build/prebuilt_assets_example"
       # TODO(https://github.com/dart-lang/native/issues/1857): Enable ffigen.
       ignore_packages: "pkgs/swiftgen,pkgs/jnigen,pkgs/swift2objc,pkgs/ffigen"
       sdk: dev
