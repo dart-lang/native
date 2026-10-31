@@ -639,8 +639,31 @@ class DependencyValidatorTask extends Task {
   }
 }
 
+/// Checks for spelling issues in documentation comments and markdown files.
+class SpellingTask extends Task {
+  const SpellingTask()
+    : super(
+        name: 'spelling',
+        helpMessage:
+            'Check for spelling issues in doc comments and markdown files.',
+      );
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    await _runProcess('dart', [
+      'tool/spelling.dart',
+      '--set-exit-if-changed',
+      ...packages,
+    ]);
+  }
+}
+
 const pubTask = PubTask();
 const licenseTask = LicenseTask();
+const spellingTask = SpellingTask();
 const analyzeTask = AnalyzeTask();
 const formatTask = FormatTask();
 const generateTask = GenerateTask();
@@ -656,6 +679,7 @@ final tasks = [
   pubTask,
   generateTask,
   licenseTask,
+  spellingTask,
   analyzeTask,
   formatTask,
   dependencyValidatorTask,
