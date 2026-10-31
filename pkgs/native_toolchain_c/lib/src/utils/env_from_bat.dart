@@ -2,11 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:process/process.dart';
 
 /// Extracts the environment variables set by [batchFile].
 ///
 /// If provided, passes [arguments] to the batch file invocation.
+///
+/// Throws a [ProcessException] if running [batchFile] fails.
 ///
 /// The batch file is run through [processManager], which allows the process
 /// invocation to be mocked out in tests.
@@ -24,11 +28,27 @@ Future<Map<String, String>> environmentFromBatchFile(
   final processResult = await processManager.run(
     // [ProcessManager.run] takes the executable and its arguments as a single
     // list, with the first element treated as the executable.
-    ['set && echo $separator && $fileName ${arguments.join(' ')} > nul && set'],
+    //
+    // Run the batch file as `.\$fileName`: cmd.exe doesn't search the working
+    // directory for a bare command name if `NoDefaultCurrentDirectoryInExePath`
+    // is set.
+    [
+      'set && echo $separator && .\\$fileName ${arguments.join(' ')} > nul '
+          '&& set',
+    ],
     runInShell: true,
     workingDirectory: dir.toFilePath(),
   );
-  assert(processResult.exitCode == 0);
+  if (processResult.exitCode != 0) {
+    throw ProcessException(
+      batchFile.toFilePath(),
+      arguments,
+      'Failed to extract the environment from the batch file.\n'
+      "Exit code: '${processResult.exitCode}'.\n"
+      "stderr: '${(processResult.stderr as String).trim()}'.",
+      processResult.exitCode,
+    );
+  }
   final resultSplit = (processResult.stdout as String).split(separator);
   assert(resultSplit.length == 2);
   final unmodifiedParsed = _parseDefines(resultSplit.first.trim());

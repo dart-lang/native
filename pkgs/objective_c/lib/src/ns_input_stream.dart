@@ -32,7 +32,11 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// > `NSInputStream.ref.release()`.
   NSInputStream toNSInputStream() {
     // Eagerly add data until `maxReadAheadSize` is buffered.
-    const maxReadAheadSize = 4096;
+    //
+    // The reader only asks for more data once the buffer is empty, and then
+    // waits for a round trip to Dart, so a small read-ahead makes streaming
+    // slow, especially for streams with small chunks.
+    const maxReadAheadSize = 1024 * 1024;
 
     final port = ReceivePort();
 
