@@ -13,6 +13,7 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -30,6 +31,67 @@ void main(List<String> args) {
 }
 ''');
   });
+
+  for (final split in [false, true]) {
+    for (final captureOutput in [false, true]) {
+      test(
+        'runProcess decodes UTF-8 (split: $split, capture: $captureOutput)',
+        () async {
+          final scriptDir = await tempDirForTest();
+          final script = scriptDir.resolve('utf8_output.dart');
+          await File.fromUri(script).writeAsString(r'''
+import 'dart:convert';
+import 'dart:io';
+
+Future<void> main(List<String> args) async {
+  final bytes = utf8.encode('你好 爱你 😀\n');
+  if (args.single == 'true') {
+    // Write partial UTF-8 sequences in separate pipe events.
+    for (final byte in bytes) {
+      stdout.add([byte]);
+      stderr.add([byte]);
+      await stdout.flush();
+      await stderr.flush();
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+    }
+  } else {
+    stdout.add(bytes);
+    stderr.add(bytes);
+  }
+  await stdout.flush();
+  await stderr.flush();
+  exitCode = 255;
+}
+''');
+          final processLogger = Logger.detached('utf8')..level = Level.ALL;
+          final records = <LogRecord>[];
+          final subscription = processLogger.onRecord.listen(records.add);
+          addTearDown(subscription.cancel);
+
+          final result = await runProcess(
+            executable: Uri.file(Platform.resolvedExecutable),
+            arguments: [script.toFilePath(), '$split'],
+            logger: processLogger,
+            captureOutput: captureOutput,
+          );
+
+          const expected = '你好 爱你 😀\n';
+          expect(result.exitCode, 255);
+          expect(result.stdout, captureOutput ? expected : isEmpty);
+          expect(result.stderr, captureOutput ? expected : isEmpty);
+          for (final level in [Level.FINE, Level.SEVERE]) {
+            expect(
+              records
+                  .where((record) => record.level == level)
+                  .map((record) => record.message)
+                  .join(),
+              expected,
+            );
+          }
+        },
+      );
+    }
+  }
 
   test(
     'runProcess handles an executable path containing a space',
