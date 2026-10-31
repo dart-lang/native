@@ -1,12 +1,15 @@
 # A CI configuration to auto-publish pub packages.
+#
+# Pushing a tag PACKAGE-vVERSION publishes the package in pkgs/PACKAGE.
+# Publish checks on pull requests run in the Health workflow.
 
 name: Publish
+permissions:
+  contents: read
 
 on:
-  pull_request:
-    branches: [ main ]
   push:
-    # TODO: Enable autopublishing for these when Flutter SDK is supported.
+    # TODO: Enable autopublishing for excluded packages as needed.
     tags:
       - '[A-z0-9]+-v[0-9]+.[0-9]+.[0-9]+'
       - '[A-z0-9]+-v[0-9]+.[0-9]+.[0-9]+-[A-z0-9]+'
@@ -17,14 +20,39 @@ on:
       - '!prebuilt_assets_example-v**'
 
 jobs:
-  publish:
+  package:
     if: ${{ github.repository_owner == 'dart-lang' }}
-    uses: dart-lang/ecosystem/.github/workflows/publish.yaml@fc3dd9a17a8e18b3b4aa5abac8a0f4a679fe2d57
+    permissions: {}
+    runs-on: ubuntu-latest
+    outputs:
+      directory: ${{ steps.directory.outputs.directory }}
+      use_flutter: ${{ steps.directory.outputs.use_flutter }}
+    steps:
+      - id: directory
+        name: Find the package directory from the tag
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          package="${TAG%%-v*}"
+          if [[ ! "$package" =~ ^[a-z0-9_]+$ ]]; then
+            echo "No package directory in tag $TAG."
+            exit 1
+          fi
+          echo "directory=pkgs/$package" >> "$GITHUB_OUTPUT"
+          case "$package" in
+            jni|jni_flutter)
+              echo "use_flutter=true" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "use_flutter=false" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
+  publish:
+    needs: package
     permissions:
-      contents: read
-      id-token: write # Required for authentication using OIDC
-      pull-requests: write # Required for writing the pull request note
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@a5bff6576dfc51b47eb77d4b7084bba6a4daf8d2 # main
     with:
-      write-comments: false
-      sdk: dev # use beta/stable after 3.3.0
-      ignore-packages: pkgs/objective_c,pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/hooks/example/build/prebuilt_assets_example
+      working-directory: ${{ needs.package.outputs.directory }}
+      use-flutter: ${{ needs.package.outputs.use_flutter == 'true' }}
