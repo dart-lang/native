@@ -44,11 +44,17 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
   void visitCppClass(CppClass node) {
     node.visitChildren(visitor);
 
-    final existingSignatures = node.methods
-        .map((m) => m.signatureKey())
-        .toSet();
+    if (node.bases.isEmpty) return;
 
-    _copyCppMethodsFromBase(node, node, existingSignatures);
+    if (node.bases.length == 1) {
+      final existingSignatures = node.methods
+          .map((m) => m.signatureKey())
+          .toSet();
+      _copyCppMethodsFromBase(node, node.bases.single, existingSignatures);
+      return;
+    }
+
+    _copyCppMethodsFromMultipleBases(node);
   }
 
   void _copyCppMethodsFromBase(
@@ -67,6 +73,117 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     for (final base in current.bases) {
       _copyCppMethodsFromBase(target, base, existingSignatures);
     }
+  }
+
+  void _copyCppMethodsFromMultipleBases(CppClass target) {
+    final ownSignatures = target.methods.map((m) => m.signatureKey()).toSet();
+
+    // Map: signatureKey -> (Map: directBase -> (declaringClass, method))
+    final candidatesBySig =
+        <
+          String,
+          Map<CppClass, ({CppClass declaringClass, CppMethod method})>
+        >{};
+
+    for (final base in target.bases) {
+      final branchMethods = _collectMethodsFromBranch(base);
+      for (final entry in branchMethods.entries) {
+        final sig = entry.key;
+        if (ownSignatures.contains(sig)) continue;
+        candidatesBySig.putIfAbsent(sig, () => {})[base] = entry.value;
+      }
+    }
+
+    for (final entry in candidatesBySig.entries) {
+      final candidates = entry.value;
+
+      if (candidates.length == 1) {
+        final candidate = candidates.entries.single;
+        target.copyMethod(candidate.value.method, candidate.key);
+        continue;
+      }
+
+      // If all candidates originate from the exact same class, there is no
+      // conflict.
+      final firstDeclaring = candidates.values.first.declaringClass;
+      final allSameDeclaring = candidates.values.every(
+        (c) => c.declaringClass == firstDeclaring,
+      );
+      if (allSameDeclaring) {
+        target.copyMethod(
+          candidates.values.first.method,
+          candidates.keys.first,
+        );
+        continue;
+      }
+
+      // Check dominance: A declaration in class D dominates class A if D is a
+      // derived class of A.
+      final nonDominated =
+          <CppClass, ({CppClass declaringClass, CppMethod method})>{};
+      for (final entry1 in candidates.entries) {
+        final class1 = entry1.value.declaringClass;
+        var isDominated = false;
+        for (final entry2 in candidates.entries) {
+          if (identical(entry1.key, entry2.key)) continue;
+          final class2 = entry2.value.declaringClass;
+          if (class1 != class2 && _isSubclassOf(class2, class1)) {
+            isDominated = true;
+            break;
+          }
+        }
+        if (!isDominated) {
+          nonDominated[entry1.key] = entry1.value;
+        }
+      }
+
+      if (nonDominated.length == 1) {
+        final dominating = nonDominated.entries.single;
+        target.copyMethod(dominating.value.method, dominating.key);
+      } else {
+        // Ambiguous diamond inheritance: generate disambiguated copies for each
+        // branch, and an ambiguous override that throws UnsupportedError.
+        for (final nonDom in nonDominated.entries) {
+          target.copyDisambiguatedMethod(nonDom.value.method, nonDom.key);
+        }
+        target.addAmbiguousMethod(
+          candidates.values.first.method,
+          nonDominated.keys.toList(),
+        );
+      }
+    }
+  }
+
+  Map<String, ({CppClass declaringClass, CppMethod method})>
+  _collectMethodsFromBranch(CppClass base) {
+    final result = <String, ({CppClass declaringClass, CppMethod method})>{};
+    final visited = <CppClass>{};
+    void collect(CppClass current) {
+      if (!visited.add(current)) return;
+      for (final method in current.methods) {
+        if (method.kind == CppMethodKind.constructor) continue;
+        if (method.isAmbiguous) continue;
+        final declaring = method.originatingClass ?? current;
+        result.putIfAbsent(
+          method.signatureKey(),
+          () => (declaringClass: declaring, method: method),
+        );
+      }
+      for (final b in current.bases) {
+        collect(b);
+      }
+    }
+
+    collect(base);
+    return result;
+  }
+
+  bool _isSubclassOf(CppClass derived, CppClass ancestor) {
+    if (derived == ancestor) return true;
+    for (final b in derived.bases) {
+      if (_isSubclassOf(b, ancestor)) return true;
+    }
+    return false;
   }
 
   @override
