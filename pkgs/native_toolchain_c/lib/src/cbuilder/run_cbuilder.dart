@@ -193,10 +193,10 @@ class RunCBuilder {
     }
 
     final targetIOSVersion = codeConfig.targetOS == .iOS
-        ? codeConfig.iOS.targetVersion
+        ? _appleDeploymentTarget(codeConfig.iOS.deploymentVersion)
         : null;
     final targetMacOSVersion = codeConfig.targetOS == .macOS
-        ? codeConfig.macOS.targetVersion
+        ? _appleDeploymentTarget(codeConfig.macOS.deploymentVersion)
         : null;
 
     final architecture = codeConfig.targetArchitecture;
@@ -259,8 +259,8 @@ class RunCBuilder {
     Architecture? architecture,
     int? targetAndroidNdkApi,
     IOSSdk? targetIosSdk,
-    int? targetIOSVersion,
-    int? targetMacOSVersion,
+    String? targetIOSVersion,
+    String? targetMacOSVersion,
     Iterable<String> sourceFiles,
     Uri? outFile,
     Map<String, String> environment,
@@ -585,4 +585,13 @@ class RunCBuilder {
   static final _msvcSanitizers = {
     Sanitizer.asan: '/fsanitize=address',
   };
+}
+
+String _appleDeploymentTarget(AppleVersion version) {
+  final major = version.major;
+  final minor = version.minor;
+  final patch = version.patch;
+  if (patch != 0) return '$major.$minor.$patch';
+  if (minor != 0) return '$major.$minor';
+  return '$major';
 }

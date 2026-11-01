@@ -62,7 +62,7 @@ jobs:
         os: [ubuntu, macos, windows]
         sdk: [dev, stable]
 
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os == 'ubuntu' && 'ubuntu-24.04' || format('{0}-latest', matrix.os) }}
 
     defaults:
       run:
