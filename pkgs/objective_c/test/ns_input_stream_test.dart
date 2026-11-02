@@ -205,6 +205,51 @@ void main() {
           expect(inputStream.streamError, null);
         });
       });
+
+      group('read waiting for data', () {
+        test('stream closed', () async {
+          late final NSInputStream inputStream;
+          final controller = StreamController<List<int>>(
+            // Close the input stream during the native read.
+            onResume: () => inputStream.close(),
+          );
+          addTearDown(controller.close);
+          inputStream = controller.stream.toNSInputStream();
+          inputStream.open();
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            10,
+          );
+          expect(count, -1);
+          expect(data, isEmpty);
+          expect(hasBytesAvailable, false);
+          expect(status, NSStreamStatus.NSStreamStatusClosed);
+          expect(error, isNull);
+        });
+
+        test('isolate exits', () async {
+          final ready = ReceivePort();
+          await Isolate.spawn((SendPort sendPort) {
+            final controller = StreamController<List<int>>(
+              // Exit the isolate during the native read.
+              onResume: Isolate.exit,
+            );
+            sendPort.send(controller.stream.toNSInputStream());
+          }, ready.sendPort);
+          final inputStream = await ready.first as NSInputStream;
+          addTearDown(inputStream.close);
+          inputStream.open();
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            10,
+          );
+          expect(count, -1);
+          expect(data, isEmpty);
+          expect(hasBytesAvailable, false);
+          expect(status, NSStreamStatus.NSStreamStatusError);
+          expect(error, isNotNull);
+        });
+      });
     });
 
     group('large stream', () {
