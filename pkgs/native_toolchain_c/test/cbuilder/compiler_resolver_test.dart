@@ -97,6 +97,10 @@ void main() {
   });
 
   test('Bundled SDK LLD resolved without cCompiler config', () async {
+    if (!hasBundledSdkLinker &&
+        (await lld.defaultResolver!.resolve(systemContext)).isEmpty) {
+      return;
+    }
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final buildInputBuilder = BuildInputBuilder()

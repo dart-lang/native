@@ -135,7 +135,7 @@ void runTreeshakeTests(
         Future<void> runLinker() => clinker
             .linker([testArchive.toFilePath()])
             .run(input: linkInput, output: linkOutputBuilder, logger: logger);
-        if (cCompiler == null) {
+        if (cCompiler == null && hasBundledSdkLinker) {
           await runWithEnvironment(const {'PATH': ''}, runLinker);
         } else {
           await runLinker();

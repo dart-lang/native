@@ -1,6 +1,7 @@
 ## 0.19.6-wip
 
 - Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
+- Support direct linking with the Dart SDK's bundled `lld` and cross-platform `linker_stubs`.
 
 ## 0.19.5
 

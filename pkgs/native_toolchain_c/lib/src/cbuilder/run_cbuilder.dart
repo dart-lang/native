@@ -151,7 +151,17 @@ class RunCBuilder {
       compiler.uri.resolve('../sysroot/');
 
   Future<void> run() async {
-    if (linkerOptions != null || _isLinkingPrebuiltObjects) {
+    final stubsDir = resolveLinkerStubsDir(
+      codeConfig.targetOS,
+      codeConfig.targetArchitecture,
+      fileSystem: fileSystem,
+      iOSTargetSdk: codeConfig.targetOS == .iOS
+          ? codeConfig.iOS.targetSdk
+          : null,
+    );
+    if ((linkerOptions != null || _isLinkingPrebuiltObjects) &&
+        (stubsDir != null ||
+            (codeConfig.targetOS != .macOS && codeConfig.targetOS != .iOS))) {
       final linkerInstance = await linker();
       final linkerTool = linkerInstance.tool;
       if (linkerTool.isLdLike ||
@@ -336,8 +346,6 @@ class RunCBuilder {
           )
         else
           ...sourceFiles,
-        if (stubsDir == null)
-          for (final framework in frameworks) ...['-framework', framework],
         for (final directory in libraryDirectories) '-L${toolPath(directory)}',
         if (stubsDir != null) '-L${toolPath(stubsDir.uri)}',
         for (final library in libraries) '-l$library',

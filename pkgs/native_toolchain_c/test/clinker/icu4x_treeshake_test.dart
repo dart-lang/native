@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
+import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:process/process.dart';
 import 'package:test/test.dart';
@@ -269,7 +270,7 @@ Future<CodeAsset> _linkArchiveWithRestrictedPath({
         targetOS: targetOS,
         targetArchitecture: targetArchitecture,
         linkModePreference: LinkModePreference.dynamic,
-        cCompiler: null,
+        cCompiler: hasBundledSdkLinker ? null : cCompiler,
         android: androidTargetNdkApi != null
             ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
             : null,
@@ -287,14 +288,19 @@ Future<CodeAsset> _linkArchiveWithRestrictedPath({
   final linkInput = linkInputBuilder.build();
   final linkOutputBuilder = LinkOutputBuilder();
 
-  await runWithEnvironment(const {'PATH': ''}, () async {
-    await CLinker.library(
-      name: 'icu4x_capi',
-      assetName: 'icu4x_capi',
-      sources: [archiveUri.toFilePath()],
-      linkerOptions: LinkerOptions.treeshake(symbolsToKeep: symbolsToKeep),
-    ).run(input: linkInput, output: linkOutputBuilder, logger: logger);
-  });
+  Future<void> runLinker() => CLinker.library(
+    name: 'icu4x_capi',
+    assetName: 'icu4x_capi',
+    sources: [archiveUri.toFilePath()],
+    frameworks: const [],
+    linkerOptions: LinkerOptions.treeshake(symbolsToKeep: symbolsToKeep),
+  ).run(input: linkInput, output: linkOutputBuilder, logger: logger);
+
+  if (hasBundledSdkLinker) {
+    await runWithEnvironment(const {'PATH': ''}, runLinker);
+  } else {
+    await runLinker();
+  }
 
   final linkOutput = linkOutputBuilder.build();
   expect(linkOutput.assets.code, hasLength(1));
@@ -591,6 +597,29 @@ pub extern "C" fn icu4x_char_bidi_class(cp: u32) -> u8 {
       'Cross-platform icu4x static archive tree-shakes >80% with restricted '
       'PATH on ${target.label}',
       () async {
+        if (!hasBundledSdkLinker) {
+          final llvmReadobjUri = await resolveLlvmReadobj();
+          final clangUri = llvmReadobjUri?.resolve(
+            OS.current.executableFileName('clang'),
+          );
+          final llvmArUri = llvmReadobjUri?.resolve(
+            OS.current.executableFileName('llvm-ar'),
+          );
+          final hasHostLld =
+              cCompiler?.linker != null ||
+              (await lld.defaultResolver!.resolve(systemContext)).isNotEmpty;
+          if (llvmReadobjUri == null ||
+              clangUri == null ||
+              llvmArUri == null ||
+              !await File.fromUri(clangUri).exists() ||
+              !await File.fromUri(llvmArUri).exists() ||
+              !hasHostLld) {
+            markTestSkipped(
+              'Bundled SDK lld or host LLVM toolchain unavailable',
+            );
+            return;
+          }
+        }
         final tempUri = await tempDirForTest();
         final archiveUri = await _buildCrossPlatformIcu4xArchive(
           tempUri,

@@ -10,6 +10,11 @@ import '../helpers.dart';
 import 'windows_module_definition_helper.dart';
 
 void main() {
+  if (!Platform.isWindows && !hasBundledSdkLinker) {
+    // Avoid needing status files on Dart SDK CI when bundled SDK stubs are
+    // unavailable.
+    return;
+  }
   final architectures = supportedArchitecturesFor(OS.windows)
     // See windows_module_definition_test.dart for current arch.
     ..remove(Architecture.current);

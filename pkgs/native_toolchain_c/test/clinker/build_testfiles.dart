@@ -177,18 +177,6 @@ Future<Uri> buildTestArchive(
     throw Exception('Run the test from the root directory.');
   }
   final allSources = <Uri>[test1Uri, test2Uri, ...?extraSources];
-  if (targetOS != OS.current) {
-    return await _buildCrossTestArchive(
-      tempUri,
-      targetOS,
-      architecture,
-      allSources,
-      androidTargetNdkApi: androidTargetNdkApi,
-      macOSTargetVersion: macOSTargetVersion,
-      iOSTargetVersion: iOSTargetVersion,
-      iOSTargetSdk: iOSTargetSdk,
-    );
-  }
   const name = 'static_test';
 
   final logMessages = <String>[];

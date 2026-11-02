@@ -8,10 +8,12 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:code_assets/code_assets.dart';
+import 'package:file/local.dart';
 import 'package:logging/logging.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
+import 'package:native_toolchain_c/src/native_toolchain/dart_sdk.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/native_toolchain/wsl.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
@@ -26,6 +28,21 @@ Future<T> runWithEnvironment<T>(
   Future<T> Function() body,
 ) => runZoned(body, zoneValues: {#nativeToolchainTestEnvironment: environment});
 
+/// Whether the running Dart SDK bundles `bin/utils/lld` and `linker_stubs`.
+final bool hasBundledSdkLinker = () {
+  final executableUri = Uri.file(Platform.resolvedExecutable);
+  final lldFile = File.fromUri(
+    executableUri.resolve('utils/${OS.current.executableFileName('lld')}'),
+  );
+  return lldFile.existsSync() &&
+      resolveLinkerStubsDir(
+            OS.linux,
+            Architecture.x64,
+            fileSystem: const LocalFileSystem(),
+          ) !=
+          null;
+}();
+
 Uri? _cachedLlvmReadobjUri;
 bool _llvmReadobjResolved = false;
 
@@ -37,15 +54,22 @@ Future<Uri?> resolveLlvmReadobj() async {
   final exeName = OS.current.executableFileName('llvm-readobj');
   final executableUri = Uri.file(Platform.resolvedExecutable);
   final candidates = <Uri>[
+    if (_cc != null) _cc!.resolve(exeName),
     packageUri.resolve('../../../../buildtools/linux-x64/clang/bin/$exeName'),
     packageUri.resolve('../../../../buildtools/mac-x64/clang/bin/$exeName'),
     packageUri.resolve('../../../../buildtools/mac-arm64/clang/bin/$exeName'),
     packageUri.resolve('../../../../buildtools/win-x64/clang/bin/$exeName'),
+    packageUri.resolve('dart-sdk/sdk/buildtools/linux-x64/clang/bin/$exeName'),
     executableUri.resolve('../../buildtools/linux-x64/clang/bin/$exeName'),
     executableUri.resolve('../../../buildtools/linux-x64/clang/bin/$exeName'),
     executableUri.resolve(
       '../../../../buildtools/linux-x64/clang/bin/$exeName',
     ),
+    if (Platform.isMacOS) ...[
+      Uri.file('/opt/homebrew/opt/llvm/bin/$exeName'),
+      Uri.file('/usr/local/opt/llvm/bin/$exeName'),
+    ],
+    if (Platform.isWindows) Uri.file('C:/Program Files/LLVM/bin/$exeName'),
   ];
   for (final candidate in candidates) {
     final file = File.fromUri(candidate);
@@ -636,7 +660,7 @@ Future<void> expectMachineArchitecture(
 
 List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
   .macOS || .iOS => [.arm64, .arm64e, .x64],
-  .windows => [.arm64, .ia32, .x64],
+  .windows => [if (hasBundledSdkLinker) .arm64, .ia32, .x64],
   OS() => [.arm, .arm64, .ia32, .x64, .riscv64],
 };
 

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
 import 'package:test_case_selector/test_case_selector.dart';
@@ -33,6 +35,12 @@ final configurations =
     );
 
 void main() {
+  if (!Platform.isMacOS && !hasBundledSdkLinker) {
+    // Avoid needing status files on Dart SDK CI when bundled SDK stubs are
+    // unavailable.
+    return;
+  }
+
   for (final config in configurations) {
     final iOSTargetSdk = config.get<IOSSdk>();
     final iOSVersion = config.get<IOSVersion>().value;
