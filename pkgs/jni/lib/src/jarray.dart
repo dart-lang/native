@@ -63,7 +63,7 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
     return _newArray<$E>(jClass, length, fill);
   }
 
-  /// Creates a [JArray] from `elements`.
+  /// Creates a [JArray] from [elements].
   static JArray<$E> of<$E extends JObject?>(
       JType<$E> elementType, Iterable<$E> elements) {
     final len = elements.length;
@@ -92,6 +92,8 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
     Jni.env.SetObjectArrayElement(reference.pointer, index, valueRef.pointer);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;

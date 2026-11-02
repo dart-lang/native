@@ -308,4 +308,89 @@ void main() {
       calloc.free(counter);
     });
   });
+
+  group('pass and return by value memory management', () {
+    test('passNodeByValue() destructs temporary copy while Dart wrapper '
+        'stays valid', () {
+      final counter = calloc<Int32>()..value = 0;
+      final rawPtr = _rawNodeNew(10, counter.cast());
+      final node = Node.fromPointer(rawPtr, takeOwnership: true);
+      final manager = NodeManager();
+
+      expect(counter.value, 0);
+      final val = manager.passNodeByValue(node);
+      expect(val, 10);
+      // Passing by value copied the node into C++ function parameter and
+      // destructed that copy when returning:
+      expect(counter.value, 1);
+
+      // The Dart wrapper is still valid and untouched:
+      expect(node.getValue(), 10);
+
+      // When Dart wrapper is disposed, original C++ object is destructed:
+      node.dispose();
+      expect(counter.value, 2);
+      calloc.free(counter);
+    });
+
+    test('returnNodeByValue() returns owned wrapper destructed on dispose', () {
+      final counter = calloc<Int32>()..value = 0;
+      final manager = NodeManager();
+      final node = manager.returnNodeByValue(20, counter.cast());
+
+      expect(node.getValue(), 20);
+      // Due to C++ copy elision (RVO), the returned object is constructed
+      // directly into the heap allocation without an extra intermediate
+      // destructor call:
+      expect(counter.value, 0);
+
+      // Returned object is owned by Dart wrapper, so dispose runs the
+      // destructor:
+      node.dispose();
+      expect(counter.value, 1);
+      calloc.free(counter);
+    });
+
+    test('returnNodeByValue() Node is GC-destroyed automatically', () {
+      final counter = calloc<Int32>()..value = 0;
+
+      @pragma('vm:never-inline')
+      void inner() {
+        final manager = NodeManager();
+        // ignore: unused_local_variable
+        final _ = manager.returnNodeByValue(30, counter.cast());
+      }
+
+      inner();
+      // Inner completed: object not disposed yet because it was returned to
+      // Dart wrapper.
+      expect(counter.value, 0);
+
+      doGC();
+      // Dart finalizer runs for the returned heap-allocated Node.
+      expect(counter.value, 1);
+      calloc.free(counter);
+    }, skip: !canDoGC);
+
+    test('passAndReturnNode() passes copy and returns owned instance', () {
+      final counter = calloc<Int32>()..value = 0;
+      final rawPtr = _rawNodeNew(40, counter.cast());
+      final node = Node.fromPointer(rawPtr, takeOwnership: true);
+      final manager = NodeManager();
+
+      final returned = manager.passAndReturnNode(node);
+      expect(returned.getValue(), 40);
+      // Temporary argument passed to C++ was destructed when function returned:
+      expect(counter.value, 1);
+
+      // Dispose the original Dart node:
+      node.dispose();
+      expect(counter.value, 2);
+
+      // Dispose the returned node:
+      returned.dispose();
+      expect(counter.value, 3);
+      calloc.free(counter);
+    });
+  });
 }

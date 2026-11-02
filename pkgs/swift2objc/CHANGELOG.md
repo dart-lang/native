@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Documentation updates.
+
 ## 0.3.0
 
 - Fix extensions of nested types to use fully qualified generated wrapper names.

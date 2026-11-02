@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -16,17 +18,17 @@ const targetOS = OS.iOS;
 /// This comment is generated. To regenerate, run:
 /// `REGENERATE_TEST_CONFIGS=true dart test`
 ///
-/// | #   | IOSSdk          | IOSVersion |
-/// |-----|-----------------|------------|
-/// | 1   | iphoneos        | 16         |
-/// | 2   | iphonesimulator | 17         |
+/// | #   | IOSSdk          | Apple Version                        |
+/// |-----|-----------------|--------------------------------------|
+/// | 1   | iphoneos        | AppleVersion(16, minor: 4, patch: 0) |
+/// | 2   | iphonesimulator | AppleVersion(17, minor: 2, patch: 1) |
 final configurations =
     TestCaseSelector(
       dimensions: {
         IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
-        IOSVersion: [
-          IOSVersion.flutterHighestBestEffort,
-          IOSVersion.flutterHighestSupported,
+        AppleVersion: [
+          AppleVersion(16, minor: 4),
+          AppleVersion(17, minor: 2, patch: 1),
         ],
       },
       interactionGroups: [],
@@ -43,7 +45,7 @@ void main() {
 
   for (final config in configurations) {
     final iOSTargetSdk = config.get<IOSSdk>();
-    final iOSVersion = config.get<IOSVersion>().value;
+    final iOSVersion = config.get<AppleVersion>();
 
     group('$iOSTargetSdk $iOSVersion:', () {
       runObjectsTests(

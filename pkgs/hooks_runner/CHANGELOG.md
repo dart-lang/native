@@ -3,6 +3,9 @@
 - **Breaking change**: Remove `KernelAssets` (and related `KernelAsset*`
   classes) and `Target`.
 - Drop regular dependency on `package:code_assets`.
+- Track header dependencies in C build test projects.
+- Fail eagerly instead of waiting for timeout when running on a file system that
+  does not support process locks.
 
 ## 1.6.4
 

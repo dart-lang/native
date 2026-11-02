@@ -1,3 +1,7 @@
+// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
@@ -21,12 +25,6 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// > [Stream].
   ///
   /// > [!IMPORTANT]
-  /// > `NSInputStream.read` must be called from a different thread or [Isolate]
-  /// > than the one that calls `toNSInputStream`. Otherwise,
-  /// > `NSInputStream.read` will deadlock waiting for data to be added from the
-  /// > [Stream].
-  ///
-  /// > [!IMPORTANT]
   /// > `toNSInputStream` creates a reference cycle between Dart and
   /// > Objective-C. Unless this cycle is broken, the [Isolate] calling
   /// > `toNSInputStream` will never exit. The cycle can be broken by calling
@@ -34,7 +32,11 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// > `NSInputStream.ref.release()`.
   NSInputStream toNSInputStream() {
     // Eagerly add data until `maxReadAheadSize` is buffered.
-    const maxReadAheadSize = 4096;
+    //
+    // The reader only asks for more data once the buffer is empty, and then
+    // waits for a round trip to Dart, so a small read-ahead makes streaming
+    // slow, especially for streams with small chunks.
+    const maxReadAheadSize = 1024 * 1024;
 
     final port = ReceivePort();
 

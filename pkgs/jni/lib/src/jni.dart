@@ -211,7 +211,7 @@ abstract final class Jni {
   }
 
   /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over
-  /// JNIEnv without the same-thread restriction.
+  /// `JNIEnv` without the same-thread restriction.
   static Pointer<GlobalJniEnvStruct> _fetchGlobalEnv() {
     final env = _bindings.GetGlobalEnv();
     if (env == nullptr) {

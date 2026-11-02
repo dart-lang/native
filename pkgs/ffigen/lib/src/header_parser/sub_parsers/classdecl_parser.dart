@@ -147,14 +147,6 @@ void _parseAnyMethod(
     );
     return;
   }
-  if (parameters.any((p) => p.type.typealiasType is CppClass)) {
-    // TODO(https://github.com/dart-lang/native/issues/3603)
-    logger.fine(
-      '  ---- Skipping method $methodName, passing a C++ class by value is '
-      'not currently supported',
-    );
-    return;
-  }
 
   final returnType = clang
       .clang_getCursorResultType(cursor)
@@ -169,13 +161,6 @@ void _parseAnyMethod(
       '  ---- Skipping method $methodName, incomplete struct returned by value',
     );
     return;
-  } else if (returnType.typealiasType is CppClass) {
-    // TODO(https://github.com/dart-lang/native/issues/3603)
-    logger.fine(
-      '  ---- Skipping method $methodName, returning a C++ class by value is '
-      'not currently supported',
-    );
-    return;
   }
 
   final className = classDecl.originalName;
@@ -187,7 +172,8 @@ void _parseAnyMethod(
   logger.fine('  ++++ ${kind.name}: $methodName (const=$isConst)');
   methods.add(
     CppMethod(
-      name: Symbol(symbol, SymbolKind.method),
+      name: Symbol(methodName, SymbolKind.method),
+      cBindingSymbol: Symbol(symbol, SymbolKind.method),
       originalName: methodName,
       returnType: returnType,
       parameters: parameters,

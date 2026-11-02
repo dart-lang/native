@@ -1,8 +1,17 @@
-## 22.1.0-wip
+## 23.0.1-wip
 
-- The YAML configuration format is deprecated and will be removed in a future release.
+- Use minor and patch versions of Apple deployment targets from
+  `package:code_assets` 2.2.0 when compiling native test utilities.
+
+## 23.0.0
+
+- The YAML configuration format is deprecated and will be removed in a future
+  release.
 - Added `Input.appendCompilerOptions` to allow appending custom compiler
-  options to default options instead of replacing them.
+  options to default options instead of replacing them. Removed
+  `defaultCompilerOpts` from the public API, since it is now redundant and was
+  always a hack.
+- Remove internal details from the public API of `ImportedType`.
 - Default to C++17 compiler options when C++ bindings are enabled.
 - Preserve documentation comments on same-name typedefs when generating the
   underlying type binding.

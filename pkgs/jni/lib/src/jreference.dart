@@ -34,6 +34,7 @@ final class _JFinalizable implements Finalizable {
   _JFinalizable(this.pointer);
 }
 
+/// An abstract reference to a Java object managed by JNI.
 @pragma('vm:deeply-immutable')
 abstract final class JReference implements Finalizable {
   final _JFinalizable _finalizable;
@@ -168,6 +169,7 @@ final class JGlobalReference extends JReference {
   bool get isReleased => _isReleased.value;
 }
 
+/// A singleton [JReference] representing a Java `null` reference.
 final JReference jNullReference = _JNullReference();
 
 @pragma('vm:deeply-immutable')

@@ -11,20 +11,20 @@ void main(List<String> args) async {
       CBuilder.library(
         name: 'debug',
         assetName: 'debug',
-        sources: ['src/debug.c'],
+        sources: ['src/debug.c', 'src/debug.h'],
         buildMode: BuildMode.debug,
       ),
       CBuilder.library(
         name: 'math',
         assetName: 'math',
-        sources: ['src/math.c'],
+        sources: ['src/math.c', 'src/math.h', 'src/debug.h'],
         libraries: ['debug'],
         buildMode: BuildMode.debug,
       ),
       CBuilder.library(
         name: 'add',
         assetName: 'add.dart',
-        sources: ['src/add.c'],
+        sources: ['src/add.c', 'src/add.h', 'src/math.h'],
         libraries: ['math'],
         buildMode: BuildMode.debug,
       ),

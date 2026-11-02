@@ -5,6 +5,8 @@
 /// Exception thrown when a configuration value is invalid.
 class ConfigException implements Exception {
   ConfigException(this.message);
+
+  /// Error message describing the configuration failure.
   String message;
 
   @override

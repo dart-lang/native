@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart' as internal;
+import '../code_generator/imports.dart' show LibraryImport;
 import 'config.dart';
 import 'config_types.dart';
 import 'public_visitor.dart';
@@ -682,4 +683,38 @@ class UnnamedEnumConstant extends DeclNode {
   /// Whether this UnnamedEnumConstant should be included in code generation.
   bool get isIncluded => _constant.isIncluded;
   set isIncluded(bool value) => _constant.isIncluded = value;
+}
+
+/// Represents a type imported from another library.
+class ImportedType {
+  /// The library from which this type is imported.
+  final LibraryImport libraryImport;
+
+  /// The C representation of the type (e.g. `'int'`, `'void*'`).
+  final String cType;
+
+  /// The Dart representation of the type (e.g. `'int'`, `'double'`).
+  final String dartType;
+
+  /// The type as it appears in native code (e.g. `'int64_t'` or `'time_t'`).
+  final String nativeType;
+
+  /// An optional default value expression for this type when used as an
+  /// optional parameter.
+  final String? defaultValue;
+
+  /// Whether the [dartType] is an import from the [libraryImport].
+  ///
+  /// When `true`, [dartType] will be prefixed with the import prefix in
+  /// generated Dart signatures.
+  final bool importedDartType;
+
+  ImportedType(
+    this.libraryImport,
+    this.cType,
+    this.dartType,
+    this.nativeType, {
+    this.defaultValue,
+    this.importedDartType = false,
+  });
 }

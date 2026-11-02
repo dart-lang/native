@@ -60,7 +60,7 @@ void main() {
         runTreeshakeTests(
           OS.iOS,
           architecture,
-          iOSTargetVersion: IOSVersion.flutterHighestSupported.value,
+          iOSTargetVersion: IOSVersion.flutterHighestSupported,
           iOSTargetSdk: sdk,
         );
       });

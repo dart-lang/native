@@ -48,6 +48,19 @@ void main() {
       animal.dispose();
     });
 
+    test('Animal pass and return by value', () {
+      final dog = Animal(10);
+      final cat = Animal(20);
+
+      final combined = dog.copyAndAddAge(cat);
+      expect(combined.getAge(), 30);
+      expect(Animal.haveSameAge(dog, cat), isFalse);
+
+      combined.dispose();
+      dog.dispose();
+      cat.dispose();
+    });
+
     @pragma('vm:never-inline')
     void gcTestSubjectInner(Pointer<Int32> counter) {
       final _ = FinalizerTestSubject(counter.cast());

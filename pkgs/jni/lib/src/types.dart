@@ -46,6 +46,7 @@ mixin JAccessible<JavaT, DartT> on JTypeBase<JavaT> {
   void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, DartT val);
 }
 
+/// Represents the type of a [JObject].
 abstract class JType<T extends JObject?> extends JTypeBase<T>
     with JCallable<T, T>, JAccessible<T, T> {
   @internal

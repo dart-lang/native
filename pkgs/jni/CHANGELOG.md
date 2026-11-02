@@ -1,6 +1,11 @@
-## 1.1.0-wip
+## 1.1.1
+
+- Add ProGuard consumer rules for Kotlin classes used by suspend functions.
+
+## 1.1.0
 
 - Add deep conversion utilities for converting between Dart values and Java.
+- Documentation updates.
 
 ## 1.0.3
 

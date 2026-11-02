@@ -49,8 +49,8 @@ String _clangTargetTriple(
   OS targetOS,
   Architecture architecture, {
   int? androidTargetNdkApi,
-  int? macOSTargetVersion,
-  int? iOSTargetVersion,
+  AppleVersion? macOSTargetVersion,
+  AppleVersion? iOSTargetVersion,
   IOSSdk? iOSTargetSdk,
 }) => switch ((targetOS, architecture)) {
   (OS.linux, Architecture.x64) => 'x86_64-unknown-linux-gnu',
@@ -69,15 +69,15 @@ String _clangTargetTriple(
   (OS.android, Architecture.riscv64) =>
     'riscv64-linux-android${androidTargetNdkApi ?? 35}',
   (OS.macOS, Architecture.arm64) =>
-    'arm64-apple-macosx${macOSTargetVersion ?? 13}.0',
+    'arm64-apple-macosx${macOSTargetVersion?.major ?? 13}.0',
   (OS.macOS, Architecture.x64) =>
-    'x86_64-apple-macosx${macOSTargetVersion ?? 13}.0',
+    'x86_64-apple-macosx${macOSTargetVersion?.major ?? 13}.0',
   (OS.iOS, Architecture.arm64) =>
     iOSTargetSdk == IOSSdk.iPhoneSimulator
-        ? 'arm64-apple-ios${iOSTargetVersion ?? 16}.0-simulator'
-        : 'arm64-apple-ios${iOSTargetVersion ?? 16}.0',
+        ? 'arm64-apple-ios${iOSTargetVersion?.major ?? 16}.0-simulator'
+        : 'arm64-apple-ios${iOSTargetVersion?.major ?? 16}.0',
   (OS.iOS, Architecture.x64) =>
-    'x86_64-apple-ios${iOSTargetVersion ?? 16}.0-simulator',
+    'x86_64-apple-ios${iOSTargetVersion?.major ?? 16}.0-simulator',
   (OS.windows, Architecture.x64) => 'x86_64-pc-windows-msvc',
   (OS.windows, Architecture.arm64) => 'aarch64-pc-windows-msvc',
   _ => throw UnsupportedError('Unsupported ($targetOS, $architecture)'),
@@ -90,8 +90,8 @@ Future<Uri> _buildCrossPlatformIcu4xArchive(
   OS targetOS,
   Architecture architecture, {
   int? androidTargetNdkApi,
-  int? macOSTargetVersion,
-  int? iOSTargetVersion,
+  AppleVersion? macOSTargetVersion,
+  AppleVersion? iOSTargetVersion,
   IOSSdk? iOSTargetSdk,
 }) async {
   final llvmReadobjUri = await resolveLlvmReadobj();
@@ -253,8 +253,8 @@ Future<CodeAsset> _linkArchiveWithRestrictedPath({
   required Architecture targetArchitecture,
   required List<String>? symbolsToKeep,
   int? androidTargetNdkApi,
-  int? macOSTargetVersion,
-  int? iOSTargetVersion,
+  AppleVersion? macOSTargetVersion,
+  AppleVersion? iOSTargetVersion,
   IOSSdk? iOSTargetSdk,
 }) async {
   final linkInputBuilder = LinkInputBuilder()
@@ -275,12 +275,12 @@ Future<CodeAsset> _linkArchiveWithRestrictedPath({
             ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
             : null,
         macOS: macOSTargetVersion != null
-            ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+            ? MacOSCodeConfig(deploymentVersion: macOSTargetVersion)
             : null,
         iOS: iOSTargetVersion != null && iOSTargetSdk != null
             ? IOSCodeConfig(
                 targetSdk: iOSTargetSdk,
-                targetVersion: iOSTargetVersion,
+                deploymentVersion: iOSTargetVersion,
               )
             : null,
       ),
@@ -522,8 +522,8 @@ pub extern "C" fn icu4x_char_bidi_class(cp: u32) -> u8 {
           OS os,
           Architecture arch,
           int? androidApi,
-          int? macOSVer,
-          int? iOSVer,
+          AppleVersion? macOSVer,
+          AppleVersion? iOSVer,
           IOSSdk? iOSSdk,
         })
       >[
@@ -577,7 +577,7 @@ pub extern "C" fn icu4x_char_bidi_class(cp: u32) -> u8 {
             arch: arch,
             androidApi: null,
             macOSVer: null,
-            iOSVer: IOSVersion.flutterHighestSupported.value,
+            iOSVer: IOSVersion.flutterHighestSupported,
             iOSSdk: sdk,
           ),
         for (final arch in [Architecture.x64, Architecture.arm64])

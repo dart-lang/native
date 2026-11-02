@@ -81,7 +81,7 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
   }
 }
 
-/// A thin wrapper over a [JFieldIDPtr] of an static field.
+/// A thin wrapper over a [JFieldIDPtr] of a static field.
 extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   JStaticFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) {
@@ -163,7 +163,7 @@ class JInstanceMethodId {
   }
 }
 
-/// A thin wrapper over a [JMethodIDPtr] of a static mehtod.
+/// A thin wrapper over a [JMethodIDPtr] of a static method.
 extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
   JStaticMethodId._(
     JClass jClass,
