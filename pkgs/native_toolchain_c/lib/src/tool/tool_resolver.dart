@@ -108,7 +108,7 @@ class PathToolResolver extends ToolResolver {
           .uri;
       if (uri.pathSegments.last case 'llvm' || 'lld') {
         // https://github.com/dart-lang/native/issues/136
-        return file.uri;
+        return file.absolute.uri;
       }
       return uri;
     }

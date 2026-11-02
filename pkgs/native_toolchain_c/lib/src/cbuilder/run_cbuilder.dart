@@ -161,6 +161,7 @@ class RunCBuilder {
     );
     if ((linkerOptions != null || _isLinkingPrebuiltObjects) &&
         (stubsDir != null ||
+            frameworks.isEmpty ||
             (codeConfig.targetOS != .macOS && codeConfig.targetOS != .iOS))) {
       final linkerInstance = await linker();
       final linkerTool = linkerInstance.tool;
