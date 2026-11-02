@@ -1,3 +1,8 @@
+## 9.6.3-wip
+
+- Replace the expensive debug assert that blocks and objects are valid with a
+  cheaper and safer check.
+
 ## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`
