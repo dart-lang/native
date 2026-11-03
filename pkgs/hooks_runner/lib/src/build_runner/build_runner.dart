@@ -647,6 +647,7 @@ class NativeAssetsBuildRunner {
       'LOCALAPPDATA', // Needed for dart_data_home and pub.
       'PATH', // Needed to invoke native tools.
       'PATHEXT', // Needed to resolve executable file extensions on Windows.
+      'PKG_CONFIG_PATH', // Needed for pkg-config.
       'PROGRAMDATA', // Needed for vswhere.exe.
       'PROCESSOR_ARCHITECTURE', // Needed for CMake Android on Windows.
       'SYSTEMDRIVE', // Needed for CMake.

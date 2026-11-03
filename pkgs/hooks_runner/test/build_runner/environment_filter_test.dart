@@ -78,6 +78,10 @@ void main() {
       isTrue,
     );
     expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('PKG_CONFIG_PATH'),
+      isTrue,
+    );
+    expect(
       NativeAssetsBuildRunner.includeHookEnvironmentVariable('HOME'),
       isTrue,
     );
