@@ -1,5 +1,7 @@
 ## 0.19.6-wip
 
+- Add experimental `hook/doctor.dart` for validating host and Android NDK C
+  toolchains.
 - Preserve minor and patch components of iOS and macOS deployment targets in
   `CBuilder` and `CLinker`. Requires `package:code_assets` 2.2.0.
 - Support listing `.h` files in `CBuilder.sources` to track header changes as

@@ -68,6 +68,29 @@ void main() {
     expect(await ext.validateApplicationAssets([]), isEmpty);
     expect(ext.outputFiles([]), isEmpty);
   });
+
+  test('testDoctorHook', () async {
+    await testDoctorHook(
+      mainMethod: (args) async {
+        await doctor(args, (input, output) async {
+          output.addValidation(
+            DoctorValidationResult(
+              title: 'Doctor check (${input.packageName})',
+              type: .success,
+              statusInfo: 'OK',
+              messages: [DoctorValidationMessage('All good')],
+            ),
+          );
+        });
+      },
+      check: expectAsync2((input, output) {
+        expect(output.validations, hasLength(1));
+        expect(output.validations.single.type, DoctorValidationType.success);
+        expect(output.validations.single.statusInfo, 'OK');
+        expect(output.validations.single.messages.single.message, 'All good');
+      }),
+    );
+  });
 }
 
 final class _EmptyExtension extends ProtocolExtension {}

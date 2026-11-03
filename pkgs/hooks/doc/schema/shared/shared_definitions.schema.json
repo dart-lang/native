@@ -121,6 +121,119 @@
       "type": "object",
       "additionalProperties": true
     },
+    "DoctorInput": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "out_file": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "package_name": {
+          "type": "string"
+        },
+        "package_root": {
+          "$ref": "#/definitions/absolutePath"
+        }
+      },
+      "required": [
+        "out_file",
+        "package_name",
+        "package_root"
+      ]
+    },
+    "DoctorOutput": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "validations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DoctorValidationResult"
+          }
+        }
+      }
+    },
+    "DoctorValidationMessage": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/DoctorValidationMessageType"
+        },
+        "context_url": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "pii_stripped_message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "message",
+        "type"
+      ]
+    },
+    "DoctorValidationMessageType": {
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "error",
+            "hint",
+            "information"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "DoctorValidationResult": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/DoctorValidationType"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DoctorValidationMessage"
+          }
+        },
+        "status_info": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "type"
+      ]
+    },
+    "DoctorValidationType": {
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "crash",
+            "missing",
+            "not_available",
+            "partial",
+            "success"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
     "Failure": {
       "type": "object",
       "properties": {

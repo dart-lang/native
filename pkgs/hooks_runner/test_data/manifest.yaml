@@ -42,6 +42,10 @@
 - depend_on_fail_build_app/pubspec.yaml
 - dev_dependency_with_hook/pubspec.yaml
 - dev_dependency_with_hook/test/my_test.dart
+- doctor_app/hook/doctor.dart
+- doctor_app/pubspec.yaml
+- doctor_counter/hook/doctor.dart
+- doctor_counter/pubspec.yaml
 - download_assets/hook/build.dart
 - download_assets/pubspec.yaml
 - drop_dylib_link/bin/drop_dylib_link.dart
@@ -56,6 +60,7 @@
 - drop_dylib_link/src/native_multiply.c
 - drop_dylib_link/src/native_multiply.h
 - fail_build/hook/build.dart
+- fail_build/hook/doctor.dart
 - fail_build/lib/fail_build.dart
 - fail_build/pubspec.yaml
 - fail_on_os_sdk_version/hook/build.dart
@@ -259,6 +264,7 @@
 - treeshaking_native_libs/src/native_multiply.h
 - treeshaking_native_libs/test/treeshaking_native_libs_test.dart
 - use_all_api/hook/build.dart
+- use_all_api/hook/doctor.dart
 - use_all_api/hook/link.dart
 - use_all_api/pubspec.yaml
 - user_defines/assets/data.json
@@ -271,6 +277,7 @@
 - wrong_architecture_asset/pubspec.yaml
 - wrong_architecture_asset/src/wrong_architecture_asset.c
 - wrong_build_output/hook/build.dart
+- wrong_build_output/hook/doctor.dart
 - wrong_build_output/pubspec.yaml
 - wrong_build_output_2/hook/build.dart
 - wrong_build_output_2/pubspec.yaml

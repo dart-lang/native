@@ -109,5 +109,41 @@ void main() async {
         expect(buildPlan.success.length, includeDevDependencies ? 1 : 0);
       });
     });
+
+    test(
+      'doctor plan includeDevDependencies $includeDevDependencies',
+      () async {
+        const packageName = 'doctor_app';
+        await inTempDir((tempUri) async {
+          await copyTestProjects(targetUri: tempUri);
+          final packageUri = tempUri.resolve('$packageName/');
+
+          await runPubGet(workingDirectory: packageUri, logger: logger);
+
+          final packageLayout =
+              await PackageLayout.forDoctorFromWorkingDirectory(
+                const LocalFileSystem(),
+                packageUri,
+                includeDevDependencies: includeDevDependencies,
+              );
+          final nativeAssetsBuildPlanner =
+              await NativeAssetsBuildPlanner.fromPackageConfigUri(
+                packageConfigUri: packageUri.resolve(
+                  '.dart_tool/package_config.json',
+                ),
+                dartExecutable: Uri.file(Platform.resolvedExecutable),
+                logger: logger,
+                packageLayout: packageLayout,
+                fileSystem: const LocalFileSystem(),
+              );
+          final packagesWithHook = await nativeAssetsBuildPlanner
+              .packagesWithHook(.doctor);
+          expect(packagesWithHook.length, includeDevDependencies ? 3 : 2);
+          final doctorPlan = await nativeAssetsBuildPlanner
+              .makeDoctorHookPlan();
+          expect(doctorPlan.success.length, includeDevDependencies ? 3 : 2);
+        });
+      },
+    );
   }
 }
