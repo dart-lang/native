@@ -115,27 +115,20 @@ class NativeAssetsBuildRunner {
   // user-defines.
   @experimental
   NativeAssetsBuildRunner.doctor({
-    required this.logger,
-    required this.dartExecutable,
+    required Logger logger,
+    required Uri dartExecutable,
     required FileSystem fileSystem,
-    required this.packageLayout,
+    required PackageLayout packageLayout,
     Duration? singleHookTimeout,
     Map<String, String>? hookEnvironment,
-  }) : userDefines = null,
-       _fileSystemUntraced = fileSystem,
-       singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5),
-       hookEnvironment =
-           hookEnvironment ??
-           filteredEnvironment(includeHookEnvironmentVariable) {
-    if (!dartExecutable.isAbsolute) {
-      throw ArgumentError.value(
-        dartExecutable,
-        'dartExecutable',
-        'Must be an absolute path.',
-      );
-    }
-    _fileSystem = TracingFileSystem(fileSystem, _task);
-  }
+  }) : this(
+         logger: logger,
+         dartExecutable: dartExecutable,
+         fileSystem: fileSystem,
+         packageLayout: packageLayout,
+         singleHookTimeout: singleHookTimeout,
+         hookEnvironment: hookEnvironment,
+       );
 
   /// Checks whether any hooks need to be run.
   ///

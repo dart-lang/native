@@ -80,6 +80,11 @@ void main() {
     final input = inputBuilder.build();
     expect(await ProtocolBase.validateDoctorInput(input), isEmpty);
 
+    expect(
+      await ProtocolBase.validateDoctorInput(DoctorInput({})),
+      contains(contains('Syntax errors. Semantic validation skipped.')),
+    );
+
     final invalidInput = DoctorInput({
       'package_name': packageName,
       'package_root': tempUri.resolve('non_existent_dir/').toFilePath(),
