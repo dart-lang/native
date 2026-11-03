@@ -187,12 +187,14 @@ dependency_overrides:
   );
 
   test(
-    'doctor hook with malformed output converts to crash validation result',
+    'doctor hook with malformed output, schema error, or compile error '
+    'converts to crash validation result',
     timeout: longTimeout,
     () async {
       await inTempDir((tempUri) async {
         await copyTestProjects(targetUri: tempUri);
         final packageUri = tempUri.resolve('wrong_build_output/');
+        final hookFile = File.fromUri(packageUri.resolve('hook/doctor.dart'));
 
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
@@ -207,15 +209,62 @@ dependency_overrides:
           packageLayout: packageLayout,
         );
 
-        final result = (await runner.doctor()).success;
-        final validation =
-            result.packageValidations['wrong_build_output']!.single;
-        expect(validation.title, 'package:wrong_build_output');
-        expect(validation.type, DoctorValidationType.crash);
+        // 1. Malformed JSON output -> _readDoctorOutputFromUri failure.
+        final result1 = (await runner.doctor()).success;
+        final validation1 =
+            result1.packageValidations['wrong_build_output']!.single;
+        expect(validation1.title, 'package:wrong_build_output');
+        expect(validation1.type, DoctorValidationType.crash);
         expect(
-          validation.statusInfo,
+          validation1.statusInfo,
           'the doctor check produced invalid output',
         );
+
+        // 2. Valid JSON with invalid DoctorOutput schema ->
+        // ProtocolBase.validateDoctorOutput failure.
+        final hookContents = await hookFile.readAsString();
+        await hookFile.writeAsString(
+          hookContents.replaceAll(
+            '{not valid json',
+            '{"validations": "not a list"}',
+          ),
+        );
+        final result2 = (await runner.doctor()).success;
+        final validation2 =
+            result2.packageValidations['wrong_build_output']!.single;
+        expect(validation2.title, 'package:wrong_build_output');
+        expect(validation2.type, DoctorValidationType.crash);
+        expect(
+          validation2.statusInfo,
+          'the doctor check produced invalid output',
+        );
+        expect(
+          validation2.messages.map((m) => m.message).join('\n'),
+          contains('Expected a List<Object?>?'),
+        );
+
+        // 3. Compile error in hook/doctor.dart -> _compileHookForPackageCached
+        // failure.
+        await hookFile.writeAsString('void main() { invalid dart syntax }');
+        final result3 = (await runner.doctor()).success;
+        final validation3 =
+            result3.packageValidations['wrong_build_output']!.single;
+        expect(validation3.title, 'package:wrong_build_output');
+        expect(validation3.type, DoctorValidationType.crash);
+        expect(validation3.statusInfo, 'hook/doctor.dart failed to compile');
+
+        // 4. Deleting hook/doctor.dart -> empty doctorPlan returns empty
+        // DoctorResult.
+        await hookFile.delete();
+        final runnerEmpty = NativeAssetsBuildRunner.doctor(
+          logger: logger,
+          dartExecutable: dartExecutable,
+          fileSystem: const LocalFileSystem(),
+          packageLayout: packageLayout,
+        );
+        final result4 = (await runnerEmpty.doctor()).success;
+        expect(result4.validations, isEmpty);
+        expect(result4.packageValidations, isEmpty);
       });
     },
   );

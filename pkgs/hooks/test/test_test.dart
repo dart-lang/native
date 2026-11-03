@@ -91,6 +91,28 @@ void main() {
       }),
     );
   });
+
+  test('testDoctorHook throws on output error', () async {
+    final testResult = testDoctorHook(
+      mainMethod: (args) async {
+        await doctor(args, (input, output) async {
+          output.json['unexpected_key'] = 123;
+        });
+      },
+      check: expectAsync2((_, _) {}, count: 0),
+    );
+
+    expect(
+      testResult,
+      throwsA(
+        isA<ValidationFailure>().having(
+          (e) => e.message,
+          'message',
+          contains('Encountered doctor output validation issues:'),
+        ),
+      ),
+    );
+  });
 }
 
 final class _EmptyExtension extends ProtocolExtension {}
