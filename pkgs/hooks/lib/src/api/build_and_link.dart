@@ -5,6 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:meta/meta.dart';
+
 import '../args_parser.dart';
 import '../config.dart';
 import '../validation.dart';
@@ -499,10 +501,77 @@ Future<void> link(
   await _writeOutput(output, outputFile);
 }
 
-Future<void> _writeOutput(HookOutputBuilder output, Uri outputFile) async {
+/// Runs diagnostics in a `hook/doctor.dart`.
+///
+/// If a doctor hook is defined (`hook/doctor.dart`) then `doctor` must be
+/// called by that hook, to write the [DoctorInput.outputFile], even if the
+/// [validator] function has no work to do.
+///
+/// <!-- file://./../../../example/api/doctor_snippet.dart -->
+/// ```dart
+/// import 'package:hooks/hooks.dart';
+///
+/// void main(List<String> args) async {
+///   await doctor(args, (input, output) async {
+///     output.addValidation(
+///       DoctorValidationResult(
+///         title: 'C Compiler',
+///         type: DoctorValidationType.success,
+///         statusInfo: 'Clang 17.0.0',
+///         messages: [DoctorValidationMessage('Found at /usr/bin/clang')],
+///       ),
+///     );
+///   });
+/// }
+/// ```
+///
+/// If the [validator] encounters an unexpected failure, uncaught exceptions
+/// will cause the hook process to exit with a non-zero exit code, which the
+/// hooks runner reports as a [DoctorValidationType.crash] validation result.
+/// For expected diagnostic issues (such as missing or partially configured
+/// tools), hooks should report a [DoctorValidationResult] with the appropriate
+/// [DoctorValidationType] and [DoctorValidationMessage]s.
+///
+/// Unlike [build] and [link] hooks, `doctor` hook executions are never cached,
+/// ensuring they always inspect the current state of the host environment.
+@experimental
+Future<void> doctor(
+  List<String> arguments,
+  Future<void> Function(DoctorInput input, DoctorOutputBuilder output)
+  validator,
+) async {
+  final inputPath = getInputArgument(arguments);
+  final bytes = File(inputPath).readAsBytesSync();
+  final jsonInput =
+      const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
+          as Map<String, Object?>;
+  final input = DoctorInput(jsonInput);
+  final outputFile = input.outputFile;
+  final output = DoctorOutputBuilder();
+  await validator(input, output);
+  final errors = await ProtocolBase.validateDoctorOutput(
+    input,
+    DoctorOutput(output.json),
+  );
+  if (errors.isNotEmpty) {
+    final message = [
+      'The output contained unsupported output:',
+      for (final error in errors) '- $error',
+    ].join('\n');
+    stderr.writeln(message);
+    exit(1);
+  }
+
+  await _writeJsonOutput(output.json, outputFile);
+}
+
+Future<void> _writeOutput(HookOutputBuilder output, Uri outputFile) =>
+    _writeJsonOutput(output.json, outputFile);
+
+Future<void> _writeJsonOutput(Map<String, Object?> json, Uri outputFile) async {
   final jsonOutput = const JsonEncoder.withIndent(
     '  ',
-  ).fuse(const Utf8Encoder()).convert(output.json);
+  ).fuse(const Utf8Encoder()).convert(json);
   await File.fromUri(outputFile).writeAsBytes(jsonOutput);
 }
 

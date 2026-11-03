@@ -69,4 +69,43 @@ void main() {
     );
     expect(errors, contains(contains('"baz" is not a supported asset type')));
   });
+
+  test('doctor input and output validation', () async {
+    final inputBuilder = DoctorInputBuilder()
+      ..setupDoctor(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: tempUri.resolve('doctor_output.json'),
+      );
+    final input = inputBuilder.build();
+    expect(await ProtocolBase.validateDoctorInput(input), isEmpty);
+
+    final invalidInput = DoctorInput({
+      'package_name': packageName,
+      'package_root': tempUri.resolve('non_existent_dir/').toFilePath(),
+      'out_file': tempUri.resolve('doctor_output.json').toFilePath(),
+    });
+    expect(
+      await ProtocolBase.validateDoctorInput(invalidInput),
+      contains(contains('does not exist as a directory')),
+    );
+
+    final outputBuilder = DoctorOutputBuilder()
+      ..addValidation(DoctorValidationResult(title: 'Test', type: .success));
+    expect(
+      await ProtocolBase.validateDoctorOutput(input, outputBuilder.build()),
+      isEmpty,
+    );
+
+    final invalidOutput = DoctorOutput({
+      'status': 'success',
+      'validations': [
+        {'title': 'Missing type'},
+      ],
+    });
+    expect(
+      await ProtocolBase.validateDoctorOutput(input, invalidOutput),
+      isNotEmpty,
+    );
+  });
 }

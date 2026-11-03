@@ -1,5 +1,7 @@
 ## 0.19.6
 
+- Add experimental `hook/doctor.dart` for validating host and Android NDK C
+  toolchains.
 - Decode `vswhere -utf8` output as streaming UTF-8, preserving localized
   installation paths and JSON. Other tools still default to the system encoding.
 - Preserve minor and patch components of iOS and macOS deployment targets in

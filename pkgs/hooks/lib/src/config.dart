@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart' show sha256;
+import 'package:meta/meta.dart';
 import 'package:record_use/record_use.dart';
 
 import 'api/build_and_link.dart';
@@ -1530,4 +1531,370 @@ final class InfraError extends HookError {
   /// The failure type for infrastructure errors is [FailureType.infra].
   @override
   FailureType get failureType => FailureType.infra;
+}
+
+/// The input for `hook/doctor.dart`.
+// TODO(dcharkes): Add support for `userDefines` in `DoctorInput` so doctor
+// hooks can inspect workspace user-defines.
+// TODO(dcharkes): Add support for protocol extensions in `DoctorInput` (e.g.,
+// a Flutter extension that provides the location of `impellerc` so doctor hooks
+// can branch on or validate extension-provided tools/config).
+// TODO(dcharkes): Add support for the enabled target platforms in
+// `DoctorInput`.
+@experimental
+final class DoctorInput {
+  /// The underlying json configuration of this [DoctorInput].
+  Map<String, Object?> get json => _syntax.json;
+
+  /// The file to write the [DoctorOutput] to at the end of a hook invocation.
+  Uri get outputFile => _syntax.outFile;
+
+  /// The name of the package the doctor hook is run for.
+  String get packageName => _syntax.packageName;
+
+  /// The root of the package the doctor hook is run for.
+  Uri get packageRoot => _syntax.packageRoot;
+
+  final DoctorInputSyntax _syntax;
+
+  /// Creates a [DoctorInput] from the given [json].
+  DoctorInput(Map<String, Object?> json)
+    : _syntax = DoctorInputSyntax.fromJson(json);
+
+  @override
+  String toString() => const JsonEncoder.withIndent('  ').convert(json);
+}
+
+/// The builder for [DoctorInput].
+@experimental
+final class DoctorInputBuilder {
+  final _syntax = DoctorInputSyntax.fromJson({});
+
+  /// The JSON representation of this doctor input builder.
+  Map<String, Object?> get json => _syntax.json;
+
+  /// Sets up the doctor input.
+  // TODO(dcharkes): Accept `userDefines`, protocol extensions, and enabled
+  // target platforms here once supported in `DoctorInput`.
+  void setupDoctor({
+    required Uri packageRoot,
+    required String packageName,
+    required Uri outputFile,
+  }) {
+    _syntax.packageRoot = packageRoot;
+    _syntax.packageName = packageName;
+    _syntax.outFile = outputFile;
+  }
+
+  /// Builds the [DoctorInput].
+  DoctorInput build() => DoctorInput(json);
+}
+
+/// The output from a `hook/doctor.dart`.
+@experimental
+final class DoctorOutput {
+  /// The underlying json configuration of this [DoctorOutput].
+  Map<String, Object?> get json => _syntax.json;
+
+  final DoctorOutputSyntax _syntax;
+
+  /// Creates a [DoctorOutput] from the given [json].
+  DoctorOutput(Map<String, Object?> json)
+    : _syntax = DoctorOutputSyntax.fromJson(json);
+
+  /// The validation results produced by this doctor hook.
+  List<DoctorValidationResult> get validations => [
+    for (final v
+        in _syntax.validations ?? const <DoctorValidationResultSyntax>[])
+      DoctorValidationResult._fromSyntax(v),
+  ];
+
+  @override
+  String toString() => const JsonEncoder.withIndent('  ').convert(json);
+}
+
+/// The builder for [DoctorOutput].
+///
+/// <!-- file://./../../example/api/doctor_snippet.dart -->
+/// ```dart
+/// import 'package:hooks/hooks.dart';
+///
+/// void main(List<String> args) async {
+///   await doctor(args, (input, output) async {
+///     output.addValidation(
+///       DoctorValidationResult(
+///         title: 'C Compiler',
+///         type: DoctorValidationType.success,
+///         statusInfo: 'Clang 17.0.0',
+///         messages: [DoctorValidationMessage('Found at /usr/bin/clang')],
+///       ),
+///     );
+///   });
+/// }
+/// ```
+@experimental
+final class DoctorOutputBuilder {
+  final _syntax = DoctorOutputSyntax(validations: null);
+
+  /// The JSON representation of this doctor output builder.
+  Map<String, Object?> get json => _syntax.json;
+
+  /// Creates a [DoctorOutputBuilder].
+  DoctorOutputBuilder();
+
+  /// Adds a [DoctorValidationResult] to this doctor output.
+  void addValidation(DoctorValidationResult validation) {
+    final validations = _syntax.validations ?? [];
+    validations.add(validation._syntax);
+    _syntax.validations = validations;
+  }
+
+  /// Adds multiple [DoctorValidationResult]s to this doctor output.
+  void addValidations(Iterable<DoctorValidationResult> validations) {
+    final list = _syntax.validations ?? [];
+    for (final validation in validations) {
+      list.add(validation._syntax);
+    }
+    _syntax.validations = list;
+  }
+
+  /// Builds the [DoctorOutput].
+  DoctorOutput build() => DoctorOutput(json);
+}
+
+/// The result of validating a category in a `hook/doctor.dart`.
+@experimental
+final class DoctorValidationResult {
+  final DoctorValidationResultSyntax _syntax;
+
+  DoctorValidationResult._fromSyntax(this._syntax);
+
+  /// Creates a [DoctorValidationResult].
+  DoctorValidationResult({
+    required String title,
+    required DoctorValidationType type,
+    String? statusInfo,
+    List<DoctorValidationMessage> messages = const [],
+  }) : _syntax = DoctorValidationResultSyntax(
+         title: title,
+         type: type._toSyntax(),
+         statusInfo: statusInfo,
+         messages: messages.isEmpty
+             ? null
+             : [for (final m in messages) m._syntax],
+       );
+
+  /// The title of the category being validated.
+  String get title => _syntax.title;
+
+  /// The overall outcome of this validation.
+  DoctorValidationType get type =>
+      DoctorValidationType._fromSyntax(_syntax.type);
+
+  /// A short summary of the status (e.g., a version number or brief status).
+  String? get statusInfo => _syntax.statusInfo;
+
+  /// Detailed diagnostic messages produced during validation.
+  List<DoctorValidationMessage> get messages => [
+    for (final m in _syntax.messages ?? const <DoctorValidationMessageSyntax>[])
+      DoctorValidationMessage._fromSyntax(m),
+  ];
+
+  /// The JSON representation of this validation result.
+  Map<String, Object?> get json => _syntax.json;
+
+  @override
+  bool operator ==(Object other) =>
+      other is DoctorValidationResult &&
+      title == other.title &&
+      type == other.type &&
+      statusInfo == other.statusInfo &&
+      const ListEquality<DoctorValidationMessage>().equals(
+        messages,
+        other.messages,
+      );
+
+  @override
+  int get hashCode => Object.hash(
+    title,
+    type,
+    statusInfo,
+    const ListEquality<DoctorValidationMessage>().hash(messages),
+  );
+
+  @override
+  String toString() =>
+      'DoctorValidationResult($title, $type, $statusInfo, $messages)';
+}
+
+/// The outcome type of a [DoctorValidationResult].
+@experimental
+final class DoctorValidationType {
+  /// The name of this validation type.
+  final String name;
+
+  const DoctorValidationType._(this.name);
+
+  /// The validator crashed or encountered an unexpected error.
+  static const crash = DoctorValidationType._('crash');
+
+  /// The required tool or resource is completely missing.
+  static const missing = DoctorValidationType._('missing');
+
+  /// The validator is not available on the current platform or configuration.
+  static const notAvailable = DoctorValidationType._('not_available');
+
+  /// The required tool or resource is partially available or misconfigured.
+  static const partial = DoctorValidationType._('partial');
+
+  /// The validation succeeded without issues.
+  static const success = DoctorValidationType._('success');
+
+  /// All known values for [DoctorValidationType].
+  static const values = [crash, missing, notAvailable, partial, success];
+
+  DoctorValidationTypeSyntax _toSyntax() => switch (this) {
+    crash => .crash,
+    missing => .missing,
+    notAvailable => .notAvailable,
+    partial => .partial,
+    success => .success,
+    _ => DoctorValidationTypeSyntax.fromJson(name),
+  };
+
+  static DoctorValidationType _fromSyntax(DoctorValidationTypeSyntax syntax) =>
+      switch (syntax) {
+        .crash => crash,
+        .missing => missing,
+        .notAvailable => notAvailable,
+        .partial => partial,
+        .success => success,
+        _ => DoctorValidationType._(syntax.name),
+      };
+
+  @override
+  bool operator ==(Object other) =>
+      other is DoctorValidationType && name == other.name;
+
+  @override
+  int get hashCode => name.hashCode;
+
+  @override
+  String toString() => name;
+}
+
+/// A diagnostic message within a [DoctorValidationResult].
+@experimental
+final class DoctorValidationMessage {
+  final DoctorValidationMessageSyntax _syntax;
+
+  DoctorValidationMessage._fromSyntax(this._syntax);
+
+  /// Creates an informational [DoctorValidationMessage].
+  DoctorValidationMessage(
+    String message, {
+    String? contextUrl,
+    String? piiStrippedMessage,
+  }) : _syntax = DoctorValidationMessageSyntax(
+         type: .information,
+         message: message,
+         contextUrl: contextUrl,
+         piiStrippedMessage: piiStrippedMessage,
+       );
+
+  /// Creates an error [DoctorValidationMessage].
+  DoctorValidationMessage.error(
+    String message, {
+    String? contextUrl,
+    String? piiStrippedMessage,
+  }) : _syntax = DoctorValidationMessageSyntax(
+         type: .error,
+         message: message,
+         contextUrl: contextUrl,
+         piiStrippedMessage: piiStrippedMessage,
+       );
+
+  /// Creates a hint [DoctorValidationMessage].
+  DoctorValidationMessage.hint(
+    String message, {
+    String? contextUrl,
+    String? piiStrippedMessage,
+  }) : _syntax = DoctorValidationMessageSyntax(
+         type: .hint,
+         message: message,
+         contextUrl: contextUrl,
+         piiStrippedMessage: piiStrippedMessage,
+       );
+
+  /// The type of this validation message.
+  DoctorValidationMessageType get type =>
+      DoctorValidationMessageType._fromSyntax(_syntax.type);
+
+  /// The validation message text.
+  String get message => _syntax.message;
+
+  /// An optional URL with more context about this message.
+  String? get contextUrl => _syntax.contextUrl;
+
+  /// The message with personally identifiable information (PII) stripped,
+  /// defaults to [message] if not explicitly provided.
+  String get piiStrippedMessage => _syntax.piiStrippedMessage ?? message;
+
+  /// The JSON representation of this validation message.
+  Map<String, Object?> get json => _syntax.json;
+
+  @override
+  bool operator ==(Object other) =>
+      other is DoctorValidationMessage &&
+      type == other.type &&
+      message == other.message &&
+      contextUrl == other.contextUrl &&
+      piiStrippedMessage == other.piiStrippedMessage;
+
+  @override
+  int get hashCode =>
+      Object.hash(type, message, contextUrl, piiStrippedMessage);
+
+  @override
+  String toString() => message;
+}
+
+/// The type of a [DoctorValidationMessage].
+@experimental
+final class DoctorValidationMessageType {
+  /// The name of this validation message type.
+  final String name;
+
+  const DoctorValidationMessageType._(this.name);
+
+  /// An error message indicating a problem that prevents functionality.
+  static const error = DoctorValidationMessageType._('error');
+
+  /// A hint message suggesting an improvement or optional fix.
+  static const hint = DoctorValidationMessageType._('hint');
+
+  /// An informational message.
+  static const information = DoctorValidationMessageType._('information');
+
+  /// All known values for [DoctorValidationMessageType].
+  static const values = [error, hint, information];
+
+  static DoctorValidationMessageType _fromSyntax(
+    DoctorValidationMessageTypeSyntax syntax,
+  ) => switch (syntax) {
+    .error => error,
+    .hint => hint,
+    .information => information,
+    _ => DoctorValidationMessageType._(syntax.name),
+  };
+
+  @override
+  bool operator ==(Object other) =>
+      other is DoctorValidationMessageType && name == other.name;
+
+  @override
+  int get hashCode => name.hashCode;
+
+  @override
+  String toString() => name;
 }
