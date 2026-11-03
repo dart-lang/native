@@ -8,6 +8,8 @@ import 'package:jni/_internal.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
+import 'test_util/test_util.dart';
+
 void main() {
   test('JniVersionCheck runtime assert', () {
     // We use a local constructor tear-off to prevent it being const-folded.
@@ -18,14 +20,24 @@ void main() {
             JniVersionCheck.actualMinorVersion),
         returnsNormally);
 
-    // Major version mismatch always fails.
-    expect(() => check(0, 0), throwsA(isA<AssertionError>()));
-    expect(() => check(1234, 0), throwsA(isA<AssertionError>()));
+    if (assertsEnabled) {
+      // Major version mismatch always fails.
+      expect(() => check(0, 0), throwsA(isA<AssertionError>()));
+      expect(() => check(1234, 0), throwsA(isA<AssertionError>()));
 
-    // Minor version mismatch fails only if the required version is newer.
-    expect(() => check(JniVersionCheck.actualMajorVersion, 0), returnsNormally);
-    expect(() => check(JniVersionCheck.actualMajorVersion, 1234),
-        throwsA(isA<AssertionError>()));
+      // Minor version mismatch fails only if the required version is newer.
+      expect(
+          () => check(JniVersionCheck.actualMajorVersion, 0), returnsNormally);
+      expect(() => check(JniVersionCheck.actualMajorVersion, 1234),
+          throwsA(isA<AssertionError>()));
+    } else {
+      expect(() => check(0, 0), returnsNormally);
+      expect(() => check(1234, 0), returnsNormally);
+      expect(
+          () => check(JniVersionCheck.actualMajorVersion, 0), returnsNormally);
+      expect(() => check(JniVersionCheck.actualMajorVersion, 1234),
+          returnsNormally);
+    }
   });
 
   group('JniVersionCheck compile-time assert', () {
