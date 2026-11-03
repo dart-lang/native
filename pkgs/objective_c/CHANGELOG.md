@@ -21,6 +21,8 @@
   `hasBytesAvailable` returned `YES` blocked its run loop until data arrived.
 - Use minor and patch versions of iOS and macOS deployment targets from
   `package:code_assets` 2.2.0 in the native support library's build hook.
+- Replace the expensive debug assert that blocks and objects are valid with a
+  cheaper and safer check.
 
 ## 9.6.2
 
