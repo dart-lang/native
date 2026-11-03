@@ -66,6 +66,8 @@ void main(List<String> args) {
         'BuildOutput',
         'Config',
         'ConfigExtensions',
+        'DoctorInput',
+        'DoctorOutput',
         'HookInput',
         'HookOutput',
         'LinkOutput',

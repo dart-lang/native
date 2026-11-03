@@ -58,6 +58,11 @@ abstract base class ProtocolExtension {
   /// Setup the [HookConfig] for this extension.
   void setupLinkInput(LinkInputBuilder input) {}
 
+  // TODO(dcharkes): Add `setupDoctorInput` and `validateDoctorInput` so
+  // protocol extensions (e.g., a Flutter extension providing the location of
+  // `impellerc` or target platform configuration) can pass configuration into
+  // `hook/doctor.dart`.
+
   /// Reports errors from this extension on the [BuildInput].
   Future<ValidationErrors> validateBuildInput(BuildInput input) async => [];
 

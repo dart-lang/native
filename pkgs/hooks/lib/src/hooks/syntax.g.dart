@@ -347,6 +347,372 @@ class ConfigSyntax extends JsonObjectSyntax {
   String toString() => 'ConfigSyntax($json)';
 }
 
+class DoctorInputSyntax extends JsonObjectSyntax {
+  DoctorInputSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorInputSyntax({
+    required Uri outFile,
+    required String packageName,
+    required Uri packageRoot,
+    super.path = const [],
+  }) : super() {
+    this.outFile = outFile;
+    this.packageName = packageName;
+    this.packageRoot = packageRoot;
+    json.sortOnKey();
+  }
+
+  Uri get outFile => _reader.path$('out_file');
+
+  set outFile(Uri value) {
+    json['out_file'] = value.toFilePath();
+    json.sortOnKey();
+  }
+
+  List<String> _validateOutFile() => _reader.validatePath('out_file');
+
+  String get packageName => _reader.get<String>('package_name');
+
+  set packageName(String value) {
+    json.setOrRemove('package_name', value);
+    json.sortOnKey();
+  }
+
+  List<String> _validatePackageName() =>
+      _reader.validate<String>('package_name');
+
+  Uri get packageRoot => _reader.path$('package_root');
+
+  set packageRoot(Uri value) {
+    json['package_root'] = value.toFilePath();
+    json.sortOnKey();
+  }
+
+  List<String> _validatePackageRoot() => _reader.validatePath('package_root');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateOutFile(),
+    ..._validatePackageName(),
+    ..._validatePackageRoot(),
+  ];
+
+  @override
+  String toString() => 'DoctorInputSyntax($json)';
+}
+
+class DoctorOutputSyntax extends JsonObjectSyntax {
+  DoctorOutputSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorOutputSyntax({
+    required List<DoctorValidationResultSyntax>? validations,
+    super.path = const [],
+  }) : super() {
+    this.validations = validations;
+    json.sortOnKey();
+  }
+
+  List<DoctorValidationResultSyntax>? get validations {
+    final jsonValue = _reader.optionalList('validations');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        DoctorValidationResultSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'validations', index],
+        ),
+    ];
+  }
+
+  set validations(List<DoctorValidationResultSyntax>? value) {
+    if (value == null) {
+      json.remove('validations');
+    } else {
+      json['validations'] = [for (final item in value) item.json];
+    }
+    json.sortOnKey();
+  }
+
+  List<String> _validateValidations() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'validations',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = validations;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateValidations()];
+
+  @override
+  String toString() => 'DoctorOutputSyntax($json)';
+}
+
+class DoctorValidationMessageSyntax extends JsonObjectSyntax {
+  DoctorValidationMessageSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorValidationMessageSyntax({
+    required String? contextUrl,
+    required String message,
+    required String? piiStrippedMessage,
+    required DoctorValidationMessageTypeSyntax type,
+    super.path = const [],
+  }) : super() {
+    _contextUrl = contextUrl;
+    _message = message;
+    _piiStrippedMessage = piiStrippedMessage;
+    _type = type;
+    json.sortOnKey();
+  }
+
+  String? get contextUrl => _reader.get<String?>('context_url');
+
+  set _contextUrl(String? value) {
+    json.setOrRemove('context_url', value);
+  }
+
+  List<String> _validateContextUrl() =>
+      _reader.validate<String?>('context_url');
+
+  String get message => _reader.get<String>('message');
+
+  set _message(String value) {
+    json.setOrRemove('message', value);
+  }
+
+  List<String> _validateMessage() => _reader.validate<String>('message');
+
+  String? get piiStrippedMessage =>
+      _reader.get<String?>('pii_stripped_message');
+
+  set _piiStrippedMessage(String? value) {
+    json.setOrRemove('pii_stripped_message', value);
+  }
+
+  List<String> _validatePiiStrippedMessage() =>
+      _reader.validate<String?>('pii_stripped_message');
+
+  DoctorValidationMessageTypeSyntax get type {
+    final jsonValue = _reader.get<String>('type');
+    return DoctorValidationMessageTypeSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'type'],
+    );
+  }
+
+  set _type(DoctorValidationMessageTypeSyntax value) {
+    json['type'] = value.name;
+  }
+
+  List<String> _validateType() => _reader.validate<String>('type');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateContextUrl(),
+    ..._validateMessage(),
+    ..._validatePiiStrippedMessage(),
+    ..._validateType(),
+  ];
+
+  @override
+  String toString() => 'DoctorValidationMessageSyntax($json)';
+}
+
+class DoctorValidationMessageTypeSyntax {
+  final String name;
+
+  const DoctorValidationMessageTypeSyntax._(this.name);
+
+  static const error = DoctorValidationMessageTypeSyntax._('error');
+
+  static const hint = DoctorValidationMessageTypeSyntax._('hint');
+
+  static const information = DoctorValidationMessageTypeSyntax._('information');
+
+  static const List<DoctorValidationMessageTypeSyntax> values = [
+    error,
+    hint,
+    information,
+  ];
+
+  static final Map<String, DoctorValidationMessageTypeSyntax> _byName = {
+    for (final value in values) value.name: value,
+  };
+
+  DoctorValidationMessageTypeSyntax.unknown(this.name)
+    : assert(!_byName.keys.contains(name));
+
+  factory DoctorValidationMessageTypeSyntax.fromJson(
+    String name, {
+    List<Object> path = const [],
+  }) {
+    final knownValue = _byName[name];
+    if (knownValue != null) {
+      return knownValue;
+    }
+    return DoctorValidationMessageTypeSyntax.unknown(name);
+  }
+
+  bool get isKnown => _byName[name] != null;
+
+  @override
+  String toString() => name;
+}
+
+class DoctorValidationResultSyntax extends JsonObjectSyntax {
+  DoctorValidationResultSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorValidationResultSyntax({
+    required List<DoctorValidationMessageSyntax>? messages,
+    required String? statusInfo,
+    required String title,
+    required DoctorValidationTypeSyntax type,
+    super.path = const [],
+  }) : super() {
+    _messages = messages;
+    _statusInfo = statusInfo;
+    _title = title;
+    _type = type;
+    json.sortOnKey();
+  }
+
+  List<DoctorValidationMessageSyntax>? get messages {
+    final jsonValue = _reader.optionalList('messages');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        DoctorValidationMessageSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'messages', index],
+        ),
+    ];
+  }
+
+  set _messages(List<DoctorValidationMessageSyntax>? value) {
+    if (value == null) {
+      json.remove('messages');
+    } else {
+      json['messages'] = [for (final item in value) item.json];
+    }
+  }
+
+  List<String> _validateMessages() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'messages',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = messages;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  String? get statusInfo => _reader.get<String?>('status_info');
+
+  set _statusInfo(String? value) {
+    json.setOrRemove('status_info', value);
+  }
+
+  List<String> _validateStatusInfo() =>
+      _reader.validate<String?>('status_info');
+
+  String get title => _reader.get<String>('title');
+
+  set _title(String value) {
+    json.setOrRemove('title', value);
+  }
+
+  List<String> _validateTitle() => _reader.validate<String>('title');
+
+  DoctorValidationTypeSyntax get type {
+    final jsonValue = _reader.get<String>('type');
+    return DoctorValidationTypeSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'type'],
+    );
+  }
+
+  set _type(DoctorValidationTypeSyntax value) {
+    json['type'] = value.name;
+  }
+
+  List<String> _validateType() => _reader.validate<String>('type');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateMessages(),
+    ..._validateStatusInfo(),
+    ..._validateTitle(),
+    ..._validateType(),
+  ];
+
+  @override
+  String toString() => 'DoctorValidationResultSyntax($json)';
+}
+
+class DoctorValidationTypeSyntax {
+  final String name;
+
+  const DoctorValidationTypeSyntax._(this.name);
+
+  static const crash = DoctorValidationTypeSyntax._('crash');
+
+  static const missing = DoctorValidationTypeSyntax._('missing');
+
+  static const notAvailable = DoctorValidationTypeSyntax._('not_available');
+
+  static const partial = DoctorValidationTypeSyntax._('partial');
+
+  static const success = DoctorValidationTypeSyntax._('success');
+
+  static const List<DoctorValidationTypeSyntax> values = [
+    crash,
+    missing,
+    notAvailable,
+    partial,
+    success,
+  ];
+
+  static final Map<String, DoctorValidationTypeSyntax> _byName = {
+    for (final value in values) value.name: value,
+  };
+
+  DoctorValidationTypeSyntax.unknown(this.name)
+    : assert(!_byName.keys.contains(name));
+
+  factory DoctorValidationTypeSyntax.fromJson(
+    String name, {
+    List<Object> path = const [],
+  }) {
+    final knownValue = _byName[name];
+    if (knownValue != null) {
+      return knownValue;
+    }
+    return DoctorValidationTypeSyntax.unknown(name);
+  }
+
+  bool get isKnown => _byName[name] != null;
+
+  @override
+  String toString() => name;
+}
+
 class FailureSyntax extends JsonObjectSyntax {
   FailureSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();

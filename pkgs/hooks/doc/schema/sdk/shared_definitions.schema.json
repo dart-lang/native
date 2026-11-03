@@ -7,6 +7,11 @@
       "unevaluatedProperties": false
     },
     "BuildOutput": {},
+    "DoctorInput": {
+      "$ref": "../shared/shared_definitions.schema.json#/definitions/DoctorInput",
+      "unevaluatedProperties": false
+    },
+    "DoctorOutput": {},
     "HookInput": {},
     "HookOutput": {},
     "LinkInput": {

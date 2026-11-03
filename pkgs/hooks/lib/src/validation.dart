@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:meta/meta.dart';
+
 import 'config.dart';
 import 'encoded_asset.dart';
 import 'extension.dart';
@@ -45,6 +47,24 @@ class ProtocolBase {
           '$LinkInput.recordUses',
           input.outputDirectoryShared,
         ),
+    ];
+  }
+
+  /// Validates the [DoctorInput] for both syntax and semantics.
+  @experimental
+  static Future<ValidationErrors> validateDoctorInput(DoctorInput input) async {
+    final syntaxErrors = DoctorInputSyntax.fromJson(input.json).validate();
+    if (syntaxErrors.isNotEmpty) {
+      return [...syntaxErrors, _semanticValidationSkippedMessage];
+    }
+
+    return <String>[
+      ..._validateDirectory('DoctorInput.packageRoot', input.packageRoot),
+      ..._validateDirectory(
+        'DoctorInput.outputFile',
+        input.outputFile,
+        mustExist: false,
+      ),
     ];
   }
 
@@ -123,6 +143,20 @@ class ProtocolBase {
       ..._validateOutputAssetTypes(input, output.assets.encodedAssets),
     ];
     return errors;
+  }
+
+  /// Validates the [DoctorOutput] for both syntax and semantics.
+  @experimental
+  static Future<ValidationErrors> validateDoctorOutput(
+    DoctorInput input,
+    DoctorOutput output,
+  ) async {
+    final syntaxErrors = DoctorOutputSyntax.fromJson(output.json).validate();
+    if (syntaxErrors.isNotEmpty) {
+      return [...syntaxErrors, _semanticValidationSkippedMessage];
+    }
+
+    return const [];
   }
 
   /// Only output asset types that are supported by the embedder.
