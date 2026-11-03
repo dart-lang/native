@@ -6,6 +6,8 @@
 - Track header dependencies in C build test projects.
 - Fail eagerly instead of waiting for timeout when running on a file system that
   does not support process locks.
+- Fix a race condition in `NativeAssetsBuildRunner.link` by writing
+  `recorded_uses.json` under the directory lock.
 
 ## 1.6.4
 
