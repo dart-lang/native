@@ -9,7 +9,7 @@ applications.
 | [`host_name`](../../code_assets/example/host_name)             | Get the hostname.    | - Accessing a system library with `DynamicLoadingSystem` and `LookupInProcess`.<br/>- OS-specific differences.            |
 | [`mini_audio`](../../code_assets/example/mini_audio)           | Play audio.          | - C library built from source with `package:native_toolchain_c`.<br/>- Bundled with `DynamicLoadingBundled`.              |
 | [`sqlite`](../../code_assets/example/sqlite)                   | Database access.     | - C library built from source with `package:native_toolchain_c`.<br/>- Bundled with `DynamicLoadingBundled`.              |
-| [`sqlite_prebuilt`](../../code_assets/example/sqlite_prebuilt) | Database access.     | - Pre-built binary downloaded from the internet or available on host machine.<br/>- Bundled with `DynamicLoadingBundled`. |
+| [`sqlite_prebuilt`](../../code_assets/example/sqlite_prebuilt) | Database access.     | - Pre-built binary downloaded from the internet or available on host machine.<br/>- Bundled with `DynamicLoadingBundled`.<br/>- Validates host dependencies in `hook/doctor.dart`. |
 | [`stb_image`](../../code_assets/example/stb_image)             | Read image metadata. | - C library built from source with `package:native_toolchain_c`.<br/>- Bundled with `DynamicLoadingBundled`.              |
 
 <!--
@@ -23,3 +23,6 @@ The following examples showcase individual features of of `package:hooks`:
   and bundle code assets, such as C libraries, into Dart applications.
 * [link/](link/) contains examples on how to treeshake unused assets from a Dart
   application using the `hook/link.dart` script.
+* [doctor/](doctor/) contains an example on how to use `hook/doctor.dart` to
+  validate that external tools required by `hook/build.dart` are installed on
+  the host system.

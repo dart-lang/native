@@ -1,0 +1,19 @@
+name: cli_tool
+description: An example of sharing PATH tool resolution between build.dart and doctor.dart.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  data_assets: any
+  hooks: any
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.15
+

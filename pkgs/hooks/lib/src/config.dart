@@ -1621,14 +1621,31 @@ final class DoctorOutput {
 ///
 /// void main(List<String> args) async {
 ///   await doctor(args, (input, output) async {
-///     output.addValidation(
-///       DoctorValidationResult(
-///         title: 'C Compiler',
-///         type: DoctorValidationType.success,
-///         statusInfo: 'Clang 17.0.0',
-///         messages: [DoctorValidationMessage('Found at /usr/bin/clang')],
-///       ),
-///     );
+///     final clang = await findClang();
+///     if (clang != null) {
+///       output.addValidation(
+///         DoctorValidationResult(
+///           title: 'C Compiler',
+///           type: DoctorValidationType.success,
+///           messages: [
+///             DoctorValidationMessage('Found at ${clang.toFilePath()}'),
+///           ],
+///         ),
+///       );
+///     } else {
+///       output.addValidation(
+///         DoctorValidationResult(
+///           title: 'C Compiler',
+///           type: DoctorValidationType.missing,
+///           messages: [
+///             DoctorValidationMessage.error('clang not found on PATH.'),
+///             DoctorValidationMessage.hint(
+///               'Install Clang and add it to PATH.',
+///             ),
+///           ],
+///         ),
+///       );
+///     }
 ///   });
 /// }
 /// ```
