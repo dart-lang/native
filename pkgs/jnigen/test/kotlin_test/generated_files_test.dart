@@ -11,6 +11,6 @@ void main() async {
   await checkLocallyBuiltDependencies();
   generateAndCompare(
     'Generate and compare bindings for kotlin_test',
-    getConfig(),
+    getConfig,
   );
 }

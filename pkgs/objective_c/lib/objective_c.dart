@@ -16,7 +16,7 @@ export 'src/cf_string.dart';
 export 'src/converter.dart';
 export 'src/globals.dart';
 export 'src/internal.dart'
-    hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
+    hide blockHasRegisteredClosure, isValidBlock, isValidObject;
 export 'src/ns_array.dart';
 export 'src/ns_data.dart';
 export 'src/ns_date.dart';

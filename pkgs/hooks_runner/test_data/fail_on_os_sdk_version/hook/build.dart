@@ -24,18 +24,16 @@ void main(List<String> arguments) async {
         );
       }
     } else if (input.config.code.targetOS == OS.iOS) {
-      final iosVersion = input.config.code.iOS.targetVersion;
-      // iosVersion is nullable to deal with version skew.
-      if (iosVersion < minIosVersionForThisPackage) {
+      final iosVersion = input.config.code.iOS.deploymentVersion;
+      if (iosVersion < AppleVersion(minIosVersionForThisPackage)) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least iOS version $minIosVersionForThisPackage.',
         );
       }
     } else if (input.config.code.targetOS == OS.macOS) {
-      final macosVersion = input.config.code.macOS.targetVersion;
-      // macosVersion is nullable to deal with version skew.
-      if (macosVersion < minMacOSVersionForThisPackage) {
+      final macosVersion = input.config.code.macOS.deploymentVersion;
+      if (macosVersion < AppleVersion(minMacOSVersionForThisPackage)) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least MacOS version $minMacOSVersionForThisPackage.',

@@ -45,15 +45,19 @@ Future<void> bindingsTestSetup() async {
 
   final jacksonJars = await getJarPaths(join(jacksonCoreTest, 'third_party'));
 
+  final kotlinTargetSubdir = join('target', 'runtime_test');
   await runCommand(
     'mvn',
-    ['package'],
+    ['package', '-Dbuild.dir=$kotlinTargetSubdir'],
     workingDirectory: kotlinTestKotlin,
     runInShell: true,
   );
   // Jar including Kotlin runtime and dependencies.
-  final kotlinTestJar =
-      join(kotlinTestKotlin, 'target', 'kotlin_test-jar-with-dependencies.jar');
+  final kotlinTestJar = join(
+    kotlinTestKotlin,
+    kotlinTargetSubdir,
+    'kotlin_test-jar-with-dependencies.jar',
+  );
 
   if (!Platform.isAndroid) {
     Jni.spawnIfNotExists(
