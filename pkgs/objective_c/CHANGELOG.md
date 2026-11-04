@@ -1,4 +1,4 @@
-## 9.6.3-wip
+## 9.6.3
 
 - Make the `NSInputStream` returned by `toNSInputStream` avoid copying the
   data added to it, and avoid moving the unread data after every read. For

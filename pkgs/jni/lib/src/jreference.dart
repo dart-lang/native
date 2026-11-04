@@ -120,10 +120,14 @@ final class JGlobalReference extends JReference {
   }
 
   void _appendToStackTrace(String stackTrace) {
+    if (_releasedStackTracePointer == nullptr) {
+      return;
+    }
     final previousStackTrace = _releasedStackTrace ?? '';
     final nativeStr = '$previousStackTrace$stackTrace'.toNativeUtf8();
-    if (_releasedStackTracePointer != nullptr) {
-      malloc.free(_releasedStackTracePointer.value);
+    final previousPtr = _releasedStackTracePointer.value;
+    if (previousPtr != nullptr) {
+      malloc.free(previousPtr);
     }
     _releasedStackTracePointer.value = nativeStr.cast();
   }
@@ -146,18 +150,22 @@ final class JGlobalReference extends JReference {
 
   @internal
   void registeredInArena() {
-    if (Jni.captureStackTraceOnRelease) {
-      _appendToStackTrace(
-          'Object was registered to be released by an arena at:\n'
-          '${StackTrace.current}\n');
-    }
+    assert(() {
+      if (Jni.captureStackTraceOnRelease) {
+        _appendToStackTrace(
+            'Object was registered to be released by an arena at:\n'
+            '${StackTrace.current}\n');
+      }
+      return true;
+    }());
   }
 
   String? get _releasedStackTrace {
-    if (_releasedStackTracePointer.value != nullptr) {
-      return _releasedStackTracePointer.value.cast<Utf8>().toDartString();
+    if (_releasedStackTracePointer == nullptr) {
+      return null;
     }
-    return null;
+    final value = _releasedStackTracePointer.value;
+    return value == nullptr ? null : value.cast<Utf8>().toDartString();
   }
 
   @override
