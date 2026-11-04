@@ -13,7 +13,7 @@ void main(List<String> arguments) async {
     final cbuilder = CBuilder.library(
       name: duplicatedPackageName,
       assetName: 'src/${packageName}_bindings_generated.dart',
-      sources: ['src/$duplicatedPackageName.c'],
+      sources: ['src/$duplicatedPackageName.c', 'src/$duplicatedPackageName.h'],
     );
     // Temp output to prevent outputting the dylib for bundling.
     final outputBuilder = BuildOutputBuilder();

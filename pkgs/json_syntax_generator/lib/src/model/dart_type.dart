@@ -69,8 +69,31 @@ class StringDartType extends SimpleDartType {
   }
 }
 
-class IntDartType extends SimpleDartType {
-  const IntDartType({required super.isNullable}) : super(typeName: 'int');
+sealed class NumberDartType extends SimpleDartType {
+  final num? minimum;
+  final num? maximum;
+
+  const NumberDartType({
+    required super.typeName,
+    required super.isNullable,
+    this.minimum,
+    this.maximum,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      super == other &&
+      other is NumberDartType &&
+      minimum == other.minimum &&
+      maximum == other.maximum;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, minimum, maximum);
+}
+
+class IntDartType extends NumberDartType {
+  const IntDartType({required super.isNullable, super.minimum, super.maximum})
+    : super(typeName: 'int');
 
   @override
   bool operator ==(Object other) => super == other && other is IntDartType;
@@ -79,8 +102,12 @@ class IntDartType extends SimpleDartType {
   int get hashCode => Object.hash(super.hashCode, 'int');
 }
 
-class DoubleDartType extends SimpleDartType {
-  const DoubleDartType({required super.isNullable}) : super(typeName: 'double');
+class DoubleDartType extends NumberDartType {
+  const DoubleDartType({
+    required super.isNullable,
+    super.minimum,
+    super.maximum,
+  }) : super(typeName: 'double');
 
   @override
   bool operator ==(Object other) => super == other && other is DoubleDartType;

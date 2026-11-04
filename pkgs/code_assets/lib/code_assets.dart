@@ -61,7 +61,7 @@
 /// final cLibrary = CLibrary(
 ///   name: 'sqlite3',
 ///   assetName: 'src/third_party/sqlite3.g.dart',
-///   sources: ['third_party/sqlite/sqlite3.c'],
+///   sources: ['third_party/sqlite/sqlite3.c', 'third_party/sqlite/sqlite3.h'],
 /// );
 /// ```
 ///
@@ -179,6 +179,7 @@
 /// [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 library;
 
+export 'src/code_assets/apple_version.dart' show AppleVersion;
 export 'src/code_assets/architecture.dart' show Architecture;
 export 'src/code_assets/c_compiler_config.dart'
     show CCompilerConfig, DeveloperCommandPrompt, WindowsCCompilerConfig;

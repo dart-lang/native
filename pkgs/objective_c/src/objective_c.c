@@ -4,6 +4,8 @@
 
 #include "objective_c.h"
 
+#include <mach/mach.h>
+#include <mach/vm_map.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -16,12 +18,57 @@ FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl* block) {
   Dart_PostInteger_DL(block->dispose_port, (int64_t)block->target);
 }
 
+static bool isReadableMemory(const void* addr, void* out, size_t size) {
+  if (addr == NULL) return false;
+  if (((uintptr_t)addr & (sizeof(uintptr_t) - 1)) != 0) return false;
+  vm_size_t out_size = 0;
+  kern_return_t kr =
+      vm_read_overwrite(mach_task_self(), (vm_address_t)addr, (vm_size_t)size,
+                        (vm_address_t)out, &out_size);
+  return kr == KERN_SUCCESS && out_size == size;
+}
+
 FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl* block) {
-  if (block == NULL) return false;
-  void* isa = block->isa;
+  void* isa = NULL;
+  if (!isReadableMemory(block, &isa, sizeof(void*))) return false;
   return isa == &_NSConcreteStackBlock || isa == &_NSConcreteMallocBlock ||
          isa == &_NSConcreteAutoBlock || isa == &_NSConcreteFinalizingBlock ||
          isa == &_NSConcreteGlobalBlock || isa == &_NSConcreteWeakBlockVariable;
+}
+
+FFI_EXPORT bool DOBJC_isValidObject(ObjCObjectImpl* object) {
+  if (object == NULL) return false;
+  if (((uintptr_t)object & objc_debug_taggedpointer_mask) != 0) {
+    // Tagged pointers encode their payload inline in the pointer bits rather
+    // than pointing to readable memory. `object_getClass` looks up the tag
+    // index in libobjc's static tagged-pointer class table without
+    // dereferencing `object`.
+    return object_getClass(object) != NULL;
+  }
+
+  uintptr_t isa = 0;
+  if (!isReadableMemory(object, &isa, sizeof(uintptr_t))) return false;
+
+  if ((isa & 1) != 0) {
+    // Most Objective-C instances use a non-pointer `isa` packing metadata
+    // (flags, inline refcount, etc.) alongside the class address, setting
+    // bit 0 and magic bits (`object_getClass` errors if they don't match).
+    if ((isa & objc_debug_isa_magic_mask) != objc_debug_isa_magic_value) {
+      return false;
+    }
+  } else {
+    // `Class` objects, blocks, constant objects, and instances of classes
+    // requiring a raw `isa` store a plain 8-byte-aligned `Class` pointer
+    // directly in `isa`, leaving the low 3 bits zero.
+    if (isa == 0 || (isa & 0x7) != 0) return false;
+  }
+
+  uintptr_t cls = isa & objc_debug_isa_class_mask;
+  uintptr_t cls_isa = 0;
+  if (!isReadableMemory((const void*)cls, &cls_isa, sizeof(uintptr_t))) {
+    return false;
+  }
+  return cls_isa != 0 && (cls_isa & 0x7) == 0;
 }
 
 FFI_EXPORT void DOBJC_finalizeObject(void* isolate_callback_data, void* peer) {

@@ -1,6 +1,8 @@
 ## 23.1.0-wip
 
-- Add `dumpApi` utility and `ApiDumperVisitor` to dump entire parsed AST.
+- Add dumpApi utility and ApiDumperVisitor to dump entire parsed AST.
+- Use minor and patch versions of Apple deployment targets from
+  package:code_assets 2.2.0 when compiling native test utilities.
 
 ## 23.0.0
 
@@ -108,7 +110,7 @@
   always enabled.
 - Fix(https://github.com/dart-lang/native/issues/2877)
   such that ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns
-  `false` when called with `null`, aligning its behavior with Dart’s `is`
+  `false` when called with `null`, aligning its behavior with Dartâ€™s `is`
   operator.
 - Use `xcrun` for resolving macOS SDK paths, enabling support for non-standard
   Xcode installations. [#3134](https://github.com/dart-lang/native/issues/3134)

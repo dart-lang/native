@@ -205,7 +205,7 @@ class CBuilder extends CTool implements Builder {
       logger: logger,
       processManager: processManager,
       fileSystem: fileSystem,
-      sources: sources,
+      sources: sources.where((source) => !source.path.endsWith('.h')).toList(),
       includes: includes,
       forcedIncludes: forcedIncludes,
       frameworks: frameworks,

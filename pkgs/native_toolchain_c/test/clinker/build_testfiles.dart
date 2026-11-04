@@ -10,16 +10,21 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import '../helpers.dart';
 
+/// Builds a static archive from the linker test sources.
+///
+/// Uses [androidTargetNdkApi] for Android, [macOSTargetVersion] for macOS,
+/// and [iOSTargetVersion] with [iOSTargetSdk] for iOS. Supply only the target's
+/// platform-specific configuration.
 Future<Uri> buildTestArchive(
   Uri tempUri,
   Uri tempUri2,
   OS targetOS,
   Architecture architecture, {
   List<Uri>? extraSources,
-  int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
-  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
-  int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
-  IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
+  int? androidTargetNdkApi,
+  AppleVersion? macOSTargetVersion,
+  AppleVersion? iOSTargetVersion,
+  IOSSdk? iOSTargetSdk,
 }) async {
   if (targetOS == OS.android) {
     ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
@@ -61,12 +66,14 @@ Future<Uri> buildTestArchive(
             ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
             : null,
         macOS: macOSTargetVersion != null
-            ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+            ? MacOSCodeConfig(
+                deploymentVersion: macOSTargetVersion,
+              )
             : null,
         iOS: iOSTargetVersion != null && iOSTargetSdk != null
             ? IOSCodeConfig(
                 targetSdk: iOSTargetSdk,
-                targetVersion: iOSTargetVersion,
+                deploymentVersion: iOSTargetVersion,
               )
             : null,
       ),

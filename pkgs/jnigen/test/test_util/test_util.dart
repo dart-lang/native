@@ -200,10 +200,10 @@ Future<void> checkLocallyBuiltDependencies() async {
 
 void generateAndCompare(
   String description,
-  JniGenerator config,
+  JniGenerator Function() getConfig,
 ) {
   test(description, () async {
-    await generateAndCompareBindings(config);
+    await generateAndCompareBindings(getConfig());
   }, timeout: const Timeout(Duration(minutes: 2)), tags: 'bindings');
 }
 

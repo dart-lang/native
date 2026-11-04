@@ -8,7 +8,7 @@ void main(List<String> args) async {
       final builder = CBuilder.library(
         name: 'add',
         assetName: 'add.g.dart',
-        sources: ['src/add.c'],
+        sources: ['src/add.c', 'src/add.h'],
       );
       await builder.run(input: input, output: output);
     }
