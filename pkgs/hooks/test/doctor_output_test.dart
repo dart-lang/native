@@ -111,10 +111,7 @@ void main() {
     });
     final unknownValidation = unknownOutput.validations.single;
     expect(unknownValidation.type.name, 'future_validation_type');
-    expect(
-      unknownValidation.messages.single.type.name,
-      'future_message_type',
-    );
+    expect(unknownValidation.messages.single.type.name, 'future_message_type');
     final roundTripped = DoctorValidationResult(
       title: unknownValidation.title,
       type: unknownValidation.type,
