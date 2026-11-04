@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:hooks/src/validation.dart';
@@ -93,11 +95,13 @@ void main() {
   });
 
   test('testDoctorHook throws on output error', () async {
+    late Uri outputFile;
     final testResult = testDoctorHook(
       mainMethod: (args) async {
         await doctor(args, (input, output) async {
-          output.json['unexpected_key'] = 123;
+          outputFile = input.outputFile;
         });
+        File.fromUri(outputFile).writeAsStringSync('{"validations": 123}');
       },
       check: expectAsync2((_, _) {}, count: 0),
     );
