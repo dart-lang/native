@@ -267,7 +267,6 @@
 - user_defines/hook/build.dart
 - user_defines/pubspec.yaml
 - user_defines/test/user_defines_test.dart
-- utf8_output/bin/utf8_output.dart
 - utf8_output/hook/build.dart
 - utf8_output/pubspec.yaml
 - wrong_architecture_asset/hook/build.dart

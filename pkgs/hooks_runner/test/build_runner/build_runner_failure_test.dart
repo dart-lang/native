@@ -32,8 +32,8 @@ void main() async {
       expect(result.isFailure, isTrue);
       expect(result.failure, HooksRunnerFailure.hookRun);
       final fullLog = logMessages.join('\n');
-      expect(fullLog, contains('你好'));
-      expect(fullLog, contains('爱你 😀'));
+      expect(fullLog, contains('你好，native 😀'));
+      expect(fullLog, contains('显示日志错误信息'));
       expect(fullLog, contains('Unhandled exception:'));
       expect(fullLog, contains('To reproduce run:'));
     });

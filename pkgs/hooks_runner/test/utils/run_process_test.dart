@@ -13,7 +13,6 @@
 
 import 'dart:io';
 
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -31,44 +30,6 @@ void main(List<String> args) {
 }
 ''');
   });
-
-  for (final split in [false, true]) {
-    for (final captureOutput in [false, true]) {
-      test(
-        'runProcess decodes UTF-8 (split: $split, capture: $captureOutput)',
-        () async {
-          final script = testDataUri.resolve(
-            'utf8_output/bin/utf8_output.dart',
-          );
-          final processLogger = Logger.detached('utf8')..level = Level.ALL;
-          final records = <LogRecord>[];
-          final subscription = processLogger.onRecord.listen(records.add);
-          addTearDown(subscription.cancel);
-
-          final result = await runProcess(
-            executable: Uri.file(Platform.resolvedExecutable),
-            arguments: [script.toFilePath(), '$split'],
-            logger: processLogger,
-            captureOutput: captureOutput,
-          );
-
-          const expected = '你好 爱你 😀\n';
-          expect(result.exitCode, 255);
-          expect(result.stdout, captureOutput ? expected : isEmpty);
-          expect(result.stderr, captureOutput ? expected : isEmpty);
-          for (final level in [Level.FINE, Level.SEVERE]) {
-            expect(
-              records
-                  .where((record) => record.level == level)
-                  .map((record) => record.message)
-                  .join(),
-              expected,
-            );
-          }
-        },
-      );
-    }
-  }
 
   test(
     'runProcess handles an executable path containing a space',

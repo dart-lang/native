@@ -3,6 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 void main(List<String> arguments) {
-  print('你好');
-  throw StateError('爱你 😀');
+  print('你好，native 😀');
+  throw StateError('显示日志错误信息');
 }
