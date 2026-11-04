@@ -1,5 +1,7 @@
 ## 23.0.1-wip
 
+- Add `ffigen` to `executables` in `pubspec.yaml` and support running `ffigen`
+  as a standalone AOT-compiled executable (`dart install` / `dart run ffigen@`).
 - Use minor and patch versions of Apple deployment targets from
   `package:code_assets` 2.2.0 when compiling native test utilities.
 
