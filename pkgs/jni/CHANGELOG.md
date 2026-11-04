@@ -1,3 +1,8 @@
+## 1.1.2
+
+- Fix segfault when throwing `UseAfterReleaseError` or `DoubleReleaseError` in
+  release builds (without asserts enabled).
+
 ## 1.1.1
 
 - Add ProGuard consumer rules for Kotlin classes used by suspend functions.
