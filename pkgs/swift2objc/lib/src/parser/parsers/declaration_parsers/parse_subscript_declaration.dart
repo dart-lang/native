@@ -33,6 +33,8 @@ SubscriptDeclaration parseSubscriptDeclaration(
     throws: info.throws,
     async: info.async,
     mutating: info.mutating,
-    hasSetter: findKeywordInFragments(declarationFragments, 'set'),
+    hasSetter: declarationFragments.any(
+      (frag) => matchFragment(frag, 'keyword', 'set'),
+    ),
   );
 }

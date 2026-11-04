@@ -84,20 +84,8 @@ bool parseSymbolHasObjcAnnotation(Json symbolJson) =>
       (json) => matchFragment(json, 'attribute', '@objc'),
     );
 
-bool findKeywordInFragments(Json json, String keyword) {
-  Json fragments;
-  try {
-    fragments = json['declarationFragments'].exists
-        ? json['declarationFragments']
-        : json;
-  } catch (_) {
-    fragments = json;
-  }
-  return fragments.any((frag) => matchFragment(frag, 'keyword', keyword));
-}
-
-bool parseIsOverriding(Json symbolJson) =>
-    findKeywordInFragments(symbolJson, 'override');
+bool parseIsOverriding(Json symbolJson) => symbolJson['declarationFragments']
+    .any((json) => matchFragment(json, 'keyword', 'override'));
 
 List<AvailabilityInfo> parseAvailability(Json symbolJson) {
   final availability = symbolJson['availability'];
