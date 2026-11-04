@@ -12,6 +12,9 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart' hide ObjCProtocolImpl, getClass;
 import 'package:objective_c/src/internal.dart' show getProtocol;
+import 'package:objective_c/src/runtime_bindings_generated.dart'
+    as r
+    show getClass;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -587,6 +590,13 @@ void main() {
       receivePort.close();
     }, skip: !canDoGC);
 
+    Pointer<Void> getClassByName(String name) {
+      final cstr = name.toNativeUtf8();
+      final clazz = r.getClass(cstr.cast());
+      calloc.free(cstr);
+      return clazz.cast();
+    }
+
     test('class disposal, builder first', () {
       ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(
         debugName: 'Foo',
@@ -594,20 +604,18 @@ void main() {
 
       NSObject? protocol = protocolBuilder.build();
       final clazz = getClass(protocol);
-      expect(
-        getClassName(clazz).cast<Utf8>().toDartString(),
-        startsWith('Foo'),
-      );
-      expect(isValidClass(clazz), isTrue);
+      final className = getClassName(clazz).cast<Utf8>().toDartString();
+      expect(className, startsWith('Foo'));
+      expect(getClassByName(className), clazz);
 
       protocolBuilder = null;
       doGC();
-      expect(isValidClass(clazz), isTrue);
+      expect(getClassByName(className), clazz);
       expect(protocol, isNotNull);
 
       protocol = null;
       doGC();
-      expect(isValidClass(clazz), isFalse);
+      expect(getClassByName(className), nullptr);
     }, skip: !canDoGC);
 
     test('class disposal, instance first', () {
@@ -617,20 +625,18 @@ void main() {
 
       NSObject? protocol = protocolBuilder.build();
       final clazz = getClass(protocol);
-      expect(
-        getClassName(clazz).cast<Utf8>().toDartString(),
-        startsWith('Foo'),
-      );
-      expect(isValidClass(clazz), isTrue);
+      final className = getClassName(clazz).cast<Utf8>().toDartString();
+      expect(className, startsWith('Foo'));
+      expect(getClassByName(className), clazz);
 
       protocolBuilder = null;
       doGC();
-      expect(isValidClass(clazz), isTrue);
+      expect(getClassByName(className), clazz);
       expect(protocol, isNotNull);
 
       protocol = null;
       doGC();
-      expect(isValidClass(clazz), isFalse);
+      expect(getClassByName(className), nullptr);
     }, skip: !canDoGC);
 
     test('adding more methods after build', () {

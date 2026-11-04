@@ -23,7 +23,6 @@ ObjCObjectImpl *objc_retainBlock(const ObjCObjectImpl *object);
 void objc_release(ObjCObjectImpl *object);
 ObjCObjectImpl *objc_autorelease(ObjCObjectImpl *object);
 ObjCObjectImpl *object_getClass(ObjCObjectImpl *object);
-ObjCObjectImpl** objc_copyClassList(unsigned int* count);
 void *objc_autoreleasePoolPush(void);
 void objc_autoreleasePoolPop(void *pool);
 
@@ -58,5 +57,10 @@ extern const ObjCObjectImpl *NSKeyValueChangeNewKey;
 extern const ObjCObjectImpl *NSKeyValueChangeNotificationIsPriorKey;
 extern const ObjCObjectImpl *NSKeyValueChangeOldKey;
 extern const ObjCObjectImpl *NSLocalizedDescriptionKey;
+
+extern const uintptr_t objc_debug_isa_class_mask;
+extern const uintptr_t objc_debug_isa_magic_mask;
+extern const uintptr_t objc_debug_isa_magic_value;
+extern uintptr_t objc_debug_taggedpointer_mask;
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
