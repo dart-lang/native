@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:hooks/src/validation.dart';
@@ -67,6 +69,53 @@ void main() {
     ext.setupLinkInput(linkInputBuilder);
     expect(await ext.validateApplicationAssets([]), isEmpty);
     expect(ext.outputFiles([]), isEmpty);
+  });
+
+  test('testDoctorHook', () async {
+    await testDoctorHook(
+      mainMethod: (args) async {
+        await doctor(args, (input, output) async {
+          output.addValidation(
+            DoctorValidationResult(
+              title: 'Doctor check (${input.packageName})',
+              type: .success,
+              statusInfo: 'OK',
+              messages: [DoctorValidationMessage('All good')],
+            ),
+          );
+        });
+      },
+      check: expectAsync2((input, output) {
+        expect(output.validations, hasLength(1));
+        expect(output.validations.single.type, DoctorValidationType.success);
+        expect(output.validations.single.statusInfo, 'OK');
+        expect(output.validations.single.messages.single.message, 'All good');
+      }),
+    );
+  });
+
+  test('testDoctorHook throws on output error', () async {
+    late Uri outputFile;
+    final testResult = testDoctorHook(
+      mainMethod: (args) async {
+        await doctor(args, (input, output) async {
+          outputFile = input.outputFile;
+        });
+        File.fromUri(outputFile).writeAsStringSync('{"validations": 123}');
+      },
+      check: expectAsync2((_, _) {}, count: 0),
+    );
+
+    expect(
+      testResult,
+      throwsA(
+        isA<ValidationFailure>().having(
+          (e) => e.message,
+          'message',
+          contains('Encountered doctor output validation issues:'),
+        ),
+      ),
+    );
   });
 }
 

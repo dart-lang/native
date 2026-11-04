@@ -8,6 +8,10 @@
   does not support process locks.
 - Fix a race condition in `NativeAssetsBuildRunner.link` by writing
   `recorded_uses.json` under the directory lock.
+- Add experimental support for running `hook/doctor.dart` hooks across the
+  dependency graph (`NativeAssetsBuildRunner.doctor`,
+  `PackageLayout.forDoctorFromPackageConfig`,
+  `PackageLayout.forDoctorFromWorkingDirectory`, `DoctorResult`).
 
 ## 1.6.4
 
