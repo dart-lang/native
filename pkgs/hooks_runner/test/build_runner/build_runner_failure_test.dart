@@ -18,15 +18,7 @@ void main() async {
   test('failed hook preserves UTF-8 output', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('fail_build/');
-      await File.fromUri(packageUri.resolve('hook/build.dart')).writeAsString(
-        '''
-void main(List<String> arguments) {
-  print('你好');
-  throw StateError('爱你 😀');
-}
-''',
-      );
+      final packageUri = tempUri.resolve('utf8_output/');
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
       final logMessages = <String>[];
