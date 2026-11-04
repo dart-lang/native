@@ -9,6 +9,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:http/http.dart' as http;
 import 'package:pointycastle/digests/sha3.dart';
+import 'package:sqlite_prebuilt/src/find_sqlite.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
@@ -48,11 +49,6 @@ final _windowsDownloadInfo = {
     url: 'https://sqlite.org/2025/sqlite-dll-win-x64-3500400.zip',
     sha256: '8454a8ef362b4b2d5a259a54948ed278ef943128bf1ba74b5cbd87ebc58e5b85',
   ),
-};
-
-final _linuxPaths = {
-  Architecture.arm64: <String>[],
-  Architecture.x64: ['/usr/lib/x86_64-linux-gnu/libsqlite3.so'],
 };
 
 Future<Uri> _downloadOrFindLibsqlite3(Uri outputDirectory) async {
@@ -113,34 +109,22 @@ Future<Uri> _downloadOrFindLibsqlite3(Uri outputDirectory) async {
 
     case OS.linux:
       // Most Linux distros come with a pre-installed libsqlite3.so.
-      final knownPaths = _linuxPaths[Architecture.current]!;
-      for (final knownPath in knownPaths) {
-        final file = File(knownPath);
-        if (file.existsSync()) {
-          return File(file.resolveSymbolicLinksSync()).uri;
-        }
+      final dylib = findLinuxLibsqlite3();
+      if (dylib != null) {
+        return dylib;
       }
 
     case OS.macOS:
       // No prebuilt binaries are downloadable on the SQLite website. Let's use
       // a package manager instead: Brew. Require the user to install SQLite via
       // Brew.
-      final brewPrefixResult = Process.runSync('brew', ['--prefix', 'sqlite']);
-      if (brewPrefixResult.exitCode != 0) {
-        print(brewPrefixResult.stderr);
+      final dylib = findMacOSLibsqlite3();
+      if (dylib == null) {
         throw UnsupportedError(
           'Install brew and then install sqlite with brew.',
         );
       }
-      final sqliteDir = Uri.directory(
-        File(
-          (brewPrefixResult.stdout as String).trim(),
-        ).resolveSymbolicLinksSync(),
-      );
-      final libsqliteFile = File.fromUri(
-        sqliteDir.resolve('lib/libsqlite3.dylib'),
-      ).resolveSymbolicLinksSync();
-      return Uri.file(libsqliteFile);
+      return dylib;
     default:
   }
   throw UnimplementedError();
