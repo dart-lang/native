@@ -4,6 +4,13 @@
 
 #include "cpp_class_test.h"
 
+
+#if defined(_WIN32)
+#define CPP_TEST_EXPORT __declspec(dllexport)
+#else
+#define CPP_TEST_EXPORT
+#endif
+
 Animal::Animal(int age) : age(age) {}
 
 Animal::~Animal() {}
@@ -31,61 +38,61 @@ int Animal::addAges(int otherAge, float scale) {
 int Animal::sum(int a, int b) { return a + b; }
 
 extern "C" {
-  Animal* createAnimalPointer(int age) {
+  CPP_TEST_EXPORT Animal* createAnimalPointer(int age) {
     return new Animal(age);
   }
 
-  int getAgeFromPointer(Animal* animal) {
+  CPP_TEST_EXPORT int getAgeFromPointer(Animal* animal) {
     return animal != nullptr ? animal->age : -1;
   }
 
-  void setAgeFromPointer(Animal* animal, int age) {
+  CPP_TEST_EXPORT void setAgeFromPointer(Animal* animal, int age) {
     if (animal != nullptr) {
       animal->age = age;
     }
   }
 
-  Animal* globalAnimal = nullptr;
+  CPP_TEST_EXPORT Animal* globalAnimal = nullptr;
 
-  int getGlobalAnimalAge() {
+  CPP_TEST_EXPORT int getGlobalAnimalAge() {
     return globalAnimal != nullptr ? globalAnimal->age : -1;
   }
 
-  void setGlobalAnimalAge(int age) {
+  CPP_TEST_EXPORT void setGlobalAnimalAge(int age) {
     if (globalAnimal != nullptr) {
       globalAnimal->age = age;
     }
   }
 
-  AnimalOwner createAnimalOwner(Animal* animal, int id) {
+  CPP_TEST_EXPORT AnimalOwner createAnimalOwner(Animal* animal, int id) {
     AnimalOwner owner;
     owner.animal = animal;
     owner.id = id;
     return owner;
   }
 
-  int getAnimalOwnerAge(const AnimalOwner* owner) {
+  CPP_TEST_EXPORT int getAnimalOwnerAge(const AnimalOwner* owner) {
     return (owner != nullptr && owner->animal != nullptr)
         ? owner->animal->age
         : -1;
   }
 
-  void setAnimalOwnerAge(AnimalOwner* owner, int age) {
+  CPP_TEST_EXPORT void setAnimalOwnerAge(AnimalOwner* owner, int age) {
     if (owner != nullptr && owner->animal != nullptr) {
       owner->animal->age = age;
     }
   }
 
-  Animal* applyFactory(Animal* (*factory)(int age), int age) {
+  CPP_TEST_EXPORT Animal* applyFactory(Animal* (*factory)(int age), int age) {
     return factory(age);
   }
 
-  int applyProcessor(int (*processor)(Animal* a), Animal* animal) {
+  CPP_TEST_EXPORT int applyProcessor(int (*processor)(Animal* a), Animal* animal) {
     return processor(animal);
   }
 
-  void applyTransform(void (*transform)(Animal* a, int value),
-                      Animal* animal, int value) {
+  CPP_TEST_EXPORT void applyTransform(void (*transform)(Animal* a, int value),
+                                      Animal* animal, int value) {
     transform(animal, value);
   }
 }
