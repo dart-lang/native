@@ -1,5 +1,8 @@
 ## 23.0.1-wip
 
+- Fix [a bug](https://github.com/dart-lang/native/issues/2850) where struct
+  members were incorrectly renamed with a `$1` suffix when a top-level function
+  in the same bindings had the same name.
 - Use minor and patch versions of Apple deployment targets from
   `package:code_assets` 2.2.0 when compiling native test utilities.
 
@@ -15,9 +18,6 @@
 - Default to C++17 compiler options when C++ bindings are enabled.
 - Preserve documentation comments on same-name typedefs when generating the
   underlying type binding.
-- Fix [a bug](https://github.com/dart-lang/native/issues/2850) where struct
-  members were incorrectly renamed with a `$1` suffix when a top-level function
-  in the same bindings had the same name.
 - Fix [a bug](https://github.com/dart-lang/native/issues/3592) where functions
   using pointers to a C++ class were skipped unless C++ support was configured:
   `class` declarations are now treated like structs, and with C++ support on,
