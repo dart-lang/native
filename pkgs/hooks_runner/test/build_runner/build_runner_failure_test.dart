@@ -16,6 +16,7 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
+  // Regression test for https://github.com/dart-lang/native/issues/3593.
   test('failed hook preserves UTF-8 output', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
@@ -38,8 +39,10 @@ void main() async {
       expect(fullLog, contains('Unhandled exception:'));
       expect(fullLog, contains('To reproduce run:'));
 
-      // Reproduce the same invocation directly, without hooks_runner decoding
-      // its output. Both paths must preserve the original UTF-8 text.
+      // Before this fix, `dart run` corrupted the hook's UTF-8 output, while
+      // running `dart hook.dill --config=input.json` directly displayed it
+      // correctly. Verify that fixing the runner used by `dart run` preserves
+      // the already-correct behavior of the direct invocation.
       final hookDirectory = Directory.fromUri(
         packageUri.resolve('.dart_tool/hooks_runner/utf8_output/'),
       );
