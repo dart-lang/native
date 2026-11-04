@@ -77,15 +77,6 @@ external ffi.Pointer<ObjCObjectImpl> blockRetain(
   ffi.Pointer<ObjCObjectImpl> object,
 );
 
-@ffi.Native<
-  ffi.Pointer<ffi.Pointer<ObjCObjectImpl>> Function(
-    ffi.Pointer<ffi.UnsignedInt>,
-  )
->(symbol: 'objc_copyClassList', isLeaf: true)
-external ffi.Pointer<ffi.Pointer<ObjCObjectImpl>> copyClassList(
-  ffi.Pointer<ffi.UnsignedInt> count,
-);
-
 @ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'objc_getClass',
   isLeaf: true,
