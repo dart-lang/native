@@ -11,6 +11,7 @@ import 'package:process/process.dart';
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
 import '../native_toolchain/clang.dart';
+import '../native_toolchain/dart_sdk.dart';
 import '../native_toolchain/gcc.dart';
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/recognizer.dart';
@@ -68,6 +69,96 @@ class CompilerResolver {
         "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
+  }
+
+  /// Resolves a linker for [codeConfig].
+  ///
+  /// Prioritizes [CCompilerConfig.linker] when configured, then the Dart SDK's
+  /// bundled `lld`, then host `lld` and platform-specific linkers.
+  Future<ToolInstance> resolveLinker() async {
+    var result = await _tryLoadLinkerFromInput();
+
+    for (final possibleTool in _selectPossibleLinkers()) {
+      result ??= await _tryLoadToolFromNativeToolchain(possibleTool);
+    }
+
+    if (result != null) {
+      return result;
+    }
+
+    final targetOS = codeConfig.targetOS;
+    final targetArchitecture = codeConfig.targetArchitecture;
+    final errorMessage =
+        "No linker configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
+    logger?.severe(errorMessage);
+    throw ToolError(errorMessage);
+  }
+
+  Iterable<Tool> _selectPossibleLinkers() sync* {
+    if (hostOS != .linux && hostOS != .macOS && hostOS != .windows) {
+      return;
+    }
+    yield sdkLld;
+    yield lld;
+    final targetOS = codeConfig.targetOS;
+    final targetArch = codeConfig.targetArchitecture;
+    switch ((hostOS, targetOS, targetArch)) {
+      case (_, .android, _):
+        yield androidNdkLld;
+      case (.macOS, .macOS || .iOS, _):
+        yield appleLd;
+      case (.linux, .linux, .arm):
+        yield armLinuxGnueabihfLd;
+      case (.linux, .linux, .arm64):
+        yield aarch64LinuxGnuLd;
+      case (.linux, .linux, .ia32):
+        yield i686LinuxGnuLd;
+      case (.linux, .linux, .x64):
+        yield x86_64LinuxGnuLd;
+      case (.linux, .linux, .riscv64):
+        yield riscv64LinuxGnuLd;
+      case (.windows, .windows, .ia32):
+        yield linkIA32;
+      case (.windows, .windows, .arm64):
+        yield linkArm64;
+      case (.windows, .windows, .x64):
+        yield msvcLink;
+    }
+  }
+
+  Future<ToolInstance?> _tryLoadLinkerFromInput() async {
+    final inputLdUri = codeConfig.cCompiler?.linker;
+    if (inputLdUri != null) {
+      assert(await fileSystem.file(inputLdUri).exists());
+      logger?.finer(
+        'Using linker ${inputLdUri.toFilePath()} '
+        'from BuildInput.cCompiler.ld.',
+      );
+      final recognized = await LinkerRecognizer(inputLdUri).resolve(context);
+      if (recognized.isNotEmpty) {
+        final instance = recognized.first;
+        final targetOS = codeConfig.targetOS;
+        // A non-LLD host linker (e.g. GNU ld, Apple ld, or MSVC link.exe) only
+        // supports its native binary format. If cross-linking to another OS
+        // format, allow fallback to LLD when the configured linker cannot
+        // target targetOS.
+        final compatibleWithTarget = switch (instance.tool) {
+          final t when t == lld => true,
+          final t when t == gnuLinker =>
+            targetOS == .linux || targetOS == .android,
+          final t when t == appleLd => targetOS == .macOS || targetOS == .iOS,
+          final t when t == msvcLink || t == linkIA32 || t == linkArm64 =>
+            targetOS == .windows,
+          _ => true,
+        };
+        if (compatibleWithTarget) {
+          return instance;
+        }
+      }
+    }
+    logger?.finer('No linker set in BuildInput.cCompiler.ld.');
+    return null;
   }
 
   /// Select possible compilers for cross compiling to the specified target.
@@ -278,9 +369,9 @@ class CompilerResolver {
     }
 
     final compilerTool = compiler.tool;
-    if (compilerTool != cl) {
-      // If Clang is used on Windows, and we could discover the MSVC
-      // installation, then Clang should be able to discover it as well.
+    if (compilerTool != cl && compilerTool != msvcLink) {
+      // If Clang or LLD is used on Windows, no vcvars batch script is needed
+      // unless explicitly configured.
       return {};
     }
     final vcvarsScript = (await vcvars(

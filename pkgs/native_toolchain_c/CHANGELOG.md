@@ -5,6 +5,7 @@
 - Support listing `.h` files in `CBuilder.sources` to track header changes as
   build dependencies without passing them to the compiler.
 - Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
+- Support direct linking with the Dart SDK's bundled `lld` and cross-platform `linker_stubs`.
 - Fix `LinkerOptions.treeshake` on Windows for thousands of symbols: no longer
   pass an `/INCLUDE:` flag per symbol in addition to the generated
   module-definition file, which exceeded the Windows command-line length limit.

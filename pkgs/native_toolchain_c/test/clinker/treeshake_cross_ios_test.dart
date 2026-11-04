@@ -4,9 +4,6 @@
 
 // ignore_for_file: lines_longer_than_80_chars
 
-@TestOn('mac-os')
-library;
-
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -60,8 +57,9 @@ final configurations =
     );
 
 void main() {
-  if (!Platform.isMacOS) {
-    // Avoid needing status files on Dart SDK CI.
+  if (!Platform.isMacOS && !hasBundledSdkLinker) {
+    // Avoid needing status files on Dart SDK CI when bundled SDK stubs are
+    // unavailable.
     return;
   }
 
