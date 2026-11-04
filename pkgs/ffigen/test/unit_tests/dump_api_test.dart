@@ -155,6 +155,7 @@ Typealias(my_alias, c:@T@my_alias)
 
       final cppMethod = CppMethod(
         name: Symbol('cppFunc', SymbolKind.method),
+        cBindingSymbol: Symbol('MyCppClass_cppFunc', SymbolKind.method),
         originalName: 'cppFunc',
         returnType: voidType,
         parameters: [Parameter(name: 'cppArg', type: intType)],
