@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -36,6 +37,52 @@ void main() async {
       expect(fullLog, contains('显示日志错误信息'));
       expect(fullLog, contains('Unhandled exception:'));
       expect(fullLog, contains('To reproduce run:'));
+
+      // Reproduce the same invocation directly, without hooks_runner decoding
+      // its output. Both paths must preserve the original UTF-8 text.
+      final hookDirectory = Directory.fromUri(
+        packageUri.resolve('.dart_tool/hooks_runner/utf8_output/'),
+      );
+      final inputFile = (await hookDirectory.list(recursive: true).toList())
+          .whereType<File>()
+          .singleWhere((file) => file.uri.pathSegments.last == 'input.json');
+      final kernelFile = File.fromUri(
+        inputFile.parent.uri.resolve('hook.dill'),
+      );
+      final packageConfig = packageUri.resolve(
+        '.dart_tool/package_config.json',
+      );
+      final directResult = await Process.run(
+        dartExecutable.toFilePath(),
+        [
+          '--packages=${packageConfig.toFilePath()}',
+          kernelFile.path,
+          '--config=${inputFile.path}',
+        ],
+        workingDirectory: packageUri.toFilePath(),
+        stdoutEncoding: utf8,
+        stderrEncoding: utf8,
+      );
+      expect(directResult.exitCode, 255);
+      expect((directResult.stdout as String).trim(), '你好，native 😀');
+      expect(directResult.stderr, contains('显示日志错误信息'));
+      expect(directResult.stderr, contains('Unhandled exception:'));
+      final failureLog = logMessages.singleWhere(
+        (message) => message.contains('To reproduce run:'),
+      );
+      expect(
+        failureLog,
+        contains(
+          'build.dart returned with exit code: ${directResult.exitCode}.',
+        ),
+      );
+      expect(
+        failureLog,
+        contains(
+          'stderr:\n  ${directResult.stderr}\n'
+          '  stdout:\n  ${directResult.stdout}',
+        ),
+      );
     });
   });
 
