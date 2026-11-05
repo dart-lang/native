@@ -42,13 +42,13 @@ class CreateScopesVisitation extends Visitation {
     Scope parentScope,
     String debugName, {
     Set<String> preUsedNames = const {},
-    bool typesOnly = false,
+    bool inheritParentNames = true,
   }) {
     if (!node.localScopeFilled) {
       node.localScope = parentScope.addChild(
         debugName,
         preUsedNames: preUsedNames,
-        typesOnly: typesOnly,
+        inheritParentNames: inheritParentNames,
       );
     }
     return node.localScope;
@@ -57,9 +57,14 @@ class CreateScopesVisitation extends Visitation {
   void visitHasLocalScope(
     HasLocalScope node,
     String debugName, {
-    bool typesOnly = false,
+    bool inheritParentNames = true,
   }) {
-    createScope(node, context.rootScope, debugName, typesOnly: typesOnly);
+    createScope(
+      node,
+      context.rootScope,
+      debugName,
+      inheritParentNames: inheritParentNames,
+    );
     node.visitChildren(visitor);
   }
 
@@ -69,7 +74,7 @@ class CreateScopesVisitation extends Visitation {
       visitHasLocalScope(
         hasLocalScope,
         node.originalName,
-        typesOnly: node is Compound,
+        inheritParentNames: node is! Compound && node is! CppClass,
       );
     } else {
       node.visitChildren(visitor);
@@ -139,6 +144,7 @@ class CreateScopesVisitation extends Visitation {
         node.superType?.localScope ?? context.rootScope,
         node.originalName,
         preUsedNames: objCReservedFields,
+        inheritParentNames: false,
       ),
     );
   }
@@ -156,6 +162,7 @@ class CreateScopesVisitation extends Visitation {
         context.rootScope,
         node.originalName,
         preUsedNames: objCReservedFields,
+        inheritParentNames: false,
       ),
     );
   }

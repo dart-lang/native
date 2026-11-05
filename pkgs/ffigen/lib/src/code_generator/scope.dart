@@ -21,15 +21,15 @@ class Scope {
   final _children = <Scope>[];
   final Scope? _parent;
   final Set<String> _preUsedNames;
-  final bool _typesOnly;
+  final bool _inheritParentNames;
   Namer? _namer;
 
   Scope._(
     this._parent,
     this._debugName,
     this._preUsedNames, {
-    bool typesOnly = false,
-  }) : _typesOnly = typesOnly;
+    bool inheritParentNames = true,
+  }) : _inheritParentNames = inheritParentNames;
 
   static Scope createRoot(String debugName) =>
       Scope._(null, debugName, const {});
@@ -40,10 +40,15 @@ class Scope {
   Scope addChild(
     String debugName, {
     Set<String> preUsedNames = const {},
-    bool typesOnly = false,
+    bool inheritParentNames = true,
   }) {
     assert(!_filled);
-    final ns = Scope._(this, debugName, preUsedNames, typesOnly: typesOnly);
+    final ns = Scope._(
+      this,
+      debugName,
+      preUsedNames,
+      inheritParentNames: inheritParentNames,
+    );
     _children.add(ns);
     return ns;
   }
@@ -85,7 +90,10 @@ class Scope {
 
   void _fillNames(Set<String> parentUsedNames) {
     assert(!_filled);
-    final namer = Namer(parentUsedNames.union(_preUsedNames));
+    final parentNames = _inheritParentNames
+        ? parentUsedNames
+        : const <String>{};
+    final namer = Namer(parentNames.union(_preUsedNames));
     _namer = namer;
     for (final symbol in _symbols) {
       if (symbol._name == null) {
@@ -96,7 +104,7 @@ class Scope {
         // Symbol already has a name. This can happen if the symbol is in
         // multiple scopes. It's fine as long as the name isn't used by a
         // different symbol earlier in this scope.
-        namer.markUsed(symbol._name!, symbol.kind);
+        namer.markUsed(symbol._name!);
         assert(
           !_symbols.any((s) => s != symbol && s._name == symbol._name),
           symbol.oldName,
@@ -104,7 +112,7 @@ class Scope {
       }
     }
     for (final ns in _children) {
-      ns._fillNames(ns._typesOnly ? namer.classLevelUsed : namer._used);
+      ns._fillNames(namer._used);
     }
   }
 
@@ -139,9 +147,6 @@ class Scope {
 /// time you should use those instead of this.
 class Namer {
   final Set<String> _used;
-  final _classLevelUsed = <String>{};
-
-  Set<String> get classLevelUsed => _classLevelUsed;
 
   Namer(this._used);
 
@@ -154,17 +159,12 @@ class Namer {
       newName = '$name\$$i';
     }
 
-    markUsed(newName, kind);
+    markUsed(newName);
     return newName;
   }
 
   bool isUsed(String name) => _used.contains(name);
-  void markUsed(String name, [SymbolKind? kind]) {
-    _used.add(name);
-    if (kind == SymbolKind.klass || kind == SymbolKind.lib) {
-      _classLevelUsed.add(name);
-    }
-  }
+  void markUsed(String name) => _used.add(name);
 
   /// Returns a version of [name] that can safely be used in C code. Not
   /// guaranteed to be unique.
