@@ -1900,6 +1900,32 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
     _throwMyException(_$$classRef.pointer, _id_throwMyException.pointer)
         .check();
   }
+
+  static final _id_throwNullToStringException = _class.staticMethodId(
+    r'throwNullToStringException',
+    r'()V',
+  );
+
+  static final _throwNullToStringException =
+      jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.JMethodIDPtr,
+                  )>>('globalEnv_CallStaticVoidMethod')
+          .asFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>();
+
+  /// from: `static public void throwNullToStringException()`
+  static void throwNullToStringException() {
+    final _$$classRef = _class.reference;
+    _throwNullToStringException(
+            _$$classRef.pointer, _id_throwNullToStringException.pointer)
+        .check();
+  }
 }
 
 extension Exceptions$$Methods on Exceptions {

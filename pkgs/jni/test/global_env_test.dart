@@ -236,4 +236,66 @@ void run({required TestRunnerCallback testRunner}) {
       env.DeleteGlobalRef(errClass);
     });
   });
+
+  testRunner(
+    'FindClass throws JThrowable on missing class while GetSuperclass on '
+    'Object returns nullptr',
+    () => using((arena) {
+      addTearDown(env.ExceptionClear);
+      final objectClass =
+          env.FindClass('java/lang/Object'.toNativeChars(arena));
+      try {
+        expect(env.GetSuperclass(objectClass), nullptr);
+      } finally {
+        env.DeleteGlobalRef(objectClass);
+      }
+      expect(
+        () => env.FindClass('com/example/NonExistent'.toNativeChars(arena)),
+        throwsA(isA<JThrowable>()),
+      );
+    }),
+  );
+
+  testRunner(
+    'GlobalJniEnv rejects nullptr targets, IDs, strings, and arrays with '
+    'JNullError while allowing legal nullptr arguments',
+    () => using((arena) {
+      addTearDown(env.ExceptionClear);
+      final objectClass =
+          env.FindClass('java/lang/Object'.toNativeChars(arena));
+      addTearDown(() => env.DeleteGlobalRef(objectClass));
+      final initName = '<init>'.toNativeChars(arena);
+      final voidSig = '()V'.toNativeChars(arena);
+      final ctorId = env.GetMethodID(objectClass, initName, voidSig);
+      final toStringId = env.GetMethodID(
+        objectClass,
+        'toString'.toNativeChars(arena),
+        '()Ljava/lang/String;'.toNativeChars(arena),
+      );
+      final obj = env.NewObjectA(objectClass, ctorId, nullptr);
+      addTearDown(() => env.DeleteGlobalRef(obj));
+
+      expect(env.IsInstanceOf(nullptr, objectClass), isTrue);
+      env.DeleteGlobalRef(nullptr);
+      expect(env.NewGlobalRef(nullptr), nullptr);
+
+      final throwsNullError = throwsA(isA<JNullError>());
+      expect(
+        () => env.CallObjectMethodA(nullptr, toStringId, nullptr),
+        throwsNullError,
+      );
+      expect(
+        () => env.CallObjectMethodA(obj, nullptr, nullptr),
+        throwsNullError,
+      );
+      expect(
+        () => env.CallStaticVoidMethodA(nullptr, ctorId, nullptr),
+        throwsNullError,
+      );
+      expect(() => env.GetFieldID(nullptr, initName, voidSig), throwsNullError);
+      expect(() => env.IsInstanceOf(obj, nullptr), throwsNullError);
+      expect(() => env.GetStringUTFChars(nullptr, nullptr), throwsNullError);
+      expect(() => env.GetArrayLength(nullptr), throwsNullError);
+    }),
+  );
 }
