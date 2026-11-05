@@ -73,9 +73,6 @@ void main(List<String> args) async {
       minVersion,
     ];
     final mFlags = [...cFlags, ...objCFlags];
-    // Link Foundation so that the generated `@Native` class lookups (eg
-    // `OBJC_CLASS_$_NSArray`) resolve through this dylib's handle, instead of
-    // throwing an `ArgumentError` that `getClass` catches and falls back from.
     final linkFlags = [...cFlags, '-framework', 'Foundation'];
 
     final builder = await Builder.create(input, input.packageRoot.toFilePath());
