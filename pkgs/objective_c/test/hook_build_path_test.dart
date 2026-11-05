@@ -2,6 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// Objective C support is only available on mac.
+@TestOn('mac-os')
+library;
+
 import 'dart:convert';
 import 'dart:io';
 

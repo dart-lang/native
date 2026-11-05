@@ -118,8 +118,8 @@ workspace:
   - pkgs/json_syntax_generator
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
-  # - pkgs/objective_c  # TODO
-  # - pkgs/objective_c/example/command_line  # TODO
+  - pkgs/objective_c
+  - pkgs/objective_c/example/command_line
   # - pkgs/objective_c/example/flutter_app  # Requires Flutter.
   # - pkgs/objective_c/example/path_provider_example  # Requires Flutter.
   - pkgs/pub_formats
@@ -157,6 +157,8 @@ hooks:
       some_file: pkgs/hooks_runner/test_data/user_defines/assets/data.json
     some_other_package: # package name
       user_define_key3: user_define_value3
+    objective_c:
+      include_test_utils: true
 
 dependency_overrides:
   ffigen:

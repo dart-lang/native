@@ -8,6 +8,7 @@ library;
 
 import 'dart:io';
 
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:test/test.dart';
 
 import '../tool/ffigen.dart' as ffigen_tool;
@@ -15,23 +16,27 @@ import '../tool/ffigen.dart' as ffigen_tool;
 void main() {
   group('ffigen.dart', () {
     test('Runs without exception', () async {
+      final packageRoot = findPackageRoot('objective_c');
       // As well as testing that this returns normally, this also generates
       // coverage info for the parts of FFIgen that are gated by
       // generate-for-package-objective-c. The github workflow that runs this
       // test also uses it to verify that there are no git-diffs in the output.
-      await expectLater(ffigen_tool.run(format: true), completes);
+      await expectLater(
+        ffigen_tool.run(format: true, packageRoot: packageRoot),
+        completes,
+      );
 
       // Sanity check the generated code.
-      final rBindings = File(
-        'lib/src/runtime_bindings_generated.dart',
+      final rBindings = File.fromUri(
+        packageRoot.resolve('lib/src/runtime_bindings_generated.dart'),
       ).readAsStringSync();
       expect(rBindings, contains('sel_registerName'));
       expect(rBindings, contains('objc_msgSend'));
       expect(rBindings, contains('_NSConcreteGlobalBlock'));
       expect(rBindings, contains('ObjCObject'));
 
-      final cBindings = File(
-        'lib/src/c_bindings_generated.dart',
+      final cBindings = File.fromUri(
+        packageRoot.resolve('lib/src/c_bindings_generated.dart'),
       ).readAsStringSync();
       expect(cBindings, contains('createContext'));
       expect(cBindings, contains('DOBJC_Context'));
@@ -39,8 +44,8 @@ void main() {
       expect(cBindings, contains('ILLEGAL_PORT'));
       expect(cBindings, contains('ObjCBlockImpl'));
 
-      final objcBindings = File(
-        'lib/src/objective_c_bindings_generated.dart',
+      final objcBindings = File.fromUri(
+        packageRoot.resolve('lib/src/objective_c_bindings_generated.dart'),
       ).readAsStringSync();
       expect(objcBindings, contains('class NSObject'));
       expect(objcBindings, contains('class NSString'));

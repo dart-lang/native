@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 
 const assetId = 'package:objective_c/objective_c.dylib';
 const runtimeBindings = 'lib/src/runtime_bindings_generated.dart';
@@ -547,23 +548,7 @@ FfiGenerator getObjCConfig([Uri? packageRoot]) {
   );
 }
 
-Uri _defaultPackageRoot() {
-  if (Platform.script.isScheme('file')) {
-    final scriptFile = File.fromUri(Platform.script);
-    var dir = scriptFile.parent;
-    while (dir.path != dir.parent.path) {
-      final pubspec = File('${dir.path}/pubspec.yaml');
-      if (pubspec.existsSync()) {
-        if (pubspec.readAsStringSync().contains('name: objective_c\n') ||
-            pubspec.readAsStringSync().contains('name: objective_c\r\n')) {
-          return dir.uri;
-        }
-      }
-      dir = dir.parent;
-    }
-  }
-  return Directory.current.uri;
-}
+Uri _defaultPackageRoot() => findPackageRoot('objective_c');
 
 void dartCmd(List<String> args, {String? workingDir}) {
   final exec = Platform.resolvedExecutable;
