@@ -12,6 +12,7 @@ import '../../../ast/declarations/compounds/extension_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../../ast/declarations/compounds/members/subscript_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
 import '../../../config.dart';
 import '../../../context.dart';
@@ -111,6 +112,9 @@ List<Declaration> parseCompoundDeclaration<T extends CompoundDeclaration>(
       (m) => m.fullName,
     ),
   );
+  compound.subscripts.addAll(
+    memberDeclarations.removeWhereType<SubscriptDeclaration>(),
+  );
   compound.properties.addAll(
     memberDeclarations.removeWhereType<PropertyDeclaration>(),
   );
@@ -151,6 +155,7 @@ List<Declaration> parseClassDeclaration(
       availability: availability,
       properties: [],
       methods: [],
+      subscripts: [],
       initializers: [],
       nestedDeclarations: [],
     ),
@@ -178,6 +183,7 @@ List<Declaration> parseStructDeclaration(
       availability: availability,
       properties: [],
       methods: [],
+      subscripts: [],
       initializers: [],
       nestedDeclarations: [],
     ),

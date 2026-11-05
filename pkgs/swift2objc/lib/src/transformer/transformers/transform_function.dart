@@ -143,41 +143,6 @@ MethodDeclaration _transformFunction(
   return transformedMethod;
 }
 
-String generateInvocationParams(
-  UniqueNamer localNamer,
-  List<Parameter> originalParams,
-  List<Parameter> transformedParams,
-) {
-  assert(originalParams.length == transformedParams.length);
-
-  final argumentsList = <String>[];
-  for (var i = 0; i < originalParams.length; i++) {
-    final originalParam = originalParams[i];
-    final transformedParam = transformedParams[i];
-
-    final transformedParamName = localNamer.makeUnique(
-      transformedParam.internalName ?? transformedParam.name,
-    );
-
-    final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
-      transformedParam.type,
-      transformedParamName,
-    );
-
-    assert(unwrappedType.sameAs(originalParam.type));
-    final invocationValue = originalParam.type is InoutType
-        ? '&$unwrappedParamValue'
-        : unwrappedParamValue;
-
-    argumentsList.add(
-      originalParam.name.isEmpty || originalParam.name == '_'
-          ? invocationValue
-          : '${originalParam.name}: $invocationValue',
-    );
-  }
-  return argumentsList.join(', ');
-}
-
 List<String> _generateStatements(
   FunctionDeclaration originalFunction,
   MethodDeclaration transformedMethod,
