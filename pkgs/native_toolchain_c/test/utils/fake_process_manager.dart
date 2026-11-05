@@ -33,6 +33,8 @@ class FakeCommand {
 
   final String stdout;
   final String stderr;
+  final List<List<int>>? stdoutChunks;
+  final List<List<int>>? stderrChunks;
   final int exitCode;
 
   /// Called with the actual command when this invocation is consumed.
@@ -42,6 +44,8 @@ class FakeCommand {
     this.command,
     this.stdout = '',
     this.stderr = '',
+    this.stdoutChunks,
+    this.stderrChunks,
     this.exitCode = 0,
     this.onRun,
   });
@@ -162,12 +166,14 @@ class _FakeProcess implements Process {
   Future<int> get exitCode async => _command.exitCode;
 
   @override
-  Stream<List<int>> get stdout =>
-      Stream.value(systemEncoding.encode(_command.stdout));
+  Stream<List<int>> get stdout => Stream.fromIterable(
+    _command.stdoutChunks ?? [systemEncoding.encode(_command.stdout)],
+  );
 
   @override
-  Stream<List<int>> get stderr =>
-      Stream.value(systemEncoding.encode(_command.stderr));
+  Stream<List<int>> get stderr => Stream.fromIterable(
+    _command.stderrChunks ?? [systemEncoding.encode(_command.stderr)],
+  );
 
   @override
   IOSink get stdin =>

@@ -1,5 +1,7 @@
 ## 2.0.0-wip
 
+- Decode hook stdout and stderr as streaming UTF-8, fixing garbled non-ASCII
+  output on Windows and characters split across process output chunks.
 - **Breaking change**: Remove `KernelAssets` (and related `KernelAsset*`
   classes) and `Target`.
 - Drop regular dependency on `package:code_assets`.
