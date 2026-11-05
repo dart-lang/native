@@ -11,11 +11,15 @@ import 'package:args/args.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:path/path.dart' as p;
 
 const assetId = 'package:objective_c/objective_c.dylib';
 const runtimeBindings = 'lib/src/runtime_bindings_generated.dart';
 const cBindings = 'lib/src/c_bindings_generated.dart';
 const objcBindings = 'lib/src/objective_c_bindings_generated.dart';
+const objcLangBindings = 'src/objective_c_bindings_generated.m';
+const objcExports = 'lib/src/objective_c_bindings_exported.dart';
+const builtInTypes = 'ffigen/lib/src/code_generator/objc_built_in_types.dart';
 
 const objcInterfaces = {
   'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
@@ -187,35 +191,59 @@ Future<void> main(List<String> args) async {
   await run(format: argResults.flag('format'));
 }
 
-Future<void> run({required bool format, Uri? packageRoot}) async {
+Future<void> run({required bool format, Uri? packageRoot, Uri? outDir}) async {
   packageRoot ??= _defaultPackageRoot();
+  final outRoot = outDir ?? packageRoot;
   final logger = Logger.root;
   logger.level = Level.SEVERE;
 
-  final runtimeBindingsPath = packageRoot.resolve(runtimeBindings).toFilePath();
-  final cBindingsPath = packageRoot.resolve(cBindings).toFilePath();
-  final objcBindingsPath = packageRoot.resolve(objcBindings).toFilePath();
-  final objcExportsPath = packageRoot
-      .resolve('lib/src/objective_c_bindings_exported.dart')
-      .toFilePath();
+  final runtimeBindingsPath = outRoot.resolve(runtimeBindings).toFilePath();
+  final cBindingsPath = outRoot.resolve(cBindings).toFilePath();
+  final objcBindingsPath = outRoot.resolve(objcBindings).toFilePath();
+  final objcLangBindingsPath = outRoot.resolve(objcLangBindings).toFilePath();
+  final objcExportsPath = outRoot.resolve(objcExports).toFilePath();
   final extraMethodsFilePath = packageRoot
       .resolve('tool/data/extra_methods.dart.in')
       .toFilePath();
-  final builtInTypesPath = packageRoot
-      .resolve('../ffigen/lib/src/code_generator/objc_built_in_types.dart')
-      .toFilePath();
+  final builtInTypesPath =
+      (outDir != null
+              ? outDir.resolve(builtInTypes)
+              : packageRoot.resolve('../$builtInTypes'))
+          .toFilePath();
   final interfaceListTestPath = packageRoot
       .resolve('test/interface_lists_test.dart')
       .toFilePath();
 
   print('Generating runtime bindings...');
-  await getRuntimeConfig(packageRoot).generate(logger: logger);
+  await getRuntimeConfig(
+    packageRoot: packageRoot,
+    outDir: outRoot,
+  ).generate(logger: logger);
 
   print('Generating C bindings...');
-  await getCConfig(packageRoot).generate(logger: logger);
+  await getCConfig(
+    packageRoot: packageRoot,
+    outDir: outRoot,
+  ).generate(logger: logger);
 
   print('Generating ObjC bindings...');
-  await getObjCConfig(packageRoot).generate(logger: logger);
+  await getObjCConfig(
+    packageRoot: packageRoot,
+    outDir: outRoot,
+  ).generate(logger: logger);
+  if (outDir != null) {
+    final relPrefix = p.relative(
+      packageRoot.resolve('src').toFilePath(),
+      from: outRoot.resolve('src').toFilePath(),
+    );
+    final mFile = File(objcLangBindingsPath);
+    mFile.writeAsStringSync(
+      mFile.readAsStringSync().replaceAll(
+        '#import "$relPrefix${p.separator}',
+        '#import "',
+      ),
+    );
+  }
   mergeExtraMethods(objcBindingsPath, parseExtraMethods(extraMethodsFilePath));
 
   print('Generating objc_built_in_types.dart...');
@@ -236,11 +264,13 @@ Future<void> run({required bool format, Uri? packageRoot}) async {
     ], workingDir: packageRoot.toFilePath());
   }
 
-  print('Running tests...');
-  dartCmd([
-    'test',
-    interfaceListTestPath,
-  ], workingDir: packageRoot.toFilePath());
+  if (outDir == null) {
+    print('Running tests...');
+    dartCmd([
+      'test',
+      interfaceListTestPath,
+    ], workingDir: packageRoot.toFilePath());
+  }
 }
 
 List<String> writeBuiltInTypes(String out) {
@@ -284,13 +314,17 @@ ${set.map((e) => "  '$e',").join('\n')}
   exports.addAll([for (final name in objcProtocols.values) '$name\$Builder']);
   writeSet('objCBuiltInCategories', objcCategories);
 
-  File(out).writeAsStringSync(s.toString());
+  File(out)
+    ..createSync(recursive: true)
+    ..writeAsStringSync(s.toString());
 
   return exports.toList()..sort();
 }
 
 void writeExports(List<String> exports, String out) {
-  File(out).writeAsStringSync('''
+  File(out)
+    ..createSync(recursive: true)
+    ..writeAsStringSync('''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -303,12 +337,13 @@ export 'objective_c_bindings_generated.dart'
 ''');
 }
 
-FfiGenerator getRuntimeConfig([Uri? packageRoot]) {
+FfiGenerator getRuntimeConfig({Uri? packageRoot, Uri? outDir}) {
   packageRoot ??= _defaultPackageRoot();
+  outDir ??= packageRoot;
 
   return FfiGenerator(
     output: Output(
-      dart: DartOutput(path: packageRoot.resolve(runtimeBindings)),
+      dart: DartOutput(path: outDir.resolve(runtimeBindings)),
       style: const NativeExternalBindings(),
       format: false,
       preamble: '''
@@ -388,12 +423,13 @@ FfiGenerator getRuntimeConfig([Uri? packageRoot]) {
   );
 }
 
-FfiGenerator getCConfig([Uri? packageRoot]) {
+FfiGenerator getCConfig({Uri? packageRoot, Uri? outDir}) {
   packageRoot ??= _defaultPackageRoot();
+  outDir ??= packageRoot;
 
   return FfiGenerator(
     output: Output(
-      dart: DartOutput(path: packageRoot.resolve(cBindings)),
+      dart: DartOutput(path: outDir.resolve(cBindings)),
       style: const NativeExternalBindings(assetId: assetId),
       format: false,
       preamble: '''
@@ -461,14 +497,13 @@ FfiGenerator getCConfig([Uri? packageRoot]) {
   );
 }
 
-FfiGenerator getObjCConfig([Uri? packageRoot]) {
+FfiGenerator getObjCConfig({Uri? packageRoot, Uri? outDir}) {
   packageRoot ??= _defaultPackageRoot();
+  outDir ??= packageRoot;
   return FfiGenerator(
     output: Output(
-      dart: DartOutput(path: packageRoot.resolve(objcBindings)),
-      objectiveCFile: packageRoot.resolve(
-        'src/objective_c_bindings_generated.m',
-      ),
+      dart: DartOutput(path: outDir.resolve(objcBindings)),
+      objectiveCFile: outDir.resolve(objcLangBindings),
       style: const NativeExternalBindings(assetId: assetId),
       format: false,
       preamble: '''
