@@ -6766,7 +6766,7 @@ extension NSExtendedArray on NSArray {
     required ffi.Pointer<ffi.Void> context,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_pckm9h(
+    final $ret = _objc_msgSend_1291xlv(
       _$$ref.pointer,
       _sel_sortedArrayUsingFunction_context_,
       comparator,
@@ -6792,7 +6792,7 @@ extension NSExtendedArray on NSArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = hint?.ref;
-    final $ret = _objc_msgSend_1fpqavf(
+    final $ret = _objc_msgSend_jsb0p(
       _$$ref.pointer,
       _sel_sortedArrayUsingFunction_context_hint_,
       comparator,
@@ -7903,7 +7903,7 @@ extension NSExtendedMutableArray on NSMutableArray {
     required ffi.Pointer<ffi.Void> context,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1lx39cp(
+    _objc_msgSend_gchaef(
       _$$ref.pointer,
       _sel_sortUsingFunction_context_,
       compare,
@@ -10428,7 +10428,7 @@ extension NSInvocation$Methods on NSInvocation {
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> imp,
   ) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1nufwnz(_$$ref.pointer, _sel_invokeUsingIMP_, imp);
+    _objc_msgSend_1r5sv4d(_$$ref.pointer, _sel_invokeUsingIMP_, imp);
   }
 
   /// invokeWithTarget:
@@ -15889,7 +15889,7 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_3cnxxu(
+    return _objc_msgSend_fjyphc(
       _class_NSObject,
       _sel_instanceMethodForSelector_,
       aSelector,
@@ -16140,7 +16140,7 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_3cnxxu(
+    return _objc_msgSend_fjyphc(
       _$$ref.pointer,
       _sel_methodForSelector_,
       aSelector,
@@ -37631,6 +37631,41 @@ final _objc_msgSend_122v0cv = objc.msgSendPointer
         int,
       )
     >();
+final _objc_msgSend_1291xlv = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<
+            ffi.NativeFunction<
+              ffi.Long Function(
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<ffi.Void>,
+              )
+            >
+          >,
+          ffi.Pointer<ffi.Void>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Long Function(
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >,
+        ffi.Pointer<ffi.Void>,
+      )
+    >();
 final _objc_msgSend_12py2ux = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -38459,43 +38494,6 @@ final _objc_msgSend_1flkydz = objc.msgSendPointer
         ffi.Pointer<ffi.Void>,
       )
     >();
-final _objc_msgSend_1fpqavf = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<
-            ffi.NativeFunction<
-              ffi.Long Function(
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<ffi.Void>,
-              )
-            >
-          >,
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<
-          ffi.NativeFunction<
-            ffi.Long Function(
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >
-        >,
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 final _objc_msgSend_1frfu5e = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -38992,41 +38990,6 @@ final _objc_msgSend_1lv8yz3 = objc.msgSendPointer
         int,
       )
     >();
-final _objc_msgSend_1lx39cp = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<
-            ffi.NativeFunction<
-              ffi.Long Function(
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<ffi.Void>,
-              )
-            >
-          >,
-          ffi.Pointer<ffi.Void>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<
-          ffi.NativeFunction<
-            ffi.Long Function(
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >
-        >,
-        ffi.Pointer<ffi.Void>,
-      )
-    >();
 final _objc_msgSend_1m7prh1 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -39124,23 +39087,6 @@ final _objc_msgSend_1nomli1 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         int,
         ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-      )
-    >();
-final _objc_msgSend_1nufwnz = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
       )
     >();
 final _objc_msgSend_1oteutl = objc.msgSendPointer
@@ -39365,6 +39311,23 @@ final _objc_msgSend_1r2j3ge = objc.msgSendPointer
       int Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_1r5sv4d = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
       )
     >();
 final _objc_msgSend_1r6ymhb = objc.msgSendPointer
@@ -39904,23 +39867,6 @@ final _objc_msgSend_3cbdpb = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
-final _objc_msgSend_3cnxxu = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_3ctkt6 = objc.msgSendPointer
@@ -40740,6 +40686,58 @@ final _objc_msgSend_f167m6 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+final _objc_msgSend_fjyphc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_gchaef = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<
+            ffi.NativeFunction<
+              ffi.Long Function(
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<ffi.Void>,
+              )
+            >
+          >,
+          ffi.Pointer<ffi.Void>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Long Function(
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >,
+        ffi.Pointer<ffi.Void>,
+      )
+    >();
 final _objc_msgSend_gcjqkl = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -40978,6 +40976,43 @@ final _objc_msgSend_jjgvjt = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
         int,
         ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_jsb0p = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<
+            ffi.NativeFunction<
+              ffi.Long Function(
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<ffi.Void>,
+              )
+            >
+          >,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Long Function(
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
 final _objc_msgSend_jsclrq = objc.msgSendPointer
@@ -41368,41 +41403,6 @@ final _objc_msgSend_p4nurx = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         NSRange,
-      )
-    >();
-final _objc_msgSend_pckm9h = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<
-            ffi.NativeFunction<
-              ffi.Long Function(
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<ffi.Void>,
-              )
-            >
-          >,
-          ffi.Pointer<ffi.Void>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<
-          ffi.NativeFunction<
-            ffi.Long Function(
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >
-        >,
-        ffi.Pointer<ffi.Void>,
       )
     >();
 final _objc_msgSend_pfv6jd = objc.msgSendPointer
