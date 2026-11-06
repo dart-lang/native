@@ -48,7 +48,7 @@ JniClassLookupResult FindClass(const char* name) {
 
 /// Stores class and method references for obtaining exception details
 typedef struct JniExceptionMethods {
-  jclass objectClass, exceptionClass, printStreamClass;
+  jclass objectClass, throwableClass, printStreamClass;
   jclass byteArrayOutputStreamClass;
   jmethodID toStringMethod, printStackTraceMethod;
   jmethodID byteArrayOutputStreamCtor, printStreamCtor;
@@ -76,13 +76,13 @@ void init() {
 
   // Init exception handling classes and methods.
   exceptionMethods.objectClass = FindClassUnchecked("java/lang/Object");
-  exceptionMethods.exceptionClass = FindClassUnchecked("java/lang/Exception");
+  exceptionMethods.throwableClass = FindClassUnchecked("java/lang/Throwable");
   exceptionMethods.printStreamClass = FindClassUnchecked("java/io/PrintStream");
   exceptionMethods.byteArrayOutputStreamClass =
       FindClassUnchecked("java/io/ByteArrayOutputStream");
   load_method(exceptionMethods.objectClass, &exceptionMethods.toStringMethod,
               "toString", "()Ljava/lang/String;");
-  load_method(exceptionMethods.exceptionClass,
+  load_method(exceptionMethods.throwableClass,
               &exceptionMethods.printStackTraceMethod, "printStackTrace",
               "(Ljava/io/PrintStream;)V");
   load_method(exceptionMethods.byteArrayOutputStreamClass,
@@ -104,7 +104,7 @@ void deinit() {
   // Delete references to exception handling classes.
   if (jniEnv != NULL) {
     (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.objectClass);
-    (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.exceptionClass);
+    (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.throwableClass);
     (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.printStreamClass);
     (*jniEnv)->DeleteGlobalRef(jniEnv,
                                exceptionMethods.byteArrayOutputStreamClass);

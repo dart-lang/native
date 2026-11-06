@@ -102,6 +102,9 @@ final class JGlobalReference extends JReference {
       : super._();
 
   factory JGlobalReference(Pointer<Void> pointer) {
+    if (pointer == nullptr) {
+      throw JNullError();
+    }
     final finalizable = _JFinalizable(pointer);
     final isReleased = calloc<Bool>();
     var releasedStackTracePointer = nullptr.cast<Pointer<Char>>();

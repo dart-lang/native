@@ -200,6 +200,9 @@ abstract final class Jni {
   /// Throws an exception.
   @internal
   static void throwException(JThrowablePtr exception) {
+    if (exception == nullptr) {
+      throw JNullError();
+    }
     final details = _bindings.GetExceptionDetails(exception);
     final env = Jni.env;
     String extract(JStringPtr ptr) => ptr == nullptr
