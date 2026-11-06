@@ -18,7 +18,22 @@ import 'package:objective_c/src/runtime_bindings_generated.dart'
     show NSConcreteGlobalBlock, NSConcreteStackBlock, getObjectClass;
 import 'package:test/test.dart';
 
+@Native<Pointer<Void>>(
+  symbol: r'OBJC_CLASS_$_NSArray',
+  assetId: 'package:objective_c/objective_c.dylib',
+)
+external Pointer<Void> _nsArrayClassSymbol;
+
 void main() {
+  group('getClass', () {
+    test('built-in class symbol resolves through the support library', () {
+      // The generated bindings load classes through their OBJC_CLASS_$
+      // symbols, and only fall back to objc_getClass if the lookup throws.
+      final clazz = Native.addressOf<Pointer<Void>>(_nsArrayClassSymbol);
+      expect(clazz.address, getClass('NSArray').address);
+    });
+  });
+
   group('isValidObject', () {
     test('valid objects', () {
       final obj = NSObject();

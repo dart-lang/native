@@ -2,3 +2,4 @@ paths:
   - test/build_runner/
   - test/model/
   - test/test_data/
+  - test/utils/

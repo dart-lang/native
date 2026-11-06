@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -16,6 +17,9 @@ import 'package:process/process.dart';
 /// invocation to be mocked out in tests.
 ///
 /// If [captureOutput], captures stdout and stderr.
+///
+/// Decodes output using [stdoutEncoding] and [stderrEncoding], which default
+/// to the system encoding. Override these for tools with a known encoding.
 Future<RunProcessResult> runProcess({
   Uri? launcher,
   required Uri executable,
@@ -25,6 +29,8 @@ Future<RunProcessResult> runProcess({
   required Logger? logger,
   required ProcessManager processManager,
   bool captureOutput = true,
+  Encoding stdoutEncoding = systemEncoding,
+  Encoding stderrEncoding = systemEncoding,
   Level stdoutLogLevel = .FINE,
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
@@ -65,28 +71,21 @@ Future<RunProcessResult> runProcess({
     // performs no glob expansion.
   );
 
-  final stdoutSub = process.stdout.listen((List<int> data) {
-    try {
-      final decoded = systemEncoding.decode(data);
-      logger?.log(stdoutLogLevel, decoded);
-      if (captureOutput) {
-        stdoutBuffer.write(decoded);
-      }
-    } catch (e) {
-      logger?.warning('Failed to decode stdout: $e');
-      stdoutBuffer.write('Failed to decode stdout: $e');
+  // Decode streams so multibyte characters can span process output chunks.
+  final stdoutSub = process.stdout.transform(stdoutEncoding.decoder).listen((
+    decoded,
+  ) {
+    logger?.log(stdoutLogLevel, decoded);
+    if (captureOutput) {
+      stdoutBuffer.write(decoded);
     }
   });
-  final stderrSub = process.stderr.listen((List<int> data) {
-    try {
-      final decoded = systemEncoding.decode(data);
-      logger?.severe(decoded);
-      if (captureOutput) {
-        stderrBuffer.write(decoded);
-      }
-    } catch (e) {
-      logger?.severe('Failed to decode stderr: $e');
-      stderrBuffer.write('Failed to decode stderr: $e');
+  final stderrSub = process.stderr.transform(stderrEncoding.decoder).listen((
+    decoded,
+  ) {
+    logger?.severe(decoded);
+    if (captureOutput) {
+      stderrBuffer.write(decoded);
     }
   });
 
