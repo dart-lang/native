@@ -85,9 +85,12 @@ JniResult globalEnv_$name($arrayType array, jsize index) {
   late final _$name = ptr.ref.$name.asFunction<
       JniResult Function(J${typeName}ArrayPtr array, int index)>(isLeaf: true);
 
-  $dartReturnType $name(
-          J${typeName}ArrayPtr array, int index) =>
-      _$name(array, index).$resultGetter;
+  $dartReturnType $name(J${typeName}ArrayPtr array, int index) {
+    if (array == ffi.nullptr) {
+      throw JNullError();
+    }
+    return _$name(array, index).$resultGetter;
+  }
 '''));
       }
       /* Set */ {
@@ -110,8 +113,12 @@ jthrowable globalEnv_$name($arrayType array, jsize index, $elementType val) {
         $dartArgumentType val)>(isLeaf: true);
 
   void $name(
-          J${typeName}ArrayPtr array, int index, $dartReturnType value) =>
-      _$name(array, index, value$conversionSuffix).check();
+          J${typeName}ArrayPtr array, int index, $dartReturnType value) {
+    if (array == ffi.nullptr) {
+      throw JNullError();
+    }
+    _$name(array, index, value$conversionSuffix).check();
+  }
 '''));
         }
       }

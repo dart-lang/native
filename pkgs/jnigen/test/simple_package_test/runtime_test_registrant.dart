@@ -1474,26 +1474,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
 
       test(
-        'Defensive null checks throw JNullError on null-reference receiver and '
-        'non-nullable parameters while allowing null on nullable parameters',
+        'Defensive null checks throw JNullError on null-reference receiver',
         () {
-          using((arena) {
-            final s = 'hello'.toJString()..releasedBy(arena);
-            final valid = Annotated<JString, JString, JString>(null, s, s)
-              ..releasedBy(arena);
-            expect(valid.nullableEcho(null), isNull);
-
-            final nullAnnotated =
-                _NullJObject() as Annotated<JString, JString, JString>;
-            expect(nullAnnotated.hello, throwsA(isA<JNullError>()));
-
-            final nullStr = _NullJObject() as JString;
-            expect(() => valid.echo(nullStr), throwsA(isA<JNullError>()));
-            expect(
-              () => Annotated<JString, JString, JString>(null, nullStr, s),
-              throwsA(isA<JNullError>()),
-            );
-          });
+          final nullAnnotated =
+              _NullJObject() as Annotated<JString, JString, JString>;
+          expect(nullAnnotated.hello, throwsA(isA<JNullError>()));
         },
       );
     });

@@ -26,6 +26,17 @@ extension ProtectedJReference on JReference {
   }
 }
 
+extension JReferencePointer on JReference {
+  @internal
+  JObjectPtr get nonNullPointer {
+    final ptr = pointer;
+    if (ptr == nullptr) {
+      throw JNullError();
+    }
+    return ptr;
+  }
+}
+
 /// A thin wrapper around a pointer that makes it [Finalizable].
 @pragma('vm:deeply-immutable')
 final class _JFinalizable implements Finalizable {

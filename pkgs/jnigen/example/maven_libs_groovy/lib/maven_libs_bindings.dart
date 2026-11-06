@@ -90,7 +90,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   GsonBuilder? newBuilder() {
     final _$$selfRef = reference;
-    return _newBuilder(_$$selfRef.pointer, _id_newBuilder.pointer)
+    return _newBuilder(_$$selfRef.nonNullPointer, _id_newBuilder.pointer)
         .object<GsonBuilder?>();
   }
 
@@ -116,7 +116,7 @@ extension Gson$$Methods on Gson {
   @core$_.Deprecated('This Java method is deprecated.')
   Excluder? excluder() {
     final _$$selfRef = reference;
-    return _excluder(_$$selfRef.pointer, _id_excluder.pointer)
+    return _excluder(_$$selfRef.nonNullPointer, _id_excluder.pointer)
         .object<Excluder?>();
   }
 
@@ -142,7 +142,7 @@ extension Gson$$Methods on Gson {
   FieldNamingStrategy? fieldNamingStrategy() {
     final _$$selfRef = reference;
     return _fieldNamingStrategy(
-            _$$selfRef.pointer, _id_fieldNamingStrategy.pointer)
+            _$$selfRef.nonNullPointer, _id_fieldNamingStrategy.pointer)
         .object<FieldNamingStrategy?>();
   }
 
@@ -166,7 +166,8 @@ extension Gson$$Methods on Gson {
   /// from: `public boolean serializeNulls()`
   core$_.bool serializeNulls() {
     final _$$selfRef = reference;
-    return _serializeNulls(_$$selfRef.pointer, _id_serializeNulls.pointer)
+    return _serializeNulls(
+            _$$selfRef.nonNullPointer, _id_serializeNulls.pointer)
         .boolean;
   }
 
@@ -190,7 +191,7 @@ extension Gson$$Methods on Gson {
   /// from: `public boolean htmlSafe()`
   core$_.bool htmlSafe() {
     final _$$selfRef = reference;
-    return _htmlSafe(_$$selfRef.pointer, _id_htmlSafe.pointer).boolean;
+    return _htmlSafe(_$$selfRef.nonNullPointer, _id_htmlSafe.pointer).boolean;
   }
 
   static final _id_getAdapter = Gson._class.instanceMethodId(
@@ -216,8 +217,8 @@ extension Gson$$Methods on Gson {
   ) {
     final _$$selfRef = reference;
     final _$typeToken = typeToken?.reference ?? jni$_.jNullReference;
-    return _getAdapter(
-            _$$selfRef.pointer, _id_getAdapter.pointer, _$typeToken.pointer)
+    return _getAdapter(_$$selfRef.nonNullPointer, _id_getAdapter.pointer,
+            _$typeToken.pointer)
         .object<TypeAdapter?>();
   }
 
@@ -254,7 +255,7 @@ extension Gson$$Methods on Gson {
         typeAdapterFactory?.reference ?? jni$_.jNullReference;
     final _$typeToken = typeToken?.reference ?? jni$_.jNullReference;
     return _getDelegateAdapter(
-            _$$selfRef.pointer,
+            _$$selfRef.nonNullPointer,
             _id_getDelegateAdapter.pointer,
             _$typeAdapterFactory.pointer,
             _$typeToken.pointer)
@@ -284,8 +285,8 @@ extension Gson$$Methods on Gson {
   ) {
     final _$$selfRef = reference;
     final _$class$ = class$?.reference ?? jni$_.jNullReference;
-    return _getAdapter$1(
-            _$$selfRef.pointer, _id_getAdapter$1.pointer, _$class$.pointer)
+    return _getAdapter$1(_$$selfRef.nonNullPointer, _id_getAdapter$1.pointer,
+            _$class$.pointer)
         .object<TypeAdapter?>();
   }
 
@@ -313,7 +314,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _toJsonTree(
-            _$$selfRef.pointer, _id_toJsonTree.pointer, _$object.pointer)
+            _$$selfRef.nonNullPointer, _id_toJsonTree.pointer, _$object.pointer)
         .object<JsonElement?>();
   }
 
@@ -348,7 +349,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
-    return _toJsonTree$1(_$$selfRef.pointer, _id_toJsonTree$1.pointer,
+    return _toJsonTree$1(_$$selfRef.nonNullPointer, _id_toJsonTree$1.pointer,
             _$object.pointer, _$type.pointer)
         .object<JsonElement?>();
   }
@@ -376,7 +377,8 @@ extension Gson$$Methods on Gson {
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _toJson(_$$selfRef.pointer, _id_toJson.pointer, _$object.pointer)
+    return _toJson(
+            _$$selfRef.nonNullPointer, _id_toJson.pointer, _$object.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -411,8 +413,8 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
-    return _toJson$1(_$$selfRef.pointer, _id_toJson$1.pointer, _$object.pointer,
-            _$type.pointer)
+    return _toJson$1(_$$selfRef.nonNullPointer, _id_toJson$1.pointer,
+            _$object.pointer, _$type.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -446,7 +448,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$appendable = appendable?.reference ?? jni$_.jNullReference;
-    _toJson$2(_$$selfRef.pointer, _id_toJson$2.pointer, _$object.pointer,
+    _toJson$2(_$$selfRef.nonNullPointer, _id_toJson$2.pointer, _$object.pointer,
             _$appendable.pointer)
         .check();
   }
@@ -485,7 +487,7 @@ extension Gson$$Methods on Gson {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
     final _$appendable = appendable?.reference ?? jni$_.jNullReference;
-    _toJson$3(_$$selfRef.pointer, _id_toJson$3.pointer, _$object.pointer,
+    _toJson$3(_$$selfRef.nonNullPointer, _id_toJson$3.pointer, _$object.pointer,
             _$type.pointer, _$appendable.pointer)
         .check();
   }
@@ -524,7 +526,7 @@ extension Gson$$Methods on Gson {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
     final _$jsonWriter = jsonWriter?.reference ?? jni$_.jNullReference;
-    _toJson$4(_$$selfRef.pointer, _id_toJson$4.pointer, _$object.pointer,
+    _toJson$4(_$$selfRef.nonNullPointer, _id_toJson$4.pointer, _$object.pointer,
             _$type.pointer, _$jsonWriter.pointer)
         .check();
   }
@@ -552,8 +554,8 @@ extension Gson$$Methods on Gson {
   ) {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
-    return _toJson$5(
-            _$$selfRef.pointer, _id_toJson$5.pointer, _$jsonElement.pointer)
+    return _toJson$5(_$$selfRef.nonNullPointer, _id_toJson$5.pointer,
+            _$jsonElement.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -587,8 +589,8 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
     final _$appendable = appendable?.reference ?? jni$_.jNullReference;
-    _toJson$6(_$$selfRef.pointer, _id_toJson$6.pointer, _$jsonElement.pointer,
-            _$appendable.pointer)
+    _toJson$6(_$$selfRef.nonNullPointer, _id_toJson$6.pointer,
+            _$jsonElement.pointer, _$appendable.pointer)
         .check();
   }
 
@@ -615,8 +617,8 @@ extension Gson$$Methods on Gson {
   ) {
     final _$$selfRef = reference;
     final _$writer = writer?.reference ?? jni$_.jNullReference;
-    return _newJsonWriter(
-            _$$selfRef.pointer, _id_newJsonWriter.pointer, _$writer.pointer)
+    return _newJsonWriter(_$$selfRef.nonNullPointer, _id_newJsonWriter.pointer,
+            _$writer.pointer)
         .object<JsonWriter?>();
   }
 
@@ -643,8 +645,8 @@ extension Gson$$Methods on Gson {
   ) {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
-    return _newJsonReader(
-            _$$selfRef.pointer, _id_newJsonReader.pointer, _$reader.pointer)
+    return _newJsonReader(_$$selfRef.nonNullPointer, _id_newJsonReader.pointer,
+            _$reader.pointer)
         .object<JsonReader?>();
   }
 
@@ -678,8 +680,8 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
     final _$jsonWriter = jsonWriter?.reference ?? jni$_.jNullReference;
-    _toJson$7(_$$selfRef.pointer, _id_toJson$7.pointer, _$jsonElement.pointer,
-            _$jsonWriter.pointer)
+    _toJson$7(_$$selfRef.nonNullPointer, _id_toJson$7.pointer,
+            _$jsonElement.pointer, _$jsonWriter.pointer)
         .check();
   }
 
@@ -714,8 +716,8 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$class$ = class$?.reference ?? jni$_.jNullReference;
-    return _fromJson(_$$selfRef.pointer, _id_fromJson.pointer, _$string.pointer,
-            _$class$.pointer)
+    return _fromJson(_$$selfRef.nonNullPointer, _id_fromJson.pointer,
+            _$string.pointer, _$class$.pointer)
         .object<$T?>();
   }
 
@@ -750,7 +752,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
-    return _fromJson$1(_$$selfRef.pointer, _id_fromJson$1.pointer,
+    return _fromJson$1(_$$selfRef.nonNullPointer, _id_fromJson$1.pointer,
             _$string.pointer, _$type.pointer)
         .object<$T?>();
   }
@@ -786,7 +788,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$typeToken = typeToken?.reference ?? jni$_.jNullReference;
-    return _fromJson$2(_$$selfRef.pointer, _id_fromJson$2.pointer,
+    return _fromJson$2(_$$selfRef.nonNullPointer, _id_fromJson$2.pointer,
             _$string.pointer, _$typeToken.pointer)
         .object<$T?>();
   }
@@ -822,7 +824,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
     final _$class$ = class$?.reference ?? jni$_.jNullReference;
-    return _fromJson$3(_$$selfRef.pointer, _id_fromJson$3.pointer,
+    return _fromJson$3(_$$selfRef.nonNullPointer, _id_fromJson$3.pointer,
             _$reader.pointer, _$class$.pointer)
         .object<$T?>();
   }
@@ -858,7 +860,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
-    return _fromJson$4(_$$selfRef.pointer, _id_fromJson$4.pointer,
+    return _fromJson$4(_$$selfRef.nonNullPointer, _id_fromJson$4.pointer,
             _$reader.pointer, _$type.pointer)
         .object<$T?>();
   }
@@ -894,7 +896,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
     final _$typeToken = typeToken?.reference ?? jni$_.jNullReference;
-    return _fromJson$5(_$$selfRef.pointer, _id_fromJson$5.pointer,
+    return _fromJson$5(_$$selfRef.nonNullPointer, _id_fromJson$5.pointer,
             _$reader.pointer, _$typeToken.pointer)
         .object<$T?>();
   }
@@ -930,7 +932,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$jsonReader = jsonReader?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
-    return _fromJson$6(_$$selfRef.pointer, _id_fromJson$6.pointer,
+    return _fromJson$6(_$$selfRef.nonNullPointer, _id_fromJson$6.pointer,
             _$jsonReader.pointer, _$type.pointer)
         .object<$T?>();
   }
@@ -966,7 +968,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$jsonReader = jsonReader?.reference ?? jni$_.jNullReference;
     final _$typeToken = typeToken?.reference ?? jni$_.jNullReference;
-    return _fromJson$7(_$$selfRef.pointer, _id_fromJson$7.pointer,
+    return _fromJson$7(_$$selfRef.nonNullPointer, _id_fromJson$7.pointer,
             _$jsonReader.pointer, _$typeToken.pointer)
         .object<$T?>();
   }
@@ -1002,7 +1004,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
     final _$class$ = class$?.reference ?? jni$_.jNullReference;
-    return _fromJson$8(_$$selfRef.pointer, _id_fromJson$8.pointer,
+    return _fromJson$8(_$$selfRef.nonNullPointer, _id_fromJson$8.pointer,
             _$jsonElement.pointer, _$class$.pointer)
         .object<$T?>();
   }
@@ -1038,7 +1040,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
-    return _fromJson$9(_$$selfRef.pointer, _id_fromJson$9.pointer,
+    return _fromJson$9(_$$selfRef.nonNullPointer, _id_fromJson$9.pointer,
             _$jsonElement.pointer, _$type.pointer)
         .object<$T?>();
   }
@@ -1074,7 +1076,7 @@ extension Gson$$Methods on Gson {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
     final _$typeToken = typeToken?.reference ?? jni$_.jNullReference;
-    return _fromJson$10(_$$selfRef.pointer, _id_fromJson$10.pointer,
+    return _fromJson$10(_$$selfRef.nonNullPointer, _id_fromJson$10.pointer,
             _$jsonElement.pointer, _$typeToken.pointer)
         .object<$T?>();
   }
@@ -1100,7 +1102,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? toString$1() {
     final _$$selfRef = reference;
-    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
+    return _toString$1(_$$selfRef.nonNullPointer, _id_toString$1.pointer)
         .object<jni$_.JString?>();
   }
 }
@@ -1198,8 +1200,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$dispatcher = dispatcher.reference;
-    return _dispatcher(
-            _$$selfRef.pointer, _id_dispatcher.pointer, _$dispatcher.pointer)
+    return _dispatcher(_$$selfRef.nonNullPointer, _id_dispatcher.pointer,
+            _$dispatcher.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1227,8 +1229,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$connectionPool = connectionPool.reference;
-    return _connectionPool(_$$selfRef.pointer, _id_connectionPool.pointer,
-            _$connectionPool.pointer)
+    return _connectionPool(_$$selfRef.nonNullPointer,
+            _id_connectionPool.pointer, _$connectionPool.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1253,7 +1255,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<Interceptor> interceptors() {
     final _$$selfRef = reference;
-    return _interceptors(_$$selfRef.pointer, _id_interceptors.pointer)
+    return _interceptors(_$$selfRef.nonNullPointer, _id_interceptors.pointer)
         .object<jni$_.JList<Interceptor>>();
   }
 
@@ -1281,8 +1283,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$interceptor = interceptor.reference;
-    return _addInterceptor(_$$selfRef.pointer, _id_addInterceptor.pointer,
-            _$interceptor.pointer)
+    return _addInterceptor(_$$selfRef.nonNullPointer,
+            _id_addInterceptor.pointer, _$interceptor.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1309,7 +1311,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   jni$_.JList<Interceptor> networkInterceptors() {
     final _$$selfRef = reference;
     return _networkInterceptors(
-            _$$selfRef.pointer, _id_networkInterceptors.pointer)
+            _$$selfRef.nonNullPointer, _id_networkInterceptors.pointer)
         .object<jni$_.JList<Interceptor>>();
   }
 
@@ -1337,7 +1339,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$interceptor = interceptor.reference;
-    return _addNetworkInterceptor(_$$selfRef.pointer,
+    return _addNetworkInterceptor(_$$selfRef.nonNullPointer,
             _id_addNetworkInterceptor.pointer, _$interceptor.pointer)
         .object<OkHttpClient$Builder>();
   }
@@ -1365,7 +1367,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$eventListener = eventListener.reference;
-    return _eventListener(_$$selfRef.pointer, _id_eventListener.pointer,
+    return _eventListener(_$$selfRef.nonNullPointer, _id_eventListener.pointer,
             _$eventListener.pointer)
         .object<OkHttpClient$Builder>();
   }
@@ -1394,7 +1396,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$factory = factory.reference;
-    return _eventListenerFactory(_$$selfRef.pointer,
+    return _eventListenerFactory(_$$selfRef.nonNullPointer,
             _id_eventListenerFactory.pointer, _$factory.pointer)
         .object<OkHttpClient$Builder>();
   }
@@ -1421,8 +1423,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
     core$_.bool z,
   ) {
     final _$$selfRef = reference;
-    return _retryOnConnectionFailure(
-            _$$selfRef.pointer, _id_retryOnConnectionFailure.pointer, z ? 1 : 0)
+    return _retryOnConnectionFailure(_$$selfRef.nonNullPointer,
+            _id_retryOnConnectionFailure.pointer, z ? 1 : 0)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1449,7 +1451,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$authenticator = authenticator.reference;
-    return _authenticator(_$$selfRef.pointer, _id_authenticator.pointer,
+    return _authenticator(_$$selfRef.nonNullPointer, _id_authenticator.pointer,
             _$authenticator.pointer)
         .object<OkHttpClient$Builder>();
   }
@@ -1477,7 +1479,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     return _followRedirects(
-            _$$selfRef.pointer, _id_followRedirects.pointer, z ? 1 : 0)
+            _$$selfRef.nonNullPointer, _id_followRedirects.pointer, z ? 1 : 0)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1503,8 +1505,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
     core$_.bool z,
   ) {
     final _$$selfRef = reference;
-    return _followSslRedirects(
-            _$$selfRef.pointer, _id_followSslRedirects.pointer, z ? 1 : 0)
+    return _followSslRedirects(_$$selfRef.nonNullPointer,
+            _id_followSslRedirects.pointer, z ? 1 : 0)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1531,8 +1533,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$cookieJar = cookieJar.reference;
-    return _cookieJar(
-            _$$selfRef.pointer, _id_cookieJar.pointer, _$cookieJar.pointer)
+    return _cookieJar(_$$selfRef.nonNullPointer, _id_cookieJar.pointer,
+            _$cookieJar.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1559,7 +1561,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$cache = cache?.reference ?? jni$_.jNullReference;
-    return _cache(_$$selfRef.pointer, _id_cache.pointer, _$cache.pointer)
+    return _cache(_$$selfRef.nonNullPointer, _id_cache.pointer, _$cache.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1586,7 +1588,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$dns = dns.reference;
-    return _dns(_$$selfRef.pointer, _id_dns.pointer, _$dns.pointer)
+    return _dns(_$$selfRef.nonNullPointer, _id_dns.pointer, _$dns.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1613,7 +1615,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$proxy = proxy?.reference ?? jni$_.jNullReference;
-    return _proxy(_$$selfRef.pointer, _id_proxy.pointer, _$proxy.pointer)
+    return _proxy(_$$selfRef.nonNullPointer, _id_proxy.pointer, _$proxy.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1640,7 +1642,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$proxySelector = proxySelector.reference;
-    return _proxySelector(_$$selfRef.pointer, _id_proxySelector.pointer,
+    return _proxySelector(_$$selfRef.nonNullPointer, _id_proxySelector.pointer,
             _$proxySelector.pointer)
         .object<OkHttpClient$Builder>();
   }
@@ -1669,7 +1671,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$authenticator = authenticator.reference;
-    return _proxyAuthenticator(_$$selfRef.pointer,
+    return _proxyAuthenticator(_$$selfRef.nonNullPointer,
             _id_proxyAuthenticator.pointer, _$authenticator.pointer)
         .object<OkHttpClient$Builder>();
   }
@@ -1697,7 +1699,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$socketFactory = socketFactory.reference;
-    return _socketFactory(_$$selfRef.pointer, _id_socketFactory.pointer,
+    return _socketFactory(_$$selfRef.nonNullPointer, _id_socketFactory.pointer,
             _$socketFactory.pointer)
         .object<OkHttpClient$Builder>();
   }
@@ -1726,8 +1728,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$sSLSocketFactory = sSLSocketFactory.reference;
-    return _sslSocketFactory(_$$selfRef.pointer, _id_sslSocketFactory.pointer,
-            _$sSLSocketFactory.pointer)
+    return _sslSocketFactory(_$$selfRef.nonNullPointer,
+            _id_sslSocketFactory.pointer, _$sSLSocketFactory.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1764,7 +1766,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
     final _$sSLSocketFactory = sSLSocketFactory.reference;
     final _$x509TrustManager = x509TrustManager.reference;
     return _sslSocketFactory$1(
-            _$$selfRef.pointer,
+            _$$selfRef.nonNullPointer,
             _id_sslSocketFactory$1.pointer,
             _$sSLSocketFactory.pointer,
             _$x509TrustManager.pointer)
@@ -1795,8 +1797,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$list = list.reference;
-    return _connectionSpecs(
-            _$$selfRef.pointer, _id_connectionSpecs.pointer, _$list.pointer)
+    return _connectionSpecs(_$$selfRef.nonNullPointer,
+            _id_connectionSpecs.pointer, _$list.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1823,7 +1825,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$list = list.reference;
-    return _protocols(_$$selfRef.pointer, _id_protocols.pointer, _$list.pointer)
+    return _protocols(
+            _$$selfRef.nonNullPointer, _id_protocols.pointer, _$list.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1851,8 +1854,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$hostnameVerifier = hostnameVerifier.reference;
-    return _hostnameVerifier(_$$selfRef.pointer, _id_hostnameVerifier.pointer,
-            _$hostnameVerifier.pointer)
+    return _hostnameVerifier(_$$selfRef.nonNullPointer,
+            _id_hostnameVerifier.pointer, _$hostnameVerifier.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1880,8 +1883,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$certificatePinner = certificatePinner.reference;
-    return _certificatePinner(_$$selfRef.pointer, _id_certificatePinner.pointer,
-            _$certificatePinner.pointer)
+    return _certificatePinner(_$$selfRef.nonNullPointer,
+            _id_certificatePinner.pointer, _$certificatePinner.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1910,8 +1913,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
-    return _callTimeout(
-            _$$selfRef.pointer, _id_callTimeout.pointer, j, _$timeUnit.pointer)
+    return _callTimeout(_$$selfRef.nonNullPointer, _id_callTimeout.pointer, j,
+            _$timeUnit.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1938,8 +1941,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
-    return _callTimeout$1(
-            _$$selfRef.pointer, _id_callTimeout$1.pointer, _$duration.pointer)
+    return _callTimeout$1(_$$selfRef.nonNullPointer, _id_callTimeout$1.pointer,
+            _$duration.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1969,8 +1972,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
-    return _connectTimeout(_$$selfRef.pointer, _id_connectTimeout.pointer, j,
-            _$timeUnit.pointer)
+    return _connectTimeout(_$$selfRef.nonNullPointer,
+            _id_connectTimeout.pointer, j, _$timeUnit.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -1998,8 +2001,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
-    return _connectTimeout$1(_$$selfRef.pointer, _id_connectTimeout$1.pointer,
-            _$duration.pointer)
+    return _connectTimeout$1(_$$selfRef.nonNullPointer,
+            _id_connectTimeout$1.pointer, _$duration.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -2028,8 +2031,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
-    return _readTimeout(
-            _$$selfRef.pointer, _id_readTimeout.pointer, j, _$timeUnit.pointer)
+    return _readTimeout(_$$selfRef.nonNullPointer, _id_readTimeout.pointer, j,
+            _$timeUnit.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -2056,8 +2059,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
-    return _readTimeout$1(
-            _$$selfRef.pointer, _id_readTimeout$1.pointer, _$duration.pointer)
+    return _readTimeout$1(_$$selfRef.nonNullPointer, _id_readTimeout$1.pointer,
+            _$duration.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -2086,8 +2089,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
-    return _writeTimeout(
-            _$$selfRef.pointer, _id_writeTimeout.pointer, j, _$timeUnit.pointer)
+    return _writeTimeout(_$$selfRef.nonNullPointer, _id_writeTimeout.pointer, j,
+            _$timeUnit.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -2115,8 +2118,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
-    return _writeTimeout$1(
-            _$$selfRef.pointer, _id_writeTimeout$1.pointer, _$duration.pointer)
+    return _writeTimeout$1(_$$selfRef.nonNullPointer,
+            _id_writeTimeout$1.pointer, _$duration.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -2145,8 +2148,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
-    return _pingInterval(
-            _$$selfRef.pointer, _id_pingInterval.pointer, j, _$timeUnit.pointer)
+    return _pingInterval(_$$selfRef.nonNullPointer, _id_pingInterval.pointer, j,
+            _$timeUnit.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -2174,8 +2177,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
-    return _pingInterval$1(
-            _$$selfRef.pointer, _id_pingInterval$1.pointer, _$duration.pointer)
+    return _pingInterval$1(_$$selfRef.nonNullPointer,
+            _id_pingInterval$1.pointer, _$duration.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -2201,8 +2204,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
     core$_.int j,
   ) {
     final _$$selfRef = reference;
-    return _minWebSocketMessageToCompress(
-            _$$selfRef.pointer, _id_minWebSocketMessageToCompress.pointer, j)
+    return _minWebSocketMessageToCompress(_$$selfRef.nonNullPointer,
+            _id_minWebSocketMessageToCompress.pointer, j)
         .object<OkHttpClient$Builder>();
   }
 
@@ -2227,7 +2230,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient build() {
     final _$$selfRef = reference;
-    return _build(_$$selfRef.pointer, _id_build.pointer).object<OkHttpClient>();
+    return _build(_$$selfRef.nonNullPointer, _id_build.pointer)
+        .object<OkHttpClient>();
   }
 }
 
@@ -2379,7 +2383,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   Dispatcher dispatcher() {
     final _$$selfRef = reference;
-    return _dispatcher(_$$selfRef.pointer, _id_dispatcher.pointer)
+    return _dispatcher(_$$selfRef.nonNullPointer, _id_dispatcher.pointer)
         .object<Dispatcher>();
   }
 
@@ -2404,7 +2408,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   ConnectionPool connectionPool() {
     final _$$selfRef = reference;
-    return _connectionPool(_$$selfRef.pointer, _id_connectionPool.pointer)
+    return _connectionPool(
+            _$$selfRef.nonNullPointer, _id_connectionPool.pointer)
         .object<ConnectionPool>();
   }
 
@@ -2429,7 +2434,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<Interceptor> interceptors() {
     final _$$selfRef = reference;
-    return _interceptors(_$$selfRef.pointer, _id_interceptors.pointer)
+    return _interceptors(_$$selfRef.nonNullPointer, _id_interceptors.pointer)
         .object<jni$_.JList<Interceptor>>();
   }
 
@@ -2455,7 +2460,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   jni$_.JList<Interceptor> networkInterceptors() {
     final _$$selfRef = reference;
     return _networkInterceptors(
-            _$$selfRef.pointer, _id_networkInterceptors.pointer)
+            _$$selfRef.nonNullPointer, _id_networkInterceptors.pointer)
         .object<jni$_.JList<Interceptor>>();
   }
 
@@ -2481,7 +2486,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   EventListener$$Factory eventListenerFactory() {
     final _$$selfRef = reference;
     return _eventListenerFactory(
-            _$$selfRef.pointer, _id_eventListenerFactory.pointer)
+            _$$selfRef.nonNullPointer, _id_eventListenerFactory.pointer)
         .object<EventListener$$Factory>();
   }
 
@@ -2507,7 +2512,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   core$_.bool retryOnConnectionFailure() {
     final _$$selfRef = reference;
     return _retryOnConnectionFailure(
-            _$$selfRef.pointer, _id_retryOnConnectionFailure.pointer)
+            _$$selfRef.nonNullPointer, _id_retryOnConnectionFailure.pointer)
         .boolean;
   }
 
@@ -2532,7 +2537,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   Authenticator authenticator() {
     final _$$selfRef = reference;
-    return _authenticator(_$$selfRef.pointer, _id_authenticator.pointer)
+    return _authenticator(_$$selfRef.nonNullPointer, _id_authenticator.pointer)
         .object<Authenticator>();
   }
 
@@ -2556,7 +2561,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// from: `public final boolean followRedirects()`
   core$_.bool followRedirects() {
     final _$$selfRef = reference;
-    return _followRedirects(_$$selfRef.pointer, _id_followRedirects.pointer)
+    return _followRedirects(
+            _$$selfRef.nonNullPointer, _id_followRedirects.pointer)
         .boolean;
   }
 
@@ -2581,7 +2587,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   core$_.bool followSslRedirects() {
     final _$$selfRef = reference;
     return _followSslRedirects(
-            _$$selfRef.pointer, _id_followSslRedirects.pointer)
+            _$$selfRef.nonNullPointer, _id_followSslRedirects.pointer)
         .boolean;
   }
 
@@ -2606,7 +2612,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   CookieJar cookieJar() {
     final _$$selfRef = reference;
-    return _cookieJar(_$$selfRef.pointer, _id_cookieJar.pointer)
+    return _cookieJar(_$$selfRef.nonNullPointer, _id_cookieJar.pointer)
         .object<CookieJar>();
   }
 
@@ -2631,7 +2637,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   Cache? cache() {
     final _$$selfRef = reference;
-    return _cache(_$$selfRef.pointer, _id_cache.pointer).object<Cache?>();
+    return _cache(_$$selfRef.nonNullPointer, _id_cache.pointer)
+        .object<Cache?>();
   }
 
   static final _id_dns = OkHttpClient._class.instanceMethodId(
@@ -2655,7 +2662,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   Dns dns() {
     final _$$selfRef = reference;
-    return _dns(_$$selfRef.pointer, _id_dns.pointer).object<Dns>();
+    return _dns(_$$selfRef.nonNullPointer, _id_dns.pointer).object<Dns>();
   }
 
   static final _id_proxy = OkHttpClient._class.instanceMethodId(
@@ -2679,7 +2686,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   Proxy? proxy() {
     final _$$selfRef = reference;
-    return _proxy(_$$selfRef.pointer, _id_proxy.pointer).object<Proxy?>();
+    return _proxy(_$$selfRef.nonNullPointer, _id_proxy.pointer)
+        .object<Proxy?>();
   }
 
   static final _id_proxySelector = OkHttpClient._class.instanceMethodId(
@@ -2703,7 +2711,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   ProxySelector proxySelector() {
     final _$$selfRef = reference;
-    return _proxySelector(_$$selfRef.pointer, _id_proxySelector.pointer)
+    return _proxySelector(_$$selfRef.nonNullPointer, _id_proxySelector.pointer)
         .object<ProxySelector>();
   }
 
@@ -2729,7 +2737,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   Authenticator proxyAuthenticator() {
     final _$$selfRef = reference;
     return _proxyAuthenticator(
-            _$$selfRef.pointer, _id_proxyAuthenticator.pointer)
+            _$$selfRef.nonNullPointer, _id_proxyAuthenticator.pointer)
         .object<Authenticator>();
   }
 
@@ -2754,7 +2762,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   SocketFactory socketFactory() {
     final _$$selfRef = reference;
-    return _socketFactory(_$$selfRef.pointer, _id_socketFactory.pointer)
+    return _socketFactory(_$$selfRef.nonNullPointer, _id_socketFactory.pointer)
         .object<SocketFactory>();
   }
 
@@ -2779,7 +2787,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   SSLSocketFactory sslSocketFactory() {
     final _$$selfRef = reference;
-    return _sslSocketFactory(_$$selfRef.pointer, _id_sslSocketFactory.pointer)
+    return _sslSocketFactory(
+            _$$selfRef.nonNullPointer, _id_sslSocketFactory.pointer)
         .object<SSLSocketFactory>();
   }
 
@@ -2804,7 +2813,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   X509TrustManager? x509TrustManager() {
     final _$$selfRef = reference;
-    return _x509TrustManager(_$$selfRef.pointer, _id_x509TrustManager.pointer)
+    return _x509TrustManager(
+            _$$selfRef.nonNullPointer, _id_x509TrustManager.pointer)
         .object<X509TrustManager?>();
   }
 
@@ -2829,7 +2839,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<ConnectionSpec> connectionSpecs() {
     final _$$selfRef = reference;
-    return _connectionSpecs(_$$selfRef.pointer, _id_connectionSpecs.pointer)
+    return _connectionSpecs(
+            _$$selfRef.nonNullPointer, _id_connectionSpecs.pointer)
         .object<jni$_.JList<ConnectionSpec>>();
   }
 
@@ -2854,7 +2865,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<Protocol> protocols() {
     final _$$selfRef = reference;
-    return _protocols(_$$selfRef.pointer, _id_protocols.pointer)
+    return _protocols(_$$selfRef.nonNullPointer, _id_protocols.pointer)
         .object<jni$_.JList<Protocol>>();
   }
 
@@ -2879,7 +2890,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   HostnameVerifier hostnameVerifier() {
     final _$$selfRef = reference;
-    return _hostnameVerifier(_$$selfRef.pointer, _id_hostnameVerifier.pointer)
+    return _hostnameVerifier(
+            _$$selfRef.nonNullPointer, _id_hostnameVerifier.pointer)
         .object<HostnameVerifier>();
   }
 
@@ -2904,7 +2916,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   CertificatePinner certificatePinner() {
     final _$$selfRef = reference;
-    return _certificatePinner(_$$selfRef.pointer, _id_certificatePinner.pointer)
+    return _certificatePinner(
+            _$$selfRef.nonNullPointer, _id_certificatePinner.pointer)
         .object<CertificatePinner>();
   }
 
@@ -2931,7 +2944,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   CertificateChainCleaner? certificateChainCleaner() {
     final _$$selfRef = reference;
     return _certificateChainCleaner(
-            _$$selfRef.pointer, _id_certificateChainCleaner.pointer)
+            _$$selfRef.nonNullPointer, _id_certificateChainCleaner.pointer)
         .object<CertificateChainCleaner?>();
   }
 
@@ -2955,7 +2968,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// from: `public final int callTimeoutMillis()`
   core$_.int callTimeoutMillis() {
     final _$$selfRef = reference;
-    return _callTimeoutMillis(_$$selfRef.pointer, _id_callTimeoutMillis.pointer)
+    return _callTimeoutMillis(
+            _$$selfRef.nonNullPointer, _id_callTimeoutMillis.pointer)
         .integer;
   }
 
@@ -2980,7 +2994,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   core$_.int connectTimeoutMillis() {
     final _$$selfRef = reference;
     return _connectTimeoutMillis(
-            _$$selfRef.pointer, _id_connectTimeoutMillis.pointer)
+            _$$selfRef.nonNullPointer, _id_connectTimeoutMillis.pointer)
         .integer;
   }
 
@@ -3004,7 +3018,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// from: `public final int readTimeoutMillis()`
   core$_.int readTimeoutMillis() {
     final _$$selfRef = reference;
-    return _readTimeoutMillis(_$$selfRef.pointer, _id_readTimeoutMillis.pointer)
+    return _readTimeoutMillis(
+            _$$selfRef.nonNullPointer, _id_readTimeoutMillis.pointer)
         .integer;
   }
 
@@ -3029,7 +3044,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   core$_.int writeTimeoutMillis() {
     final _$$selfRef = reference;
     return _writeTimeoutMillis(
-            _$$selfRef.pointer, _id_writeTimeoutMillis.pointer)
+            _$$selfRef.nonNullPointer, _id_writeTimeoutMillis.pointer)
         .integer;
   }
 
@@ -3054,7 +3069,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   core$_.int pingIntervalMillis() {
     final _$$selfRef = reference;
     return _pingIntervalMillis(
-            _$$selfRef.pointer, _id_pingIntervalMillis.pointer)
+            _$$selfRef.nonNullPointer, _id_pingIntervalMillis.pointer)
         .integer;
   }
 
@@ -3080,8 +3095,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// from: `public final long minWebSocketMessageToCompress()`
   core$_.int minWebSocketMessageToCompress() {
     final _$$selfRef = reference;
-    return _minWebSocketMessageToCompress(
-            _$$selfRef.pointer, _id_minWebSocketMessageToCompress.pointer)
+    return _minWebSocketMessageToCompress(_$$selfRef.nonNullPointer,
+            _id_minWebSocketMessageToCompress.pointer)
         .long;
   }
 
@@ -3106,7 +3121,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   RouteDatabase get routeDatabase {
     final _$$selfRef = reference;
-    return _get$routeDatabase(_$$selfRef.pointer, _id_get$routeDatabase.pointer)
+    return _get$routeDatabase(
+            _$$selfRef.nonNullPointer, _id_get$routeDatabase.pointer)
         .object<RouteDatabase>();
   }
 
@@ -3133,7 +3149,8 @@ extension OkHttpClient$$Methods on OkHttpClient {
   ) {
     final _$$selfRef = reference;
     final _$request = request.reference;
-    return _newCall(_$$selfRef.pointer, _id_newCall.pointer, _$request.pointer)
+    return _newCall(
+            _$$selfRef.nonNullPointer, _id_newCall.pointer, _$request.pointer)
         .object<Call>();
   }
 
@@ -3168,7 +3185,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
     final _$$selfRef = reference;
     final _$request = request.reference;
     final _$webSocketListener = webSocketListener.reference;
-    return _newWebSocket(_$$selfRef.pointer, _id_newWebSocket.pointer,
+    return _newWebSocket(_$$selfRef.nonNullPointer, _id_newWebSocket.pointer,
             _$request.pointer, _$webSocketListener.pointer)
         .object<WebSocket>();
   }
@@ -3194,7 +3211,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder newBuilder() {
     final _$$selfRef = reference;
-    return _newBuilder(_$$selfRef.pointer, _id_newBuilder.pointer)
+    return _newBuilder(_$$selfRef.nonNullPointer, _id_newBuilder.pointer)
         .object<OkHttpClient$Builder>();
   }
 
@@ -3219,7 +3236,7 @@ extension OkHttpClient$$Methods on OkHttpClient {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject clone() {
     final _$$selfRef = reference;
-    return _clone(_$$selfRef.pointer, _id_clone.pointer)
+    return _clone(_$$selfRef.nonNullPointer, _id_clone.pointer)
         .object<jni$_.JObject>();
   }
 }

@@ -279,6 +279,19 @@ void run({required TestRunnerCallback testRunner}) {
       env.DeleteGlobalRef(nullptr);
       expect(env.NewGlobalRef(nullptr), nullptr);
 
+      final equalsId = env.GetMethodID(
+        objectClass,
+        'equals'.toNativeChars(arena),
+        '(Ljava/lang/Object;)Z'.toNativeChars(arena),
+      );
+      final nullArg = toJValues([nullptr], allocator: arena);
+      expect(env.CallBooleanMethodA(obj, equalsId, nullArg), isFalse);
+
+      final array = env.NewObjectArray(1, objectClass, nullptr);
+      addTearDown(() => env.DeleteGlobalRef(array));
+      expect(env.GetObjectArrayElement(array, 0), nullptr);
+      env.SetObjectArrayElement(array, 0, nullptr);
+
       final throwsNullError = throwsA(isA<JNullError>());
       expect(
         () => env.CallObjectMethodA(nullptr, toStringId, nullptr),

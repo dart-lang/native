@@ -199,7 +199,11 @@ JniErrorCode SpawnJvm(JavaVMInitArgs* initArgs) {
 
 FFI_PLUGIN_EXPORT
 JniExceptionDetails GetExceptionDetails(jthrowable exception) {
-  JniExceptionDetails details;
+  attach_thread();
+  JniExceptionDetails details = {NULL, NULL};
+  if (exception == NULL) {
+    return details;
+  }
   details.message = (*jniEnv)->CallObjectMethod(
       jniEnv, exception, exceptionMethods.toStringMethod);
   // No exception is thrown from toString.

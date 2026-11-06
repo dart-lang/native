@@ -202,12 +202,14 @@ abstract final class Jni {
   static void throwException(JThrowablePtr exception) {
     final details = _bindings.GetExceptionDetails(exception);
     final env = Jni.env;
-    final message = env.toDartString(details.message);
-    final stacktrace = env.toDartString(details.stacktrace);
-    env.DeleteGlobalRef(details.message);
-    env.DeleteGlobalRef(details.stacktrace);
+    String extract(JStringPtr ptr) => ptr == nullptr
+        ? '<null>'
+        : env.toDartString(ptr, releaseOriginal: true);
     throw JThrowable.fromReference(
-        JGlobalReference(exception), message, stacktrace);
+      JGlobalReference(exception),
+      extract(details.message),
+      extract(details.stacktrace),
+    );
   }
 
   /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over

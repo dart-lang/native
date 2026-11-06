@@ -157,7 +157,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The underlying info dictionary.
   cosdictionary$_.COSDictionary? get cOSObject {
     final _$$selfRef = reference;
-    return _get$cOSObject(_$$selfRef.pointer, _id_get$cOSObject.pointer)
+    return _get$cOSObject(_$$selfRef.nonNullPointer, _id_get$cOSObject.pointer)
         .object<cosdictionary$_.COSDictionary?>();
   }
 
@@ -194,7 +194,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ) {
     final _$$selfRef = reference;
     final _$propertyKey = propertyKey?.reference ?? jni$_.jNullReference;
-    return _getPropertyStringValue(_$$selfRef.pointer,
+    return _getPropertyStringValue(_$$selfRef.nonNullPointer,
             _id_getPropertyStringValue.pointer, _$propertyKey.pointer)
         .object<jni$_.JObject?>();
   }
@@ -223,7 +223,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The title of the document.
   jni$_.JString? get title {
     final _$$selfRef = reference;
-    return _get$title(_$$selfRef.pointer, _id_get$title.pointer)
+    return _get$title(_$$selfRef.nonNullPointer, _id_get$title.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -250,7 +250,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set title(jni$_.JString? title) {
     final _$$selfRef = reference;
     final _$title = title?.reference ?? jni$_.jNullReference;
-    _set$title(_$$selfRef.pointer, _id_set$title.pointer, _$title.pointer)
+    _set$title(
+            _$$selfRef.nonNullPointer, _id_set$title.pointer, _$title.pointer)
         .check();
   }
 
@@ -278,7 +279,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The author of the document.
   jni$_.JString? get author {
     final _$$selfRef = reference;
-    return _get$author(_$$selfRef.pointer, _id_get$author.pointer)
+    return _get$author(_$$selfRef.nonNullPointer, _id_get$author.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -305,7 +306,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set author(jni$_.JString? author) {
     final _$$selfRef = reference;
     final _$author = author?.reference ?? jni$_.jNullReference;
-    _set$author(_$$selfRef.pointer, _id_set$author.pointer, _$author.pointer)
+    _set$author(
+            _$$selfRef.nonNullPointer, _id_set$author.pointer, _$author.pointer)
         .check();
   }
 
@@ -333,7 +335,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The subject of the document.
   jni$_.JString? get subject {
     final _$$selfRef = reference;
-    return _get$subject(_$$selfRef.pointer, _id_get$subject.pointer)
+    return _get$subject(_$$selfRef.nonNullPointer, _id_get$subject.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -360,7 +362,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set subject(jni$_.JString? subject) {
     final _$$selfRef = reference;
     final _$subject = subject?.reference ?? jni$_.jNullReference;
-    _set$subject(_$$selfRef.pointer, _id_set$subject.pointer, _$subject.pointer)
+    _set$subject(_$$selfRef.nonNullPointer, _id_set$subject.pointer,
+            _$subject.pointer)
         .check();
   }
 
@@ -388,7 +391,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The keywords of the document.
   jni$_.JString? get keywords {
     final _$$selfRef = reference;
-    return _get$keywords(_$$selfRef.pointer, _id_get$keywords.pointer)
+    return _get$keywords(_$$selfRef.nonNullPointer, _id_get$keywords.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -415,8 +418,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set keywords(jni$_.JString? keywords) {
     final _$$selfRef = reference;
     final _$keywords = keywords?.reference ?? jni$_.jNullReference;
-    _set$keywords(
-            _$$selfRef.pointer, _id_set$keywords.pointer, _$keywords.pointer)
+    _set$keywords(_$$selfRef.nonNullPointer, _id_set$keywords.pointer,
+            _$keywords.pointer)
         .check();
   }
 
@@ -444,7 +447,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The creator of the document.
   jni$_.JString? get creator {
     final _$$selfRef = reference;
-    return _get$creator(_$$selfRef.pointer, _id_get$creator.pointer)
+    return _get$creator(_$$selfRef.nonNullPointer, _id_get$creator.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -471,7 +474,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set creator(jni$_.JString? creator) {
     final _$$selfRef = reference;
     final _$creator = creator?.reference ?? jni$_.jNullReference;
-    _set$creator(_$$selfRef.pointer, _id_set$creator.pointer, _$creator.pointer)
+    _set$creator(_$$selfRef.nonNullPointer, _id_set$creator.pointer,
+            _$creator.pointer)
         .check();
   }
 
@@ -499,7 +503,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The producer of the document.
   jni$_.JString? get producer {
     final _$$selfRef = reference;
-    return _get$producer(_$$selfRef.pointer, _id_get$producer.pointer)
+    return _get$producer(_$$selfRef.nonNullPointer, _id_get$producer.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -526,8 +530,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set producer(jni$_.JString? producer) {
     final _$$selfRef = reference;
     final _$producer = producer?.reference ?? jni$_.jNullReference;
-    _set$producer(
-            _$$selfRef.pointer, _id_set$producer.pointer, _$producer.pointer)
+    _set$producer(_$$selfRef.nonNullPointer, _id_set$producer.pointer,
+            _$producer.pointer)
         .check();
   }
 
@@ -556,7 +560,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The creation date of the document.
   calendar$_.Calendar? get creationDate {
     final _$$selfRef = reference;
-    return _get$creationDate(_$$selfRef.pointer, _id_get$creationDate.pointer)
+    return _get$creationDate(
+            _$$selfRef.nonNullPointer, _id_get$creationDate.pointer)
         .object<calendar$_.Calendar?>();
   }
 
@@ -584,8 +589,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set creationDate(calendar$_.Calendar? date) {
     final _$$selfRef = reference;
     final _$date = date?.reference ?? jni$_.jNullReference;
-    _set$creationDate(
-            _$$selfRef.pointer, _id_set$creationDate.pointer, _$date.pointer)
+    _set$creationDate(_$$selfRef.nonNullPointer, _id_set$creationDate.pointer,
+            _$date.pointer)
         .check();
   }
 
@@ -615,7 +620,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   calendar$_.Calendar? get modificationDate {
     final _$$selfRef = reference;
     return _get$modificationDate(
-            _$$selfRef.pointer, _id_get$modificationDate.pointer)
+            _$$selfRef.nonNullPointer, _id_get$modificationDate.pointer)
         .object<calendar$_.Calendar?>();
   }
 
@@ -643,8 +648,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set modificationDate(calendar$_.Calendar? date) {
     final _$$selfRef = reference;
     final _$date = date?.reference ?? jni$_.jNullReference;
-    _set$modificationDate(_$$selfRef.pointer, _id_set$modificationDate.pointer,
-            _$date.pointer)
+    _set$modificationDate(_$$selfRef.nonNullPointer,
+            _id_set$modificationDate.pointer, _$date.pointer)
         .check();
   }
 
@@ -673,7 +678,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return The trapped value for the document.
   jni$_.JString? get trapped {
     final _$$selfRef = reference;
-    return _get$trapped(_$$selfRef.pointer, _id_get$trapped.pointer)
+    return _get$trapped(_$$selfRef.nonNullPointer, _id_get$trapped.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -703,7 +708,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@since Apache PDFBox 1.3.0
   jni$_.JSet<jni$_.JString?>? get metadataKeys {
     final _$$selfRef = reference;
-    return _get$metadataKeys(_$$selfRef.pointer, _id_get$metadataKeys.pointer)
+    return _get$metadataKeys(
+            _$$selfRef.nonNullPointer, _id_get$metadataKeys.pointer)
         .object<jni$_.JSet<jni$_.JString?>?>();
   }
 
@@ -736,7 +742,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ) {
     final _$$selfRef = reference;
     final _$fieldName = fieldName?.reference ?? jni$_.jNullReference;
-    return _getCustomMetadataValue(_$$selfRef.pointer,
+    return _getCustomMetadataValue(_$$selfRef.nonNullPointer,
             _id_getCustomMetadataValue.pointer, _$fieldName.pointer)
         .object<jni$_.JString?>();
   }
@@ -777,7 +783,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
     final _$fieldName = fieldName?.reference ?? jni$_.jNullReference;
     final _$fieldValue = fieldValue?.reference ?? jni$_.jNullReference;
     _setCustomMetadataValue(
-            _$$selfRef.pointer,
+            _$$selfRef.nonNullPointer,
             _id_setCustomMetadataValue.pointer,
             _$fieldName.pointer,
             _$fieldValue.pointer)
@@ -809,7 +815,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   set trapped(jni$_.JString? value) {
     final _$$selfRef = reference;
     final _$value = value?.reference ?? jni$_.jNullReference;
-    _set$trapped(_$$selfRef.pointer, _id_set$trapped.pointer, _$value.pointer)
+    _set$trapped(
+            _$$selfRef.nonNullPointer, _id_set$trapped.pointer, _$value.pointer)
         .check();
   }
 }
