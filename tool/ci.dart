@@ -366,6 +366,7 @@ class GenerateTask extends Task {
       'pkgs/code_assets',
       'pkgs/data_assets',
       'pkgs/jni_util',
+      'pkgs/objective_c',
       'pkgs/web_assets',
       'pkgs/record_use',
       'pkgs/swift2objc',
@@ -492,6 +493,16 @@ class ExampleTask extends Task {
           .toFilePath(),
       [],
     );
+
+    if (Platform.isMacOS) {
+      await _runProcess(
+        workingDirectory: repositoryRoot.resolve(
+          'pkgs/objective_c/example/command_line/',
+        ),
+        'dart',
+        ['run', 'lib/main.dart'],
+      );
+    }
   }
 }
 

@@ -8,43 +8,121 @@ library;
 
 import 'dart:io';
 
+import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import '../tool/ffigen.dart' as ffigen_tool;
 
+void _matchFileWithExpected(Uri expectedUri, Uri actualUri) {
+  final expectedPath = expectedUri.toFilePath();
+  final expectedFile = File(expectedPath);
+  final actualPath = actualUri.toFilePath();
+  final actualFile = File(actualPath);
+
+  final actualFileExists = actualFile.existsSync();
+  final actualContent = actualFileExists
+      ? actualFile.readAsStringSync().replaceAll('\r', '')
+      : null;
+
+  final expectedFileExists = expectedFile.existsSync();
+  final expectedContent = expectedFileExists
+      ? expectedFile.readAsStringSync().replaceAll('\r', '')
+      : null;
+
+  if (expectedContent != actualContent) {
+    final String diff;
+    if (expectedFileExists && actualFileExists) {
+      diff = Process.runSync('git', [
+        'diff',
+        '--no-index',
+        '--color=always',
+        expectedPath,
+        actualPath,
+      ]).stdout.toString();
+    } else if (expectedFileExists) {
+      diff = "Expected file exists, but actual file doesn't";
+    } else {
+      diff = "Expected file doesn't exist, but actual file does";
+    }
+
+    fail('''
+$diff
+
+Expected output does not match actual output:
+  ${p.relative(expectedPath)}
+      vs
+  ${p.relative(actualPath)}
+
+Regenerate bindings with `dart run pkgs/objective_c/tool/ffigen.dart`.
+''');
+  }
+}
+
 void main() {
   group('ffigen.dart', () {
     test('Runs without exception', () async {
-      // As well as testing that this returns normally, this also generates
-      // coverage info for the parts of FFIgen that are gated by
-      // generate-for-package-objective-c. The github workflow that runs this
-      // test also uses it to verify that there are no git-diffs in the output.
-      await expectLater(ffigen_tool.run(format: true), completes);
+      final packageRoot = findPackageRoot('objective_c');
+      final tempDir = Directory.fromUri(
+        packageRoot.resolve('test/'),
+      ).createTempSync();
+      try {
+        // As well as testing that the generated code is up to date, this also
+        // generates coverage info for the parts of FFIgen that are gated by
+        // generate-for-package-objective-c.
+        await expectLater(
+          ffigen_tool.run(
+            format: true,
+            packageRoot: packageRoot,
+            outDir: tempDir.uri,
+          ),
+          completes,
+        );
 
-      // Sanity check the generated code.
-      final rBindings = File(
-        'lib/src/runtime_bindings_generated.dart',
-      ).readAsStringSync();
-      expect(rBindings, contains('sel_registerName'));
-      expect(rBindings, contains('objc_msgSend'));
-      expect(rBindings, contains('_NSConcreteGlobalBlock'));
-      expect(rBindings, contains('ObjCObject'));
+        // Sanity check the generated code.
+        final rBindings = File.fromUri(
+          tempDir.uri.resolve(ffigen_tool.runtimeBindings),
+        ).readAsStringSync();
+        expect(rBindings, contains('sel_registerName'));
+        expect(rBindings, contains('objc_msgSend'));
+        expect(rBindings, contains('_NSConcreteGlobalBlock'));
+        expect(rBindings, contains('ObjCObject'));
 
-      final cBindings = File(
-        'lib/src/c_bindings_generated.dart',
-      ).readAsStringSync();
-      expect(cBindings, contains('createContext'));
-      expect(cBindings, contains('DOBJC_Context'));
-      expect(cBindings, contains('Dart_FinalizableHandle'));
-      expect(cBindings, contains('ILLEGAL_PORT'));
-      expect(cBindings, contains('ObjCBlockImpl'));
+        final cBindings = File.fromUri(
+          tempDir.uri.resolve(ffigen_tool.cBindings),
+        ).readAsStringSync();
+        expect(cBindings, contains('createContext'));
+        expect(cBindings, contains('DOBJC_Context'));
+        expect(cBindings, contains('Dart_FinalizableHandle'));
+        expect(cBindings, contains('ILLEGAL_PORT'));
+        expect(cBindings, contains('ObjCBlockImpl'));
 
-      final objcBindings = File(
-        'lib/src/objective_c_bindings_generated.dart',
-      ).readAsStringSync();
-      expect(objcBindings, contains('class NSObject'));
-      expect(objcBindings, contains('class NSString'));
-      expect(objcBindings, contains('NSString(String str)'));
+        final objcBindings = File.fromUri(
+          tempDir.uri.resolve(ffigen_tool.objcBindings),
+        ).readAsStringSync();
+        expect(objcBindings, contains('class NSObject'));
+        expect(objcBindings, contains('class NSString'));
+        expect(objcBindings, contains('NSString(String str)'));
+
+        for (final file in [
+          ffigen_tool.runtimeBindings,
+          ffigen_tool.cBindings,
+          ffigen_tool.objcBindings,
+          ffigen_tool.objcLangBindings,
+          ffigen_tool.objcExports,
+        ]) {
+          _matchFileWithExpected(
+            packageRoot.resolve(file),
+            tempDir.uri.resolve(file),
+          );
+        }
+        _matchFileWithExpected(
+          packageRoot.resolve('../${ffigen_tool.builtInTypes}'),
+          tempDir.uri.resolve(ffigen_tool.builtInTypes),
+        );
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
     });
   });
 }
