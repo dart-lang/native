@@ -23,7 +23,7 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
   String get signature => r'Ljava/nio/ByteBuffer;';
 
   @override
-  String get name => r'java/nio/ByteBuffer';
+  String get className => r'java/nio/ByteBuffer';
 }
 
 /// A byte [JBuffer].

@@ -73,4 +73,8 @@ final class $LegacyPDFStreamEngine$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/text/LegacyPDFStreamEngine;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'org/apache/pdfbox/text/LegacyPDFStreamEngine';
 }

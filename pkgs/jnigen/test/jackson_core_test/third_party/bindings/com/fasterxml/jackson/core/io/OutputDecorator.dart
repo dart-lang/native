@@ -70,4 +70,8 @@ final class $OutputDecorator$Type$ extends jni$_.JType<OutputDecorator> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/io/OutputDecorator;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/io/OutputDecorator';
 }

@@ -71,4 +71,8 @@ final class $SerializableString$Type$ extends jni$_.JType<SerializableString> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/SerializableString;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/SerializableString';
 }

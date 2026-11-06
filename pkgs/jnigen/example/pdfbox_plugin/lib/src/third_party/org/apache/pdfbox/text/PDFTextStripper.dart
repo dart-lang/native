@@ -1369,4 +1369,8 @@ final class $PDFTextStripper$Type$ extends jni$_.JType<PDFTextStripper> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/text/PDFTextStripper;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'org/apache/pdfbox/text/PDFTextStripper';
 }

@@ -69,4 +69,8 @@ final class $FormatFeature$Type$ extends jni$_.JType<FormatFeature> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/FormatFeature;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/FormatFeature';
 }

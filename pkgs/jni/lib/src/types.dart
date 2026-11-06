@@ -52,12 +52,12 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
   @internal
   const JType();
 
-  /// The name used to look up this class.
+  /// The internal JVM class name, or null for array types.
   @internal
-  String get name;
+  String? get className => null;
 
   JClass get jClass {
-    return JClass.forName(name);
+    return JClass.forName(className ?? signature);
   }
 
   @override

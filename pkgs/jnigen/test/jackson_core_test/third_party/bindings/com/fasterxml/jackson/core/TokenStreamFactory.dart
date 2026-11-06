@@ -71,4 +71,8 @@ final class $TokenStreamFactory$Type$ extends jni$_.JType<TokenStreamFactory> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/TokenStreamFactory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/TokenStreamFactory';
 }
