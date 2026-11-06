@@ -1,3 +1,10 @@
+## 9.6.4-wip
+
+- Link the native support library against Foundation. Loading a built-in
+  Foundation class (eg `NSArray`) no longer throws an internally caught
+  `ArgumentError` before falling back to `objc_getClass`, which stopped
+  debuggers that break on all exceptions.
+
 ## 9.6.3
 
 - Make the `NSInputStream` returned by `toNSInputStream` avoid copying the
