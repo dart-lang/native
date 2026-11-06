@@ -29,6 +29,9 @@ FfiGenerator getConfig([Uri? packageRoot]) {
           const include = {'RefCountTestObject', 'RefCounted'};
           node.isIncluded = include.contains(node.originalName);
         },
+        objCMethod: (node) {
+          node.useAutoreleasePool = true;
+        },
       ),
     ],
   );

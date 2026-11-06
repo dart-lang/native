@@ -44,65 +44,79 @@ extension type RefCountTestObject._(objc.ObjCObject object$)
 
   /// alloc
   static RefCountTestObject alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_RefCountTestObject, _sel_alloc);
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_RefCountTestObject, _sel_alloc);
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocTheThing
   static RefCountTestObject allocTheThing() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_RefCountTestObject,
-      _sel_allocTheThing,
-    );
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _class_RefCountTestObject,
+        _sel_allocTheThing,
+      );
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static RefCountTestObject allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_RefCountTestObject,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_RefCountTestObject,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// consumeArg:
   static void consumeArg(RefCountTestObject arg) {
     final _$$ref = arg.ref;
-    _objc_msgSend_4js6t(
-      _class_RefCountTestObject,
-      _sel_consumeArg_,
-      _$$ref.retainAndReturnPointer(),
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_4js6t(
+        _class_RefCountTestObject,
+        _sel_consumeArg_,
+        _$$ref.retainAndReturnPointer(),
+      );
+    });
   }
 
   /// makeAndAutorelease:
   static RefCountTestObject makeAndAutorelease(
     ffi.Pointer<ffi.Int32> _counter,
   ) {
-    final $ret = _objc_msgSend_129vhbw(
-      _class_RefCountTestObject,
-      _sel_makeAndAutorelease_,
-      _counter,
-    );
-    return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_129vhbw(
+        _class_RefCountTestObject,
+        _sel_makeAndAutorelease_,
+        _counter,
+      );
+      return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static RefCountTestObject new$() {
-    final $ret = _objc_msgSend_151sglz(_class_RefCountTestObject, _sel_new);
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_RefCountTestObject, _sel_new);
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// newWithCounter:
   static RefCountTestObject newWithCounter(ffi.Pointer<ffi.Int32> _counter) {
-    final $ret = _objc_msgSend_129vhbw(
-      _class_RefCountTestObject,
-      _sel_newWithCounter_,
-      _counter,
-    );
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_129vhbw(
+        _class_RefCountTestObject,
+        _sel_newWithCounter_,
+        _counter,
+      );
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of RefCountTestObject constructed with the default `new` method.
@@ -113,63 +127,82 @@ extension RefCountTestObject$Methods on RefCountTestObject {
   /// assignedProperty
   RefCountTestObject get assignedProperty {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_assignedProperty);
-    return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_assignedProperty);
+      return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// copiedProperty
   RefCountTestObject get copiedProperty {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copiedProperty);
-    return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copiedProperty);
+      return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// copyMe
   RefCountTestObject copyMe() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMe);
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMe);
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// copyMeAutorelease
   RefCountTestObject copyMeAutorelease() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMeAutorelease);
-    return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_copyMeAutorelease,
+      );
+      return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// copyMeConsumeSelf
   RefCountTestObject copyMeConsumeSelf() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_copyMeConsumeSelf,
-    );
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_copyMeConsumeSelf,
+      );
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// copyMeNoRetain
   RefCountTestObject copyMeNoRetain() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMeNoRetain);
-    return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMeNoRetain);
+      return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// copyWithZone:
   objc.ObjCObject copyWithZone$1(ffi.Pointer<objc.NSZone> zone) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_1cwp428(
-      _$$ref.pointer,
-      _sel_copyWithZone_,
-      zone,
-    );
-    return objc.ObjCObject($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _$$ref.pointer,
+        _sel_copyWithZone_,
+        zone,
+      );
+      return objc.ObjCObject($ret, retain: false, release: true);
+    });
   }
 
   /// dealloc
   void dealloc() {
     final _$$ref = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
+    });
   }
 
   /// init
@@ -180,89 +213,109 @@ extension RefCountTestObject$Methods on RefCountTestObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// initWithCounter:
   RefCountTestObject initWithCounter(ffi.Pointer<ffi.Int32> _counter) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_129vhbw(
-      _$$ref.retainAndReturnPointer(),
-      _sel_initWithCounter_,
-      _counter,
-    );
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_129vhbw(
+        _$$ref.retainAndReturnPointer(),
+        _sel_initWithCounter_,
+        _counter,
+      );
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// mutableCopyMe
   RefCountTestObject mutableCopyMe() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_mutableCopyMe);
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_mutableCopyMe);
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// retainedProperty
   RefCountTestObject get retainedProperty {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_retainedProperty);
-    return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_retainedProperty);
+      return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// returnsRetained
   RefCountTestObject returnsRetained() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_returnsRetained);
-    return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_returnsRetained);
+      return RefCountTestObject.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// setAssignedProperty:
   set assignedProperty(RefCountTestObject value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setAssignedProperty_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setAssignedProperty_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// setCopiedProperty:
   set copiedProperty(RefCountTestObject value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setCopiedProperty_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setCopiedProperty_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// setCounter:
   void setCounter(ffi.Pointer<ffi.Int32> _counter) {
     final _$$ref = object$.ref;
-    _objc_msgSend_yhkuco(_$$ref.pointer, _sel_setCounter_, _counter);
+    objc.autoReleasePool(() {
+      _objc_msgSend_yhkuco(_$$ref.pointer, _sel_setCounter_, _counter);
+    });
   }
 
   /// setRetainedProperty:
   set retainedProperty(RefCountTestObject value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setRetainedProperty_,
-      _$$ref$1.pointer,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setRetainedProperty_,
+        _$$ref$1.pointer,
+      );
+    });
   }
 
   /// unownedReference
   RefCountTestObject unownedReference() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_unownedReference);
-    return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_unownedReference);
+      return RefCountTestObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
@@ -294,24 +347,30 @@ extension type RefCounted._(objc.ObjCObject object$)
 
   /// alloc
   static RefCounted alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_RefCounted, _sel_alloc);
-    return RefCounted.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_RefCounted, _sel_alloc);
+      return RefCounted.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static RefCounted allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_RefCounted,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return RefCounted.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_RefCounted,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return RefCounted.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static RefCounted new$() {
-    final $ret = _objc_msgSend_151sglz(_class_RefCounted, _sel_new);
-    return RefCounted.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_RefCounted, _sel_new);
+      return RefCounted.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of RefCounted constructed with the default `new` method.
@@ -327,23 +386,29 @@ extension RefCounted$Methods on RefCounted {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return RefCounted.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return RefCounted.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// meAsInt
   int meAsInt() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_meAsInt);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_meAsInt);
+    });
   }
 
   /// refCount
   int get refCount {
     final _$$ref = object$.ref;
-    return _objc_msgSend_9qbz9w(_$$ref.pointer, _sel_refCount);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_9qbz9w(_$$ref.pointer, _sel_refCount);
+    });
   }
 }
 
