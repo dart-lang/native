@@ -225,6 +225,10 @@ class Typealias extends BindingType {
   String? generateRetain(String value) => type.generateRetain(value);
 
   @override
+  String? generateRelease(Context context, String value) =>
+      type.generateRelease(context, value);
+
+  @override
   String getExternCType(Context context, {String varName = ''}) =>
       type.getExternCType(context, varName: varName);
 

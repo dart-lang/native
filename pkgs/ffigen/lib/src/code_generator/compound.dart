@@ -10,6 +10,7 @@ import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -94,20 +95,16 @@ abstract class Compound extends BindingType with HasLocalScope {
     return type is EnumClass && type.effectiveStyle == EnumStyle.dartEnum;
   }
 
-  String _memberStorageName(CompoundMember member) {
-    if (_isEnumDartStyleMember(member)) {
-      return member.name;
-    }
-    return member.type.sameDartAndFfiDartType
-        ? member.name
-        : '${member.name}AsInt';
-  }
+  String _memberStorageName(CompoundMember member) => member.name;
 
   String _memberParameterType(CompoundMember member) {
-    if (_isEnumDartStyleMember(member)) {
-      return member.type.getDartType(context);
+    final type = member.type;
+    // Keep the old output for types where Dart and FFI-Dart types are equal
+    // (e.g. typedefs of int/double).
+    if (type.sameDartAndFfiDartType) {
+      return type.getFfiDartType(context);
     }
-    return member.type.getFfiDartType(context);
+    return type.getDartType(context);
   }
 
   String _generateAllocateMethod(String enclosingClassName, String ffiPrefix) {
@@ -185,7 +182,9 @@ abstract class Compound extends BindingType with HasLocalScope {
     const depth = '  ';
     for (final m in members) {
       s.write(makeDartDoc(m.dartDoc, indent: depth));
+      final String storageMemberName;
       if (m.type case final ConstantArray arrayType) {
+        storageMemberName = m.name;
         s.writeln(makeArrayAnnotation(w, arrayType));
         s.write('${depth}external ${_getInlineArrayTypeString(m.type, w)} ');
         s.write('${m.name};\n\n');
@@ -193,11 +192,14 @@ abstract class Compound extends BindingType with HasLocalScope {
         if (!m.type.sameFfiDartAndCType) {
           s.write('$depth@${m.type.getCType(context)}()\n');
         }
-        final memberName = m.type.sameDartAndFfiDartType
+        storageMemberName = _isEnumDartStyleMember(m)
+            ? '${m.name}AsInt'
+            : m.type.sameDartAndFfiDartType
             ? m.name
-            : '${m.name}AsInt';
+            : localScope.addPrivate('_${m.name}');
         s.write(
-          '${depth}external ${m.type.getFfiDartType(context)} $memberName;\n\n',
+          '${depth}external ${m.type.getFfiDartType(context)} '
+          '$storageMemberName;\n\n',
         );
       }
       if (m.type case EnumClass(
@@ -207,12 +209,43 @@ abstract class Compound extends BindingType with HasLocalScope {
         final memberName = m.name;
         s.write(
           '$enumName get $memberName => '
-          '$enumName.fromValue(${memberName}AsInt);\n',
+          '$enumName.fromValue($storageMemberName);\n',
         );
         s.write(
           'set $memberName($enumName value) => '
-          '${memberName}AsInt = value.value;\n\n',
+          '$storageMemberName = value.value;\n\n',
         );
+      } else if (!m.type.sameDartAndFfiDartType) {
+        final dartType = m.type.getDartType(context);
+        final memberName = m.name;
+        final getValue = m.type.convertFfiDartTypeToDartType(
+          context,
+          storageMemberName,
+          objCRetain: false,
+        );
+        final localVars = LocalVariables(localScope);
+        final setValue = m.type.convertDartTypeToFfiDartType(
+          context,
+          'value',
+          objCRetain: false,
+          objCAutorelease: false,
+          localVariables: localVars,
+        );
+        s.write('$depth$dartType get $memberName => $getValue;\n\n');
+        final declarations = localVars.generateDeclarations();
+        if (declarations.isEmpty) {
+          s.write(
+            '${depth}set $memberName($dartType value) => '
+            '$storageMemberName = $setValue;\n\n',
+          );
+        } else {
+          s.write(
+            '${depth}set $memberName($dartType value) {\n'
+            '$depth  $declarations'
+            '$storageMemberName = $setValue;\n'
+            '$depth}\n\n',
+          );
+        }
       }
     }
     if (_shouldGenerateAllocate()) {

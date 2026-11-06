@@ -91,6 +91,10 @@ class ObjCNullable extends Type {
   String? generateRetain(String value) => child.generateRetain(value);
 
   @override
+  String? generateRelease(Context context, String value) =>
+      child.generateRelease(context, value);
+
+  @override
   String toString() => '$child?';
 
   @override
