@@ -23,8 +23,6 @@ final class _$JArray$Type$<E extends JObject?> extends JType<JArray<E>> {
   @override
   final String signature;
 
-  @override
-  String get name => signature;
 }
 
 extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {

@@ -721,6 +721,7 @@ extension type $name._($_jObject _\$this) implements $implementsClause {
 
 ''');
   }
+
   void _writeTypeClass(ClassDecl node) {
     final name = node.finalName;
     final typeClassName = node.typeClassName;
@@ -738,12 +739,14 @@ extension type $name._($_jObject _\$this) implements $implementsClause {
 
     $_internal
     $_override
-    String get name => r'$internalName';
+    String get className => r'$internalName';
   }
 
   ''');
   }
-}/// Generates the JavaDoc comments.
+}
+
+/// Generates the JavaDoc comments.
 class _DocGenerator extends Visitor<JavaDocComment, void> {
   final StringSink s;
   final int depth;
