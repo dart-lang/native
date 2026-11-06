@@ -68,5 +68,5 @@ Future<void> main(List<String> args) async {
   await library.generateFile(outputFile);
 
   logger.info('Generating Dart extensions');
-  generateDartExtensions(library, envLibrary: minimalLibrary);
+  generateDartExtensions(library);
 }

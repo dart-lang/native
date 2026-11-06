@@ -38,41 +38,11 @@ const globalEnvType = 'GlobalJniEnvStruct';
 const localEnvType = 'JNINativeInterface';
 const jvmType = 'JNIInvokeInterface';
 
-String _cleanType(String type) {
-  const map = {
-    'Dartjboolean': 'DartJBooleanMarker',
-    'Dartjbyte': 'DartJByteMarker',
-    'Dartjchar': 'DartJCharMarker',
-    'Dartjshort': 'DartJShortMarker',
-    'Dartjint': 'DartJIntMarker',
-    'Dartjlong': 'DartJLongMarker',
-    'Dartjfloat': 'DartJFloatMarker',
-    'Dartjdouble': 'DartJDoubleMarker',
-    'JSizeMarker': 'DartJIntMarker',
-  };
-  var result = type;
-  map.forEach((k, v) {
-    result = result.replaceAll(k, v);
-  });
-  return result;
-}
-
 String getCheckedGetter(Context context, Type returnType) {
   const objectPointerGetter = 'objectPointer';
 
   if (returnType is PointerType) {
-    final childName = returnType.child.toString();
-    const markerMap = {
-      'jboolean': 'JBooleanMarker',
-      'jbyte': 'JByteMarker',
-      'jchar': 'JCharMarker',
-      'jshort': 'JShortMarker',
-      'jint': 'JIntMarker',
-      'jlong': 'JLongMarker',
-      'jfloat': 'JFloatMarker',
-      'jdouble': 'JDoubleMarker',
-    };
-    final child = markerMap[childName] ?? returnType.child.getCType(context);
+    final child = returnType.child.getCType(context);
     return 'getPointer<$child>()';
   }
   final cType = returnType.toString();
@@ -108,146 +78,51 @@ String getCheckedGetter(Context context, Type returnType) {
   exit(1);
 }
 
-bool _isPointerType(Type type, Context context) {
-  final dartType = type.getDartType(context);
-  return dartType.startsWith('ffi.Pointer<') || dartType.endsWith('Ptr');
-}
-
-bool _isAllowedNull(String functionName, String paramName) {
-  const allowAllParams = {
-    'DeleteGlobalRef',
-    'NewGlobalRef',
-    'DeleteLocalRef',
-    'NewLocalRef',
-    'DeleteWeakGlobalRef',
-    'NewWeakGlobalRef',
-    'PopLocalFrame',
-    'GetObjectRefType',
-    'IsSameObject',
-  };
-  if (allowAllParams.contains(functionName)) {
-    return true;
-  }
-  if (functionName == 'IsInstanceOf' && paramName == 'obj') {
-    return true;
-  }
-  if ((functionName.startsWith('Set') && functionName.endsWith('Field') ||
-          functionName == 'SetObjectArrayElement') &&
-      paramName == 'val') {
-    return true;
-  }
-  if (functionName == 'NewObjectArray' && paramName == 'initialElement') {
-    return true;
-  }
-  if (functionName == 'DefineClass' &&
-      (paramName == 'loader' || paramName == 'name')) {
-    return true;
-  }
-  if (functionName == 'ThrowNew' && paramName == 'message') {
-    return true;
-  }
-  if (functionName.endsWith('A') && paramName == 'args') {
-    return true;
-  }
-  if (paramName == 'isCopy') {
-    return true;
-  }
-  return false;
-}
-
-String getDartReturnType(Type returnType, String checkedGetter) {
-  if (checkedGetter == 'check()') return 'void';
-  if (checkedGetter == 'boolean') return 'bool';
-  if (checkedGetter == 'integer') return 'DartJIntMarker';
-  if (checkedGetter == 'byte') return 'DartJByteMarker';
-  if (checkedGetter == 'char') return 'DartJCharMarker';
-  if (checkedGetter == 'short') return 'DartJShortMarker';
-  if (checkedGetter == 'long') return 'DartJLongMarker';
-  if (checkedGetter == 'float') return 'DartJFloatMarker';
-  if (checkedGetter == 'doubleFloat') return 'DartJDoubleMarker';
-  if (checkedGetter == 'checkedClassRef') return 'JClassPtr';
-  if (checkedGetter == 'fieldID') return 'JFieldIDPtr';
-  if (checkedGetter == 'methodID') return 'JMethodIDPtr';
-  if (checkedGetter == 'referenceType') return 'JObjectRefType';
-  if (checkedGetter.startsWith('getPointer<')) {
-    final inner = checkedGetter.substring(
-        'getPointer<'.length, checkedGetter.length - '>()'.length);
-    return 'ffi.Pointer<$inner>';
-  }
-  final cType = returnType.toString();
-  if (cType == 'jstring') return 'JStringPtr';
-  if (cType == 'jthrowable') return 'JThrowablePtr';
-  if (cType == 'jclass') return 'JClassPtr';
-  if (cType == 'jobjectArray') return 'JObjectArrayPtr';
-  if (cType == 'jbooleanArray') return 'JBooleanArrayPtr';
-  if (cType == 'jbyteArray') return 'JByteArrayPtr';
-  if (cType == 'jcharArray') return 'JCharArrayPtr';
-  if (cType == 'jshortArray') return 'JShortArrayPtr';
-  if (cType == 'jintArray') return 'JIntArrayPtr';
-  if (cType == 'jlongArray') return 'JLongArrayPtr';
-  if (cType == 'jfloatArray') return 'JFloatArrayPtr';
-  if (cType == 'jdoubleArray') return 'JDoubleArrayPtr';
-  if (cType == 'jarray') return 'JArrayPtr';
-  if (cType == 'jweak') return 'JWeakPtr';
-  return 'JObjectPtr';
-}
-
 String? getGlobalEnvExtensionFunction(
   Context context,
-  CompoundMember member,
-  CompoundMember globalMember, {
+  CompoundMember field,
+  Type? checkedReturnType, {
   required bool isLeaf,
 }) {
-  final globalFieldType = globalMember.type;
-  final memberFieldType = member.type;
-  if (globalFieldType is PointerType &&
-      globalFieldType.child is NativeFunc &&
-      memberFieldType is PointerType &&
-      memberFieldType.child is NativeFunc) {
-    final globalFunc = (globalFieldType.child as NativeFunc).type;
-    final memberFunc = (memberFieldType.child as NativeFunc).type;
-    final checkedReturnType = globalFunc.returnType;
-    final returnType = memberFunc.returnType;
-    final params = globalFunc.parameters;
-    if (params.isNotEmpty && params.first.name.isEmpty) {
+  final fieldType = field.type;
+  if (fieldType is PointerType && fieldType.child is NativeFunc) {
+    final nativeFunc = fieldType.child as NativeFunc;
+    final functionType = nativeFunc.type;
+    final returnType = functionType.returnType;
+    var params = functionType.parameters;
+    if (params.first.name.isEmpty) {
       return null;
     }
 
+    // Remove env parameter
+    params = params.sublist(1);
+
     final signature = params
-        .map((p) => '${_cleanType(p.type.getDartType(context))} ${p.name}')
+        .map((p) => '${p.type.getDartType(context)} ${p.name}')
         .join(', ');
 
-    final dartType = _cleanType(
-        FunctionType(returnType: checkedReturnType, parameters: params)
-            .getDartType(context));
+    final dartType =
+        FunctionType(returnType: checkedReturnType!, parameters: params)
+            .getDartType(context);
     final callArgs = params.map((p) => p.name).join(', ');
     final checkedGetter = getCheckedGetter(context, returnType);
-    final returns = getDartReturnType(returnType, checkedGetter);
-    final nullChecks = [
-      for (final p in params)
-        if (_isPointerType(p.type, context) &&
-            !_isAllowedNull(member.name, p.name))
-          'if (${p.name} == ffi.nullptr) { throw JNullError(); }'
-    ];
+    var returns = returnType.getDartType(context);
+    if (checkedGetter == 'boolean') {
+      returns = 'bool';
+    }
     final leafCall = isLeaf ? 'isLeaf: true' : '';
-    final body = nullChecks.isEmpty
-        ? '=> _${member.name}($callArgs).$checkedGetter;'
-        : '{\n'
-            '${nullChecks.join('\n')}\n'
-            '${returns == 'void' ? '' : 'return '}'
-            '_${member.name}($callArgs).$checkedGetter;\n'
-            '}';
     return '''
-late final _${member.name} =
-  ptr.ref.${member.name}.asFunction<$dartType>($leafCall);\n
-$returns ${member.name}($signature) $body
+late final _${field.name} =
+  ptr.ref.${field.name}.asFunction<$dartType>($leafCall);\n
+$returns ${field.name}($signature) =>
+  _${field.name}($callArgs).$checkedGetter;
 
 ''';
   }
   return null;
 }
 
-void writeDartExtensions(Library library, {Library? envLibrary}) {
+void writeDartExtensions(Library library) {
   const header = '''
 // ignore_for_file: non_constant_identifier_names
 // coverage:ignore-file
@@ -255,13 +130,11 @@ void writeDartExtensions(Library library, {Library? envLibrary}) {
 import 'dart:ffi' as ffi;
 
 import '../accessors.dart';
-import '../errors.dart';
 import 'jni_bindings_generated.dart';
 
 ''';
 
-  final globalEnvExtension =
-      getGlobalEnvExtension(library, envLibrary: envLibrary);
+  final globalEnvExtension = getGlobalEnvExtension(library);
   File.fromUri(Paths.globalEnvExts)
       .writeAsStringSync('$preamble$header$globalEnvExtension');
   final localEnvExtsFile = File.fromUri(Paths.localEnvExts);
@@ -372,28 +245,27 @@ const leafFunctions = {
 };
 
 String getGlobalEnvExtension(
-  Library library, {
-  Library? envLibrary,
-}) {
-  final env = findCompound(envLibrary ?? library, localEnvType);
+  Library library,
+) {
+  final env = findCompound(library, localEnvType);
   final globalEnv = findCompound(library, globalEnvType);
-  final globalMembers = <String, CompoundMember>{};
+  final checkedReturnTypes = <String, Type>{};
   for (var field in globalEnv.members) {
-    globalMembers[field.name] = field;
+    final fieldType = field.type;
+    if (fieldType is PointerType && fieldType.child is NativeFunc) {
+      checkedReturnTypes[field.name] =
+          (fieldType.child as NativeFunc).type.returnType;
+    }
   }
   final extensionFunctions = env.members
       // ignore ones that get va_list
       .where((member) => !member.name.endsWith('V'))
-      .map((member) {
-        final globalMember = globalMembers[member.name];
-        if (globalMember == null) return null;
-        return getGlobalEnvExtensionFunction(
-          library.context,
-          member,
-          globalMember,
-          isLeaf: leafFunctions.contains(member.name),
-        );
-      })
+      .map((member) => getGlobalEnvExtensionFunction(
+            library.context,
+            member,
+            checkedReturnTypes[member.name],
+            isLeaf: leafFunctions.contains(member.name),
+          ))
       .nonNulls
       .join('\n');
   final generatedFunctions =
@@ -478,7 +350,7 @@ class $wrapperClassName {
 ''';
 }
 
-void generateDartExtensions(Library library, {Library? envLibrary}) {
-  writeDartExtensions(library, envLibrary: envLibrary);
+void generateDartExtensions(Library library) {
+  writeDartExtensions(library);
   executeDartFormat([Paths.globalEnvExts, Paths.localEnvExts]);
 }
