@@ -2,8 +2,6 @@
 
 - Add defensive null checks on method receiver objects and field targets to
   prevent native segfaults in ART.
-- Safely handle null exception details and null `toString()` in exception
-  handling.
 
 ## 1.1.2
 
