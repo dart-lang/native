@@ -38,6 +38,25 @@ const globalEnvType = 'GlobalJniEnvStruct';
 const localEnvType = 'JNINativeInterface';
 const jvmType = 'JNIInvokeInterface';
 
+String _cleanType(String type) {
+  const map = {
+    'Dartjboolean': 'DartJBooleanMarker',
+    'Dartjbyte': 'DartJByteMarker',
+    'Dartjchar': 'DartJCharMarker',
+    'Dartjshort': 'DartJShortMarker',
+    'Dartjint': 'DartJIntMarker',
+    'Dartjlong': 'DartJLongMarker',
+    'Dartjfloat': 'DartJFloatMarker',
+    'Dartjdouble': 'DartJDoubleMarker',
+    'JSizeMarker': 'DartJIntMarker',
+  };
+  var result = type;
+  map.forEach((k, v) {
+    result = result.replaceAll(k, v);
+  });
+  return result;
+}
+
 String getCheckedGetter(Context context, Type returnType) {
   const objectPointerGetter = 'objectPointer';
 
@@ -139,13 +158,13 @@ bool _isAllowedNull(String functionName, String paramName) {
 String getDartReturnType(Type returnType, String checkedGetter) {
   if (checkedGetter == 'check()') return 'void';
   if (checkedGetter == 'boolean') return 'bool';
-  if (checkedGetter == 'integer') return 'Dartjint';
-  if (checkedGetter == 'byte') return 'Dartjbyte';
-  if (checkedGetter == 'char') return 'Dartjchar';
-  if (checkedGetter == 'short') return 'Dartjshort';
-  if (checkedGetter == 'long') return 'Dartjlong';
-  if (checkedGetter == 'float') return 'Dartjfloat';
-  if (checkedGetter == 'doubleFloat') return 'Dartjdouble';
+  if (checkedGetter == 'integer') return 'DartJIntMarker';
+  if (checkedGetter == 'byte') return 'DartJByteMarker';
+  if (checkedGetter == 'char') return 'DartJCharMarker';
+  if (checkedGetter == 'short') return 'DartJShortMarker';
+  if (checkedGetter == 'long') return 'DartJLongMarker';
+  if (checkedGetter == 'float') return 'DartJFloatMarker';
+  if (checkedGetter == 'doubleFloat') return 'DartJDoubleMarker';
   if (checkedGetter == 'checkedClassRef') return 'JClassPtr';
   if (checkedGetter == 'fieldID') return 'JFieldIDPtr';
   if (checkedGetter == 'methodID') return 'JMethodIDPtr';
@@ -195,12 +214,12 @@ String? getGlobalEnvExtensionFunction(
     }
 
     final signature = params
-        .map((p) => '${p.type.getDartType(context)} ${p.name}')
+        .map((p) => '${_cleanType(p.type.getDartType(context))} ${p.name}')
         .join(', ');
 
-    final dartType =
+    final dartType = _cleanType(
         FunctionType(returnType: checkedReturnType, parameters: params)
-            .getDartType(context);
+            .getDartType(context));
     final callArgs = params.map((p) => p.name).join(', ');
     final checkedGetter = getCheckedGetter(context, returnType);
     final returns = getDartReturnType(returnType, checkedGetter);
