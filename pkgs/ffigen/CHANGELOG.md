@@ -1,5 +1,8 @@
 ## 23.0.1-wip
 
+- Fix [a bug](https://github.com/dart-lang/native/issues/2850) where struct
+  members were incorrectly renamed with a `$1` suffix when a top-level function
+  in the same bindings had the same name.
 - Use minor and patch versions of Apple deployment targets from
   `package:code_assets` 2.2.0 when compiling native test utilities.
 

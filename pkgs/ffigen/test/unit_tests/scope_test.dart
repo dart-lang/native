@@ -147,5 +147,26 @@ void main() {
       expect(childSymbol.name, 'bar\$2');
       expect(uncleSymbol.name, 'bar');
     });
+    test('inheritParentNames', () {
+      final root = Scope.createRoot('root');
+      final childWithInherit = root.addChild('childWithInherit');
+      final childWithoutInherit = root.addChild(
+        'childWithoutInherit',
+        inheritParentNames: false,
+      );
+
+      final rootSymbol = Symbol('foo', SymbolKind.field);
+      final inheritSymbol = Symbol('foo', SymbolKind.field);
+      final noInheritSymbol = Symbol('foo', SymbolKind.field);
+
+      root.add(rootSymbol);
+      childWithInherit.add(inheritSymbol);
+      childWithoutInherit.add(noInheritSymbol);
+
+      root.fillNames();
+      expect(rootSymbol.name, 'foo');
+      expect(inheritSymbol.name, 'foo\$1');
+      expect(noInheritSymbol.name, 'foo');
+    });
   });
 }
