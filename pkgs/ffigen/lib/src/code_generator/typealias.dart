@@ -44,18 +44,30 @@ class Typealias extends BindingType {
     bool genFfiDartType = false,
     bool isInternal = false,
   }) {
-    final funcType = _getFunctionTypeFromPointer(type);
-    if (funcType != null) {
+    final funcTypeFromPointer = _getFunctionTypeFromPointer(type);
+    if (funcTypeFromPointer != null) {
       type = PointerType(
         NativeFunc(
+          Typealias._(
+            name: '${name}Function',
+            type: funcTypeFromPointer,
+            genFfiDartType: genFfiDartType,
+            isInternal: isInternal,
+          ),
+        ),
+      );
+    } else {
+      final funcType = _getFunctionType(type);
+      if (funcType != null) {
+        type = NativeFunc(
           Typealias._(
             name: '${name}Function',
             type: funcType,
             genFfiDartType: genFfiDartType,
             isInternal: isInternal,
           ),
-        ),
-      );
+        );
+      }
     }
     if ((originalName ?? name) == strings.objcInstanceType &&
         type is ObjCObjectPointer) {
@@ -111,11 +123,16 @@ class Typealias extends BindingType {
            : null,
        super(name: genFfiDartType ? 'Native$name' : name);
 
+  static FunctionType? _getFunctionType(Type type) {
+    if (type is! NativeFunc) return null;
+    final inner = type.innerType;
+    if (inner is! FunctionType) return null;
+    return inner;
+  }
+
   static FunctionType? _getFunctionTypeFromPointer(Type type) {
     if (type is! PointerType) return null;
-    final pointee = type.child;
-    if (pointee is! NativeFunc) return null;
-    return pointee.type;
+    return _getFunctionType(type.child);
   }
 
   @override

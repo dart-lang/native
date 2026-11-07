@@ -1,5 +1,7 @@
-## 23.0.1-wip
+## 23.1.0-wip
 
+- When generating typedefs for `NativeFunction<Function>`, also generate a
+  companion typedef for the `Function` (fixes #944).
 - Use minor and patch versions of Apple deployment targets from
   `package:code_assets` 2.2.0 when compiling native test utilities.
 

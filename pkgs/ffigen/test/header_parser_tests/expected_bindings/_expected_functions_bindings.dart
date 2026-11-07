@@ -145,7 +145,6 @@ class _SymbolAddresses {
   get func4 => _library._func4Ptr;
 }
 
-typedef shortHand =
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> b)
-    >;
+typedef shortHand = ffi.NativeFunction<shortHandFunction>;
+typedef shortHandFunction =
+    ffi.Void Function(ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> b);
