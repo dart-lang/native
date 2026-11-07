@@ -139,6 +139,11 @@ final class $EmojiCompat$CodepointSequenceMatchResult$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/EmojiCompat$CodepointSequenceMatchResult;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'androidx/emoji2/text/EmojiCompat$CodepointSequenceMatchResult';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$Config`
@@ -443,6 +448,10 @@ final class $EmojiCompat$Config$Type$ extends jni$_.JType<EmojiCompat$Config> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$Config;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/EmojiCompat$Config';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$DefaultSpanFactory`
@@ -520,6 +529,11 @@ final class $EmojiCompat$DefaultSpanFactory$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/EmojiCompat$DefaultSpanFactory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'androidx/emoji2/text/EmojiCompat$DefaultSpanFactory';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$GlyphChecker`
@@ -690,6 +704,10 @@ final class $EmojiCompat$GlyphChecker$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$GlyphChecker;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/EmojiCompat$GlyphChecker';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$InitCallback`
@@ -763,6 +781,10 @@ final class $EmojiCompat$InitCallback$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$InitCallback;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/EmojiCompat$InitCallback';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$LoadStrategy`
@@ -862,6 +884,10 @@ final class $EmojiCompat$LoadStrategy$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$LoadStrategy;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/EmojiCompat$LoadStrategy';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$MetadataRepoLoader`
@@ -1026,6 +1052,11 @@ final class $EmojiCompat$MetadataRepoLoader$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'androidx/emoji2/text/EmojiCompat$MetadataRepoLoader';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback`
@@ -1105,6 +1136,11 @@ final class $EmojiCompat$MetadataRepoLoaderCallback$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'androidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$ReplaceStrategy`
@@ -1205,6 +1241,10 @@ final class $EmojiCompat$ReplaceStrategy$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$ReplaceStrategy;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/EmojiCompat$ReplaceStrategy';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat$SpanFactory`
@@ -1360,6 +1400,10 @@ final class $EmojiCompat$SpanFactory$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat$SpanFactory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/EmojiCompat$SpanFactory';
 }
 
 /// from: `androidx.emoji2.text.EmojiCompat`
@@ -2249,6 +2293,10 @@ final class $EmojiCompat$Type$ extends jni$_.JType<EmojiCompat> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/EmojiCompat;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/EmojiCompat';
 }
 
 /// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory`
@@ -2333,6 +2381,11 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'androidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory';
 }
 
 /// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper`
@@ -2500,6 +2553,11 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'androidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper';
 }
 
 /// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19`
@@ -2628,6 +2686,11 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'androidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19';
 }
 
 /// from: `androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28`
@@ -2721,6 +2784,11 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'androidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28';
 }
 
 /// from: `androidx.emoji2.text.DefaultEmojiCompatConfig`
@@ -2768,6 +2836,10 @@ final class $DefaultEmojiCompatConfig$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/DefaultEmojiCompatConfig;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/DefaultEmojiCompatConfig';
 }
 
 /// from: `android.os.Build$Partition`
@@ -2923,6 +2995,10 @@ final class $Build$Partition$Type$ extends jni$_.JType<Build$Partition> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/os/Build$Partition;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/os/Build$Partition';
 }
 
 /// from: `android.os.Build$VERSION`
@@ -3082,6 +3158,10 @@ final class $Build$VERSION$Type$ extends jni$_.JType<Build$VERSION> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/os/Build$VERSION;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/os/Build$VERSION';
 }
 
 /// from: `android.os.Build$VERSION_CODES`
@@ -3236,6 +3316,10 @@ final class $Build$VERSION_CODES$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/os/Build$VERSION_CODES;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/os/Build$VERSION_CODES';
 }
 
 /// from: `android.os.Build$VERSION_CODES_FULL`
@@ -3365,6 +3449,10 @@ final class $Build$VERSION_CODES_FULL$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/os/Build$VERSION_CODES_FULL;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/os/Build$VERSION_CODES_FULL';
 }
 
 /// from: `android.os.Build`
@@ -3816,6 +3904,10 @@ final class $Build$Type$ extends jni$_.JType<Build> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/os/Build;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/os/Build';
 }
 
 /// from: `com.example.in_app_java.AndroidUtils`
@@ -3871,6 +3963,10 @@ final class $AndroidUtils$Type$ extends jni$_.JType<AndroidUtils> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/in_app_java/AndroidUtils;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/example/in_app_java/AndroidUtils';
 }
 
 /// from: `android.content.Context`
@@ -3889,6 +3985,10 @@ final class $Context$Type$ extends jni$_.JType<Context> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/content/Context;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/content/Context';
 }
 
 /// from: `java.lang.CharSequence`
@@ -3907,6 +4007,10 @@ final class $CharSequence$Type$ extends jni$_.JType<CharSequence> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/CharSequence;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/CharSequence';
 }
 
 /// from: `android.text.Editable`
@@ -3925,6 +4029,10 @@ final class $Editable$Type$ extends jni$_.JType<Editable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/text/Editable;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/text/Editable';
 }
 
 /// from: `android.view.KeyEvent`
@@ -3943,6 +4051,10 @@ final class $KeyEvent$Type$ extends jni$_.JType<KeyEvent> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/view/KeyEvent;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/view/KeyEvent';
 }
 
 /// from: `android.view.inputmethod.InputConnection`
@@ -3962,6 +4074,10 @@ final class $InputConnection$Type$ extends jni$_.JType<InputConnection> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/view/inputmethod/InputConnection;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/view/inputmethod/InputConnection';
 }
 
 /// from: `android.view.inputmethod.EditorInfo`
@@ -3980,6 +4096,10 @@ final class $EditorInfo$Type$ extends jni$_.JType<EditorInfo> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/view/inputmethod/EditorInfo;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/view/inputmethod/EditorInfo';
 }
 
 /// from: `java.lang.annotation.Annotation`
@@ -3998,6 +4118,10 @@ final class $Annotation$Type$ extends jni$_.JType<Annotation> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/annotation/Annotation;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/annotation/Annotation';
 }
 
 /// from: `androidx.emoji2.text.EmojiSpan`
@@ -4016,6 +4140,10 @@ final class $EmojiSpan$Type$ extends jni$_.JType<EmojiSpan> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/EmojiSpan;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/EmojiSpan';
 }
 
 /// from: `androidx.emoji2.text.TypefaceEmojiRasterizer`
@@ -4037,6 +4165,10 @@ final class $TypefaceEmojiRasterizer$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/TypefaceEmojiRasterizer;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/TypefaceEmojiRasterizer';
 }
 
 /// from: `java.lang.Throwable`
@@ -4055,6 +4187,10 @@ final class $Throwable$Type$ extends jni$_.JType<Throwable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Throwable;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Throwable';
 }
 
 /// from: `androidx.emoji2.text.MetadataRepo`
@@ -4073,6 +4209,10 @@ final class $MetadataRepo$Type$ extends jni$_.JType<MetadataRepo> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroidx/emoji2/text/MetadataRepo;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/MetadataRepo';
 }
 
 /// from: `androidx.emoji2.text.FontRequestEmojiCompatConfig`
@@ -4095,6 +4235,10 @@ final class $FontRequestEmojiCompatConfig$Type$
   @core$_.override
   String get signature =>
       r'Landroidx/emoji2/text/FontRequestEmojiCompatConfig;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'androidx/emoji2/text/FontRequestEmojiCompatConfig';
 }
 
 /// from: `android.content.pm.Signature`
@@ -4113,6 +4257,10 @@ final class $Signature$Type$ extends jni$_.JType<Signature> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/content/pm/Signature;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/content/pm/Signature';
 }
 
 /// from: `android.content.pm.PackageManager`
@@ -4131,6 +4279,10 @@ final class $PackageManager$Type$ extends jni$_.JType<PackageManager> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/content/pm/PackageManager;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/content/pm/PackageManager';
 }
 
 /// from: `android.content.pm.ResolveInfo`
@@ -4149,6 +4301,10 @@ final class $ResolveInfo$Type$ extends jni$_.JType<ResolveInfo> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/content/pm/ResolveInfo;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/content/pm/ResolveInfo';
 }
 
 /// from: `android.content.Intent`
@@ -4167,6 +4323,10 @@ final class $Intent$Type$ extends jni$_.JType<Intent> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/content/Intent;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/content/Intent';
 }
 
 /// from: `android.content.pm.ProviderInfo`
@@ -4185,6 +4345,10 @@ final class $ProviderInfo$Type$ extends jni$_.JType<ProviderInfo> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/content/pm/ProviderInfo;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/content/pm/ProviderInfo';
 }
 
 /// from: `android.app.Activity`
@@ -4203,4 +4367,8 @@ final class $Activity$Type$ extends jni$_.JType<Activity> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/app/Activity;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'android/app/Activity';
 }

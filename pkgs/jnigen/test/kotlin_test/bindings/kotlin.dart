@@ -183,6 +183,10 @@ final class $CanDoA$Type$ extends jni$_.JType<CanDoA> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/CanDoA;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/CanDoA';
 }
 
 /// from: `com.github.dart_lang.jnigen.CanDoB`
@@ -326,6 +330,10 @@ final class $CanDoB$Type$ extends jni$_.JType<CanDoB> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/CanDoB;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/CanDoB';
 }
 
 /// from: `com.github.dart_lang.jnigen.Measure`
@@ -421,6 +429,10 @@ final class $Measure$Type$ extends jni$_.JType<Measure> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Measure;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/Measure';
 }
 
 /// from: `com.github.dart_lang.jnigen.MeasureUnit`
@@ -601,6 +613,10 @@ final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/MeasureUnit;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/MeasureUnit';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAllClassesWrapper$Companion`
@@ -681,6 +697,11 @@ final class $NIAllClassesWrapper$Companion$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIAllClassesWrapper$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIAllClassesWrapper$Companion';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAllClassesWrapper`
@@ -1378,6 +1399,10 @@ final class $NIAllClassesWrapper$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NIAllClassesWrapper;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NIAllClassesWrapper';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAllNullableTypes$Companion`
@@ -1458,6 +1483,11 @@ final class $NIAllNullableTypes$Companion$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIAllNullableTypes$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIAllNullableTypes$Companion';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAllNullableTypes`
@@ -3757,6 +3787,10 @@ final class $NIAllNullableTypes$Type$ extends jni$_.JType<NIAllNullableTypes> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NIAllNullableTypes;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NIAllNullableTypes';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAllNullableTypesWithoutRecursion$Companion`
@@ -3837,6 +3871,11 @@ final class $NIAllNullableTypesWithoutRecursion$Companion$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIAllNullableTypesWithoutRecursion$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIAllNullableTypesWithoutRecursion$Companion';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAllNullableTypesWithoutRecursion`
@@ -5985,6 +6024,11 @@ final class $NIAllNullableTypesWithoutRecursion$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIAllNullableTypesWithoutRecursion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIAllNullableTypesWithoutRecursion';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAllTypes$Companion`
@@ -6062,6 +6106,10 @@ final class $NIAllTypes$Companion$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NIAllTypes$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NIAllTypes$Companion';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAllTypes`
@@ -7907,6 +7955,10 @@ final class $NIAllTypes$Type$ extends jni$_.JType<NIAllTypes> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NIAllTypes;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NIAllTypes';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAnEnum$Companion`
@@ -7980,6 +8032,10 @@ final class $NIAnEnum$Companion$Type$ extends jni$_.JType<NIAnEnum$Companion> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NIAnEnum$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NIAnEnum$Companion';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAnEnum`
@@ -8156,6 +8212,10 @@ final class $NIAnEnum$Type$ extends jni$_.JType<NIAnEnum> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NIAnEnum;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NIAnEnum';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAnotherEnum$Companion`
@@ -8232,6 +8292,11 @@ final class $NIAnotherEnum$Companion$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIAnotherEnum$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIAnotherEnum$Companion';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIAnotherEnum`
@@ -8372,6 +8437,10 @@ final class $NIAnotherEnum$Type$ extends jni$_.JType<NIAnotherEnum> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NIAnotherEnum;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NIAnotherEnum';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIFlutterIntegrationCoreApi`
@@ -15652,6 +15721,11 @@ final class $NIFlutterIntegrationCoreApi$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIFlutterIntegrationCoreApi;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIFlutterIntegrationCoreApi';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIFlutterIntegrationCoreApiRegistrar`
@@ -15765,6 +15839,11 @@ final class $NIFlutterIntegrationCoreApiRegistrar$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIFlutterIntegrationCoreApiRegistrar;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIFlutterIntegrationCoreApiRegistrar';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIHostIntegrationCoreApi`
@@ -25352,6 +25431,11 @@ final class $NIHostIntegrationCoreApi$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIHostIntegrationCoreApi;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIHostIntegrationCoreApi';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIHostIntegrationCoreApiRegistrar`
@@ -35089,6 +35173,11 @@ final class $NIHostIntegrationCoreApiRegistrar$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIHostIntegrationCoreApiRegistrar;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIHostIntegrationCoreApiRegistrar';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIUnusedClass$Companion`
@@ -35167,6 +35256,11 @@ final class $NIUnusedClass$Companion$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/NIUnusedClass$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/NIUnusedClass$Companion';
 }
 
 /// from: `com.github.dart_lang.jnigen.NIUnusedClass`
@@ -35462,6 +35556,10 @@ final class $NIUnusedClass$Type$ extends jni$_.JType<NIUnusedClass> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NIUnusedClass;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NIUnusedClass';
 }
 
 /// from: `com.github.dart_lang.jnigen.NiTestsError`
@@ -35648,6 +35746,10 @@ final class $NiTestsError$Type$ extends jni$_.JType<NiTestsError> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/NiTestsError;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/NiTestsError';
 }
 
 /// from: `com.github.dart_lang.jnigen.Nullability$InnerClass`
@@ -35742,6 +35844,10 @@ final class $Nullability$InnerClass$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/Nullability$InnerClass;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/Nullability$InnerClass';
 }
 
 /// from: `com.github.dart_lang.jnigen.Nullability`
@@ -36512,6 +36618,10 @@ final class $Nullability$Type$ extends jni$_.JType<Nullability> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Nullability;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/Nullability';
 }
 
 /// from: `com.github.dart_lang.jnigen.Operators`
@@ -36878,6 +36988,10 @@ final class $Operators$Type$ extends jni$_.JType<Operators> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Operators;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/Operators';
 }
 
 final _Regress3235KtClass =
@@ -37200,6 +37314,10 @@ final class $Speed$Type$ extends jni$_.JType<Speed> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/Speed;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/Speed';
 }
 
 /// from: `com.github.dart_lang.jnigen.SpeedUnit`
@@ -37365,6 +37483,10 @@ final class $SpeedUnit$Type$ extends jni$_.JType<SpeedUnit> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SpeedUnit;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/SpeedUnit';
 }
 
 /// from: `com.github.dart_lang.jnigen.SuspendFun`
@@ -37923,6 +38045,10 @@ final class $SuspendFun$Type$ extends jni$_.JType<SuspendFun> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SuspendFun;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/SuspendFun';
 }
 
 final _SuspendFunKtClass =
@@ -38755,6 +38881,10 @@ final class $SuspendInterface$Type$ extends jni$_.JType<SuspendInterface> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/SuspendInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/SuspendInterface';
 }
 
 final _TopLevelKtClass =
@@ -38945,6 +39075,10 @@ final class $DefaultConstructorMarker$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lkotlin/jvm/internal/DefaultConstructorMarker;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'kotlin/jvm/internal/DefaultConstructorMarker';
 }
 
 /// from: `java.lang.Enum`
@@ -38963,6 +39097,10 @@ final class $Enum$Type$ extends jni$_.JType<Enum> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Enum;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Enum';
 }
 
 /// from: `kotlin.enums.EnumEntries`
@@ -38981,6 +39119,10 @@ final class $EnumEntries$Type$ extends jni$_.JType<EnumEntries> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lkotlin/enums/EnumEntries;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'kotlin/enums/EnumEntries';
 }
 
 /// from: `kotlin.coroutines.Continuation`
@@ -38999,6 +39141,10 @@ final class $Continuation$Type$ extends jni$_.JType<Continuation> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lkotlin/coroutines/Continuation;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'kotlin/coroutines/Continuation';
 }
 
 /// from: `kotlin.Unit`
@@ -39017,6 +39163,10 @@ final class $Unit$Type$ extends jni$_.JType<Unit> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lkotlin/Unit;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'kotlin/Unit';
 }
 
 /// from: `java.lang.Throwable`
@@ -39035,4 +39185,8 @@ final class $Throwable$Type$ extends jni$_.JType<Throwable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Throwable;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Throwable';
 }

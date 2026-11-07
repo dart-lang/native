@@ -70,4 +70,8 @@ final class $Calendar$Type$ extends jni$_.JType<Calendar> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/Calendar;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/Calendar';
 }

@@ -70,4 +70,8 @@ final class $PDPageTree$Type$ extends jni$_.JType<PDPageTree> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/pdmodel/PDPageTree;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'org/apache/pdfbox/pdmodel/PDPageTree';
 }

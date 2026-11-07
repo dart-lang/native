@@ -822,4 +822,8 @@ final class $PDDocumentInformation$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'org/apache/pdfbox/pdmodel/PDDocumentInformation';
 }

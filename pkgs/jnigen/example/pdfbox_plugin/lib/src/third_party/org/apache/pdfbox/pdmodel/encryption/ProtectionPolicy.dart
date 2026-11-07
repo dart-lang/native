@@ -72,4 +72,9 @@ final class $ProtectionPolicy$Type$ extends jni$_.JType<ProtectionPolicy> {
   @core$_.override
   String get signature =>
       r'Lorg/apache/pdfbox/pdmodel/encryption/ProtectionPolicy;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'org/apache/pdfbox/pdmodel/encryption/ProtectionPolicy';
 }

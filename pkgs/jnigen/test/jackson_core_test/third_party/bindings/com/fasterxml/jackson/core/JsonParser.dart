@@ -642,6 +642,10 @@ final class $JsonParser$Feature$Type$ extends jni$_.JType<JsonParser$Feature> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$Feature;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonParser$Feature';
 }
 
 /// from: `com.fasterxml.jackson.core.JsonParser$NumberType`
@@ -785,6 +789,10 @@ final class $JsonParser$NumberType$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonParser$NumberType';
 }
 
 /// from: `com.fasterxml.jackson.core.JsonParser`
@@ -4666,4 +4674,8 @@ final class $JsonParser$Type$ extends jni$_.JType<JsonParser> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonParser;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonParser';
 }

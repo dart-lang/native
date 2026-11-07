@@ -69,4 +69,8 @@ final class $Base64Variant$Type$ extends jni$_.JType<Base64Variant> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/Base64Variant;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/Base64Variant';
 }

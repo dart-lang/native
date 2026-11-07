@@ -69,4 +69,8 @@ final class $URL$Type$ extends jni$_.JType<URL> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/net/URL;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/net/URL';
 }

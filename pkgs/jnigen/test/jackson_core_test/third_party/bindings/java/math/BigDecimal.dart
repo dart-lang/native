@@ -69,4 +69,8 @@ final class $BigDecimal$Type$ extends jni$_.JType<BigDecimal> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/math/BigDecimal;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/math/BigDecimal';
 }

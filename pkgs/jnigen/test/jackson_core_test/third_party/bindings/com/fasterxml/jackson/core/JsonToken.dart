@@ -574,4 +574,8 @@ final class $JsonToken$Type$ extends jni$_.JType<JsonToken> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonToken';
 }
