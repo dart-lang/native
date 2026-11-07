@@ -11,5 +11,6 @@
 library;
 
 export 'src/config/config.dart';
+export 'src/elements/api_dumper.dart';
 export 'src/elements/j_elements.dart';
 export 'src/generate_bindings.dart';

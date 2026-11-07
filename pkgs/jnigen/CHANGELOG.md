@@ -1,3 +1,7 @@
+## 1.1.0-wip
+
+- Add `dumpApi` utility and `ApiDumperVisitor` to dump parsed Java AST.
+
 ## 1.0.1
 
 - The YAML configuration format is deprecated and will be removed in a future release.
