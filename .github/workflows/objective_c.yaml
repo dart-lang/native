@@ -129,6 +129,12 @@ jobs:
         run: flutter build macos
       - name: Build the example app for ios
         run: flutter build ios --no-codesign
+      - name: Run integration tests on iOS Simulator
+        run: |
+          UDID=$(xcrun simctl create "Test iPhone" "iPhone 16" "iOS ${{ matrix.ios_version }}")
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          flutter test integration_test/objective_c_test.dart -d "$UDID"
       - name: Check for xcode for analyzer warnings
         run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES
 

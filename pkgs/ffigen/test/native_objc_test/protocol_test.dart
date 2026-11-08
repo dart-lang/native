@@ -415,7 +415,7 @@ void main() {
 
       expect(bindings, isNot(contains('FilteredUnusedProtocol')));
       expect(bindings, isNot(contains('filteredUnusedProtocolMethod')));
-    });
+    }, skip: !Platform.isMacOS);
 
     test('Unused protocol', () {
       // Regression test for https://github.com/dart-lang/native/issues/1672.
