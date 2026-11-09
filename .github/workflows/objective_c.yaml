@@ -102,10 +102,8 @@ jobs:
         include:
           - runner: "macos-15"
             xcode_version: "16.4"
-            ios_version: "18.5"
           - runner: "macos-latest"
             xcode_version: "26.3"
-            ios_version: "26.3"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -122,7 +120,8 @@ jobs:
       - name: Install iOS SDK
         run: |
           xcrun simctl list > /dev/null  # Wakes up and initializes the CoreSimulator daemon
-          xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
+          xcodebuild -downloadPlatform iOS
+          xcrun simctl list runtimes
       - name: Install dependencies
         run: flutter pub get
       - name: Build the example app for macos
@@ -131,7 +130,7 @@ jobs:
         run: flutter build ios --no-codesign
       - name: Run integration tests on iOS Simulator
         run: |
-          UDID=$(xcrun simctl create "Test iPhone" "iPhone 16" "iOS${{ matrix.ios_version }}")
+          UDID=$(xcrun simctl create "Test iPhone" "iPhone 16")
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
           flutter test integration_test/objective_c_test.dart -d "$UDID"
