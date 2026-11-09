@@ -130,6 +130,7 @@ jobs:
       - name: Build the example app for ios
         run: flutter build ios --no-codesign
       - name: Run integration tests on iOS Simulator
+        if: matrix.runner != 'macos-15'
         run: |
           UDID=$(xcrun simctl create "Test iPhone" "iPhone 16" "iOS${{ matrix.ios_version }}")
           xcrun simctl boot "$UDID"
