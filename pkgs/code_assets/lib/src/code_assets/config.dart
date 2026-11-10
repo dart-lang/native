@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:hooks/hooks.dart';
+import 'package:meta/meta.dart';
 
 import 'apple_version.dart';
 import 'architecture.dart';
@@ -37,6 +38,99 @@ extension HookConfigCodeConfig on HookConfig {
   bool get buildCodeAssets => buildAssetTypes.contains(CodeAssetType.type);
 }
 
+/// Extension to the [DoctorConfig] providing access to configuration specific
+/// to code assets (only available if code assets are supported).
+@experimental
+extension DoctorConfigCodeConfig on DoctorConfig {
+  /// Code asset specific configuration for `hook/doctor.dart`.
+  ///
+  /// Only available if [buildCodeAssets] is true.
+  DoctorCodeConfigs get code {
+    if (!buildCodeAssets) {
+      throw StateError(
+        'DoctorConfig.code should only be accessed when building code assets. '
+        'Check DoctorConfig.buildCodeAssets '
+        '(e.g. `input.config.buildCodeAssets`) '
+        'before accessing DoctorConfig.code.',
+      );
+    }
+    return DoctorCodeConfigs._fromJson(json, path);
+  }
+
+  /// Whether the hook invoker (e.g. the Dart or Flutter SDK) expects this
+  /// workspace to build code assets.
+  bool get buildCodeAssets => buildAssetTypes.contains(CodeAssetType.type);
+}
+
+/// The configuration for [CodeAsset]s in [DoctorConfig].
+///
+/// Available via [DoctorConfigCodeConfig.code].
+@experimental
+final class DoctorCodeConfigs {
+  final DoctorCodeConfigsSyntax _syntax;
+
+  DoctorCodeConfigs._fromJson(Map<String, Object?> json, List<Object> path)
+    : _syntax = DoctorConfigSyntax.fromJson(
+        json,
+        path: path,
+      ).extensions!.codeAssets!;
+
+  /// The [DoctorCodeConfig]s for all target OS and architecture combinations
+  /// that the invoking SDK (`dart` or `flutter`) can target.
+  List<DoctorCodeConfig> get configs => [
+    for (final c in _syntax.configs) DoctorCodeConfig._(c),
+  ];
+}
+
+/// The configuration for a single target in [DoctorCodeConfigs.configs].
+///
+/// Extended by [CodeConfig] so toolchain-resolution logic can be shared
+/// between `hook/build.dart`, `hook/link.dart`, and `hook/doctor.dart`.
+@experimental
+class DoctorCodeConfig {
+  final DoctorCodeConfigSyntax _syntax;
+
+  DoctorCodeConfig._(this._syntax);
+
+  /// Constructs a new [DoctorCodeConfig].
+  DoctorCodeConfig({
+    required Architecture targetArchitecture,
+    required OS targetOS,
+    CCompilerConfig? cCompiler,
+    DoctorIOSCodeConfig? iOS,
+  }) : _syntax = DoctorCodeConfigSyntax(
+         targetArchitecture: targetArchitecture.toSyntax(),
+         targetOs: targetOS.toSyntax(),
+         cCompiler: cCompiler?.toSyntax(),
+         iOS: iOS?.toSyntax(),
+       );
+
+  /// The architecture the code code asset should be built for.
+  ///
+  /// The build and link hooks are invoked once per [targetArchitecture]. If the
+  /// invoker produces multi-architecture applications, the invoker is
+  /// responsible for combining the [CodeAsset]s for individual architectures
+  /// into a universal binary. So, the build and link hook implementations are
+  /// not responsible for providing universal binaries.
+  Architecture get targetArchitecture =>
+      ArchitectureSyntaxExtension.fromSyntax(_syntax.targetArchitecture);
+
+  /// A compiler toolchain able to target [targetOS] with [targetArchitecture].
+  CCompilerConfig? get cCompiler => switch (_syntax.cCompiler) {
+    null => null,
+    final c => CCompilerConfigSyntaxExtension.fromSyntax(c),
+  };
+
+  /// The operating system being compiled for.
+  OS get targetOS => OSSyntaxExtension.fromSyntax(_syntax.targetOs);
+
+  /// Configuration provided when [DoctorCodeConfig.targetOS] is [OS.iOS].
+  DoctorIOSCodeConfig get iOS => switch (_syntax.iOS) {
+    null => throw StateError('Cannot access iOSConfig if targetOS is not iOS.'),
+    final c => DoctorIOSCodeConfig._(c),
+  };
+}
+
 /// Extension to the [LinkInput] providing access to configuration specific to
 /// code assets as well as code asset inputs to the linker (only available if
 /// code assets are supported).
@@ -57,34 +151,17 @@ extension LinkInputCodeAssets on LinkInputAssets {
 /// The configuration for [CodeAsset]s in [HookConfig].
 ///
 /// Available via [HookConfigCodeConfig.code].
-final class CodeConfig {
-  final CodeConfigSyntax _syntax;
+final class CodeConfig extends DoctorCodeConfig {
+  CodeConfigSyntax get _codeSyntax => _syntax as CodeConfigSyntax;
 
   CodeConfig._fromJson(Map<String, Object?> json, List<Object> path)
-    : _syntax = ConfigSyntax.fromJson(json, path: path).extensions!.codeAssets!;
-
-  /// The architecture the code code asset should be built for.
-  ///
-  /// The build and link hooks are invoked once per [targetArchitecture]. If the
-  /// invoker produces multi-architecture applications, the invoker is
-  /// responsible for combining the [CodeAsset]s for individual architectures
-  /// into a universal binary. So, the build and link hook implementations are
-  /// not responsible for providing universal binaries.
-  Architecture get targetArchitecture =>
-      ArchitectureSyntaxExtension.fromSyntax(_syntax.targetArchitecture);
+    : super._(ConfigSyntax.fromJson(json, path: path).extensions!.codeAssets!);
 
   /// The preferred link for [CodeAsset]s.
   LinkModePreference get linkModePreference =>
-      LinkModePreferenceSyntaxExtension.fromSyntax(_syntax.linkModePreference);
-
-  /// A compiler toolchain able to target [targetOS] with [targetArchitecture].
-  CCompilerConfig? get cCompiler => switch (_syntax.cCompiler) {
-    null => null,
-    final c => CCompilerConfigSyntaxExtension.fromSyntax(c),
-  };
-
-  /// The operating system being compiled for.
-  OS get targetOS => OSSyntaxExtension.fromSyntax(_syntax.targetOs);
+      LinkModePreferenceSyntaxExtension.fromSyntax(
+        _codeSyntax.linkModePreference,
+      );
 
   /// The compiler sanitizer to use, if any.
   ///
@@ -96,19 +173,20 @@ final class CodeConfig {
   /// must be compiled with the exact same sanitizer, ensuring they share
   /// compatible runtime libraries and memory allocators across the FFI
   /// boundary.
-  Sanitizer? get sanitizer => switch (_syntax.sanitizer) {
+  Sanitizer? get sanitizer => switch (_codeSyntax.sanitizer) {
     null => null,
     final s => SanitizerSyntaxExtension.fromSyntax(s),
   };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
-  IOSCodeConfig get iOS => switch (_syntax.iOS) {
+  @override
+  IOSCodeConfig get iOS => switch (_codeSyntax.iOS) {
     null => throw StateError('Cannot access iOSConfig if targetOS is not iOS.'),
     final c => IOSCodeConfig._(c),
   };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.android].
-  AndroidCodeConfig get android => switch (_syntax.android) {
+  AndroidCodeConfig get android => switch (_codeSyntax.android) {
     null => throw StateError(
       'Cannot access androidConfig if targetOS is not android.',
     ),
@@ -116,7 +194,7 @@ final class CodeConfig {
   };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
-  MacOSCodeConfig get macOS => switch (_syntax.macOS) {
+  MacOSCodeConfig get macOS => switch (_codeSyntax.macOS) {
     null => throw StateError(
       'Cannot access macOSConfig if targetOS is not MacOS.',
     ),
@@ -125,14 +203,29 @@ final class CodeConfig {
 }
 
 /// The configuration for [CodeAsset]s for target OS [OS.iOS] in
-/// [CodeConfig.iOS].
-final class IOSCodeConfig {
-  final IOSCodeConfigSyntax _syntax;
+/// [DoctorCodeConfig.iOS].
+///
+/// Extended by [IOSCodeConfig].
+@experimental
+class DoctorIOSCodeConfig {
+  final DoctorIOSCodeConfigSyntax _syntax;
 
-  IOSCodeConfig._(this._syntax);
+  DoctorIOSCodeConfig._(this._syntax);
 
   /// Whether to target device or simulator.
   IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk);
+
+  /// Constructs a new [DoctorIOSCodeConfig].
+  DoctorIOSCodeConfig({required IOSSdk targetSdk})
+    : _syntax = DoctorIOSCodeConfigSyntax(targetSdk: targetSdk.type);
+}
+
+/// The configuration for [CodeAsset]s for target OS [OS.iOS] in
+/// [CodeConfig.iOS].
+final class IOSCodeConfig extends DoctorIOSCodeConfig {
+  IOSCodeConfigSyntax get _iosSyntax => _syntax as IOSCodeConfigSyntax;
+
+  IOSCodeConfig._(IOSCodeConfigSyntax super._syntax) : super._();
 
   /// The major component of the lowest compatible iOS version.
   @Deprecated('Use deploymentVersion.major instead.')
@@ -146,9 +239,9 @@ final class IOSCodeConfig {
   /// required.
   /// The nested version takes precedence over the legacy integer.
   /// Malformed components throw [FormatException] when accessed.
-  AppleVersion get deploymentVersion => switch (_syntax.deploymentVersion) {
+  AppleVersion get deploymentVersion => switch (_iosSyntax.deploymentVersion) {
     final version? => AppleVersionSyntaxExtension.fromSyntax(version),
-    null => AppleVersion(_syntax.targetVersion),
+    null => AppleVersion(_iosSyntax.targetVersion),
   };
 
   /// Constructs a new [IOSCodeConfig].
@@ -349,6 +442,21 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
   }
 }
 
+/// Extension to initialize code specific configuration on doctor inputs.
+@experimental
+extension CodeAssetDoctorInputBuilder on DoctorConfigBuilder {
+  /// Sets up the code asset specific configuration for a doctor hook input.
+  void setupCode(List<DoctorCodeConfig> configs) {
+    final doctorCodeConfigs = DoctorCodeConfigsSyntax(
+      configs: [for (final c in configs) c.toSyntax()],
+    );
+    final baseDoctorConfig = DoctorConfigSyntax.fromJson(json);
+    baseDoctorConfig.extensions ??= DoctorConfigExtensionsSyntax.fromJson({});
+    final doctorConfig = DoctorConfigSyntax.fromJson(baseDoctorConfig.json);
+    doctorConfig.extensions!.codeAssets = doctorCodeConfigs;
+  }
+}
+
 /// The [CodeAsset]s in [BuildOutputAssets.encodedAssets].
 // TODO: Add access to assetsForBuild or assetsForLinking.
 extension BuildOutputCodeAssets on BuildOutputAssets {
@@ -376,11 +484,29 @@ extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
   MacOSCodeConfigSyntax toSyntax() => _syntax;
 }
 
+/// Extension methods for [DoctorCodeConfig] to convert to and from the syntax
+/// model.
+@experimental
+extension DoctorCodeConfigSyntaxExtension on DoctorCodeConfig {
+  /// Converts this [DoctorCodeConfig] to its corresponding
+  /// [DoctorCodeConfigSyntax].
+  DoctorCodeConfigSyntax toSyntax() => _syntax;
+}
+
+/// Extension methods for [DoctorIOSCodeConfig] to convert to and from the
+/// syntax model.
+@experimental
+extension DoctorIOSCodeConfigSyntaxExtension on DoctorIOSCodeConfig {
+  /// Converts this [DoctorIOSCodeConfig] to its corresponding
+  /// [DoctorIOSCodeConfigSyntax].
+  DoctorIOSCodeConfigSyntax toSyntax() => _syntax;
+}
+
 /// Extension methods for [IOSCodeConfig] to convert to and from the syntax
 /// model.
 extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
   /// Converts this [IOSCodeConfig] to its corresponding [IOSCodeConfigSyntax].
-  IOSCodeConfigSyntax toSyntax() => _syntax;
+  IOSCodeConfigSyntax toSyntax() => _iosSyntax;
 }
 
 /// Extension methods for [AndroidCodeConfig] to convert to and from the syntax

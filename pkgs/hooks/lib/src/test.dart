@@ -153,8 +153,8 @@ Future<void> testDoctorHook({
   required FutureOr<void> Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(DoctorInput input, DoctorOutput output)
   check,
-  // TODO(dcharkes): Add `userDefines`, `extensions`, and enabled target
-  // platforms parameters once `DoctorInput` supports them.
+  List<ProtocolExtension> extensions = const [],
+  // TODO(dcharkes): Add `userDefines` parameter once `DoctorInput` supports it.
 }) async {
   const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
@@ -173,9 +173,20 @@ Future<void> testDoctorHook({
         packageName: _readPackageNameFromPubspec(),
         outputFile: outputFile,
       );
+    final logger = Logger.detached('testDoctorHook');
+    for (final extension in extensions) {
+      extension.setupLogger(logger);
+    }
+    for (final extension in extensions) {
+      extension.setupDoctorInput(inputBuilder);
+    }
     final input = inputBuilder.build();
 
-    final inputErrors = await ProtocolBase.validateDoctorInput(input);
+    final inputErrors = [
+      ...await ProtocolBase.validateDoctorInput(input),
+      for (final extension in extensions)
+        ...await extension.validateDoctorInput(input),
+    ];
     if (inputErrors.isNotEmpty) {
       throw ValidationFailure(
         'Encountered doctor input validation issues: $inputErrors',

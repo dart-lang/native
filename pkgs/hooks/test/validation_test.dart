@@ -86,6 +86,7 @@ void main() {
     );
 
     final invalidInput = DoctorInput({
+      'config': {'build_asset_types': <String>[]},
       'package_name': packageName,
       'package_root': tempUri.resolve('non_existent_dir/').toFilePath(),
       'out_file': tempUri.resolve('doctor_output.json').toFilePath(),

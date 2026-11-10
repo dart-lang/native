@@ -6,6 +6,7 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:file/local.dart';
 import 'package:hooks/hooks.dart';
 import 'package:hooks_runner/hooks_runner.dart';
@@ -303,6 +304,23 @@ dependency_overrides:
           isIn([DoctorValidationType.success, DoctorValidationType.partial]),
         );
         expect(validations.last.title, 'Android NDK C Toolchain');
+
+        final hostOnlyResult = (await runner.doctor(
+          extensions: [
+            DoctorCodeAssetExtension(
+              configs: [
+                DoctorCodeConfig(
+                  targetOS: OS.current,
+                  targetArchitecture: Architecture.current,
+                ),
+              ],
+            ),
+          ],
+        )).success;
+        final hostOnlyValidations =
+            hostOnlyResult.packageValidations['native_toolchain_c']!;
+        expect(hostOnlyValidations, hasLength(1));
+        expect(hostOnlyValidations.single.title, startsWith('C Toolchain'));
       });
     },
   );

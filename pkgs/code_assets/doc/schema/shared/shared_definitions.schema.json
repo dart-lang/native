@@ -140,9 +140,6 @@
         "android": {
           "$ref": "#/definitions/AndroidCodeConfig"
         },
-        "c_compiler": {
-          "$ref": "#/definitions/CCompilerConfig"
-        },
         "ios": {
           "$ref": "#/definitions/IOSCodeConfig"
         },
@@ -154,20 +151,15 @@
         },
         "sanitizer": {
           "$ref": "#/definitions/Sanitizer"
-        },
-        "target_architecture": {
-          "$ref": "#/definitions/Architecture"
-        },
-        "target_os": {
-          "$ref": "#/definitions/OS"
         }
       },
       "required": [
-        "link_mode_preference",
-        "target_architecture",
-        "target_os"
+        "link_mode_preference"
       ],
       "allOf": [
+        {
+          "$ref": "#/definitions/DoctorCodeConfig"
+        },
         {
           "if": {
             "properties": {
@@ -186,20 +178,6 @@
           "if": {
             "properties": {
               "target_os": {
-                "const": "ios"
-              }
-            }
-          },
-          "then": {
-            "required": [
-              "ios"
-            ]
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "target_os": {
                 "const": "macos"
               }
             }
@@ -207,6 +185,59 @@
           "then": {
             "required": [
               "macos"
+            ]
+          }
+        }
+      ]
+    },
+    "Config": {
+      "type": "object",
+      "properties": {
+        "extensions": {
+          "$ref": "#/definitions/ConfigExtensions"
+        }
+      }
+    },
+    "ConfigExtensions": {
+      "type": "object",
+      "properties": {
+        "code_assets": {
+          "$ref": "#/definitions/CodeConfig"
+        }
+      }
+    },
+    "DoctorCodeConfig": {
+      "type": "object",
+      "properties": {
+        "c_compiler": {
+          "$ref": "#/definitions/CCompilerConfig"
+        },
+        "ios": {
+          "$ref": "#/definitions/DoctorIOSCodeConfig"
+        },
+        "target_architecture": {
+          "$ref": "#/definitions/Architecture"
+        },
+        "target_os": {
+          "$ref": "#/definitions/OS"
+        }
+      },
+      "required": [
+        "target_architecture",
+        "target_os"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "target_os": {
+                "const": "ios"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "ios"
             ]
           }
         },
@@ -230,21 +261,46 @@
         }
       ]
     },
-    "Config": {
+    "DoctorCodeConfigs": {
+      "type": "object",
+      "properties": {
+        "configs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DoctorCodeConfig"
+          }
+        }
+      },
+      "required": [
+        "configs"
+      ]
+    },
+    "DoctorConfig": {
       "type": "object",
       "properties": {
         "extensions": {
-          "$ref": "#/definitions/ConfigExtensions"
+          "$ref": "#/definitions/DoctorConfigExtensions"
         }
       }
     },
-    "ConfigExtensions": {
+    "DoctorConfigExtensions": {
       "type": "object",
       "properties": {
         "code_assets": {
-          "$ref": "#/definitions/CodeConfig"
+          "$ref": "#/definitions/DoctorCodeConfigs"
         }
       }
+    },
+    "DoctorIOSCodeConfig": {
+      "type": "object",
+      "properties": {
+        "target_sdk": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_sdk"
+      ]
     },
     "IOSCodeConfig": {
       "type": "object",
@@ -253,9 +309,6 @@
           "$ref": "#/definitions/AppleVersion",
           "description": "The lowest compatible Apple deployment version. All three numeric components are required. This version takes precedence over target_version."
         },
-        "target_sdk": {
-          "type": "string"
-        },
         "target_version": {
           "type": "integer",
           "maximum": 2147483647,
@@ -263,8 +316,12 @@
         }
       },
       "required": [
-        "target_sdk",
         "target_version"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DoctorIOSCodeConfig"
+        }
       ]
     },
     "LinkMode": {

@@ -35,6 +35,32 @@
         }
       ]
     },
+    "DoctorInput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hooks/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/DoctorInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/DoctorInput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/DoctorInput"
+        }
+      ]
+    },
+    "DoctorOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hooks/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/DoctorOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/DoctorOutput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/DoctorOutput"
+        }
+      ]
+    },
     "HookInput": {
       "allOf": [
         {

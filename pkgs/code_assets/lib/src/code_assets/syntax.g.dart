@@ -274,29 +274,39 @@ class CCompilerConfigSyntax extends JsonObjectSyntax {
   String toString() => 'CCompilerConfigSyntax($json)';
 }
 
-class CodeConfigSyntax extends JsonObjectSyntax {
-  CodeConfigSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+class CodeConfigSyntax extends DoctorCodeConfigSyntax {
+  CodeConfigSyntax.fromJson(super.json, {super.path}) : super.fromJson();
 
   CodeConfigSyntax({
     required AndroidCodeConfigSyntax? android,
-    required CCompilerConfigSyntax? cCompiler,
+    required super.cCompiler,
     required IOSCodeConfigSyntax? iOS,
     required LinkModePreferenceSyntax linkModePreference,
     required MacOSCodeConfigSyntax? macOS,
     required SanitizerSyntax? sanitizer,
-    required ArchitectureSyntax targetArchitecture,
-    required OSSyntax targetOs,
+    required super.targetArchitecture,
+    required super.targetOs,
     super.path = const [],
-  }) : super() {
+  }) : super(iOS: iOS) {
     _android = android;
-    _cCompiler = cCompiler;
-    _iOS = iOS;
     _linkModePreference = linkModePreference;
     _macOS = macOS;
     _sanitizer = sanitizer;
-    _targetArchitecture = targetArchitecture;
-    _targetOs = targetOs;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [CodeConfigSyntax] that are not in
+  /// [DoctorCodeConfigSyntax].
+  void setup({
+    required AndroidCodeConfigSyntax? android,
+    required LinkModePreferenceSyntax linkModePreference,
+    required MacOSCodeConfigSyntax? macOS,
+    required SanitizerSyntax? sanitizer,
+  }) {
+    _android = android;
+    _linkModePreference = linkModePreference;
+    _macOS = macOS;
+    _sanitizer = sanitizer;
     json.sortOnKey();
   }
 
@@ -321,43 +331,11 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     return android?.validate() ?? [];
   }
 
-  CCompilerConfigSyntax? get cCompiler {
-    final jsonValue = _reader.optionalMap('c_compiler');
-    if (jsonValue == null) return null;
-    return CCompilerConfigSyntax.fromJson(
-      jsonValue,
-      path: [...path, 'c_compiler'],
-    );
-  }
-
-  set _cCompiler(CCompilerConfigSyntax? value) {
-    json.setOrRemove('c_compiler', value?.json);
-  }
-
-  List<String> _validateCCompiler() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>('c_compiler');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return cCompiler?.validate() ?? [];
-  }
-
+  @override
   IOSCodeConfigSyntax? get iOS {
     final jsonValue = _reader.optionalMap('ios');
     if (jsonValue == null) return null;
     return IOSCodeConfigSyntax.fromJson(jsonValue, path: [...path, 'ios']);
-  }
-
-  set _iOS(IOSCodeConfigSyntax? value) {
-    json.setOrRemove('ios', value?.json);
-  }
-
-  List<String> _validateIOS() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>('ios');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return iOS?.validate() ?? [];
   }
 
   LinkModePreferenceSyntax get linkModePreference {
@@ -405,43 +383,14 @@ class CodeConfigSyntax extends JsonObjectSyntax {
 
   List<String> _validateSanitizer() => _reader.validate<String?>('sanitizer');
 
-  ArchitectureSyntax get targetArchitecture {
-    final jsonValue = _reader.get<String>('target_architecture');
-    return ArchitectureSyntax.fromJson(
-      jsonValue,
-      path: [...path, 'target_architecture'],
-    );
-  }
-
-  set _targetArchitecture(ArchitectureSyntax value) {
-    json['target_architecture'] = value.name;
-  }
-
-  List<String> _validateTargetArchitecture() =>
-      _reader.validate<String>('target_architecture');
-
-  OSSyntax get targetOs {
-    final jsonValue = _reader.get<String>('target_os');
-    return OSSyntax.fromJson(jsonValue, path: [...path, 'target_os']);
-  }
-
-  set _targetOs(OSSyntax value) {
-    json['target_os'] = value.name;
-  }
-
-  List<String> _validateTargetOs() => _reader.validate<String>('target_os');
-
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateAndroid(),
-    ..._validateCCompiler(),
     ..._validateIOS(),
     ..._validateLinkModePreference(),
     ..._validateMacOS(),
     ..._validateSanitizer(),
-    ..._validateTargetArchitecture(),
-    ..._validateTargetOs(),
     ..._validateExtraRulesCodeConfig(),
   ];
 
@@ -450,11 +399,11 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     if (_reader.tryTraverse(['target_os']) == 'android') {
       result.addAll(_reader.validate<Object>('android'));
     }
-    if (_reader.tryTraverse(['target_os']) == 'ios') {
-      result.addAll(_reader.validate<Object>('ios'));
-    }
     if (_reader.tryTraverse(['target_os']) == 'macos') {
       result.addAll(_reader.validate<Object>('macos'));
+    }
+    if (_reader.tryTraverse(['target_os']) == 'ios') {
+      result.addAll(_reader.validate<Object>('ios'));
     }
     if (_reader.tryTraverse(['target_os']) == 'windows') {
       final objectErrors = _reader.validate<Map<String, Object?>?>(
@@ -595,6 +544,278 @@ class DeveloperCommandPromptSyntax extends JsonObjectSyntax {
   String toString() => 'DeveloperCommandPromptSyntax($json)';
 }
 
+class DoctorCodeConfigSyntax extends JsonObjectSyntax {
+  DoctorCodeConfigSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorCodeConfigSyntax({
+    required CCompilerConfigSyntax? cCompiler,
+    required DoctorIOSCodeConfigSyntax? iOS,
+    required ArchitectureSyntax targetArchitecture,
+    required OSSyntax targetOs,
+    super.path = const [],
+  }) : super() {
+    _cCompiler = cCompiler;
+    _iOS = iOS;
+    _targetArchitecture = targetArchitecture;
+    _targetOs = targetOs;
+    json.sortOnKey();
+  }
+
+  CCompilerConfigSyntax? get cCompiler {
+    final jsonValue = _reader.optionalMap('c_compiler');
+    if (jsonValue == null) return null;
+    return CCompilerConfigSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'c_compiler'],
+    );
+  }
+
+  set _cCompiler(CCompilerConfigSyntax? value) {
+    json.setOrRemove('c_compiler', value?.json);
+  }
+
+  List<String> _validateCCompiler() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('c_compiler');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return cCompiler?.validate() ?? [];
+  }
+
+  DoctorIOSCodeConfigSyntax? get iOS {
+    final jsonValue = _reader.optionalMap('ios');
+    if (jsonValue == null) return null;
+    return DoctorIOSCodeConfigSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'ios'],
+    );
+  }
+
+  set _iOS(DoctorIOSCodeConfigSyntax? value) {
+    json.setOrRemove('ios', value?.json);
+  }
+
+  List<String> _validateIOS() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('ios');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return iOS?.validate() ?? [];
+  }
+
+  ArchitectureSyntax get targetArchitecture {
+    final jsonValue = _reader.get<String>('target_architecture');
+    return ArchitectureSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'target_architecture'],
+    );
+  }
+
+  set _targetArchitecture(ArchitectureSyntax value) {
+    json['target_architecture'] = value.name;
+  }
+
+  List<String> _validateTargetArchitecture() =>
+      _reader.validate<String>('target_architecture');
+
+  OSSyntax get targetOs {
+    final jsonValue = _reader.get<String>('target_os');
+    return OSSyntax.fromJson(jsonValue, path: [...path, 'target_os']);
+  }
+
+  set _targetOs(OSSyntax value) {
+    json['target_os'] = value.name;
+  }
+
+  List<String> _validateTargetOs() => _reader.validate<String>('target_os');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateCCompiler(),
+    ..._validateIOS(),
+    ..._validateTargetArchitecture(),
+    ..._validateTargetOs(),
+    ..._validateExtraRulesDoctorCodeConfig(),
+  ];
+
+  List<String> _validateExtraRulesDoctorCodeConfig() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['target_os']) == 'ios') {
+      result.addAll(_reader.validate<Object>('ios'));
+    }
+    if (_reader.tryTraverse(['target_os']) == 'windows') {
+      final objectErrors = _reader.validate<Map<String, Object?>?>(
+        'c_compiler',
+      );
+      result.addAll(objectErrors);
+      if (objectErrors.isEmpty) {
+        final jsonValue = _reader.get<Map<String, Object?>?>('c_compiler');
+        if (jsonValue != null) {
+          final reader = _JsonReader(jsonValue, [...path, 'c_compiler']);
+          result.addAll(reader.validate<Object>('windows'));
+        }
+      }
+    }
+    return result;
+  }
+
+  @override
+  String toString() => 'DoctorCodeConfigSyntax($json)';
+}
+
+class DoctorCodeConfigsSyntax extends JsonObjectSyntax {
+  DoctorCodeConfigsSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorCodeConfigsSyntax({
+    required List<DoctorCodeConfigSyntax> configs,
+    super.path = const [],
+  }) : super() {
+    this.configs = configs;
+    json.sortOnKey();
+  }
+
+  List<DoctorCodeConfigSyntax> get configs {
+    final jsonValue = _reader.list('configs');
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        DoctorCodeConfigSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'configs', index],
+        ),
+    ];
+  }
+
+  set configs(List<DoctorCodeConfigSyntax> value) {
+    json['configs'] = [for (final item in value) item.json];
+    json.sortOnKey();
+  }
+
+  List<String> _validateConfigs() {
+    final listErrors = _reader.validateList<Map<String, Object?>>('configs');
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = configs;
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateConfigs()];
+
+  @override
+  String toString() => 'DoctorCodeConfigsSyntax($json)';
+}
+
+class DoctorConfigSyntax extends JsonObjectSyntax {
+  DoctorConfigSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorConfigSyntax({
+    required DoctorConfigExtensionsSyntax? extensions,
+    super.path = const [],
+  }) : super() {
+    this.extensions = extensions;
+    json.sortOnKey();
+  }
+
+  DoctorConfigExtensionsSyntax? get extensions {
+    final jsonValue = _reader.optionalMap('extensions');
+    if (jsonValue == null) return null;
+    return DoctorConfigExtensionsSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'extensions'],
+    );
+  }
+
+  set extensions(DoctorConfigExtensionsSyntax? value) {
+    json.setOrRemove('extensions', value?.json);
+    json.sortOnKey();
+  }
+
+  List<String> _validateExtensions() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('extensions');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return extensions?.validate() ?? [];
+  }
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateExtensions()];
+
+  @override
+  String toString() => 'DoctorConfigSyntax($json)';
+}
+
+class DoctorConfigExtensionsSyntax extends JsonObjectSyntax {
+  DoctorConfigExtensionsSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorConfigExtensionsSyntax({
+    required DoctorCodeConfigsSyntax? codeAssets,
+    super.path = const [],
+  }) : super() {
+    this.codeAssets = codeAssets;
+    json.sortOnKey();
+  }
+
+  DoctorCodeConfigsSyntax? get codeAssets {
+    final jsonValue = _reader.optionalMap('code_assets');
+    if (jsonValue == null) return null;
+    return DoctorCodeConfigsSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'code_assets'],
+    );
+  }
+
+  set codeAssets(DoctorCodeConfigsSyntax? value) {
+    json.setOrRemove('code_assets', value?.json);
+    json.sortOnKey();
+  }
+
+  List<String> _validateCodeAssets() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('code_assets');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return codeAssets?.validate() ?? [];
+  }
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateCodeAssets()];
+
+  @override
+  String toString() => 'DoctorConfigExtensionsSyntax($json)';
+}
+
+class DoctorIOSCodeConfigSyntax extends JsonObjectSyntax {
+  DoctorIOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  DoctorIOSCodeConfigSyntax({required String targetSdk, super.path = const []})
+    : super() {
+    _targetSdk = targetSdk;
+    json.sortOnKey();
+  }
+
+  String get targetSdk => _reader.get<String>('target_sdk');
+
+  set _targetSdk(String value) {
+    json.setOrRemove('target_sdk', value);
+  }
+
+  List<String> _validateTargetSdk() => _reader.validate<String>('target_sdk');
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateTargetSdk()];
+
+  @override
+  String toString() => 'DoctorIOSCodeConfigSyntax($json)';
+}
+
 class DynamicLoadingBundleLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingBundleLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
@@ -699,18 +920,27 @@ extension DynamicLoadingSystemLinkModeSyntaxExtension on LinkModeSyntax {
       DynamicLoadingSystemLinkModeSyntax.fromJson(json, path: path);
 }
 
-class IOSCodeConfigSyntax extends JsonObjectSyntax {
-  IOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+class IOSCodeConfigSyntax extends DoctorIOSCodeConfigSyntax {
+  IOSCodeConfigSyntax.fromJson(super.json, {super.path}) : super.fromJson();
 
   IOSCodeConfigSyntax({
     required AppleVersionSyntax? deploymentVersion,
-    required String targetSdk,
+    required super.targetSdk,
     required int targetVersion,
     super.path = const [],
   }) : super() {
     _deploymentVersion = deploymentVersion;
-    _targetSdk = targetSdk;
+    _targetVersion = targetVersion;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [IOSCodeConfigSyntax] that are not in
+  /// [DoctorIOSCodeConfigSyntax].
+  void setup({
+    required AppleVersionSyntax? deploymentVersion,
+    required int targetVersion,
+  }) {
+    _deploymentVersion = deploymentVersion;
     _targetVersion = targetVersion;
     json.sortOnKey();
   }
@@ -738,14 +968,6 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
     return deploymentVersion?.validate() ?? [];
   }
 
-  String get targetSdk => _reader.get<String>('target_sdk');
-
-  set _targetSdk(String value) {
-    json.setOrRemove('target_sdk', value);
-  }
-
-  List<String> _validateTargetSdk() => _reader.validate<String>('target_sdk');
-
   int get targetVersion =>
       _reader.number<int>('target_version', minimum: 0, maximum: 2147483647);
 
@@ -770,7 +992,6 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateDeploymentVersion(),
-    ..._validateTargetSdk(),
     ..._validateTargetVersion(),
   ];
 

@@ -65,6 +65,37 @@
         }
       ]
     },
+    "DoctorConfig": {
+      "allOf": [
+        {
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/DoctorConfig"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/DoctorConfig"
+        }
+      ]
+    },
+    "DoctorInput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/DoctorInput"
+        },
+        {
+          "properties": {
+            "config": {
+              "$ref": "shared_definitions.schema.json#/definitions/DoctorConfig"
+            }
+          }
+        }
+      ]
+    },
+    "DoctorOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/DoctorOutput"
+        }
+      ]
+    },
     "HookInput": {
       "allOf": [
         {

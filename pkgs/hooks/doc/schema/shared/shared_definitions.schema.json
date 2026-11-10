@@ -121,11 +121,21 @@
       "type": "object",
       "additionalProperties": true
     },
+    "DoctorConfig": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Config"
+        }
+      ]
+    },
     "DoctorInput": {
       "type": "object",
       "properties": {
         "$schema": {
           "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/DoctorConfig"
         },
         "out_file": {
           "$ref": "#/definitions/absolutePath"
@@ -138,6 +148,7 @@
         }
       },
       "required": [
+        "config",
         "out_file",
         "package_name",
         "package_root"

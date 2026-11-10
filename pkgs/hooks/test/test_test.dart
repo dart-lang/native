@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: experimental_member_use
+
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -65,8 +67,11 @@ void main() {
     final ext = _EmptyExtension();
     final buildInputBuilder = BuildInputBuilder();
     final linkInputBuilder = LinkInputBuilder();
+    final doctorInputBuilder = DoctorInputBuilder();
     ext.setupBuildInput(buildInputBuilder);
     ext.setupLinkInput(linkInputBuilder);
+    ext.setupDoctorInput(doctorInputBuilder);
+    expect(await ext.validateDoctorInput(doctorInputBuilder.build()), isEmpty);
     expect(await ext.validateApplicationAssets([]), isEmpty);
     expect(ext.outputFiles([]), isEmpty);
   });
@@ -79,16 +84,27 @@ void main() {
             DoctorValidationResult(
               title: 'Doctor check (${input.packageName})',
               type: .success,
-              statusInfo: 'OK',
+              statusInfo:
+                  'OK (${input.config.code.configs.single.targetOS.name})',
               messages: [DoctorValidationMessage('All good')],
             ),
           );
         });
       },
+      extensions: [
+        DoctorCodeAssetExtension(
+          configs: [
+            DoctorCodeConfig(
+              targetOS: OS.current,
+              targetArchitecture: Architecture.current,
+            ),
+          ],
+        ),
+      ],
       check: expectAsync2((input, output) {
         expect(output.validations, hasLength(1));
         expect(output.validations.single.type, DoctorValidationType.success);
-        expect(output.validations.single.statusInfo, 'OK');
+        expect(output.validations.single.statusInfo, 'OK (${OS.current.name})');
         expect(output.validations.single.messages.single.message, 'All good');
       }),
     );

@@ -51,6 +51,8 @@ void _testDoctorFields({
       final fields = <(List<Object>, void Function(ValidationResults result))>[
         ([r'$schema'], expectOptionalFieldMissing),
         if (inputOrOutput == InputOrOutput.input) ...[
+          (['config'], expectRequiredFieldMissing),
+          (['config', 'build_asset_types'], expectRequiredFieldMissing),
           (['out_file'], expectRequiredFieldMissing),
           (['package_name'], expectRequiredFieldMissing),
           (['package_root'], expectRequiredFieldMissing),

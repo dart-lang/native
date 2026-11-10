@@ -60,11 +60,111 @@ void main() {
     dataSuffix: '_android',
     fields: _codeFieldsAndroid,
   );
+
+  _testDoctorFields(allSchemas: allSchemas, allTestData: allTestData);
 }
 
 Uri packageUri = findPackageRoot('code_assets');
 
 const _codeConfigPath = ['config', 'extensions', 'code_assets'];
+
+void _testDoctorFields({
+  required AllSchemas allSchemas,
+  required AllTestData allTestData,
+}) {
+  for (final party in Party.values) {
+    final schemaUri = packageUri.resolve(
+      'doc/schema/${party.name}/doctor_input.generated.schema.json',
+    );
+    final schema = allSchemas[schemaUri]!;
+    final dataUri = packageUri.resolve('test/data/doctor_input.json');
+    final data = allTestData[dataUri]!;
+    final fields = <(List<Object>, void Function(ValidationResults result))>[
+      ([r'$schema'], expectOptionalFieldMissing),
+      (['config'], expectRequiredFieldMissing),
+      (['config', 'build_asset_types'], expectRequiredFieldMissing),
+      ([..._codeConfigPath, 'configs'], expectRequiredFieldMissing),
+      (
+        [..._codeConfigPath, 'configs', 0, 'target_os'],
+        expectRequiredFieldMissing,
+      ),
+      (
+        [..._codeConfigPath, 'configs', 0, 'target_architecture'],
+        expectRequiredFieldMissing,
+      ),
+      (
+        [..._codeConfigPath, 'configs', 0, 'c_compiler'],
+        expectOptionalFieldMissing,
+      ),
+      (
+        [..._codeConfigPath, 'configs', 0, 'c_compiler', 'ar'],
+        expectRequiredFieldMissing,
+      ),
+      (
+        [..._codeConfigPath, 'configs', 0, 'c_compiler', 'cc'],
+        expectRequiredFieldMissing,
+      ),
+      (
+        [..._codeConfigPath, 'configs', 0, 'c_compiler', 'ld'],
+        expectRequiredFieldMissing,
+      ),
+      ([..._codeConfigPath, 'configs', 2, 'ios'], expectRequiredFieldMissing),
+      (
+        [..._codeConfigPath, 'configs', 2, 'ios', 'target_sdk'],
+        expectRequiredFieldMissing,
+      ),
+      (
+        [..._codeConfigPath, 'configs', 1, 'c_compiler', 'windows'],
+        expectRequiredFieldMissing,
+      ),
+      (
+        [
+          ..._codeConfigPath,
+          'configs',
+          1,
+          'c_compiler',
+          'windows',
+          'developer_command_prompt',
+        ],
+        expectOptionalFieldMissing,
+      ),
+      (
+        [
+          ..._codeConfigPath,
+          'configs',
+          1,
+          'c_compiler',
+          'windows',
+          'developer_command_prompt',
+          'script',
+        ],
+        expectRequiredFieldMissing,
+      ),
+      (
+        [
+          ..._codeConfigPath,
+          'configs',
+          1,
+          'c_compiler',
+          'windows',
+          'developer_command_prompt',
+          'arguments',
+        ],
+        expectRequiredFieldMissing,
+      ),
+    ];
+    for (final (field, missingExpectations) in fields) {
+      testField(
+        field: field,
+        schemaUri: schemaUri,
+        schema: schema,
+        dataUri: dataUri,
+        data: data,
+        missingExpectations: missingExpectations,
+      );
+    }
+  }
+}
 
 FieldsFunction _codeFields(AllTestData allTestData) {
   final dataUri = packageUri.resolve('test/data/build_output_macos.json');
