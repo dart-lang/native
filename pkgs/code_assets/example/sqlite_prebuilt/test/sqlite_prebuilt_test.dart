@@ -4,6 +4,7 @@
 
 // ignore_for_file: experimental_member_use
 
+import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:sqlite_prebuilt/sqlite_prebuilt.dart';
 import 'package:test/test.dart';
@@ -19,6 +20,16 @@ void main() {
   test('doctor hook', () async {
     await testDoctorHook(
       mainMethod: doctor_hook.main,
+      extensions: [
+        DoctorCodeAssetExtension(
+          configs: [
+            DoctorCodeConfig(
+              targetOS: OS.current,
+              targetArchitecture: Architecture.current,
+            ),
+          ],
+        ),
+      ],
       check: (input, output) {
         expect(output.validations, hasLength(1));
         expect(

@@ -21,6 +21,7 @@ void main() {
     packageRootUri = tempUri.resolve('$packageName/');
 
     inputJson = {
+      'config': {'build_asset_types': <String>[]},
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),

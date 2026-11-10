@@ -1,0 +1,50 @@
+{
+  "$schema": "../../doc/schema/sdk/doctor_input.generated.schema.json",
+  "config": {
+    "build_asset_types": [
+      "code_assets/code"
+    ],
+    "extensions": {
+      "code_assets": {
+        "configs": [
+          {
+            "c_compiler": {
+              "ar": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar",
+              "cc": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
+              "ld": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
+            },
+            "target_architecture": "arm64",
+            "target_os": "macos"
+          },
+          {
+            "c_compiler": {
+              "ar": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\lib.exe",
+              "cc": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+              "ld": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\link.exe",
+              "windows": {
+                "developer_command_prompt": {
+                  "arguments": [
+                    "amd64"
+                  ],
+                  "script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\VsDevCmd.bat"
+                }
+              }
+            },
+            "target_architecture": "x64",
+            "target_os": "windows"
+          },
+          {
+            "ios": {
+              "target_sdk": "iphoneos"
+            },
+            "target_architecture": "arm64",
+            "target_os": "ios"
+          }
+        ]
+      }
+    }
+  },
+  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/my_package/doctor/output.json",
+  "package_name": "my_package",
+  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/"
+}

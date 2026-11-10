@@ -1536,11 +1536,6 @@ final class InfraError extends HookError {
 /// The input for `hook/doctor.dart`.
 // TODO(dcharkes): Add support for `userDefines` in `DoctorInput` so doctor
 // hooks can inspect workspace user-defines.
-// TODO(dcharkes): Add support for protocol extensions in `DoctorInput` (e.g.,
-// a Flutter extension that provides the location of `impellerc` so doctor hooks
-// can branch on or validate extension-provided tools/config).
-// TODO(dcharkes): Add support for the enabled target platforms in
-// `DoctorInput`.
 @experimental
 final class DoctorInput {
   /// The underlying json configuration of this [DoctorInput].
@@ -1555,6 +1550,9 @@ final class DoctorInput {
   /// The root of the package the doctor hook is run for.
   Uri get packageRoot => _syntax.packageRoot;
 
+  /// The configuration for this doctor input.
+  DoctorConfig get config => DoctorConfig._(this);
+
   final DoctorInputSyntax _syntax;
 
   /// Creates a [DoctorInput] from the given [json].
@@ -1565,17 +1563,36 @@ final class DoctorInput {
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
 }
 
+/// The configuration in [DoctorInput.config].
+@experimental
+final class DoctorConfig {
+  /// The JSON representation of this config.
+  Map<String, Object?> get json => _syntax.json;
+
+  /// The JSON path to this config inside the input.
+  ///
+  /// This is a public member such that [ProtocolExtension]s can access it.
+  List<Object> get path => _syntax.path;
+
+  final DoctorConfigSyntax _syntax;
+
+  /// The asset types that are supported by the invoker of the hook.
+  List<String> get buildAssetTypes => _syntax.buildAssetTypes;
+
+  DoctorConfig._(DoctorInput input) : _syntax = input._syntax.config;
+}
+
 /// The builder for [DoctorInput].
 @experimental
 final class DoctorInputBuilder {
-  final _syntax = DoctorInputSyntax.fromJson({});
+  final _syntax = DoctorInputSyntax.fromJson({})
+    ..config = DoctorConfigSyntax(buildAssetTypes: [], extensions: null);
 
   /// The JSON representation of this doctor input builder.
   Map<String, Object?> get json => _syntax.json;
 
   /// Sets up the doctor input.
-  // TODO(dcharkes): Accept `userDefines`, protocol extensions, and enabled
-  // target platforms here once supported in `DoctorInput`.
+  // TODO(dcharkes): Accept `userDefines` here once supported in `DoctorInput`.
   void setupDoctor({
     required Uri packageRoot,
     required String packageName,
@@ -1586,8 +1603,37 @@ final class DoctorInputBuilder {
     _syntax.outFile = outputFile;
   }
 
+  /// The configuration for this doctor input.
+  DoctorConfigBuilder get config => DoctorConfigBuilder._(this);
+
+  /// Adds the protocol extension to this doctor input.
+  ///
+  /// This will [DoctorConfigBuilder.addBuildAssetTypes] and add the
+  /// extension's config to [config].
+  void addExtension(ProtocolExtension extension) =>
+      extension.setupDoctorInput(this);
+
   /// Builds the [DoctorInput].
   DoctorInput build() => DoctorInput(json);
+}
+
+/// The builder for [DoctorConfig].
+@experimental
+final class DoctorConfigBuilder {
+  /// The builder for the parent (the doctor input).
+  final DoctorInputBuilder builder;
+
+  DoctorConfigBuilder._(this.builder);
+
+  DoctorConfigSyntax get _syntax => builder._syntax.config;
+
+  /// The JSON representation of this config.
+  Map<String, Object?> get json => _syntax.json;
+
+  /// Adds asset types to this doctor configuration.
+  void addBuildAssetTypes(Iterable<String> assetTypes) {
+    _syntax.buildAssetTypes.addAll(assetTypes);
+  }
 }
 
 /// The output from a `hook/doctor.dart`.

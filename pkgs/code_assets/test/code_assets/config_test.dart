@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: experimental_member_use
+
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -451,5 +453,57 @@ No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
         ),
       ),
     );
+  });
+
+  test('DoctorInput.config.code with DoctorCodeAssetExtension', () {
+    final inputBuilder = DoctorInputBuilder()
+      ..setupDoctor(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+      )
+      ..addExtension(
+        DoctorCodeAssetExtension(
+          configs: [
+            DoctorCodeConfig(
+              targetOS: OS.macOS,
+              targetArchitecture: Architecture.arm64,
+              cCompiler: CCompilerConfig(
+                compiler: fakeClang,
+                linker: fakeLd,
+                archiver: fakeAr,
+              ),
+            ),
+            DoctorCodeConfig(
+              targetOS: OS.iOS,
+              targetArchitecture: Architecture.arm64,
+              iOS: DoctorIOSCodeConfig(targetSdk: IOSSdk.iPhoneOS),
+            ),
+          ],
+        ),
+      );
+    final input = inputBuilder.build();
+    expect(input.config.buildCodeAssets, isTrue);
+    final configs = input.config.code.configs;
+    expect(configs, hasLength(2));
+    expect(configs[0].targetOS, OS.macOS);
+    expect(configs[0].targetArchitecture, Architecture.arm64);
+    expect(configs[0].cCompiler?.compiler, fakeClang);
+    expect(configs[1].targetOS, OS.iOS);
+    expect(configs[1].targetArchitecture, Architecture.arm64);
+    expect(configs[1].iOS.targetSdk, IOSSdk.iPhoneOS);
+  });
+
+  test('DoctorInput.config.code throws StateError when buildCodeAssets is '
+      'false', () {
+    final inputBuilder = DoctorInputBuilder()
+      ..setupDoctor(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+      );
+    final input = inputBuilder.build();
+    expect(input.config.buildCodeAssets, isFalse);
+    expect(() => input.config.code, throwsStateError);
   });
 }

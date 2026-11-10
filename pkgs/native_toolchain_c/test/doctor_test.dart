@@ -95,4 +95,51 @@ void main() {
     expect(results.first.type, DoctorValidationType.notAvailable);
     expect(results.first.statusInfo, contains('fuchsia'));
   });
+
+  test(
+    'runNativeToolchainCDoctor only validates targeted platforms when configs '
+    'are provided',
+    () async {
+      final emptyContext = ToolResolvingContext(
+        logger: logger,
+        environment: const {},
+        fileSystem: MemoryFileSystem.test(),
+        processManager: FakeProcessManager(
+          List.filled(20, const FakeCommand(exitCode: 1)),
+        ),
+      );
+      // Targeting only macOS: Android NDK should not be validated.
+      final macosOnlyResults = await doctor_hook.runNativeToolchainCDoctor(
+        context: emptyContext,
+        hostOS: OS.macOS,
+        configs: [
+          DoctorCodeConfig(
+            targetOS: OS.macOS,
+            targetArchitecture: Architecture.arm64,
+          ),
+        ],
+      );
+      expect(macosOnlyResults, hasLength(1));
+      expect(
+        macosOnlyResults.single.title,
+        'C Toolchain (Apple Clang / Xcode)',
+      );
+
+      // Targeting only Android: Android NDK is required and reported as missing
+      // instead of notAvailable.
+      final androidOnlyResults = await doctor_hook.runNativeToolchainCDoctor(
+        context: emptyContext,
+        hostOS: OS.macOS,
+        configs: [
+          DoctorCodeConfig(
+            targetOS: OS.android,
+            targetArchitecture: Architecture.arm64,
+          ),
+        ],
+      );
+      expect(androidOnlyResults, hasLength(1));
+      expect(androidOnlyResults.single.title, 'Android NDK C Toolchain');
+      expect(androidOnlyResults.single.type, DoctorValidationType.missing);
+    },
+  );
 }

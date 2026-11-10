@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: experimental_member_use
+
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -519,6 +521,86 @@ void main() {
         linkOutputBuilder.build(),
       );
       expect(linkOutputErrors, isEmpty);
+
+      final doctorInputBuilder = DoctorInputBuilder()
+        ..setupDoctor(
+          packageName: packageName,
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+        );
+      final doctorInput = DoctorInput(doctorInputBuilder.json);
+      expect(doctorInput.config.buildCodeAssets, isFalse);
+      final doctorErrors = await validateCodeAssetDoctorInput(doctorInput);
+      expect(doctorErrors, isEmpty);
+    });
+
+    test('DoctorInput.config.code validation', () async {
+      final nonExistent = outDirUri.resolve('foo baz');
+      final builder = DoctorInputBuilder()
+        ..setupDoctor(
+          packageName: packageName,
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+        )
+        ..addExtension(
+          DoctorCodeAssetExtension(
+            configs: [
+              DoctorCodeConfig(
+                targetOS: OS.windows,
+                targetArchitecture: Architecture.x64,
+                cCompiler: CCompilerConfig(
+                  compiler: nonExistent,
+                  linker: nonExistent,
+                  archiver: nonExistent,
+                  windows: WindowsCCompilerConfig(
+                    developerCommandPrompt: DeveloperCommandPrompt(
+                      script: nonExistent,
+                      arguments: [],
+                    ),
+                  ),
+                ),
+              ),
+              DoctorCodeConfig(
+                targetOS: OS.iOS,
+                targetArchitecture: Architecture.arm64,
+                iOS: DoctorIOSCodeConfig(targetSdk: IOSSdk.iPhoneOS),
+              ),
+            ],
+          ),
+        );
+      final errors = await validateCodeAssetDoctorInput(
+        DoctorInput(builder.json),
+      );
+
+      bool matches(String error, String field) => RegExp(
+        r'DoctorInput\.config\.code\.configs\[0\]\.cCompiler\.'
+        '$field (.*foo baz).* does not exist.',
+      ).hasMatch(error);
+
+      expect(errors.any((e) => matches(e, 'compiler')), true);
+      expect(errors.any((e) => matches(e, 'linker')), true);
+      expect(errors.any((e) => matches(e, 'archiver')), true);
+      expect(
+        errors.any((e) => matches(e, 'windows.developerCommandPrompt.script')),
+        true,
+      );
+
+      traverseJson<Map<String, Object?>>(builder.json, [
+        'config',
+        'extensions',
+        'code_assets',
+        'configs',
+        1,
+      ]).remove('ios');
+      expect(
+        await validateCodeAssetDoctorInput(DoctorInput(builder.json)),
+        contains(
+          contains(
+            "No value was provided for 'config.extensions.code_assets.configs"
+            ".1.ios'.",
+          ),
+        ),
+      );
     });
   });
 }

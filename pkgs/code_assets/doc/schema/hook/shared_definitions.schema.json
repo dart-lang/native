@@ -4,6 +4,8 @@
   "definitions": {
     "BuildInput": {},
     "BuildOutput": {},
+    "DoctorInput": {},
+    "DoctorOutput": {},
     "HookInput": {},
     "HookOutput": {},
     "LinkInput": {},

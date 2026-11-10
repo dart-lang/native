@@ -463,63 +463,73 @@ class NativeAssetsBuildRunner {
   ///
   /// Unlike [build] and [link], doctor hook invocations are never skipped due
   /// to caching, as diagnostics inspect the live system environment.
-  // TODO(dcharkes): Accept `List<ProtocolExtension> extensions` (e.g., for
-  // Flutter extensions like `impellerc` location) and enabled target platforms
-  // once `DoctorInput` supports them.
   @experimental
-  Future<Result<DoctorResult, HooksRunnerFailure>> doctor() async =>
-      _timeAsync('BuildRunner.doctor', () async {
-        final planResult = await _makePlan(hook: .doctor);
-        if (planResult.isFailure) {
-          return planResult.asFailure;
-        }
-        final (doctorPlan, _) = planResult.success;
-        if (doctorPlan.isEmpty) {
-          return Success(DoctorResult());
-        }
+  Future<Result<DoctorResult, HooksRunnerFailure>> doctor({
+    List<ProtocolExtension> extensions = const [],
+  }) async => _timeAsync('BuildRunner.doctor', () async {
+    final planResult = await _makePlan(hook: .doctor);
+    if (planResult.isFailure) {
+      return planResult.asFailure;
+    }
+    final (doctorPlan, _) = planResult.success;
+    if (doctorPlan.isEmpty) {
+      return Success(DoctorResult());
+    }
 
-        // TODO(dcharkes): Load and validate `userDefines` via
-        // `_checkUserDefines()` and pass `loadedUserDefines?[package.name]` to
-        // `DoctorInputBuilder` once `DoctorInput` supports user-defines.
-        // TODO(dcharkes): Consider whether doctor hooks should be executed in
-        // parallel. Currently, doctor hooks do not depend on each other's
-        // outputs, though they might in the future.
-        final packageValidations = <String, List<DoctorValidationResult>>{};
-        for (final package in doctorPlan) {
-          final buildDirUri = packageLayout.dartToolHooksRunner.resolve(
-            '${package.name}/doctor/',
-          );
-          final buildDir = _fileSystem.directory(buildDirUri);
-          if (!await buildDir.exists()) {
-            await buildDir.create(recursive: true);
-          }
+    // Give every extension the runner's logger before any other method is
+    // invoked on it.
+    for (final e in extensions) {
+      e.setupLogger(logger);
+    }
 
-          final inputBuilder = DoctorInputBuilder()
-            ..setupDoctor(
-              packageName: package.name,
-              packageRoot: packageLayout.packageRoot(package.name),
-              outputFile: buildDirUri.resolve('output.json'),
-            );
+    // TODO(dcharkes): Load and validate `userDefines` via
+    // `_checkUserDefines()` and pass `loadedUserDefines?[package.name]` to
+    // `DoctorInputBuilder` once `DoctorInput` supports user-defines.
+    // TODO(dcharkes): Consider whether doctor hooks should be executed in
+    // parallel. Currently, doctor hooks do not depend on each other's
+    // outputs, though they might in the future.
+    final packageValidations = <String, List<DoctorValidationResult>>{};
+    for (final package in doctorPlan) {
+      final buildDirUri = packageLayout.dartToolHooksRunner.resolve(
+        '${package.name}/doctor/',
+      );
+      final buildDir = _fileSystem.directory(buildDirUri);
+      if (!await buildDir.exists()) {
+        await buildDir.create(recursive: true);
+      }
 
-          final input = inputBuilder.build();
-          final errors = await ProtocolBase.validateDoctorInput(input);
-          if (errors.isNotEmpty) {
-            _printErrors(
-              'Doctor input for ${package.name} contains errors',
-              errors,
-            );
-            return const Failure(HooksRunnerFailure.internal);
-          }
+      final inputBuilder = DoctorInputBuilder()
+        ..setupDoctor(
+          packageName: package.name,
+          packageRoot: packageLayout.packageRoot(package.name),
+          outputFile: buildDirUri.resolve('output.json'),
+        );
+      for (final e in extensions) {
+        e.setupDoctorInput(inputBuilder);
+      }
 
-          final validations = await _runDoctorHookForPackage(
-            input,
-            buildDirUri,
-          );
-          packageValidations[package.name] = validations;
-        }
+      final input = inputBuilder.build();
+      final errors = [
+        ...await ProtocolBase.validateDoctorInput(input),
+        for (final e in extensions) ...await e.validateDoctorInput(input),
+      ];
+      if (errors.isNotEmpty) {
+        _printErrors(
+          'Doctor input for ${package.name} contains errors',
+          errors,
+        );
+        return const Failure(HooksRunnerFailure.internal);
+      }
 
-        return Success(DoctorResult(packageValidations: packageValidations));
-      });
+      final validations = await _runDoctorHookForPackage(
+        input,
+        buildDirUri,
+      );
+      packageValidations[package.name] = validations;
+    }
+
+    return Success(DoctorResult(packageValidations: packageValidations));
+  });
 
   @experimental
   Future<List<DoctorValidationResult>> _runDoctorHookForPackage(

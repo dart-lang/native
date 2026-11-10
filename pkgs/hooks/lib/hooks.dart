@@ -178,6 +178,8 @@ export 'src/config.dart'
         BuildOutputFailure,
         BuildOutputMaybeFailure,
         BuildOutputMetadataBuilder,
+        DoctorConfig,
+        DoctorConfigBuilder,
         DoctorInput,
         DoctorInputBuilder,
         DoctorOutput,

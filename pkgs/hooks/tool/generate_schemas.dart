@@ -105,6 +105,13 @@ void generateSharedDefinitions(Counts counts) {
       'config': {r'$ref': 'shared_definitions.schema.json#/definitions/Config'},
     },
   };
+  const doctorInputCodeOverride = {
+    'properties': {
+      'config': {
+        r'$ref': 'shared_definitions.schema.json#/definitions/DoctorConfig',
+      },
+    },
+  };
   const configOverride = {
     'Config': {
       'allOf': [
@@ -113,6 +120,15 @@ void generateSharedDefinitions(Counts counts) {
               '../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/Config',
         },
         {r'$ref': 'shared_definitions.schema.json#/definitions/Config'},
+      ],
+    },
+    'DoctorConfig': {
+      'allOf': [
+        {
+          r'$ref':
+              '../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/DoctorConfig',
+        },
+        {r'$ref': 'shared_definitions.schema.json#/definitions/DoctorConfig'},
       ],
     },
   };
@@ -133,7 +149,9 @@ void generateSharedDefinitions(Counts counts) {
             'package:$package party:${party.name} shared definitions generated',
         'definitions': {
           for (final hook in Hook.values)
-            if (package == 'hooks' || hook != Hook.doctor)
+            if (package == 'hooks' ||
+                package == 'code_assets' ||
+                hook != Hook.doctor)
               for (final inputOrOutput in InputOrOutput.values) ...{
                 definitionName(hook, inputOrOutput): {
                   'allOf': [
@@ -184,6 +202,11 @@ void generateSharedDefinitions(Counts counts) {
                         inputOrOutput == InputOrOutput.input &&
                         package == 'code_assets')
                       hookInputCodeOverride,
+                    if (party == Party.shared &&
+                        hook == Hook.doctor &&
+                        inputOrOutput == InputOrOutput.input &&
+                        package == 'code_assets')
+                      doctorInputCodeOverride,
                   ],
                 },
                 if (package == 'code_assets' &&
@@ -219,7 +242,11 @@ void generateEntryPoints(Counts counts) {
   for (final package in packages) {
     for (final hook in Hook.values) {
       if (hook == Hook.hook) continue;
-      if (package != 'hooks' && hook == Hook.doctor) continue;
+      if (package != 'hooks' &&
+          package != 'code_assets' &&
+          hook == Hook.doctor) {
+        continue;
+      }
       for (final party in Party.values) {
         if (party == Party.shared) continue;
         for (final inputOrOutput in InputOrOutput.values) {

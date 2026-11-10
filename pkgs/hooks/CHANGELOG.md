@@ -1,8 +1,9 @@
 ## 2.3.0-wip
 
 - Add experimental support for `hook/doctor.dart` (`doctor`, `DoctorInput`,
-  `DoctorOutput`, `DoctorValidationResult`, `DoctorValidationMessage`,
-  `testDoctorHook`).
+  `DoctorConfig`, `DoctorOutput`, `DoctorValidationResult`,
+  `DoctorValidationMessage`, `ProtocolExtension.setupDoctorInput`,
+  `ProtocolExtension.validateDoctorInput`, `testDoctorHook`).
 - Track header dependencies in the C build examples so header changes trigger
   recompilation.
 

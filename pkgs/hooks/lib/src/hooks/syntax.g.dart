@@ -347,20 +347,56 @@ class ConfigSyntax extends JsonObjectSyntax {
   String toString() => 'ConfigSyntax($json)';
 }
 
+class DoctorConfigSyntax extends ConfigSyntax {
+  DoctorConfigSyntax.fromJson(super.json, {super.path}) : super.fromJson();
+
+  DoctorConfigSyntax({
+    required super.buildAssetTypes,
+    required super.extensions,
+    super.path = const [],
+  }) : super();
+
+  @override
+  List<String> validate() => [...super.validate()];
+
+  @override
+  String toString() => 'DoctorConfigSyntax($json)';
+}
+
 class DoctorInputSyntax extends JsonObjectSyntax {
   DoctorInputSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
   DoctorInputSyntax({
+    required DoctorConfigSyntax config,
     required Uri outFile,
     required String packageName,
     required Uri packageRoot,
     super.path = const [],
   }) : super() {
+    this.config = config;
     this.outFile = outFile;
     this.packageName = packageName;
     this.packageRoot = packageRoot;
     json.sortOnKey();
+  }
+
+  DoctorConfigSyntax get config {
+    final jsonValue = _reader.map$('config');
+    return DoctorConfigSyntax.fromJson(jsonValue, path: [...path, 'config']);
+  }
+
+  set config(DoctorConfigSyntax value) {
+    json['config'] = value.json;
+    json.sortOnKey();
+  }
+
+  List<String> _validateConfig() {
+    final mapErrors = _reader.validate<Map<String, Object?>>('config');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return config.validate();
   }
 
   Uri get outFile => _reader.path$('out_file');
@@ -394,6 +430,7 @@ class DoctorInputSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateConfig(),
     ..._validateOutFile(),
     ..._validatePackageName(),
     ..._validatePackageRoot(),
