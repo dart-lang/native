@@ -741,7 +741,6 @@ extension type $name._($_jObject _\$this) implements $implementsClause {
     $_override
     String get className => r'$internalName';
   }
-
   ''');
   }
 }
