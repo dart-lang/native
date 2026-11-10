@@ -1,3 +1,7 @@
+## 2.2.1-wip
+
+- Add `hook/doctor.dart` to `example/sqlite_prebuilt/`.
+
 ## 2.2.0
 
 - Support complete iOS and macOS deployment versions through `AppleVersion` and
