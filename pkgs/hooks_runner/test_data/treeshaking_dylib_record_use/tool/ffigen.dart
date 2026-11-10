@@ -29,10 +29,10 @@ Future<void> main() async {
 // BSD-style license that can be found in the LICENSE file.
 ''',
       dart: DartOutput(
-        path: packageRoot.resolve('lib/src/add_bindings.dart'),
+        path: packageRoot.resolve('lib/src/add_bindings.g.dart'),
       ),
       recordUseMapping: packageRoot.resolve(
-        'lib/src/add_record_use_mapping.dart',
+        'lib/src/add_record_use_mapping.g.dart',
       ),
       style: const NativeExternalBindings(
         assetId: 'package:treeshaking_dylib_record_use/add',
@@ -61,10 +61,10 @@ Future<void> main() async {
 // BSD-style license that can be found in the LICENSE file.
 ''',
       dart: DartOutput(
-        path: packageRoot.resolve('lib/src/multiply_bindings.dart'),
+        path: packageRoot.resolve('lib/src/multiply_bindings.g.dart'),
       ),
       recordUseMapping: packageRoot.resolve(
-        'lib/src/multiply_record_use_mapping.dart',
+        'lib/src/multiply_record_use_mapping.g.dart',
       ),
       style: const NativeExternalBindings(
         assetId: 'package:treeshaking_dylib_record_use/multiply',

@@ -11,7 +11,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
   return FfiGenerator(
     output: Output(
       dart: DartOutput(
-        path: packageRoot.resolve('lib/native_add_library.dart'),
+        path: packageRoot.resolve('lib/src/native_add_library.g.dart'),
       ),
       preamble: '''
 // Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
