@@ -1,4 +1,4 @@
-## 2.0.0-wip
+## 2.0.0
 
 - Decode hook stdout and stderr as streaming UTF-8, fixing garbled non-ASCII
   output on Windows and characters split across process output chunks.

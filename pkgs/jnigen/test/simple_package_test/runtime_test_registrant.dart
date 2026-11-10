@@ -14,6 +14,11 @@ import '../test_util/callback_types.dart';
 import '../test_util/java_gc.dart';
 import 'bindings/simple_package.dart';
 
+class _NullJObject implements JObject {
+  @override
+  dynamic noSuchMethod(Invocation _) => jNullReference;
+}
+
 void _jnigenConsumerIsolateEntry(
     (
       SendPort runnerPort,
@@ -335,6 +340,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
           fail('Expected JThrowable, but got ${e.runtimeType}: $e');
         }
         throw AssertionError('No exception was thrown');
+      });
+
+      test('Exception with null toString()', () {
+        throwsException(Exceptions.throwNullToStringException);
       });
     });
 
@@ -1463,6 +1472,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
         });
       });
+
+      test(
+        'Defensive null checks throw JNullError on null-reference receiver',
+        () {
+          final nullAnnotated =
+              _NullJObject() as Annotated<JString, JString, JString>;
+          expect(nullAnnotated.hello, throwsA(isA<JNullError>()));
+        },
+      );
     });
 
     group('Enums', () {
