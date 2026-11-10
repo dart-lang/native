@@ -99,11 +99,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - runner: "macos-15"
-            xcode_version: "16.4"
-          - runner: "macos-latest"
-            xcode_version: "26.3"
+        runner: ["macos-15", "macos-latest"]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -111,17 +107,6 @@ jobs:
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
-      - name: List installed Xcodes
-        run: ls -l /Applications | grep Xcode
-      - name: List Installed SDKs
-        run: xcodebuild -showsdks
-      - name: Select the XCode version
-        run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
-      - name: Install iOS SDK
-        run: |
-          xcrun simctl list > /dev/null  # Wakes up and initializes the CoreSimulator daemon
-          xcodebuild -downloadPlatform iOS
-          xcrun simctl list runtimes
       - name: Install dependencies
         run: flutter pub get
       - name: Build the example app for macos
