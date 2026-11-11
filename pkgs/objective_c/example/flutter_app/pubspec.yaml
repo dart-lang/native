@@ -13,13 +13,29 @@ dependencies:
     path: ../..
 
 dev_dependencies:
+  ffi: ^2.1.0
+  ffigen:
+    path: ../../../ffigen
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
+  integration_test:
+    sdk: flutter
+  leak_tracker: ^11.0.0
+  logging: ^1.3.0
+  native_test_helpers:
+    path: ../../../native_test_helpers/
+  package_config: ^2.1.0
+  path: ^1.9.0
+  pub_semver: ^2.1.4
+  test: ^1.26.2
+  yaml: ^3.1.0
 
 dependency_overrides:
   code_assets:
     path: ../../../code_assets
+  ffigen:
+    path: ../../../ffigen
   hooks:
     path: ../../../hooks
   meta: ^1.19.0
@@ -29,6 +45,13 @@ dependency_overrides:
     path: ../../../record_use
   objective_c:
     path: ../..
+
+hooks:
+  user_defines:
+    ffigen:
+      include_test_utils: true
+    objective_c:
+      include_test_utils: true
 
 flutter:
   uses-material-design: true

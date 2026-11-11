@@ -153,5 +153,21 @@ void main() {
       obj.ref.release();
       expect(isValidObject(ptr), isFalse);
     });
+
+    test('protocol builder', () {
+      final rawBuilder = ObjCProtocolBuilder();
+      final rawObj = rawBuilder.build(keepIsolateAlive: false);
+      expect(isValidObject(rawObj.ref.pointer), isTrue);
+      expect(isValidBlock(rawObj.ref.pointer.cast()), isFalse);
+      expect(isValidObject(getObjectClass(rawObj.ref.pointer)), isTrue);
+
+      final obj = NSStreamDelegate$Builder.implementAsListener(
+        stream_handleEvent_: (_, _) {},
+        $keepIsolateAlive: false,
+      );
+      expect(isValidObject(obj.ref.pointer), isTrue);
+      expect(isValidBlock(obj.ref.pointer.cast()), isFalse);
+      expect(isValidObject(getObjectClass(obj.ref.pointer)), isTrue);
+    });
   });
 }
