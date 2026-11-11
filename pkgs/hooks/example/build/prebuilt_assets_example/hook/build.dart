@@ -25,7 +25,7 @@ void main(List<String> args) async {
       output.assets.code.add(
         CodeAsset(
           package: input.packageName,
-          name: 'native_add.dart',
+          name: 'src/native_add.g.dart',
           linkMode: DynamicLoadingBundled(),
           file: assetUri,
         ),

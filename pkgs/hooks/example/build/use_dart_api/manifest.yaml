@@ -1,7 +1,7 @@
 - hook/build.dart
 - ffigen.yaml
 - lib/native_add.dart
-- lib/src/native_add_bindings_generated.dart
+- lib/src/native_add_bindings.g.dart
 - lib/src/native_add.dart
 - pubspec.yaml
 - src/native_add.c

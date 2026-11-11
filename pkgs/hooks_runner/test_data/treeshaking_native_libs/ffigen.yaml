@@ -4,7 +4,7 @@ description: |
   Bindings for `src/native_add.h` and `src/native_multiply.h`.
 
   Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
-output: "lib/src/treeshaking_native_libs_bindings_generated.dart"
+output: "lib/src/treeshaking_native_libs_bindings.g.dart"
 headers:
   entry-points:
     - "src/native_add.h"
