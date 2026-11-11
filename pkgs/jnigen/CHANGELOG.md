@@ -1,5 +1,7 @@
 ## 1.1.0-wip
 
+- Generate `className` overrides for Java class bindings to support the
+  updated `JType` API.
 - Emit defensive null checks on instance method receiver objects before
   crossing into JNI.
 - Bump required `package:jni` version to `1.2`.
