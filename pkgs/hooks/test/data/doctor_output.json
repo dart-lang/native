@@ -1,0 +1,22 @@
+{
+  "$schema": "../../doc/schema/hook/doctor_output.generated.schema.json",
+  "validations": [
+    {
+      "messages": [
+        {
+          "context_url": "https://example.com/clang",
+          "message": "Clang version 16.0.0 found at /usr/bin/clang",
+          "pii_stripped_message": "Clang version 16.0.0 found at <path>",
+          "type": "information"
+        },
+        {
+          "message": "Consider upgrading to Clang 17",
+          "type": "hint"
+        }
+      ],
+      "status_info": "Clang 16.0.0",
+      "title": "C toolchain (package:my_package)",
+      "type": "success"
+    }
+  ]
+}

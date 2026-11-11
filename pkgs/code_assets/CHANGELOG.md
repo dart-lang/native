@@ -1,3 +1,9 @@
+## 2.3.0-wip
+
+- Add experimental `DoctorCodeAssetExtension`, `DoctorCodeConfigs`,
+  `DoctorCodeConfig`, and `DoctorIOSCodeConfig` for `hook/doctor.dart`.
+- Add `hook/doctor.dart` to `example/sqlite_prebuilt/`.
+
 ## 2.2.0
 
 - Support complete iOS and macOS deployment versions through `AppleVersion` and

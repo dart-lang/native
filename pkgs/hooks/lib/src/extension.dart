@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 import 'config.dart';
 import 'encoded_asset.dart';
@@ -58,8 +59,16 @@ abstract base class ProtocolExtension {
   /// Setup the [HookConfig] for this extension.
   void setupLinkInput(LinkInputBuilder input) {}
 
+  /// Setup the [DoctorConfig] for this extension.
+  @experimental
+  void setupDoctorInput(DoctorInputBuilder input) {}
+
   /// Reports errors from this extension on the [BuildInput].
   Future<ValidationErrors> validateBuildInput(BuildInput input) async => [];
+
+  /// Reports errors from this extension on the [DoctorInput].
+  @experimental
+  Future<ValidationErrors> validateDoctorInput(DoctorInput input) async => [];
 
   /// Reports errors from this extension on the [LinkInput].
   Future<ValidationErrors> validateBuildOutput(

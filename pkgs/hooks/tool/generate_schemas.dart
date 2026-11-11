@@ -49,7 +49,7 @@ const jsonEncoder = JsonEncoder.withIndent('  ');
 
 enum Party { hook, shared, sdk }
 
-enum Hook { build, hook, link }
+enum Hook { build, doctor, hook, link }
 
 const packages = ['hooks', 'code_assets', 'data_assets', 'web_assets'];
 
@@ -105,6 +105,13 @@ void generateSharedDefinitions(Counts counts) {
       'config': {r'$ref': 'shared_definitions.schema.json#/definitions/Config'},
     },
   };
+  const doctorInputCodeOverride = {
+    'properties': {
+      'config': {
+        r'$ref': 'shared_definitions.schema.json#/definitions/DoctorConfig',
+      },
+    },
+  };
   const configOverride = {
     'Config': {
       'allOf': [
@@ -113,6 +120,15 @@ void generateSharedDefinitions(Counts counts) {
               '../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/Config',
         },
         {r'$ref': 'shared_definitions.schema.json#/definitions/Config'},
+      ],
+    },
+    'DoctorConfig': {
+      'allOf': [
+        {
+          r'$ref':
+              '../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/DoctorConfig',
+        },
+        {r'$ref': 'shared_definitions.schema.json#/definitions/DoctorConfig'},
       ],
     },
   };
@@ -133,62 +149,72 @@ void generateSharedDefinitions(Counts counts) {
             'package:$package party:${party.name} shared definitions generated',
         'definitions': {
           for (final hook in Hook.values)
-            for (final inputOrOutput in InputOrOutput.values) ...{
-              definitionName(hook, inputOrOutput): {
-                'allOf': [
-                  // Include all definitions that together make this definition.
-                  if (hook != Hook.hook)
-                    {
-                      r'$ref':
-                          '#/definitions/${definitionName(Hook.hook, inputOrOutput)}',
-                    },
-                  if (package != 'hooks')
-                    {
-                      r'$ref':
-                          '../../../../hooks/doc/schema/${party.name}/shared_definitions${party == Party.shared ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
-                    },
-                  if (party != Party.shared)
-                    {
-                      r'$ref':
-                          '../shared/shared_definitions${package == 'hooks' ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
-                    },
-                  if (package != 'data_assets' &&
-                      package != 'web_assets' &&
-                      party != Party.shared)
-                    {
-                      r'$ref':
-                          'shared_definitions.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
-                    },
-                  // Redefine definitions if nested properties are overwritten.
-                  if (party == Party.shared &&
-                      hook == Hook.build &&
-                      inputOrOutput == InputOrOutput.output)
-                    buildOutputAssetOverride,
-                  if (party == Party.shared &&
-                      hook == Hook.hook &&
-                      inputOrOutput == InputOrOutput.output)
-                    hookOutputAssetOverride,
-                  if (party == Party.shared &&
-                      hook == Hook.build &&
-                      inputOrOutput == InputOrOutput.input)
-                    buildInputAssetOverride,
-                  if (party == Party.shared &&
-                      hook == Hook.link &&
-                      inputOrOutput == InputOrOutput.input)
-                    linkInputAssetOverride,
-                  if (party == Party.shared &&
-                      hook == Hook.hook &&
-                      inputOrOutput == InputOrOutput.input &&
-                      package == 'code_assets')
-                    hookInputCodeOverride,
-                ],
+            if (package == 'hooks' ||
+                package == 'code_assets' ||
+                hook != Hook.doctor)
+              for (final inputOrOutput in InputOrOutput.values) ...{
+                definitionName(hook, inputOrOutput): {
+                  'allOf': [
+                    // Include all definitions that together make this
+                    // definition.
+                    if (hook != Hook.hook && hook != Hook.doctor)
+                      {
+                        r'$ref':
+                            '#/definitions/${definitionName(Hook.hook, inputOrOutput)}',
+                      },
+                    if (package != 'hooks')
+                      {
+                        r'$ref':
+                            '../../../../hooks/doc/schema/${party.name}/shared_definitions${party == Party.shared ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
+                      },
+                    if (party != Party.shared)
+                      {
+                        r'$ref':
+                            '../shared/shared_definitions${package == 'hooks' ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
+                      },
+                    if (package != 'data_assets' &&
+                        package != 'web_assets' &&
+                        party != Party.shared)
+                      {
+                        r'$ref':
+                            'shared_definitions.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
+                      },
+                    // Redefine definitions if nested properties are
+                    // overwritten.
+                    if (party == Party.shared &&
+                        hook == Hook.build &&
+                        inputOrOutput == InputOrOutput.output)
+                      buildOutputAssetOverride,
+                    if (party == Party.shared &&
+                        hook == Hook.hook &&
+                        inputOrOutput == InputOrOutput.output)
+                      hookOutputAssetOverride,
+                    if (party == Party.shared &&
+                        hook == Hook.build &&
+                        inputOrOutput == InputOrOutput.input)
+                      buildInputAssetOverride,
+                    if (party == Party.shared &&
+                        hook == Hook.link &&
+                        inputOrOutput == InputOrOutput.input)
+                      linkInputAssetOverride,
+                    if (party == Party.shared &&
+                        hook == Hook.hook &&
+                        inputOrOutput == InputOrOutput.input &&
+                        package == 'code_assets')
+                      hookInputCodeOverride,
+                    if (party == Party.shared &&
+                        hook == Hook.doctor &&
+                        inputOrOutput == InputOrOutput.input &&
+                        package == 'code_assets')
+                      doctorInputCodeOverride,
+                  ],
+                },
+                if (package == 'code_assets' &&
+                    party == Party.shared &&
+                    hook == Hook.hook &&
+                    inputOrOutput == InputOrOutput.output)
+                  ...configOverride,
               },
-              if (package == 'code_assets' &&
-                  party == Party.shared &&
-                  hook == Hook.hook &&
-                  inputOrOutput == InputOrOutput.output)
-                ...configOverride,
-            },
         },
       };
       var jsonString = jsonEncoder.convert(sortJson(contents, schemaUri.path));
@@ -216,6 +242,11 @@ void generateEntryPoints(Counts counts) {
   for (final package in packages) {
     for (final hook in Hook.values) {
       if (hook == Hook.hook) continue;
+      if (package != 'hooks' &&
+          package != 'code_assets' &&
+          hook == Hook.doctor) {
+        continue;
+      }
       for (final party in Party.values) {
         if (party == Party.shared) continue;
         for (final inputOrOutput in InputOrOutput.values) {

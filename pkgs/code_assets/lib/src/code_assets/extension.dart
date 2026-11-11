@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:hooks/hooks.dart';
+import 'package:meta/meta.dart';
 
 import 'architecture.dart';
 import 'c_compiler_config.dart';
@@ -77,6 +78,20 @@ final class CodeAssetExtension extends ProtocolExtension {
     _setupConfig(input);
   }
 
+  @override
+  @experimental
+  void setupDoctorInput(DoctorInputBuilder input) {
+    input.config.addBuildAssetTypes([CodeAssetType.type]);
+    input.config.setupCode([
+      DoctorCodeConfig(
+        targetArchitecture: targetArchitecture,
+        targetOS: targetOS,
+        cCompiler: cCompiler,
+        iOS: iOS,
+      ),
+    ]);
+  }
+
   void _setupConfig(HookInputBuilder input) {
     input.config.addBuildAssetTypes([CodeAssetType.type]);
     input.config.setupCode(
@@ -94,6 +109,11 @@ final class CodeAssetExtension extends ProtocolExtension {
   @override
   Future<ValidationErrors> validateBuildInput(BuildInput input) =>
       validateCodeAssetBuildInput(input);
+
+  @override
+  @experimental
+  Future<ValidationErrors> validateDoctorInput(DoctorInput input) =>
+      validateCodeAssetDoctorInput(input);
 
   @override
   Future<ValidationErrors> validateLinkInput(LinkInput input) =>
@@ -131,4 +151,25 @@ final class CodeAssetExtension extends ProtocolExtension {
       }
     }
   }
+}
+
+/// The protocol extension for `hook/doctor.dart` with [DoctorCodeConfigs].
+@experimental
+final class DoctorCodeAssetExtension extends ProtocolExtension {
+  /// The [DoctorCodeConfig]s for all target OS and architecture combinations
+  /// that the invoking SDK (`dart` or `flutter`) can target.
+  final List<DoctorCodeConfig> configs;
+
+  /// Constructs a [DoctorCodeAssetExtension].
+  DoctorCodeAssetExtension({required this.configs});
+
+  @override
+  void setupDoctorInput(DoctorInputBuilder input) {
+    input.config.addBuildAssetTypes([CodeAssetType.type]);
+    input.config.setupCode(configs);
+  }
+
+  @override
+  Future<ValidationErrors> validateDoctorInput(DoctorInput input) =>
+      validateCodeAssetDoctorInput(input);
 }
