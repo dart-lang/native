@@ -12,6 +12,7 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 import 'arc_config.dart' as arc_config;
+import 'autorelease_pool_config.dart' as autorelease_pool_config;
 import 'bad_method_config.dart' as bad_method_config;
 import 'bad_override_config.dart' as bad_override_config;
 import 'block_annotation_config.dart' as block_annotation_config;
@@ -84,6 +85,7 @@ void main() {
     final packageRoot = Uri.file(path.join(packagePathForTests, ''));
     final configs = <String, FfiGenerator>{
       'arc': arc_config.getConfig(packageRoot),
+      'autorelease_pool': autorelease_pool_config.getConfig(packageRoot),
       'bad_method': bad_method_config.getConfig(packageRoot),
       'bad_override': bad_override_config.getConfig(packageRoot),
       'block_annotation': block_annotation_config.getConfig(packageRoot),

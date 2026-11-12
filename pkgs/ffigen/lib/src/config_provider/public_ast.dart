@@ -657,6 +657,12 @@ class ObjCMethod extends NamedNode {
   /// Whether this ObjCMethod should be included in code generation.
   bool get isIncluded => _method.isIncluded;
   set isIncluded(bool value) => _method.isIncluded = value;
+
+  /// Whether calls to this method should be wrapped in an autorelease pool.
+  ///
+  /// Defaults to `false`.
+  bool get useAutoreleasePool => _method.useAutoreleasePool;
+  set useAutoreleasePool(bool value) => _method.useAutoreleasePool = value;
 }
 
 /// An unnamed enum constant.
