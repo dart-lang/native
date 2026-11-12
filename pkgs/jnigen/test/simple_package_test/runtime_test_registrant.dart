@@ -472,6 +472,29 @@ void registerTests(String groupName, TestRunnerCallback test) {
           });
         });
       });
+      test('shadowed type parameters of non-static nested classes', () {
+        using((arena) {
+          final outer = R630<JString>(
+            'outer'.toJString()..releasedBy(arena),
+          )..releasedBy(arena);
+          final inner = R630$Inner<JInteger>(
+            outer,
+            42.toJInteger()..releasedBy(arena),
+          )..releasedBy(arena);
+
+          expect(inner.value!.toDartInt(releaseOriginal: true), 42);
+          expect(
+            inner.outerValue!
+                .as(JString.type, releaseOriginal: true)
+                .toDartString(releaseOriginal: true),
+            'outer',
+          );
+          inner.value = 7.toJInteger()..releasedBy(arena);
+          expect(inner.value!.toDartInt(releaseOriginal: true), 7);
+          expect(outer.value!.toDartString(releaseOriginal: true), 'outer');
+        });
+      });
+
       test('nested generics', () {
         using((arena) {
           final grandParent = GrandParent<JString>(
