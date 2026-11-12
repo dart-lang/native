@@ -26,6 +26,18 @@ void main(List<String> args) async {
   await doctor(args, (input, output) async {
     final code = input.config.code;
     if (code == null) {
+      output.addValidation(
+        DoctorValidationResult(
+          title: 'C Toolchain',
+          type: .notAvailable,
+          messages: [
+            DoctorValidationMessage.error(
+              'The SDK does not support code assets, so C toolchains '
+              'cannot be validated.',
+            ),
+          ],
+        ),
+      );
       return;
     }
     final context = ToolResolvingContext(logger: createDefaultLogger());

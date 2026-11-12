@@ -12,6 +12,18 @@ void main(List<String> args) async {
   await doctor(args, (input, output) async {
     final code = input.config.code;
     if (code == null) {
+      output.addValidation(
+        DoctorValidationResult(
+          title: 'SQLite3 (package:sqlite_prebuilt)',
+          type: DoctorValidationType.notAvailable,
+          messages: [
+            DoctorValidationMessage.error(
+              'The SDK does not support code assets, so native dependencies '
+              'cannot be validated.',
+            ),
+          ],
+        ),
+      );
       return;
     }
     final targetOSs = {for (final config in code.configs) config.targetOS};
