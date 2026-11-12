@@ -72,20 +72,23 @@ void main() {
       // Include transitive category of explicitly included built-in type.
       expect(objc.NSURL.alloc().extensionMethod(), 555);
 
-      // Don't include transitive category of built-in type that hasn't been
-      // explicitly included.
-      final bindings = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'category_test_bindings.dart',
-        ),
-      ).readAsStringSync();
-      expect(bindings, isNot(contains('excludedExtensionMethod')));
+      if (Platform.isMacOS) {
+        // Don't include transitive category of built-in type that hasn't been
+        // explicitly included.
+        final bindings = File(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'category_test_bindings.dart',
+          ),
+        ).readAsStringSync();
+        expect(bindings, isNot(contains('excludedExtensionMethod')));
 
-      // This method is from an NSObject extension, which shouldn't be included.
-      expect(bindings, isNot(contains('autoContentAccessingProxy')));
+        // This method is from an NSObject extension, which shouldn't be
+        // included.
+        expect(bindings, isNot(contains('autoContentAccessingProxy')));
+      }
     });
 
     test('Category that has the same name as an imported type that is the '
@@ -110,7 +113,7 @@ extension type ChildOfNSString._(objc.ObjCObject object\$)
     implements objc.ObjCObject, objc.NSString {
 '''),
       );
-    });
+    }, skip: !Platform.isMacOS);
 
     test('Excluded category filtering and instancetype methods', () {
       final bindings = File(
@@ -137,6 +140,6 @@ extension type ChildOfNSString._(objc.ObjCObject object\$)
         bindings,
         isNot(contains('excludedCategoryStaticInstancetypeMethod')),
       );
-    });
+    }, skip: !Platform.isMacOS);
   });
 }

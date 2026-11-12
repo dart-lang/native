@@ -76,7 +76,7 @@ void main() {
         doGC();
         expect(tracker.isAlive, isFalse);
       });
-    });
+    }, skip: !canDoGC);
 
     test('`int.toNSNumber` garbage collected', () async {
       await using((arena) async {
@@ -90,7 +90,7 @@ void main() {
         doGC();
         expect(tracker.isAlive, isFalse);
       });
-    });
+    }, skip: !canDoGC);
   });
 
   test('from bool', () {

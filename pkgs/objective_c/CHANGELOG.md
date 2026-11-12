@@ -1,9 +1,11 @@
-## 9.6.4-wip
+## 9.6.4
 
 - Link the native support library against Foundation. Loading a built-in
   Foundation class (eg `NSArray`) no longer throws an internally caught
   `ArgumentError` before falling back to `objc_getClass`, which stopped
   debuggers that break on all exceptions.
+- Fix a [bug](https://github.com/dart-lang/native/issues/3786) where object
+  validity debug checks would fail on the iOS simulator for some objects.
 
 ## 9.6.3
 

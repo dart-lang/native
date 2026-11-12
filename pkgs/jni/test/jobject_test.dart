@@ -310,4 +310,8 @@ void run({required TestRunnerCallback testRunner}) {
       throwsA(isA<JNullError>()),
     );
   });
+
+  testRunner('Disallow JGlobalReference(nullptr)', () {
+    expect(() => JGlobalReference(nullptr), throwsA(isA<JNullError>()));
+  });
 }

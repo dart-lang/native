@@ -307,6 +307,7 @@ static inline void load_static_field(jclass cls,
 }
 
 static inline jobject to_global_ref(jobject ref) {
+  if (ref == NULL) return NULL;
   jobject g = (*jniEnv)->NewGlobalRef(jniEnv, ref);
   (*jniEnv)->DeleteLocalRef(jniEnv, ref);
   return g;

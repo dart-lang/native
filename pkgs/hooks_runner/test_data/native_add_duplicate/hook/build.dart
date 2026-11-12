@@ -12,7 +12,7 @@ void main(List<String> arguments) async {
     const duplicatedPackageName = 'native_add';
     final cbuilder = CBuilder.library(
       name: duplicatedPackageName,
-      assetName: 'src/${packageName}_bindings_generated.dart',
+      assetName: 'src/${packageName}_bindings.g.dart',
       sources: ['src/$duplicatedPackageName.c', 'src/$duplicatedPackageName.h'],
     );
     // Temp output to prevent outputting the dylib for bundling.

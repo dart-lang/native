@@ -6,30 +6,46 @@
 @TestOn('mac-os')
 library;
 
+import 'dart:io';
+
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('osVersion', () {
     test('getter', () {
-      // macOS 11 was released in 2020 and isn't supported anymore.
+      // macOS 11 and iOS 11 were released years ago and aren't supported
+      // anymore.
       final oldVersion = Version(11, 0, 0);
       expect(osVersion, greaterThan(oldVersion));
     });
 
     test('check', () {
-      // This test is only run on macOS.
-      expect(checkOSVersion(iOS: Version(1, 0, 0)), isFalse);
-      expect(
-        checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(11, 0, 0)),
-        isTrue,
-      );
-      expect(
-        checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(1000, 0, 0)),
-        isFalse,
-      );
-      expect(checkOSVersion(macOS: Version(11, 0, 0)), isTrue);
-      expect(checkOSVersion(macOS: Version(1000, 0, 0)), isFalse);
+      if (Platform.isMacOS) {
+        expect(checkOSVersion(iOS: Version(1, 0, 0)), isFalse);
+        expect(
+          checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(11, 0, 0)),
+          isTrue,
+        );
+        expect(
+          checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(1000, 0, 0)),
+          isFalse,
+        );
+        expect(checkOSVersion(macOS: Version(11, 0, 0)), isTrue);
+        expect(checkOSVersion(macOS: Version(1000, 0, 0)), isFalse);
+      } else {
+        expect(checkOSVersion(macOS: Version(1, 0, 0)), isFalse);
+        expect(
+          checkOSVersion(iOS: Version(11, 0, 0), macOS: Version(1, 0, 0)),
+          isTrue,
+        );
+        expect(
+          checkOSVersion(iOS: Version(1000, 0, 0), macOS: Version(1, 0, 0)),
+          isFalse,
+        );
+        expect(checkOSVersion(iOS: Version(11, 0, 0)), isTrue);
+        expect(checkOSVersion(iOS: Version(1000, 0, 0)), isFalse);
+      }
     });
   });
 }

@@ -236,4 +236,23 @@ void run({required TestRunnerCallback testRunner}) {
       env.DeleteGlobalRef(errClass);
     });
   });
+
+  testRunner(
+    'FindClass throws JThrowable on missing class while GetSuperclass on '
+    'Object returns nullptr',
+    () => using((arena) {
+      addTearDown(env.ExceptionClear);
+      final objectClass =
+          env.FindClass('java/lang/Object'.toNativeChars(arena));
+      try {
+        expect(env.GetSuperclass(objectClass), nullptr);
+      } finally {
+        env.DeleteGlobalRef(objectClass);
+      }
+      expect(
+        () => env.FindClass('com/example/NonExistent'.toNativeChars(arena)),
+        throwsA(isA<JThrowable>()),
+      );
+    }),
+  );
 }
