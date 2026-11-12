@@ -18,6 +18,20 @@ void main() {
   test('native_toolchain_c doctor hook smoke test', () async {
     await testDoctorHook(
       mainMethod: doctor_hook.main,
+      extensions: [
+        DoctorCodeAssetExtension(
+          configs: [
+            DoctorCodeConfig(
+              targetOS: OS.current,
+              targetArchitecture: Architecture.current,
+            ),
+            DoctorCodeConfig(
+              targetOS: OS.android,
+              targetArchitecture: Architecture.arm64,
+            ),
+          ],
+        ),
+      ],
       check: (input, output) {
         expect(output.validations, hasLength(2));
         final hostValidation = output.validations.first;
@@ -35,7 +49,7 @@ void main() {
           isIn([
             DoctorValidationType.success,
             DoctorValidationType.partial,
-            DoctorValidationType.notAvailable,
+            DoctorValidationType.missing,
           ]),
         );
       },
@@ -58,6 +72,16 @@ void main() {
         final results = await doctor_hook.runNativeToolchainCDoctor(
           context: emptyContext,
           hostOS: hostOS,
+          configs: [
+            DoctorCodeConfig(
+              targetOS: hostOS,
+              targetArchitecture: Architecture.x64,
+            ),
+            DoctorCodeConfig(
+              targetOS: OS.android,
+              targetArchitecture: Architecture.arm64,
+            ),
+          ],
         );
         expect(results, hasLength(2));
         expect(results.first.type, DoctorValidationType.missing);
@@ -74,7 +98,7 @@ void main() {
           isTrue,
         );
         expect(results.last.title, 'Android NDK C Toolchain');
-        expect(results.last.type, DoctorValidationType.notAvailable);
+        expect(results.last.type, DoctorValidationType.missing);
       },
     );
   }
@@ -91,6 +115,12 @@ void main() {
     final results = await doctor_hook.runNativeToolchainCDoctor(
       context: emptyContext,
       hostOS: OS.fuchsia,
+      configs: [
+        DoctorCodeConfig(
+          targetOS: OS.fuchsia,
+          targetArchitecture: Architecture.arm64,
+        ),
+      ],
     );
     expect(results.first.type, DoctorValidationType.notAvailable);
     expect(results.first.statusInfo, contains('fuchsia'));

@@ -24,57 +24,55 @@ import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 
 void main(List<String> args) async {
   await doctor(args, (input, output) async {
+    final code = input.config.code;
+    if (code == null) {
+      return;
+    }
     final context = ToolResolvingContext(logger: createDefaultLogger());
-    final configs = input.config.buildCodeAssets
-        ? input.config.code.configs
-        : null;
     final validations = await runNativeToolchainCDoctor(
       context: context,
       hostOS: .current,
-      configs: configs,
+      configs: code.configs,
     );
     output.addValidations(validations);
   });
 }
 
-/// Runs C toolchain diagnostics for [hostOS] using [context].
+/// Runs C toolchain diagnostics for [hostOS] and [configs] using [context].
 ///
-/// When [configs] is non-empty, only toolchains for the target platforms in
-/// [configs] are validated, custom [CCompilerConfig] paths are inspected, and
-/// missing required target toolchains are reported as
-/// [DoctorValidationType.missing].
+/// Only toolchains for the target platforms in [configs] are validated, custom
+/// [CCompilerConfig] paths are inspected, and missing required target
+/// toolchains are reported as [DoctorValidationType.missing].
 Future<List<DoctorValidationResult>> runNativeToolchainCDoctor({
   required ToolResolvingContext context,
   required OS hostOS,
-  List<DoctorCodeConfig>? configs,
+  required List<DoctorCodeConfig> configs,
 }) async {
-  final hasConfigs = configs != null && configs.isNotEmpty;
-  final macosConfigs = configs?.where((c) => c.targetOS == .macOS).toList();
-  final iosConfigs = configs?.where((c) => c.targetOS == .iOS).toList();
-  final linuxConfigs = configs?.where((c) => c.targetOS == .linux).toList();
-  final windowsConfigs = configs?.where((c) => c.targetOS == .windows).toList();
-  final androidConfigs = configs?.where((c) => c.targetOS == .android).toList();
+  if (configs.isEmpty) {
+    return const [];
+  }
+  final macosConfigs = configs.where((c) => c.targetOS == .macOS).toList();
+  final iosConfigs = configs.where((c) => c.targetOS == .iOS).toList();
+  final linuxConfigs = configs.where((c) => c.targetOS == .linux).toList();
+  final windowsConfigs = configs.where((c) => c.targetOS == .windows).toList();
+  final androidConfigs = configs.where((c) => c.targetOS == .android).toList();
 
   return [
     switch (hostOS) {
-      .macOS
-          when !hasConfigs ||
-              macosConfigs!.isNotEmpty ||
-              iosConfigs!.isNotEmpty =>
+      .macOS when macosConfigs.isNotEmpty || iosConfigs.isNotEmpty =>
         await _validateMacOSToolchain(
           context,
-          macosConfigs: hasConfigs ? macosConfigs : null,
-          iosConfigs: hasConfigs ? iosConfigs : null,
+          macosConfigs: macosConfigs,
+          iosConfigs: iosConfigs,
         ),
-      .linux when !hasConfigs || linuxConfigs!.isNotEmpty =>
-        await _validateLinuxToolchain(
-          context,
-          linuxConfigs: hasConfigs ? linuxConfigs : null,
-        ),
-      .windows when !hasConfigs || windowsConfigs!.isNotEmpty =>
+      .linux when linuxConfigs.isNotEmpty => await _validateLinuxToolchain(
+        context,
+        linuxConfigs: linuxConfigs,
+      ),
+      .windows when windowsConfigs.isNotEmpty =>
         await _validateWindowsToolchain(
           context,
-          windowsConfigs: hasConfigs ? windowsConfigs : null,
+          windowsConfigs: windowsConfigs,
         ),
       .macOS || .linux || .windows => null,
       _ => DoctorValidationResult(
@@ -88,24 +86,23 @@ Future<List<DoctorValidationResult>> runNativeToolchainCDoctor({
         ],
       ),
     },
-    if (!hasConfigs || androidConfigs!.isNotEmpty)
+    if (androidConfigs.isNotEmpty)
       await _validateAndroidNdkToolchain(
         context,
-        androidConfigs: hasConfigs ? androidConfigs : null,
-        required: hasConfigs,
+        androidConfigs: androidConfigs,
       ),
   ].nonNulls.toList();
 }
 
 Future<DoctorValidationResult> _validateMacOSToolchain(
   ToolResolvingContext context, {
-  List<DoctorCodeConfig>? macosConfigs,
-  List<DoctorCodeConfig>? iosConfigs,
+  required List<DoctorCodeConfig> macosConfigs,
+  required List<DoctorCodeConfig> iosConfigs,
 }) async {
   const title = 'C Toolchain (Apple Clang / Xcode)';
   final configuredCCompiler = [
-    ...?macosConfigs,
-    ...?iosConfigs,
+    ...macosConfigs,
+    ...iosConfigs,
   ].map((c) => c.cCompiler).nonNulls.firstOrNull;
 
   final (
@@ -207,7 +204,7 @@ Future<DoctorValidationResult> _validateMacOSToolchain(
     messages.add(DoctorValidationMessage(_formatToolInstance(otoolInstance)));
   }
 
-  final targetsMacOS = macosConfigs == null || macosConfigs.isNotEmpty;
+  final targetsMacOS = macosConfigs.isNotEmpty;
   if (macosSdkInstance != null) {
     messages.add(
       DoctorValidationMessage(_formatToolInstance(macosSdkInstance)),
@@ -219,12 +216,11 @@ Future<DoctorValidationResult> _validateMacOSToolchain(
     );
   }
 
-  final targetsIOS = iosConfigs == null || iosConfigs.isNotEmpty;
-  final targetsIOSDevice =
-      iosConfigs == null || iosConfigs.any((c) => c.iOS.targetSdk == .iPhoneOS);
-  final targetsIOSSim =
-      iosConfigs == null ||
-      iosConfigs.any((c) => c.iOS.targetSdk == .iPhoneSimulator);
+  final targetsIOS = iosConfigs.isNotEmpty;
+  final targetsIOSDevice = iosConfigs.any((c) => c.iOS.targetSdk == .iPhoneOS);
+  final targetsIOSSim = iosConfigs.any(
+    (c) => c.iOS.targetSdk == .iPhoneSimulator,
+  );
 
   if (iosSdkInstance != null) {
     messages.add(DoctorValidationMessage(_formatToolInstance(iosSdkInstance)));
@@ -240,13 +236,11 @@ Future<DoctorValidationResult> _validateMacOSToolchain(
       ((targetsIOSDevice && iosSdkInstance == null) ||
           (targetsIOSSim && iosSimSdkInstance == null));
   if (missingRequiredIosSdk) {
-    if (iosConfigs != null) {
-      messages.add(
-        DoctorValidationMessage.error(
-          'iPhoneOS / iPhoneSimulator SDKs not found.',
-        ),
-      );
-    }
+    messages.add(
+      DoctorValidationMessage.error(
+        'iPhoneOS / iPhoneSimulator SDKs not found.',
+      ),
+    );
     messages.add(
       DoctorValidationMessage.hint(
         'iPhoneOS / iPhoneSimulator SDKs not found. Install full Xcode if '
@@ -289,11 +283,11 @@ Future<DoctorValidationResult> _validateMacOSToolchain(
 
 Future<DoctorValidationResult> _validateLinuxToolchain(
   ToolResolvingContext context, {
-  List<DoctorCodeConfig>? linuxConfigs,
+  required List<DoctorCodeConfig> linuxConfigs,
 }) async {
   const title = 'C Toolchain (Clang / GCC)';
   final configuredCCompiler = linuxConfigs
-      ?.map((c) => c.cCompiler)
+      .map((c) => c.cCompiler)
       .nonNulls
       .firstOrNull;
   final (clangInstances, arInstances, lldInstances, gccInstances) = await (
@@ -404,11 +398,11 @@ Future<DoctorValidationResult> _validateLinuxToolchain(
 
 Future<DoctorValidationResult> _validateWindowsToolchain(
   ToolResolvingContext context, {
-  List<DoctorCodeConfig>? windowsConfigs,
+  required List<DoctorCodeConfig> windowsConfigs,
 }) async {
   const title = 'C Toolchain (Visual Studio / MSVC)';
   final configuredCCompiler = windowsConfigs
-      ?.map((c) => c.cCompiler)
+      .map((c) => c.cCompiler)
       .nonNulls
       .firstOrNull;
   final (
@@ -505,12 +499,11 @@ Future<DoctorValidationResult> _validateWindowsToolchain(
 
 Future<DoctorValidationResult> _validateAndroidNdkToolchain(
   ToolResolvingContext context, {
-  List<DoctorCodeConfig>? androidConfigs,
-  bool required = false,
+  required List<DoctorCodeConfig> androidConfigs,
 }) async {
   const title = 'Android NDK C Toolchain';
   final configuredCCompiler = androidConfigs
-      ?.map((c) => c.cCompiler)
+      .map((c) => c.cCompiler)
       .nonNulls
       .firstOrNull;
   if (configuredCCompiler != null) {
@@ -580,15 +573,10 @@ Future<DoctorValidationResult> _validateAndroidNdkToolchain(
   if (ndk == null) {
     return DoctorValidationResult(
       title: title,
-      type: required ? .missing : .notAvailable,
-      statusInfo: required
-          ? 'not installed'
-          : 'not installed (optional unless targeting Android)',
+      type: .missing,
+      statusInfo: 'not installed',
       messages: [
-        if (required)
-          DoctorValidationMessage.error('Android NDK not found.')
-        else
-          DoctorValidationMessage('Android NDK not found.'),
+        DoctorValidationMessage.error('Android NDK not found.'),
         DoctorValidationMessage.hint(
           'Install the Android NDK via Android Studio SDK Manager or set '
           'ANDROID_NDK_HOME if targeting Android.',

@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: experimental_member_use
-
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -522,20 +520,25 @@ void main() {
       );
       expect(linkOutputErrors, isEmpty);
 
+      // ignore: experimental_member_use
       final doctorInputBuilder = DoctorInputBuilder()
         ..setupDoctor(
           packageName: packageName,
           packageRoot: tempUri,
           outputFile: tempUri.resolve('output.json'),
         );
+      // ignore: experimental_member_use
       final doctorInput = DoctorInput(doctorInputBuilder.json);
-      expect(doctorInput.config.buildCodeAssets, isFalse);
+      // ignore: experimental_member_use
+      expect(doctorInput.config.code, isNull);
+      // ignore: experimental_member_use
       final doctorErrors = await validateCodeAssetDoctorInput(doctorInput);
       expect(doctorErrors, isEmpty);
     });
 
     test('DoctorInput.config.code validation', () async {
       final nonExistent = outDirUri.resolve('foo baz');
+      // ignore: experimental_member_use
       final builder = DoctorInputBuilder()
         ..setupDoctor(
           packageName: packageName,
@@ -543,8 +546,10 @@ void main() {
           outputFile: tempUri.resolve('output.json'),
         )
         ..addExtension(
+          // ignore: experimental_member_use
           DoctorCodeAssetExtension(
             configs: [
+              // ignore: experimental_member_use
               DoctorCodeConfig(
                 targetOS: OS.windows,
                 targetArchitecture: Architecture.x64,
@@ -560,15 +565,19 @@ void main() {
                   ),
                 ),
               ),
+              // ignore: experimental_member_use
               DoctorCodeConfig(
                 targetOS: OS.iOS,
                 targetArchitecture: Architecture.arm64,
+                // ignore: experimental_member_use
                 iOS: DoctorIOSCodeConfig(targetSdk: IOSSdk.iPhoneOS),
               ),
             ],
           ),
         );
+      // ignore: experimental_member_use
       final errors = await validateCodeAssetDoctorInput(
+        // ignore: experimental_member_use
         DoctorInput(builder.json),
       );
 
@@ -593,6 +602,7 @@ void main() {
         1,
       ]).remove('ios');
       expect(
+        // ignore: experimental_member_use
         await validateCodeAssetDoctorInput(DoctorInput(builder.json)),
         contains(
           contains(

@@ -268,7 +268,8 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/DoctorCodeConfig"
-          }
+          },
+          "minItems": 1
         }
       },
       "required": [

@@ -78,20 +78,6 @@ final class CodeAssetExtension extends ProtocolExtension {
     _setupConfig(input);
   }
 
-  @override
-  @experimental
-  void setupDoctorInput(DoctorInputBuilder input) {
-    input.config.addBuildAssetTypes([CodeAssetType.type]);
-    input.config.setupCode([
-      DoctorCodeConfig(
-        targetArchitecture: targetArchitecture,
-        targetOS: targetOS,
-        cCompiler: cCompiler,
-        iOS: iOS,
-      ),
-    ]);
-  }
-
   void _setupConfig(HookInputBuilder input) {
     input.config.addBuildAssetTypes([CodeAssetType.type]);
     input.config.setupCode(
@@ -109,11 +95,6 @@ final class CodeAssetExtension extends ProtocolExtension {
   @override
   Future<ValidationErrors> validateBuildInput(BuildInput input) =>
       validateCodeAssetBuildInput(input);
-
-  @override
-  @experimental
-  Future<ValidationErrors> validateDoctorInput(DoctorInput input) =>
-      validateCodeAssetDoctorInput(input);
 
   @override
   Future<ValidationErrors> validateLinkInput(LinkInput input) =>
@@ -165,7 +146,6 @@ final class DoctorCodeAssetExtension extends ProtocolExtension {
 
   @override
   void setupDoctorInput(DoctorInputBuilder input) {
-    input.config.addBuildAssetTypes([CodeAssetType.type]);
     input.config.setupCode(configs);
   }
 

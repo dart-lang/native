@@ -1,9 +1,6 @@
 {
   "$schema": "../../doc/schema/sdk/doctor_input.generated.schema.json",
   "config": {
-    "build_asset_types": [
-      "code_assets/code"
-    ],
     "extensions": {
       "code_assets": {
         "configs": [

@@ -10,10 +10,11 @@ import 'package:sqlite_prebuilt/src/find_sqlite.dart';
 
 void main(List<String> args) async {
   await doctor(args, (input, output) async {
-    final targetOSs =
-        input.config.buildCodeAssets && input.config.code.configs.isNotEmpty
-        ? {for (final config in input.config.code.configs) config.targetOS}
-        : {OS.current};
+    final code = input.config.code;
+    if (code == null) {
+      return;
+    }
+    final targetOSs = {for (final config in code.configs) config.targetOS};
     for (final targetOS in targetOSs) {
       switch (targetOS) {
         case OS.windows:

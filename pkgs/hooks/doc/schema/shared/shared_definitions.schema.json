@@ -122,11 +122,12 @@
       "additionalProperties": true
     },
     "DoctorConfig": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/Config"
+      "type": "object",
+      "properties": {
+        "extensions": {
+          "$ref": "#/definitions/ConfigExtensions"
         }
-      ]
+      }
     },
     "DoctorInput": {
       "type": "object",

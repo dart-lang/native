@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: experimental_member_use
-
 import 'dart:io';
 
 import 'package:hooks/hooks.dart';
@@ -45,12 +43,13 @@ Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async {
 /// Validates the code asset specific parts of a [DoctorInput].
 @experimental
 Future<ValidationErrors> validateCodeAssetDoctorInput(DoctorInput input) async {
-  if (!input.config.buildCodeAssets) {
+  if (input.config.code == null) {
     return [];
   }
   return _validateDoctorConfig('DoctorInput.config.code', input.config);
 }
 
+@experimental
 ValidationErrors _validateDoctorConfig(String inputName, DoctorConfig config) {
   final syntaxNode = DoctorConfigSyntax.fromJson(
     config.json,
@@ -65,7 +64,7 @@ ValidationErrors _validateDoctorConfig(String inputName, DoctorConfig config) {
   }
 
   final errors = <String>[];
-  for (final (i, code) in config.code.configs.indexed) {
+  for (final (i, code) in config.code!.configs.indexed) {
     errors.addAll(_validateDoctorCodeConfig('$inputName.configs[$i]', code));
   }
   return errors;
@@ -77,9 +76,11 @@ ValidationErrors _validateConfig(String inputName, HookConfig config) {
     return syntaxErrors;
   }
 
+  // ignore: experimental_member_use
   return _validateDoctorCodeConfig(inputName, config.code);
 }
 
+@experimental
 ValidationErrors _validateDoctorCodeConfig(
   String inputName,
   DoctorCodeConfig code,

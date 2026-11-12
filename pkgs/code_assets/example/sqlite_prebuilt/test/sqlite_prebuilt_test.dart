@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: experimental_member_use
-
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:sqlite_prebuilt/sqlite_prebuilt.dart';
@@ -18,11 +16,14 @@ void main() {
   });
 
   test('doctor hook', () async {
+    // ignore: experimental_member_use
     await testDoctorHook(
       mainMethod: doctor_hook.main,
       extensions: [
+        // ignore: experimental_member_use
         DoctorCodeAssetExtension(
           configs: [
+            // ignore: experimental_member_use
             DoctorCodeConfig(
               targetOS: OS.current,
               targetArchitecture: Architecture.current,

@@ -82,7 +82,6 @@ void _testDoctorFields({
     final fields = <(List<Object>, void Function(ValidationResults result))>[
       ([r'$schema'], expectOptionalFieldMissing),
       (['config'], expectRequiredFieldMissing),
-      (['config', 'build_asset_types'], expectRequiredFieldMissing),
       ([..._codeConfigPath, 'configs'], expectRequiredFieldMissing),
       (
         [..._codeConfigPath, 'configs', 0, 'target_os'],

@@ -294,7 +294,22 @@ dependency_overrides:
 
         expect(await runner.packagesWithDoctorHooks(), ['native_toolchain_c']);
 
-        final result = (await runner.doctor()).success;
+        final result = (await runner.doctor(
+          extensions: [
+            DoctorCodeAssetExtension(
+              configs: [
+                DoctorCodeConfig(
+                  targetOS: OS.current,
+                  targetArchitecture: Architecture.current,
+                ),
+                DoctorCodeConfig(
+                  targetOS: OS.android,
+                  targetArchitecture: Architecture.arm64,
+                ),
+              ],
+            ),
+          ],
+        )).success;
         expect(result.packageValidations.keys, ['native_toolchain_c']);
         final validations = result.packageValidations['native_toolchain_c']!;
         expect(validations, hasLength(2));

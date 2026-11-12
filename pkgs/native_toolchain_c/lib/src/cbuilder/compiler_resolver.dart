@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: experimental_member_use
-
 import 'package:code_assets/code_assets.dart';
 import 'package:file/file.dart' show FileSystem;
 import 'package:file/local.dart';
@@ -25,6 +23,7 @@ import '../utils/env_from_bat.dart';
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
+  // ignore: experimental_member_use
   final DoctorCodeConfig codeConfig;
   final Logger? logger;
   final ProcessManager processManager;

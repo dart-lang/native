@@ -39,27 +39,12 @@ extension HookConfigCodeConfig on HookConfig {
 }
 
 /// Extension to the [DoctorConfig] providing access to configuration specific
-/// to code assets (only available if code assets are supported).
+/// to code assets.
 @experimental
 extension DoctorConfigCodeConfig on DoctorConfig {
-  /// Code asset specific configuration for `hook/doctor.dart`.
-  ///
-  /// Only available if [buildCodeAssets] is true.
-  DoctorCodeConfigs get code {
-    if (!buildCodeAssets) {
-      throw StateError(
-        'DoctorConfig.code should only be accessed when building code assets. '
-        'Check DoctorConfig.buildCodeAssets '
-        '(e.g. `input.config.buildCodeAssets`) '
-        'before accessing DoctorConfig.code.',
-      );
-    }
-    return DoctorCodeConfigs._fromJson(json, path);
-  }
-
-  /// Whether the hook invoker (e.g. the Dart or Flutter SDK) expects this
-  /// workspace to build code assets.
-  bool get buildCodeAssets => buildAssetTypes.contains(CodeAssetType.type);
+  /// Code asset specific configuration for `hook/doctor.dart`, or `null` if
+  /// code assets are not supported by the invoking SDK.
+  DoctorCodeConfigs? get code => DoctorCodeConfigs._fromJson(json, path);
 }
 
 /// The configuration for [CodeAsset]s in [DoctorConfig].
@@ -69,11 +54,21 @@ extension DoctorConfigCodeConfig on DoctorConfig {
 final class DoctorCodeConfigs {
   final DoctorCodeConfigsSyntax _syntax;
 
-  DoctorCodeConfigs._fromJson(Map<String, Object?> json, List<Object> path)
-    : _syntax = DoctorConfigSyntax.fromJson(
-        json,
-        path: path,
-      ).extensions!.codeAssets!;
+  DoctorCodeConfigs._(this._syntax);
+
+  static DoctorCodeConfigs? _fromJson(
+    Map<String, Object?> json,
+    List<Object> path,
+  ) {
+    final codeAssets = DoctorConfigSyntax.fromJson(
+      json,
+      path: path,
+    ).extensions?.codeAssets;
+    if (codeAssets == null) {
+      return null;
+    }
+    return DoctorCodeConfigs._(codeAssets);
+  }
 
   /// The [DoctorCodeConfig]s for all target OS and architecture combinations
   /// that the invoking SDK (`dart` or `flutter`) can target.

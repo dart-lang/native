@@ -347,17 +347,39 @@ class ConfigSyntax extends JsonObjectSyntax {
   String toString() => 'ConfigSyntax($json)';
 }
 
-class DoctorConfigSyntax extends ConfigSyntax {
-  DoctorConfigSyntax.fromJson(super.json, {super.path}) : super.fromJson();
+class DoctorConfigSyntax extends JsonObjectSyntax {
+  DoctorConfigSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
   DoctorConfigSyntax({
-    required super.buildAssetTypes,
-    required super.extensions,
+    required JsonObjectSyntax? extensions,
     super.path = const [],
-  }) : super();
+  }) : super() {
+    this.extensions = extensions;
+    json.sortOnKey();
+  }
+
+  JsonObjectSyntax? get extensions {
+    final jsonValue = _reader.optionalMap('extensions');
+    if (jsonValue == null) return null;
+    return JsonObjectSyntax.fromJson(jsonValue, path: [...path, 'extensions']);
+  }
+
+  set extensions(JsonObjectSyntax? value) {
+    json.setOrRemove('extensions', value?.json);
+    json.sortOnKey();
+  }
+
+  List<String> _validateExtensions() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('extensions');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return extensions?.validate() ?? [];
+  }
 
   @override
-  List<String> validate() => [...super.validate()];
+  List<String> validate() => [...super.validate(), ..._validateExtensions()];
 
   @override
   String toString() => 'DoctorConfigSyntax($json)';

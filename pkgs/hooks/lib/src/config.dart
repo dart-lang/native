@@ -1576,9 +1576,6 @@ final class DoctorConfig {
 
   final DoctorConfigSyntax _syntax;
 
-  /// The asset types that are supported by the invoker of the hook.
-  List<String> get buildAssetTypes => _syntax.buildAssetTypes;
-
   DoctorConfig._(DoctorInput input) : _syntax = input._syntax.config;
 }
 
@@ -1586,7 +1583,7 @@ final class DoctorConfig {
 @experimental
 final class DoctorInputBuilder {
   final _syntax = DoctorInputSyntax.fromJson({})
-    ..config = DoctorConfigSyntax(buildAssetTypes: [], extensions: null);
+    ..config = DoctorConfigSyntax(extensions: null);
 
   /// The JSON representation of this doctor input builder.
   Map<String, Object?> get json => _syntax.json;
@@ -1608,8 +1605,7 @@ final class DoctorInputBuilder {
 
   /// Adds the protocol extension to this doctor input.
   ///
-  /// This will [DoctorConfigBuilder.addBuildAssetTypes] and add the
-  /// extension's config to [config].
+  /// This will add the extension's config to [config].
   void addExtension(ProtocolExtension extension) =>
       extension.setupDoctorInput(this);
 
@@ -1629,11 +1625,6 @@ final class DoctorConfigBuilder {
 
   /// The JSON representation of this config.
   Map<String, Object?> get json => _syntax.json;
-
-  /// Adds asset types to this doctor configuration.
-  void addBuildAssetTypes(Iterable<String> assetTypes) {
-    _syntax.buildAssetTypes.addAll(assetTypes);
-  }
 }
 
 /// The output from a `hook/doctor.dart`.
