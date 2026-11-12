@@ -4,13 +4,6 @@
 
 #include "cpp_class_test.h"
 
-
-#if defined(_WIN32)
-#define CPP_TEST_EXPORT __declspec(dllexport)
-#else
-#define CPP_TEST_EXPORT
-#endif
-
 Animal::Animal(int age) : age(age) {}
 
 Animal::~Animal() {}
@@ -38,68 +31,64 @@ int Animal::addAges(int otherAge, float scale) {
 int Animal::sum(int a, int b) { return a + b; }
 
 extern "C" {
-  CPP_TEST_EXPORT Animal* createAnimalPointer(int age) {
-    return new Animal(age);
-  }
+CPP_TEST_EXPORT Animal *createAnimalPointer(int age) { return new Animal(age); }
 
-  CPP_TEST_EXPORT int getAgeFromPointer(Animal* animal) {
-    return animal != nullptr ? animal->age : -1;
-  }
+CPP_TEST_EXPORT int getAgeFromPointer(Animal *animal) {
+  return animal != nullptr ? animal->age : -1;
+}
 
-  CPP_TEST_EXPORT void setAgeFromPointer(Animal* animal, int age) {
-    if (animal != nullptr) {
-      animal->age = age;
-    }
+CPP_TEST_EXPORT void setAgeFromPointer(Animal *animal, int age) {
+  if (animal != nullptr) {
+    animal->age = age;
   }
+}
 
-  CPP_TEST_EXPORT Animal* globalAnimal = nullptr;
+CPP_TEST_EXPORT Animal *globalAnimal = nullptr;
 
-  CPP_TEST_EXPORT int getGlobalAnimalAge() {
-    return globalAnimal != nullptr ? globalAnimal->age : -1;
+CPP_TEST_EXPORT int getGlobalAnimalAge() {
+  return globalAnimal != nullptr ? globalAnimal->age : -1;
+}
+
+CPP_TEST_EXPORT void setGlobalAnimalAge(int age) {
+  if (globalAnimal != nullptr) {
+    globalAnimal->age = age;
   }
+}
 
-  CPP_TEST_EXPORT void setGlobalAnimalAge(int age) {
-    if (globalAnimal != nullptr) {
-      globalAnimal->age = age;
-    }
-  }
+CPP_TEST_EXPORT AnimalOwner createAnimalOwner(Animal *animal, int id) {
+  AnimalOwner owner;
+  owner.animal = animal;
+  owner.id = id;
+  return owner;
+}
 
-  CPP_TEST_EXPORT AnimalOwner createAnimalOwner(Animal* animal, int id) {
-    AnimalOwner owner;
-    owner.animal = animal;
-    owner.id = id;
-    return owner;
-  }
+CPP_TEST_EXPORT int getAnimalOwnerAge(const AnimalOwner *owner) {
+  return (owner != nullptr && owner->animal != nullptr) ? owner->animal->age
+                                                        : -1;
+}
 
-  CPP_TEST_EXPORT int getAnimalOwnerAge(const AnimalOwner* owner) {
-    return (owner != nullptr && owner->animal != nullptr)
-        ? owner->animal->age
-        : -1;
+CPP_TEST_EXPORT void setAnimalOwnerAge(AnimalOwner *owner, int age) {
+  if (owner != nullptr && owner->animal != nullptr) {
+    owner->animal->age = age;
   }
+}
 
-  CPP_TEST_EXPORT void setAnimalOwnerAge(AnimalOwner* owner, int age) {
-    if (owner != nullptr && owner->animal != nullptr) {
-      owner->animal->age = age;
-    }
-  }
+CPP_TEST_EXPORT Animal *applyFactory(Animal *(*factory)(int age), int age) {
+  return factory(age);
+}
 
-  CPP_TEST_EXPORT Animal* applyFactory(Animal* (*factory)(int age), int age) {
-    return factory(age);
-  }
+CPP_TEST_EXPORT int applyProcessor(int (*processor)(Animal *a),
+                                   Animal *animal) {
+  return processor(animal);
+}
 
-  CPP_TEST_EXPORT int applyProcessor(int (*processor)(Animal* a), Animal* animal) {
-    return processor(animal);
-  }
-
-  CPP_TEST_EXPORT void applyTransform(void (*transform)(Animal* a, int value),
-                                      Animal* animal, int value) {
-    transform(animal, value);
-  }
+CPP_TEST_EXPORT void applyTransform(void (*transform)(Animal *a, int value),
+                                    Animal *animal, int value) {
+  transform(animal, value);
+}
 }
 Animal Animal::copyAndAddAge(Animal other) const {
   return Animal(age + other.age);
 }
 
-bool Animal::haveSameAge(Animal a, Animal b) {
-  return a.age == b.age;
-}
+bool Animal::haveSameAge(Animal a, Animal b) { return a.age == b.age; }
