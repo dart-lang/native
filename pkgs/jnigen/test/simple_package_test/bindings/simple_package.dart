@@ -11087,6 +11087,160 @@ final class $R2250$Type$ extends jni$_.JType<R2250> {
   String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R2250;';
 }
 
+/// from: `com.github.dart_lang.jnigen.regressions.R630$Inner`
+extension type R630$Inner<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/regressions/R630$Inner');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<R630$Inner> type = $R630$Inner$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/regressions/R630;Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.regressions.R630<java.lang.Object> $outerClass, T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory R630$Inner(
+    R630<jni$_.JObject?> $outerClass,
+    $T? object,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$$outerClass = $outerClass.reference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer,
+            _$object.pointer)
+        .object<R630$Inner<$T>>();
+  }
+}
+
+extension R630$Inner$$Methods<$T extends jni$_.JObject?> on R630$Inner<$T> {
+  static final _id_value = R630$Inner._class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public T value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? get value => _id_value.getNullable(this, jni$_.JObject.type) as $T?;
+
+  /// from: `public T value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($T? value) => _id_value.set(this, jni$_.JObject.type, value);
+
+  static final _id_get$outerValue = R630$Inner._class.instanceMethodId(
+    r'getOuterValue',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _get$outerValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object getOuterValue()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? get outerValue {
+    final _$$selfRef = reference;
+    return _get$outerValue(
+            _$$selfRef.nonNullPointer, _id_get$outerValue.pointer)
+        .object<jni$_.JObject?>();
+  }
+}
+
+final class $R630$Inner$Type$ extends jni$_.JType<R630$Inner> {
+  @jni$_.internal
+  const $R630$Inner$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/regressions/R630$Inner;';
+}
+
+/// from: `com.github.dart_lang.jnigen.regressions.R630`
+extension type R630<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/regressions/R630');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<R630> type = $R630$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory R630(
+    $T? object,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$object.pointer)
+        .object<R630<$T>>();
+  }
+}
+
+extension R630$$Methods<$T extends jni$_.JObject?> on R630<$T> {
+  static final _id_value = R630._class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public T value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? get value => _id_value.getNullable(this, jni$_.JObject.type) as $T?;
+
+  /// from: `public T value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($T? value) => _id_value.set(this, jni$_.JObject.type, value);
+}
+
+final class $R630$Type$ extends jni$_.JType<R630> {
+  @jni$_.internal
+  const $R630$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R630;';
+}
+
 /// from: `com.github.dart_lang.jnigen.regressions.R693$Child`
 extension type R693$Child._(jni$_.JObject _$this) implements R693<R693$Child?> {
   static final _class = jni$_.JClass.forName(

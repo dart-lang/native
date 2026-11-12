@@ -159,9 +159,10 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   String get typeClassName => '\$$finalName\$Type\$';
 
-  /// Type parameters including the ones from its outer classes.
+  /// Type parameters including unshadowed ones from its outer classes.
   ///
   /// For `Foo<T>.Bar<U, V>.Baz<W>` it is [T, U, V, W].
+  /// For `Foo<T>.Bar<T>` it contains only the inner `T`.
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)

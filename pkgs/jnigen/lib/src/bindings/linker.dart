@@ -127,10 +127,15 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
         : resolve(node.outerClassBinaryName);
     node.outerClass?.accept(this);
 
-    // Add type params of outer classes to the nested classes.
+    // Only unshadowed outer type parameters are visible in a nested class.
     final allTypeParams = <TypeParam>[];
     if (!node.isStatic) {
-      allTypeParams.addAll(node.outerClass?.allTypeParams ?? []);
+      final declaredNames = node.typeParams.map((param) => param.name).toSet();
+      allTypeParams.addAll(
+        (node.outerClass?.allTypeParams ?? []).where(
+          (param) => !declaredNames.contains(param.name),
+        ),
+      );
     }
     allTypeParams.addAll(node.typeParams);
     node.allTypeParams = allTypeParams;
@@ -204,14 +209,15 @@ class _MethodLinker extends Visitor<Method, void> {
         node.classDecl.isNested &&
         (node.isConstructor || node.isStatic);
     if (hasOuterClassArg) {
-      final outerClassTypeParamCount = node.classDecl.allTypeParams.length -
-          node.classDecl.typeParams.length;
       final outerClassTypeParams = [
-        for (final typeParam
-            in node.classDecl.allTypeParams.take(outerClassTypeParamCount)) ...[
-          TypeVar(name: typeParam.name)
-            ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull],
-        ]
+        for (final typeParam in node.classDecl.outerClass!.allTypeParams)
+          // A shadowed outer parameter cannot be named in this scope. Erase
+          // that argument instead of binding it to the inner parameter.
+          if (node.classDecl.allTypeParams.contains(typeParam))
+            TypeVar(name: typeParam.name)
+              ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull]
+          else
+            DeclaredType.object,
       ];
       final outerClassType = DeclaredType(
         binaryName: node.classDecl.outerClass!.binaryName,

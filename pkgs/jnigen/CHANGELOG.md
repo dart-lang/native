@@ -1,5 +1,8 @@
 ## 1.1.0-wip
 
+- Handle type parameters that shadow enclosing classes' type parameters
+  without generating duplicate Dart declarations.
+
 - Emit defensive null checks on instance method receiver objects before
   crossing into JNI.
 - Bump required `package:jni` version to `1.2`.

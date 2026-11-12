@@ -41,6 +41,51 @@ Future<void> rename(
 }
 
 void main() {
+  for (final shadowed in ['S', 'T']) {
+    test('Nested class shadows outer type parameter $shadowed', () async {
+      final retained = shadowed == 'S' ? 'T' : 'S';
+      final outer = ClassDecl(
+        binaryName: 'Outer',
+        declKind: DeclKind.classKind,
+        typeParams: [TypeParam(name: 'S'), TypeParam(name: 'T')],
+      );
+      final inner = ClassDecl(
+        binaryName: r'Outer$Inner',
+        outerClassBinaryName: 'Outer',
+        declKind: DeclKind.classKind,
+        typeParams: [TypeParam(name: shadowed)],
+        fields: [
+          Field(name: 'retained', type: TypeVar(name: retained)),
+          Field(name: 'shadowed', type: TypeVar(name: shadowed)),
+        ],
+        methods: [
+          Method(
+              name: '<init>',
+              returnType: PrimitiveType.fromJson({'name': 'void'})),
+        ],
+      );
+      await rename(Classes({outer.binaryName: outer, inner.binaryName: inner}));
+
+      expect(
+          inner.allTypeParams.map((param) => param.name), [retained, shadowed]);
+      expect((inner.fields[1].type as TypeVar).origin,
+          same(inner.typeParams.single));
+      final outerArgument =
+          inner.methods.single.params.first.type as DeclaredType;
+      expect(outerArgument.params, hasLength(2));
+      for (var i = 0; i < outer.typeParams.length; i++) {
+        final param = outer.typeParams[i];
+        final argument = outerArgument.params[i];
+        if (param.name == shadowed) {
+          expect(argument, isA<DeclaredType>());
+          expect((argument as DeclaredType).classDecl.isObject, isTrue);
+        } else {
+          expect((argument as TypeVar).origin, same(param));
+        }
+      }
+    });
+  }
+
   test('Overloading elements that end with a number', () async {
     final classes = Classes({
       'Foo': ClassDecl(
