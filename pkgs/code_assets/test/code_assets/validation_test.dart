@@ -582,7 +582,7 @@ void main() {
       );
 
       bool matches(String error, String field) => RegExp(
-        r'DoctorInput\.config\.code\.configs\[0\]\.cCompiler\.'
+        r'DoctorInput\.config\.code\[0\]\.cCompiler\.'
         '$field (.*foo baz).* does not exist.',
       ).hasMatch(error);
 
@@ -598,7 +598,6 @@ void main() {
         'config',
         'extensions',
         'code_assets',
-        'configs',
         1,
       ]).remove('ios');
       expect(
@@ -606,7 +605,7 @@ void main() {
         await validateCodeAssetDoctorInput(DoctorInput(builder.json)),
         contains(
           contains(
-            "No value was provided for 'config.extensions.code_assets.configs"
+            "No value was provided for 'config.extensions.code_assets"
             ".1.ios'.",
           ),
         ),

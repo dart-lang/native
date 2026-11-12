@@ -134,7 +134,7 @@ final class CodeAssetExtension extends ProtocolExtension {
   }
 }
 
-/// The protocol extension for `hook/doctor.dart` with [DoctorCodeConfigs].
+/// The protocol extension for `hook/doctor.dart` with [DoctorCodeConfig]s.
 @experimental
 final class DoctorCodeAssetExtension extends ProtocolExtension {
   /// The [DoctorCodeConfig]s for all target OS and architecture combinations

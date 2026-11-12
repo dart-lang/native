@@ -44,7 +44,7 @@ void main(List<String> args) async {
     final validations = await runNativeToolchainCDoctor(
       context: context,
       hostOS: .current,
-      configs: code.configs,
+      configs: code,
     );
     output.addValidations(validations);
   });

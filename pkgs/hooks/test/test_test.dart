@@ -84,7 +84,7 @@ void main() {
         // ignore: experimental_member_use
         await doctor(args, (input, output) async {
           // ignore: experimental_member_use
-          final targetOS = input.config.code!.configs.single.targetOS.name;
+          final targetOS = input.config.code!.single.targetOS.name;
           output.addValidation(
             // ignore: experimental_member_use
             DoctorValidationResult(

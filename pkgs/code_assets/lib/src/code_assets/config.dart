@@ -42,24 +42,14 @@ extension HookConfigCodeConfig on HookConfig {
 /// to code assets.
 @experimental
 extension DoctorConfigCodeConfig on DoctorConfig {
-  /// Code asset specific configuration for `hook/doctor.dart`, or `null` if
+  /// Code asset specific configurations for `hook/doctor.dart`, or `null` if
   /// code assets are not supported by the invoking SDK.
-  DoctorCodeConfigs? get code => DoctorCodeConfigs._fromJson(json, path);
-}
-
-/// The configuration for [CodeAsset]s in [DoctorConfig].
-///
-/// Available via [DoctorConfigCodeConfig.code].
-@experimental
-final class DoctorCodeConfigs {
-  final DoctorCodeConfigsSyntax _syntax;
-
-  DoctorCodeConfigs._(this._syntax);
-
-  static DoctorCodeConfigs? _fromJson(
-    Map<String, Object?> json,
-    List<Object> path,
-  ) {
+  ///
+  /// Unlike `hook/build.dart` and `hook/link.dart`, which are invoked once per
+  /// target OS and architecture, `hook/doctor.dart` is invoked once for all
+  /// target OS and architecture combinations that the invoking SDK (`dart` or
+  /// `flutter`) can target.
+  List<DoctorCodeConfig>? get code {
     final codeAssets = DoctorConfigSyntax.fromJson(
       json,
       path: path,
@@ -67,17 +57,12 @@ final class DoctorCodeConfigs {
     if (codeAssets == null) {
       return null;
     }
-    return DoctorCodeConfigs._(codeAssets);
+    return [for (final c in codeAssets) DoctorCodeConfig._(c)];
   }
-
-  /// The [DoctorCodeConfig]s for all target OS and architecture combinations
-  /// that the invoking SDK (`dart` or `flutter`) can target.
-  List<DoctorCodeConfig> get configs => [
-    for (final c in _syntax.configs) DoctorCodeConfig._(c),
-  ];
 }
 
-/// The configuration for a single target in [DoctorCodeConfigs.configs].
+/// The configuration for [CodeAsset]s for a single target in
+/// [DoctorConfigCodeConfig.code].
 ///
 /// Extended by [CodeConfig] so toolchain-resolution logic can be shared
 /// between `hook/build.dart`, `hook/link.dart`, and `hook/doctor.dart`.
@@ -442,13 +427,12 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
 extension CodeAssetDoctorInputBuilder on DoctorConfigBuilder {
   /// Sets up the code asset specific configuration for a doctor hook input.
   void setupCode(List<DoctorCodeConfig> configs) {
-    final doctorCodeConfigs = DoctorCodeConfigsSyntax(
-      configs: [for (final c in configs) c.toSyntax()],
-    );
     final baseDoctorConfig = DoctorConfigSyntax.fromJson(json);
     baseDoctorConfig.extensions ??= DoctorConfigExtensionsSyntax.fromJson({});
     final doctorConfig = DoctorConfigSyntax.fromJson(baseDoctorConfig.json);
-    doctorConfig.extensions!.codeAssets = doctorCodeConfigs;
+    doctorConfig.extensions!.codeAssets = [
+      for (final c in configs) c.toSyntax(),
+    ];
   }
 }
 

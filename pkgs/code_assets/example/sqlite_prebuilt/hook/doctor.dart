@@ -26,7 +26,7 @@ void main(List<String> args) async {
       );
       return;
     }
-    final targetOSs = {for (final config in code.configs) config.targetOS};
+    final targetOSs = {for (final config in code) config.targetOS};
     for (final targetOS in targetOSs) {
       switch (targetOS) {
         case OS.windows:

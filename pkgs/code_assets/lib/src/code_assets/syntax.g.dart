@@ -665,50 +665,6 @@ class DoctorCodeConfigSyntax extends JsonObjectSyntax {
   String toString() => 'DoctorCodeConfigSyntax($json)';
 }
 
-class DoctorCodeConfigsSyntax extends JsonObjectSyntax {
-  DoctorCodeConfigsSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
-
-  DoctorCodeConfigsSyntax({
-    required List<DoctorCodeConfigSyntax> configs,
-    super.path = const [],
-  }) : super() {
-    this.configs = configs;
-    json.sortOnKey();
-  }
-
-  List<DoctorCodeConfigSyntax> get configs {
-    final jsonValue = _reader.list('configs');
-    return [
-      for (final (index, element) in jsonValue.indexed)
-        DoctorCodeConfigSyntax.fromJson(
-          element as Map<String, Object?>,
-          path: [...path, 'configs', index],
-        ),
-    ];
-  }
-
-  set configs(List<DoctorCodeConfigSyntax> value) {
-    json['configs'] = [for (final item in value) item.json];
-    json.sortOnKey();
-  }
-
-  List<String> _validateConfigs() {
-    final listErrors = _reader.validateList<Map<String, Object?>>('configs');
-    if (listErrors.isNotEmpty) {
-      return listErrors;
-    }
-    final elements = configs;
-    return [for (final element in elements) ...element.validate()];
-  }
-
-  @override
-  List<String> validate() => [...super.validate(), ..._validateConfigs()];
-
-  @override
-  String toString() => 'DoctorCodeConfigsSyntax($json)';
-}
-
 class DoctorConfigSyntax extends JsonObjectSyntax {
   DoctorConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
@@ -755,33 +711,46 @@ class DoctorConfigExtensionsSyntax extends JsonObjectSyntax {
     : super.fromJson();
 
   DoctorConfigExtensionsSyntax({
-    required DoctorCodeConfigsSyntax? codeAssets,
+    required List<DoctorCodeConfigSyntax>? codeAssets,
     super.path = const [],
   }) : super() {
     this.codeAssets = codeAssets;
     json.sortOnKey();
   }
 
-  DoctorCodeConfigsSyntax? get codeAssets {
-    final jsonValue = _reader.optionalMap('code_assets');
+  List<DoctorCodeConfigSyntax>? get codeAssets {
+    final jsonValue = _reader.optionalList('code_assets');
     if (jsonValue == null) return null;
-    return DoctorCodeConfigsSyntax.fromJson(
-      jsonValue,
-      path: [...path, 'code_assets'],
-    );
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        DoctorCodeConfigSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'code_assets', index],
+        ),
+    ];
   }
 
-  set codeAssets(DoctorCodeConfigsSyntax? value) {
-    json.setOrRemove('code_assets', value?.json);
+  set codeAssets(List<DoctorCodeConfigSyntax>? value) {
+    if (value == null) {
+      json.remove('code_assets');
+    } else {
+      json['code_assets'] = [for (final item in value) item.json];
+    }
     json.sortOnKey();
   }
 
   List<String> _validateCodeAssets() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>('code_assets');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'code_assets',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
     }
-    return codeAssets?.validate() ?? [];
+    final elements = codeAssets;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
   }
 
   @override

@@ -487,7 +487,7 @@ No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
       );
     final input = inputBuilder.build();
     // ignore: experimental_member_use
-    final configs = input.config.code!.configs;
+    final configs = input.config.code!;
     expect(configs, hasLength(2));
     expect(configs[0].targetOS, OS.macOS);
     expect(configs[0].targetArchitecture, Architecture.arm64);

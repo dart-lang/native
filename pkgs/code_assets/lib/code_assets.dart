@@ -195,7 +195,6 @@ export 'src/code_assets/config.dart'
         CodeAssetDoctorInputBuilder,
         CodeConfig,
         DoctorCodeConfig,
-        DoctorCodeConfigs,
         DoctorConfigCodeConfig,
         DoctorIOSCodeConfig,
         HookConfigCodeConfig,

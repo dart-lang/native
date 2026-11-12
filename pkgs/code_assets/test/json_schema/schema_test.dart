@@ -82,44 +82,28 @@ void _testDoctorFields({
     final fields = <(List<Object>, void Function(ValidationResults result))>[
       ([r'$schema'], expectOptionalFieldMissing),
       (['config'], expectRequiredFieldMissing),
-      ([..._codeConfigPath, 'configs'], expectRequiredFieldMissing),
+      ([..._codeConfigPath], expectOptionalFieldMissing),
+      ([..._codeConfigPath, 0, 'target_os'], expectRequiredFieldMissing),
       (
-        [..._codeConfigPath, 'configs', 0, 'target_os'],
+        [..._codeConfigPath, 0, 'target_architecture'],
+        expectRequiredFieldMissing,
+      ),
+      ([..._codeConfigPath, 0, 'c_compiler'], expectOptionalFieldMissing),
+      ([..._codeConfigPath, 0, 'c_compiler', 'ar'], expectRequiredFieldMissing),
+      ([..._codeConfigPath, 0, 'c_compiler', 'cc'], expectRequiredFieldMissing),
+      ([..._codeConfigPath, 0, 'c_compiler', 'ld'], expectRequiredFieldMissing),
+      ([..._codeConfigPath, 2, 'ios'], expectRequiredFieldMissing),
+      (
+        [..._codeConfigPath, 2, 'ios', 'target_sdk'],
         expectRequiredFieldMissing,
       ),
       (
-        [..._codeConfigPath, 'configs', 0, 'target_architecture'],
-        expectRequiredFieldMissing,
-      ),
-      (
-        [..._codeConfigPath, 'configs', 0, 'c_compiler'],
-        expectOptionalFieldMissing,
-      ),
-      (
-        [..._codeConfigPath, 'configs', 0, 'c_compiler', 'ar'],
-        expectRequiredFieldMissing,
-      ),
-      (
-        [..._codeConfigPath, 'configs', 0, 'c_compiler', 'cc'],
-        expectRequiredFieldMissing,
-      ),
-      (
-        [..._codeConfigPath, 'configs', 0, 'c_compiler', 'ld'],
-        expectRequiredFieldMissing,
-      ),
-      ([..._codeConfigPath, 'configs', 2, 'ios'], expectRequiredFieldMissing),
-      (
-        [..._codeConfigPath, 'configs', 2, 'ios', 'target_sdk'],
-        expectRequiredFieldMissing,
-      ),
-      (
-        [..._codeConfigPath, 'configs', 1, 'c_compiler', 'windows'],
+        [..._codeConfigPath, 1, 'c_compiler', 'windows'],
         expectRequiredFieldMissing,
       ),
       (
         [
           ..._codeConfigPath,
-          'configs',
           1,
           'c_compiler',
           'windows',
@@ -130,7 +114,6 @@ void _testDoctorFields({
       (
         [
           ..._codeConfigPath,
-          'configs',
           1,
           'c_compiler',
           'windows',
@@ -142,7 +125,6 @@ void _testDoctorFields({
       (
         [
           ..._codeConfigPath,
-          'configs',
           1,
           'c_compiler',
           'windows',

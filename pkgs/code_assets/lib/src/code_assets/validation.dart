@@ -64,8 +64,8 @@ ValidationErrors _validateDoctorConfig(String inputName, DoctorConfig config) {
   }
 
   final errors = <String>[];
-  for (final (i, code) in config.code!.configs.indexed) {
-    errors.addAll(_validateDoctorCodeConfig('$inputName.configs[$i]', code));
+  for (final (i, code) in config.code!.indexed) {
+    errors.addAll(_validateDoctorCodeConfig('$inputName[$i]', code));
   }
   return errors;
 }
