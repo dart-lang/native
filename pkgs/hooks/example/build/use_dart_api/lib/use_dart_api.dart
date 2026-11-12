@@ -2,4 +2,4 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/use_dart_api_bindings_generated.dart';
+export 'src/use_dart_api_bindings.g.dart';

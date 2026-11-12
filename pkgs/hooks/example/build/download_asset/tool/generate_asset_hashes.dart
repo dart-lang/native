@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:download_asset/src/hook_helpers/download.dart';
-import 'package:download_asset/src/hook_helpers/hashes.dart';
+import 'package:download_asset/src/hook_helpers/hashes.g.dart';
 import 'package:download_asset/src/hook_helpers/targets.dart';
 
 /// Regenerates [assetHashes].
@@ -34,7 +34,7 @@ Future<void> main(List<String> args) async {
 
 Future<void> writeHashesFile(Map<String, String> assetHashes) async {
   final hashesFile = File.fromUri(
-    Platform.script.resolve('../lib/src/hook_helpers/hashes.dart'),
+    Platform.script.resolve('../lib/src/hook_helpers/hashes.g.dart'),
   );
   await hashesFile.create(recursive: true);
   final buffer = StringBuffer();

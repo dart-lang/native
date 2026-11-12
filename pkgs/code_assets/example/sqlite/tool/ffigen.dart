@@ -25,7 +25,7 @@ Future<void> main() async {
         path: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
       ),
       recordUseMapping: packageRoot.resolve(
-        'lib/src/third_party/record_use_mapping.dart',
+        'lib/src/third_party/record_use_mapping.g.dart',
       ),
       preamble: '''
 // The author disclaims copyright to this source code.  In place of

@@ -17,8 +17,8 @@ Future<void> runBuild(BuildInput input, BuildOutputBuilder output) async {
   );
   final cbuilder = CBuilder.library(
     name: name,
-    assetName: 'native_add.dart',
-    sources: ['src/native_add.c'],
+    assetName: 'src/native_add.g.dart',
+    sources: ['src/native_add.c', 'src/native_add.h'],
   );
   await cbuilder.run(input: input, output: output);
 }

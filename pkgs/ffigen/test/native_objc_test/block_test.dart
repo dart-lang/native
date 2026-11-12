@@ -1016,7 +1016,7 @@ void main() {
       // Other types, like structs, are still there.
       expect(objCBindings, contains('Vec2'));
       expect(objCBindings, contains('Vec4'));
-    });
+    }, skip: !Platform.isMacOS);
 
     @pragma('vm:never-inline')
     Future<(BlockTester, ReferenceTracker, ReferenceTracker)> regress1571Inner(

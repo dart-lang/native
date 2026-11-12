@@ -92,4 +92,13 @@ public class Exceptions {
   public static void throwMyException() {
     throw new MyException("My custom exception", 123);
   }
+
+  public static void throwNullToStringException() {
+    throw new RuntimeException() {
+      @Override
+      public String toString() {
+        return null;
+      }
+    };
+  }
 }

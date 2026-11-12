@@ -138,10 +138,10 @@ void main() async {
       expect(codeCondig.android.targetNdkApi, 30);
     }
     if (targetOS == OS.macOS) {
-      expect(codeCondig.macOS.targetVersion, 13);
+      expect(codeCondig.macOS.deploymentVersion, AppleVersion(13));
     }
     if (targetOS == OS.iOS) {
-      expect(codeCondig.iOS.targetVersion, 13);
+      expect(codeCondig.iOS.deploymentVersion, AppleVersion(13));
       expect(codeCondig.iOS.targetSdk, IOSSdk.iPhoneOS);
     }
     expect(codeCondig.linkModePreference, LinkModePreference.preferStatic);

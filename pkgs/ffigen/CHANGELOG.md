@@ -1,5 +1,7 @@
 ## 23.1.0-wip
 
+- Use minor and patch versions of Apple deployment targets from
+  `package:code_assets` 2.2.0 when compiling native test utilities.
 - Added an `ObjCMethod.isProperty` setter to the visitor API: set it to `false`
   to generate an Objective-C property as plain methods.
   ([#1711](https://github.com/dart-lang/native/issues/1711))

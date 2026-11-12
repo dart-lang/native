@@ -14,13 +14,18 @@ import 'build_testfiles.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
+/// Tests tree shaking for the target architecture.
+///
+/// Uses [androidTargetNdkApi] for Android, [macOSTargetVersion] for macOS,
+/// and [iOSTargetVersion] with [iOSTargetSdk] for iOS. Supply only the target's
+/// platform-specific configuration.
 void runTreeshakeTests(
   OS targetOS,
   Architecture targetArchitecture, {
-  int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
-  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
-  int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
-  IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
+  int? androidTargetNdkApi,
+  AppleVersion? macOSTargetVersion,
+  AppleVersion? iOSTargetVersion,
+  IOSSdk? iOSTargetSdk,
 }) {
   if (targetOS == OS.android) {
     ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
@@ -116,12 +121,14 @@ void runTreeshakeTests(
                   ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
                   : null,
               macOS: macOSTargetVersion != null
-                  ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+                  ? MacOSCodeConfig(
+                      deploymentVersion: macOSTargetVersion,
+                    )
                   : null,
               iOS: iOSTargetVersion != null && iOSTargetSdk != null
                   ? IOSCodeConfig(
                       targetSdk: iOSTargetSdk,
-                      targetVersion: iOSTargetVersion,
+                      deploymentVersion: iOSTargetVersion,
                     )
                   : null,
             ),

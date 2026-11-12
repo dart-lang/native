@@ -49,6 +49,40 @@ class _JsonReader {
     ];
   }
 
+  T number<T extends num?>(String key, {num? minimum, num? maximum}) {
+    final value = get<T>(key);
+    final error = _numberError(value, key, minimum: minimum, maximum: maximum);
+    if (error != null) throw FormatException(error);
+    return value;
+  }
+
+  List<String> validateNumber<T extends num?>(
+    String key, {
+    num? minimum,
+    num? maximum,
+  }) {
+    final errors = validate<T>(key);
+    if (errors.isNotEmpty) return errors;
+    final error = _numberError(
+      get<T>(key), key, minimum: minimum, maximum: maximum,
+    );
+    return error == null ? [] : [error];
+  }
+
+  String? _numberError(num? value, String key, {num? minimum, num? maximum}) {
+    if (value == null ||
+        ((minimum == null || value >= minimum) &&
+         (maximum == null || value <= maximum))) {
+      return null;
+    }
+    final bounds = [
+      if (minimum != null) 'at least $minimum',
+      if (maximum != null) 'at most $maximum',
+    ].join(' and ');
+    return "Unexpected value '$value' for '${_jsonPathToString([key])}'."
+        ' Expected $bounds.';
+  }
+
   List<T> list<T extends Object?>(String key) =>
       _castList<T>(get<List<Object?>>(key), key);
 
@@ -389,8 +423,9 @@ void _checkArgumentMapKeys(Map<String, Object?>? map, {RegExp? keyPattern}) {
     if (!keyPattern.hasMatch(key)) {
       throw ArgumentError.value(
         map,
+        'map',
         "Unexpected key '$key'."
-        ' Expected a key satisfying ${keyPattern.pattern}.',
+            ' Expected a key satisfying ${keyPattern.pattern}.',
       );
     }
   }
@@ -448,8 +483,9 @@ void _checkArgumentMapStringElements(
     if (value != null && !valuePattern.hasMatch(value)) {
       throw ArgumentError.value(
         map,
+        'map',
         "Unexpected value '$value' under key '${entry.key}'."
-        ' Expected a value satisfying ${valuePattern.pattern}.',
+            ' Expected a value satisfying ${valuePattern.pattern}.',
       );
     }
   }

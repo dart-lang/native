@@ -7,6 +7,7 @@
 library;
 
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
@@ -39,6 +40,24 @@ void main() {
         data.ref.release(); // Make sure that dealloc succeeds.
       });
 
+      test('large', () {
+        final list = Uint8List.fromList([
+          for (var i = 0; i < 1024 * 1024; ++i) i * 7,
+        ]);
+        final data = list.toNSData();
+        expect(data.length, list.length);
+        expect(data.toList(), list);
+        data.ref.release(); // Make sure that dealloc succeeds.
+      });
+
+      test('copies the list', () {
+        final list = [1, 2, 3];
+        final data = list.toNSData();
+        list[0] = 4;
+        expect(data.toList(), [1, 2, 3]);
+        data.ref.release();
+      });
+
       test('garbage collected', () async {
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
@@ -51,7 +70,7 @@ void main() {
           doGC();
           expect(tracker.isAlive, isFalse);
         });
-      });
+      }, skip: !canDoGC);
     });
 
     group('toList', () {

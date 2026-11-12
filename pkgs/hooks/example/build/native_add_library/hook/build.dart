@@ -10,8 +10,8 @@ void main(List<String> args) async {
     final packageName = input.packageName;
     final cbuilder = CBuilder.library(
       name: packageName,
-      assetName: '$packageName.dart',
-      sources: ['src/$packageName.c'],
+      assetName: 'src/$packageName.g.dart',
+      sources: ['src/$packageName.c', 'src/$packageName.h'],
     );
     await cbuilder.run(input: input, output: output);
   });

@@ -1,6 +1,6 @@
 ## 1.1.2-wip
 
-- No user-visible changes yet.
+- Track header dependencies in the native code test project.
 
 ## 1.1.1
 

@@ -61,7 +61,7 @@
 /// final cLibrary = CLibrary(
 ///   name: 'sqlite3',
 ///   assetName: 'src/third_party/sqlite3.g.dart',
-///   sources: ['third_party/sqlite/sqlite3.c'],
+///   sources: ['third_party/sqlite/sqlite3.c', 'third_party/sqlite/sqlite3.h'],
 /// );
 /// ```
 ///
@@ -98,7 +98,7 @@
 /// import 'package:native_toolchain_c/native_toolchain_c.dart';
 /// import 'package:record_use/record_use.dart';
 /// import 'package:sqlite/src/c_library.dart';
-/// import 'package:sqlite/src/third_party/record_use_mapping.dart';
+/// import 'package:sqlite/src/third_party/record_use_mapping.g.dart';
 ///
 /// void main(List<String> arguments) async {
 ///   await link(arguments, (input, output) async {
@@ -132,7 +132,7 @@
 ///           output.assets.code.add(
 ///             CodeAsset(
 ///               package: 'host_name',
-///               name: 'src/third_party/unix.dart',
+///               name: 'src/third_party/unix.g.dart',
 ///               linkMode: LookupInProcess(),
 ///             ),
 ///           );
@@ -140,7 +140,7 @@
 ///           output.assets.code.add(
 ///             CodeAsset(
 ///               package: 'host_name',
-///               name: 'src/third_party/windows.dart',
+///               name: 'src/third_party/windows.g.dart',
 ///               linkMode: DynamicLoadingSystem(Uri.file('ws2_32.dll')),
 ///             ),
 ///           );
@@ -179,6 +179,7 @@
 /// [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 library;
 
+export 'src/code_assets/apple_version.dart' show AppleVersion;
 export 'src/code_assets/architecture.dart' show Architecture;
 export 'src/code_assets/c_compiler_config.dart'
     show CCompilerConfig, DeveloperCommandPrompt, WindowsCCompilerConfig;

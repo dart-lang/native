@@ -35,7 +35,7 @@
 /// final cLibrary = CLibrary(
 ///   name: 'sqlite3',
 ///   assetName: 'src/third_party/sqlite3.g.dart',
-///   sources: ['third_party/sqlite/sqlite3.c'],
+///   sources: ['third_party/sqlite/sqlite3.c', 'third_party/sqlite/sqlite3.h'],
 /// );
 /// ```
 ///
@@ -72,7 +72,7 @@
 /// import 'package:native_toolchain_c/native_toolchain_c.dart';
 /// import 'package:record_use/record_use.dart';
 /// import 'package:sqlite/src/c_library.dart';
-/// import 'package:sqlite/src/third_party/record_use_mapping.dart';
+/// import 'package:sqlite/src/third_party/record_use_mapping.g.dart';
 ///
 /// void main(List<String> arguments) async {
 ///   await link(arguments, (input, output) async {
