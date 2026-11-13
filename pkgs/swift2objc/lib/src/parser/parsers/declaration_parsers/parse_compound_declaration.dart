@@ -76,34 +76,20 @@ List<Declaration> parseCompoundDeclaration<T extends CompoundDeclaration>(
   final firstExtMember = extensionMembers.firstOrNull;
 
   if (firstExtMember != null) {
-    final isExternal =
-        symbolgraph.symbols[firstExtMember.id]?.source == builtInInputConfig;
-
-    if (isExternal) {
-      // TODO(https://github.com/dart-lang/native/issues/3228): Support
-      // extensions on external types.
-      context.logger.warning(
-        'Extension on external type ${compound.name} is not '
-        'supported yet.',
-      );
-    } else {
-      symbol.declarations.add(
-        ExtensionDeclaration(
-          id: compoundId.addIdSuffix('extension'),
-          name: compound.name,
-          source: compound.source,
-          availability: compound.availability,
-          extendedType: compound.asDeclaredType,
-          methods: extensionMembers.whereType<MethodDeclaration>().toList(),
-          properties: extensionMembers
-              .whereType<PropertyDeclaration>()
-              .toList(),
-          initializers: extensionMembers
-              .whereType<InitializerDeclaration>()
-              .toList(),
-        ),
-      );
-    }
+    symbol.declarations.add(
+      ExtensionDeclaration(
+        id: compoundId.addIdSuffix('extension'),
+        name: compound.name,
+        source: compound.source,
+        availability: compound.availability,
+        extendedType: compound.asDeclaredType,
+        methods: extensionMembers.whereType<MethodDeclaration>().toList(),
+        properties: extensionMembers.whereType<PropertyDeclaration>().toList(),
+        initializers: extensionMembers
+            .whereType<InitializerDeclaration>()
+            .toList(),
+      ),
+    );
   }
 
   compound.methods.addAll(
