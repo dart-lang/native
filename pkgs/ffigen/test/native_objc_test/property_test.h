@@ -42,9 +42,8 @@ typedef struct {
 
 @end
 
-// The config only turns the parent's property into methods, but the child's
-// property overrides it. Dart doesn't allow a getter to override a method, so
-// the parent's getter has to stay a getter.
+// The config turns this property into methods in both the parent and the
+// child.
 @interface PropertyAsMethodParent : NSObject {
 }
 

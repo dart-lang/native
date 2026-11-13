@@ -38,6 +38,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
               'setClassReadWriteAsMethod:',
             },
             'PropertyAsMethodParent': {'overriddenProperty'},
+            'PropertyAsMethodChild': {'overriddenProperty'},
           };
           if (asMethods[parent.originalName]?.contains(node.selector) ??
               false) {

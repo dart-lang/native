@@ -17,23 +17,15 @@ import 'ast.dart';
 class FixOverriddenMethodsVisitation extends Visitation {
   final Context context;
 
-  // If true, only fixes conflicts between methods and properties. This is used
-  // to repair the hierarchy after the public visitors, which can change whether
-  // a method is a property (ObjCMethod.isProperty).
-  final bool onlyMethodsVsProperties;
-
-  FixOverriddenMethodsVisitation(
-    this.context, {
-    this.onlyMethodsVsProperties = false,
-  });
+  FixOverriddenMethodsVisitation(this.context);
 
   @override
   void visitObjCInterface(ObjCInterface node) {
     node.visitChildren(visitor, typeGraphOnly: true);
 
-    if (!onlyMethodsVsProperties) _fixMethodVariance(node);
+    _fixMethodVariance(node);
     _fixMethodsVsProperties(node);
-    if (!onlyMethodsVsProperties) _fixMethodSymbols(node);
+    _fixMethodSymbols(node);
   }
 
   @override
@@ -159,7 +151,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
   ) {
     final method = node.getSimilarMethod(rootMethod);
     if (method != null && method.kind == ObjCMethodKind.method) {
-      method.revertToProperty();
+      method.kind = ObjCMethodKind.propertyGetter;
       context.logger.info(
         'Converted ${node.originalName}.${method.originalName} to a getter',
       );

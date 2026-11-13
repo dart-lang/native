@@ -103,19 +103,16 @@ void main() {
         expect(inst.keptAsProperty, 5);
       });
 
-      test('property stays a property when an override is a property', () {
-        // The config turns only the parent's property into methods. The
-        // child's property is still a getter and setter. Dart doesn't let
-        // those override methods. The parent's property reverts as a whole.
+      test('overridden property', () {
         final parent = PropertyAsMethodParent();
-        parent.overriddenProperty = 4;
-        expect(parent.overriddenProperty, 4);
+        parent.setOverriddenProperty(4);
+        expect(parent.overriddenProperty(), 4);
 
         final child = PropertyAsMethodChild();
-        child.overriddenProperty = 4;
-        expect(child.overriddenProperty, 104);
+        child.setOverriddenProperty(4);
+        expect(child.overriddenProperty(), 104);
         final PropertyAsMethodParent upcast = child;
-        expect(upcast.overriddenProperty, 104);
+        expect(upcast.overriddenProperty(), 104);
       });
     });
 

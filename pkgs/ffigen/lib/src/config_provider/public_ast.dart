@@ -658,9 +658,13 @@ class ObjCMethod extends NamedNode {
   ///
   /// `true` for the two accessors of an Objective-C property. Setting it to
   /// `false` on either generates both as plain methods, `foo()` and
-  /// `setFoo(value)`. If an override elsewhere in the hierarchy is still a
-  /// getter, the property is changed back and logged. Setting `true` on a
-  /// method throws an [ArgumentError].
+  /// `setFoo(value)`. Setting `true` on a method throws an [ArgumentError].
+  ///
+  /// Overrides of the same method elsewhere in the class hierarchy are not
+  /// changed. If one of them is still a property, it's a method in some classes
+  /// and a getter and setter in others, and code that uses the wrong form for
+  /// a class won't compile. So the visitor should set [isProperty] to `false`
+  /// on those as well.
   bool get isProperty => _method.isProperty;
   set isProperty(bool value) {
     if (value == _method.isProperty) return;

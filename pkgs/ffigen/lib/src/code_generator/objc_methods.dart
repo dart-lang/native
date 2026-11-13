@@ -213,7 +213,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
   Symbol? protocolMethodName;
   ObjCMethods? parent;
   ObjCMethod? setter;
-  ObjCMethod? _convertedSetter;
   bool isIncluded = true;
   ObjCCategory? originCategory;
 
@@ -337,7 +336,9 @@ class ObjCMethod extends AstNode with HasLocalScope {
   ///
   /// A getter and setter share a [Symbol] (the property name). Once they're
   /// methods they have different names, so the setter gets its own symbol,
-  /// derived from its selector. Does nothing if this isn't a property accessor.
+  /// derived from its selector. Overrides of the setter elsewhere in the class
+  /// hierarchy already share a symbol, so they all get the same new one. Does
+  /// nothing if this isn't a property accessor.
   void convertPropertyToMethods() {
     if (!isProperty) return;
     final ObjCMethod? getter;
@@ -352,28 +353,17 @@ class ObjCMethod extends AstNode with HasLocalScope {
     if (getter != null) {
       getter.kind = ObjCMethodKind.method;
       getter.setter = null;
-      getter._convertedSetter = setter;
     }
     if (setter != null) {
       setter.kind = ObjCMethodKind.method;
-      setter.symbol = Symbol(
+      setter.symbol = _setterSymbols[setter.symbol] ??= Symbol(
         setter.originalName.split(':').first,
         SymbolKind.method,
       );
     }
   }
 
-  /// Makes this method a property getter again, along with the setter that
-  /// [convertPropertyToMethods] changed into a method, if there was one.
-  void revertToProperty() {
-    kind = ObjCMethodKind.propertyGetter;
-    final converted = _convertedSetter;
-    if (converted == null) return;
-    converted.kind = ObjCMethodKind.propertySetter;
-    converted.symbol = symbol;
-    setter = converted;
-    _convertedSetter = null;
-  }
+  static final _setterSymbols = Expando<Symbol>();
 
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;

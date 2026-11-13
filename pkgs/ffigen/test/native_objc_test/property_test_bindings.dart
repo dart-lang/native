@@ -99,13 +99,13 @@ extension PropertyAsMethodChild$Methods on PropertyAsMethodChild {
   }
 
   /// overriddenProperty
-  int get overriddenProperty {
+  int overriddenProperty() {
     final _$$ref = object$.ref;
     return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_overriddenProperty);
   }
 
   /// setOverriddenProperty:
-  set overriddenProperty(int value) {
+  void setOverriddenProperty(int value) {
     final _$$ref = object$.ref;
     _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setOverriddenProperty_, value);
   }
@@ -339,13 +339,13 @@ extension PropertyAsMethodParent$Methods on PropertyAsMethodParent {
   }
 
   /// overriddenProperty
-  int get overriddenProperty {
+  int overriddenProperty() {
     final _$$ref = object$.ref;
     return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_overriddenProperty);
   }
 
   /// setOverriddenProperty:
-  set overriddenProperty(int value) {
+  void setOverriddenProperty(int value) {
     final _$$ref = object$.ref;
     _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setOverriddenProperty_, value);
   }

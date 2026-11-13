@@ -11,3 +11,27 @@
 - (int)plainMethod;
 
 @end
+
+@interface IsPropertyParent : NSObject
+
+@property int overridden;
+
+@end
+
+@interface IsPropertyChild : IsPropertyParent
+
+@property int overridden;
+
+@end
+
+@interface IsPropertyBothParent : NSObject
+
+@property int overridden;
+
+@end
+
+@interface IsPropertyBothChild : IsPropertyBothParent
+
+@property int overridden;
+
+@end
