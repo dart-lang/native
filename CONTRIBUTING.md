@@ -3,6 +3,25 @@
 We'd love to accept your patches and contributions to this project. There are
 just a few small guidelines you need to follow.
 
+## AI policy
+
+Vibe coded PRs will not be accepted.
+
+The difference between vibe coding and AI assisted coding is whether you have
+properly reviewed and cleaned up the output. The raw output of coding agents is
+typically not up to our quality standards.
+
+You are responsible for any code you send out, regardless of whether you or your
+AI wrote each line. "My AI wrote it" is not an excuse for poor quality code.
+
+You cannot expect a PR reviewer to put more effort into reviewing the code than
+you did. We have access to coding agents too, so you should ask yourself whether
+your PR adds value. What makes your PR better than if we were to ask our agents
+to write it?
+
+If you repeatedly send us poor quality PRs, we may restrict your access to the
+repo.
+
 ## Contributor License Agreement
 
 Contributions to this project must be accompanied by a Contributor License

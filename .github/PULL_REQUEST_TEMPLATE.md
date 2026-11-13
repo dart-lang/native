@@ -2,6 +2,18 @@
 Thanks for filing a pull request!
 -->
 
+## AI policy
+
+Is your PR vibe coded or AI assisted?
+
+- Vibe coded PRs will not be accepted.
+- The difference between vibe coding and AI assisted coding is whether you have properly reviewed and cleaned up the output. The raw output of coding agents is typically not up to our quality standards.
+- You are responsible for any code you send out, regardless of whether you or your AI wrote each line. "My AI wrote it" is not an excuse for poor quality code.
+- You cannot expect a PR reviewer to put more effort into reviewing the code than you did. We have access to coding agents too, so you should ask yourself whether your PR adds value. What makes your PR better than if we were to ask our agents to write it?
+- If you repeatedly send us poor quality PRs, we may restrict your access to the repo.
+
+You can delete this section from the PR description once you've read it.
+
 ## Description
 
 *Replace this paragraph with a description of what this PR is changing or adding, and **why**. The 'why' is the most important part of the description.*
