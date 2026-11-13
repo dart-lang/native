@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   path_provider: 2.1.5
+  material_ui: any
 
 dev_dependencies:
   flutter_test:
