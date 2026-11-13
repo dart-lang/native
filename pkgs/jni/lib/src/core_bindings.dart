@@ -519,6 +519,10 @@ final class $JBoolean$Type$ extends jni$_.JType<JBoolean> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Boolean;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Boolean';
 }
 
 /// from: `java.lang.Byte`
@@ -1149,6 +1153,10 @@ final class $JByte$Type$ extends jni$_.JType<JByte> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Byte;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Byte';
 }
 
 /// from: `java.lang.Character$Subset`
@@ -1246,6 +1254,10 @@ final class $JCharacter$JSubset$Type$ extends jni$_.JType<JCharacter$JSubset> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Character$Subset;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Character$Subset';
 }
 
 /// from: `java.lang.Character$UnicodeBlock`
@@ -4960,6 +4972,10 @@ final class $JCharacter$JUnicodeBlock$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Character$UnicodeBlock;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Character$UnicodeBlock';
 }
 
 /// from: `java.lang.Character$UnicodeScript`
@@ -6887,6 +6903,10 @@ final class $JCharacter$JUnicodeScript$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Character$UnicodeScript;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Character$UnicodeScript';
 }
 
 /// from: `java.lang.Character`
@@ -9493,6 +9513,10 @@ final class $JCharacter$Type$ extends jni$_.JType<JCharacter> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Character;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Character';
 }
 
 /// from: `java.lang.Double`
@@ -10291,6 +10315,10 @@ final class $JDouble$Type$ extends jni$_.JType<JDouble> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Double;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Double';
 }
 
 /// from: `java.lang.Float`
@@ -11133,6 +11161,10 @@ final class $JFloat$Type$ extends jni$_.JType<JFloat> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Float;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Float';
 }
 
 /// from: `java.lang.Integer`
@@ -12537,6 +12569,10 @@ final class $JInteger$Type$ extends jni$_.JType<JInteger> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Integer;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Integer';
 }
 
 /// from: `java.lang.Long`
@@ -13912,6 +13948,10 @@ final class $JLong$Type$ extends jni$_.JType<JLong> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Long;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Long';
 }
 
 /// from: `java.lang.Number`
@@ -14070,6 +14110,10 @@ final class $JNumber$Type$ extends jni$_.JType<JNumber> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Number;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Number';
 }
 
 /// from: `java.lang.Short`
@@ -14723,6 +14767,10 @@ final class $JShort$Type$ extends jni$_.JType<JShort> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Short;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Short';
 }
 
 /// from: `java.lang.String`
@@ -17495,6 +17543,10 @@ final class $JString$Type$ extends jni$_.JType<JString> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/String;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/String';
 }
 
 /// from: `java.util.ArrayList`
@@ -19326,6 +19378,10 @@ final class $JArrayList$Type$ extends jni$_.JType<JArrayList> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/ArrayList;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/ArrayList';
 }
 
 /// from: `java.util.Collection`
@@ -20282,6 +20338,10 @@ final class $JCollection$Type$ extends jni$_.JType<JCollection> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/Collection;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/Collection';
 }
 
 /// from: `java.util.HashMap`
@@ -22167,6 +22227,10 @@ final class $JHashMap$Type$ extends jni$_.JType<JHashMap> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/HashMap;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/HashMap';
 }
 
 /// from: `java.util.HashSet`
@@ -23477,6 +23541,10 @@ final class $JHashSet$Type$ extends jni$_.JType<JHashSet> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/HashSet;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/HashSet';
 }
 
 /// from: `java.util.Iterator`
@@ -23745,6 +23813,10 @@ final class $JIterator$Type$ extends jni$_.JType<JIterator> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/Iterator;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/Iterator';
 }
 
 /// from: `java.util.List`
@@ -26745,6 +26817,10 @@ final class $JList$Type$ extends jni$_.JType<JList> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/List;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/List';
 }
 
 /// from: `java.util.Map$Entry`
@@ -27300,6 +27376,10 @@ final class $JMap$JEntry$Type$ extends jni$_.JType<JMap$JEntry> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/Map$Entry;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/Map$Entry';
 }
 
 /// from: `java.util.Map`
@@ -30626,6 +30706,10 @@ final class $JMap$Type$ extends jni$_.JType<JMap> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/Map;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/Map';
 }
 
 /// from: `java.util.Set`
@@ -32775,4 +32859,8 @@ final class $JSet$Type$ extends jni$_.JType<JSet> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/Set;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/Set';
 }

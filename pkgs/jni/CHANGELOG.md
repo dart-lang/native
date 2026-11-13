@@ -1,5 +1,7 @@
 ## 1.2.0-wip
 
+- Add nullable `JType.className` for Java class names, using JNI signatures
+  for array class lookups.
 - Add defensive null checks on method receiver objects and field targets to
   prevent native segfaults in Java.
 

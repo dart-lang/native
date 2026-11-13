@@ -1,3 +1,7 @@
+## 1.1.0-wip
+
+- Regenerate JNI bindings to support the new `JType.className` API.
+
 ## 1.0.5-wip
 
 - Bump `package:jni` dependency to 1.2.0.
