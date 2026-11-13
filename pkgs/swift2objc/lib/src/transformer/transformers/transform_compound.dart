@@ -9,13 +9,16 @@ import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/members/subscript_declaration.dart';
 import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
 import 'transform_member.dart';
+import 'transform_subscript.dart';
 
 ClassDeclaration transformCompound(
   CompoundDeclaration originalCompound,
@@ -78,6 +81,24 @@ ClassDeclaration transformCompound(
     transformedCompound.properties = properties;
     transformedCompound.initializers = initializers;
     transformedCompound.methods = methods;
+
+    final transformedSubscripts = originalCompound.subscripts
+        .expand(
+          (s) => transformSubscript(
+            s,
+            wrappedCompoundInstance,
+            parentNamer,
+            state,
+          ),
+        )
+        .toList();
+
+    transformedCompound.subscripts = transformedSubscripts
+        .whereType<SubscriptDeclaration>()
+        .toList();
+    transformedCompound.methods.addAll(
+      transformedSubscripts.whereType<MethodDeclaration>(),
+    );
   }
 
   return transformedCompound;

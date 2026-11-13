@@ -34,6 +34,7 @@ List<Declaration> parseEnumDeclaration(
       cases: [],
       properties: [],
       methods: [],
+      subscripts: [],
       initializers: [],
       nestedDeclarations: [],
     ),

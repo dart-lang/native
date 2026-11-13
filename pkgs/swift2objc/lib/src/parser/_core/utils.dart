@@ -169,3 +169,14 @@ ReferredType parseTypeAfterSeparator(
 }
 
 bool isExtensionMember(Json symbolJson) => symbolJson['swiftExtension'].exists;
+
+ReferredType parseReturnType(
+  Context context,
+  Json symbolJson,
+  ParsedSymbolgraph symbolgraph,
+) {
+  final returnJson = TokenList(symbolJson['functionSignature']['returns']);
+  final (returnType, unparsed) = parseType(context, symbolgraph, returnJson);
+  assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
+  return returnType;
+}

@@ -14,6 +14,7 @@ import '../../ast_node.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
+import 'members/subscript_declaration.dart';
 import 'protocol_declaration.dart';
 
 /// Describes the declaration of a Swift enum.
@@ -42,6 +43,9 @@ class EnumDeclaration extends AstNode implements CompoundDeclaration {
   List<MethodDeclaration> methods;
 
   @override
+  List<SubscriptDeclaration> subscripts;
+
+  @override
   List<InitializerDeclaration> initializers;
 
   @override
@@ -65,6 +69,7 @@ class EnumDeclaration extends AstNode implements CompoundDeclaration {
     required this.cases,
     required this.properties,
     required this.methods,
+    this.subscripts = const [],
     required this.initializers,
     this.conformedProtocols = const [],
     this.typeParams = const [],
@@ -81,6 +86,7 @@ class EnumDeclaration extends AstNode implements CompoundDeclaration {
     visitor.visitAll(cases);
     visitor.visitAll(properties);
     visitor.visitAll(methods);
+    visitor.visitAll(subscripts);
     visitor.visitAll(initializers);
     visitor.visitAll(typeParams);
     visitor.visitAll(conformedProtocols);
