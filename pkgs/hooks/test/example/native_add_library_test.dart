@@ -50,7 +50,9 @@ void main() async {
         CodeAssetExtension(
           targetOS: OS.current,
           macOS: targetOS == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              ? MacOSCodeConfig(
+                  deploymentVersion: AppleVersion(defaultMacOSVersion),
+                )
               : null,
           targetArchitecture: Architecture.current,
           linkModePreference: LinkModePreference.dynamic,
@@ -82,6 +84,9 @@ void main() async {
     final dependencies = buildOutput.dependencies;
     expect(assets.length, 1);
     expect(await assets.allExist(), true);
-    expect(dependencies, [testPackageUri.resolve('src/$name.c')]);
+    expect(dependencies, [
+      testPackageUri.resolve('src/$name.c'),
+      testPackageUri.resolve('src/$name.h'),
+    ]);
   });
 }

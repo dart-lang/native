@@ -10,7 +10,7 @@ Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
   await FfiGenerator(
     output: Output(
-      dart: DartOutput(path: packageRoot.resolve('lib/native_add.dart')),
+      dart: DartOutput(path: packageRoot.resolve('lib/src/native_add.g.dart')),
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a

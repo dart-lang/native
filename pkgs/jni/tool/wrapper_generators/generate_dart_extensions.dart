@@ -63,7 +63,7 @@ String getCheckedGetter(Context context, Type returnType) {
     'jobjectRefType': 'referenceType',
     'jthrowable': objectPointerGetter,
     'jstring': objectPointerGetter,
-    'jclass': 'value',
+    'jclass': 'checkedClassRef',
     'jfieldID': 'fieldID',
     'jmethodID': 'methodID',
     'ffi.Int32': 'integer',

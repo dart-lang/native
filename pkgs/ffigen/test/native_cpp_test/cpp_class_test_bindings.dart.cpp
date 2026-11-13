@@ -50,6 +50,14 @@ FFIGEN_EXPORT int Animal_sum(int a, int b) {
   return Animal::sum(a, b);
 }
 
+FFIGEN_EXPORT Animal* Animal_copyAndAddAge(const Animal* self, Animal* other) {
+  return new Animal(self->copyAndAddAge(*other));
+}
+
+FFIGEN_EXPORT bool Animal_haveSameAge(Animal* a, Animal* b) {
+  return Animal::haveSameAge(*a, *b);
+}
+
 FFIGEN_EXPORT void Animal_delete(Animal* self) {
   delete self;
 }

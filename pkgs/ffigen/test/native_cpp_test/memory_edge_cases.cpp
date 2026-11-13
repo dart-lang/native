@@ -57,6 +57,18 @@ int NodeManager::consumeNode(std::unique_ptr<Node> node) {
     return node->getValue();
 }
 
+int NodeManager::passNodeByValue(Node node) {
+    return node.getValue();
+}
+
+Node NodeManager::returnNodeByValue(int value, int* destructorCounter) {
+    return Node(value, destructorCounter);
+}
+
+Node NodeManager::passAndReturnNode(Node node) {
+    return node;
+}
+
 NodeContainer::NodeContainer(std::unique_ptr<Node> node)
     : node_(std::move(node)) {}
 

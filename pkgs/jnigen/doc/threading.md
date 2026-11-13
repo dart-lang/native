@@ -63,5 +63,5 @@ in `dart:ui`.
 
 ### Dart-standalone
 
-On Dart-standalone, call `Jni.setDylibsDir` in each new isolate, since each
+On Dart-standalone, call `Jni.setDylibDir` in each new isolate, since each
 isolate loads the dynamic libararies separately.

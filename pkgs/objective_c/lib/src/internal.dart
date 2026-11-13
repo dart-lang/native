@@ -287,8 +287,20 @@ abstract final class _ObjCReference<T extends NativeType>
     _isReleased.value = true;
   }
 
+  /// Manually releases the underlying reference.
+  ///
+  /// Throws a [DoubleReleaseError] if this reference has already been
+  /// released.
+  ///
+  /// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
   void release() => _release(r.objectRelease);
 
+  /// Releases the reference by adding it to the current autorelease pool.
+  ///
+  /// Throws a [DoubleReleaseError] if this reference has already been
+  /// released.
+  ///
+  /// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
   Pointer<T> autorelease() {
     _release(r.objectAutorelease);
     return _finalizable.ptr;
@@ -301,6 +313,10 @@ abstract final class _ObjCReference<T extends NativeType>
   @override
   int get hashCode => _finalizable.ptr.hashCode;
 
+  /// The raw pointer to the underlying Objective-C object or block.
+  ///
+  /// Throws a [UseAfterReleaseError] if this reference has already been
+  /// released.
   Pointer<T> get pointer {
     if (isReleased) {
       throw UseAfterReleaseError();
@@ -309,12 +325,22 @@ abstract final class _ObjCReference<T extends NativeType>
     return _finalizable.ptr;
   }
 
+  /// Retains the underlying reference and returns the raw pointer.
+  ///
+  /// The caller takes ownership of the retained reference (+1 retain count)
+  /// and is responsible for manually releasing it.
+  ///
+  /// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
   Pointer<T> retainAndReturnPointer() {
     final ptr = pointer;
     _retain(ptr);
     return ptr;
   }
 
+  /// Retains the underlying reference and adds it to the current autorelease
+  /// pool, returning the raw pointer.
+  ///
+  /// See the [Objective-C Memory Management guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Memory%20Management-topic.html).
   Pointer<T> retainAndAutorelease() {
     final ptr = pointer;
     _retain(ptr);
@@ -341,6 +367,10 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
   int get hashCode => ref.hashCode;
 }
 
+/// A reference to an Objective-C object.
+///
+/// This is an internal API for use by ffigen bindings and internal machinery.
+/// Do not use directly.
 @pragma('vm:deeply-immutable')
 final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
@@ -350,44 +380,16 @@ final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
   void _retain(ObjectPtr ptr) => r.objectRetain(ptr);
 
   @override
-  bool _isValid(ObjectPtr ptr) => _isValidObject(ptr);
+  bool _isValid(ObjectPtr ptr) => c.isValidObject(ptr.cast());
 }
 
 /// Base class for all Objective-C objects.
+///
+/// For details on Objective-C runtime types and subtyping with Dart extension
+/// types, see the [Objective-C Runtime Types guide](https://pub.dev/documentation/ffigen/latest/topics/Objective-C%20Runtime%20Types-topic.html).
 class ObjCObject extends _ObjCRefHolder<r.ObjCObjectImpl, ObjCObjectRef> {
   ObjCObject(ObjectPtr ptr, {required bool retain, required bool release})
     : super(ObjCObjectRef(ptr, retain: retain, release: release));
-}
-
-// Returns whether the object is valid and live. The pointer must point to
-// readable memory, or be null. May (rarely) return false positives.
-bool _isValidObject(ObjectPtr ptr) {
-  if (ptr == nullptr) return false;
-  return _isValidClass(r.getObjectClass(ptr));
-}
-
-final _allClasses = <ObjectPtr>{};
-
-bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
-  if (!forceReloadClasses && _allClasses.contains(clazz)) return true;
-
-  // If the class is missing from the list, it either means we haven't created
-  // the set yet, or more classes have been loaded since we created the set, or
-  // the class is actually invalid. To rule out the first two cases, rebulid the
-  // set then try again. This is expensive, but only happens if asserts are
-  // enabled, and only happens more than O(1) times if there are actually
-  // invalid objects in use, which shouldn't happen in correct code.
-  final countPtr = calloc<UnsignedInt>();
-  final classList = r.copyClassList(countPtr);
-  final count = countPtr.value;
-  calloc.free(countPtr);
-  _allClasses.clear();
-  for (var i = 0; i < count; ++i) {
-    _allClasses.add(classList[i]);
-  }
-  calloc.free(classList);
-
-  return _allClasses.contains(clazz);
 }
 
 /// Base class for all Objective-C protocols.
@@ -395,6 +397,10 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
 // a protocol and an interface.
 typedef ObjCProtocol = ObjCObject;
 
+/// A reference to an Objective-C block.
+///
+/// This is an internal API for use by ffigen bindings and internal machinery.
+/// Do not use directly.
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})
@@ -586,6 +592,4 @@ final ContextPtr objCContext = c.createContext();
 bool blockHasRegisteredClosure(BlockPtr block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
 bool isValidBlock(BlockPtr block) => c.isValidBlock(block);
-bool isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) =>
-    _isValidClass(clazz, forceReloadClasses: forceReloadClasses);
-bool isValidObject(ObjectPtr object) => _isValidObject(object);
+bool isValidObject(ObjectPtr object) => c.isValidObject(object.cast());

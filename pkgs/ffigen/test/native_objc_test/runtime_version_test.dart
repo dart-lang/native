@@ -23,22 +23,40 @@ void main() {
 
     test('Interface methods', () {
       final api = FutureAPIMethods();
-      expect(() => api.unavailableMac(), throwsA(isA<OsVersionError>()));
-      expect(api.unavailableIos(), 2);
-      expect(() => api.unavailableBoth(), throwsA(isA<OsVersionError>()));
-      expect(() => api.futureMethodMac(), throwsA(isA<OsVersionError>()));
-      expect(api.futureMethodIos(), 5);
-      expect(() => api.futureMethodBoth(), throwsA(isA<OsVersionError>()));
+      if (Platform.isMacOS) {
+        expect(() => api.unavailableMac(), throwsA(isA<OsVersionError>()));
+        expect(api.unavailableIos(), 2);
+        expect(() => api.unavailableBoth(), throwsA(isA<OsVersionError>()));
+        expect(() => api.futureMethodMac(), throwsA(isA<OsVersionError>()));
+        expect(api.futureMethodIos(), 5);
+        expect(() => api.futureMethodBoth(), throwsA(isA<OsVersionError>()));
+      } else {
+        expect(api.unavailableMac(), 1);
+        expect(() => api.unavailableIos(), throwsA(isA<OsVersionError>()));
+        expect(() => api.unavailableBoth(), throwsA(isA<OsVersionError>()));
+        expect(api.futureMethodMac(), 4);
+        expect(() => api.futureMethodIos(), throwsA(isA<OsVersionError>()));
+        expect(() => api.futureMethodBoth(), throwsA(isA<OsVersionError>()));
+      }
     });
 
     test('Category methods', () {
       final api = NSObject();
-      expect(() => api.catUnavailableMac(), throwsA(isA<OsVersionError>()));
-      expect(api.catUnavailableIos(), 2);
-      expect(() => api.catUnavailableBoth(), throwsA(isA<OsVersionError>()));
-      expect(() => api.catFutureMethodMac(), throwsA(isA<OsVersionError>()));
-      expect(api.catFutureMethodIos(), 5);
-      expect(() => api.catFutureMethodBoth(), throwsA(isA<OsVersionError>()));
+      if (Platform.isMacOS) {
+        expect(() => api.catUnavailableMac(), throwsA(isA<OsVersionError>()));
+        expect(api.catUnavailableIos(), 2);
+        expect(() => api.catUnavailableBoth(), throwsA(isA<OsVersionError>()));
+        expect(() => api.catFutureMethodMac(), throwsA(isA<OsVersionError>()));
+        expect(api.catFutureMethodIos(), 5);
+        expect(() => api.catFutureMethodBoth(), throwsA(isA<OsVersionError>()));
+      } else {
+        expect(api.catUnavailableMac(), 1);
+        expect(() => api.catUnavailableIos(), throwsA(isA<OsVersionError>()));
+        expect(() => api.catUnavailableBoth(), throwsA(isA<OsVersionError>()));
+        expect(api.catFutureMethodMac(), 4);
+        expect(() => api.catFutureMethodIos(), throwsA(isA<OsVersionError>()));
+        expect(() => api.catFutureMethodBoth(), throwsA(isA<OsVersionError>()));
+      }
     });
   });
 }

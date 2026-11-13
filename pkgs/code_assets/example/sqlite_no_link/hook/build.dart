@@ -9,7 +9,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 final builder = CBuilder.library(
   name: 'sqlite3',
   assetName: 'src/third_party/sqlite3.g.dart',
-  sources: ['third_party/sqlite/sqlite3.c'],
+  sources: ['third_party/sqlite/sqlite3.c', 'third_party/sqlite/sqlite3.h'],
 );
 
 void main(List<String> args) async {

@@ -22,6 +22,7 @@ import 'logging/logging.dart';
 import 'summary/summary.dart';
 import 'tools/tools.dart';
 
+/// Collects UTF-8 output from [stream] and writes it to [buffer].
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
 

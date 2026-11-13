@@ -101,14 +101,17 @@ class PackageGraphFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  int? get configVersion => _reader.get<int?>('configVersion');
+  int? get configVersion => _reader.number<int?>('configVersion', minimum: 1);
 
   set _configVersion(int? value) {
+    if (value != null && !(value >= 1)) {
+      throw ArgumentError.value(value, 'configVersion', 'Expected at least 1.');
+    }
     json.setOrRemove('configVersion', value);
   }
 
   List<String> _validateConfigVersion() =>
-      _reader.validate<int?>('configVersion');
+      _reader.validateNumber<int?>('configVersion', minimum: 1);
 
   List<GraphPackageSyntax> get packages {
     final jsonValue = _reader.list('packages');
@@ -193,6 +196,43 @@ class _JsonReader {
     return [
       errorString(value, [key], expectedType: T),
     ];
+  }
+
+  T number<T extends num?>(String key, {num? minimum, num? maximum}) {
+    final value = get<T>(key);
+    final error = _numberError(value, key, minimum: minimum, maximum: maximum);
+    if (error != null) throw FormatException(error);
+    return value;
+  }
+
+  List<String> validateNumber<T extends num?>(
+    String key, {
+    num? minimum,
+    num? maximum,
+  }) {
+    final errors = validate<T>(key);
+    if (errors.isNotEmpty) return errors;
+    final error = _numberError(
+      get<T>(key),
+      key,
+      minimum: minimum,
+      maximum: maximum,
+    );
+    return error == null ? [] : [error];
+  }
+
+  String? _numberError(num? value, String key, {num? minimum, num? maximum}) {
+    if (value == null ||
+        ((minimum == null || value >= minimum) &&
+            (maximum == null || value <= maximum))) {
+      return null;
+    }
+    final bounds = [
+      if (minimum != null) 'at least $minimum',
+      if (maximum != null) 'at most $maximum',
+    ].join(' and ');
+    return "Unexpected value '$value' for '${_jsonPathToString([key])}'."
+        ' Expected $bounds.';
   }
 
   List<T> list<T extends Object?>(String key) =>
@@ -550,8 +590,9 @@ void _checkArgumentMapKeys(Map<String, Object?>? map, {RegExp? keyPattern}) {
     if (!keyPattern.hasMatch(key)) {
       throw ArgumentError.value(
         map,
+        'map',
         "Unexpected key '$key'."
-        ' Expected a key satisfying ${keyPattern.pattern}.',
+            ' Expected a key satisfying ${keyPattern.pattern}.',
       );
     }
   }
@@ -609,8 +650,9 @@ void _checkArgumentMapStringElements(
     if (value != null && !valuePattern.hasMatch(value)) {
       throw ArgumentError.value(
         map,
+        'map',
         "Unexpected value '$value' under key '${entry.key}'."
-        ' Expected a value satisfying ${valuePattern.pattern}.',
+            ' Expected a value satisfying ${valuePattern.pattern}.',
       );
     }
   }

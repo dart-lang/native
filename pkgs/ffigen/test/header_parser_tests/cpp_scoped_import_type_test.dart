@@ -41,7 +41,7 @@ void main() {
               importedNames.add(declaration.originalName);
               // Replace one scoped struct to check the import takes effect.
               return declaration.originalName == 'outer::inner::Point'
-                  ? cg.ImportedType(cg.ffiImport, 'Int32', 'int', 'int')
+                  ? ImportedType(cg.ffiImport, 'Int32', 'int', 'int')
                   : null;
             },
             visitors: [

@@ -313,9 +313,17 @@ class SchemaAnalyzer {
       case SchemaType.boolean:
         dartType = BoolDartType(isNullable: isNullable);
       case SchemaType.integer:
-        dartType = IntDartType(isNullable: isNullable);
+        dartType = IntDartType(
+          isNullable: isNullable,
+          minimum: schemas.minimum,
+          maximum: schemas.maximum,
+        );
       case SchemaType.number:
-        dartType = DoubleDartType(isNullable: isNullable);
+        dartType = DoubleDartType(
+          isNullable: isNullable,
+          minimum: schemas.minimum,
+          maximum: schemas.maximum,
+        );
       case SchemaType.string:
         if (schemas.generateUri) {
           dartType = UriDartType(isNullable: isNullable);
@@ -636,6 +644,22 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
       throw UnsupportedError('Multiple types: $types.');
     }
   }
+
+  num? get minimum => _schemas
+      .map((schema) => schema.minimum)
+      .whereType<num>()
+      .fold<num?>(
+        null,
+        (bound, value) => bound == null || value > bound ? value : bound,
+      );
+
+  num? get maximum => _schemas
+      .map((schema) => schema.maximum)
+      .whereType<num>()
+      .fold<num?>(
+        null,
+        (bound, value) => bound == null || value < bound ? value : bound,
+      );
 
   List<RegExp> get patterns {
     final patterns = <RegExp>{};

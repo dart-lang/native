@@ -12,7 +12,7 @@ void main(List<String> args) async {
       final builder = CBuilder.library(
         name: 'recursive_invocation',
         assetName: 'src/recursive_invocation.dart',
-        sources: ['src/recursive_invocation.c'],
+        sources: ['src/recursive_invocation.c', 'src/recursive_invocation.h'],
         defines: {
           if (input.config.code.targetOS == OS.windows)
             // Ensure symbols are exported in dll.

@@ -11,9 +11,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
   return FfiGenerator(
     output: Output(
       dart: DartOutput(
-        path: packageRoot.resolve(
-          'lib/src/use_dart_api_bindings_generated.dart',
-        ),
+        path: packageRoot.resolve('lib/src/use_dart_api_bindings.g.dart'),
       ),
       preamble: '''
 // Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file

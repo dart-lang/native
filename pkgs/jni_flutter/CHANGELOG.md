@@ -1,3 +1,12 @@
+## 1.0.5-wip
+
+- Bump `package:jni` dependency to 1.2.0.
+
+## 1.0.4+1
+
+- Update Groovy Gradle property assignments to silence a warning.
+- Documentation updates.
+
 ## 1.0.3
 
 - Bump Kotlin version in examples.

@@ -33,7 +33,8 @@ void main(List<String> args) async {
     final packageName = input.packageName;
     final codeConfig = input.config.code;
 
-    final cFlags = codeConfig.targetOS == OS.macOS
+    final isApple = {OS.iOS, OS.macOS}.contains(codeConfig.targetOS);
+    final cFlags = isApple
         ? <String>[
             '-isysroot',
             sdkPath(codeConfig),
@@ -57,14 +58,15 @@ void main(List<String> args) async {
 
     // Build all C++ test files. Works on all platforms.
     final cppTestDir = input.packageRoot.resolve('test/native_cpp_test/');
-    final cppFiles = _findFiles(cppTestDir, '.cpp')
-        .map(
-          (uri) => p.relative(
-            uri.toFilePath(),
-            from: input.packageRoot.toFilePath(),
-          ),
-        )
-        .toList();
+    final cppFiles =
+        [..._findFiles(cppTestDir, '.cpp'), ..._findFiles(cppTestDir, '.h')]
+            .map(
+              (uri) => p.relative(
+                uri.toFilePath(),
+                from: input.packageRoot.toFilePath(),
+              ),
+            )
+            .toList();
     await CBuilder.library(
       name: 'cpp_test',
       assetName: 'cpp_test',
@@ -74,7 +76,7 @@ void main(List<String> args) async {
       flags: cFlags,
     ).run(input: input, output: output, logger: logger);
 
-    if (codeConfig.targetOS == OS.macOS) {
+    if (isApple) {
       final builder = await CustomBuilder.create(
         input,
         input.packageRoot.toFilePath(),
@@ -93,6 +95,7 @@ void main(List<String> args) async {
       if (File.fromUri(swiftBindingM).existsSync()) {
         extraObjects.add(
           await builder.buildObject(swiftBindingM, [
+            ...cFlags,
             '-x',
             'objective-c',
             '-fobjc-arc',
@@ -199,11 +202,15 @@ String firstLineOfStdout(String cmd, List<String> args) {
 
 String minOSVersion(CodeConfig codeConfig) {
   if (codeConfig.targetOS == OS.iOS) {
-    final targetVersion = codeConfig.iOS.targetVersion;
+    final targetVersion = _appleDeploymentTarget(
+      codeConfig.iOS.deploymentVersion,
+    );
     return '-mios-version-min=$targetVersion';
   }
   assert(codeConfig.targetOS == OS.macOS);
-  final targetVersion = codeConfig.macOS.targetVersion;
+  final targetVersion = _appleDeploymentTarget(
+    codeConfig.macOS.deploymentVersion,
+  );
   return '-mmacos-version-min=$targetVersion';
 }
 
@@ -289,53 +296,41 @@ class CustomBuilder {
     Uri outputLib, {
     List<String> extraObjects = const [],
   }) async {
-    final baseArgs = [
+    final arch = _codeConfig.targetArchitecture == Architecture.x64
+        ? 'x86_64'
+        : 'arm64';
+    final String target;
+    if (_codeConfig.targetOS == OS.iOS) {
+      final version = _appleDeploymentTarget(_codeConfig.iOS.deploymentVersion);
+      final suffix = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS
+          ? ''
+          : '-simulator';
+      target = '$arch-apple-ios$version$suffix';
+    } else {
+      final version = _appleDeploymentTarget(
+        _codeConfig.macOS.deploymentVersion,
+      );
+      target = '$arch-apple-macosx$version';
+    }
+
+    await _run('swiftc', [
       '-c',
       input.toFilePath(),
       ...extraObjects,
       '-module-name',
       moduleName,
       '-emit-library',
-    ];
-
-    final arch = _codeConfig.targetArchitecture == Architecture.x64
-        ? 'x86_64'
-        : 'arm64';
-    final String target;
-    if (_codeConfig.targetOS == OS.iOS) {
-      final version = _codeConfig.iOS.targetVersion;
-      final sdk = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS
-          ? 'ios'
-          : 'ios-simulator';
-      target = '$arch-apple-$sdk$version';
-    } else {
-      final version = _codeConfig.macOS.targetVersion;
-      target = '$arch-apple-macosx$version';
-    }
-
-    if (_codeConfig.targetOS == OS.macOS &&
-        _codeConfig.targetArchitecture == Architecture.arm64) {
-      final version = _codeConfig.macOS.targetVersion;
-      await _run('swiftc', [
-        ...baseArgs,
+      if (_codeConfig.targetOS == OS.macOS) ...[
         '-emit-objc-header-path',
         outputHeader.toFilePath(),
-        '-target',
-        '$arch-apple-macosx$version',
-        '-o',
-        outputLib.toFilePath(),
-      ]);
-    } else {
-      await _run('swiftc', [
-        ...baseArgs,
-        '-emit-objc-header-path',
-        outputHeader.toFilePath(),
-        '-target',
-        target,
-        '-o',
-        outputLib.toFilePath(),
-      ]);
-    }
+      ],
+      '-sdk',
+      sdkPath(_codeConfig),
+      '-target',
+      target,
+      '-o',
+      outputLib.toFilePath(),
+    ]);
   }
 
   Future<void> _run(String cmd, List<String> args) async {
@@ -347,4 +342,13 @@ class CustomBuilder {
       );
     }
   }
+}
+
+String _appleDeploymentTarget(AppleVersion version) {
+  final major = version.major;
+  final minor = version.minor;
+  final patch = version.patch;
+  if (patch != 0) return '$major.$minor.$patch';
+  if (minor != 0) return '$major.$minor';
+  return '$major';
 }

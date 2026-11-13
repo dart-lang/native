@@ -39,7 +39,6 @@ void testDartApiExample(
           [
             'diff',
             '--exit-code',
-            r'--ignore-matching-lines=^const _\$jniVersionCheck = jni\$_\.JniVersionCheck',
             outputPath,
           ],
           workingDirectory: examplePath,

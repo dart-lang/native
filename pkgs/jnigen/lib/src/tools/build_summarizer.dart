@@ -18,20 +18,18 @@ import '../logging/logging.dart';
 import '../util/find_package.dart';
 import 'gradle_tools.dart';
 
-final toolPath = join('.', '.dart_tool', 'jnigen');
-final mvnTargetDir = join(toolPath, 'target');
-final gradleBuildDir = join('.', 'java', 'build');
-final gradleTargetDir = join(gradleBuildDir, 'libs');
-final jarFile = join(gradleTargetDir, 'ApiSummarizer.jar');
-final targetJarFile = join(toolPath, 'ApiSummarizer.jar');
+final _toolPath = join('.', '.dart_tool', 'jnigen');
+final _jarFile = join('.', 'java', 'build', 'libs', 'ApiSummarizer.jar');
+final _targetJarFile = join(_toolPath, 'ApiSummarizer.jar');
 
+/// Builds the ApiSummarizer JAR using Gradle.
 Future<void> buildApiSummarizer() async {
   final pkg = await findPackageRoot('jnigen');
   if (pkg == null) {
     log.fatal('package jnigen not found!');
   }
   final gradleWrapper = await GradleTools.getGradleWExecutable();
-  await Directory(toolPath).create(recursive: true);
+  await Directory(_toolPath).create(recursive: true);
   final gradleArgs = [
     '-p',
     pkg.resolve('java/').toFilePath(),
@@ -43,7 +41,7 @@ Future<void> buildApiSummarizer() async {
   try {
     final gradleProc = await Process.run(
         gradleWrapper!.toFilePath(), gradleArgs,
-        workingDirectory: toolPath,
+        workingDirectory: _toolPath,
         runInShell: true,
         environment: jni_util.javaEnvironment);
     final exitCode = gradleProc.exitCode;
@@ -53,7 +51,7 @@ Future<void> buildApiSummarizer() async {
 
     if (exitCode == 0) {
       sourceJar.copySync(
-          File(targetJarFile).uri.toFilePath(windows: Platform.isWindows));
+          File(_targetJarFile).uri.toFilePath(windows: Platform.isWindows));
     } else {
       printError(gradleProc.stdout);
       printError(gradleProc.stderr);
@@ -62,16 +60,17 @@ Future<void> buildApiSummarizer() async {
   } finally {}
 }
 
+/// Builds the ApiSummarizer JAR if it has not been built or is stale.
 Future<void> buildSummarizerIfNotExists({bool force = false}) async {
   // TODO(#43): This function cannot be invoked concurrently because 2 processes
   // will start building summarizer at once. Introduce a locking mechnanism so
   // that when one process is building summarizer JAR, other process waits using
   // exponential backoff.
-  final jarExists = await File(jarFile).exists();
-  final targetJarExists = await File(targetJarFile).exists();
+  final jarExists = await File(_jarFile).exists();
+  final targetJarExists = await File(_targetJarFile).exists();
   final isJarStale = jarExists &&
       await isPackageModifiedAfter(
-          'jnigen', await File(jarFile).lastModified(), 'java/');
+          'jnigen', await File(_jarFile).lastModified(), 'java/');
   if (isJarStale) {
     log.info('Rebuilding ApiSummarizer component since sources '
         'have changed. This might take some time.');

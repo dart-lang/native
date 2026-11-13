@@ -10,8 +10,13 @@ void main(List<String> arguments) async {
     final packageName = input.packageName;
     final cbuilder = CBuilder.library(
       name: packageName,
-      assetName: '${packageName}_bindings_generated.dart',
-      sources: ['src/$packageName.c', 'src/native_multiply.c'],
+      assetName: '${packageName}_bindings.g.dart',
+      sources: [
+        'src/$packageName.c',
+        'src/$packageName.h',
+        'src/native_multiply.c',
+        'src/native_multiply.h',
+      ],
     );
     await cbuilder.run(input: input, output: output);
   });
