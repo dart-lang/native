@@ -223,11 +223,15 @@ enum ma_handedness {
   final int value;
   const ma_handedness(this.value);
 
-  static ma_handedness fromValue(int value) => switch (value) {
+  static ma_handedness? fromValueOrNull(int value) => switch (value) {
     0 => ma_handedness_right,
     1 => ma_handedness_left,
-    _ => throw ArgumentError('Unknown value for ma_handedness: $value'),
+    _ => null,
   };
+
+  static ma_handedness fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for ma_handedness: $value'));
 }
 
 final class ma_log extends ffi.Opaque {}
@@ -243,14 +247,16 @@ enum ma_mono_expansion_mode {
   final int value;
   const ma_mono_expansion_mode(this.value);
 
-  static ma_mono_expansion_mode fromValue(int value) => switch (value) {
+  static ma_mono_expansion_mode? fromValueOrNull(int value) => switch (value) {
     0 => ma_mono_expansion_mode_duplicate,
     1 => ma_mono_expansion_mode_average,
     2 => ma_mono_expansion_mode_stereo_only,
-    _ => throw ArgumentError(
-      'Unknown value for ma_mono_expansion_mode: $value',
-    ),
+    _ => null,
   };
+
+  static ma_mono_expansion_mode fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for ma_mono_expansion_mode: $value'));
 
   @override
   String toString() {
@@ -414,11 +420,15 @@ enum ma_node_state {
   final int value;
   const ma_node_state(this.value);
 
-  static ma_node_state fromValue(int value) => switch (value) {
+  static ma_node_state? fromValueOrNull(int value) => switch (value) {
     0 => ma_node_state_started,
     1 => ma_node_state_stopped,
-    _ => throw ArgumentError('Unknown value for ma_node_state: $value'),
+    _ => null,
   };
+
+  static ma_node_state fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for ma_node_state: $value'));
 }
 
 final class ma_node_vtable extends ffi.Opaque {}
@@ -501,7 +511,7 @@ enum ma_result {
   final int value;
   const ma_result(this.value);
 
-  static ma_result fromValue(int value) => switch (value) {
+  static ma_result? fromValueOrNull(int value) => switch (value) {
     0 => MA_SUCCESS,
     -1 => MA_ERROR,
     -2 => MA_INVALID_ARGS,
@@ -573,8 +583,12 @@ enum ma_result {
     -401 => MA_FAILED_TO_OPEN_BACKEND_DEVICE,
     -402 => MA_FAILED_TO_START_BACKEND_DEVICE,
     -403 => MA_FAILED_TO_STOP_BACKEND_DEVICE,
-    _ => throw ArgumentError('Unknown value for ma_result: $value'),
+    _ => null,
   };
+
+  static ma_result fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for ma_result: $value'));
 }
 
 final class ma_sound extends ffi.Opaque {}

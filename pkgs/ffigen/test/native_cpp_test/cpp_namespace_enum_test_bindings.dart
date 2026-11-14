@@ -11,11 +11,15 @@ enum GlobalBox$State {
   final int value;
   const GlobalBox$State(this.value);
 
-  static GlobalBox$State fromValue(int value) => switch (value) {
+  static GlobalBox$State? fromValueOrNull(int value) => switch (value) {
     30 => closed,
     31 => open,
-    _ => throw ArgumentError('Unknown value for GlobalBox\$State: $value'),
+    _ => null,
   };
+
+  static GlobalBox$State fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for GlobalBox\$State: $value'));
 }
 
 enum GlobalPalette$Shade {
@@ -25,11 +29,15 @@ enum GlobalPalette$Shade {
   final int value;
   const GlobalPalette$Shade(this.value);
 
-  static GlobalPalette$Shade fromValue(int value) => switch (value) {
+  static GlobalPalette$Shade? fromValueOrNull(int value) => switch (value) {
     7 => dim,
     8 => bright,
-    _ => throw ArgumentError('Unknown value for GlobalPalette\$Shade: $value'),
+    _ => null,
   };
+
+  static GlobalPalette$Shade fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for GlobalPalette\$Shade: $value'));
 }
 
 enum other$Color {
@@ -39,11 +47,15 @@ enum other$Color {
   final int value;
   const other$Color(this.value);
 
-  static other$Color fromValue(int value) => switch (value) {
+  static other$Color? fromValueOrNull(int value) => switch (value) {
     100 => black,
     200 => white,
-    _ => throw ArgumentError('Unknown value for other\$Color: $value'),
+    _ => null,
   };
+
+  static other$Color fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for other\$Color: $value'));
 }
 
 enum outer$Color {
@@ -54,12 +66,16 @@ enum outer$Color {
   final int value;
   const outer$Color(this.value);
 
-  static outer$Color fromValue(int value) => switch (value) {
+  static outer$Color? fromValueOrNull(int value) => switch (value) {
     0 => red,
     1 => green,
     2 => blue,
-    _ => throw ArgumentError('Unknown value for outer\$Color: $value'),
+    _ => null,
   };
+
+  static outer$Color fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for outer\$Color: $value'));
 }
 
 enum outer$Palette$Tone {
@@ -69,11 +85,15 @@ enum outer$Palette$Tone {
   final int value;
   const outer$Palette$Tone(this.value);
 
-  static outer$Palette$Tone fromValue(int value) => switch (value) {
+  static outer$Palette$Tone? fromValueOrNull(int value) => switch (value) {
     1 => light,
     2 => dark,
-    _ => throw ArgumentError('Unknown value for outer\$Palette\$Tone: $value'),
+    _ => null,
   };
+
+  static outer$Palette$Tone fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for outer\$Palette\$Tone: $value'));
 }
 
 enum outer$inner$Color {
@@ -83,9 +103,13 @@ enum outer$inner$Color {
   final int value;
   const outer$inner$Color(this.value);
 
-  static outer$inner$Color fromValue(int value) => switch (value) {
+  static outer$inner$Color? fromValueOrNull(int value) => switch (value) {
     10 => cyan,
     20 => magenta,
-    _ => throw ArgumentError('Unknown value for outer\$inner\$Color: $value'),
+    _ => null,
   };
+
+  static outer$inner$Color fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for outer\$inner\$Color: $value'));
 }

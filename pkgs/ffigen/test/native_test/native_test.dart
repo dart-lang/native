@@ -158,6 +158,13 @@ void main() {
       expect(result, enum1);
     });
 
+    test('Enum1 fromValue and fromValueOrNull', () {
+      expect(Enum1.fromValue(1), Enum1.enum1Value2);
+      expect(Enum1.fromValueOrNull(1), Enum1.enum1Value2);
+      expect(Enum1.fromValueOrNull(42), isNull);
+      expect(() => Enum1.fromValue(42), throwsArgumentError);
+    });
+
     test('Enum2 is a Dart integer', () {
       final enum2 = Enum2.enum2Value1;
       final result = funcWithEnum2(enum2);

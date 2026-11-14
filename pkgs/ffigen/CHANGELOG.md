@@ -1,7 +1,10 @@
-## 23.0.1-wip
+## 23.1.0-wip
 
 - Use minor and patch versions of Apple deployment targets from
   `package:code_assets` 2.2.0 when compiling native test utilities.
+- Generate a [non-throwing `fromValueOrNull`](https://github.com/dart-lang/native/issues/3712)
+  method on Dart enums, which returns `null` for unknown values. `fromValue`
+  now delegates to it, and still throws an `ArgumentError`.
 
 ## 23.0.0
 

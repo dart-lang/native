@@ -148,7 +148,7 @@ enum NSColorPanelMode {
   final int value;
   const NSColorPanelMode(this.value);
 
-  static NSColorPanelMode fromValue(int value) => switch (value) {
+  static NSColorPanelMode? fromValueOrNull(int value) => switch (value) {
     -1 => NSColorPanelModeNone,
     0 => NSColorPanelModeGray,
     1 => NSColorPanelModeRGB,
@@ -158,8 +158,12 @@ enum NSColorPanelMode {
     5 => NSColorPanelModeColorList,
     6 => NSColorPanelModeWheel,
     7 => NSColorPanelModeCrayon,
-    _ => throw ArgumentError('Unknown value for NSColorPanelMode: $value'),
+    _ => null,
   };
+
+  static NSColorPanelMode fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSColorPanelMode: $value'));
 }
 
 /// NSColorPicker

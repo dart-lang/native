@@ -6747,13 +6747,17 @@ enum CXAvailabilityKind {
   final int value;
   const CXAvailabilityKind(this.value);
 
-  static CXAvailabilityKind fromValue(int value) => switch (value) {
+  static CXAvailabilityKind? fromValueOrNull(int value) => switch (value) {
     0 => CXAvailability_Available,
     1 => CXAvailability_Deprecated,
     2 => CXAvailability_NotAvailable,
     3 => CXAvailability_NotAccessible,
-    _ => throw ArgumentError('Unknown value for CXAvailabilityKind: $value'),
+    _ => null,
   };
+
+  static CXAvailabilityKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXAvailabilityKind: $value'));
 }
 
 /// Describes the calling convention of a function type
@@ -6783,7 +6787,7 @@ enum CXCallingConv {
   final int value;
   const CXCallingConv(this.value);
 
-  static CXCallingConv fromValue(int value) => switch (value) {
+  static CXCallingConv? fromValueOrNull(int value) => switch (value) {
     0 => CXCallingConv_Default,
     1 => CXCallingConv_C,
     2 => CXCallingConv_X86StdCall,
@@ -6803,8 +6807,12 @@ enum CXCallingConv {
     16 => CXCallingConv_AArch64VectorCall,
     100 => CXCallingConv_Invalid,
     200 => CXCallingConv_Unexposed,
-    _ => throw ArgumentError('Unknown value for CXCallingConv: $value'),
+    _ => null,
   };
+
+  static CXCallingConv fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXCallingConv: $value'));
 
   @override
   String toString() {
@@ -6834,12 +6842,16 @@ enum CXChildVisitResult {
   final int value;
   const CXChildVisitResult(this.value);
 
-  static CXChildVisitResult fromValue(int value) => switch (value) {
+  static CXChildVisitResult? fromValueOrNull(int value) => switch (value) {
     0 => CXChildVisit_Break,
     1 => CXChildVisit_Continue,
     2 => CXChildVisit_Recurse,
-    _ => throw ArgumentError('Unknown value for CXChildVisitResult: $value'),
+    _ => null,
   };
+
+  static CXChildVisitResult fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXChildVisitResult: $value'));
 }
 
 /// Opaque pointer representing client data that will be passed through
@@ -7018,7 +7030,7 @@ enum CXCompletionChunkKind {
   final int value;
   const CXCompletionChunkKind(this.value);
 
-  static CXCompletionChunkKind fromValue(int value) => switch (value) {
+  static CXCompletionChunkKind? fromValueOrNull(int value) => switch (value) {
     0 => CXCompletionChunk_Optional,
     1 => CXCompletionChunk_TypedText,
     2 => CXCompletionChunk_Text,
@@ -7040,8 +7052,12 @@ enum CXCompletionChunkKind {
     18 => CXCompletionChunk_Equal,
     19 => CXCompletionChunk_HorizontalSpace,
     20 => CXCompletionChunk_VerticalSpace,
-    _ => throw ArgumentError('Unknown value for CXCompletionChunkKind: $value'),
+    _ => null,
   };
+
+  static CXCompletionChunkKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXCompletionChunkKind: $value'));
 }
 
 /// A single result of code completion.
@@ -7928,7 +7944,7 @@ enum CXCursorKind {
   final int value;
   const CXCursorKind(this.value);
 
-  static CXCursorKind fromValue(int value) => switch (value) {
+  static CXCursorKind? fromValueOrNull(int value) => switch (value) {
     1 => CXCursor_UnexposedDecl,
     2 => CXCursor_StructDecl,
     3 => CXCursor_UnionDecl,
@@ -8171,8 +8187,12 @@ enum CXCursorKind {
     602 => CXCursor_StaticAssert,
     603 => CXCursor_FriendDecl,
     700 => CXCursor_OverloadCandidate,
-    _ => throw ArgumentError('Unknown value for CXCursorKind: $value'),
+    _ => null,
   };
+
+  static CXCursorKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXCursorKind: $value'));
 
   @override
   String toString() {
@@ -8276,14 +8296,18 @@ enum CXDiagnosticSeverity {
   final int value;
   const CXDiagnosticSeverity(this.value);
 
-  static CXDiagnosticSeverity fromValue(int value) => switch (value) {
+  static CXDiagnosticSeverity? fromValueOrNull(int value) => switch (value) {
     0 => CXDiagnostic_Ignored,
     1 => CXDiagnostic_Note,
     2 => CXDiagnostic_Warning,
     3 => CXDiagnostic_Error,
     4 => CXDiagnostic_Fatal,
-    _ => throw ArgumentError('Unknown value for CXDiagnosticSeverity: $value'),
+    _ => null,
   };
+
+  static CXDiagnosticSeverity fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXDiagnosticSeverity: $value'));
 }
 
 /// Error codes returned by libclang routines.
@@ -8313,14 +8337,18 @@ enum CXErrorCode {
   final int value;
   const CXErrorCode(this.value);
 
-  static CXErrorCode fromValue(int value) => switch (value) {
+  static CXErrorCode? fromValueOrNull(int value) => switch (value) {
     0 => CXError_Success,
     1 => CXError_Failure,
     2 => CXError_Crashed,
     3 => CXError_InvalidArguments,
     4 => CXError_ASTReadError,
-    _ => throw ArgumentError('Unknown value for CXErrorCode: $value'),
+    _ => null,
   };
+
+  static CXErrorCode fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXErrorCode: $value'));
 }
 
 /// Evaluation result of a cursor
@@ -8338,7 +8366,7 @@ enum CXEvalResultKind {
   final int value;
   const CXEvalResultKind(this.value);
 
-  static CXEvalResultKind fromValue(int value) => switch (value) {
+  static CXEvalResultKind? fromValueOrNull(int value) => switch (value) {
     1 => CXEval_Int,
     2 => CXEval_Float,
     3 => CXEval_ObjCStrLiteral,
@@ -8346,8 +8374,12 @@ enum CXEvalResultKind {
     5 => CXEval_CFStr,
     6 => CXEval_Other,
     0 => CXEval_UnExposed,
-    _ => throw ArgumentError('Unknown value for CXEvalResultKind: $value'),
+    _ => null,
   };
+
+  static CXEvalResultKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXEvalResultKind: $value'));
 }
 
 /// Visitor invoked for each field found by a traversal.
@@ -8401,13 +8433,17 @@ enum CXGlobalOptFlags {
   final int value;
   const CXGlobalOptFlags(this.value);
 
-  static CXGlobalOptFlags fromValue(int value) => switch (value) {
+  static CXGlobalOptFlags? fromValueOrNull(int value) => switch (value) {
     0 => CXGlobalOpt_None,
     1 => CXGlobalOpt_ThreadBackgroundPriorityForIndexing,
     2 => CXGlobalOpt_ThreadBackgroundPriorityForEditing,
     3 => CXGlobalOpt_ThreadBackgroundPriorityForAll,
-    _ => throw ArgumentError('Unknown value for CXGlobalOptFlags: $value'),
+    _ => null,
   };
+
+  static CXGlobalOptFlags fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXGlobalOptFlags: $value'));
 }
 
 final class CXIdxAttrInfo extends ffi.Struct {
@@ -8431,13 +8467,17 @@ enum CXIdxAttrKind {
   final int value;
   const CXIdxAttrKind(this.value);
 
-  static CXIdxAttrKind fromValue(int value) => switch (value) {
+  static CXIdxAttrKind? fromValueOrNull(int value) => switch (value) {
     0 => CXIdxAttr_Unexposed,
     1 => CXIdxAttr_IBAction,
     2 => CXIdxAttr_IBOutlet,
     3 => CXIdxAttr_IBOutletCollection,
-    _ => throw ArgumentError('Unknown value for CXIdxAttrKind: $value'),
+    _ => null,
   };
+
+  static CXIdxAttrKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXIdxAttrKind: $value'));
 }
 
 final class CXIdxBaseClassInfo extends ffi.Struct {
@@ -8540,15 +8580,20 @@ enum CXIdxEntityCXXTemplateKind {
   final int value;
   const CXIdxEntityCXXTemplateKind(this.value);
 
-  static CXIdxEntityCXXTemplateKind fromValue(int value) => switch (value) {
-    0 => CXIdxEntity_NonTemplate,
-    1 => CXIdxEntity_Template,
-    2 => CXIdxEntity_TemplatePartialSpecialization,
-    3 => CXIdxEntity_TemplateSpecialization,
-    _ => throw ArgumentError(
-      'Unknown value for CXIdxEntityCXXTemplateKind: $value',
-    ),
-  };
+  static CXIdxEntityCXXTemplateKind? fromValueOrNull(int value) =>
+      switch (value) {
+        0 => CXIdxEntity_NonTemplate,
+        1 => CXIdxEntity_Template,
+        2 => CXIdxEntity_TemplatePartialSpecialization,
+        3 => CXIdxEntity_TemplateSpecialization,
+        _ => null,
+      };
+
+  static CXIdxEntityCXXTemplateKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for CXIdxEntityCXXTemplateKind: $value',
+      ));
 }
 
 final class CXIdxEntityInfo extends ffi.Struct {
@@ -8616,7 +8661,7 @@ enum CXIdxEntityKind {
   final int value;
   const CXIdxEntityKind(this.value);
 
-  static CXIdxEntityKind fromValue(int value) => switch (value) {
+  static CXIdxEntityKind? fromValueOrNull(int value) => switch (value) {
     0 => CXIdxEntity_Unexposed,
     1 => CXIdxEntity_Typedef,
     2 => CXIdxEntity_Function,
@@ -8644,8 +8689,12 @@ enum CXIdxEntityKind {
     24 => CXIdxEntity_CXXConversionFunction,
     25 => CXIdxEntity_CXXTypeAlias,
     26 => CXIdxEntity_CXXInterface,
-    _ => throw ArgumentError('Unknown value for CXIdxEntityKind: $value'),
+    _ => null,
   };
+
+  static CXIdxEntityKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXIdxEntityKind: $value'));
 }
 
 enum CXIdxEntityLanguage {
@@ -8658,14 +8707,18 @@ enum CXIdxEntityLanguage {
   final int value;
   const CXIdxEntityLanguage(this.value);
 
-  static CXIdxEntityLanguage fromValue(int value) => switch (value) {
+  static CXIdxEntityLanguage? fromValueOrNull(int value) => switch (value) {
     0 => CXIdxEntityLang_None,
     1 => CXIdxEntityLang_C,
     2 => CXIdxEntityLang_ObjC,
     3 => CXIdxEntityLang_CXX,
     4 => CXIdxEntityLang_Swift,
-    _ => throw ArgumentError('Unknown value for CXIdxEntityLanguage: $value'),
+    _ => null,
   };
+
+  static CXIdxEntityLanguage fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXIdxEntityLanguage: $value'));
 }
 
 /// Data for IndexerCallbacks#indexEntityReference.
@@ -8721,11 +8774,15 @@ enum CXIdxEntityRefKind {
   final int value;
   const CXIdxEntityRefKind(this.value);
 
-  static CXIdxEntityRefKind fromValue(int value) => switch (value) {
+  static CXIdxEntityRefKind? fromValueOrNull(int value) => switch (value) {
     1 => CXIdxEntityRef_Direct,
     2 => CXIdxEntityRef_Implicit,
-    _ => throw ArgumentError('Unknown value for CXIdxEntityRefKind: $value'),
+    _ => null,
   };
+
+  static CXIdxEntityRefKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXIdxEntityRefKind: $value'));
 }
 
 final class CXIdxIBOutletCollectionAttrInfo extends ffi.Struct {
@@ -8826,14 +8883,16 @@ enum CXIdxObjCContainerKind {
   final int value;
   const CXIdxObjCContainerKind(this.value);
 
-  static CXIdxObjCContainerKind fromValue(int value) => switch (value) {
+  static CXIdxObjCContainerKind? fromValueOrNull(int value) => switch (value) {
     0 => CXIdxObjCContainer_ForwardRef,
     1 => CXIdxObjCContainer_Interface,
     2 => CXIdxObjCContainer_Implementation,
-    _ => throw ArgumentError(
-      'Unknown value for CXIdxObjCContainerKind: $value',
-    ),
+    _ => null,
   };
+
+  static CXIdxObjCContainerKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXIdxObjCContainerKind: $value'));
 }
 
 final class CXIdxObjCInterfaceDeclInfo extends ffi.Struct {
@@ -8939,13 +8998,17 @@ enum CXLanguageKind {
   final int value;
   const CXLanguageKind(this.value);
 
-  static CXLanguageKind fromValue(int value) => switch (value) {
+  static CXLanguageKind? fromValueOrNull(int value) => switch (value) {
     0 => CXLanguage_Invalid,
     1 => CXLanguage_C,
     2 => CXLanguage_ObjC,
     3 => CXLanguage_CPlusPlus,
-    _ => throw ArgumentError('Unknown value for CXLanguageKind: $value'),
+    _ => null,
   };
+
+  static CXLanguageKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXLanguageKind: $value'));
 }
 
 /// Describe the linkage of the entity referred to by a cursor.
@@ -8971,14 +9034,18 @@ enum CXLinkageKind {
   final int value;
   const CXLinkageKind(this.value);
 
-  static CXLinkageKind fromValue(int value) => switch (value) {
+  static CXLinkageKind? fromValueOrNull(int value) => switch (value) {
     0 => CXLinkage_Invalid,
     1 => CXLinkage_NoLinkage,
     2 => CXLinkage_Internal,
     3 => CXLinkage_UniqueExternal,
     4 => CXLinkage_External,
-    _ => throw ArgumentError('Unknown value for CXLinkageKind: $value'),
+    _ => null,
   };
+
+  static CXLinkageKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXLinkageKind: $value'));
 }
 
 /// Describes the kind of error that occurred (if any) in a call to
@@ -9002,13 +9069,17 @@ enum CXLoadDiag_Error {
   final int value;
   const CXLoadDiag_Error(this.value);
 
-  static CXLoadDiag_Error fromValue(int value) => switch (value) {
+  static CXLoadDiag_Error? fromValueOrNull(int value) => switch (value) {
     0 => CXLoadDiag_None,
     1 => CXLoadDiag_Unknown,
     2 => CXLoadDiag_CannotLoad,
     3 => CXLoadDiag_InvalidFile,
-    _ => throw ArgumentError('Unknown value for CXLoadDiag_Error: $value'),
+    _ => null,
   };
+
+  static CXLoadDiag_Error fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXLoadDiag_Error: $value'));
 }
 
 /// \defgroup CINDEX_MODULE Module introspection
@@ -9088,37 +9159,42 @@ enum CXPrintingPolicyProperty {
   final int value;
   const CXPrintingPolicyProperty(this.value);
 
-  static CXPrintingPolicyProperty fromValue(int value) => switch (value) {
-    0 => CXPrintingPolicy_Indentation,
-    1 => CXPrintingPolicy_SuppressSpecifiers,
-    2 => CXPrintingPolicy_SuppressTagKeyword,
-    3 => CXPrintingPolicy_IncludeTagDefinition,
-    4 => CXPrintingPolicy_SuppressScope,
-    5 => CXPrintingPolicy_SuppressUnwrittenScope,
-    6 => CXPrintingPolicy_SuppressInitializers,
-    7 => CXPrintingPolicy_ConstantArraySizeAsWritten,
-    8 => CXPrintingPolicy_AnonymousTagLocations,
-    9 => CXPrintingPolicy_SuppressStrongLifetime,
-    10 => CXPrintingPolicy_SuppressLifetimeQualifiers,
-    11 => CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors,
-    12 => CXPrintingPolicy_Bool,
-    13 => CXPrintingPolicy_Restrict,
-    14 => CXPrintingPolicy_Alignof,
-    15 => CXPrintingPolicy_UnderscoreAlignof,
-    16 => CXPrintingPolicy_UseVoidForZeroParams,
-    17 => CXPrintingPolicy_TerseOutput,
-    18 => CXPrintingPolicy_PolishForDeclaration,
-    19 => CXPrintingPolicy_Half,
-    20 => CXPrintingPolicy_MSWChar,
-    21 => CXPrintingPolicy_IncludeNewlines,
-    22 => CXPrintingPolicy_MSVCFormatting,
-    23 => CXPrintingPolicy_ConstantsAsWritten,
-    24 => CXPrintingPolicy_SuppressImplicitBase,
-    25 => CXPrintingPolicy_FullyQualifiedName,
-    _ => throw ArgumentError(
-      'Unknown value for CXPrintingPolicyProperty: $value',
-    ),
-  };
+  static CXPrintingPolicyProperty? fromValueOrNull(int value) =>
+      switch (value) {
+        0 => CXPrintingPolicy_Indentation,
+        1 => CXPrintingPolicy_SuppressSpecifiers,
+        2 => CXPrintingPolicy_SuppressTagKeyword,
+        3 => CXPrintingPolicy_IncludeTagDefinition,
+        4 => CXPrintingPolicy_SuppressScope,
+        5 => CXPrintingPolicy_SuppressUnwrittenScope,
+        6 => CXPrintingPolicy_SuppressInitializers,
+        7 => CXPrintingPolicy_ConstantArraySizeAsWritten,
+        8 => CXPrintingPolicy_AnonymousTagLocations,
+        9 => CXPrintingPolicy_SuppressStrongLifetime,
+        10 => CXPrintingPolicy_SuppressLifetimeQualifiers,
+        11 => CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors,
+        12 => CXPrintingPolicy_Bool,
+        13 => CXPrintingPolicy_Restrict,
+        14 => CXPrintingPolicy_Alignof,
+        15 => CXPrintingPolicy_UnderscoreAlignof,
+        16 => CXPrintingPolicy_UseVoidForZeroParams,
+        17 => CXPrintingPolicy_TerseOutput,
+        18 => CXPrintingPolicy_PolishForDeclaration,
+        19 => CXPrintingPolicy_Half,
+        20 => CXPrintingPolicy_MSWChar,
+        21 => CXPrintingPolicy_IncludeNewlines,
+        22 => CXPrintingPolicy_MSVCFormatting,
+        23 => CXPrintingPolicy_ConstantsAsWritten,
+        24 => CXPrintingPolicy_SuppressImplicitBase,
+        25 => CXPrintingPolicy_FullyQualifiedName,
+        _ => null,
+      };
+
+  static CXPrintingPolicyProperty fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for CXPrintingPolicyProperty: $value',
+      ));
 
   @override
   String toString() {
@@ -9141,12 +9217,16 @@ enum CXRefQualifierKind {
   final int value;
   const CXRefQualifierKind(this.value);
 
-  static CXRefQualifierKind fromValue(int value) => switch (value) {
+  static CXRefQualifierKind? fromValueOrNull(int value) => switch (value) {
     0 => CXRefQualifier_None,
     1 => CXRefQualifier_LValue,
     2 => CXRefQualifier_RValue,
-    _ => throw ArgumentError('Unknown value for CXRefQualifierKind: $value'),
+    _ => null,
   };
+
+  static CXRefQualifierKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXRefQualifierKind: $value'));
 }
 
 /// A remapping of original source files and their translated files.
@@ -9166,12 +9246,16 @@ enum CXResult {
   final int value;
   const CXResult(this.value);
 
-  static CXResult fromValue(int value) => switch (value) {
+  static CXResult? fromValueOrNull(int value) => switch (value) {
     0 => CXResult_Success,
     1 => CXResult_Invalid,
     2 => CXResult_VisitBreak,
-    _ => throw ArgumentError('Unknown value for CXResult: $value'),
+    _ => null,
   };
+
+  static CXResult fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXResult: $value'));
 }
 
 /// Identifies a specific source location within a translation
@@ -9275,7 +9359,7 @@ enum CXSymbolRole {
   final int value;
   const CXSymbolRole(this.value);
 
-  static CXSymbolRole fromValue(int value) => switch (value) {
+  static CXSymbolRole? fromValueOrNull(int value) => switch (value) {
     0 => CXSymbolRole_None,
     1 => CXSymbolRole_Declaration,
     2 => CXSymbolRole_Definition,
@@ -9286,8 +9370,12 @@ enum CXSymbolRole {
     64 => CXSymbolRole_Dynamic,
     128 => CXSymbolRole_AddressOf,
     256 => CXSymbolRole_Implicit,
-    _ => throw ArgumentError('Unknown value for CXSymbolRole: $value'),
+    _ => null,
   };
+
+  static CXSymbolRole fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXSymbolRole: $value'));
 }
 
 /// Describe the "thread-local storage (TLS) kind" of the declaration
@@ -9300,12 +9388,16 @@ enum CXTLSKind {
   final int value;
   const CXTLSKind(this.value);
 
-  static CXTLSKind fromValue(int value) => switch (value) {
+  static CXTLSKind? fromValueOrNull(int value) => switch (value) {
     0 => CXTLS_None,
     1 => CXTLS_Dynamic,
     2 => CXTLS_Static,
-    _ => throw ArgumentError('Unknown value for CXTLSKind: $value'),
+    _ => null,
   };
+
+  static CXTLSKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXTLSKind: $value'));
 }
 
 /// The memory usage of a CXTranslationUnit, broken into categories.
@@ -9374,7 +9466,7 @@ enum CXTUResourceUsageKind {
   final int value;
   const CXTUResourceUsageKind(this.value);
 
-  static CXTUResourceUsageKind fromValue(int value) => switch (value) {
+  static CXTUResourceUsageKind? fromValueOrNull(int value) => switch (value) {
     1 => CXTUResourceUsage_AST,
     2 => CXTUResourceUsage_Identifiers,
     3 => CXTUResourceUsage_Selectors,
@@ -9389,8 +9481,12 @@ enum CXTUResourceUsageKind {
     12 => CXTUResourceUsage_PreprocessingRecord,
     13 => CXTUResourceUsage_SourceManager_DataStructures,
     14 => CXTUResourceUsage_Preprocessor_HeaderSearch,
-    _ => throw ArgumentError('Unknown value for CXTUResourceUsageKind: $value'),
+    _ => null,
   };
+
+  static CXTUResourceUsageKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXTUResourceUsageKind: $value'));
 
   @override
   String toString() {
@@ -9427,7 +9523,7 @@ enum CXTemplateArgumentKind {
   final int value;
   const CXTemplateArgumentKind(this.value);
 
-  static CXTemplateArgumentKind fromValue(int value) => switch (value) {
+  static CXTemplateArgumentKind? fromValueOrNull(int value) => switch (value) {
     0 => CXTemplateArgumentKind_Null,
     1 => CXTemplateArgumentKind_Type,
     2 => CXTemplateArgumentKind_Declaration,
@@ -9438,10 +9534,12 @@ enum CXTemplateArgumentKind {
     7 => CXTemplateArgumentKind_Expression,
     8 => CXTemplateArgumentKind_Pack,
     9 => CXTemplateArgumentKind_Invalid,
-    _ => throw ArgumentError(
-      'Unknown value for CXTemplateArgumentKind: $value',
-    ),
+    _ => null,
   };
+
+  static CXTemplateArgumentKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXTemplateArgumentKind: $value'));
 }
 
 /// Describes a single preprocessing token.
@@ -9472,14 +9570,18 @@ enum CXTokenKind {
   final int value;
   const CXTokenKind(this.value);
 
-  static CXTokenKind fromValue(int value) => switch (value) {
+  static CXTokenKind? fromValueOrNull(int value) => switch (value) {
     0 => CXToken_Punctuation,
     1 => CXToken_Keyword,
     2 => CXToken_Identifier,
     3 => CXToken_Literal,
     4 => CXToken_Comment,
-    _ => throw ArgumentError('Unknown value for CXTokenKind: $value'),
+    _ => null,
   };
+
+  static CXTokenKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXTokenKind: $value'));
 }
 
 /// A single translation unit, which resides in an index.
@@ -9632,7 +9734,7 @@ enum CXTypeKind {
   final int value;
   const CXTypeKind(this.value);
 
-  static CXTypeKind fromValue(int value) => switch (value) {
+  static CXTypeKind? fromValueOrNull(int value) => switch (value) {
     0 => CXType_Invalid,
     1 => CXType_Unexposed,
     2 => CXType_Void,
@@ -9749,8 +9851,12 @@ enum CXTypeKind {
     174 => CXType_OCLIntelSubgroupAVCImeSingleRefStreamin,
     175 => CXType_OCLIntelSubgroupAVCImeDualRefStreamin,
     176 => CXType_ExtVector,
-    _ => throw ArgumentError('Unknown value for CXTypeKind: $value'),
+    _ => null,
   };
+
+  static CXTypeKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXTypeKind: $value'));
 
   @override
   String toString() {
@@ -9781,13 +9887,17 @@ enum CXTypeNullabilityKind {
   final int value;
   const CXTypeNullabilityKind(this.value);
 
-  static CXTypeNullabilityKind fromValue(int value) => switch (value) {
+  static CXTypeNullabilityKind? fromValueOrNull(int value) => switch (value) {
     0 => CXTypeNullability_NonNull,
     1 => CXTypeNullability_Nullable,
     2 => CXTypeNullability_Unspecified,
     3 => CXTypeNullability_Invalid,
-    _ => throw ArgumentError('Unknown value for CXTypeNullabilityKind: $value'),
+    _ => null,
   };
+
+  static CXTypeNullabilityKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXTypeNullabilityKind: $value'));
 }
 
 /// Provides the contents of a file that has not yet been saved to disk.
@@ -9866,13 +9976,17 @@ enum CXVisibilityKind {
   final int value;
   const CXVisibilityKind(this.value);
 
-  static CXVisibilityKind fromValue(int value) => switch (value) {
+  static CXVisibilityKind? fromValueOrNull(int value) => switch (value) {
     0 => CXVisibility_Invalid,
     1 => CXVisibility_Hidden,
     2 => CXVisibility_Protected,
     3 => CXVisibility_Default,
-    _ => throw ArgumentError('Unknown value for CXVisibilityKind: $value'),
+    _ => null,
   };
+
+  static CXVisibilityKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXVisibilityKind: $value'));
 }
 
 /// \defgroup CINDEX_HIGH Higher level API functions
@@ -9885,11 +9999,15 @@ enum CXVisitorResult {
   final int value;
   const CXVisitorResult(this.value);
 
-  static CXVisitorResult fromValue(int value) => switch (value) {
+  static CXVisitorResult? fromValueOrNull(int value) => switch (value) {
     0 => CXVisit_Break,
     1 => CXVisit_Continue,
-    _ => throw ArgumentError('Unknown value for CXVisitorResult: $value'),
+    _ => null,
   };
+
+  static CXVisitorResult fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CXVisitorResult: $value'));
 }
 
 /// Represents the C++ access control level to a base class for a
@@ -9903,13 +10021,17 @@ enum CX_CXXAccessSpecifier {
   final int value;
   const CX_CXXAccessSpecifier(this.value);
 
-  static CX_CXXAccessSpecifier fromValue(int value) => switch (value) {
+  static CX_CXXAccessSpecifier? fromValueOrNull(int value) => switch (value) {
     0 => CX_CXXInvalidAccessSpecifier,
     1 => CX_CXXPublic,
     2 => CX_CXXProtected,
     3 => CX_CXXPrivate,
-    _ => throw ArgumentError('Unknown value for CX_CXXAccessSpecifier: $value'),
+    _ => null,
   };
+
+  static CX_CXXAccessSpecifier fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CX_CXXAccessSpecifier: $value'));
 }
 
 /// Represents the storage classes as declared in the source. CX_SC_Invalid
@@ -9927,7 +10049,7 @@ enum CX_StorageClass {
   final int value;
   const CX_StorageClass(this.value);
 
-  static CX_StorageClass fromValue(int value) => switch (value) {
+  static CX_StorageClass? fromValueOrNull(int value) => switch (value) {
     0 => CX_SC_Invalid,
     1 => CX_SC_None,
     2 => CX_SC_Extern,
@@ -9936,8 +10058,12 @@ enum CX_StorageClass {
     5 => CX_SC_OpenCLWorkGroupLocal,
     6 => CX_SC_Auto,
     7 => CX_SC_Register,
-    _ => throw ArgumentError('Unknown value for CX_StorageClass: $value'),
+    _ => null,
   };
+
+  static CX_StorageClass fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for CX_StorageClass: $value'));
 }
 
 /// A group of callbacks used by #clang_indexSourceFile and
