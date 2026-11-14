@@ -17,6 +17,7 @@ dependencies:
   
   jni:
     path: ../../../../jni
+  material_ui: any
 
 dependency_overrides:
   jni_util:
