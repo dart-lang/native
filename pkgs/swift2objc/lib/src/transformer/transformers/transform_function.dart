@@ -61,6 +61,45 @@ MethodDeclaration? transformMethod(
   );
 }
 
+/// Transforms a method on an external extension into a static helper method.
+MethodDeclaration? transformExternalExtensionMethod(
+  MethodDeclaration originalMethod,
+  ReferredType extendedType,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) {
+  if (disallowedMethods.contains(originalMethod.name) ||
+      originalMethod.isOperator) {
+    return null;
+  }
+
+  final parameterNames = originalMethod.params.map(
+    (parameter) => parameter.internalName ?? parameter.name,
+  );
+  final instanceName = UniqueNamer(parameterNames).makeUnique('instance');
+  final transformedMethod = _transformFunction(
+    originalMethod,
+    globalNamer,
+    state,
+    wrapperMethodName: originalMethod.name,
+    originalCallStatementGenerator: (arguments) {
+      final receiver = originalMethod.isStatic
+          ? extendedType.swiftType
+          : instanceName;
+      return '$receiver.${originalMethod.name}($arguments)';
+    },
+  );
+
+  transformedMethod.isStatic = true;
+  if (!originalMethod.isStatic) {
+    transformedMethod.params.insert(
+      0,
+      Parameter(name: '_', internalName: instanceName, type: extendedType),
+    );
+  }
+  return transformedMethod;
+}
+
 MethodDeclaration transformGlobalFunction(
   GlobalFunctionDeclaration globalFunction,
   UniqueNamer globalNamer,
