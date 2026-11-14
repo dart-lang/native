@@ -47,7 +47,7 @@ OkHttpClient: ${client.toString()}''';
       // Cleanup
       map.release();
       gson.release();
-      client?.release();
+      client.release();
       builder.release();
     } catch (e) {
       setState(() {
