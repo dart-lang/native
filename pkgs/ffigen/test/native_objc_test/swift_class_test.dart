@@ -40,6 +40,6 @@ void main() {
       for (final line in contents.split('\n')) {
         expect(line, isNot(contains(RegExp(r"symbol:.*\."))));
       }
-    });
+    }, skip: !Platform.isMacOS);
   });
 }

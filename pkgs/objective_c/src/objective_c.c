@@ -36,6 +36,20 @@ FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl* block) {
          isa == &_NSConcreteGlobalBlock || isa == &_NSConcreteWeakBlockVariable;
 }
 
+// On the arm64 iOS Simulator, objc_debug_isa_class_mask is only 36 bits
+// (0x0000000ffffffff8), matching physical iOS devices, but heap-allocated
+// classes (from objc_allocateClassPair) live in the 47-bit macOS/simulator
+// address space (e.g. 0x6000...).
+static const uintptr_t kSimulatorIsaClassMask = 0x00007ffffffffff8ULL;
+
+static bool isValidClass(uintptr_t cls) {
+  uintptr_t cls_isa = 0;
+  if (!isReadableMemory((const void*)cls, &cls_isa, sizeof(uintptr_t))) {
+    return false;
+  }
+  return cls_isa != 0 && (cls_isa & 0x7) == 0;
+}
+
 FFI_EXPORT bool DOBJC_isValidObject(ObjCObjectImpl* object) {
   if (object == NULL) return false;
   if (((uintptr_t)object & objc_debug_taggedpointer_mask) != 0) {
@@ -63,12 +77,8 @@ FFI_EXPORT bool DOBJC_isValidObject(ObjCObjectImpl* object) {
     if (isa == 0 || (isa & 0x7) != 0) return false;
   }
 
-  uintptr_t cls = isa & objc_debug_isa_class_mask;
-  uintptr_t cls_isa = 0;
-  if (!isReadableMemory((const void*)cls, &cls_isa, sizeof(uintptr_t))) {
-    return false;
-  }
-  return cls_isa != 0 && (cls_isa & 0x7) == 0;
+  return isValidClass(isa & objc_debug_isa_class_mask) ||
+         isValidClass(isa & kSimulatorIsaClassMask);
 }
 
 FFI_EXPORT void DOBJC_finalizeObject(void* isolate_callback_data, void* peer) {

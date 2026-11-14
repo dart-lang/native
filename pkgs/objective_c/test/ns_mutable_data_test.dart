@@ -51,7 +51,7 @@ void main() {
           doGC();
           expect(tracker.isAlive, isFalse);
         });
-      });
+      }, skip: !canDoGC);
     });
 
     group('toList', () {

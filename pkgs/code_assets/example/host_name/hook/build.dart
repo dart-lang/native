@@ -13,7 +13,7 @@ void main(List<String> args) async {
           output.assets.code.add(
             CodeAsset(
               package: 'host_name',
-              name: 'src/third_party/unix.dart',
+              name: 'src/third_party/unix.g.dart',
               linkMode: LookupInProcess(),
             ),
           );
@@ -21,7 +21,7 @@ void main(List<String> args) async {
           output.assets.code.add(
             CodeAsset(
               package: 'host_name',
-              name: 'src/third_party/windows.dart',
+              name: 'src/third_party/windows.g.dart',
               linkMode: DynamicLoadingSystem(Uri.file('ws2_32.dll')),
             ),
           );

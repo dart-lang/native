@@ -4,7 +4,7 @@
 
 import 'package:hooks/hooks.dart';
 import 'package:mini_audio/src/c_library.dart';
-import 'package:mini_audio/src/third_party/record_use_mapping.dart';
+import 'package:mini_audio/src/third_party/record_use_mapping.g.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:record_use/record_use.dart';
 
