@@ -109,13 +109,14 @@ Future<Result<BuildResult, HooksRunnerFailure>> build(
                 iOS: targetOS == OS.iOS
                     ? IOSCodeConfig(
                         targetSdk: targetIOSSdk!,
-                        targetVersion: targetIOSVersion!,
+                        deploymentVersion: AppleVersion(targetIOSVersion!),
                       )
                     : null,
                 macOS: targetOS == OS.macOS
                     ? MacOSCodeConfig(
-                        targetVersion:
-                            targetMacOSVersion ?? defaultMacOSVersion,
+                        deploymentVersion: AppleVersion(
+                          targetMacOSVersion ?? defaultMacOSVersion,
+                        ),
                       )
                     : null,
                 android: targetOS == OS.android
@@ -186,13 +187,14 @@ Future<Result<LinkResult, HooksRunnerFailure>> link(
                 iOS: targetOS == OS.iOS
                     ? IOSCodeConfig(
                         targetSdk: targetIOSSdk!,
-                        targetVersion: targetIOSVersion!,
+                        deploymentVersion: AppleVersion(targetIOSVersion!),
                       )
                     : null,
                 macOS: targetOS == OS.macOS
                     ? MacOSCodeConfig(
-                        targetVersion:
-                            targetMacOSVersion ?? defaultMacOSVersion,
+                        deploymentVersion: AppleVersion(
+                          targetMacOSVersion ?? defaultMacOSVersion,
+                        ),
                       )
                     : null,
                 android: targetOS == OS.android
@@ -258,12 +260,14 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           iOS: targetOS == OS.iOS
               ? IOSCodeConfig(
                   targetSdk: targetIOSSdk!,
-                  targetVersion: targetIOSVersion!,
+                  deploymentVersion: AppleVersion(targetIOSVersion!),
                 )
               : null,
           macOS: targetOS == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                  deploymentVersion: AppleVersion(
+                    targetMacOSVersion ?? defaultMacOSVersion,
+                  ),
                 )
               : null,
           android: targetOS == OS.android
@@ -294,12 +298,14 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           iOS: targetOS == OS.iOS
               ? IOSCodeConfig(
                   targetSdk: targetIOSSdk!,
-                  targetVersion: targetIOSVersion!,
+                  deploymentVersion: AppleVersion(targetIOSVersion!),
                 )
               : null,
           macOS: targetOS == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                  deploymentVersion: AppleVersion(
+                    targetMacOSVersion ?? defaultMacOSVersion,
+                  ),
                 )
               : null,
           android: targetOS == OS.android

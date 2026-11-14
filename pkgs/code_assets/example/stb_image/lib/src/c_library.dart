@@ -10,5 +10,5 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 final cLibrary = CLibrary(
   name: 'stb_image',
   assetName: 'src/third_party/stb_image.g.dart',
-  sources: ['third_party/stb_image.c'],
+  sources: ['third_party/stb_image.c', 'third_party/stb_image.h'],
 );

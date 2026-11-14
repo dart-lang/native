@@ -56,13 +56,14 @@ class GlobalJniEnv {
 
   JClassPtr DefineClass(ffi.Pointer<ffi.Char> name, JObjectPtr loader,
           ffi.Pointer<JByteMarker> buf, DartJIntMarker bufLen) =>
-      _DefineClass(name, loader, buf, bufLen).value;
+      _DefineClass(name, loader, buf, bufLen).checkedClassRef;
 
   late final _FindClass = ptr.ref.FindClass
       .asFunction<JniClassLookupResult Function(ffi.Pointer<ffi.Char> name)>(
           isLeaf: true);
 
-  JClassPtr FindClass(ffi.Pointer<ffi.Char> name) => _FindClass(name).value;
+  JClassPtr FindClass(ffi.Pointer<ffi.Char> name) =>
+      _FindClass(name).checkedClassRef;
 
   late final _FromReflectedMethod = ptr.ref.FromReflectedMethod
       .asFunction<JniPointerResult Function(JObjectPtr method)>();
@@ -87,7 +88,8 @@ class GlobalJniEnv {
   late final _GetSuperclass = ptr.ref.GetSuperclass
       .asFunction<JniClassLookupResult Function(JClassPtr clazz)>(isLeaf: true);
 
-  JClassPtr GetSuperclass(JClassPtr clazz) => _GetSuperclass(clazz).value;
+  JClassPtr GetSuperclass(JClassPtr clazz) =>
+      _GetSuperclass(clazz).checkedClassRef;
 
   late final _IsAssignableFrom = ptr.ref.IsAssignableFrom
       .asFunction<JniResult Function(JClassPtr clazz1, JClassPtr clazz2)>(

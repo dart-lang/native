@@ -14,7 +14,7 @@ void main(List<String> arguments) async {
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add_build',
-      sources: ['src/native_add.c'],
+      sources: ['src/native_add.c', 'src/native_add.h'],
       linkModePreference: LinkModePreference.dynamic,
     ).run(
       input: input,

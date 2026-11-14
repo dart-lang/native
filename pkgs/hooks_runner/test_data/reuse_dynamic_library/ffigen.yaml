@@ -4,7 +4,7 @@ description: |
   Bindings for `src/my_add.h`.
 
   Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
-output: 'lib/my_add.dart'
+output: 'lib/src/my_add.g.dart'
 headers:
   entry-points:
     - 'src/my_add.h'

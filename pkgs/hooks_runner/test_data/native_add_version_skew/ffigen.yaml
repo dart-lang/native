@@ -4,7 +4,7 @@ description: |
   Bindings for `src/native_add.h`.
 
   Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
-output: 'lib/src/native_add_bindings_generated.dart'
+output: 'lib/src/native_add_bindings.g.dart'
 headers:
   entry-points:
     - 'src/native_add.h'

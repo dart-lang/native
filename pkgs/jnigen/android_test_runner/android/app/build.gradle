@@ -54,6 +54,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Enable R8 minification in debug mode so `flutter test integration_test/`
+            // tests `consumer-rules.pro` from `package:jni` at runtime.
+            minifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile('proguard-android-optimize.txt'),
+                "${localProperties.getProperty('flutter.sdk')}/packages/flutter_tools/gradle/flutter_proguard_rules.pro",
+                'proguard-rules.pro'
+            )
+        }
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.

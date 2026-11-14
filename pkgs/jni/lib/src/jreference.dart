@@ -26,6 +26,17 @@ extension ProtectedJReference on JReference {
   }
 }
 
+extension JReferencePointer on JReference {
+  @internal
+  JObjectPtr get nonNullPointer {
+    final ptr = pointer;
+    if (ptr == nullptr) {
+      throw JNullError();
+    }
+    return ptr;
+  }
+}
+
 /// A thin wrapper around a pointer that makes it [Finalizable].
 @pragma('vm:deeply-immutable')
 final class _JFinalizable implements Finalizable {
@@ -91,6 +102,9 @@ final class JGlobalReference extends JReference {
       : super._();
 
   factory JGlobalReference(Pointer<Void> pointer) {
+    if (pointer == nullptr) {
+      throw JNullError();
+    }
     final finalizable = _JFinalizable(pointer);
     final isReleased = calloc<Bool>();
     var releasedStackTracePointer = nullptr.cast<Pointer<Char>>();
@@ -120,10 +134,14 @@ final class JGlobalReference extends JReference {
   }
 
   void _appendToStackTrace(String stackTrace) {
+    if (_releasedStackTracePointer == nullptr) {
+      return;
+    }
     final previousStackTrace = _releasedStackTrace ?? '';
     final nativeStr = '$previousStackTrace$stackTrace'.toNativeUtf8();
-    if (_releasedStackTracePointer != nullptr) {
-      malloc.free(_releasedStackTracePointer.value);
+    final previousPtr = _releasedStackTracePointer.value;
+    if (previousPtr != nullptr) {
+      malloc.free(previousPtr);
     }
     _releasedStackTracePointer.value = nativeStr.cast();
   }
@@ -146,18 +164,22 @@ final class JGlobalReference extends JReference {
 
   @internal
   void registeredInArena() {
-    if (Jni.captureStackTraceOnRelease) {
-      _appendToStackTrace(
-          'Object was registered to be released by an arena at:\n'
-          '${StackTrace.current}\n');
-    }
+    assert(() {
+      if (Jni.captureStackTraceOnRelease) {
+        _appendToStackTrace(
+            'Object was registered to be released by an arena at:\n'
+            '${StackTrace.current}\n');
+      }
+      return true;
+    }());
   }
 
   String? get _releasedStackTrace {
-    if (_releasedStackTracePointer.value != nullptr) {
-      return _releasedStackTracePointer.value.cast<Utf8>().toDartString();
+    if (_releasedStackTracePointer == nullptr) {
+      return null;
     }
-    return null;
+    final value = _releasedStackTracePointer.value;
+    return value == nullptr ? null : value.cast<Utf8>().toDartString();
   }
 
   @override

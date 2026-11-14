@@ -9,8 +9,8 @@ void main(List<String> args) async {
   await build(args, (input, output) async {
     final builder = CBuilder.library(
       name: 'add',
-      assetName: 'add.dart',
-      sources: ['src/add.c'],
+      assetName: 'src/add.g.dart',
+      sources: ['src/add.c', 'src/add.h'],
       buildMode: BuildMode.debug,
     );
 

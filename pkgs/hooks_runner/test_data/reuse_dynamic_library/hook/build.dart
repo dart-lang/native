@@ -11,8 +11,8 @@ void main(List<String> args) async {
     final addLibrary = AddLibrary(input);
     final builder = CBuilder.library(
       name: 'my_add',
-      assetName: 'my_add.dart',
-      sources: ['src/my_add.c'],
+      assetName: 'src/my_add.g.dart',
+      sources: ['src/my_add.c', 'src/my_add.h'],
       libraries: [...addLibrary.libraries],
       libraryDirectories: [...addLibrary.libraryDirectories],
       includes: [...addLibrary.includes],

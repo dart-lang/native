@@ -2,8 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:process/process.dart';
 import 'package:test/test.dart';
@@ -52,6 +54,62 @@ void main() {
 
   group('with a fake process manager', () {
     final executableUri = Uri.file('/bin/echo');
+
+    for (final capture in [false, true]) {
+      test('streams explicit encodings (capture: $capture)', () async {
+        const stdoutText = '你好 😀';
+        const stderrText = 'café';
+        final processManager = FakeProcessManager([
+          FakeCommand(
+            stdoutChunks: utf8.encode(stdoutText).map((b) => [b]).toList(),
+            stderrChunks: latin1.encode(stderrText).map((b) => [b]).toList(),
+            exitCode: 3,
+          ),
+        ]);
+        final processLogger = Logger.detached('encoding')..level = Level.ALL;
+        final records = <LogRecord>[];
+        final subscription = processLogger.onRecord.listen(records.add);
+        addTearDown(subscription.cancel);
+        final result = await runProcess(
+          executable: executableUri,
+          logger: processLogger,
+          processManager: processManager,
+          captureOutput: capture,
+          stdoutEncoding: utf8,
+          stderrEncoding: latin1,
+        );
+        expect(result.stdout, capture ? stdoutText : isEmpty);
+        expect(result.stderr, capture ? stderrText : isEmpty);
+        expect(result.exitCode, 3);
+        expect(
+          records
+              .where((r) => r.level == Level.FINE)
+              .map((r) => r.message)
+              .join(),
+          stdoutText,
+        );
+        expect(
+          records
+              .where((r) => r.level == Level.SEVERE)
+              .map((r) => r.message)
+              .join(),
+          stderrText,
+        );
+      });
+    }
+
+    test('defaults to system encoding', () async {
+      final bytes = utf8.encode('中文');
+      final result = await runProcess(
+        executable: executableUri,
+        logger: null,
+        processManager: FakeProcessManager([
+          FakeCommand(stdoutChunks: [bytes], stderrChunks: [bytes]),
+        ]),
+      );
+      expect(result.stdout, systemEncoding.decode(bytes));
+      expect(result.stderr, systemEncoding.decode(bytes));
+    });
 
     test('captures stdout and stderr and passes the command through', () async {
       final processManager = FakeProcessManager([

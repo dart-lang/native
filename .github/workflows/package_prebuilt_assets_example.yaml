@@ -30,7 +30,7 @@ jobs:
       matrix:
         os: [ubuntu, macos, windows]
 
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os == 'ubuntu' && 'ubuntu-24.04' || format('{0}-latest', matrix.os) }}
     permissions:
       contents: read
 
