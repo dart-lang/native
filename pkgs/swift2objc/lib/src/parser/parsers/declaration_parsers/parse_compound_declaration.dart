@@ -80,7 +80,7 @@ List<Declaration> parseCompoundDeclaration<T extends CompoundDeclaration>(
       ExtensionDeclaration(
         id: compoundId.addIdSuffix('extension'),
         name: compound.name,
-        source: compound.source,
+        source: firstExtMember.source ?? compound.source,
         availability: compound.availability,
         extendedType: compound.asDeclaredType,
         methods: extensionMembers.whereType<MethodDeclaration>().toList(),

@@ -1,3 +1,7 @@
+## 0.3.2-wip
+
+- Add support for extension methods on external types.
+
 ## 0.3.1
 
 - Documentation updates.

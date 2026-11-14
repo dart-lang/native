@@ -74,6 +74,13 @@ import Foundation
 
 }
 
+@objc public class StringExtensions: NSObject {
+  @objc public static func isEmail(_ instance: String) -> Bool {
+    return instance.isEmail()
+  }
+
+}
+
 @objc extension OuterClassWrapper.InnerClassWrapper {
   @objc public func nestedExtensionFunc() -> Int {
     return wrappedInstance.nestedExtensionFunc()

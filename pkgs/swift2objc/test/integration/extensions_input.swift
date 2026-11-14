@@ -4,6 +4,12 @@ public class MyClass {
     }
 }
 
+public extension String {
+    func isEmail() -> Bool {
+        contains("@")
+    }
+}
+
 public extension MyClass {
     func extensionFunc(p: String) -> Int {
         return 0

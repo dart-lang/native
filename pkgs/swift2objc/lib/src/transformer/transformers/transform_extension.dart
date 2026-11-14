@@ -6,6 +6,7 @@ import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/extension_declaration.dart';
+import '../../config.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
@@ -15,8 +16,10 @@ import 'transform_member.dart';
 Declaration? transformExtension(
   ExtensionDeclaration extDecl,
   UniqueNamer parentNamer,
+
   TransformationState state,
 ) {
+  if (extDecl.source == builtInInputConfig) return null;
   final transformedTarget = transformDeclaration(
     extDecl.extendedType.declaration,
     parentNamer,
@@ -66,6 +69,7 @@ ClassDeclaration? _transformExternalExtension(
   UniqueNamer parentNamer,
   TransformationState state,
 ) {
+  if (extDecl.source == builtInInputConfig) return null;
   // External types have no generated wrapper that can carry a wrappedInstance.
   // Expose their instance extension methods as static methods instead.
   final methods = extDecl.methods
