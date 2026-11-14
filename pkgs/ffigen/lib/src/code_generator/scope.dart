@@ -21,9 +21,15 @@ class Scope {
   final _children = <Scope>[];
   final Scope? _parent;
   final Set<String> _preUsedNames;
+  final bool _inheritParentNames;
   Namer? _namer;
 
-  Scope._(this._parent, this._debugName, this._preUsedNames);
+  Scope._(
+    this._parent,
+    this._debugName,
+    this._preUsedNames, {
+    bool inheritParentNames = true,
+  }) : _inheritParentNames = inheritParentNames;
 
   static Scope createRoot(String debugName) =>
       Scope._(null, debugName, const {});
@@ -31,9 +37,18 @@ class Scope {
   /// Create a new [Scope] as a child of this one.
   ///
   /// [fillNames] must not have been called yet.
-  Scope addChild(String debugName, {Set<String> preUsedNames = const {}}) {
+  Scope addChild(
+    String debugName, {
+    Set<String> preUsedNames = const {},
+    bool inheritParentNames = true,
+  }) {
     assert(!_filled);
-    final ns = Scope._(this, debugName, preUsedNames);
+    final ns = Scope._(
+      this,
+      debugName,
+      preUsedNames,
+      inheritParentNames: inheritParentNames,
+    );
     _children.add(ns);
     return ns;
   }
@@ -75,7 +90,10 @@ class Scope {
 
   void _fillNames(Set<String> parentUsedNames) {
     assert(!_filled);
-    final namer = Namer(parentUsedNames.union(_preUsedNames));
+    final parentNames = _inheritParentNames
+        ? parentUsedNames
+        : const <String>{};
+    final namer = Namer(parentNames.union(_preUsedNames));
     _namer = namer;
     for (final symbol in _symbols) {
       if (symbol._name == null) {

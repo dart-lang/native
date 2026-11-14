@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator/binding.dart';
+import '../code_generator/compound.dart';
 import '../code_generator/cpp_class.dart';
 import '../code_generator/func_type.dart';
 import '../code_generator/objc_built_in_functions.dart';
@@ -41,25 +42,40 @@ class CreateScopesVisitation extends Visitation {
     Scope parentScope,
     String debugName, {
     Set<String> preUsedNames = const {},
+    bool inheritParentNames = true,
   }) {
     if (!node.localScopeFilled) {
       node.localScope = parentScope.addChild(
         debugName,
         preUsedNames: preUsedNames,
+        inheritParentNames: inheritParentNames,
       );
     }
     return node.localScope;
   }
 
-  void visitHasLocalScope(HasLocalScope node, String debugName) {
-    createScope(node, context.rootScope, debugName);
+  void visitHasLocalScope(
+    HasLocalScope node,
+    String debugName, {
+    bool inheritParentNames = true,
+  }) {
+    createScope(
+      node,
+      context.rootScope,
+      debugName,
+      inheritParentNames: inheritParentNames,
+    );
     node.visitChildren(visitor);
   }
 
   @override
   void visitBinding(Binding node) {
     if (node case final HasLocalScope hasLocalScope) {
-      visitHasLocalScope(hasLocalScope, node.originalName);
+      visitHasLocalScope(
+        hasLocalScope,
+        node.originalName,
+        inheritParentNames: node is! Compound && node is! CppClass,
+      );
     } else {
       node.visitChildren(visitor);
     }
@@ -128,6 +144,7 @@ class CreateScopesVisitation extends Visitation {
         node.superType?.localScope ?? context.rootScope,
         node.originalName,
         preUsedNames: objCReservedFields,
+        inheritParentNames: false,
       ),
     );
   }
@@ -145,6 +162,7 @@ class CreateScopesVisitation extends Visitation {
         context.rootScope,
         node.originalName,
         preUsedNames: objCReservedFields,
+        inheritParentNames: false,
       ),
     );
   }
