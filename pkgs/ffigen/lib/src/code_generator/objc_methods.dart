@@ -363,6 +363,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     }
   }
 
+  // Keyed by the shared old symbol, so overriding setters get one new symbol.
   static final _setterSymbols = Expando<Symbol>();
 
   bool get isRequired => !isOptional;
