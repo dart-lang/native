@@ -21,13 +21,21 @@ void main() {
     final s = 'hello'.toJString();
     s.release();
 
-    try {
-      s.release();
-      // ignore: avoid_catching_errors
-    } on DoubleReleaseError catch (e) {
-      expect(e.toString(), contains('Object was released at:'));
-      expect(e.toString(), contains('debug_release_test.dart'));
-    }
+    expect(
+      s.release,
+      throwsA(
+        isA<DoubleReleaseError>().having(
+          (e) => e.toString(),
+          'toString()',
+          assertsEnabled
+              ? allOf(
+                  contains('Object was released at:'),
+                  contains('debug_release_test.dart'),
+                )
+              : contains('set `Jni.captureStackTraceOnRelease = true`'),
+        ),
+      ),
+    );
   });
 
   test('Debug mode captures stack trace on use after release', () {
@@ -39,13 +47,21 @@ void main() {
     final s = 'hello'.toJString();
     s.release();
 
-    try {
-      s.toDartString();
-      // ignore: avoid_catching_errors
-    } on UseAfterReleaseError catch (e) {
-      expect(e.toString(), contains('Object was released at:'));
-      expect(e.toString(), contains('debug_release_test.dart'));
-    }
+    expect(
+      s.toDartString,
+      throwsA(
+        isA<UseAfterReleaseError>().having(
+          (e) => e.toString(),
+          'toString()',
+          assertsEnabled
+              ? allOf(
+                  contains('Object was released at:'),
+                  contains('debug_release_test.dart'),
+                )
+              : contains('set `Jni.captureStackTraceOnRelease = true`'),
+        ),
+      ),
+    );
   });
 
   test('Debug mode captures arena stack trace', () {
@@ -60,32 +76,64 @@ void main() {
     using(s.releasedBy);
     using(s.releasedBy);
 
-    try {
-      s.toDartString();
-      // ignore: avoid_catching_errors
-    } on UseAfterReleaseError catch (e) {
-      expect(
-          e.toString(),
-          stringContainsInOrder([
-            'Object was released at:',
-            'Object was registered to be released',
-            'Object was registered to be released'
-          ]));
-      expect(e.toString(), contains('debug_release_test.dart'));
-    }
-    try {
-      s.release();
-      // ignore: avoid_catching_errors
-    } on DoubleReleaseError catch (e) {
-      expect(
-          e.toString(),
-          stringContainsInOrder([
-            'Object was released at:',
-            'Object was registered to be released',
-            'Object was registered to be released'
-          ]));
-      expect(e.toString(), contains('debug_release_test.dart'));
-    }
+    final expectedMessage = assertsEnabled
+        ? allOf(
+            stringContainsInOrder([
+              'Object was released at:',
+              'Object was registered to be released',
+              'Object was registered to be released',
+            ]),
+            contains('debug_release_test.dart'),
+          )
+        : contains('set `Jni.captureStackTraceOnRelease = true`');
+
+    expect(
+      s.toDartString,
+      throwsA(
+        isA<UseAfterReleaseError>().having(
+          (e) => e.toString(),
+          'toString()',
+          expectedMessage,
+        ),
+      ),
+    );
+    expect(
+      s.release,
+      throwsA(
+        isA<DoubleReleaseError>().having(
+          (e) => e.toString(),
+          'toString()',
+          expectedMessage,
+        ),
+      ),
+    );
+  });
+
+  test('registeredInArena is safe when asserts are disabled', () {
+    Jni.captureStackTraceOnRelease = true;
+    addTearDown(() {
+      Jni.captureStackTraceOnRelease = false;
+    });
+
+    final s = 'hello'.toJString();
+    (s.reference as JGlobalReference).registeredInArena();
+    s.release();
+
+    expect(
+      s.toDartString,
+      throwsA(
+        isA<UseAfterReleaseError>().having(
+          (e) => e.toString(),
+          'toString()',
+          assertsEnabled
+              ? stringContainsInOrder([
+                  'Object was registered to be released',
+                  'Object was released at:',
+                ])
+              : contains('set `Jni.captureStackTraceOnRelease = true`'),
+        ),
+      ),
+    );
   });
 
   test('Hint is shown when debug mode is disabled', () {
@@ -94,13 +142,26 @@ void main() {
     final s = 'hello'.toJString();
     s.release();
 
-    try {
-      s.release();
-      // ignore: avoid_catching_errors
-    } on DoubleReleaseError catch (e) {
-      expect(e.toString(),
-          contains('set `Jni.captureStackTraceOnRelease = true`'));
-    }
+    expect(
+      s.release,
+      throwsA(
+        isA<DoubleReleaseError>().having(
+          (e) => e.toString(),
+          'toString()',
+          contains('set `Jni.captureStackTraceOnRelease = true`'),
+        ),
+      ),
+    );
+    expect(
+      s.toDartString,
+      throwsA(
+        isA<UseAfterReleaseError>().having(
+          (e) => e.toString(),
+          'toString()',
+          contains('set `Jni.captureStackTraceOnRelease = true`'),
+        ),
+      ),
+    );
   });
 
   test('Debug mode flag is shared across isolates', () async {
@@ -130,18 +191,26 @@ void main() {
       Jni.captureStackTraceOnRelease = false;
     });
 
-    await Isolate.run(() {
+    final errorString = await Isolate.run(() {
       final s = 'hello'.toJString();
       s.release();
       try {
         s.release();
-        // ignore: avoid_catching_errors
-      } on DoubleReleaseError catch (e) {
-        if (!e.toString().contains('Object was released at:')) {
-          throw StateError('Stack trace not captured in isolate');
+      } on Object catch (e) {
+        if (e is DoubleReleaseError) {
+          return e.toString();
         }
+        rethrow;
       }
+      throw StateError('Expected DoubleReleaseError');
     });
+
+    expect(
+      errorString,
+      assertsEnabled
+          ? contains('Object was released at:')
+          : contains('set `Jni.captureStackTraceOnRelease = true`'),
+    );
   });
 
   test(
@@ -162,22 +231,25 @@ void main() {
       String? useAfterReleaseError;
       try {
         s.release();
-        // ignore: avoid_catching_errors
-      } on DoubleReleaseError catch (e) {
+      } on Object catch (e) {
+        if (e is! DoubleReleaseError) rethrow;
         doubleReleaseError = e.toString();
       }
 
       try {
         s.toString();
-        // ignore: avoid_catching_errors
-      } on UseAfterReleaseError catch (e) {
+      } on Object catch (e) {
+        if (e is! UseAfterReleaseError) rethrow;
         useAfterReleaseError = e.toString();
       }
       return (s.isReleased, doubleReleaseError, useAfterReleaseError);
     });
 
+    final expectedMessage = assertsEnabled
+        ? contains('Object was released at:')
+        : contains('set `Jni.captureStackTraceOnRelease = true`');
     expect(isReleased, isTrue);
-    expect(doubleReleaseError, contains('Object was released at:'));
-    expect(useAfterReleaseError, contains('Object was released at:'));
+    expect(doubleReleaseError, expectedMessage);
+    expect(useAfterReleaseError, expectedMessage);
   });
 }

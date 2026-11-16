@@ -101,7 +101,7 @@ void main() async {
       final addLibraryPath = assets
           .where((e) => e.isCodeAsset)
           .map(CodeAsset.fromEncoded)
-          .firstWhere((asset) => asset.id.endsWith('add.dart'))
+          .firstWhere((asset) => asset.id.endsWith('add.g.dart'))
           .file!
           .toFilePath();
       final addResult = await runProcess(

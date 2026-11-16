@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
-import 'dart:io'
-    show Platform, Process, ProcessException, ProcessResult, systemEncoding;
+import 'dart:io' show Platform, Process, ProcessException, ProcessResult;
 
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
@@ -74,28 +74,18 @@ Future<RunProcessResult> runProcess({
       // and arguments contain spaces.
     );
 
-    final stdoutSub = process.stdout.listen((List<int> data) {
-      try {
-        final decoded = systemEncoding.decode(data);
-        logger?.fine(decoded);
-        if (captureOutput) {
-          stdoutBuffer.write(decoded);
-        }
-      } catch (e) {
-        logger?.warning('Failed to decode stdout: $e');
-        stdoutBuffer.write('Failed to decode stdout: $e');
+    // Dart subprocesses write UTF-8 to pipes, also on Windows. Decode the
+    // stream rather than individual chunks, which can split a character.
+    final stdoutSub = process.stdout.transform(utf8.decoder).listen((decoded) {
+      logger?.fine(decoded);
+      if (captureOutput) {
+        stdoutBuffer.write(decoded);
       }
     });
-    final stderrSub = process.stderr.listen((List<int> data) {
-      try {
-        final decoded = systemEncoding.decode(data);
-        logger?.severe(decoded);
-        if (captureOutput) {
-          stderrBuffer.write(decoded);
-        }
-      } catch (e) {
-        logger?.severe('Failed to decode stderr: $e');
-        stderrBuffer.write('Failed to decode stderr: $e');
+    final stderrSub = process.stderr.transform(utf8.decoder).listen((decoded) {
+      logger?.severe(decoded);
+      if (captureOutput) {
+        stderrBuffer.write(decoded);
       }
     });
 

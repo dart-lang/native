@@ -380,7 +380,7 @@ final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
   void _retain(ObjectPtr ptr) => r.objectRetain(ptr);
 
   @override
-  bool _isValid(ObjectPtr ptr) => _isValidObject(ptr);
+  bool _isValid(ObjectPtr ptr) => c.isValidObject(ptr.cast());
 }
 
 /// Base class for all Objective-C objects.
@@ -390,37 +390,6 @@ final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
 class ObjCObject extends _ObjCRefHolder<r.ObjCObjectImpl, ObjCObjectRef> {
   ObjCObject(ObjectPtr ptr, {required bool retain, required bool release})
     : super(ObjCObjectRef(ptr, retain: retain, release: release));
-}
-
-// Returns whether the object is valid and live. The pointer must point to
-// readable memory, or be null. May (rarely) return false positives.
-bool _isValidObject(ObjectPtr ptr) {
-  if (ptr == nullptr) return false;
-  return _isValidClass(r.getObjectClass(ptr));
-}
-
-final _allClasses = <ObjectPtr>{};
-
-bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
-  if (!forceReloadClasses && _allClasses.contains(clazz)) return true;
-
-  // If the class is missing from the list, it either means we haven't created
-  // the set yet, or more classes have been loaded since we created the set, or
-  // the class is actually invalid. To rule out the first two cases, rebulid the
-  // set then try again. This is expensive, but only happens if asserts are
-  // enabled, and only happens more than O(1) times if there are actually
-  // invalid objects in use, which shouldn't happen in correct code.
-  final countPtr = calloc<UnsignedInt>();
-  final classList = r.copyClassList(countPtr);
-  final count = countPtr.value;
-  calloc.free(countPtr);
-  _allClasses.clear();
-  for (var i = 0; i < count; ++i) {
-    _allClasses.add(classList[i]);
-  }
-  calloc.free(classList);
-
-  return _allClasses.contains(clazz);
 }
 
 /// Base class for all Objective-C protocols.
@@ -623,6 +592,4 @@ final ContextPtr objCContext = c.createContext();
 bool blockHasRegisteredClosure(BlockPtr block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
 bool isValidBlock(BlockPtr block) => c.isValidBlock(block);
-bool isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) =>
-    _isValidClass(clazz, forceReloadClasses: forceReloadClasses);
-bool isValidObject(ObjectPtr object) => _isValidObject(object);
+bool isValidObject(ObjectPtr object) => c.isValidObject(object.cast());
