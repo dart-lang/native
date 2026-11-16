@@ -590,8 +590,9 @@ void _checkArgumentMapKeys(Map<String, Object?>? map, {RegExp? keyPattern}) {
     if (!keyPattern.hasMatch(key)) {
       throw ArgumentError.value(
         map,
+        'map',
         "Unexpected key '$key'."
-        ' Expected a key satisfying ${keyPattern.pattern}.',
+            ' Expected a key satisfying ${keyPattern.pattern}.',
       );
     }
   }
@@ -649,8 +650,9 @@ void _checkArgumentMapStringElements(
     if (value != null && !valuePattern.hasMatch(value)) {
       throw ArgumentError.value(
         map,
+        'map',
         "Unexpected value '$value' under key '${entry.key}'."
-        ' Expected a value satisfying ${valuePattern.pattern}.',
+            ' Expected a value satisfying ${valuePattern.pattern}.',
       );
     }
   }

@@ -19,13 +19,13 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '1.0.1';
+const String version = '1.1.0';
 
 /// Version of package:jni. Keep in sync with package:jni's `pubspec.yaml`.
 @visibleForTesting
 const String jniMajorVersion = '1';
 @visibleForTesting
-const String jniMinorVersion = '1';
+const String jniMinorVersion = '2';
 
 // Import prefixes.
 const _jni = r'jni$_';
@@ -1323,7 +1323,7 @@ ${modifier}final _$idName = $_protectedExtension
   String methodCall(Method node) {
     final idName = _idName(node);
     final params = [
-      node.isStatic ? '$_classRefVar.pointer' : '$_selfRefVar.pointer',
+      node.isStatic ? '$_classRefVar.pointer' : '$_selfRefVar.nonNullPointer',
       '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');

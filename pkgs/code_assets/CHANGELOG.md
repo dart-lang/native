@@ -1,4 +1,4 @@
-## 2.2.0-wip
+## 2.2.0
 
 - Support complete iOS and macOS deployment versions through `AppleVersion` and
   `deploymentVersion`, and deprecate the integer `targetVersion` API while

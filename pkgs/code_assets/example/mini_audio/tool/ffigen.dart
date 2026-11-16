@@ -33,7 +33,7 @@ Future<void> main() async {
         path: packageRoot.resolve('lib/src/third_party/miniaudio.g.dart'),
       ),
       recordUseMapping: packageRoot.resolve(
-        'lib/src/third_party/record_use_mapping.dart',
+        'lib/src/third_party/record_use_mapping.g.dart',
       ),
       preamble: '''
 // This is free and unencumbered software released into the public domain.

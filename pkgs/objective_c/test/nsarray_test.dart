@@ -105,7 +105,7 @@ void main() {
           expect(t.isAlive, false);
         }
       });
-    });
+    }, skip: !canDoGC);
 
     test('`NSArray.filled` garbage collected', () async {
       await using((arena) async {
@@ -119,7 +119,7 @@ void main() {
         doGC();
         expect(tracker.isAlive, isFalse);
       });
-    });
+    }, skip: !canDoGC);
 
     test('`NSArray.of` garbage collected', () async {
       await using((arena) async {
@@ -133,6 +133,6 @@ void main() {
         doGC();
         expect(tracker.isAlive, isFalse);
       });
-    });
+    }, skip: !canDoGC);
   });
 }

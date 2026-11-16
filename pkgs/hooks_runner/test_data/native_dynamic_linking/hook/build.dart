@@ -23,7 +23,7 @@ void main(List<String> args) async {
       ),
       CBuilder.library(
         name: 'add',
-        assetName: 'add.dart',
+        assetName: 'src/add.g.dart',
         sources: ['src/add.c', 'src/add.h', 'src/math.h'],
         libraries: ['math'],
         buildMode: BuildMode.debug,

@@ -4,7 +4,7 @@ description: |
   Bindings for `src/native_subtract.h`.
 
   Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
-output: "lib/src/native_subtract_bindings_generated.dart"
+output: "lib/src/native_subtract_bindings.g.dart"
 headers:
   entry-points:
     - "src/native_subtract.h"

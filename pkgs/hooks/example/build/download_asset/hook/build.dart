@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:download_asset/src/hook_helpers/c_build.dart';
 import 'package:download_asset/src/hook_helpers/download.dart';
-import 'package:download_asset/src/hook_helpers/hashes.dart';
+import 'package:download_asset/src/hook_helpers/hashes.g.dart';
 import 'package:hooks/hooks.dart';
 
 void main(List<String> args) async {
@@ -46,7 +46,7 @@ void main(List<String> args) async {
       output.assets.code.add(
         CodeAsset(
           package: input.packageName,
-          name: 'native_add.dart',
+          name: 'src/native_add.g.dart',
           linkMode: DynamicLoadingBundled(),
           file: file.uri,
         ),
