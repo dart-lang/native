@@ -33,7 +33,8 @@ void main(List<String> args) async {
     final packageName = input.packageName;
     final codeConfig = input.config.code;
 
-    final cFlags = codeConfig.targetOS == OS.macOS
+    final isApple = {OS.iOS, OS.macOS}.contains(codeConfig.targetOS);
+    final cFlags = isApple
         ? <String>[
             '-isysroot',
             sdkPath(codeConfig),
@@ -75,7 +76,7 @@ void main(List<String> args) async {
       flags: cFlags,
     ).run(input: input, output: output, logger: logger);
 
-    if (codeConfig.targetOS == OS.macOS) {
+    if (isApple) {
       final builder = await CustomBuilder.create(
         input,
         input.packageRoot.toFilePath(),
@@ -94,6 +95,7 @@ void main(List<String> args) async {
       if (File.fromUri(swiftBindingM).existsSync()) {
         extraObjects.add(
           await builder.buildObject(swiftBindingM, [
+            ...cFlags,
             '-x',
             'objective-c',
             '-fobjc-arc',
@@ -294,25 +296,16 @@ class CustomBuilder {
     Uri outputLib, {
     List<String> extraObjects = const [],
   }) async {
-    final baseArgs = [
-      '-c',
-      input.toFilePath(),
-      ...extraObjects,
-      '-module-name',
-      moduleName,
-      '-emit-library',
-    ];
-
     final arch = _codeConfig.targetArchitecture == Architecture.x64
         ? 'x86_64'
         : 'arm64';
     final String target;
     if (_codeConfig.targetOS == OS.iOS) {
       final version = _appleDeploymentTarget(_codeConfig.iOS.deploymentVersion);
-      final sdk = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS
-          ? 'ios'
-          : 'ios-simulator';
-      target = '$arch-apple-$sdk$version';
+      final suffix = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS
+          ? ''
+          : '-simulator';
+      target = '$arch-apple-ios$version$suffix';
     } else {
       final version = _appleDeploymentTarget(
         _codeConfig.macOS.deploymentVersion,
@@ -320,31 +313,24 @@ class CustomBuilder {
       target = '$arch-apple-macosx$version';
     }
 
-    if (_codeConfig.targetOS == OS.macOS &&
-        _codeConfig.targetArchitecture == Architecture.arm64) {
-      final version = _appleDeploymentTarget(
-        _codeConfig.macOS.deploymentVersion,
-      );
-      await _run('swiftc', [
-        ...baseArgs,
+    await _run('swiftc', [
+      '-c',
+      input.toFilePath(),
+      ...extraObjects,
+      '-module-name',
+      moduleName,
+      '-emit-library',
+      if (_codeConfig.targetOS == OS.macOS) ...[
         '-emit-objc-header-path',
         outputHeader.toFilePath(),
-        '-target',
-        '$arch-apple-macosx$version',
-        '-o',
-        outputLib.toFilePath(),
-      ]);
-    } else {
-      await _run('swiftc', [
-        ...baseArgs,
-        '-emit-objc-header-path',
-        outputHeader.toFilePath(),
-        '-target',
-        target,
-        '-o',
-        outputLib.toFilePath(),
-      ]);
-    }
+      ],
+      '-sdk',
+      sdkPath(_codeConfig),
+      '-target',
+      target,
+      '-o',
+      outputLib.toFilePath(),
+    ]);
   }
 
   Future<void> _run(String cmd, List<String> args) async {

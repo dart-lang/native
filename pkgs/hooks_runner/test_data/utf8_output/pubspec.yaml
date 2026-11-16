@@ -1,0 +1,13 @@
+name: utf8_output
+description: Emits UTF-8 output for hook runner regression tests.
+version: 0.1.0
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  code_assets: any
+  hooks: any

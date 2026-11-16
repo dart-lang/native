@@ -339,7 +339,6 @@ FfiGenerator getRuntimeConfig([Uri? packageRoot]) {
             'objc_autorelease': 'objectAutorelease',
             'objc_autoreleasePoolPop': 'autoreleasePoolPop',
             'objc_autoreleasePoolPush': 'autoreleasePoolPush',
-            'objc_copyClassList': 'copyClassList',
             'objc_getClass': 'getClass',
             'objc_getProtocol': 'getProtocol',
             'objc_msgSend': 'msgSend',

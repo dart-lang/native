@@ -98,7 +98,7 @@
 /// import 'package:native_toolchain_c/native_toolchain_c.dart';
 /// import 'package:record_use/record_use.dart';
 /// import 'package:sqlite/src/c_library.dart';
-/// import 'package:sqlite/src/third_party/record_use_mapping.dart';
+/// import 'package:sqlite/src/third_party/record_use_mapping.g.dart';
 ///
 /// void main(List<String> arguments) async {
 ///   await link(arguments, (input, output) async {
@@ -132,7 +132,7 @@
 ///           output.assets.code.add(
 ///             CodeAsset(
 ///               package: 'host_name',
-///               name: 'src/third_party/unix.dart',
+///               name: 'src/third_party/unix.g.dart',
 ///               linkMode: LookupInProcess(),
 ///             ),
 ///           );
@@ -140,7 +140,7 @@
 ///           output.assets.code.add(
 ///             CodeAsset(
 ///               package: 'host_name',
-///               name: 'src/third_party/windows.dart',
+///               name: 'src/third_party/windows.g.dart',
 ///               linkMode: DynamicLoadingSystem(Uri.file('ws2_32.dll')),
 ///             ),
 ///           );
