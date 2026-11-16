@@ -146,6 +146,9 @@
         },
         "package_root": {
           "$ref": "#/definitions/absolutePath"
+        },
+        "user_defines": {
+          "$ref": "#/definitions/UserDefines"
         }
       },
       "required": [
@@ -294,12 +297,7 @@
           "$ref": "#/definitions/absolutePath"
         },
         "user_defines": {
-          "type": "object",
-          "properties": {
-            "workspace_pubspec": {
-              "$ref": "#/definitions/UserDefinesSource"
-            }
-          }
+          "$ref": "#/definitions/UserDefines"
         }
       },
       "required": [
@@ -424,6 +422,14 @@
           "type": "string"
         }
       ]
+    },
+    "UserDefines": {
+      "type": "object",
+      "properties": {
+        "workspace_pubspec": {
+          "$ref": "#/definitions/UserDefinesSource"
+        }
+      }
     },
     "UserDefinesSource": {
       "type": "object",

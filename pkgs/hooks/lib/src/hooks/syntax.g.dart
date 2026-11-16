@@ -394,12 +394,14 @@ class DoctorInputSyntax extends JsonObjectSyntax {
     required Uri outFile,
     required String packageName,
     required Uri packageRoot,
+    required UserDefinesSyntax? userDefines,
     super.path = const [],
   }) : super() {
     this.config = config;
     this.outFile = outFile;
     this.packageName = packageName;
     this.packageRoot = packageRoot;
+    this.userDefines = userDefines;
     json.sortOnKey();
   }
 
@@ -449,6 +451,28 @@ class DoctorInputSyntax extends JsonObjectSyntax {
 
   List<String> _validatePackageRoot() => _reader.validatePath('package_root');
 
+  UserDefinesSyntax? get userDefines {
+    final jsonValue = _reader.optionalMap('user_defines');
+    if (jsonValue == null) return null;
+    return UserDefinesSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'user_defines'],
+    );
+  }
+
+  set userDefines(UserDefinesSyntax? value) {
+    json.setOrRemove('user_defines', value?.json);
+    json.sortOnKey();
+  }
+
+  List<String> _validateUserDefines() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('user_defines');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return userDefines?.validate() ?? [];
+  }
+
   @override
   List<String> validate() => [
     ...super.validate(),
@@ -456,6 +480,7 @@ class DoctorInputSyntax extends JsonObjectSyntax {
     ..._validateOutFile(),
     ..._validatePackageName(),
     ..._validatePackageRoot(),
+    ..._validateUserDefines(),
   ];
 
   @override

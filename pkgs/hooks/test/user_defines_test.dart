@@ -135,5 +135,30 @@ void main() {
         ..config.setupBuild(linkingEnabled: false);
       expect(builder.build().userDefines.path('key'), isNull);
     });
+
+    test('DoctorInput.userDefines', () {
+      final tempUri = Directory.systemTemp.uri;
+      // ignore: experimental_member_use
+      final builder = DoctorInputBuilder()
+        ..setupDoctor(
+          packageName: 'my_package',
+          packageRoot: tempUri.resolve('my_package/'),
+          outputFile: tempUri.resolve('output.json'),
+          userDefines: PackageUserDefines(
+            workspacePubspec: PackageUserDefinesSource(
+              defines: {'my_key': 'my_val', 'file': 'some/dir/model.bin'},
+              basePath: basePath,
+            ),
+          ),
+        );
+      final input = builder.build();
+      expect(input.userDefines['my_key'], 'my_val');
+      if (!Platform.isWindows) {
+        expect(
+          input.userDefines.path('file'),
+          Uri.parse('file:///base/dir/some/dir/model.bin'),
+        );
+      }
+    });
   });
 }

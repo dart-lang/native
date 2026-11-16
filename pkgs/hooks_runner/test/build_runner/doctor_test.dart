@@ -143,6 +143,12 @@ dependency_overrides:
     path: ${pkgNativeAssetsBuilderUri.resolve('../$pkg/').toFilePath()}
 ''';
         }
+        workspacePubspec += '''
+hooks:
+  user_defines:
+    doctor_app:
+      custom_hint: Custom hint from workspace pubspec
+''';
         await File.fromUri(workspacePubspecUri).writeAsString(workspacePubspec);
 
         await runPubGet(workingDirectory: tempUri, logger: logger);
@@ -162,6 +168,7 @@ dependency_overrides:
           dartExecutable: dartExecutable,
           fileSystem: const LocalFileSystem(),
           packageLayout: packageLayout,
+          userDefines: UserDefines(workspacePubspec: workspacePubspecUri),
         );
 
         expect(
@@ -182,6 +189,11 @@ dependency_overrides:
             'doctor_app',
             'fail_build',
           ]),
+        );
+        final appValidation = result.packageValidations['doctor_app']!.single;
+        expect(
+          appValidation.messages.single.message,
+          'Custom hint from workspace pubspec',
         );
       });
     },

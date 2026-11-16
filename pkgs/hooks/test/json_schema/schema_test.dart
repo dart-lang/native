@@ -55,6 +55,16 @@ void _testDoctorFields({
           (['out_file'], expectRequiredFieldMissing),
           (['package_name'], expectRequiredFieldMissing),
           (['package_root'], expectRequiredFieldMissing),
+          (['user_defines'], expectOptionalFieldMissing),
+          (['user_defines', 'workspace_pubspec'], expectOptionalFieldMissing),
+          (
+            ['user_defines', 'workspace_pubspec', 'base_path'],
+            expectRequiredFieldMissing,
+          ),
+          (
+            ['user_defines', 'workspace_pubspec', 'defines'],
+            expectRequiredFieldMissing,
+          ),
         ],
         if (inputOrOutput == InputOrOutput.output) ...[
           (['validations'], expectOptionalFieldMissing),

@@ -85,6 +85,7 @@ void main() {
         await doctor(args, (input, output) async {
           // ignore: experimental_member_use
           final targetOS = input.config.code!.single.targetOS.name;
+          final customMsg = input.userDefines['custom_msg'] as String?;
           output.addValidation(
             // ignore: experimental_member_use
             DoctorValidationResult(
@@ -92,11 +93,17 @@ void main() {
               type: .success,
               statusInfo: 'OK ($targetOS)',
               // ignore: experimental_member_use
-              messages: [DoctorValidationMessage('All good')],
+              messages: [DoctorValidationMessage(customMsg ?? 'All good')],
             ),
           );
         });
       },
+      userDefines: PackageUserDefines(
+        workspacePubspec: PackageUserDefinesSource(
+          defines: {'custom_msg': 'Custom good'},
+          basePath: Directory.current.uri,
+        ),
+      ),
       extensions: [
         // ignore: experimental_member_use
         DoctorCodeAssetExtension(
@@ -114,7 +121,10 @@ void main() {
         // ignore: experimental_member_use
         expect(output.validations.single.type, DoctorValidationType.success);
         expect(output.validations.single.statusInfo, 'OK (${OS.current.name})');
-        expect(output.validations.single.messages.single.message, 'All good');
+        expect(
+          output.validations.single.messages.single.message,
+          'Custom good',
+        );
       }),
     );
   });

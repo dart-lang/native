@@ -154,7 +154,7 @@ Future<void> testDoctorHook({
   required FutureOr<void> Function(DoctorInput input, DoctorOutput output)
   check,
   List<ProtocolExtension> extensions = const [],
-  // TODO(dcharkes): Add `userDefines` parameter once `DoctorInput` supports it.
+  PackageUserDefines? userDefines,
 }) async {
   const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
@@ -172,6 +172,7 @@ Future<void> testDoctorHook({
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
         outputFile: outputFile,
+        userDefines: userDefines,
       );
     final logger = Logger.detached('testDoctorHook');
     for (final extension in extensions) {

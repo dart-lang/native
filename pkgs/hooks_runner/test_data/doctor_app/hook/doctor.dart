@@ -8,12 +8,15 @@ import 'package:hooks/hooks.dart';
 
 void main(List<String> arguments) async {
   await doctor(arguments, (input, output) async {
+    final customHint = input.userDefines['custom_hint'] as String?;
     output.addValidation(
       DoctorValidationResult(
         title: 'App Tool',
         type: DoctorValidationType.partial,
         messages: [
-          DoctorValidationMessage.hint('Optional app optimizer missing'),
+          DoctorValidationMessage.hint(
+            customHint ?? 'Optional app optimizer missing',
+          ),
         ],
       ),
     );

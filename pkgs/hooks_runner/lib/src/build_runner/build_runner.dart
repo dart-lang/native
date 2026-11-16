@@ -111,8 +111,6 @@ class NativeAssetsBuildRunner {
   /// Creates a [NativeAssetsBuildRunner] for running `hook/doctor.dart` hooks.
   // TODO(https://github.com/dart-lang/native/issues/3748): Unify with the
   // default constructor once `runPackageName` is passed per method.
-  // TODO(dcharkes): Accept `userDefines` here once `DoctorInput` supports
-  // user-defines.
   @experimental
   NativeAssetsBuildRunner.doctor({
     required Logger logger,
@@ -121,6 +119,7 @@ class NativeAssetsBuildRunner {
     required PackageLayout packageLayout,
     Duration? singleHookTimeout,
     Map<String, String>? hookEnvironment,
+    UserDefines? userDefines,
   }) : this(
          logger: logger,
          dartExecutable: dartExecutable,
@@ -128,6 +127,7 @@ class NativeAssetsBuildRunner {
          packageLayout: packageLayout,
          singleHookTimeout: singleHookTimeout,
          hookEnvironment: hookEnvironment,
+         userDefines: userDefines,
        );
 
   /// Checks whether any hooks need to be run.
@@ -476,15 +476,18 @@ class NativeAssetsBuildRunner {
       return Success(DoctorResult());
     }
 
+    final loadedUserDefines = await _loadedUserDefines;
+    final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
+    if (hookResultUserDefines.isFailure) {
+      return hookResultUserDefines.asFailure;
+    }
+
     // Give every extension the runner's logger before any other method is
     // invoked on it.
     for (final e in extensions) {
       e.setupLogger(logger);
     }
 
-    // TODO(dcharkes): Load and validate `userDefines` via
-    // `_checkUserDefines()` and pass `loadedUserDefines?[package.name]` to
-    // `DoctorInputBuilder` once `DoctorInput` supports user-defines.
     // TODO(dcharkes): Consider whether doctor hooks should be executed in
     // parallel. Currently, doctor hooks do not depend on each other's
     // outputs, though they might in the future.
@@ -503,6 +506,7 @@ class NativeAssetsBuildRunner {
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
           outputFile: buildDirUri.resolve('output.json'),
+          userDefines: loadedUserDefines?[package.name],
         );
       for (final e in extensions) {
         e.setupDoctorInput(inputBuilder);

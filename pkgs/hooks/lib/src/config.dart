@@ -201,14 +201,15 @@ sealed class HookInput {
   ///   });
   /// }
   /// ```
-  HookInputUserDefines get userDefines => HookInputUserDefines._(this);
+  HookInputUserDefines get userDefines =>
+      HookInputUserDefines._(_syntax.userDefines);
 }
 
-/// The user-defines in [HookInput.userDefines].
+/// The user-defines in [HookInput.userDefines] and [DoctorInput.userDefines].
 final class HookInputUserDefines {
-  final HookInput _input;
+  final UserDefinesSyntax? _syntaxNode;
 
-  HookInputUserDefines._(this._input);
+  HookInputUserDefines._(this._syntaxNode);
 
   /// The value for the user-define for [key] for this package.
   ///
@@ -295,7 +296,7 @@ final class HookInputUserDefines {
   }
 
   (Object, PackageUserDefinesSource)? _findDefine(List<Object> keyPathDefine) {
-    final syntaxNode = _input._syntax.userDefines;
+    final syntaxNode = _syntaxNode;
     if (syntaxNode == null) {
       return null;
     }
@@ -1534,8 +1535,6 @@ final class InfraError extends HookError {
 }
 
 /// The input for `hook/doctor.dart`.
-// TODO(dcharkes): Add support for `userDefines` in `DoctorInput` so doctor
-// hooks can inspect workspace user-defines.
 @experimental
 final class DoctorInput {
   /// The underlying json configuration of this [DoctorInput].
@@ -1552,6 +1551,14 @@ final class DoctorInput {
 
   /// The configuration for this doctor input.
   DoctorConfig get config => DoctorConfig._(this);
+
+  /// Custom configurations specified in the root package `pubspec.yaml`
+  /// (or root package pub workspace `pubspec.yaml` if using a workspace) under
+  /// the `hooks.user_defines` block.
+  ///
+  /// See [HookInput.userDefines] for documentation on how user-defines work.
+  HookInputUserDefines get userDefines =>
+      HookInputUserDefines._(_syntax.userDefines);
 
   final DoctorInputSyntax _syntax;
 
@@ -1589,15 +1596,16 @@ final class DoctorInputBuilder {
   Map<String, Object?> get json => _syntax.json;
 
   /// Sets up the doctor input.
-  // TODO(dcharkes): Accept `userDefines` here once supported in `DoctorInput`.
   void setupDoctor({
     required Uri packageRoot,
     required String packageName,
     required Uri outputFile,
+    PackageUserDefines? userDefines,
   }) {
     _syntax.packageRoot = packageRoot;
     _syntax.packageName = packageName;
     _syntax.outFile = outputFile;
+    _syntax.userDefines = userDefines?.toSyntax();
   }
 
   /// The configuration for this doctor input.
