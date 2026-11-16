@@ -148,3 +148,5 @@ class _SymbolAddresses {
 typedef shortHand = ffi.NativeFunction<shortHandFunction>;
 typedef shortHandFunction =
     ffi.Void Function(ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> b);
+typedef DartshortHandFunction =
+    void Function(ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> b);
