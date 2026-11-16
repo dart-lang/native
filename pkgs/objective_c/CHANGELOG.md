@@ -1,3 +1,38 @@
+## 9.6.4
+
+- Link the native support library against Foundation. Loading a built-in
+  Foundation class (eg `NSArray`) no longer throws an internally caught
+  `ArgumentError` before falling back to `objc_getClass`, which stopped
+  debuggers that break on all exceptions.
+- Fix a [bug](https://github.com/dart-lang/native/issues/3786) where object
+  validity debug checks would fail on the iOS simulator for some objects.
+
+## 9.6.3
+
+- Make the `NSInputStream` returned by `toNSInputStream` avoid copying the
+  data added to it, and avoid moving the unread data after every read. For
+  large chunks of data, this makes reading up to 1.8x faster and halves memory
+  use.
+- Make `toNSData` copy the data once, rather than twice.
+- Increase the amount of data that `toNSInputStream` buffers ahead of the
+  reader from 4 KiB to 1 MiB, which makes reading the returned `NSInputStream`
+  up to 7x faster.
+- Fix a [bug](https://github.com/dart-lang/native/issues/3750) in the
+  `NSInputStream` returned by `toNSInputStream` where a read that was waiting
+  for data never returned if the stream was closed or if the isolate that
+  created the stream exited. The read now returns `-1`, and sets `streamError`
+  if the isolate exited.
+- Fix a [bug](https://github.com/dart-lang/native/issues/3752) in the
+  `NSInputStream` returned by `toNSInputStream` when it is scheduled in a run
+  loop. The stream now sends `NSStreamEvent`s to its delegate, and
+  `hasBytesAvailable` only returns `YES` if a read won't wait. Before, a reader
+  that waited for events never received any, and a reader that read when
+  `hasBytesAvailable` returned `YES` blocked its run loop until data arrived.
+- Use minor and patch versions of iOS and macOS deployment targets from
+  `package:code_assets` 2.2.0 in the native support library's build hook.
+- Replace the expensive debug assert that blocks and objects are valid with a
+  cheaper and safer check.
+
 ## 9.6.2
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`

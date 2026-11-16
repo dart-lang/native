@@ -155,7 +155,9 @@ void main() async {
                   ? .dynamic
                   : .static,
               cCompiler: chosenCCompiler,
-              macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+              macOS: MacOSCodeConfig(
+                deploymentVersion: defaultMacOSVersion,
+              ),
             ),
           );
         final buildInput = buildInputBuilder.build();
@@ -217,7 +219,9 @@ void main() async {
           targetOS: .macOS,
           targetArchitecture: Architecture.current,
           linkModePreference: .dynamic,
-          macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+          macOS: MacOSCodeConfig(
+            deploymentVersion: defaultMacOSVersion,
+          ),
           cCompiler: cCompiler,
         ),
       );
@@ -247,6 +251,7 @@ void main() async {
   for (final macosVersion in [
     MacOSVersion.flutterLowestBestEffort,
     MacOSVersion.flutterLowestSupported,
+    AppleVersion(14, minor: 4, patch: 1),
   ]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       test('$linkMode macos min version $macosVersion', () async {
@@ -260,7 +265,7 @@ void main() async {
           out1Uri,
           out2Uri,
           target,
-          macosVersion.value,
+          macosVersion,
           linkMode,
         );
 
@@ -271,7 +276,7 @@ void main() async {
           processManager: const LocalProcessManager(),
         );
         expect(otoolResult.exitCode, 0);
-        expect(otoolResult.stdout, contains('minos $macosVersion.0'));
+        expectAppleDeploymentVersion(otoolResult.stdout, macosVersion);
       });
     }
   }
@@ -341,7 +346,7 @@ Future<Uri> buildLib(
   Uri tempUri,
   Uri tempUri2,
   Architecture targetArchitecture,
-  int targetMacOSVersion,
+  AppleVersion targetMacOSVersion,
   LinkMode linkMode,
 ) async {
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
@@ -362,7 +367,9 @@ Future<Uri> buildLib(
         linkModePreference: linkMode == DynamicLoadingBundled()
             ? .dynamic
             : .static,
-        macOS: MacOSCodeConfig(targetVersion: targetMacOSVersion),
+        macOS: MacOSCodeConfig(
+          deploymentVersion: targetMacOSVersion,
+        ),
         cCompiler: cCompiler,
       ),
     );

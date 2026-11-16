@@ -13,7 +13,7 @@ void main() async {
 
   generateAndCompare(
     'Generate and compare bindings for simple_package java files',
-    getConfig(),
+    getConfig,
   );
 
   test('Generate and analyze bindings for simple_package java files - doclet',

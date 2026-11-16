@@ -126,7 +126,7 @@ void main() {
         doGC();
         expect(tracker.isAlive, isFalse);
       });
-    });
+    }, skip: !canDoGC);
 
     test('`NSMutableArray.of` garbage collected', () async {
       await using((arena) async {
@@ -140,6 +140,6 @@ void main() {
         doGC();
         expect(tracker.isAlive, isFalse);
       });
-    });
+    }, skip: !canDoGC);
   });
 }

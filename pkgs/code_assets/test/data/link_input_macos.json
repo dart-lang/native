@@ -35,6 +35,11 @@
         },
         "link_mode_preference": "dynamic",
         "macos": {
+          "deployment_version": {
+            "major": 13,
+            "minor": 0,
+            "patch": 0
+          },
           "target_version": 13
         },
         "target_architecture": "arm64",

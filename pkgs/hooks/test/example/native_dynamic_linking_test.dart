@@ -61,7 +61,9 @@ void main() async {
           CodeAssetExtension(
             targetOS: targetOS,
             macOS: targetOS == OS.macOS
-                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                ? MacOSCodeConfig(
+                    deploymentVersion: AppleVersion(defaultMacOSVersion),
+                  )
                 : null,
             targetArchitecture: Architecture.current,
             linkModePreference: LinkModePreference.dynamic,

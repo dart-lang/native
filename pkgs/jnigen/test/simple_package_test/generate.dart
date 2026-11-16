@@ -72,25 +72,39 @@ final javaFiles = [
   join(javaPrefix, 'simple_package', 'Fields.java'),
 ];
 
-void compileJavaSources(String workingDir, List<String> files) async {
+void compileJavaSources(
+  String workingDir,
+  List<String> files, {
+  Directory? targetDir,
+}) {
   final javac = jni_util.resolveJavaExecutable('javac');
-  final procRes = Process.runSync(javac, files,
-      workingDirectory: workingDir, environment: jni_util.javaEnvironment);
+  final procRes = Process.runSync(
+    javac,
+    [
+      if (targetDir != null) ...['-d', targetDir.absolute.path],
+      ...files,
+    ],
+    workingDirectory: workingDir,
+    environment: jni_util.javaEnvironment,
+  );
   if (procRes.exitCode != 0) {
     log.fatal('javac exited with ${procRes.exitCode}\n'
         '${procRes.stderr}');
   }
 }
 
-JniGenerator getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
-  compileJavaSources(javaPath, javaFiles);
+JniGenerator getConfig({
+  SummarizerBackend backend = SummarizerBackend.asm,
+  Directory? targetDir,
+}) {
+  compileJavaSources(javaPath, javaFiles, targetDir: targetDir);
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
   );
   final config = JniGenerator(
     input: Input(
       sourcePath: [Uri.directory(javaPath)],
-      classPath: [Uri.directory(javaPath)],
+      classPath: [targetDir?.uri ?? Uri.directory(javaPath)],
       backend: backend,
       classes: [
         'com.github.dart_lang.jnigen.simple_package',

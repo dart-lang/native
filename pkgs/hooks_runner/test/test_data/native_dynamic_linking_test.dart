@@ -50,7 +50,9 @@ void main() async {
             targetArchitecture: Architecture.current,
             targetOS: targetOS,
             macOS: targetOS == OS.macOS
-                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                ? MacOSCodeConfig(
+                    deploymentVersion: AppleVersion(defaultMacOSVersion),
+                  )
                 : null,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: cCompiler,
@@ -99,7 +101,7 @@ void main() async {
       final addLibraryPath = assets
           .where((e) => e.isCodeAsset)
           .map(CodeAsset.fromEncoded)
-          .firstWhere((asset) => asset.id.endsWith('add.dart'))
+          .firstWhere((asset) => asset.id.endsWith('add.g.dart'))
           .file!
           .toFilePath();
       final addResult = await runProcess(

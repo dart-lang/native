@@ -10,12 +10,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
+import 'package:file/memory.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/env_from_bat.dart';
 import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import '../utils/fake_process_manager.dart';
 
 void main() {
   if (!Platform.isWindows) {
@@ -26,6 +29,59 @@ void main() {
   test('vswhere', () async {
     final instances = await vswhere.defaultResolver!.resolve(systemContext);
     expect(instances.isNotEmpty, true);
+  });
+
+  test('VisualStudioResolver decodes localized vswhere UTF-8 JSON', () async {
+    final originalResolver = vswhere.defaultResolver;
+    addTearDown(() => vswhere.defaultResolver = originalResolver);
+    vswhere.defaultResolver = PathToolResolver(
+      toolName: vswhere.name,
+      executableName: 'vswhere.exe',
+    );
+    final fileSystem = MemoryFileSystem(style: FileSystemStyle.windows);
+    final installation = fileSystem.directory(r'C:\tools\Visual Studio 中文')
+      ..createSync(recursive: true);
+    final vswhereUri = (fileSystem.file(
+      r'C:\tools\vswhere.exe',
+    )..createSync()).uri;
+    final messages = <String>[];
+    final json = jsonEncode([
+      {
+        'installationPath': installation.path,
+        'installationVersion': '18.0.0',
+        'description': '构建应用所需的一切条件。',
+      },
+    ]);
+    final processManager = FakeProcessManager([
+      FakeCommand(stdout: '${vswhereUri.toFilePath()}\n'),
+      FakeCommand(
+        command: [
+          vswhereUri.toFilePath(),
+          '-format',
+          'json',
+          '-utf8',
+          '-latest',
+          '-products',
+          '*',
+          '-requires',
+          'Microsoft.VisualStudio.Component.VC.Tools.x86.x64',
+        ],
+        // Deterministically split every multibyte character across events.
+        stdoutChunks: utf8.encode(json).map((byte) => [byte]).toList(),
+      ),
+    ]);
+    final instances = await VisualStudioResolver(targetArchitecture: .x64)
+        .resolve(
+          ToolResolvingContext(
+            logger: createCapturingLogger(messages),
+            processManager: processManager,
+            fileSystem: fileSystem,
+          ),
+        );
+    expect(instances.single.uri, installation.uri);
+    expect(instances.single.version.toString(), '18.0.0');
+    expect(messages.join(), contains('构建应用所需的一切条件。'));
+    expect(processManager.allCommandsConsumed, isTrue);
   });
 
   test('visualStudioX64', () async {

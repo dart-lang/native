@@ -46,7 +46,9 @@ void main(List<String> args) async {
             targetArchitecture: targetArchitecture,
             targetOS: targetOS,
             macOS: targetOS == .macOS
-                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                ? MacOSCodeConfig(
+                    deploymentVersion: AppleVersion(defaultMacOSVersion),
+                  )
                 : null,
             android: targetOS == .android
                 ? AndroidCodeConfig(targetNdkApi: 30)

@@ -1,5 +1,9 @@
-## 0.19.6-wip
+## 0.19.6
 
+- Decode `vswhere -utf8` output as streaming UTF-8, preserving localized
+  installation paths and JSON. Other tools still default to the system encoding.
+- Preserve minor and patch components of iOS and macOS deployment targets in
+  `CBuilder` and `CLinker`. Requires `package:code_assets` 2.2.0.
 - Support listing `.h` files in `CBuilder.sources` to track header changes as
   build dependencies without passing them to the compiler.
 - Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
