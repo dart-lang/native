@@ -56,10 +56,25 @@ void main() {
           name: 'FirstFunc',
           type: NativeFunc(funcType),
         );
-        final secondAlias = Typealias(name: 'SecondFunc', type: firstAlias);
+        final secondAlias = Typealias(
+          name: 'SecondFunc',
+          type: firstAlias.type,
+        );
 
         expect(secondAlias.originalName, 'SecondFunc');
-        expect(secondAlias.type, firstAlias);
+        expect(secondAlias.type, firstAlias.type);
+        expect((secondAlias.type as NativeFunc).innerType, isA<Typealias>());
+        final secondInner =
+            (secondAlias.type as NativeFunc).innerType as Typealias;
+        expect(secondInner.originalName, 'FirstFuncFunction');
+
+        final secondPtrAlias = Typealias(
+          name: 'SecondFuncPtr',
+          type: PointerType(firstAlias.type as NativeFunc),
+        );
+
+        expect(secondPtrAlias.originalName, 'SecondFuncPtr');
+        expect((secondPtrAlias.type as PointerType).child, firstAlias.type);
       },
     );
   });

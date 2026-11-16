@@ -44,30 +44,17 @@ class Typealias extends BindingType {
     bool genFfiDartType = false,
     bool isInternal = false,
   }) {
-    final funcTypeFromPointer = _getFunctionTypeFromPointer(type);
-    if (funcTypeFromPointer != null) {
-      type = PointerType(
-        NativeFunc(
-          Typealias._(
-            name: '${name}Function',
-            type: funcTypeFromPointer,
-            genFfiDartType: genFfiDartType,
-            isInternal: isInternal,
-          ),
-        ),
+    final isPointer = type is PointerType;
+    final funcType = _getFunctionType(isPointer ? type.child : type);
+    if (funcType != null) {
+      final companion = Typealias._(
+        name: '${name}Function',
+        type: funcType,
+        genFfiDartType: genFfiDartType,
+        isInternal: isInternal,
       );
-    } else {
-      final funcType = _getFunctionType(type);
-      if (funcType != null) {
-        type = NativeFunc(
-          Typealias._(
-            name: '${name}Function',
-            type: funcType,
-            genFfiDartType: genFfiDartType,
-            isInternal: isInternal,
-          ),
-        );
-      }
+      final nativeFunc = NativeFunc(companion);
+      type = isPointer ? PointerType(nativeFunc) : nativeFunc;
     }
     if ((originalName ?? name) == strings.objcInstanceType &&
         type is ObjCObjectPointer) {
@@ -128,11 +115,6 @@ class Typealias extends BindingType {
     final inner = type.innerType;
     if (inner is! FunctionType) return null;
     return inner;
-  }
-
-  static FunctionType? _getFunctionTypeFromPointer(Type type) {
-    if (type is! PointerType) return null;
-    return _getFunctionType(type.child);
   }
 
   @override
