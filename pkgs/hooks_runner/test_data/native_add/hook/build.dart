@@ -12,7 +12,7 @@ void main(List<String> arguments) async {
     final packageName = input.packageName;
     final cbuilder = CBuilder.library(
       name: packageName,
-      assetName: 'src/${packageName}_bindings_generated.dart',
+      assetName: 'src/${packageName}_bindings.g.dart',
       sources: ['src/$packageName.c', 'src/$packageName.h'],
     );
     await cbuilder.run(input: input, output: output);

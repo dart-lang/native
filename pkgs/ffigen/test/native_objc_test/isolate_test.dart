@@ -198,7 +198,7 @@ void main() {
         doGC();
         expect(sendableTracker.isAlive, false);
       });
-    });
+    }, skip: !canDoGC);
 
     test('Use after release and double release', () async {
       final sendable = Sendable();

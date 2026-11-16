@@ -119,7 +119,7 @@ void main() {
         doGC();
         expect(tracker.isAlive, isFalse);
       });
-    });
+    }, skip: !canDoGC);
 
     test('`NSMutableDictionary.fromEntries` garbage collected', () async {
       await using((arena) async {
@@ -137,6 +137,6 @@ void main() {
         doGC();
         expect(tracker.isAlive, isFalse);
       });
-    });
+    }, skip: !canDoGC);
   });
 }

@@ -40,3 +40,12 @@ void spawnJvm() {
   Jni.spawnIfNotExists(
       dylibDir: 'build/jni_libs', jvmOptions: ['-Xmx128m', '-Xcheck:jni']);
 }
+
+bool get assertsEnabled {
+  var enabled = false;
+  assert(() {
+    enabled = true;
+    return true;
+  }());
+  return enabled;
+}

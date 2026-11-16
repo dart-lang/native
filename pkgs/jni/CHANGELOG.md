@@ -1,3 +1,13 @@
+## 1.2.0-wip
+
+- Add defensive null checks on method receiver objects and field targets to
+  prevent native segfaults in Java.
+
+## 1.1.2
+
+- Fix segfault when throwing `UseAfterReleaseError` or `DoubleReleaseError` in
+  release builds (without asserts enabled).
+
 ## 1.1.1
 
 - Add ProGuard consumer rules for Kotlin classes used by suspend functions.
