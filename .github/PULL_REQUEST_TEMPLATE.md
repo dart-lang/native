@@ -12,6 +12,8 @@ Is your PR vibe coded or AI assisted?
 - You cannot expect a PR reviewer to put more effort into reviewing the code than you did. We have access to coding agents too, so you should ask yourself whether your PR adds value. What makes your PR better than if we were to ask our agents to write it?
 - If you repeatedly send us poor quality PRs, we may restrict your access to the repo.
 
+**Note:** The Dart team is trialing Gemini Code Assist. Don't take its comments as final Dart team feedback. Use the suggestions if they're helpful; otherwise, wait for a human reviewer.
+
 You can delete this section from the PR description once you've read it.
 
 ## Description
