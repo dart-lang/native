@@ -1,3 +1,8 @@
+## 2.0.1-wip
+
+- Return `HooksRunnerFailure.infra` instead of throwing an unhandled
+  `TimeoutException` or `FileSystemException` when directory locking fails.
+
 ## 2.0.0
 
 - Decode hook stdout and stderr as streaming UTF-8, fixing garbled non-ASCII
