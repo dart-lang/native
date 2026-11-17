@@ -91,7 +91,6 @@ jobs:
   test-flutter:
     needs: analyze
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 25
     permissions:
       contents: read
     defaults:
@@ -120,10 +119,9 @@ jobs:
       - name: Build the example app for ios
         run: flutter build ios --no-codesign
       - name: Run integration tests on iOS Simulator
-        timeout-minutes: 15
         run: |
           xcrun simctl bootstatus "$UDID" -b
-          flutter test integration_test/objective_c_test.dart -d "$UDID" -v
+          flutter test integration_test/objective_c_test.dart -d "$UDID"
       - name: Check for xcode for analyzer warnings
         run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES
 
