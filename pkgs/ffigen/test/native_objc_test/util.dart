@@ -7,6 +7,7 @@ library;
 
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
@@ -15,7 +16,7 @@ import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 import 'package:logging/logging.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:path/path.dart' as p;
+import 'package:yaml/yaml.dart';
 
 import '../test_utils.dart';
 
@@ -84,5 +85,16 @@ class ReferenceTracker {
   }
 }
 
-String findDylib(String name) =>
-    p.join(packagePathForTests, '.dart_tool', 'lib', '$name.dylib');
+String findDylib(String name) {
+  final nativeAssetsUri = Isolate.packageConfigSync!.resolve(
+    'native_assets.yaml',
+  );
+  final nativeAssets =
+      loadYaml(File.fromUri(nativeAssetsUri).readAsStringSync()) as YamlMap;
+  final assets =
+      (nativeAssets['native-assets'] as YamlMap)[Abi.current().toString()]
+          as YamlMap;
+  final asset = assets['package:ffigen/$name'] as YamlList;
+  assert(asset[0] == 'absolute');
+  return asset[1] as String;
+}
