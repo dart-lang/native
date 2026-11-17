@@ -85,6 +85,8 @@ class ReferenceTracker {
   }
 }
 
+// Different versions of Dart can put the dylibs in different locations. So read
+// the native_assets.yaml file to find out where they actually are.
 String findDylib(String name) {
   final nativeAssetsUri = Isolate.packageConfigSync!.resolve(
     'native_assets.yaml',
