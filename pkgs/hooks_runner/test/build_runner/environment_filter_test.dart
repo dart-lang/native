@@ -89,6 +89,18 @@ void main() {
       NativeAssetsBuildRunner.includeHookEnvironmentVariable('ANDROID_HOME'),
       isTrue,
     );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('DEVELOPER_DIR'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('SDKROOT'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('JAVA_HOME'),
+      isTrue,
+    );
   });
 
   test('includeHookEnvironmentVariable allows NIX_ variables', () {
