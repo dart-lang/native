@@ -1,3 +1,8 @@
+## 1.2.0-wip
+
+- Add defensive null checks on method receiver objects and field targets to
+  prevent native segfaults in Java.
+
 ## 1.1.2
 
 - Fix segfault when throwing `UseAfterReleaseError` or `DoubleReleaseError` in

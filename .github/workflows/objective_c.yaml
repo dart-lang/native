@@ -88,7 +88,7 @@ jobs:
           fail_ci_if_error: false
 
 
-  build-flutter-example:
+  test-flutter:
     needs: analyze
     runs-on: ${{ matrix.runner }}
     permissions:
@@ -100,12 +100,6 @@ jobs:
       fail-fast: false
       matrix:
         runner: ["macos-15", "macos-latest"]
-        ios_version: ["18.1"]
-        include:
-          - runner: "macos-15"
-            xcode_version: "16.1"
-          - runner: "macos-latest"
-            xcode_version: "26.3"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -113,22 +107,18 @@ jobs:
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
-      - name: List installed Xcodes
-        run: ls -l /Applications | grep Xcode
-      - name: List Installed SDKs
-        run: xcodebuild -showsdks
-      - name: Select the XCode version
-        run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
-      - name: Install iOS SDK
-        run: |
-          xcrun simctl list > /dev/null  # Wakes up and initializes the CoreSimulator daemon
-          xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
       - name: Install dependencies
         run: flutter pub get
       - name: Build the example app for macos
         run: flutter build macos
       - name: Build the example app for ios
         run: flutter build ios --no-codesign
+      - name: Run integration tests on iOS Simulator
+        run: |
+          UDID=$(xcrun simctl create "Test iPhone" "iPhone 16")
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          flutter test integration_test/objective_c_test.dart -d "$UDID"
       - name: Check for xcode for analyzer warnings
         run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES
 

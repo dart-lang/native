@@ -5,9 +5,9 @@
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:record_use/record_use.dart';
-import 'package:treeshaking_dylib_record_use/src/add_record_use_mapping.dart'
+import 'package:treeshaking_dylib_record_use/src/add_record_use_mapping.g.dart'
     as add_mapping;
-import 'package:treeshaking_dylib_record_use/src/multiply_record_use_mapping.dart'
+import 'package:treeshaking_dylib_record_use/src/multiply_record_use_mapping.g.dart'
     as multiply_mapping;
 
 void main(List<String> arguments) async {

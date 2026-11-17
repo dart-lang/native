@@ -1,6 +1,9 @@
 ## 1.1.0-wip
 
 - Add `dumpApi` utility and `ApiDumperVisitor` to dump parsed Java AST.
+- Emit defensive null checks on instance method receiver objects before
+  crossing into JNI.
+- Bump required `package:jni` version to `1.2`.
 
 ## 1.0.1
 

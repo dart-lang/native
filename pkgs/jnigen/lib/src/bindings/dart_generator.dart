@@ -25,7 +25,7 @@ const String version = '1.1.0';
 @visibleForTesting
 const String jniMajorVersion = '1';
 @visibleForTesting
-const String jniMinorVersion = '1';
+const String jniMinorVersion = '2';
 
 // Import prefixes.
 const _jni = r'jni$_';
@@ -1323,7 +1323,7 @@ ${modifier}final _$idName = $_protectedExtension
   String methodCall(Method node) {
     final idName = _idName(node);
     final params = [
-      node.isStatic ? '$_classRefVar.pointer' : '$_selfRefVar.pointer',
+      node.isStatic ? '$_classRefVar.pointer' : '$_selfRefVar.nonNullPointer',
       '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');

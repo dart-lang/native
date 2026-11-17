@@ -36,7 +36,7 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-const _$jniVersionCheck = jni$_.JniVersionCheck(1, 1);
+const _$jniVersionCheck = jni$_.JniVersionCheck(1, 2);
 
 /// from: `Example`
 extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
@@ -91,7 +91,7 @@ extension Example$$Methods on Example {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
     final _$$selfRef = reference;
-    final $r = _thinkBeforeAnswering(_$$selfRef.pointer,
+    final $r = _thinkBeforeAnswering(_$$selfRef.nonNullPointer,
             _id_thinkBeforeAnswering.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();

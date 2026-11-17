@@ -17,7 +17,7 @@ Future<void> main() async {
       ],
       output: Output(
         dart: DartOutput(
-          path: packageRoot.resolve('lib/src/third_party/windows.dart'),
+          path: packageRoot.resolve('lib/src/third_party/windows.g.dart'),
         ),
         preamble: '''
 // This file includes parts which are Copyright (c) 1982-1986 Regents
@@ -35,7 +35,7 @@ Future<void> main() async {
       ],
       output: Output(
         dart: DartOutput(
-          path: packageRoot.resolve('lib/src/third_party/unix.dart'),
+          path: packageRoot.resolve('lib/src/third_party/unix.g.dart'),
         ),
         preamble: '''
 // Copyright (C) 1991-2022 Free Software Foundation, Inc.

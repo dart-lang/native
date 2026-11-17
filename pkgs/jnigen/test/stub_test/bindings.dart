@@ -40,7 +40,7 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-const _$jniVersionCheck = jni$_.JniVersionCheck(1, 1);
+const _$jniVersionCheck = jni$_.JniVersionCheck(1, 2);
 
 /// from: `com.example.A`
 extension type A._(jni$_.JObject _$this) implements jni$_.JObject {
@@ -94,7 +94,7 @@ extension A$$Methods on A {
   /// The returned object must be released after use, by calling the [release] method.
   B? get b {
     final _$$selfRef = reference;
-    return _get$b(_$$selfRef.pointer, _id_get$b.pointer).object<B?>();
+    return _get$b(_$$selfRef.nonNullPointer, _id_get$b.pointer).object<B?>();
   }
 
   static final _id_takeB = A._class.instanceMethodId(
@@ -119,7 +119,7 @@ extension A$$Methods on A {
   ) {
     final _$$selfRef = reference;
     final _$b = b?.reference ?? jni$_.jNullReference;
-    _takeB(_$$selfRef.pointer, _id_takeB.pointer, _$b.pointer).check();
+    _takeB(_$$selfRef.nonNullPointer, _id_takeB.pointer, _$b.pointer).check();
   }
 
   static final _id_takeD = A._class.instanceMethodId(
@@ -144,7 +144,7 @@ extension A$$Methods on A {
   ) {
     final _$$selfRef = reference;
     final _$d = d?.reference ?? jni$_.jNullReference;
-    _takeD(_$$selfRef.pointer, _id_takeD.pointer, _$d.pointer).check();
+    _takeD(_$$selfRef.nonNullPointer, _id_takeD.pointer, _$d.pointer).check();
   }
 }
 
