@@ -1,4 +1,4 @@
-## 1.1.0-wip
+## 1.1.0
 
 - Emit defensive null checks on instance method receiver objects before
   crossing into JNI.

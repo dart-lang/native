@@ -1,4 +1,4 @@
-## 1.2.0-wip
+## 1.2.0
 
 - Add defensive null checks on method receiver objects and field targets to
   prevent native segfaults in Java.
