@@ -37,10 +37,11 @@ void main() async {
         // - doctor_counter (dependency, success)
         // - doctor_app (root, partial)
         // - fail_build (dev_dependency, throws uncaught exception -> crash)
-        final packageLayout = await PackageLayout.forDoctorFromWorkingDirectory(
-          const LocalFileSystem(),
-          doctorAppUri,
-        );
+        final packageLayout =
+            (await PackageLayout.forDoctorFromWorkingDirectory(
+              const LocalFileSystem(),
+              doctorAppUri,
+            ))!;
         final runner = NativeAssetsBuildRunner.doctor(
           logger: logger,
           dartExecutable: dartExecutable,
@@ -211,10 +212,11 @@ hooks:
 
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final packageLayout = await PackageLayout.forDoctorFromWorkingDirectory(
-          const LocalFileSystem(),
-          packageUri,
-        );
+        final packageLayout =
+            (await PackageLayout.forDoctorFromWorkingDirectory(
+              const LocalFileSystem(),
+              packageUri,
+            ))!;
         final runner = NativeAssetsBuildRunner.doctor(
           logger: logger,
           dartExecutable: dartExecutable,
@@ -292,11 +294,12 @@ hooks:
 
         await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
-        final packageLayout = await PackageLayout.forDoctorFromWorkingDirectory(
-          const LocalFileSystem(),
-          nativeAddUri,
-          includeDevDependencies: false,
-        );
+        final packageLayout =
+            (await PackageLayout.forDoctorFromWorkingDirectory(
+              const LocalFileSystem(),
+              nativeAddUri,
+              includeDevDependencies: false,
+            ))!;
         final runner = NativeAssetsBuildRunner.doctor(
           logger: logger,
           dartExecutable: dartExecutable,

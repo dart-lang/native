@@ -111,20 +111,46 @@ class PackageLayout {
 
   /// Creates a [PackageLayout] from [workingDirectory] for running doctor hooks
   /// across all packages in the dependency graph.
+  ///
+  /// Returns `null` if no `.dart_tool/package_config.json` or sibling
+  /// `.dart_tool/package_graph.json` is found in [workingDirectory] or any
+  /// ancestor directory.
   // TODO(https://github.com/dart-lang/native/issues/3748): Remove once
   // `runPackageName` and `includeDevDependencies` are moved off
   // `PackageLayout`.
   @experimental
-  static Future<PackageLayout> forDoctorFromWorkingDirectory(
+  static Future<PackageLayout?> forDoctorFromWorkingDirectory(
     FileSystem fileSystem,
     Uri workingDirectory, {
     bool includeDevDependencies = true,
-  }) => fromWorkingDirectory(
-    fileSystem,
-    workingDirectory,
-    null,
-    includeDevDependencies: includeDevDependencies,
-  );
+  }) async {
+    workingDirectory = workingDirectory.normalizePath();
+    final packageConfigUri = await findPackageConfig(
+      fileSystem,
+      workingDirectory,
+    );
+    if (packageConfigUri == null) {
+      return null;
+    }
+    final packageGraphUri = packageConfigUri.resolve('package_graph.json');
+    if (!await fileSystem.file(packageGraphUri).exists()) {
+      return null;
+    }
+    final packageConfig = await loadPackageConfigUri(
+      packageConfigUri,
+      loader: (uri) async {
+        final file = fileSystem.file(uri);
+        if (!await file.exists()) return null;
+        return await file.readAsBytes();
+      },
+    );
+    return PackageLayout._(
+      packageConfig,
+      packageConfigUri,
+      null,
+      includeDevDependencies: includeDevDependencies,
+    );
+  }
 
   static Future<Uri?> findPackageConfig(
     FileSystem fileSystem,

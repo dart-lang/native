@@ -121,11 +121,11 @@ void main() async {
           await runPubGet(workingDirectory: packageUri, logger: logger);
 
           final packageLayout =
-              await PackageLayout.forDoctorFromWorkingDirectory(
+              (await PackageLayout.forDoctorFromWorkingDirectory(
                 const LocalFileSystem(),
                 packageUri,
                 includeDevDependencies: includeDevDependencies,
-              );
+              ))!;
           final nativeAssetsBuildPlanner =
               await NativeAssetsBuildPlanner.fromPackageConfigUri(
                 packageConfigUri: packageUri.resolve(
