@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: experimental_member_use
+
 import 'dart:io';
 
 import 'package:hooks/hooks.dart';
@@ -138,7 +140,6 @@ void main() {
 
     test('DoctorInput.userDefines', () {
       final tempUri = Directory.systemTemp.uri;
-      // ignore: experimental_member_use
       final builder = DoctorInputBuilder()
         ..setupDoctor(
           packageName: 'my_package',

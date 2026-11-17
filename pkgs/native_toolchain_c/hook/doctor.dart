@@ -30,12 +30,7 @@ void main(List<String> args) async {
         DoctorValidationResult(
           title: 'C Toolchain',
           type: .notAvailable,
-          messages: [
-            DoctorValidationMessage.error(
-              'The SDK does not support code assets, so C toolchains '
-              'cannot be validated.',
-            ),
-          ],
+          statusInfo: 'code assets not supported by SDK',
         ),
       );
       return;

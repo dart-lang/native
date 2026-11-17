@@ -16,12 +16,7 @@ void main(List<String> args) async {
         DoctorValidationResult(
           title: 'SQLite3 (package:sqlite_prebuilt)',
           type: DoctorValidationType.notAvailable,
-          messages: [
-            DoctorValidationMessage.error(
-              'The SDK does not support code assets, so native dependencies '
-              'cannot be validated.',
-            ),
-          ],
+          statusInfo: 'code assets not supported by SDK',
         ),
       );
       return;

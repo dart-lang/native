@@ -6,8 +6,6 @@ import 'dart:convert';
 import 'dart:io';
 
 /// Resolves `git` on `PATH`.
-///
-/// Shared between `hook/build.dart` and `hook/doctor.dart`.
 Future<Uri?> findGit() async {
   final which = Platform.isWindows ? 'where.exe' : 'which';
   final result = await Process.run(which, ['git']);

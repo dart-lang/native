@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: experimental_member_use
+
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -454,7 +456,6 @@ No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
   });
 
   test('DoctorInput.config.code with DoctorCodeAssetExtension', () {
-    // ignore: experimental_member_use
     final inputBuilder = DoctorInputBuilder()
       ..setupDoctor(
         packageName: packageName,
@@ -462,10 +463,8 @@ No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
         outputFile: outFile,
       )
       ..addExtension(
-        // ignore: experimental_member_use
         DoctorCodeAssetExtension(
           configs: [
-            // ignore: experimental_member_use
             DoctorCodeConfig(
               targetOS: OS.macOS,
               targetArchitecture: Architecture.arm64,
@@ -475,18 +474,15 @@ No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
                 archiver: fakeAr,
               ),
             ),
-            // ignore: experimental_member_use
             DoctorCodeConfig(
               targetOS: OS.iOS,
               targetArchitecture: Architecture.arm64,
-              // ignore: experimental_member_use
               iOS: DoctorIOSCodeConfig(targetSdk: IOSSdk.iPhoneOS),
             ),
           ],
         ),
       );
     final input = inputBuilder.build();
-    // ignore: experimental_member_use
     final configs = input.config.code!;
     expect(configs, hasLength(2));
     expect(configs[0].targetOS, OS.macOS);
@@ -498,7 +494,6 @@ No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
   });
 
   test('DoctorInput.config.code is null when not configured', () {
-    // ignore: experimental_member_use
     final inputBuilder = DoctorInputBuilder()
       ..setupDoctor(
         packageName: packageName,
@@ -506,7 +501,6 @@ No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
         outputFile: outFile,
       );
     final input = inputBuilder.build();
-    // ignore: experimental_member_use
     expect(input.config.code, isNull);
   });
 }

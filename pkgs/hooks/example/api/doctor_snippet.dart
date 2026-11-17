@@ -43,7 +43,6 @@ void main(List<String> args) async {
 
 // snippet-end
 
-/// Shared between `hook/doctor.dart` and `hook/build.dart`.
 Future<Uri?> findClang() async {
   final which = Platform.isWindows ? 'where.exe' : 'which';
   final result = await Process.run(which, ['clang']);

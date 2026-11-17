@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: experimental_member_use
+
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -65,34 +67,26 @@ void main() {
     final ext = _EmptyExtension();
     final buildInputBuilder = BuildInputBuilder();
     final linkInputBuilder = LinkInputBuilder();
-    // ignore: experimental_member_use
     final doctorInputBuilder = DoctorInputBuilder();
     ext.setupBuildInput(buildInputBuilder);
     ext.setupLinkInput(linkInputBuilder);
-    // ignore: experimental_member_use
     ext.setupDoctorInput(doctorInputBuilder);
-    // ignore: experimental_member_use
     expect(await ext.validateDoctorInput(doctorInputBuilder.build()), isEmpty);
     expect(await ext.validateApplicationAssets([]), isEmpty);
     expect(ext.outputFiles([]), isEmpty);
   });
 
   test('testDoctorHook', () async {
-    // ignore: experimental_member_use
     await testDoctorHook(
       mainMethod: (args) async {
-        // ignore: experimental_member_use
         await doctor(args, (input, output) async {
-          // ignore: experimental_member_use
           final targetOS = input.config.code!.single.targetOS.name;
           final customMsg = input.userDefines['custom_msg'] as String?;
           output.addValidation(
-            // ignore: experimental_member_use
             DoctorValidationResult(
               title: 'Doctor check (${input.packageName})',
               type: .success,
               statusInfo: 'OK ($targetOS)',
-              // ignore: experimental_member_use
               messages: [DoctorValidationMessage(customMsg ?? 'All good')],
             ),
           );
@@ -105,10 +99,8 @@ void main() {
         ),
       ),
       extensions: [
-        // ignore: experimental_member_use
         DoctorCodeAssetExtension(
           configs: [
-            // ignore: experimental_member_use
             DoctorCodeConfig(
               targetOS: OS.current,
               targetArchitecture: Architecture.current,
@@ -118,7 +110,6 @@ void main() {
       ],
       check: expectAsync2((input, output) {
         expect(output.validations, hasLength(1));
-        // ignore: experimental_member_use
         expect(output.validations.single.type, DoctorValidationType.success);
         expect(output.validations.single.statusInfo, 'OK (${OS.current.name})');
         expect(
@@ -131,10 +122,8 @@ void main() {
 
   test('testDoctorHook throws on output error', () async {
     late Uri outputFile;
-    // ignore: experimental_member_use
     final testResult = testDoctorHook(
       mainMethod: (args) async {
-        // ignore: experimental_member_use
         await doctor(args, (input, output) async {
           outputFile = input.outputFile;
         });

@@ -13,8 +13,6 @@ final _linuxPaths = {
 };
 
 /// Resolves `libsqlite3.so` in default system locations on Linux.
-///
-/// Shared between `hook/build.dart` and `hook/doctor.dart`.
 Uri? findLinuxLibsqlite3() {
   final knownPaths = _linuxPaths[Architecture.current]!;
   for (final knownPath in knownPaths) {
@@ -27,8 +25,6 @@ Uri? findLinuxLibsqlite3() {
 }
 
 /// Resolves `brew` on `PATH` on macOS.
-///
-/// Shared between `hook/build.dart` and `hook/doctor.dart`.
 Uri? findBrew() {
   final result = Process.runSync('which', ['brew']);
   if (result.exitCode != 0) {
@@ -39,8 +35,6 @@ Uri? findBrew() {
 }
 
 /// Resolves `libsqlite3.dylib` via Homebrew on macOS.
-///
-/// Shared between `hook/build.dart` and `hook/doctor.dart`.
 Uri? findMacOSLibsqlite3() {
   if (findBrew() == null) {
     return null;
