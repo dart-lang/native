@@ -6,6 +6,9 @@
 - Use minor and patch versions of Apple deployment targets from
   `package:code_assets` 2.2.0 when compiling native test utilities.
 
+- Added code generator support for C++ class pointers in struct fields (generating wrapper   
+    getters/setters) and global variables.
+    
 ## 23.0.0
 
 - The YAML configuration format is deprecated and will be removed in a future
