@@ -306,4 +306,8 @@ final class $JniFlutterPlugin$Type$ extends jni$_.JType<JniFlutterPlugin> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jni_flutter/JniFlutterPlugin;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jni_flutter/JniFlutterPlugin';
 }

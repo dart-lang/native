@@ -8,6 +8,9 @@
 - Added `ObjCMethod.isProperty` to the visitor API. Set it to `false` to
   generate an Objective-C property as plain methods.
   ([#1711](https://github.com/dart-lang/native/issues/1711))
+- Generate a [non-throwing `fromValueOrNull`](https://github.com/dart-lang/native/issues/3712)
+  method on Dart enums, which returns `null` for unknown values. `fromValue`
+  now delegates to it, and still throws an `ArgumentError`.
 
 ## 23.0.0
 

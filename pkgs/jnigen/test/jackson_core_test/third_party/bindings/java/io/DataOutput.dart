@@ -69,4 +69,8 @@ final class $DataOutput$Type$ extends jni$_.JType<DataOutput> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/DataOutput;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/io/DataOutput';
 }

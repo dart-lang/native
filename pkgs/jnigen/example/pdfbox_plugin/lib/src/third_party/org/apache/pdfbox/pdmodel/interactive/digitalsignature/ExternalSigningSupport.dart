@@ -74,4 +74,9 @@ final class $ExternalSigningSupport$Type$
   @core$_.override
   String get signature =>
       r'Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/ExternalSigningSupport;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'org/apache/pdfbox/pdmodel/interactive/digitalsignature/ExternalSigningSupport';
 }
