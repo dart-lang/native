@@ -69,4 +69,8 @@ final class $File$Type$ extends jni$_.JType<File> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/File;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/io/File';
 }

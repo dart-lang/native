@@ -155,6 +155,10 @@ final class $A$Type$ extends jni$_.JType<A> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/A;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/example/A';
 }
 
 /// from: `com.example.C`
@@ -194,6 +198,10 @@ final class $C$Type$ extends jni$_.JType<C> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/C;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/example/C';
 }
 
 /// from: `com.example.B`
@@ -212,6 +220,10 @@ final class $B$Type$ extends jni$_.JType<B> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/B;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/example/B';
 }
 
 /// from: `com.example.D`
@@ -230,4 +242,8 @@ final class $D$Type$ extends jni$_.JType<D> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/D;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/example/D';
 }
