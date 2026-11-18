@@ -98,7 +98,7 @@ void main() {
 
       observed.totalUnitCount = 456;
       expect(values, [123]);
-    });
+    }, skip: !canDoGC);
 
     test('observer and observed kept alive by observation', () async {
       await using((arena) async {
@@ -161,7 +161,7 @@ void main() {
         expect(observedTracker.isAlive, false);
         expect(observerTracker.isAlive, false);
       });
-    });
+    }, skip: !canDoGC);
 
     test('remove method drops references', () async {
       await using((arena) async {
@@ -213,6 +213,6 @@ void main() {
         // Force observation to stay in scope.
         expect(observation, isNotNull);
       });
-    });
+    }, skip: !canDoGC);
   });
 }

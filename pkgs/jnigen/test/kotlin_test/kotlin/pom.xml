@@ -16,6 +16,7 @@
         <main.class>com.github.dart_lang.jnigen.SuspendFun</main.class>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
         <kotlin.version>2.4.0</kotlin.version>
+        <build.dir>${project.basedir}/target</build.dir>
     </properties>
 
     <repositories>
@@ -26,6 +27,7 @@
     </repositories>
 
     <build>
+        <directory>${build.dir}</directory>
         <finalName>kotlin_test</finalName>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>

@@ -160,6 +160,21 @@ class Animal implements ffi.Finalizable {
     return _Animal_sum(a, b);
   }
 
+  Animal copyAndAddAge(Animal other) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return Animal.fromPointer(
+      _Animal_copyAndAddAge(_ptr, other._ptr),
+      takeOwnership: true,
+    );
+  }
+
+  static bool haveSameAge(Animal a, Animal b) {
+    return _Animal_haveSameAge(a._ptr, b._ptr);
+  }
+
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
@@ -222,6 +237,22 @@ external int _Animal_addAges(
 
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>(symbol: 'Animal_sum')
 external int _Animal_sum(int a, int b);
+
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)
+>(symbol: 'Animal_copyAndAddAge')
+external ffi.Pointer<ffi.Void> _Animal_copyAndAddAge(
+  ffi.Pointer<ffi.Void> self,
+  ffi.Pointer<ffi.Void> other,
+);
+
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: 'Animal_haveSameAge',
+)
+external bool _Animal_haveSameAge(
+  ffi.Pointer<ffi.Void> a,
+  ffi.Pointer<ffi.Void> b,
+);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
 external void _Animal_delete(ffi.Pointer<ffi.Void> self);

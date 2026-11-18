@@ -36,9 +36,13 @@ FFI_EXPORT intptr_t DOBJC_initializeApi(void *data);
 // Dispose helper for ObjC blocks that wrap a Dart closure.
 FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl *block);
 
-// Returns whether the block is valid and live. The pointer must point to
-// readable memory, or be null. May (rarely) return false positives.
+// Returns whether the block is valid and live. May (rarely) return false
+// positives.
 FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl *block);
+
+// Returns whether the object is valid and live. May (rarely) return false
+// positives.
+FFI_EXPORT bool DOBJC_isValidObject(ObjCObjectImpl *object);
 
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.

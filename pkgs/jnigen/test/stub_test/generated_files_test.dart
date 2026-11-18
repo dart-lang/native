@@ -10,6 +10,6 @@ void main() async {
 
   generateAndCompare(
     'Generate and compare bindings for stub_test',
-    getConfig(),
+    getConfig,
   );
 }

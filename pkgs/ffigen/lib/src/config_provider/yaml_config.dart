@@ -1227,15 +1227,14 @@ final class YamlConfig {
   }
 
   FfiGenerator configAdapter() {
-    ImportedType? importType(Declaration decl) {
-      if (decl.usr.isNotEmpty) {
-        final importedByUsr = usrTypeMappings[decl.usr];
-        if (importedByUsr != null) return importedByUsr;
-      }
-      return typedefTypeMappings[decl.originalName] ??
+    public_ast.ImportedType? importType(Declaration decl) {
+      final imported =
+          (decl.usr.isNotEmpty ? usrTypeMappings[decl.usr] : null) ??
+          typedefTypeMappings[decl.originalName] ??
           structTypeMappings[decl.originalName] ??
           unionTypeMappings[decl.originalName] ??
           nativeTypeMappings[decl.originalName];
+      return imported?.toPublic;
     }
 
     return FfiGenerator(

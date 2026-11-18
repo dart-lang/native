@@ -44,5 +44,7 @@ class Observation {
   /// Stops the [Observer] object from receiving change notifications.
   void remove() => _observation.remove();
 
+  /// The raw pointer to the underlying Objective-C observer object, for
+  /// debugging and testing.
   Pointer<Void> get debugObserver => _observation.debugObserver();
 }

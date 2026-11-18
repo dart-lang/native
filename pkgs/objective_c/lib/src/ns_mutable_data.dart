@@ -46,6 +46,8 @@ extension NSMutableDataListExtension on List<int> {
   /// Return a [NSMutableData] containing the contents of the [List] interpreted
   /// as bytes.
   ///
+  /// Copies the bytes from the Dart heap into native memory.
+  ///
   /// The elements of the [List] should be integers in the range 0 to 255. Any
   /// integer, which is not in that range, is converted to a byte as if by
   /// `value.toUnsigned(8)`.

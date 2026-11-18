@@ -11,10 +11,13 @@ import 'package:path/path.dart';
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 
+/// Tooling utilities for resolving and downloading Gradle and Maven
+/// dependencies.
 class GradleTools {
+  /// Current working directory.
   static final currentDir = Directory('.');
 
-  // Maven Central root location
+  /// Maven Central root location.
   static String repoLocation = 'https://repo1.maven.org/maven2';
 
   /// Helper method since we can't pass inheritStdio option to [Process.run].
@@ -29,6 +32,7 @@ class GradleTools {
     return proc.exitCode;
   }
 
+  /// Returns the URI to the Gradle wrapper executable for the current platform.
   static Future<Uri?> getGradleWExecutable() async {
     final pkg = await findPackageRoot('jnigen');
     if (Platform.isLinux || Platform.isMacOS) {
@@ -80,6 +84,7 @@ class GradleTools {
     await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
 
+  /// Creates a minimal stub Java project in [rootTempDir] for Gradle builds.
   static Future<void> createStubProject(Directory rootTempDir) async {
     final sourceDir = await Directory(join(rootTempDir.path, 'src/main/java/'))
         .create(recursive: true);
@@ -168,6 +173,8 @@ class MavenDependency {
   MavenDependency(this.groupID, this.artifactID, this.version,
       {this.otherTags = const {}});
 
+  /// Parses a Maven dependency coordinate in `groupID:artifactID:version`
+  /// format.
   factory MavenDependency.fromString(String fullName) {
     final components = fullName.split(':');
     if (components.length != 3) {
@@ -176,24 +183,38 @@ class MavenDependency {
     return MavenDependency(components[0], components[1], components[2]);
   }
 
-  String groupID, artifactID, version;
+  /// Maven group ID.
+  String groupID;
+
+  /// Maven artifact ID.
+  String artifactID;
+
+  /// Maven version.
+  String version;
+
+  /// Additional metadata tags for this dependency.
   Map<String, String> otherTags;
 
+  /// URL for browsing Javadoc documentation on javadoc.io.
   String get javadocUrl =>
       'https://javadoc.io/doc/$groupID/$artifactID/$version';
 
+  /// URL for direct static Javadoc documentation on javadoc.io.
   String get staticJavadocUrl =>
       'https://javadoc.io/static/$groupID/$artifactID/$version';
 
+  /// Generates a Gradle dependency declaration string for [configuration].
   String toGradleDependency(String configuration) {
     return '$configuration("$groupID:$artifactID:$version")';
   }
 
+  /// Returns the JAR filename for this dependency.
   String filename({bool isSource = true}) {
     final extension = isSource ? '-sources.jar' : '.jar';
     return '$artifactID-$version$extension';
   }
 
+  /// Resolves the full URL to the dependency artifact under [repoLocation].
   String toURLString(String repoLocation) {
     final parts = <String>[repoLocation];
     parts.addAll(groupID.split('.'));

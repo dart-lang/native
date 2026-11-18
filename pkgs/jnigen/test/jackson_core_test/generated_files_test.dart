@@ -13,7 +13,7 @@ void main() async {
 
   generateAndCompare(
     'Generate and compare bindings for jackson_core library',
-    getConfig(),
+    getConfig,
   );
   test(
       'generate and analyze bindings for complete library, '

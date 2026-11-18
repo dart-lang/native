@@ -145,6 +145,8 @@ extension type $arrayName._(JObject _\$this) implements JObject {
     Jni.env.Set${typeName}ArrayElement(reference.pointer, index, value);
   }
 
+  /// Returns a copy of the range of elements from [start] to [end] as a
+  /// [${type.nativeDartListType}].
   ${type.nativeDartListType} getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
@@ -154,6 +156,8 @@ extension type $arrayName._(JObject _\$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
+  /// Copies the elements of [iterable], skipping [skipCount] elements first,
+  /// into this array in the range [start] to [end].
   void setRange(int start, int end, Iterable<${type.dartType}> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);

@@ -68,6 +68,18 @@ File _fileInDir(Directory path, String filename) {
   return path.fileSystem.file('$dirPath$separator$filename');
 }
 
+const int _linuxEagain = 11;
+const int _posixEacces = 13;
+const int _macOSEagain = 35;
+const int _windowsSharingViolation = 32;
+const int _windowsLockViolation = 33;
+
+const _contentionErrorCodes = <String, Set<int>>{
+  'linux': {_linuxEagain, _posixEacces},
+  'macos': {_macOSEagain, _posixEacces},
+  'windows': {_windowsSharingViolation, _windowsLockViolation},
+};
+
 /// Run [callback] with this Dart process having exclusive access to [file].
 ///
 /// Note multiple isolates and isolate groups in the same Dart process share
@@ -86,43 +98,54 @@ Future<T> _runUnderFileLock<T>(
 }) async {
   if (!await file.exists()) await file.create(recursive: true);
   final randomAccessFile = await file.open(mode: .write);
-  var printed = false;
-  var errorFromCallback = false;
-  final stopwatch = Stopwatch()..start();
-  while (timeout == null || stopwatch.elapsed < timeout) {
-    try {
-      await randomAccessFile.lock(FileLock.exclusive);
+  try {
+    var printed = false;
+    final stopwatch = Stopwatch()..start();
+    while (timeout == null || stopwatch.elapsed < timeout) {
+      try {
+        await randomAccessFile.lock(FileLock.exclusive);
+      } on FileSystemException catch (e) {
+        final errorCode = e.osError?.errorCode;
+        final contentionErrorCodes =
+            _contentionErrorCodes[Platform.operatingSystem];
+        if (errorCode != null &&
+            contentionErrorCodes != null &&
+            !contentionErrorCodes.contains(errorCode)) {
+          final message =
+              'Could not acquire the lock to ${file.path}: ${e.osError}. '
+              'The file system containing this project does not appear to '
+              'support file locking (e.g. network shares like SMB or NFS). '
+              'Build hooks require file locking. '
+              'Please move the project to a local file system.';
+          logger?.severe(message);
+          throw FileSystemException(message, file.path, e.osError);
+        }
+        if (!printed) {
+          logger?.finer(
+            'Waiting to be able to obtain lock of directory: ${file.path}.',
+          );
+          printed = true;
+        }
+        // Don't busy wait, give the CPU some rest.
+        // Magic constant taken from flutter_tools for startup lock.
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        continue;
+      }
       try {
         await randomAccessFile.writeString(
           'Last acquired by ${Platform.resolvedExecutable} '
           '(pid $pid) running ${Platform.script} on ${DateTime.now()}.',
         );
-        try {
-          return await callback();
-        } on FileSystemException {
-          errorFromCallback = true;
-          rethrow;
-        }
+        return await callback();
       } finally {
         await randomAccessFile.unlock();
       }
-    } on FileSystemException {
-      if (errorFromCallback) {
-        rethrow;
-      }
-      if (!printed) {
-        logger?.finer(
-          'Waiting to be able to obtain lock of directory: ${file.path}.',
-        );
-        printed = true;
-      }
-      // Don't busy wait, give the CPU some rest.
-      // Magic constant taken from flutter_tools for startup lock.
-      await Future<void>.delayed(const Duration(milliseconds: 50));
     }
-  }
 
-  final message = 'Could not acquire the lock to ${file.path}.';
-  logger?.severe(message);
-  throw TimeoutException(message, timeout);
+    final message = 'Could not acquire the lock to ${file.path}.';
+    logger?.severe(message);
+    throw TimeoutException(message, timeout);
+  } finally {
+    await randomAccessFile.close();
+  }
 }

@@ -45,6 +45,10 @@ final class $JClass$Type$ extends JType<JClass> {
 
   @override
   String get signature => r'Ljava/lang/Class;';
+
+  @internal
+  @override
+  String get className => r'java/lang/Class';
 }
 
 /// A thin wrapper over a [JFieldIDPtr] of an instance field.
@@ -65,29 +69,29 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
 
   DartT get<JavaT, DartT>(JObject object, JAccessible<JavaT, DartT> type) {
     final objectRef = object.reference;
-    return type._instanceGet(objectRef.pointer, pointer);
+    return type._instanceGet(objectRef.nonNullPointer, pointer);
   }
 
   DartT? getNullable<JavaT, DartT>(
       JObject object, JAccessible<JavaT, DartT> type) {
     final objectRef = object.reference;
-    return type._instanceGetNullable(objectRef.pointer, pointer);
+    return type._instanceGetNullable(objectRef.nonNullPointer, pointer);
   }
 
   void set<JavaT, DartT>(
       JObject object, JAccessible<JavaT, DartT> type, DartT value) {
     final objectRef = object.reference;
-    type._instanceSet(objectRef.pointer, pointer, value);
+    type._instanceSet(objectRef.nonNullPointer, pointer, value);
   }
 }
 
-/// A thin wrapper over a [JFieldIDPtr] of an static field.
+/// A thin wrapper over a [JFieldIDPtr] of a static field.
 extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   JStaticFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) {
           final jClassRef = jClass.reference;
           final ptr = Jni.env.GetStaticFieldID(
-            jClassRef.pointer,
+            jClassRef.nonNullPointer,
             name.toNativeChars(arena),
             signature.toNativeChars(arena),
           );
@@ -99,19 +103,19 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
 
   DartT get<JavaT, DartT>(JClass jClass, JAccessible<JavaT, DartT> type) {
     final jClassRef = jClass.reference;
-    return type._staticGet(jClassRef.pointer, pointer);
+    return type._staticGet(jClassRef.nonNullPointer, pointer);
   }
 
   DartT? getNullable<JavaT, DartT>(
       JClass jClass, JAccessible<JavaT, DartT> type) {
     final jClassRef = jClass.reference;
-    return type._staticGetNullable(jClassRef.pointer, pointer);
+    return type._staticGetNullable(jClassRef.nonNullPointer, pointer);
   }
 
   void set<JavaT, DartT>(
       JObject object, JAccessible<JavaT, DartT> type, DartT value) {
     final objectRef = object.reference;
-    type._staticSet(objectRef.pointer, pointer, value);
+    type._staticSet(objectRef.nonNullPointer, pointer, value);
   }
 }
 
@@ -163,7 +167,7 @@ class JInstanceMethodId {
   }
 }
 
-/// A thin wrapper over a [JMethodIDPtr] of a static mehtod.
+/// A thin wrapper over a [JMethodIDPtr] of a static method.
 extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
   JStaticMethodId._(
     JClass jClass,

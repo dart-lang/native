@@ -4,13 +4,14 @@
 
 import 'package:code_assets/code_assets.dart';
 
-import '../helpers.dart';
 import 'objects_helper.dart';
 
 void main() {
   runObjectsTests(
     OS.current,
     [Architecture.current],
-    macOSTargetVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
+    macOSTargetVersion: OS.current == OS.macOS
+        ? AppleVersion(14, minor: 4, patch: 1)
+        : null,
   );
 }

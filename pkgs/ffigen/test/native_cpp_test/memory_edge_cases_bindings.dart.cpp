@@ -69,6 +69,18 @@ FFIGEN_EXPORT int NodeManager_consumeNode(NodeManager* self, Node* node) {
   return self->consumeNode(std::unique_ptr<Node>(node));
 }
 
+FFIGEN_EXPORT int NodeManager_passNodeByValue(NodeManager* self, Node* node) {
+  return self->passNodeByValue(*node);
+}
+
+FFIGEN_EXPORT Node* NodeManager_returnNodeByValue(NodeManager* self, int value, int * destructorCounter) {
+  return new Node(self->returnNodeByValue(value, destructorCounter));
+}
+
+FFIGEN_EXPORT Node* NodeManager_passAndReturnNode(NodeManager* self, Node* node) {
+  return new Node(self->passAndReturnNode(*node));
+}
+
 FFIGEN_EXPORT void NodeManager_delete(NodeManager* self) {
   delete self;
 }

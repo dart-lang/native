@@ -4,14 +4,18 @@
 
 // dart format width=74
 
-// ignore_for_file: avoid_dynamic_calls, avoid_print, undefined_method
-// ignore_for_file: non_constant_identifier_names, unused_local_variable
-
 import 'package:jni/jni.dart';
 
-dynamic Foo;
+extension type Foo(JObject _) implements JObject {
+  static void implementIn(JImplementer implementer, dynamic impl) {}
+}
+
 dynamic fooImpl;
-dynamic Bar;
+
+extension type Bar(JObject _) implements JObject {
+  static void implementIn(JImplementer implementer, dynamic impl) {}
+}
+
 dynamic barImpl;
 
 void main() {
@@ -19,6 +23,7 @@ void main() {
   final implementer = JImplementer();
   Foo.implementIn(implementer, fooImpl);
   Bar.implementIn(implementer, barImpl);
-  final foobar = implementer.build(Foo.type); // Or `Bar.type`.
+  final foobar = implementer.implement<Foo>(); // Or Bar.
   // snippet-end
+  print(foobar);
 }

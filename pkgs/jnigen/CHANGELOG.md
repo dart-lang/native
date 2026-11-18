@@ -1,4 +1,13 @@
-## 1.0.1-wip
+## 1.1.0-wip
+
+- Generate `className` overrides for Java class bindings to support the
+  updated `JType` API.
+- Add `dumpApi` utility and `ApiDumperVisitor` to dump parsed Java AST.
+- Emit defensive null checks on instance method receiver objects before
+  crossing into JNI.
+- Bump required `package:jni` version to `1.2`.
+
+## 1.0.1
 
 - The YAML configuration format is deprecated and will be removed in a future release.
 - Report an empty entry under `classes` in the config file as a config error

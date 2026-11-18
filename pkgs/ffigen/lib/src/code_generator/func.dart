@@ -313,16 +313,22 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
     final context = w.context;
     final parameters = functionType.dartTypeParameters;
     final params = parameters
-        .map((p) => p.type.getNativeType(context, varName: p.name).trim())
+        .map((p) => p.type.getExternCType(context, varName: p.name).trim())
         .join(', ');
-    final callArgs = parameters.map(cppCallArg).join(', ');
+    final callArgs = parameters
+        .map((p) => p.type.convertExternCTypeToNativeType(context, p.name))
+        .join(', ');
     final returnType = functionType.returnType;
-    final returnTypeString = returnType.getNativeType(context).trim();
-    final returnPrefix = returnType == voidType ? '' : 'return ';
-    final suffix = returnType is CppUniquePtrType ? '.release()' : '';
+    final returnTypeString = returnType.getExternCType(context).trim();
+    final callExpr = '$originalName($callArgs)';
+    final returnExpr = returnType.convertNativeTypeToExternCType(
+      context,
+      callExpr,
+    );
+    final body = returnType == voidType ? '$callExpr;' : 'return $returnExpr;';
     return '''
 FFIGEN_EXPORT $returnTypeString $cppWrapperName($params) {
-  $returnPrefix$originalName($callArgs)$suffix;
+  $body
 }
 
 ''';

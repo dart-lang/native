@@ -97,10 +97,8 @@ extension SwiftGenGenerator on SwiftGenerator {
       ],
       input: fg.Input(
         entryPoints: [Uri.file(objcHeader)],
-        compilerOptions: [
-          ...fg.defaultCompilerOpts(logger),
-          '-Wno-nullability-completeness',
-        ],
+        compilerOptions: ['-Wno-nullability-completeness'],
+        appendCompilerOptions: true,
       ),
     );
     await generator.generate(logger: logger);

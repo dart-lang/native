@@ -12,7 +12,5 @@ export 'src/build_runner/failure.dart' show HooksRunnerFailure;
 export 'src/build_runner/record_use_config.dart' show RecordUseConfig;
 export 'src/build_runner/result.dart' show Failure, Result, Success;
 export 'src/model/build_result.dart' show BuildResult;
-export 'src/model/kernel_assets.dart';
 export 'src/model/link_result.dart' show LinkResult;
-export 'src/model/target.dart';
 export 'src/package_layout/package_layout.dart' show PackageLayout;

@@ -76,6 +76,12 @@ external void invokeListenerPortBlock(int port, ffi.Pointer<ffi.Void> args);
 )
 external bool isValidBlock(ffi.Pointer<ObjCBlockImpl> block);
 
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'DOBJC_isValidObject',
+  isLeaf: true,
+)
+external bool isValidObject(ffi.Pointer<ObjCObjectImpl> object);
+
 @ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>(
   symbol: 'DOBJC_newFinalizableBool',
 )

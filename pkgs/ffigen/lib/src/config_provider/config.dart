@@ -7,7 +7,6 @@ import 'dart:ffi';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-import '../code_generator.dart';
 import '../ffigen.dart';
 import 'config_types.dart';
 import 'public_ast.dart';
@@ -166,6 +165,16 @@ final class FfiGenerator {
       this,
     ).generate(logger: logger, libclangDylib: libclangDylib);
   }
+
+  /// Parses the headers according to this config and dumps all user-visible
+  /// AST nodes.
+  ///
+  /// Returns the formatted dump string.
+  Future<String> dumpApi({Logger? logger, Uri? libclangDylib}) {
+    return FfiGenGenerator(
+      this,
+    ).dumpApi(logger: logger, libclangDylib: libclangDylib);
+  }
 }
 
 /// The configuration for header parsing of [FfiGenerator].
@@ -189,7 +198,7 @@ final class Input {
   /// options, instead of replacing them.
   final bool appendCompilerOptions;
 
-  /// Where to ignore compiler warnings/errors in source header files.
+  /// Whether to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
 
   const Input({
@@ -260,8 +269,6 @@ final class Output {
   /// generated, this file must be compiled by a build hook.
   final Uri? objectiveCFile;
 
-  Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
-
   /// The output Cpp file for the generated Cpp class bindings.
   ///
   /// Defaults to the [dart] output path with a `.cpp` extension.
@@ -269,9 +276,6 @@ final class Output {
   /// This file is generated only when necessary for C++ interop. If generated,
   /// this file must be compiled by a build hook.
   final Uri? cppFile;
-
-  Uri get cppBindingsFile =>
-      cppFile ?? Uri.file('${dart.path.toFilePath()}.cpp');
 
   /// The configuration for generating a symbol file.
   ///
@@ -331,7 +335,7 @@ final class NativeExternalBindings implements BindingStyle {
 /// Generate bindings which take a [DynamicLibrary] or [DynamicLibrary.lookup]
 /// parameter.
 ///
-/// Generates a wrapper class which takes takes a [DynamicLibrary] or lookup
+/// Generates a wrapper class which takes a [DynamicLibrary] or lookup
 /// function in its constructor.
 ///
 /// To generate static bindings use [NativeExternalBindings].
@@ -346,4 +350,13 @@ final class DynamicLibraryBindings implements BindingStyle {
     this.wrapperName = 'NativeLibrary',
     this.wrapperDocComment,
   });
+}
+
+/// Internal extensions on [Output] for resolving output paths.
+@internal
+extension OutputInternal on Output {
+  Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
+
+  Uri get cppBindingsFile =>
+      cppFile ?? Uri.file('${dart.path.toFilePath()}.cpp');
 }

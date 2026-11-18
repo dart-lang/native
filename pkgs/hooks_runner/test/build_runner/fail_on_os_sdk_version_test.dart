@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_assets/code_assets.dart';
-import 'package:hooks_runner/src/model/target.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
@@ -17,9 +16,9 @@ const minNdkApiVersionForThisPackage = 28;
 const minIosVersionForThisPackage = 16;
 const minMacOSVersionForThisPackage = 13;
 
-final List<(Target, List<(int sdkVersion, bool success)>)> osInput = [
+final List<(OS, List<(int sdkVersion, bool success)>)> osInput = [
   (
-    Target.androidArm64,
+    OS.android,
     [
       (minNdkApiVersionForThisPackage, true),
       (minNdkApiVersionForThisPackage - 1, false),
@@ -27,14 +26,14 @@ final List<(Target, List<(int sdkVersion, bool success)>)> osInput = [
   ),
   if (OS.current == OS.macOS) ...[
     (
-      Target.macOSArm64,
+      OS.macOS,
       [
         (minMacOSVersionForThisPackage, true),
         (minMacOSVersionForThisPackage - 1, false),
       ],
     ),
     (
-      Target.iOSArm64,
+      OS.iOS,
       [
         (minIosVersionForThisPackage, true),
         (minIosVersionForThisPackage - 1, false),
@@ -49,12 +48,12 @@ final List<(String hook, String testPath)> hooks = [
 ];
 
 void main() async {
-  for (final (target, versions) in osInput) {
+  for (final (targetOS, versions) in osInput) {
     for (final (version, success) in versions) {
       final statusString = success ? 'succeed' : 'fail';
       for (final (hook, packagePath) in hooks) {
         test(
-          '$statusString $hook for $target sdk version',
+          '$statusString $hook for $targetOS sdk version',
           timeout: longTimeout,
           () async {
             await inTempDir((tempUri) async {
@@ -66,11 +65,12 @@ void main() async {
               {
                 final logMessages = <String>[];
                 final (buildResult, linkResult) = await buildAndLink(
-                  target: target,
-                  targetIOSSdk: (target.os == OS.iOS) ? IOSSdk.iPhoneOS : null,
-                  targetIOSVersion: (target.os == OS.iOS) ? version : null,
-                  targetMacOSVersion: (target.os == OS.macOS) ? version : null,
-                  targetAndroidNdkApi: (target.os == OS.android)
+                  targetOS: targetOS,
+                  targetArchitecture: Architecture.arm64,
+                  targetIOSSdk: (targetOS == OS.iOS) ? IOSSdk.iPhoneOS : null,
+                  targetIOSVersion: (targetOS == OS.iOS) ? version : null,
+                  targetMacOSVersion: (targetOS == OS.macOS) ? version : null,
+                  targetAndroidNdkApi: (targetOS == OS.android)
                       ? version
                       : null,
                   packageUri,

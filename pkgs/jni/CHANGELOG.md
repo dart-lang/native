@@ -1,6 +1,23 @@
-## 1.1.0-wip
+## 1.2.0-wip
+
+- Add nullable `JType.className` for Java class names, using JNI signatures
+  for array class lookups.
+- Add defensive null checks on method receiver objects and field targets to
+  prevent native segfaults in Java.
+
+## 1.1.2
+
+- Fix segfault when throwing `UseAfterReleaseError` or `DoubleReleaseError` in
+  release builds (without asserts enabled).
+
+## 1.1.1
+
+- Add ProGuard consumer rules for Kotlin classes used by suspend functions.
+
+## 1.1.0
 
 - Add deep conversion utilities for converting between Dart values and Java.
+- Documentation updates.
 
 ## 1.0.3
 

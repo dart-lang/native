@@ -186,9 +186,14 @@ extension LinkerOptionsExt on LinkerOptions {
     '/link',
     if (_keepAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
     ..._linkerFlags,
-    ..._symbols.map(
-      (symbol) => '/INCLUDE:${targetArch == .ia32 ? '_' : ''}$symbol',
-    ),
+    // The generated module-definition file exports, and therefore keeps, all
+    // symbols. Passing an `/INCLUDE:` per symbol as well is redundant, and for
+    // thousands of symbols exceeds the 32,767 character command-line limit of
+    // Windows.
+    if (_linkerScriptMode is! GenerateLinkerScript)
+      ..._symbols.map(
+        (symbol) => '/INCLUDE:${targetArch == .ia32 ? '_' : ''}$symbol',
+      ),
     if (_linkerScriptMode is ManualLinkerScript)
       '/DEF:${_linkerScriptMode.script.toFilePath()}'
     else if (_linkerScriptMode is GenerateLinkerScript)
@@ -239,11 +244,9 @@ extension LinkerOptionsExt on LinkerOptions {
     final tempDir = fileSystem.systemTempDirectory.createTempSync();
     final symbolsFileUri = tempDir.uri.resolve('symbols.def');
     final symbolsFile = fileSystem.file(symbolsFileUri)..createSync();
-    symbolsFile.writeAsStringSync('''
-LIBRARY MyDLL
-EXPORTS
-${symbols.map((s) => '    $s').join('\n')}      
-''');
+    symbolsFile.writeAsStringSync(
+      ['EXPORTS', for (final symbol in symbols) '    $symbol', ''].join('\n'),
+    );
     return symbolsFileUri.toFilePath();
   }
 }

@@ -73,13 +73,14 @@ Future<Result<BuildResult, HooksRunnerFailure>> build(
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
-  Target? target,
+  OS? targetOS,
+  Architecture? targetArchitecture,
   bool linkingEnabled = false,
   required List<BuildAssetType> buildAssetTypes,
   Map<String, String>? hookEnvironment,
   UserDefines? userDefines,
 }) async {
-  final targetOS = target?.os ?? OS.current;
+  targetOS ??= OS.current;
   final runPackageName_ =
       runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   final packageLayout = await PackageLayout.fromWorkingDirectory(
@@ -101,21 +102,21 @@ Future<Result<BuildResult, HooksRunnerFailure>> build(
           extensions: [
             if (buildAssetTypes.contains(BuildAssetType.code))
               CodeAssetExtension(
-                targetArchitecture:
-                    target?.architecture ?? Architecture.current,
-                targetOS: targetOS,
+                targetArchitecture: targetArchitecture ?? Architecture.current,
+                targetOS: targetOS!,
                 linkModePreference: linkModePreference,
                 cCompiler: cCompiler ?? dartCICompilerConfig,
                 iOS: targetOS == OS.iOS
                     ? IOSCodeConfig(
                         targetSdk: targetIOSSdk!,
-                        targetVersion: targetIOSVersion!,
+                        deploymentVersion: AppleVersion(targetIOSVersion!),
                       )
                     : null,
                 macOS: targetOS == OS.macOS
                     ? MacOSCodeConfig(
-                        targetVersion:
-                            targetMacOSVersion ?? defaultMacOSVersion,
+                        deploymentVersion: AppleVersion(
+                          targetMacOSVersion ?? defaultMacOSVersion,
+                        ),
                       )
                     : null,
                 android: targetOS == OS.android
@@ -155,10 +156,11 @@ Future<Result<LinkResult, HooksRunnerFailure>> link(
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
-  Target? target,
+  OS? targetOS,
+  Architecture? targetArchitecture,
   required List<BuildAssetType> buildAssetTypes,
 }) async {
-  final targetOS = target?.os ?? OS.current;
+  targetOS ??= OS.current;
   final runPackageName_ =
       runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   final packageLayout = await PackageLayout.fromWorkingDirectory(
@@ -178,21 +180,21 @@ Future<Result<LinkResult, HooksRunnerFailure>> link(
           extensions: [
             if (buildAssetTypes.contains(BuildAssetType.code))
               CodeAssetExtension(
-                targetArchitecture:
-                    target?.architecture ?? Architecture.current,
-                targetOS: target?.os ?? OS.current,
+                targetArchitecture: targetArchitecture ?? Architecture.current,
+                targetOS: targetOS!,
                 linkModePreference: linkModePreference,
                 cCompiler: cCompiler ?? dartCICompilerConfig,
                 iOS: targetOS == OS.iOS
                     ? IOSCodeConfig(
                         targetSdk: targetIOSSdk!,
-                        targetVersion: targetIOSVersion!,
+                        deploymentVersion: AppleVersion(targetIOSVersion!),
                       )
                     : null,
                 macOS: targetOS == OS.macOS
                     ? MacOSCodeConfig(
-                        targetVersion:
-                            targetMacOSVersion ?? defaultMacOSVersion,
+                        deploymentVersion: AppleVersion(
+                          targetMacOSVersion ?? defaultMacOSVersion,
+                        ),
                       )
                     : null,
                 android: targetOS == OS.android
@@ -227,7 +229,8 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   int? targetIOSVersion,
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
-  Target? target,
+  OS? targetOS,
+  Architecture? targetArchitecture,
   RecordUseConfig? recordUse,
   required List<BuildAssetType> buildAssetTypes,
 }) async => await runWithLog(capturedLogs, () async {
@@ -245,24 +248,26 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
     fileSystem: const LocalFileSystem(),
     packageLayout: packageLayout,
   );
-  final targetOS = target?.os ?? OS.current;
+  targetOS ??= OS.current;
   final buildResult = await buildRunner.build(
     extensions: [
       if (buildAssetTypes.contains(BuildAssetType.code))
         CodeAssetExtension(
-          targetArchitecture: target?.architecture ?? Architecture.current,
-          targetOS: target?.os ?? OS.current,
+          targetArchitecture: targetArchitecture ?? Architecture.current,
+          targetOS: targetOS!,
           linkModePreference: linkModePreference,
           cCompiler: cCompiler ?? dartCICompilerConfig,
           iOS: targetOS == OS.iOS
               ? IOSCodeConfig(
                   targetSdk: targetIOSSdk!,
-                  targetVersion: targetIOSVersion!,
+                  deploymentVersion: AppleVersion(targetIOSVersion!),
                 )
               : null,
           macOS: targetOS == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                  deploymentVersion: AppleVersion(
+                    targetMacOSVersion ?? defaultMacOSVersion,
+                  ),
                 )
               : null,
           android: targetOS == OS.android
@@ -286,19 +291,21 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
     extensions: [
       if (buildAssetTypes.contains(BuildAssetType.code))
         CodeAssetExtension(
-          targetArchitecture: target?.architecture ?? Architecture.current,
-          targetOS: target?.os ?? OS.current,
+          targetArchitecture: targetArchitecture ?? Architecture.current,
+          targetOS: targetOS!,
           linkModePreference: linkModePreference,
           cCompiler: cCompiler ?? dartCICompilerConfig,
           iOS: targetOS == OS.iOS
               ? IOSCodeConfig(
                   targetSdk: targetIOSSdk!,
-                  targetVersion: targetIOSVersion!,
+                  deploymentVersion: AppleVersion(targetIOSVersion!),
                 )
               : null,
           macOS: targetOS == OS.macOS
               ? MacOSCodeConfig(
-                  targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                  deploymentVersion: AppleVersion(
+                    targetMacOSVersion ?? defaultMacOSVersion,
+                  ),
                 )
               : null,
           android: targetOS == OS.android

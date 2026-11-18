@@ -47,7 +47,9 @@ void main() {
           linkModePreference: LinkModePreference.dynamic,
           cCompiler: cCompiler,
           macOS: OS.current == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              ? MacOSCodeConfig(
+                  deploymentVersion: defaultMacOSVersion,
+                )
               : null,
         ),
       );
@@ -90,7 +92,9 @@ void main() {
           linkModePreference: LinkModePreference.dynamic,
           cCompiler: cCompiler,
           macOS: OS.current == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              ? MacOSCodeConfig(
+                  deploymentVersion: defaultMacOSVersion,
+                )
               : null,
         ),
       );
@@ -149,7 +153,9 @@ void main() {
           linkModePreference: LinkModePreference.dynamic,
           cCompiler: cCompiler,
           macOS: OS.current == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              ? MacOSCodeConfig(
+                  deploymentVersion: defaultMacOSVersion,
+                )
               : null,
         ),
       );

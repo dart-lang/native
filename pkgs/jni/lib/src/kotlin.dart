@@ -10,6 +10,10 @@ import 'jni.dart';
 import 'jobject.dart';
 import 'types.dart';
 
+// Any Kotlin classes, methods, or fields looked up by name in this file must
+// also be kept in `pkgs/jni/android/consumer-rules.pro` so they are not
+// renamed or stripped by R8/ProGuard in minified Android release builds.
+
 @internal
 final coroutineSingletonsClass = JClass.forName(
   'kotlin/coroutines/intrinsics/CoroutineSingletons',

@@ -20,7 +20,7 @@ Version _osVersion = () {
 ///
 /// Designed to replace Objective-C's `@available` check.
 ///
-/// The each platform's version is optional, and the function returns false if
+/// Each platform's version is optional, and the function returns false if
 /// no version is provided for the current platform.
 bool checkOSVersion({Version? iOS, Version? macOS}) {
   if (Platform.isIOS) return _checkOSVersionImpl(iOS);

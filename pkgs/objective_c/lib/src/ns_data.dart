@@ -19,6 +19,8 @@ extension NSDataExtensions on NSData {
   }
 
   /// Return a list containing the contents of the [NSData].
+  ///
+  /// Copies the bytes from native memory into the Dart heap.
   Uint8List toList() {
     if (bytes.address == 0 || length == 0) {
       return Uint8List(0);
@@ -32,6 +34,8 @@ extension NSDataListExtension on List<int> {
   /// Return a [NSData] containing the contents of the [List] interpreted as
   /// bytes.
   ///
+  /// Copies the bytes from the Dart heap into native memory.
+  ///
   /// The elements of the [List] should be integers in the range 0 to 255. Any
   /// integer, which is not in that range, is converted to a byte as if by
   /// `value.toUnsigned(8)`.
@@ -42,9 +46,10 @@ extension NSDataListExtension on List<int> {
     final buffer = malloc<Uint8>(length);
     buffer.asTypedList(length).setAll(0, this);
 
-    final nsData = NSData.alloc().initWithBytes(buffer.cast(), length: length);
-    malloc.free(buffer);
-
-    return nsData;
+    return NSData.alloc().initWithBytesNoCopy$2(
+      buffer.cast(),
+      length: length,
+      freeWhenDone: true,
+    );
   }
 }

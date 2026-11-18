@@ -13,7 +13,7 @@ import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'types.dart';
 
-// Error thrown when casting between incompatible `JObject` subclasses.
+/// Error thrown when casting between incompatible [JObject] subclasses.
 final class CastError extends Error {
   final String _message;
 
@@ -32,6 +32,10 @@ final class $JObject$Type$ extends JType<JObject> {
   @internal
   @override
   String get signature => r'Ljava/lang/Object;';
+
+  @internal
+  @override
+  String get className => r'java/lang/Object';
 }
 
 /// A high-level wrapper for JNI global object reference.
@@ -185,7 +189,7 @@ class JThrowable extends JObject implements Exception {
 }
 
 extension JObjectUseExtension<T extends JObject?> on T {
-  /// Applies [callback] on this object and then delete the underlying JNI
+  /// Applies [callback] on this object and then deletes the underlying JNI
   /// reference, returning the result of [callback].
   R use<R>(R Function(T) callback) {
     try {

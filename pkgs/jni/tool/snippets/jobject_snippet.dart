@@ -4,7 +4,7 @@
 
 // dart format width=74
 
-// ignore_for_file: avoid_print, unused_local_variable
+// ignore_for_file: unused_local_variable
 
 import 'package:jni/jni.dart';
 
