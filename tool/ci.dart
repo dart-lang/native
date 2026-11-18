@@ -347,7 +347,7 @@ class GenerateTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
-    const generators = [
+    final generators = [
       'pkgs/code_assets/example/host_name/tool/ffigen.dart',
       'pkgs/code_assets/example/mini_audio/tool/ffigen.dart',
       'pkgs/code_assets/example/sqlite/tool/ffigen.dart',
@@ -358,6 +358,7 @@ class GenerateTask extends Task {
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
+      if (Platform.isMacOS) 'pkgs/objective_c/tool/ffigen.dart',
       'pkgs/pub_formats/tool/generate.dart',
       'pkgs/record_use/tool/generate_syntax.dart',
     ];
@@ -369,6 +370,7 @@ class GenerateTask extends Task {
       'pkgs/web_assets',
       'pkgs/record_use',
       'pkgs/swift2objc',
+      'pkgs/objective_c',
     ];
     final fix = argResults['fix'] as bool;
     await _runMaybeParallel([
@@ -376,6 +378,7 @@ class GenerateTask extends Task {
         () => _runProcess('dart', [
           generator,
           if (!fix) '--set-exit-if-changed',
+          if (generator == 'pkgs/objective_c/tool/ffigen.dart') '--no-test',
         ]),
       () => _runProcess('dart', [
         'run',
@@ -412,19 +415,58 @@ class TestTask extends Task {
           .where((p) => !slowTestPackages.any((slow) => p.contains(slow)))
           .toList();
     }
-    final testUris = getUriInPackage(packages, 'test');
-    if (coverageTask.shouldRun(argResults)) {
+    final packagesWithHook = [
+      for (final package in packages)
+        if (File.fromUri(
+          repositoryRoot.resolve('$package/hook/build.dart'),
+        ).existsSync())
+          package,
+    ];
+    final packagesWithoutHook = [
+      for (final package in packages)
+        if (!packagesWithHook.contains(package)) package,
+    ];
+    final testUris = getUriInPackage(packagesWithoutHook, 'test');
+    final collectCoverage = coverageTask.shouldRun(argResults);
+    if (collectCoverage) {
       final coverageDir = Directory.fromUri(repositoryRoot.resolve('coverage'));
       if (coverageDir.existsSync()) {
         coverageDir.deleteSync(recursive: true);
       }
     }
-    await _runProcess('dart', [
-      'test',
-      if (coverageTask.shouldRun(argResults)) '--coverage=./coverage',
+    final reporterArgs = [
       if (Platform.environment['GITHUB_ACTIONS'] != null) '--reporter=github',
-      ...testUris,
-    ]);
+    ];
+    if (testUris.isNotEmpty) {
+      await _runProcess('dart', [
+        'test',
+        if (collectCoverage) '--coverage=./coverage',
+        ...reporterArgs,
+        ...testUris,
+      ]);
+    }
+    // Packages with build hooks must run from their package directory so
+    // `dart test` builds their hooks, and sequentially due to shared
+    // `<workspace_root>/.dart_tool/native_assets.yaml`.
+    for (final package in packagesWithHook) {
+      if (!Directory.fromUri(
+        repositoryRoot.resolve('$package/test/'),
+      ).existsSync()) {
+        continue;
+      }
+      final coveragePath = repositoryRoot
+          .resolve('coverage/$package')
+          .toFilePath();
+      await _runProcess(
+        workingDirectory: repositoryRoot.resolve('$package/'),
+        'dart',
+        [
+          'test',
+          if (collectCoverage) '--coverage=$coveragePath',
+          ...reporterArgs,
+        ],
+      );
+    }
   }
 }
 
@@ -492,6 +534,16 @@ class ExampleTask extends Task {
           .toFilePath(),
       [],
     );
+
+    if (Platform.isMacOS) {
+      await _runProcess(
+        workingDirectory: repositoryRoot.resolve(
+          'pkgs/objective_c/example/command_line/',
+        ),
+        'dart',
+        ['run', 'lib/main.dart'],
+      );
+    }
   }
 }
 
