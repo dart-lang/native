@@ -18,7 +18,7 @@ import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-const _$objcVersionCheck = objc.ObjCVersionCheck(9, 6);
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 7);
 @ffi.Native<
   NSUInteger Function(
     ffi.Pointer<objc.ObjCObjectImpl>,
