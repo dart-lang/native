@@ -13,6 +13,7 @@ dependencies:
     path: ../../jni
   jni_flutter:
     path: ..
+  material_ui: any
 
 dependency_overrides:
   jni:
