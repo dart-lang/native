@@ -13,6 +13,7 @@ library;
 export 'src/code_generator/imports.dart' show LibraryImport;
 export 'src/config_provider.dart'
     show
+        ApiDumperVisitor,
         BindingStyle,
         CommentLength,
         CommentStyle,
