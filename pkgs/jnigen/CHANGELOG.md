@@ -1,4 +1,4 @@
-## 1.1.0-wip
+## 1.1.0
 
 - Generate `className` overrides for Java class bindings to support the
   updated `JType` API.

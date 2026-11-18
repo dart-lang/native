@@ -1,4 +1,4 @@
-## 1.2.0-wip
+## 1.2.0
 
 - Add nullable `JType.className` for Java class names, using JNI signatures
   for array class lookups.
