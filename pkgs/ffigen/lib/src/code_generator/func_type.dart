@@ -156,6 +156,11 @@ class NativeFunc extends Type {
 
   NativeFunc(this._type) : assert(_type is FunctionType || _type is Typealias);
 
+  /// The inner [Type], either a [FunctionType] or a [Typealias].
+  ///
+  /// Unlike [type], this does not unwrap the [Typealias].
+  Type get innerType => _type;
+
   FunctionType get type {
     if (_type is Typealias) {
       return _type.typealiasType as FunctionType;
