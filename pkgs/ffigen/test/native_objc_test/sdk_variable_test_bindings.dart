@@ -9,7 +9,7 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-const _$objcVersionCheck = objc.ObjCVersionCheck(9, 6);
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 7);
 
 /// WARNING: NSAccessibility is a stub. To generate bindings for this class, include
 /// NSAccessibility in your config's objc-protocols list.
@@ -148,7 +148,7 @@ enum NSColorPanelMode {
   final int value;
   const NSColorPanelMode(this.value);
 
-  static NSColorPanelMode fromValue(int value) => switch (value) {
+  static NSColorPanelMode? fromValueOrNull(int value) => switch (value) {
     -1 => NSColorPanelModeNone,
     0 => NSColorPanelModeGray,
     1 => NSColorPanelModeRGB,
@@ -158,8 +158,12 @@ enum NSColorPanelMode {
     5 => NSColorPanelModeColorList,
     6 => NSColorPanelModeWheel,
     7 => NSColorPanelModeCrayon,
-    _ => throw ArgumentError('Unknown value for NSColorPanelMode: $value'),
+    _ => null,
   };
+
+  static NSColorPanelMode fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSColorPanelMode: $value'));
 }
 
 /// NSColorPicker

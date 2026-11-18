@@ -83,12 +83,14 @@ enum AnonymousEnumInTypedef {
   final int value;
   const AnonymousEnumInTypedef(this.value);
 
-  static AnonymousEnumInTypedef fromValue(int value) => switch (value) {
+  static AnonymousEnumInTypedef? fromValueOrNull(int value) => switch (value) {
     0 => a,
-    _ => throw ArgumentError(
-      'Unknown value for AnonymousEnumInTypedef: $value',
-    ),
+    _ => null,
   };
+
+  static AnonymousEnumInTypedef fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for AnonymousEnumInTypedef: $value'));
 }
 
 final class AnonymousStructInTypedef extends ffi.Opaque {}
@@ -142,10 +144,14 @@ enum _NamedEnumInTypedef {
   final int value;
   const _NamedEnumInTypedef(this.value);
 
-  static _NamedEnumInTypedef fromValue(int value) => switch (value) {
+  static _NamedEnumInTypedef? fromValueOrNull(int value) => switch (value) {
     0 => b,
-    _ => throw ArgumentError('Unknown value for _NamedEnumInTypedef: $value'),
+    _ => null,
   };
+
+  static _NamedEnumInTypedef fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for _NamedEnumInTypedef: $value'));
 }
 
 final class _NamedStructInTypedef extends ffi.Opaque {}

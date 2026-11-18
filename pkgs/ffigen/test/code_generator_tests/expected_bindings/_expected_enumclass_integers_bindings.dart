@@ -46,12 +46,16 @@ enum MyEnum {
   final int value;
   const MyEnum(this.value);
 
-  static MyEnum fromValue(int value) => switch (value) {
+  static MyEnum? fromValueOrNull(int value) => switch (value) {
     0 => value1,
     1 => value2,
     2 => value3,
-    _ => throw ArgumentError('Unknown value for MyEnum: $value'),
+    _ => null,
   };
+
+  static MyEnum fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for MyEnum: $value'));
 }
 
 sealed class MyIntegerEnum {
