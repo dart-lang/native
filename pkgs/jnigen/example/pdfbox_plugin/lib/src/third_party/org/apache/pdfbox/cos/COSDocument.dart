@@ -70,4 +70,8 @@ final class $COSDocument$Type$ extends jni$_.JType<COSDocument> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/cos/COSDocument;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'org/apache/pdfbox/cos/COSDocument';
 }

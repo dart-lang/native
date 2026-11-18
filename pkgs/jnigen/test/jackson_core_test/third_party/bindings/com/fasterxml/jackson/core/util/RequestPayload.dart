@@ -69,4 +69,8 @@ final class $RequestPayload$Type$ extends jni$_.JType<RequestPayload> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/util/RequestPayload;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/util/RequestPayload';
 }
