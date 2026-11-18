@@ -245,16 +245,23 @@ Future<List<String>> run({
       path: File(path).existsSync() ? File(path).readAsStringSync() : null,
   };
 
+  final libclangDylib = _findXcodeLibclangDylib();
   final changedFiles = <String>[];
   try {
     print('Generating runtime bindings...');
-    await getRuntimeConfig(packageRoot).generate(logger: logger);
+    await getRuntimeConfig(
+      packageRoot,
+    ).generate(logger: logger, libclangDylib: libclangDylib);
 
     print('Generating C bindings...');
-    await getCConfig(packageRoot).generate(logger: logger);
+    await getCConfig(
+      packageRoot,
+    ).generate(logger: logger, libclangDylib: libclangDylib);
 
     print('Generating ObjC bindings...');
-    await getObjCConfig(packageRoot).generate(logger: logger);
+    await getObjCConfig(
+      packageRoot,
+    ).generate(logger: logger, libclangDylib: libclangDylib);
     mergeExtraMethods(
       objcBindingsPath,
       parseExtraMethods(extraMethodsFilePath),
@@ -643,6 +650,21 @@ Uri _defaultPackageRoot() {
     }
   }
   return Directory.current.uri;
+}
+
+Uri? _findXcodeLibclangDylib() {
+  if (!Platform.isMacOS) return null;
+  final result = Process.runSync('xcodebuild', [
+    '-find-library',
+    'libclang.dylib',
+  ]);
+  if (result.exitCode == 0) {
+    final path = (result.stdout as String).split('\n').first.trim();
+    if (path.isNotEmpty && File(path).existsSync()) {
+      return Uri.file(path);
+    }
+  }
+  return null;
 }
 
 void dartCmd(List<String> args, {String? workingDir}) {
