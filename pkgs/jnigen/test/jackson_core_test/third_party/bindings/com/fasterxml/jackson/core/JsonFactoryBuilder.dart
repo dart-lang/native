@@ -71,4 +71,8 @@ final class $JsonFactoryBuilder$Type$ extends jni$_.JType<JsonFactoryBuilder> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonFactoryBuilder;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonFactoryBuilder';
 }

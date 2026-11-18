@@ -70,4 +70,8 @@ final class $Writer$Type$ extends jni$_.JType<Writer> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/Writer;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/io/Writer';
 }

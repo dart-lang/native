@@ -40,11 +40,15 @@ enum BaseEnum {
   final int value;
   const BaseEnum(this.value);
 
-  static BaseEnum fromValue(int value) => switch (value) {
+  static BaseEnum? fromValueOrNull(int value) => switch (value) {
     0 => BASE_ENUM_1,
     1 => BASE_ENUM_2,
-    _ => throw ArgumentError('Unknown value for BaseEnum: $value'),
+    _ => null,
   };
+
+  static BaseEnum fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for BaseEnum: $value'));
 }
 
 typedef BaseNativeTypedef1 = ffi.Int;
