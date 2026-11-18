@@ -215,7 +215,6 @@ Future<List<String>> run({
   bool restoreIfChanged = false,
   Uri? packageRoot,
 }) async {
-  final stopwatch = Stopwatch()..start();
   packageRoot ??= _defaultPackageRoot();
   final logger = Logger.root;
   logger.level = Level.SEVERE;
@@ -290,6 +289,9 @@ Future<List<String>> run({
         changedFiles.add(path);
       }
     }
+    if (restoreIfChanged && changedFiles.isNotEmpty) {
+      _printGitDiff(changedFiles, workingDir: packageRoot.toFilePath());
+    }
   } finally {
     if (restoreIfChanged) {
       for (final entry in snapshots.entries) {
@@ -307,11 +309,8 @@ Future<List<String>> run({
     }
   }
 
-  stopwatch.stop();
-  final duration = stopwatch.elapsedMilliseconds / 1000.0;
   print(
-    'Generated ${outputPaths.length} files (${changedFiles.length} changed) in '
-    '${duration.toStringAsFixed(2)} seconds.',
+    'Generated ${outputPaths.length} files (${changedFiles.length} changed).',
   );
 
   if (runTests) {
@@ -659,6 +658,26 @@ void dartCmd(List<String> args, {String? workingDir}) {
     print(proc.stdout);
     print(proc.stderr);
     throw Exception('Command failed: $exec ${args.join(" ")}');
+  }
+}
+
+void _printGitDiff(List<String> files, {required String workingDir}) {
+  try {
+    final proc = Process.runSync('git', [
+      'diff',
+      '--',
+      ...files,
+    ], workingDirectory: workingDir);
+    final stdout = (proc.stdout as String).trimRight();
+    final stderr = (proc.stderr as String).trimRight();
+    if (stdout.isNotEmpty) {
+      print(stdout);
+    }
+    if (stderr.isNotEmpty) {
+      print(stderr);
+    }
+  } on ProcessException catch (e) {
+    print('Failed to run git diff: $e');
   }
 }
 
