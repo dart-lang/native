@@ -69,4 +69,8 @@ final class $Versioned$Type$ extends jni$_.JType<Versioned> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/Versioned;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/Versioned';
 }

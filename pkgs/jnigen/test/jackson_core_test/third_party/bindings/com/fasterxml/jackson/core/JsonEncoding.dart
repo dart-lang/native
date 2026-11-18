@@ -69,4 +69,8 @@ final class $JsonEncoding$Type$ extends jni$_.JType<JsonEncoding> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonEncoding;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonEncoding';
 }
