@@ -45,10 +45,6 @@ final class $JClass$Type$ extends JType<JClass> {
 
   @override
   String get signature => r'Ljava/lang/Class;';
-
-  @internal
-  @override
-  String get className => r'java/lang/Class';
 }
 
 /// A thin wrapper over a [JFieldIDPtr] of an instance field.

@@ -69,8 +69,4 @@ final class $TSFBuilder$Type$ extends jni$_.JType<TSFBuilder> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/TSFBuilder;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/fasterxml/jackson/core/TSFBuilder';
 }

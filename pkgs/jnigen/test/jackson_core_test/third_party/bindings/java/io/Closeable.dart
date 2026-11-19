@@ -69,8 +69,4 @@ final class $Closeable$Type$ extends jni$_.JType<Closeable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/Closeable;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/io/Closeable';
 }

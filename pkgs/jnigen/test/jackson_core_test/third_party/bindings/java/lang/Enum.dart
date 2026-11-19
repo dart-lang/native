@@ -69,8 +69,4 @@ final class $Enum$Type$ extends jni$_.JType<Enum> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Enum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/lang/Enum';
 }

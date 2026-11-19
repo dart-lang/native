@@ -2464,8 +2464,4 @@ final class $PDDocument$Type$ extends jni$_.JType<PDDocument> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocument;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'org/apache/pdfbox/pdmodel/PDDocument';
 }

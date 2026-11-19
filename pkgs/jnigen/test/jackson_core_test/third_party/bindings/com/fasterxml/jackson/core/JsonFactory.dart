@@ -390,10 +390,6 @@ final class $JsonFactory$Feature$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/fasterxml/jackson/core/JsonFactory$Feature';
 }
 
 /// from: `com.fasterxml.jackson.core.JsonFactory`
@@ -3095,8 +3091,4 @@ final class $JsonFactory$Type$ extends jni$_.JType<JsonFactory> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonFactory;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/fasterxml/jackson/core/JsonFactory';
 }

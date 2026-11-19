@@ -71,8 +71,4 @@ final class $RandomAccessRead$Type$ extends jni$_.JType<RandomAccessRead> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/io/RandomAccessRead;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'org/apache/pdfbox/io/RandomAccessRead';
 }

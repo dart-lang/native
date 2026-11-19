@@ -98,11 +98,6 @@ final class $Example$Nested$NestedTwice$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice';
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested`
@@ -218,11 +213,6 @@ final class $Example$Nested$Type$ extends jni$_.JType<Example$Nested> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/simple_package/Example$Nested';
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested`
@@ -284,11 +274,6 @@ final class $Example$NonStaticNested$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Example$NonStaticNested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested';
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example`
@@ -1614,10 +1599,6 @@ final class $Example$Type$ extends jni$_.JType<Example> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Example;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/simple_package/Example';
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Exceptions$MyException`
@@ -1682,11 +1663,6 @@ final class $Exceptions$MyException$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Exceptions$MyException;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/simple_package/Exceptions$MyException';
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Exceptions`
@@ -2205,11 +2181,6 @@ final class $Exceptions$Type$ extends jni$_.JType<Exceptions> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Exceptions;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/simple_package/Exceptions';
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Fields$Nested`
@@ -2281,11 +2252,6 @@ final class $Fields$Nested$Type$ extends jni$_.JType<Fields$Nested> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Fields$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/simple_package/Fields$Nested';
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Fields`
@@ -2465,10 +2431,6 @@ final class $Fields$Type$ extends jni$_.JType<Fields> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/simple_package/Fields;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/simple_package/Fields';
 }
 
 /// from: `com.github.dart_lang.jnigen.pkg2.C2`
@@ -2522,10 +2484,6 @@ final class $C2$Type$ extends jni$_.JType<C2> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/C2;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/pkg2/C2';
 }
 
 /// from: `com.github.dart_lang.jnigen.pkg2.Example`
@@ -2592,10 +2550,6 @@ final class $Example$1$Type$ extends jni$_.JType<Example$1> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/pkg2/Example;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/pkg2/Example';
 }
 
 /// from: `com.github.dart_lang.jnigen.enums.Colors$RGB`
@@ -2729,10 +2683,6 @@ final class $Colors$RGB$Type$ extends jni$_.JType<Colors$RGB> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/enums/Colors$RGB;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/enums/Colors$RGB';
 }
 
 /// from: `com.github.dart_lang.jnigen.enums.Colors`
@@ -2865,10 +2815,6 @@ final class $Colors$Type$ extends jni$_.JType<Colors> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/enums/Colors;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/enums/Colors';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GenericConstructor`
@@ -2962,11 +2908,6 @@ final class $GenericConstructor$Type$ extends jni$_.JType<GenericConstructor> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GenericConstructor;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/generics/GenericConstructor';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GenericTypeParams`
@@ -3011,11 +2952,6 @@ final class $GenericTypeParams$Type$ extends jni$_.JType<GenericTypeParams> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GenericTypeParams;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/generics/GenericTypeParams';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child`
@@ -3125,11 +3061,6 @@ final class $GrandParent$Parent$Child$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent$Child;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent`
@@ -3217,11 +3148,6 @@ final class $GrandParent$Parent$Type$ extends jni$_.JType<GrandParent$Parent> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/generics/GrandParent$Parent';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child`
@@ -3316,11 +3242,6 @@ final class $GrandParent$StaticParent$Child$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent`
@@ -3384,11 +3305,6 @@ final class $GrandParent$StaticParent$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent`
@@ -3583,10 +3499,6 @@ final class $GrandParent$Type$ extends jni$_.JType<GrandParent> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/GrandParent;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/generics/GrandParent';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.MyMap$MyEntry`
@@ -3675,10 +3587,6 @@ final class $MyMap$MyEntry$Type$ extends jni$_.JType<MyMap$MyEntry> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/MyMap$MyEntry;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/generics/MyMap$MyEntry';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.MyMap`
@@ -3811,10 +3719,6 @@ final class $MyMap$Type$ extends jni$_.JType<MyMap> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/MyMap;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/generics/MyMap';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.MyStack`
@@ -4076,10 +3980,6 @@ final class $MyStack$Type$ extends jni$_.JType<MyStack> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/MyStack;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/generics/MyStack';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.StringKeyedMap`
@@ -4123,11 +4023,6 @@ final class $StringKeyedMap$Type$ extends jni$_.JType<StringKeyedMap> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/StringKeyedMap;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/generics/StringKeyedMap';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.StringMap`
@@ -4169,10 +4064,6 @@ final class $StringMap$Type$ extends jni$_.JType<StringMap> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringMap;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/generics/StringMap';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.StringStack`
@@ -4214,10 +4105,6 @@ final class $StringStack$Type$ extends jni$_.JType<StringStack> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringStack;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/generics/StringStack';
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.StringValuedMap`
@@ -4261,11 +4148,6 @@ final class $StringValuedMap$Type$ extends jni$_.JType<StringValuedMap> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/generics/StringValuedMap;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/generics/StringValuedMap';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.GenericInterface`
@@ -4731,11 +4613,6 @@ final class $GenericInterface$Type$ extends jni$_.JType<GenericInterface> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/GenericInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/GenericInterface';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.InheritedFromMyInterface`
@@ -5052,11 +4929,6 @@ final class $InheritedFromMyInterface$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/InheritedFromMyInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/InheritedFromMyInterface';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.InheritedFromMyRunnable`
@@ -5204,11 +5076,6 @@ final class $InheritedFromMyRunnable$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/InheritedFromMyRunnable;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/InheritedFromMyRunnable';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyConsumer`
@@ -5359,10 +5226,6 @@ final class $MyConsumer$Type$ extends jni$_.JType<MyConsumer> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyConsumer;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/interfaces/MyConsumer';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyConsumerRunner`
@@ -5566,11 +5429,6 @@ final class $MyConsumerRunner$Type$ extends jni$_.JType<MyConsumerRunner> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyConsumerRunner;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/MyConsumerRunner';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyInterface`
@@ -5882,10 +5740,6 @@ final class $MyInterface$Type$ extends jni$_.JType<MyInterface> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/interfaces/MyInterface';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyInterfaceConsumer`
@@ -6049,11 +5903,6 @@ final class $MyInterfaceConsumer$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyRunnable`
@@ -6199,10 +6048,6 @@ final class $MyRunnable$Type$ extends jni$_.JType<MyRunnable> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/interfaces/MyRunnable';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyRunnableRunner`
@@ -6340,11 +6185,6 @@ final class $MyRunnableRunner$Type$ extends jni$_.JType<MyRunnableRunner> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/MyRunnableRunner;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/MyRunnableRunner';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.StringConversionException`
@@ -6392,11 +6232,6 @@ final class $StringConversionException$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/StringConversionException;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/StringConversionException';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.StringConverter`
@@ -6542,11 +6377,6 @@ final class $StringConverter$Type$ extends jni$_.JType<StringConverter> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/StringConverter;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/StringConverter';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.StringConverterConsumer`
@@ -6672,11 +6502,6 @@ final class $StringConverterConsumer$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/StringConverterConsumer;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/interfaces/StringConverterConsumer';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.Animal`
@@ -6824,10 +6649,6 @@ final class $Animal$Type$ extends jni$_.JType<Animal> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Animal;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/inheritance/Animal';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.BaseClass`
@@ -6900,10 +6721,6 @@ final class $BaseClass$Type$ extends jni$_.JType<BaseClass> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/BaseClass;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/inheritance/BaseClass';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.BaseGenericInterface`
@@ -7052,11 +6869,6 @@ final class $BaseGenericInterface$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/BaseGenericInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/inheritance/BaseGenericInterface';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.BaseInterface`
@@ -7248,11 +7060,6 @@ final class $BaseInterface$Type$ extends jni$_.JType<BaseInterface> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/BaseInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/inheritance/BaseInterface';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.Child`
@@ -7349,10 +7156,6 @@ final class $Child$Type$ extends jni$_.JType<Child> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Child;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/inheritance/Child';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.DerivedInterface`
@@ -7548,11 +7351,6 @@ final class $DerivedInterface$Type$ extends jni$_.JType<DerivedInterface> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/DerivedInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/inheritance/DerivedInterface';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.Dog`
@@ -7826,10 +7624,6 @@ final class $Dog$Type$ extends jni$_.JType<Dog> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Dog;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/inheritance/Dog';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.FourLegged`
@@ -8017,10 +7811,6 @@ final class $FourLegged$Type$ extends jni$_.JType<FourLegged> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/FourLegged;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/inheritance/FourLegged';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.Furry`
@@ -8255,10 +8045,6 @@ final class $Furry$Type$ extends jni$_.JType<Furry> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Furry;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/inheritance/Furry';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.GenericDerivedClass`
@@ -8304,11 +8090,6 @@ final class $GenericDerivedClass$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/GenericDerivedClass;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/inheritance/GenericDerivedClass';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.Mammal`
@@ -8501,10 +8282,6 @@ final class $Mammal$Type$ extends jni$_.JType<Mammal> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Mammal;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/inheritance/Mammal';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.ShibaInu`
@@ -8674,10 +8451,6 @@ final class $ShibaInu$Type$ extends jni$_.JType<ShibaInu> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/ShibaInu;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/inheritance/ShibaInu';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.SpecificDerivedClass`
@@ -8753,11 +8526,6 @@ final class $SpecificDerivedClass$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/SpecificDerivedClass;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/inheritance/SpecificDerivedClass';
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.Annotated$Nested`
@@ -8848,11 +8616,6 @@ final class $Annotated$Nested$Type$ extends jni$_.JType<Annotated$Nested> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/annotations/Annotated$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/annotations/Annotated$Nested';
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.Annotated`
@@ -10549,10 +10312,6 @@ final class $Annotated$Type$ extends jni$_.JType<Annotated> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/annotations/Annotated;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/annotations/Annotated';
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable$Case`
@@ -10658,11 +10417,6 @@ final class $JsonSerializable$Case$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/annotations/JsonSerializable$Case';
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable`
@@ -10809,11 +10563,6 @@ final class $JsonSerializable$Type$ extends jni$_.JType<JsonSerializable> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/annotations/JsonSerializable;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/annotations/JsonSerializable';
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.MyDataClass`
@@ -10855,11 +10604,6 @@ final class $MyDataClass$Type$ extends jni$_.JType<MyDataClass> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/annotations/MyDataClass;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/annotations/MyDataClass';
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.NotNull`
@@ -10957,10 +10701,6 @@ final class $NotNull$Type$ extends jni$_.JType<NotNull> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/annotations/NotNull;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/annotations/NotNull';
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.Nullable`
@@ -11058,10 +10798,6 @@ final class $Nullable$Type$ extends jni$_.JType<Nullable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/annotations/Nullable;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/annotations/Nullable';
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R2250$Child`
@@ -11206,11 +10942,6 @@ final class $R2250$Child$Type$ extends jni$_.JType<R2250$Child> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/regressions/R2250$Child;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'com/github/dart_lang/jnigen/regressions/R2250$Child';
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R2250`
@@ -11354,10 +11085,6 @@ final class $R2250$Type$ extends jni$_.JType<R2250> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R2250;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/regressions/R2250';
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R693$Child`
@@ -11399,10 +11126,6 @@ final class $R693$Child$Type$ extends jni$_.JType<R693$Child> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/regressions/R693$Child;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/regressions/R693$Child';
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R693`
@@ -11444,10 +11167,6 @@ final class $R693$Type$ extends jni$_.JType<R693> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R693;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/github/dart_lang/jnigen/regressions/R693';
 }
 
 /// from: `java.util.Random`
@@ -11466,10 +11185,6 @@ final class $Random$Type$ extends jni$_.JType<Random> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/Random;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/util/Random';
 }
 
 /// from: `java.lang.CharSequence`
@@ -11488,10 +11203,6 @@ final class $CharSequence$Type$ extends jni$_.JType<CharSequence> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/CharSequence;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/lang/CharSequence';
 }
 
 /// from: `java.io.InputStream`
@@ -11510,10 +11221,6 @@ final class $InputStream$Type$ extends jni$_.JType<InputStream> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/InputStream;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/io/InputStream';
 }
 
 /// from: `java.io.FileInputStream`
@@ -11533,10 +11240,6 @@ final class $FileInputStream$Type$ extends jni$_.JType<FileInputStream> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/FileInputStream;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/io/FileInputStream';
 }
 
 /// from: `java.lang.RuntimeException`
@@ -11556,10 +11259,6 @@ final class $RuntimeException$Type$ extends jni$_.JType<RuntimeException> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/RuntimeException;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/lang/RuntimeException';
 }
 
 /// from: `java.lang.Enum`
@@ -11578,10 +11277,6 @@ final class $Enum$Type$ extends jni$_.JType<Enum> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Enum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/lang/Enum';
 }
 
 /// from: `java.lang.Throwable`
@@ -11600,10 +11295,6 @@ final class $Throwable$Type$ extends jni$_.JType<Throwable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Throwable;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/lang/Throwable';
 }
 
 /// from: `java.lang.Exception`
@@ -11622,10 +11313,6 @@ final class $Exception$Type$ extends jni$_.JType<Exception> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Exception;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/lang/Exception';
 }
 
 /// from: `java.util.concurrent.Future`
@@ -11644,10 +11331,6 @@ final class $Future$1$Type$ extends jni$_.JType<Future$1> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/concurrent/Future;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/util/concurrent/Future';
 }
 
 /// from: `java.util.Map$Entry`
@@ -11666,10 +11349,6 @@ final class $Map$$Entry$Type$ extends jni$_.JType<Map$$Entry> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/Map$Entry;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/util/Map$Entry';
 }
 
 /// from: `java.lang.annotation.Annotation`
@@ -11688,8 +11367,4 @@ final class $Annotation$Type$ extends jni$_.JType<Annotation> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/annotation/Annotation;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/lang/annotation/Annotation';
 }
