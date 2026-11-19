@@ -1,5 +1,7 @@
 ## 23.1.0-wip
 
+- Add `ffigen` to `executables` in `pubspec.yaml` and support running `ffigen`
+  as a standalone AOT-compiled executable (`dart install` / `dart run ffigen@`).
 - When generating typedefs for `NativeFunction<Function>`, also generate a
   companion typedef for the `Function` (fixes #944).
 - Add `dumpApi` utility and `ApiDumperVisitor` to dump entire parsed AST.
