@@ -72,4 +72,8 @@ final class $MemoryUsageSetting$Type$ extends jni$_.JType<MemoryUsageSetting> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/io/MemoryUsageSetting;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'org/apache/pdfbox/io/MemoryUsageSetting';
 }

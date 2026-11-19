@@ -126,6 +126,10 @@ final class $Example$Type$ extends jni$_.JType<Example> {
   @jni$_.internal
   @core$_.override
   String get signature => r'LExample;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'Example';
 }
 
 /// from: `kotlin.coroutines.Continuation`
@@ -144,4 +148,8 @@ final class $Continuation$Type$ extends jni$_.JType<Continuation> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lkotlin/coroutines/Continuation;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'kotlin/coroutines/Continuation';
 }

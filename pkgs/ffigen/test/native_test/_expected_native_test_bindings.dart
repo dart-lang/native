@@ -80,12 +80,16 @@ enum Enum1 {
   final int value;
   const Enum1(this.value);
 
-  static Enum1 fromValue(int value) => switch (value) {
+  static Enum1? fromValueOrNull(int value) => switch (value) {
     0 => enum1Value1,
     1 => enum1Value2,
     2 => enum1Value3,
-    _ => throw ArgumentError('Unknown value for Enum1: $value'),
+    _ => null,
   };
+
+  static Enum1 fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for Enum1: $value'));
 }
 
 sealed class Enum2 {

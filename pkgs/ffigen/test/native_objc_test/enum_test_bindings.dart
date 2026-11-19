@@ -9,7 +9,7 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-const _$objcVersionCheck = objc.ObjCVersionCheck(9, 6);
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 7);
 
 sealed class CoffeeOptions {
   static const CoffeeOptionsNone = 0;
@@ -114,13 +114,17 @@ enum Fruit {
   final int value;
   const Fruit(this.value);
 
-  static Fruit fromValue(int value) => switch (value) {
+  static Fruit? fromValueOrNull(int value) => switch (value) {
     0 => FruitApple,
     1 => FruitBanana,
     2 => FruitOrange,
     3 => FruitPear,
-    _ => throw ArgumentError('Unknown value for Fruit: $value'),
+    _ => null,
   };
+
+  static Fruit fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for Fruit: $value'));
 }
 
 const int SOME_MACRO = 123;

@@ -69,4 +69,8 @@ final class $JsonLocation$Type$ extends jni$_.JType<JsonLocation> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonLocation;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonLocation';
 }
