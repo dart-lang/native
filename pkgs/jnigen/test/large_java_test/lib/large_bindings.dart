@@ -181,10 +181,6 @@ final class $BaseInterface$Type$ extends jni$_.JType<BaseInterface> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/BaseInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/BaseInterface';
 }
 
 /// from: `com.example.CustomEnum`
@@ -271,10 +267,6 @@ final class $CustomEnum$Type$ extends jni$_.JType<CustomEnum> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/CustomEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/CustomEnum';
 }
 
 /// from: `com.example.CustomInterface`
@@ -420,10 +412,6 @@ final class $CustomInterface$Type$ extends jni$_.JType<CustomInterface> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/CustomInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/CustomInterface';
 }
 
 /// from: `com.example.CustomObject`
@@ -482,10 +470,6 @@ final class $CustomObject$Type$ extends jni$_.JType<CustomObject> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/CustomObject;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/CustomObject';
 }
 
 /// from: `com.example.DagA`
@@ -631,10 +615,6 @@ final class $DagA$Type$ extends jni$_.JType<DagA> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/DagA;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/DagA';
 }
 
 /// from: `com.example.DagB`
@@ -821,10 +801,6 @@ final class $DagB$Type$ extends jni$_.JType<DagB> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/DagB;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/DagB';
 }
 
 /// from: `com.example.DagC`
@@ -1053,10 +1029,6 @@ final class $DagC$Type$ extends jni$_.JType<DagC> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/DagC;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/DagC';
 }
 
 /// from: `com.example.DagD`
@@ -1326,10 +1298,6 @@ final class $DagD$Type$ extends jni$_.JType<DagD> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/DagD;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/DagD';
 }
 
 /// from: `com.example.DagE`
@@ -1640,10 +1608,6 @@ final class $DagE$Type$ extends jni$_.JType<DagE> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/DagE;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/DagE';
 }
 
 /// from: `com.example.DiamondLeft`
@@ -1831,10 +1795,6 @@ final class $DiamondLeft$Type$ extends jni$_.JType<DiamondLeft> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/DiamondLeft;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/DiamondLeft';
 }
 
 /// from: `com.example.DiamondRight`
@@ -2022,10 +1982,6 @@ final class $DiamondRight$Type$ extends jni$_.JType<DiamondRight> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/DiamondRight;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/DiamondRight';
 }
 
 /// from: `com.example.GenericInterface`
@@ -2178,10 +2134,6 @@ final class $GenericInterface$Type$ extends jni$_.JType<GenericInterface> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/GenericInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/GenericInterface';
 }
 
 /// from: `com.example.GenericParent`
@@ -2253,10 +2205,6 @@ final class $GenericParent$Type$ extends jni$_.JType<GenericParent> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/GenericParent;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/GenericParent';
 }
 
 /// from: `com.example.GrandParent`
@@ -2322,10 +2270,6 @@ final class $GrandParent$Type$ extends jni$_.JType<GrandParent> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/GrandParent;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/GrandParent';
 }
 
 /// from: `com.example.NestedCustom`
@@ -2368,10 +2312,6 @@ final class $NestedCustom$Type$ extends jni$_.JType<NestedCustom> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/NestedCustom;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/NestedCustom';
 }
 
 /// from: `com.example.NestedCustom$Nested`
@@ -2465,10 +2405,6 @@ final class $NestedCustom$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/NestedCustom$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/NestedCustom$Nested';
 }
 
 /// from: `com.example.OtherInterface`
@@ -2614,10 +2550,6 @@ final class $OtherInterface$Type$ extends jni$_.JType<OtherInterface> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/OtherInterface;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/OtherInterface';
 }
 
 /// from: `com.example.TestClass000`
@@ -2715,10 +2647,6 @@ final class $TestClass000$Type$ extends jni$_.JType<TestClass000> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass000;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass000';
 }
 
 /// from: `com.example.TestClass000$Nested`
@@ -2763,10 +2691,6 @@ final class $TestClass000$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass000$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass000$Nested';
 }
 
 /// from: `com.example.TestClass001`
@@ -2925,10 +2849,6 @@ final class $TestClass001$Type$ extends jni$_.JType<TestClass001> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass001;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass001';
 }
 
 /// from: `com.example.TestClass001$Sub`
@@ -3003,10 +2923,6 @@ final class $TestClass001$Sub$Type$ extends jni$_.JType<TestClass001$Sub> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass001$Sub;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass001$Sub';
 }
 
 /// from: `com.example.TestClass001$Nested`
@@ -3106,10 +3022,6 @@ final class $TestClass001$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass001$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass001$Nested';
 }
 
 /// from: `com.example.TestClass002`
@@ -3378,10 +3290,6 @@ final class $TestClass002$Type$ extends jni$_.JType<TestClass002> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass002;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass002';
 }
 
 /// from: `com.example.TestClass003`
@@ -3528,10 +3436,6 @@ final class $TestClass003$Type$ extends jni$_.JType<TestClass003> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass003;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass003';
 }
 
 /// from: `com.example.TestClass003$Nested`
@@ -3578,10 +3482,6 @@ final class $TestClass003$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass003$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass003$Nested';
 }
 
 /// from: `com.example.TestClass004`
@@ -3937,10 +3837,6 @@ final class $TestClass004$Type$ extends jni$_.JType<TestClass004> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass004;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass004';
 }
 
 /// from: `com.example.TestClass004$NestedEnum`
@@ -4023,10 +3919,6 @@ final class $TestClass004$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass004$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass004$NestedEnum';
 }
 
 /// from: `com.example.TestClass005`
@@ -4126,10 +4018,6 @@ final class $TestClass005$Type$ extends jni$_.JType<TestClass005> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass005;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass005';
 }
 
 /// from: `com.example.TestClass006`
@@ -4222,10 +4110,6 @@ final class $TestClass006$Type$ extends jni$_.JType<TestClass006> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass006;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass006';
 }
 
 /// from: `com.example.TestClass006$Nested`
@@ -4272,10 +4156,6 @@ final class $TestClass006$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass006$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass006$Nested';
 }
 
 /// from: `com.example.TestClass007`
@@ -4397,10 +4277,6 @@ final class $TestClass007$Type$ extends jni$_.JType<TestClass007> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass007;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass007';
 }
 
 /// from: `com.example.TestClass007$Nested`
@@ -4447,10 +4323,6 @@ final class $TestClass007$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass007$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass007$Nested';
 }
 
 /// from: `com.example.TestClass008`
@@ -4521,10 +4393,6 @@ final class $TestClass008$Type$ extends jni$_.JType<TestClass008> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass008;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass008';
 }
 
 /// from: `com.example.TestClass008$Nested`
@@ -4624,10 +4492,6 @@ final class $TestClass008$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass008$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass008$Nested';
 }
 
 /// from: `com.example.TestClass009`
@@ -4723,10 +4587,6 @@ final class $TestClass009$Type$ extends jni$_.JType<TestClass009> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass009;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass009';
 }
 
 /// from: `com.example.TestClass011`
@@ -4787,10 +4647,6 @@ final class $TestClass011$Type$ extends jni$_.JType<TestClass011> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass011;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass011';
 }
 
 /// from: `com.example.TestClass011$Nested`
@@ -4835,10 +4691,6 @@ final class $TestClass011$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass011$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass011$Nested';
 }
 
 /// from: `com.example.TestClass012`
@@ -5086,10 +4938,6 @@ final class $TestClass012$Type$ extends jni$_.JType<TestClass012> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass012;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass012';
 }
 
 /// from: `com.example.TestClass012$Nested`
@@ -5134,10 +4982,6 @@ final class $TestClass012$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass012$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass012$Nested';
 }
 
 /// from: `com.example.TestClass013`
@@ -5235,10 +5079,6 @@ final class $TestClass013$Type$ extends jni$_.JType<TestClass013> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass013;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass013';
 }
 
 /// from: `com.example.TestClass014`
@@ -5311,10 +5151,6 @@ final class $TestClass014$Type$ extends jni$_.JType<TestClass014> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass014;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass014';
 }
 
 /// from: `com.example.TestClass014$NestedEnum`
@@ -5397,10 +5233,6 @@ final class $TestClass014$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass014$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass014$NestedEnum';
 }
 
 /// from: `com.example.TestClass015`
@@ -5472,10 +5304,6 @@ final class $TestClass015$Type$ extends jni$_.JType<TestClass015> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass015;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass015';
 }
 
 /// from: `com.example.TestClass015$Sub`
@@ -5517,10 +5345,6 @@ final class $TestClass015$Sub$Type$ extends jni$_.JType<TestClass015$Sub> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass015$Sub;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass015$Sub';
 }
 
 /// from: `com.example.TestClass015$Nested`
@@ -5567,10 +5391,6 @@ final class $TestClass015$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass015$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass015$Nested';
 }
 
 /// from: `com.example.TestClass016`
@@ -5639,10 +5459,6 @@ final class $TestClass016$Type$ extends jni$_.JType<TestClass016> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass016;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass016';
 }
 
 /// from: `com.example.TestClass016$Nested`
@@ -5742,10 +5558,6 @@ final class $TestClass016$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass016$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass016$Nested';
 }
 
 /// from: `com.example.TestClass017`
@@ -5954,10 +5766,6 @@ final class $TestClass017$Type$ extends jni$_.JType<TestClass017> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass017;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass017';
 }
 
 /// from: `com.example.TestClass017$Nested`
@@ -6057,10 +5865,6 @@ final class $TestClass017$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass017$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass017$Nested';
 }
 
 /// from: `com.example.TestClass018`
@@ -6164,10 +5968,6 @@ final class $TestClass018$Type$ extends jni$_.JType<TestClass018> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass018;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass018';
 }
 
 /// from: `com.example.TestClass018$NestedEnum`
@@ -6250,10 +6050,6 @@ final class $TestClass018$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass018$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass018$NestedEnum';
 }
 
 /// from: `com.example.TestClass019`
@@ -6327,10 +6123,6 @@ final class $TestClass019$Type$ extends jni$_.JType<TestClass019> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass019;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass019';
 }
 
 /// from: `com.example.TestClass020`
@@ -6479,10 +6271,6 @@ final class $TestClass020$Type$ extends jni$_.JType<TestClass020> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass020;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass020';
 }
 
 /// from: `com.example.TestClass020$Nested`
@@ -6527,10 +6315,6 @@ final class $TestClass020$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass020$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass020$Nested';
 }
 
 /// from: `com.example.TestClass021`
@@ -6625,10 +6409,6 @@ final class $TestClass021$Type$ extends jni$_.JType<TestClass021> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass021;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass021';
 }
 
 /// from: `com.example.TestClass022`
@@ -6814,10 +6594,6 @@ final class $TestClass022$Type$ extends jni$_.JType<TestClass022> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass022;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass022';
 }
 
 /// from: `com.example.TestClass023`
@@ -7105,10 +6881,6 @@ final class $TestClass023$Type$ extends jni$_.JType<TestClass023> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass023;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass023';
 }
 
 /// from: `com.example.TestClass024`
@@ -7292,10 +7064,6 @@ final class $TestClass024$Type$ extends jni$_.JType<TestClass024> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass024;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass024';
 }
 
 /// from: `com.example.TestClass024$NestedEnum`
@@ -7378,10 +7146,6 @@ final class $TestClass024$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass024$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass024$NestedEnum';
 }
 
 /// from: `com.example.TestClass025`
@@ -7569,10 +7333,6 @@ final class $TestClass025$Type$ extends jni$_.JType<TestClass025> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass025;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass025';
 }
 
 /// from: `com.example.TestClass025$NestedEnum`
@@ -7655,10 +7415,6 @@ final class $TestClass025$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass025$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass025$NestedEnum';
 }
 
 /// from: `com.example.TestClass026`
@@ -7700,10 +7456,6 @@ final class $TestClass026$Type$ extends jni$_.JType<TestClass026> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass026;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass026';
 }
 
 /// from: `com.example.TestClass026$Nested`
@@ -7748,10 +7500,6 @@ final class $TestClass026$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass026$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass026$Nested';
 }
 
 /// from: `com.example.TestClass027`
@@ -7847,10 +7595,6 @@ final class $TestClass027$Type$ extends jni$_.JType<TestClass027> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass027;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass027';
 }
 
 /// from: `com.example.TestClass027$Nested`
@@ -7950,10 +7694,6 @@ final class $TestClass027$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass027$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass027$Nested';
 }
 
 /// from: `com.example.TestClass028`
@@ -8049,10 +7789,6 @@ final class $TestClass028$Type$ extends jni$_.JType<TestClass028> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass028;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass028';
 }
 
 /// from: `com.example.TestClass029`
@@ -8244,10 +7980,6 @@ final class $TestClass029$Type$ extends jni$_.JType<TestClass029> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass029;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass029';
 }
 
 /// from: `com.example.TestClass029$Nested`
@@ -8292,10 +8024,6 @@ final class $TestClass029$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass029$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass029$Nested';
 }
 
 /// from: `com.example.TestClass030`
@@ -8364,10 +8092,6 @@ final class $TestClass030$Type$ extends jni$_.JType<TestClass030> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass030;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass030';
 }
 
 /// from: `com.example.TestClass030$Nested`
@@ -8414,10 +8138,6 @@ final class $TestClass030$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass030$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass030$Nested';
 }
 
 /// from: `com.example.TestClass031`
@@ -8621,10 +8341,6 @@ final class $TestClass031$Type$ extends jni$_.JType<TestClass031> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass031;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass031';
 }
 
 /// from: `com.example.TestClass031$Nested`
@@ -8669,10 +8385,6 @@ final class $TestClass031$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass031$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass031$Nested';
 }
 
 /// from: `com.example.TestClass032`
@@ -8938,10 +8650,6 @@ final class $TestClass032$Type$ extends jni$_.JType<TestClass032> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass032;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass032';
 }
 
 /// from: `com.example.TestClass033`
@@ -9123,10 +8831,6 @@ final class $TestClass033$Type$ extends jni$_.JType<TestClass033> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass033;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass033';
 }
 
 /// from: `com.example.TestClass034`
@@ -9339,10 +9043,6 @@ final class $TestClass034$Type$ extends jni$_.JType<TestClass034> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass034;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass034';
 }
 
 /// from: `com.example.TestClass034$NestedEnum`
@@ -9425,10 +9125,6 @@ final class $TestClass034$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass034$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass034$NestedEnum';
 }
 
 /// from: `com.example.TestClass035`
@@ -9504,10 +9200,6 @@ final class $TestClass035$Type$ extends jni$_.JType<TestClass035> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass035;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass035';
 }
 
 /// from: `com.example.TestClass035$Nested`
@@ -9552,10 +9244,6 @@ final class $TestClass035$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass035$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass035$Nested';
 }
 
 /// from: `com.example.TestClass037`
@@ -9693,10 +9381,6 @@ final class $TestClass037$Type$ extends jni$_.JType<TestClass037> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass037;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass037';
 }
 
 /// from: `com.example.TestClass037$Nested`
@@ -9741,10 +9425,6 @@ final class $TestClass037$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass037$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass037$Nested';
 }
 
 /// from: `com.example.TestClass038`
@@ -9838,10 +9518,6 @@ final class $TestClass038$Type$ extends jni$_.JType<TestClass038> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass038;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass038';
 }
 
 /// from: `com.example.TestClass039`
@@ -10064,10 +9740,6 @@ final class $TestClass039$Type$ extends jni$_.JType<TestClass039> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass039;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass039';
 }
 
 /// from: `com.example.TestClass039$Nested`
@@ -10112,10 +9784,6 @@ final class $TestClass039$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass039$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass039$Nested';
 }
 
 /// from: `com.example.TestClass040`
@@ -10206,10 +9874,6 @@ final class $TestClass040$Type$ extends jni$_.JType<TestClass040> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass040;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass040';
 }
 
 /// from: `com.example.TestClass040$Nested`
@@ -10256,10 +9920,6 @@ final class $TestClass040$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass040$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass040$Nested';
 }
 
 /// from: `com.example.TestClass041`
@@ -10459,10 +10119,6 @@ final class $TestClass041$Type$ extends jni$_.JType<TestClass041> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass041;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass041';
 }
 
 /// from: `com.example.TestClass042`
@@ -10534,10 +10190,6 @@ final class $TestClass042$Type$ extends jni$_.JType<TestClass042> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass042;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass042';
 }
 
 /// from: `com.example.TestClass042$Nested`
@@ -10585,10 +10237,6 @@ final class $TestClass042$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass042$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass042$Nested';
 }
 
 /// from: `com.example.TestClass043`
@@ -10672,10 +10320,6 @@ final class $TestClass043$Type$ extends jni$_.JType<TestClass043> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass043;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass043';
 }
 
 /// from: `com.example.TestClass044`
@@ -10769,10 +10413,6 @@ final class $TestClass044$Type$ extends jni$_.JType<TestClass044> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass044;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass044';
 }
 
 /// from: `com.example.TestClass045`
@@ -10967,10 +10607,6 @@ final class $TestClass045$Type$ extends jni$_.JType<TestClass045> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass045;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass045';
 }
 
 /// from: `com.example.TestClass045$Nested`
@@ -11015,10 +10651,6 @@ final class $TestClass045$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass045$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass045$Nested';
 }
 
 /// from: `com.example.TestClass046`
@@ -11227,10 +10859,6 @@ final class $TestClass046$Type$ extends jni$_.JType<TestClass046> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass046;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass046';
 }
 
 /// from: `com.example.TestClass046$NestedEnum`
@@ -11313,10 +10941,6 @@ final class $TestClass046$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass046$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass046$NestedEnum';
 }
 
 /// from: `com.example.TestClass047`
@@ -11419,10 +11043,6 @@ final class $TestClass047$Type$ extends jni$_.JType<TestClass047> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass047;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass047';
 }
 
 /// from: `com.example.TestClass048`
@@ -11560,10 +11180,6 @@ final class $TestClass048$Type$ extends jni$_.JType<TestClass048> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass048;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass048';
 }
 
 /// from: `com.example.TestClass048$Nested`
@@ -11610,10 +11226,6 @@ final class $TestClass048$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass048$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass048$Nested';
 }
 
 /// from: `com.example.TestClass049`
@@ -11716,10 +11328,6 @@ final class $TestClass049$Type$ extends jni$_.JType<TestClass049> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass049;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass049';
 }
 
 /// from: `com.example.TestClass050`
@@ -11788,10 +11396,6 @@ final class $TestClass050$Type$ extends jni$_.JType<TestClass050> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass050;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass050';
 }
 
 /// from: `com.example.TestClass051`
@@ -11978,10 +11582,6 @@ final class $TestClass051$Type$ extends jni$_.JType<TestClass051> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass051;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass051';
 }
 
 /// from: `com.example.TestClass051$Nested`
@@ -12081,10 +11681,6 @@ final class $TestClass051$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass051$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass051$Nested';
 }
 
 /// from: `com.example.TestClass052`
@@ -12270,10 +11866,6 @@ final class $TestClass052$Type$ extends jni$_.JType<TestClass052> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass052;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass052';
 }
 
 /// from: `com.example.TestClass054`
@@ -12393,10 +11985,6 @@ final class $TestClass054$Type$ extends jni$_.JType<TestClass054> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass054;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass054';
 }
 
 /// from: `com.example.TestClass054$NestedEnum`
@@ -12479,10 +12067,6 @@ final class $TestClass054$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass054$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass054$NestedEnum';
 }
 
 /// from: `com.example.TestClass055`
@@ -12583,10 +12167,6 @@ final class $TestClass055$Type$ extends jni$_.JType<TestClass055> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass055;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass055';
 }
 
 /// from: `com.example.TestClass055$Nested`
@@ -12633,10 +12213,6 @@ final class $TestClass055$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass055$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass055$Nested';
 }
 
 /// from: `com.example.TestClass056`
@@ -12825,10 +12401,6 @@ final class $TestClass056$Type$ extends jni$_.JType<TestClass056> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass056;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass056';
 }
 
 /// from: `com.example.TestClass058`
@@ -13031,10 +12603,6 @@ final class $TestClass058$Type$ extends jni$_.JType<TestClass058> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass058;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass058';
 }
 
 /// from: `com.example.TestClass058$Nested`
@@ -13079,10 +12647,6 @@ final class $TestClass058$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass058$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass058$Nested';
 }
 
 /// from: `com.example.TestClass059`
@@ -13154,10 +12718,6 @@ final class $TestClass059$Type$ extends jni$_.JType<TestClass059> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass059;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass059';
 }
 
 /// from: `com.example.TestClass060`
@@ -13441,10 +13001,6 @@ final class $TestClass060$Type$ extends jni$_.JType<TestClass060> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass060;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass060';
 }
 
 /// from: `com.example.TestClass061`
@@ -13631,10 +13187,6 @@ final class $TestClass061$Type$ extends jni$_.JType<TestClass061> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass061;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass061';
 }
 
 /// from: `com.example.TestClass061$Nested`
@@ -13679,10 +13231,6 @@ final class $TestClass061$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass061$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass061$Nested';
 }
 
 /// from: `com.example.TestClass062`
@@ -13778,10 +13326,6 @@ final class $TestClass062$Type$ extends jni$_.JType<TestClass062> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass062;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass062';
 }
 
 /// from: `com.example.TestClass063`
@@ -13844,10 +13388,6 @@ final class $TestClass063$Type$ extends jni$_.JType<TestClass063> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass063;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass063';
 }
 
 /// from: `com.example.TestClass063$Nested`
@@ -13894,10 +13434,6 @@ final class $TestClass063$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass063$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass063$Nested';
 }
 
 /// from: `com.example.TestClass064`
@@ -13966,10 +13502,6 @@ final class $TestClass064$Type$ extends jni$_.JType<TestClass064> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass064;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass064';
 }
 
 /// from: `com.example.TestClass065`
@@ -14156,10 +13688,6 @@ final class $TestClass065$Type$ extends jni$_.JType<TestClass065> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass065;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass065';
 }
 
 /// from: `com.example.TestClass066`
@@ -14255,10 +13783,6 @@ final class $TestClass066$Type$ extends jni$_.JType<TestClass066> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass066;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass066';
 }
 
 /// from: `com.example.TestClass067`
@@ -14374,10 +13898,6 @@ final class $TestClass067$Type$ extends jni$_.JType<TestClass067> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass067;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass067';
 }
 
 /// from: `com.example.TestClass067$Nested`
@@ -14422,10 +13942,6 @@ final class $TestClass067$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass067$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass067$Nested';
 }
 
 /// from: `com.example.TestClass068`
@@ -14696,10 +14212,6 @@ final class $TestClass068$Type$ extends jni$_.JType<TestClass068> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass068;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass068';
 }
 
 /// from: `com.example.TestClass068$NestedEnum`
@@ -14782,10 +14294,6 @@ final class $TestClass068$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass068$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass068$NestedEnum';
 }
 
 /// from: `com.example.TestClass069`
@@ -14978,10 +14486,6 @@ final class $TestClass069$Type$ extends jni$_.JType<TestClass069> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass069;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass069';
 }
 
 /// from: `com.example.TestClass069$Nested`
@@ -15026,10 +14530,6 @@ final class $TestClass069$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass069$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass069$Nested';
 }
 
 /// from: `com.example.TestClass070`
@@ -15152,10 +14652,6 @@ final class $TestClass070$Type$ extends jni$_.JType<TestClass070> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass070;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass070';
 }
 
 /// from: `com.example.TestClass071`
@@ -15354,10 +14850,6 @@ final class $TestClass071$Type$ extends jni$_.JType<TestClass071> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass071;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass071';
 }
 
 /// from: `com.example.TestClass072`
@@ -15549,10 +15041,6 @@ final class $TestClass072$Type$ extends jni$_.JType<TestClass072> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass072;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass072';
 }
 
 /// from: `com.example.TestClass072$Nested`
@@ -15597,10 +15085,6 @@ final class $TestClass072$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass072$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass072$Nested';
 }
 
 /// from: `com.example.TestClass073`
@@ -15689,10 +15173,6 @@ final class $TestClass073$Type$ extends jni$_.JType<TestClass073> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass073;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass073';
 }
 
 /// from: `com.example.TestClass074`
@@ -15882,10 +15362,6 @@ final class $TestClass074$Type$ extends jni$_.JType<TestClass074> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass074;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass074';
 }
 
 /// from: `com.example.TestClass074$Nested`
@@ -15932,10 +15408,6 @@ final class $TestClass074$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass074$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass074$Nested';
 }
 
 /// from: `com.example.TestClass075`
@@ -16078,10 +15550,6 @@ final class $TestClass075$Type$ extends jni$_.JType<TestClass075> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass075;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass075';
 }
 
 /// from: `com.example.TestClass076`
@@ -16180,10 +15648,6 @@ final class $TestClass076$Type$ extends jni$_.JType<TestClass076> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass076;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass076';
 }
 
 /// from: `com.example.TestClass077`
@@ -16387,10 +15851,6 @@ final class $TestClass077$Type$ extends jni$_.JType<TestClass077> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass077;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass077';
 }
 
 /// from: `com.example.TestClass077$Nested`
@@ -16435,10 +15895,6 @@ final class $TestClass077$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass077$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass077$Nested';
 }
 
 /// from: `com.example.TestClass078`
@@ -16537,10 +15993,6 @@ final class $TestClass078$Type$ extends jni$_.JType<TestClass078> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass078;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass078';
 }
 
 /// from: `com.example.TestClass079`
@@ -16636,10 +16088,6 @@ final class $TestClass079$Type$ extends jni$_.JType<TestClass079> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass079;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass079';
 }
 
 /// from: `com.example.TestClass079$Nested`
@@ -16739,10 +16187,6 @@ final class $TestClass079$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass079$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass079$Nested';
 }
 
 /// from: `com.example.TestClass080`
@@ -16816,10 +16260,6 @@ final class $TestClass080$Type$ extends jni$_.JType<TestClass080> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass080;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass080';
 }
 
 /// from: `com.example.TestClass080$Sub`
@@ -16861,10 +16301,6 @@ final class $TestClass080$Sub$Type$ extends jni$_.JType<TestClass080$Sub> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass080$Sub;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass080$Sub';
 }
 
 /// from: `com.example.TestClass080$Nested`
@@ -16909,10 +16345,6 @@ final class $TestClass080$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass080$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass080$Nested';
 }
 
 /// from: `com.example.TestClass081`
@@ -17262,10 +16694,6 @@ final class $TestClass081$Type$ extends jni$_.JType<TestClass081> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass081;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass081';
 }
 
 /// from: `com.example.TestClass082`
@@ -17316,10 +16744,6 @@ final class $TestClass082$Type$ extends jni$_.JType<TestClass082> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass082;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass082';
 }
 
 /// from: `com.example.TestClass082$Nested`
@@ -17366,10 +16790,6 @@ final class $TestClass082$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass082$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass082$Nested';
 }
 
 /// from: `com.example.TestClass083`
@@ -17572,10 +16992,6 @@ final class $TestClass083$Type$ extends jni$_.JType<TestClass083> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass083;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass083';
 }
 
 /// from: `com.example.TestClass084`
@@ -17767,10 +17183,6 @@ final class $TestClass084$Type$ extends jni$_.JType<TestClass084> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass084;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass084';
 }
 
 /// from: `com.example.TestClass084$Nested`
@@ -17870,10 +17282,6 @@ final class $TestClass084$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass084$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass084$Nested';
 }
 
 /// from: `com.example.TestClass085`
@@ -17967,10 +17375,6 @@ final class $TestClass085$Type$ extends jni$_.JType<TestClass085> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass085;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass085';
 }
 
 /// from: `com.example.TestClass085$Nested`
@@ -18018,10 +17422,6 @@ final class $TestClass085$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass085$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass085$Nested';
 }
 
 /// from: `com.example.TestClass086`
@@ -18092,10 +17492,6 @@ final class $TestClass086$Type$ extends jni$_.JType<TestClass086> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass086;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass086';
 }
 
 /// from: `com.example.TestClass086$Sub`
@@ -18137,10 +17533,6 @@ final class $TestClass086$Sub$Type$ extends jni$_.JType<TestClass086$Sub> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass086$Sub;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass086$Sub';
 }
 
 /// from: `com.example.TestClass087`
@@ -18500,10 +17892,6 @@ final class $TestClass087$Type$ extends jni$_.JType<TestClass087> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass087;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass087';
 }
 
 /// from: `com.example.TestClass087$Nested`
@@ -18548,10 +17936,6 @@ final class $TestClass087$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass087$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass087$Nested';
 }
 
 /// from: `com.example.TestClass088`
@@ -18650,10 +18034,6 @@ final class $TestClass088$Type$ extends jni$_.JType<TestClass088> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass088;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass088';
 }
 
 /// from: `com.example.TestClass088$Nested`
@@ -18701,10 +18081,6 @@ final class $TestClass088$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass088$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass088$Nested';
 }
 
 /// from: `com.example.TestClass089`
@@ -18820,10 +18196,6 @@ final class $TestClass089$Type$ extends jni$_.JType<TestClass089> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass089;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass089';
 }
 
 /// from: `com.example.TestClass090`
@@ -19103,10 +18475,6 @@ final class $TestClass090$Type$ extends jni$_.JType<TestClass090> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass090;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass090';
 }
 
 /// from: `com.example.TestClass090$Nested`
@@ -19151,10 +18519,6 @@ final class $TestClass090$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass090$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass090$Nested';
 }
 
 /// from: `com.example.TestClass091`
@@ -19274,10 +18638,6 @@ final class $TestClass091$Type$ extends jni$_.JType<TestClass091> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass091;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass091';
 }
 
 /// from: `com.example.TestClass091$Nested`
@@ -19322,10 +18682,6 @@ final class $TestClass091$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass091$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass091$Nested';
 }
 
 /// from: `com.example.TestClass092`
@@ -19517,10 +18873,6 @@ final class $TestClass092$Type$ extends jni$_.JType<TestClass092> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass092;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass092';
 }
 
 /// from: `com.example.TestClass092$Nested`
@@ -19620,10 +18972,6 @@ final class $TestClass092$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass092$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass092$Nested';
 }
 
 /// from: `com.example.TestClass093`
@@ -19722,10 +19070,6 @@ final class $TestClass093$Type$ extends jni$_.JType<TestClass093> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass093;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass093';
 }
 
 /// from: `com.example.TestClass094`
@@ -19864,10 +19208,6 @@ final class $TestClass094$Type$ extends jni$_.JType<TestClass094> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass094;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass094';
 }
 
 /// from: `com.example.TestClass094$Nested`
@@ -19967,10 +19307,6 @@ final class $TestClass094$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass094$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass094$Nested';
 }
 
 /// from: `com.example.TestClass095`
@@ -20039,10 +19375,6 @@ final class $TestClass095$Type$ extends jni$_.JType<TestClass095> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass095;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass095';
 }
 
 /// from: `com.example.TestClass096`
@@ -20154,10 +19486,6 @@ final class $TestClass096$Type$ extends jni$_.JType<TestClass096> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass096;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass096';
 }
 
 /// from: `com.example.TestClass096$Nested`
@@ -20257,10 +19585,6 @@ final class $TestClass096$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass096$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass096$Nested';
 }
 
 /// from: `com.example.TestClass097`
@@ -20361,10 +19685,6 @@ final class $TestClass097$Type$ extends jni$_.JType<TestClass097> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass097;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass097';
 }
 
 /// from: `com.example.TestClass097$Nested`
@@ -20464,10 +19784,6 @@ final class $TestClass097$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass097$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass097$Nested';
 }
 
 /// from: `com.example.TestClass098`
@@ -20560,10 +19876,6 @@ final class $TestClass098$Type$ extends jni$_.JType<TestClass098> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass098;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass098';
 }
 
 /// from: `com.example.TestClass098$NestedEnum`
@@ -20646,10 +19958,6 @@ final class $TestClass098$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass098$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass098$NestedEnum';
 }
 
 /// from: `com.example.TestClass099`
@@ -20720,10 +20028,6 @@ final class $TestClass099$Type$ extends jni$_.JType<TestClass099> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass099;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass099';
 }
 
 /// from: `com.example.TestClass099$Nested`
@@ -20770,10 +20074,6 @@ final class $TestClass099$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass099$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass099$Nested';
 }
 
 /// from: `com.example.TestClass100`
@@ -20854,10 +20154,6 @@ final class $TestClass100$Type$ extends jni$_.JType<TestClass100> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass100;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass100';
 }
 
 /// from: `com.example.TestClass100$Nested`
@@ -20904,10 +20200,6 @@ final class $TestClass100$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass100$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass100$Nested';
 }
 
 /// from: `com.example.TestClass101`
@@ -21028,10 +20320,6 @@ final class $TestClass101$Type$ extends jni$_.JType<TestClass101> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass101;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass101';
 }
 
 /// from: `com.example.TestClass102`
@@ -21155,10 +20443,6 @@ final class $TestClass102$Type$ extends jni$_.JType<TestClass102> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass102;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass102';
 }
 
 /// from: `com.example.TestClass102$Nested`
@@ -21258,10 +20542,6 @@ final class $TestClass102$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass102$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass102$Nested';
 }
 
 /// from: `com.example.TestClass103`
@@ -21411,10 +20691,6 @@ final class $TestClass103$Type$ extends jni$_.JType<TestClass103> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass103;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass103';
 }
 
 /// from: `com.example.TestClass104`
@@ -21598,10 +20874,6 @@ final class $TestClass104$Type$ extends jni$_.JType<TestClass104> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass104;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass104';
 }
 
 /// from: `com.example.TestClass104$Nested`
@@ -21646,10 +20918,6 @@ final class $TestClass104$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass104$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass104$Nested';
 }
 
 /// from: `com.example.TestClass105`
@@ -21743,10 +21011,6 @@ final class $TestClass105$Type$ extends jni$_.JType<TestClass105> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass105;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass105';
 }
 
 /// from: `com.example.TestClass105$NestedEnum`
@@ -21829,10 +21093,6 @@ final class $TestClass105$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass105$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass105$NestedEnum';
 }
 
 /// from: `com.example.TestClass106`
@@ -21874,10 +21134,6 @@ final class $TestClass106$Type$ extends jni$_.JType<TestClass106> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass106;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass106';
 }
 
 /// from: `com.example.TestClass106$Sub`
@@ -21920,10 +21176,6 @@ final class $TestClass106$Sub$Type$ extends jni$_.JType<TestClass106$Sub> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass106$Sub;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass106$Sub';
 }
 
 /// from: `com.example.TestClass106$Nested`
@@ -22023,10 +21275,6 @@ final class $TestClass106$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass106$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass106$Nested';
 }
 
 /// from: `com.example.TestClass107`
@@ -22120,10 +21368,6 @@ final class $TestClass107$Type$ extends jni$_.JType<TestClass107> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass107;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass107';
 }
 
 /// from: `com.example.TestClass107$Nested`
@@ -22223,10 +21467,6 @@ final class $TestClass107$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass107$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass107$Nested';
 }
 
 /// from: `com.example.TestClass108`
@@ -22413,10 +21653,6 @@ final class $TestClass108$Type$ extends jni$_.JType<TestClass108> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass108;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass108';
 }
 
 /// from: `com.example.TestClass109`
@@ -22512,10 +21748,6 @@ final class $TestClass109$Type$ extends jni$_.JType<TestClass109> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass109;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass109';
 }
 
 /// from: `com.example.TestClass109$Nested`
@@ -22562,10 +21794,6 @@ final class $TestClass109$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass109$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass109$Nested';
 }
 
 /// from: `com.example.TestClass110`
@@ -22625,10 +21853,6 @@ final class $TestClass110$Type$ extends jni$_.JType<TestClass110> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass110;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass110';
 }
 
 /// from: `com.example.TestClass111`
@@ -22704,10 +21928,6 @@ final class $TestClass111$Type$ extends jni$_.JType<TestClass111> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass111;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass111';
 }
 
 /// from: `com.example.TestClass111$NestedEnum`
@@ -22790,10 +22010,6 @@ final class $TestClass111$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass111$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass111$NestedEnum';
 }
 
 /// from: `com.example.TestClass113`
@@ -22955,10 +22171,6 @@ final class $TestClass113$Type$ extends jni$_.JType<TestClass113> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass113;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass113';
 }
 
 /// from: `com.example.TestClass113$Nested`
@@ -23003,10 +22215,6 @@ final class $TestClass113$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass113$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass113$Nested';
 }
 
 /// from: `com.example.TestClass115`
@@ -23187,10 +22395,6 @@ final class $TestClass115$Type$ extends jni$_.JType<TestClass115> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass115;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass115';
 }
 
 /// from: `com.example.TestClass115$Nested`
@@ -23237,10 +22441,6 @@ final class $TestClass115$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass115$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass115$Nested';
 }
 
 /// from: `com.example.TestClass116`
@@ -23324,10 +22524,6 @@ final class $TestClass116$Type$ extends jni$_.JType<TestClass116> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass116;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass116';
 }
 
 /// from: `com.example.TestClass116$Nested`
@@ -23372,10 +22568,6 @@ final class $TestClass116$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass116$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass116$Nested';
 }
 
 /// from: `com.example.TestClass117`
@@ -23496,10 +22688,6 @@ final class $TestClass117$Type$ extends jni$_.JType<TestClass117> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass117;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass117';
 }
 
 /// from: `com.example.TestClass117$Nested`
@@ -23599,10 +22787,6 @@ final class $TestClass117$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass117$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass117$Nested';
 }
 
 /// from: `com.example.TestClass118`
@@ -23720,10 +22904,6 @@ final class $TestClass118$Type$ extends jni$_.JType<TestClass118> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass118;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass118';
 }
 
 /// from: `com.example.TestClass119`
@@ -23795,10 +22975,6 @@ final class $TestClass119$Type$ extends jni$_.JType<TestClass119> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass119;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass119';
 }
 
 /// from: `com.example.TestClass119$Sub`
@@ -23840,10 +23016,6 @@ final class $TestClass119$Sub$Type$ extends jni$_.JType<TestClass119$Sub> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass119$Sub;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass119$Sub';
 }
 
 /// from: `com.example.TestClass120`
@@ -23922,10 +23094,6 @@ final class $TestClass120$Type$ extends jni$_.JType<TestClass120> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass120;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass120';
 }
 
 /// from: `com.example.TestClass120$Nested`
@@ -24025,10 +23193,6 @@ final class $TestClass120$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass120$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass120$Nested';
 }
 
 /// from: `com.example.TestClass121`
@@ -24100,10 +23264,6 @@ final class $TestClass121$Type$ extends jni$_.JType<TestClass121> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass121;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass121';
 }
 
 /// from: `com.example.TestClass121$NestedEnum`
@@ -24186,10 +23346,6 @@ final class $TestClass121$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass121$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass121$NestedEnum';
 }
 
 /// from: `com.example.TestClass122`
@@ -24304,10 +23460,6 @@ final class $TestClass122$Type$ extends jni$_.JType<TestClass122> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass122;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass122';
 }
 
 /// from: `com.example.TestClass122$Nested`
@@ -24407,10 +23559,6 @@ final class $TestClass122$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass122$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass122$Nested';
 }
 
 /// from: `com.example.TestClass123`
@@ -24552,10 +23700,6 @@ final class $TestClass123$Type$ extends jni$_.JType<TestClass123> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass123;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass123';
 }
 
 /// from: `com.example.TestClass123$Sub`
@@ -24623,10 +23767,6 @@ final class $TestClass123$Sub$Type$ extends jni$_.JType<TestClass123$Sub> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass123$Sub;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass123$Sub';
 }
 
 /// from: `com.example.TestClass123$Nested`
@@ -24671,10 +23811,6 @@ final class $TestClass123$Nested$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass123$Nested;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass123$Nested';
 }
 
 /// from: `com.example.TestClass124`
@@ -24792,10 +23928,6 @@ final class $TestClass124$Type$ extends jni$_.JType<TestClass124> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass124;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass124';
 }
 
 /// from: `com.example.TestClass124$NestedEnum`
@@ -24878,10 +24010,6 @@ final class $TestClass124$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass124$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass124$NestedEnum';
 }
 
 /// from: `com.example.TestClass125`
@@ -24950,10 +24078,6 @@ final class $TestClass125$Type$ extends jni$_.JType<TestClass125> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass125;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass125';
 }
 
 /// from: `com.example.TestClass125$Sub`
@@ -24995,10 +24119,6 @@ final class $TestClass125$Sub$Type$ extends jni$_.JType<TestClass125$Sub> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass125$Sub;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass125$Sub';
 }
 
 /// from: `com.example.TestClass125$NestedEnum`
@@ -25081,10 +24201,6 @@ final class $TestClass125$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass125$NestedEnum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/TestClass125$NestedEnum';
 }
 
 /// from: `java.lang.Enum`
@@ -25103,10 +24219,6 @@ final class $Enum$Type$ extends jni$_.JType<Enum> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Enum;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/lang/Enum';
 }
 
 /// from: `com.example.CustomRecord`
@@ -25125,8 +24237,4 @@ final class $CustomRecord$Type$ extends jni$_.JType<CustomRecord> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/CustomRecord;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/CustomRecord';
 }

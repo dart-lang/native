@@ -70,8 +70,4 @@ final class $JsonStreamContext$Type$ extends jni$_.JType<JsonStreamContext> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonStreamContext;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/fasterxml/jackson/core/JsonStreamContext';
 }

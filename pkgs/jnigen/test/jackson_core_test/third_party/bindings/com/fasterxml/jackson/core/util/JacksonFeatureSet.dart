@@ -71,8 +71,4 @@ final class $JacksonFeatureSet$Type$ extends jni$_.JType<JacksonFeatureSet> {
   @core$_.override
   String get signature =>
       r'Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/fasterxml/jackson/core/util/JacksonFeatureSet';
 }

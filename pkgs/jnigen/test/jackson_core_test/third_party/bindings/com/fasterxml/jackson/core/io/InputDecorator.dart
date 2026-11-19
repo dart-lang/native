@@ -69,8 +69,4 @@ final class $InputDecorator$Type$ extends jni$_.JType<InputDecorator> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/io/InputDecorator;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/fasterxml/jackson/core/io/InputDecorator';
 }
