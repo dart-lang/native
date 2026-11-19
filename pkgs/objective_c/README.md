@@ -1,5 +1,4 @@
-[![dart](https://github.com/dart-lang/native/actions/workflows/native.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/native.yaml)
-[![flutter](https://github.com/dart-lang/native/actions/workflows/objective_c.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/objective_c.yaml)
+[![Build Status](https://github.com/dart-lang/native/actions/workflows/objective_c.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/objective_c.yaml)
 [![Coverage Status](https://codecov.io/gh/dart-lang/native/branch/main/graph/badge.svg?component=objective_c)](https://app.codecov.io/gh/dart-lang/native)
 [![pub package](https://img.shields.io/pub/v/objective_c.svg)](https://pub.dev/packages/objective_c)
 [![package publisher](https://img.shields.io/pub/publisher/objective_c.svg)](https://pub.dev/packages/objective_c/publisher)
