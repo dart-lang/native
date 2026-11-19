@@ -414,6 +414,8 @@ class TestTask extends Task {
           .where((p) => !slowTestPackages.any((slow) => p.contains(slow)))
           .toList();
     }
+    // Work around https://github.com/dart-lang/sdk/issues/63713 by running all
+    // tests that have a build hook from their package directory.
     final packagesWithHook = [
       for (final package in packages)
         if (File.fromUri(
@@ -436,6 +438,7 @@ class TestTask extends Task {
     final reporterArgs = [
       if (Platform.environment['GITHUB_ACTIONS'] != null) '--reporter=github',
     ];
+    
     if (testUris.isNotEmpty) {
       await _runProcess('dart', [
         'test',
@@ -444,9 +447,7 @@ class TestTask extends Task {
         ...testUris,
       ]);
     }
-    // Packages with build hooks must run from their package directory so
-    // `dart test` builds their hooks, and sequentially due to shared
-    // `<workspace_root>/.dart_tool/native_assets.yaml`.
+    
     for (final package in packagesWithHook) {
       if (!Directory.fromUri(
         repositoryRoot.resolve('$package/test/'),
