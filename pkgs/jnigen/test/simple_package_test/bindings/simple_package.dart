@@ -11453,6 +11453,10 @@ final class $R630$Inner$Type$ extends jni$_.JType<R630$Inner> {
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/regressions/R630$Inner;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/regressions/R630$Inner';
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R630`
@@ -11512,6 +11516,10 @@ final class $R630$Type$ extends jni$_.JType<R630> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R630;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/github/dart_lang/jnigen/regressions/R630';
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R693$Child`
