@@ -189,10 +189,6 @@ abstract final class Jni {
   /// Uses the correct class loader on Android.
   /// Prefer this over `Jni.env.FindClass`.
   static JClassPtr findClass(String name) {
-    // TODO(https://github.com/dart-lang/native/issues/3174): Remove this hack.
-    if (name.startsWith('L') && name.endsWith(';')) {
-      name = name.substring(1, name.length - 1);
-    }
     return using((arena) => _bindings.JniFindClass(name.toNativeChars(arena)))
         .checkedClassRef;
   }
@@ -200,14 +196,19 @@ abstract final class Jni {
   /// Throws an exception.
   @internal
   static void throwException(JThrowablePtr exception) {
+    if (exception == nullptr) {
+      throw JNullError();
+    }
     final details = _bindings.GetExceptionDetails(exception);
     final env = Jni.env;
-    final message = env.toDartString(details.message);
-    final stacktrace = env.toDartString(details.stacktrace);
-    env.DeleteGlobalRef(details.message);
-    env.DeleteGlobalRef(details.stacktrace);
+    String extract(JStringPtr ptr) => ptr == nullptr
+        ? '<null>'
+        : env.toDartString(ptr, releaseOriginal: true);
     throw JThrowable.fromReference(
-        JGlobalReference(exception), message, stacktrace);
+      JGlobalReference(exception),
+      extract(details.message),
+      extract(details.stacktrace),
+    );
   }
 
   /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over

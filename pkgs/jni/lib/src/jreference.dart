@@ -26,6 +26,17 @@ extension ProtectedJReference on JReference {
   }
 }
 
+extension JReferencePointer on JReference {
+  @internal
+  JObjectPtr get nonNullPointer {
+    final ptr = pointer;
+    if (ptr == nullptr) {
+      throw JNullError();
+    }
+    return ptr;
+  }
+}
+
 /// A thin wrapper around a pointer that makes it [Finalizable].
 @pragma('vm:deeply-immutable')
 final class _JFinalizable implements Finalizable {
@@ -91,6 +102,9 @@ final class JGlobalReference extends JReference {
       : super._();
 
   factory JGlobalReference(Pointer<Void> pointer) {
+    if (pointer == nullptr) {
+      throw JNullError();
+    }
     final finalizable = _JFinalizable(pointer);
     final isReleased = calloc<Bool>();
     var releasedStackTracePointer = nullptr.cast<Pointer<Char>>();

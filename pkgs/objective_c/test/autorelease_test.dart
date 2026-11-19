@@ -36,7 +36,7 @@ void main() {
 
         expect(objectTracker.isAlive, false);
       });
-    });
+    }, skip: !canDoGC);
 
     test('exception safe', () async {
       await using((arena) async {
@@ -62,7 +62,7 @@ void main() {
 
         expect(objectTracker.isAlive, false);
       });
-    });
+    }, skip: !canDoGC);
 
     test('returns callback value', () async {
       await using((arena) async {
@@ -87,6 +87,6 @@ void main() {
         // Object should be released once the pool is popped
         expect(objectTracker.isAlive, false);
       });
-    });
+    }, skip: !canDoGC);
   });
 }

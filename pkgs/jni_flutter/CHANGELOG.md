@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Regenerate JNI bindings to support the new `JType.className` API.
+
 ## 1.0.4+1
 
 - Update Groovy Gradle property assignments to silence a warning.

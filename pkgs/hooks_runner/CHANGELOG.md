@@ -1,11 +1,19 @@
-## 2.0.0-wip
+## 2.0.1-wip
 
+- Add `DEVELOPER_DIR`, `SDKROOT`, and `JAVA_HOME` to the environment variables
+  allowlist.
+
+## 2.0.0
+
+- Decode hook stdout and stderr as streaming UTF-8, fixing garbled non-ASCII
+  output on Windows and characters split across process output chunks.
 - **Breaking change**: Remove `KernelAssets` (and related `KernelAsset*`
   classes) and `Target`.
 - Drop regular dependency on `package:code_assets`.
 - Track header dependencies in C build test projects.
 - Fail eagerly instead of waiting for timeout when running on a file system that
   does not support process locks.
+- Add `PKG_CONFIG_PATH` to the environment variables allowlist.
 - Fix a race condition in `NativeAssetsBuildRunner.link` by writing
   `recorded_uses.json` under the directory lock.
 

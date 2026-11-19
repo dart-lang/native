@@ -572,7 +572,7 @@ void main() {
 
           expect(inputStreamTracker.isAlive, false);
         });
-      });
+      }, skip: !canDoGC);
 
       test('with non-self delegate', () async {
         await using((arena) async {
@@ -602,7 +602,7 @@ void main() {
 
           expect(inputStreamTracker.isAlive, false);
         });
-      });
+      }, skip: !canDoGC);
 
       test('from iterable, garbage collected', () async {
         await using((arena) async {
@@ -631,7 +631,7 @@ void main() {
 
           expect(inputStreamTracker.isAlive, isFalse);
         });
-      });
+      }, skip: !canDoGC);
 
       test('from stream, garbage collected', () async {
         await using((arena) async {
@@ -672,7 +672,7 @@ void main() {
 
           expect(inputStreamTracker.isAlive, isFalse);
         });
-      });
+      }, skip: !canDoGC);
     });
   });
 }

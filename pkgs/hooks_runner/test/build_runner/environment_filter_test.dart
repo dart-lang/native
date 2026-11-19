@@ -78,11 +78,27 @@ void main() {
       isTrue,
     );
     expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('PKG_CONFIG_PATH'),
+      isTrue,
+    );
+    expect(
       NativeAssetsBuildRunner.includeHookEnvironmentVariable('HOME'),
       isTrue,
     );
     expect(
       NativeAssetsBuildRunner.includeHookEnvironmentVariable('ANDROID_HOME'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('DEVELOPER_DIR'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('SDKROOT'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('JAVA_HOME'),
       isTrue,
     );
   });

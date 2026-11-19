@@ -26,11 +26,15 @@ enum Fruit {
   final int value;
   const Fruit(this.value);
 
-  static Fruit fromValue(int value) => switch (value) {
+  static Fruit? fromValueOrNull(int value) => switch (value) {
     1 => apple,
     2 => banana,
-    _ => throw ArgumentError('Unknown value for Fruit: $value'),
+    _ => null,
   };
+
+  static Fruit fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for Fruit: $value'));
 }
 
 final class Number extends ffi.Union {
@@ -64,9 +68,13 @@ enum ns$Flag {
   final int value;
   const ns$Flag(this.value);
 
-  static ns$Flag fromValue(int value) => switch (value) {
+  static ns$Flag? fromValueOrNull(int value) => switch (value) {
     0 => off,
     1 => on,
-    _ => throw ArgumentError('Unknown value for ns\$Flag: $value'),
+    _ => null,
   };
+
+  static ns$Flag fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for ns\$Flag: $value'));
 }

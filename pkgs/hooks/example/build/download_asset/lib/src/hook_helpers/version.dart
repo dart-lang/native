@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'download.dart';
-import 'hashes.dart';
+import 'hashes.g.dart';
 
 /// The GitHub release to use for downloading assets.
 ///

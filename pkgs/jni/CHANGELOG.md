@@ -1,3 +1,10 @@
+## 1.2.0
+
+- Add nullable `JType.className` for Java class names, using JNI signatures
+  for array class lookups.
+- Add defensive null checks on method receiver objects and field targets to
+  prevent native segfaults in Java.
+
 ## 1.1.2
 
 - Fix segfault when throwing `UseAfterReleaseError` or `DoubleReleaseError` in

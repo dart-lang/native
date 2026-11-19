@@ -10,7 +10,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
   packageRoot ??= Platform.script.resolve('../');
   return FfiGenerator(
     output: Output(
-      dart: DartOutput(path: packageRoot.resolve('lib/add.dart')),
+      dart: DartOutput(path: packageRoot.resolve('lib/src/add.g.dart')),
       preamble: '''
 // Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
