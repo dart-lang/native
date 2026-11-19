@@ -378,7 +378,6 @@ class GenerateTask extends Task {
         () => _runProcess('dart', [
           generator,
           if (!fix) '--set-exit-if-changed',
-          if (generator == 'pkgs/objective_c/tool/ffigen.dart') '--no-test',
         ]),
       () => _runProcess('dart', [
         'run',

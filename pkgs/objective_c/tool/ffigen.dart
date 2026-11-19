@@ -194,7 +194,7 @@ Future<void> main(List<String> args) async {
     ..addFlag(
       'test',
       help: 'Run interface_lists_test.dart after generating.',
-      defaultsTo: true,
+      defaultsTo: false,
       negatable: true,
     );
   final argResults = parser.parse(args);
