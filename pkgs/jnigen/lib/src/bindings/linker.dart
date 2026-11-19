@@ -195,13 +195,11 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
 }
 
 class _MethodLinker extends Visitor<Method, void> {
-  _MethodLinker(this.config, this.resolve, this.typeVarOrigin)
-      : typeLinker = _TypeLinker(resolve, typeVarOrigin);
+  _MethodLinker(this.config, this.resolve, this.classTypeVarOrigin);
 
   final JniGenerator config;
   final _Resolver resolve;
-  final Map<String, TypeParam> typeVarOrigin;
-  final _TypeLinker typeLinker;
+  final Map<String, TypeParam> classTypeVarOrigin;
 
   @override
   void visit(Method node) {
@@ -209,18 +207,22 @@ class _MethodLinker extends Visitor<Method, void> {
         node.classDecl.isNested &&
         (node.isConstructor || node.isStatic);
     if (hasOuterClassArg) {
+      final outerClass = node.classDecl.outerClass!;
+      final innerParamNames = {
+        for (final param in node.classDecl.typeParams) param.name,
+      };
       final outerClassTypeParams = [
-        for (final typeParam in node.classDecl.outerClass!.allTypeParams)
-          // A shadowed outer parameter cannot be named in this scope. Erase
-          // that argument instead of binding it to the inner parameter.
-          if (node.classDecl.allTypeParams.contains(typeParam))
-            TypeVar(name: typeParam.name)
-              ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull]
+        // For Outer<T, S>.Inner<T>, generate Outer<Object, S> so the hidden
+        // outer T still occupies its original slot.
+        for (final typeParam in outerClass.allTypeParams)
+          if (innerParamNames.contains(typeParam.name))
+            DeclaredType.object
           else
-            DeclaredType.object,
+            TypeVar(name: typeParam.name)
+              ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull],
       ];
       final outerClassType = DeclaredType(
-        binaryName: node.classDecl.outerClass!.binaryName,
+        binaryName: outerClass.binaryName,
         params: outerClassTypeParams,
         // `$outerClass` parameter must not be null.
         annotations: [Annotation.nonNull],
@@ -242,9 +244,12 @@ class _MethodLinker extends Visitor<Method, void> {
         node.params.first = param;
       }
     }
-    for (final typeParam in node.typeParams) {
-      typeVarOrigin[typeParam.name] = typeParam;
-    }
+    // A method's type parameters shadow class parameters only for this method.
+    final typeVarOrigin = {
+      ...classTypeVarOrigin,
+      for (final typeParam in node.typeParams) typeParam.name: typeParam,
+    };
+    final typeLinker = _TypeLinker(resolve, typeVarOrigin);
     node.descriptor = node.accept(_MethodDescriptor(typeVarOrigin));
     node.returnType.accept(typeLinker);
 
@@ -264,8 +269,13 @@ class _MethodLinker extends Visitor<Method, void> {
       typeParam.accept(typeParamLinker);
       typeParam.parent = node;
     }
-    for (final param in node.params) {
-      param.accept(paramLinker);
+    for (final (index, param) in node.params.indexed) {
+      if (hasOuterClassArg && index == 0) {
+        // The enclosing instance uses the class's type parameters.
+        param.accept(_ParamLinker(_TypeLinker(resolve, classTypeVarOrigin)));
+      } else {
+        param.accept(paramLinker);
+      }
       param.method = node;
     }
     node.asyncReturnType?.accept(typeLinker);

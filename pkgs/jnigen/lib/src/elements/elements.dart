@@ -941,6 +941,11 @@ class TypeParam with Annotated implements Element<TypeParam> {
   TypeParam({required this.name, this.bounds = const [], this.annotations});
 
   final String name;
+
+  /// The Dart name after resolving conflicts with enclosing type parameters.
+  @JsonKey(includeFromJson: false)
+  late String finalName = name;
+
   final List<ReferredType> bounds;
 
   @override
@@ -969,6 +974,9 @@ class TypeParam with Annotated implements Element<TypeParam> {
     );
     if (GenerationStage.linker <= until) {
       cloned.parent = parent;
+    }
+    if (GenerationStage.renamer <= until) {
+      cloned.finalName = finalName;
     }
     return cloned;
   }

@@ -11360,16 +11360,19 @@ final class $R2250$Type$ extends jni$_.JType<R2250> {
   String get className => r'com/github/dart_lang/jnigen/regressions/R2250';
 }
 
-/// from: `com.github.dart_lang.jnigen.regressions.R630$Inner`
-extension type R630$Inner<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+/// from: `com.github.dart_lang.jnigen.regressions.R630$Inner$Deep`
+extension type R630$Inner$Deep<
+        $T extends jni$_.JObject?,
+        $U extends jni$_.JObject?,
+        $S extends jni$_.JObject?>._(jni$_.JObject _$this)
     implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
-      r'com/github/dart_lang/jnigen/regressions/R630$Inner');
+      r'com/github/dart_lang/jnigen/regressions/R630$Inner$Deep');
 
   /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<R630$Inner> type = $R630$Inner$Type$();
+  static const jni$_.JType<R630$Inner$Deep> type = $R630$Inner$Deep$Type$();
   static final _id_new$ = _class.constructorId(
-    r'(Lcom/github/dart_lang/jnigen/regressions/R630;Ljava/lang/Object;)V',
+    r'(Lcom/github/dart_lang/jnigen/regressions/R630$Inner;Ljava/lang/Object;)V',
   );
 
   static final _new$ = jni$_.ProtectedJniExtensions.lookup<
@@ -11389,22 +11392,205 @@ extension type R630$Inner<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.regressions.R630<java.lang.Object> $outerClass, T object)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.regressions.R630$Inner<java.lang.Object, T, U> $outerClass, S object)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory R630$Inner(
-    R630<jni$_.JObject?> $outerClass,
-    $T? object,
+  factory R630$Inner$Deep(
+    R630$Inner<jni$_.JObject?, $T?, $U?> $outerClass,
+    $S? object,
   ) {
     final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer,
             _$object.pointer)
-        .object<R630$Inner<$T>>();
+        .object<R630$Inner$Deep<$T, $U, $S>>();
   }
 }
 
-extension R630$Inner$$Methods<$T extends jni$_.JObject?> on R630$Inner<$T> {
+extension R630$Inner$Deep$$Methods<
+    $T extends jni$_.JObject?,
+    $U extends jni$_.JObject?,
+    $S extends jni$_.JObject?> on R630$Inner$Deep<$T, $U, $S> {
+  static final _id_value = R630$Inner$Deep._class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public final S value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S? get value => _id_value.getNullable(this, jni$_.JObject.type) as $S?;
+
+  static final _id_get$innerOnly = R630$Inner$Deep._class.instanceMethodId(
+    r'getInnerOnly',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _get$innerOnly = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public U getInnerOnly()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U? get innerOnly {
+    final _$$selfRef = reference;
+    return _get$innerOnly(_$$selfRef.nonNullPointer, _id_get$innerOnly.pointer)
+        .object<$U?>();
+  }
+
+  static final _id_get$outerOnly = R630$Inner$Deep._class.instanceMethodId(
+    r'getOuterOnly',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _get$outerOnly = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object getOuterOnly()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? get outerOnly {
+    final _$$selfRef = reference;
+    return _get$outerOnly(_$$selfRef.nonNullPointer, _id_get$outerOnly.pointer)
+        .object<jni$_.JObject?>();
+  }
+}
+
+final class $R630$Inner$Deep$Type$ extends jni$_.JType<R630$Inner$Deep> {
+  @jni$_.internal
+  const $R630$Inner$Deep$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/regressions/R630$Inner$Deep;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/github/dart_lang/jnigen/regressions/R630$Inner$Deep';
+}
+
+/// from: `com.github.dart_lang.jnigen.regressions.R630$Inner`
+extension type R630$Inner<$S extends jni$_.JObject?, $T extends jni$_.JObject?,
+        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/regressions/R630$Inner');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<R630$Inner> type = $R630$Inner$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/regressions/R630;Ljava/lang/Object;Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.regressions.R630<java.lang.Object, S> $outerClass, T object, U object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory R630$Inner(
+    R630<jni$_.JObject?, $S?> $outerClass,
+    $T? object,
+    $U? object1,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$$outerClass = $outerClass.reference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer,
+            _$object.pointer, _$object1.pointer)
+        .object<R630$Inner<$S, $T, $U>>();
+  }
+
+  static final _id_create = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/regressions/R630;[Ljava/lang/Object;Ljava/lang/Number;Ljava/lang/Object;)V',
+  );
+
+  static final _create = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.regressions.R630<java.lang.Object, S> $outerClass, T[] objects, S number, U object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static R630$Inner<$S, $T, $U> create<
+      $S extends jni$_.JObject?,
+      $T extends jni$_.JObject?,
+      $U extends jni$_.JObject?,
+      $S$1 extends jni$_.JObject?>(
+    R630<jni$_.JObject?, $S?> $outerClass,
+    jni$_.JArray<$T?>? objects,
+    $S$1? number,
+    $U? object,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$$outerClass = $outerClass.reference;
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    final _$number = number?.reference ?? jni$_.jNullReference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _create(
+            _$$classRef.pointer,
+            _id_create.pointer,
+            _$$outerClass.pointer,
+            _$objects.pointer,
+            _$number.pointer,
+            _$object.pointer)
+        .object<R630$Inner<$S, $T, $U>>();
+  }
+}
+
+extension R630$Inner$$Methods<
+    $S extends jni$_.JObject?,
+    $T extends jni$_.JObject?,
+    $U extends jni$_.JObject?> on R630$Inner<$S, $T, $U> {
   static final _id_value = R630$Inner._class.instanceFieldId(
     r'value',
     r'Ljava/lang/Object;',
@@ -11443,6 +11629,112 @@ extension R630$Inner$$Methods<$T extends jni$_.JObject?> on R630$Inner<$T> {
             _$$selfRef.nonNullPointer, _id_get$outerValue.pointer)
         .object<jni$_.JObject?>();
   }
+
+  static final _id_echoInner = R630$Inner._class.instanceMethodId(
+    r'echoInner',
+    r'(Ljava/lang/Number;)Ljava/lang/Number;',
+  );
+
+  static final _echoInner = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public U echoInner(U number)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U$1? echoInner<$U$1 extends jni$_.JObject?>(
+    $U$1? number,
+  ) {
+    final _$$selfRef = reference;
+    final _$number = number?.reference ?? jni$_.jNullReference;
+    return _echoInner(
+            _$$selfRef.nonNullPointer, _id_echoInner.pointer, _$number.pointer)
+        .object<$U$1?>();
+  }
+
+  static final _id_echoOuter = R630$Inner._class.instanceMethodId(
+    r'echoOuter',
+    r'(Ljava/lang/Number;)Ljava/lang/Number;',
+  );
+
+  static final _echoOuter = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public S echoOuter(S number)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S$1? echoOuter<$S$1 extends jni$_.JObject?>(
+    $S$1? number,
+  ) {
+    final _$$selfRef = reference;
+    final _$number = number?.reference ?? jni$_.jNullReference;
+    return _echoOuter(
+            _$$selfRef.nonNullPointer, _id_echoOuter.pointer, _$number.pointer)
+        .object<$S$1?>();
+  }
+
+  static final _id_get$innerOnly = R630$Inner._class.instanceMethodId(
+    r'getInnerOnly',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _get$innerOnly = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public U getInnerOnly()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U? get innerOnly {
+    final _$$selfRef = reference;
+    return _get$innerOnly(_$$selfRef.nonNullPointer, _id_get$innerOnly.pointer)
+        .object<$U?>();
+  }
+
+  static final _id_get$outerOnly = R630$Inner._class.instanceMethodId(
+    r'getOuterOnly',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _get$outerOnly = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public S getOuterOnly()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S? get outerOnly {
+    final _$$selfRef = reference;
+    return _get$outerOnly(_$$selfRef.nonNullPointer, _id_get$outerOnly.pointer)
+        .object<$S?>();
+  }
 }
 
 final class $R630$Inner$Type$ extends jni$_.JType<R630$Inner> {
@@ -11460,41 +11752,51 @@ final class $R630$Inner$Type$ extends jni$_.JType<R630$Inner> {
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R630`
-extension type R630<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type R630<$T extends jni$_.JObject?, $S extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
   static final _class =
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/regressions/R630');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<R630> type = $R630$Type$();
   static final _id_new$ = _class.constructorId(
-    r'(Ljava/lang/Object;)V',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)V',
   );
 
   static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(T object)`
+  /// from: `public void <init>(T object, S object1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory R630(
     $T? object,
+    $S? object1,
   ) {
     final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _new$(_$$classRef.pointer, _id_new$.pointer, _$object.pointer)
-        .object<R630<$T>>();
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$object.pointer,
+            _$object1.pointer)
+        .object<R630<$T, $S>>();
   }
 }
 
-extension R630$$Methods<$T extends jni$_.JObject?> on R630<$T> {
+extension R630$$Methods<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
+    on R630<$T, $S> {
   static final _id_value = R630._class.instanceFieldId(
     r'value',
     r'Ljava/lang/Object;',
@@ -11507,6 +11809,59 @@ extension R630$$Methods<$T extends jni$_.JObject?> on R630<$T> {
   /// from: `public T value`
   /// The returned object must be released after use, by calling the [release] method.
   set value($T? value) => _id_value.set(this, jni$_.JObject.type, value);
+
+  static final _id_echoOuter = R630._class.instanceMethodId(
+    r'echoOuter',
+    r'(Ljava/lang/Number;)Ljava/lang/Number;',
+  );
+
+  static final _echoOuter = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public S echoOuter(S number)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S$1? echoOuter<$S$1 extends jni$_.JObject?>(
+    $S$1? number,
+  ) {
+    final _$$selfRef = reference;
+    final _$number = number?.reference ?? jni$_.jNullReference;
+    return _echoOuter(
+            _$$selfRef.nonNullPointer, _id_echoOuter.pointer, _$number.pointer)
+        .object<$S$1?>();
+  }
+
+  static final _id_get$outerOnly = R630._class.instanceMethodId(
+    r'getOuterOnly',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _get$outerOnly = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public S getOuterOnly()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $S? get outerOnly {
+    final _$$selfRef = reference;
+    return _get$outerOnly(_$$selfRef.nonNullPointer, _id_get$outerOnly.pointer)
+        .object<$S?>();
+  }
 }
 
 final class $R630$Type$ extends jni$_.JType<R630> {

@@ -86,6 +86,26 @@ void main() {
     });
   }
 
+  test('Method type parameters keep other declared names available', () async {
+    final method = Method(
+      name: 'echo',
+      typeParams: [TypeParam(name: 'T'), TypeParam(name: r'T$1')],
+      returnType: TypeVar(name: 'T'),
+    );
+    final outer = ClassDecl(
+      binaryName: 'Outer',
+      declKind: DeclKind.classKind,
+      typeParams: [TypeParam(name: 'T')],
+      methods: [method],
+    );
+    await rename(Classes({outer.binaryName: outer}));
+
+    expect(outer.typeParams.single.finalName, 'T');
+    expect(method.typeParams.map((param) => param.finalName), [r'T$2', r'T$1']);
+    expect(
+        (method.returnType as TypeVar).origin, same(method.typeParams.first));
+  });
+
   test('Overloading elements that end with a number', () async {
     final classes = Classes({
       'Foo': ClassDecl(
