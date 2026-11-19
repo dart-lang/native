@@ -1,9 +1,10 @@
-## 1.1.0-wip
+## 1.1.1-wip
 
 - Handle type parameters that shadow enclosing classes' type parameters
   without generating duplicate Dart declarations.
-- Generate `className` overrides for Java class bindings to support the
-  updated `JType` API.
+
+## 1.1.0
+
 - Add `dumpApi` utility and `ApiDumperVisitor` to dump parsed Java AST.
 - Emit defensive null checks on instance method receiver objects before
   crossing into JNI.

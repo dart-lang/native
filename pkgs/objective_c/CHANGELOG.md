@@ -1,3 +1,9 @@
+## 9.7.0-wip
+
+- Add a non-throwing `fromValueOrNull` method to the enums in the bindings (eg
+  `NSComparisonResult`), which returns `null` for unknown values. `fromValue`
+  still throws an `ArgumentError`.
+
 ## 9.6.4
 
 - Link the native support library against Foundation. Loading a built-in

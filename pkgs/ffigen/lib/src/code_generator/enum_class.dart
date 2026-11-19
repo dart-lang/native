@@ -184,17 +184,22 @@ class EnumClass extends BindingType with HasLocalScope {
     s.write('sealed class $name { }\n');
   }
 
-  /// Writes a static function that maps integers to enum values.
+  /// Writes static functions that map integers to enum values.
+  ///
+  /// `fromValueOrNull` returns null for unknown values, and `fromValue` throws.
   void _writeFromValue(StringBuffer s, Set<EnumConstant> uniqueMembers) {
-    s.write('  static $name fromValue(int value) => switch (value) {\n');
-    for (final member in uniqueMembers) {
-      s.write('    ${member.value} => ${member.name},\n');
-    }
-    s.write(
-      '    _ => throw ArgumentError('
-      "'Unknown value for ${Namer.stringLiteral(name)}: \$value'),\n",
-    );
-    s.write('  };\n');
+    final memberString = uniqueMembers
+        .map((member) => '    ${member.value} => ${member.name},\n')
+        .join();
+    s.write('''
+  static $name? fromValueOrNull(int value) => switch (value) {
+$memberString    _ => null,
+  };
+
+  static $name fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for ${Namer.stringLiteral(name)}: \$value'));
+''');
   }
 
   @override
