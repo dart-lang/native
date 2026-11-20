@@ -7,6 +7,9 @@
 - Add `dumpApi` utility and `ApiDumperVisitor` to dump entire parsed AST.
 - Use minor and patch versions of Apple deployment targets from
   `package:code_assets` 2.2.0 when compiling native test utilities.
+- Added `ObjCMethod.isProperty` to the visitor API. Set it to `false` to
+  generate an Objective-C property as plain methods.
+  ([#1711](https://github.com/dart-lang/native/issues/1711))
 - Generate a [non-throwing `fromValueOrNull`](https://github.com/dart-lang/native/issues/3712)
   method on Dart enums, which returns `null` for unknown values. `fromValue`
   now delegates to it, and still throws an `ArgumentError`.

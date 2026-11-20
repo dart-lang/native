@@ -36,3 +36,37 @@ static int32_t _classReadWriteProperty = 0;
 }
 
 @end
+
+@implementation PropertyAsMethodInterface
+
+static int32_t _classReadWriteAsMethod = 0;
+
+- (int32_t)readOnlyAsMethod {
+  return 8;
+}
+
++ (int32_t)classReadWriteAsMethod {
+  return _classReadWriteAsMethod;
+}
+
++ (void)setClassReadWriteAsMethod:(int32_t)x {
+  _classReadWriteAsMethod = x;
+}
+
+@end
+
+@implementation PropertyAsMethodParent
+
+@end
+
+@implementation PropertyAsMethodChild
+
+- (int32_t)overriddenProperty {
+  return super.overriddenProperty + 100;
+}
+
+- (void)setOverriddenProperty:(int32_t)x {
+  super.overriddenProperty = x;
+}
+
+@end

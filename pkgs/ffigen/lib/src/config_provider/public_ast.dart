@@ -654,6 +654,34 @@ class ObjCMethod extends NamedNode {
   /// Whether this method is a property setter.
   bool get isPropertySetter => _method.isPropertySetter;
 
+  /// Whether this method is generated as a property accessor, either a Dart
+  /// getter or setter or, for a class property, a static `getFoo()` or
+  /// `setFoo(value)` method.
+  ///
+  /// `true` for the accessors of an Objective-C property, and for a method
+  /// that ffigen turned into a getter to match an override that's a property.
+  /// Setting it to `false` on either accessor generates both as plain methods
+  /// named after their selectors, e.g. `foo()` and `setFoo(value)`. Setting
+  /// `true` on a method throws an [ArgumentError].
+  ///
+  /// Other copies and overrides of this method, e.g. in subclasses or in
+  /// classes that conform to a protocol, are not changed. If one of them is
+  /// still a property, the same member is a getter on some types and a method
+  /// on others, so the visitor should usually set [isProperty] to `false` on
+  /// those as well.
+  bool get isProperty => _method.isProperty;
+  set isProperty(bool value) {
+    if (value == _method.isProperty) return;
+    if (value) {
+      throw ArgumentError.value(
+        value,
+        'isProperty',
+        'Cannot turn the method "$originalName" into a property.',
+      );
+    }
+    _method.convertPropertyToMethods();
+  }
+
   /// Whether this ObjCMethod should be included in code generation.
   bool get isIncluded => _method.isIncluded;
   set isIncluded(bool value) => _method.isIncluded = value;
