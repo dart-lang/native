@@ -16,6 +16,7 @@ import 'declarations/compounds/extension_declaration.dart';
 import 'declarations/compounds/members/initializer_declaration.dart';
 import 'declarations/compounds/members/method_declaration.dart';
 import 'declarations/compounds/members/property_declaration.dart';
+import 'declarations/compounds/members/subscript_declaration.dart';
 import 'declarations/compounds/protocol_declaration.dart';
 import 'declarations/compounds/struct_declaration.dart';
 import 'declarations/globals/globals.dart';
@@ -84,6 +85,8 @@ abstract class Visitation {
   void visitBuiltInDeclaration(BuiltInDeclaration node) =>
       visitDeclaration(node);
   void visitInitializerDeclaration(InitializerDeclaration node) =>
+      visitDeclaration(node);
+  void visitSubscriptDeclaration(SubscriptDeclaration node) =>
       visitDeclaration(node);
   void visitFunctionDeclaration(FunctionDeclaration node) =>
       visitDeclaration(node);

@@ -9,8 +9,8 @@ import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/unique_namer.dart';
+import '../_core/utils.dart';
 import '../transform.dart';
-import 'transform_function.dart';
 import 'transform_referred_type.dart';
 
 Declaration transformInitializer(
