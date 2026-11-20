@@ -1,0 +1,25 @@
+# Bindings are frozen at jnigen 0.16.0. To regenerate:
+#   flutter build apk --debug
+#   dart run jnigen --config jnigen.yaml
+
+android_sdk_config:
+  add_gradle_deps: true
+  android_example: '.'
+
+class_path:
+  - 'build/app/intermediates/javac/debug/compileDebugJavaWithJavac/classes'
+  - 'build/app/tmp/kotlin-classes/debug'
+
+classes:
+  - 'com.github.dart_lang.jni.legacy'
+  - 'android.content.Context'
+
+output:
+  dart:
+    path: 'lib/legacy_bindings.g.dart'
+    structure: single_file
+
+preamble: |
+  // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.

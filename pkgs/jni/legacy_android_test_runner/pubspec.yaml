@@ -1,0 +1,32 @@
+name: legacy_android_test_runner
+description: Integration test runner for legacy jnigen 0.16.0 bindings against current package:jni
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  jni:
+    path: ..
+  jni_flutter:
+    path: ../../jni_flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  jnigen: 0.16.0
+
+dependency_overrides:
+  jni:
+    path: ..
+  jni_util:
+    path: ../../jni_util
+
+flutter:
+  uses-material-design: true

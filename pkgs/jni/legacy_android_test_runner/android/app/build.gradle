@@ -1,0 +1,68 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+android {
+    namespace = "com.github.dart_lang.jni_legacy_android_test_runner"
+
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+        // Pinned to 2.0 because jnigen 0.16.0 uses kotlinx-metadata-jvm <= 2.1.0.
+        languageVersion = '2.0'
+        apiVersion = '2.0'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId = "com.github.dart_lang.jni_legacy_android_test_runner"
+        minSdkVersion = flutter.minSdkVersion
+        targetSdkVersion = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    buildTypes {
+        debug {
+            // Enable R8 minification in debug mode so `flutter test integration_test/`
+            // tests `consumer-rules.pro` from `package:jni` at runtime.
+            minifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile('proguard-android-optimize.txt'),
+                "${localProperties.getProperty('flutter.sdk')}/packages/flutter_tools/gradle/flutter_proguard_rules.pro",
+                'proguard-rules.pro'
+            )
+        }
+        release {
+            signingConfig = signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source = '../..'
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1'
+}
