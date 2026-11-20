@@ -198,6 +198,19 @@ class Clang {
   late final _clang_Cursor_getStorageClass = _clang_Cursor_getStorageClassPtr
       .asFunction<int Function(CXCursor)>();
 
+  /// Returns the translation unit that a cursor originated from.
+  CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor arg0) {
+    return _clang_Cursor_getTranslationUnit(arg0);
+  }
+
+  late final _clang_Cursor_getTranslationUnitPtr =
+      _lookup<ffi.NativeFunction<CXTranslationUnit Function(CXCursor)>>(
+        'clang_Cursor_getTranslationUnit',
+      );
+  late final _clang_Cursor_getTranslationUnit =
+      _clang_Cursor_getTranslationUnitPtr
+          .asFunction<CXTranslationUnit Function(CXCursor)>();
+
   /// Determine whether the given cursor has any attributes.
   int clang_Cursor_hasAttrs(CXCursor C) {
     return _clang_Cursor_hasAttrs(C);
@@ -656,6 +669,30 @@ class Clang {
       );
   late final _clang_disposeString = _clang_disposeStringPtr
       .asFunction<void Function(CXString)>();
+
+  /// Free the given set of tokens.
+  void clang_disposeTokens(
+    CXTranslationUnit TU,
+    ffi.Pointer<CXToken> Tokens,
+    int NumTokens,
+  ) {
+    return _clang_disposeTokens(TU, Tokens, NumTokens);
+  }
+
+  late final _clang_disposeTokensPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            CXTranslationUnit,
+            ffi.Pointer<CXToken>,
+            ffi.UnsignedInt,
+          )
+        >
+      >('clang_disposeTokens');
+  late final _clang_disposeTokens = _clang_disposeTokensPtr
+      .asFunction<
+        void Function(CXTranslationUnit, ffi.Pointer<CXToken>, int)
+      >();
 
   /// Destroy the specified CXTranslationUnit object.
   void clang_disposeTranslationUnit(CXTranslationUnit arg0) {
@@ -1350,6 +1387,21 @@ class Clang {
   late final _clang_getResultType = _clang_getResultTypePtr
       .asFunction<CXType Function(CXType)>();
 
+  /// Determine the spelling of the given token.
+  ///
+  /// The spelling of a token is the textual representation of that token, e.g.,
+  /// the text of an identifier or keyword.
+  CXString clang_getTokenSpelling(CXTranslationUnit arg0, CXToken arg1) {
+    return _clang_getTokenSpelling(arg0, arg1);
+  }
+
+  late final _clang_getTokenSpellingPtr =
+      _lookup<
+        ffi.NativeFunction<CXString Function(CXTranslationUnit, CXToken)>
+      >('clang_getTokenSpelling');
+  late final _clang_getTokenSpelling = _clang_getTokenSpellingPtr
+      .asFunction<CXString Function(CXTranslationUnit, CXToken)>();
+
   /// Retrieve the cursor that represents the given translation unit.
   ///
   /// The translation unit cursor can be used to start traversing the
@@ -1533,6 +1585,50 @@ class Clang {
           ffi.Pointer<CXUnsavedFile>,
           int,
           int,
+        )
+      >();
+
+  /// Tokenize the source code described by the given range into raw
+  /// lexical tokens.
+  ///
+  /// \param TU the translation unit whose text is being tokenized.
+  ///
+  /// \param Range the source range in which text should be tokenized. All of the
+  /// tokens produced by tokenization will fall within this source range,
+  ///
+  /// \param Tokens this pointer will be set to point to the array of tokens
+  /// that occur within the given source range. The returned pointer must be
+  /// freed with clang_disposeTokens() before the translation unit is destroyed.
+  ///
+  /// \param NumTokens will be set to the number of tokens in the \c *Tokens
+  /// array.
+  void clang_tokenize(
+    CXTranslationUnit TU,
+    CXSourceRange Range,
+    ffi.Pointer<ffi.Pointer<CXToken>> Tokens,
+    ffi.Pointer<ffi.UnsignedInt> NumTokens,
+  ) {
+    return _clang_tokenize(TU, Range, Tokens, NumTokens);
+  }
+
+  late final _clang_tokenizePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            CXTranslationUnit,
+            CXSourceRange,
+            ffi.Pointer<ffi.Pointer<CXToken>>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )
+        >
+      >('clang_tokenize');
+  late final _clang_tokenize = _clang_tokenizePtr
+      .asFunction<
+        void Function(
+          CXTranslationUnit,
+          CXSourceRange,
+          ffi.Pointer<ffi.Pointer<CXToken>>,
+          ffi.Pointer<ffi.UnsignedInt>,
         )
       >();
 
@@ -2753,6 +2849,14 @@ final class CXString extends ffi.Struct {
 typedef CXTargetInfo = ffi.Pointer<CXTargetInfoImpl>;
 
 final class CXTargetInfoImpl extends ffi.Opaque {}
+
+/// Describes a single preprocessing token.
+final class CXToken extends ffi.Struct {
+  @ffi.Array.multi([4])
+  external ffi.Array<ffi.UnsignedInt> int_data;
+
+  external ffi.Pointer<ffi.Void> ptr_data;
+}
 
 /// A single translation unit, which resides in an index.
 typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;

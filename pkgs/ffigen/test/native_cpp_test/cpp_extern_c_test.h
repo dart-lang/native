@@ -4,7 +4,15 @@
 
 // Declarations inside an `extern "C"` block are wrapped in a LinkageSpec
 // cursor when parsing in C++ mode, and must be dispatched like top-level
-// declarations rather than skipped.
+// declarations rather than skipped. Declarations outside any `extern "C"`
+// block are reached through generated `extern "C"` wrappers.
+
+// C-linkage declarations are looked up directly, so they must be exported.
+#if defined(_WIN32)
+#define EXTERN_C_TEST_EXPORT __declspec(dllexport)
+#else
+#define EXTERN_C_TEST_EXPORT
+#endif
 
 extern "C" {
 
@@ -20,19 +28,22 @@ union Number {
   float f;
 };
 
-int add(int a, int b);
+EXTERN_C_TEST_EXPORT int add(int a, int b);
 
-extern int counter;
+EXTERN_C_TEST_EXPORT extern int counter;
 
 // A linkage spec nested inside another linkage spec.
 extern "C" {
-int deep(void);
+EXTERN_C_TEST_EXPORT int deep(void);
 }
+
+// The innermost linkage spec wins.
+extern "C++" int nestedCpp(int x);
 
 }  // extern "C"
 
 // Single-declaration form, without braces.
-extern "C" void reset(void);
+extern "C" EXTERN_C_TEST_EXPORT void reset(void);
 
 // A linkage spec nested inside a namespace.
 namespace ns {
@@ -41,6 +52,10 @@ enum Flag { off = 0, on = 1 };
 }
 }  // namespace ns
 
-// A declaration outside any linkage spec, to check that regular declarations
-// still parse alongside `extern "C"` blocks.
+// Declarations outside any linkage spec have C++ linkage.
 int outside(double d);
+
+extern int outsideCounter;
+
+// A function pointer parameter in a wrapper.
+int applyTwice(int (*fn)(int), int x);
