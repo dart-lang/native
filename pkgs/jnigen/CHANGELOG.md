@@ -1,3 +1,8 @@
+## 1.1.1-wip
+
+- Handle type parameters that shadow enclosing classes' type parameters
+  without generating duplicate Dart declarations.
+
 ## 1.1.0
 
 - Add `dumpApi` utility and `ApiDumperVisitor` to dump parsed Java AST.

@@ -472,6 +472,86 @@ void registerTests(String groupName, TestRunnerCallback test) {
           });
         });
       });
+      test('shadowed type parameters of non-static nested classes', () {
+        using((arena) {
+          final outer = R630<JString, JBoolean>(
+            'outer'.toJString()..releasedBy(arena),
+            true.toJBoolean()..releasedBy(arena),
+          )..releasedBy(arena);
+          final inner = R630$Inner<JBoolean, JInteger, JDouble>(
+            outer,
+            42.toJInteger()..releasedBy(arena),
+            2.5.toJDouble()..releasedBy(arena),
+          )..releasedBy(arena);
+
+          expect(inner.value!.toDartInt(releaseOriginal: true), 42);
+          expect(
+            inner.outerValue!
+                .as(JString.type, releaseOriginal: true)
+                .toDartString(releaseOriginal: true),
+            'outer',
+          );
+          inner.value = 7.toJInteger()..releasedBy(arena);
+          expect(inner.value!.toDartInt(releaseOriginal: true), 7);
+          expect(outer.value!.toDartString(releaseOriginal: true), 'outer');
+
+          final deep = R630$Inner$Deep<JInteger, JDouble, JString>(
+            inner,
+            'deep'.toJString()..releasedBy(arena),
+          )..releasedBy(arena);
+          expect(deep.value!.toDartString(releaseOriginal: true), 'deep');
+          expect(deep.innerOnly!.toDartDouble(releaseOriginal: true), 2.5);
+          expect(
+            deep.outerOnly!
+                .as(JBoolean.type, releaseOriginal: true)
+                .toDartBool(releaseOriginal: true),
+            isTrue,
+          );
+        });
+      });
+      test('method type parameters can shadow class type parameters', () {
+        using((arena) {
+          final outer = R630<JString, JBoolean>(
+            'outer'.toJString()..releasedBy(arena),
+            true.toJBoolean()..releasedBy(arena),
+          )..releasedBy(arena);
+          final inner = R630$Inner<JBoolean, JInteger, JDouble>(
+            outer,
+            42.toJInteger()..releasedBy(arena),
+            2.5.toJDouble()..releasedBy(arena),
+          )..releasedBy(arena);
+          final number = 13.toJLong()..releasedBy(arena);
+          expect(outer.echoOuter(number)!.toDartInt(releaseOriginal: true), 13);
+          expect(inner.echoInner(number)!.toDartInt(releaseOriginal: true), 13);
+          expect(inner.echoOuter(number)!.toDartInt(releaseOriginal: true), 13);
+          expect(outer.outerOnly!.toDartBool(releaseOriginal: true), isTrue);
+          expect(inner.innerOnly!.toDartDouble(releaseOriginal: true), 2.5);
+          expect(inner.outerOnly!.toDartBool(releaseOriginal: true), isTrue);
+        });
+      });
+
+      test('inner constructor keeps the enclosing type parameter', () {
+        using((arena) {
+          final outer = R630<JObject?, JString>(
+            null,
+            'outer'.toJString()..releasedBy(arena),
+          )..releasedBy(arena);
+          final values = JArray.of(JString.type, [
+            'first'.toJString()..releasedBy(arena),
+            'second'.toJString()..releasedBy(arena),
+          ])
+            ..releasedBy(arena);
+          final inner = R630$Inner.create<JString, JString, JObject?, JInteger>(
+            outer,
+            values,
+            1.toJInteger()..releasedBy(arena),
+            null,
+          )..releasedBy(arena);
+          expect(inner.value!.toDartString(releaseOriginal: true), 'second');
+          expect(inner.outerOnly!.toDartString(releaseOriginal: true), 'outer');
+        });
+      });
+
       test('nested generics', () {
         using((arena) {
           final grandParent = GrandParent<JString>(

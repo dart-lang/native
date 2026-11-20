@@ -19,7 +19,7 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '1.1.0';
+const String version = '1.1.1';
 
 /// Version of package:jni. Keep in sync with package:jni's `pubspec.yaml`.
 @visibleForTesting
@@ -882,7 +882,7 @@ class _TypeGenerator extends TypeVisitor<String> {
       }
     }
     final nullable = includeNullability && node.isNullable ? '?' : '';
-    return '$_typeParamPrefix${node.name}$nullable';
+    return '$_typeParamPrefix${node.origin.finalName}$nullable';
   }
 
   @override
@@ -1023,7 +1023,7 @@ class _TypeParamDef extends Visitor<TypeParam, String> {
     // TODO(https://github.com/dart-lang/native/issues/704): resolve the actual
     // type being extended, if any.
     final nullable = node.isNullable ? '?' : '';
-    return '$_typeParamPrefix${node.name} extends $_jObject$nullable';
+    return '$_typeParamPrefix${node.finalName} extends $_jObject$nullable';
   }
 }
 

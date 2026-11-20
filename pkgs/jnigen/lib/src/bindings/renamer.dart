@@ -369,6 +369,23 @@ class _MethodRenamer implements Visitor<Method, void> {
 
   @override
   void visit(Method node) {
+    // Static methods have no enclosing type parameters in scope.
+    if (!node.isStatic && node.typeParams.isNotEmpty) {
+      final classNames = {for (final p in node.classDecl.allTypeParams) p.name};
+      final usedNames = {
+        ...classNames,
+        for (final p in node.typeParams) p.name
+      };
+      for (final param in node.typeParams) {
+        if (!classNames.contains(param.name)) continue;
+        var suffix = 1;
+        while (!usedNames.add('${param.name}\$$suffix')) {
+          suffix++;
+        }
+        param.finalName = '${param.name}\$$suffix';
+      }
+    }
+
     final (:rawName, :skipRenaming, :propertySig) = _planRenaming(node);
 
     if (skipRenaming) {
