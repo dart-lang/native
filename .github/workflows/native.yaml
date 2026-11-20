@@ -100,7 +100,7 @@ jobs:
         if: ${{ matrix.os == 'macos' }}
 
       - name: Install Linux cross gcc in WSL (Windows)
-        uses: Vampire/setup-wsl@d1da7f2c0322a5ee4f24975344f67fc0f5baf364
+        uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4
         with:
           distribution: Ubuntu-24.04
           wsl-version: '1'
@@ -118,7 +118,7 @@ jobs:
         run: dart tool/ci.dart --all --no-apitool ${{ matrix.sdk == 'stable' && '--no-format' || '' }}
 
       - name: Upload coverage
-        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           files: ./coverage/lcov.info
           flags: native_pkgs_${{ matrix.os }}
