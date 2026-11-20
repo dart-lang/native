@@ -35,12 +35,23 @@ Future<RunProcessResult> runProcess({
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
 }) async {
+  final zoneEnvironment =
+      Zone.current[#nativeToolchainTestEnvironment] as Map<String, String>?;
+  final effectiveEnvironment = switch ((zoneEnvironment, environment)) {
+    (null, null) => null,
+    (final z?, null) => z,
+    (null, final e?) => e,
+    (final z?, final e?) => {...z, ...e},
+  };
+
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
   String quoteIfSpaced(String s) => s.contains(' ') ? '"$s"' : s;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
-    ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
+    ...?effectiveEnvironment?.entries.map(
+      (entry) => '${entry.key}=${entry.value}',
+    ),
     quoteIfSpaced((launcher ?? executable).toFilePath()),
     // WSL is the only launcher, so the executable and any file paths in
     // [arguments] are Linux style.
@@ -61,7 +72,8 @@ Future<RunProcessResult> runProcess({
     // The executable is the first element of the command list.
     [(launcher ?? executable).toFilePath(), ...resolvedArguments],
     workingDirectory: workingDirectory?.toFilePath(),
-    environment: environment,
+    environment: effectiveEnvironment,
+    includeParentEnvironment: zoneEnvironment == null,
     // Never run through a shell. On Windows, running an executable through
     // `cmd.exe /c` mangles the command line when more than one argument is
     // quoted (cmd strips the outer quotes when the line contains more than

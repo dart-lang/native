@@ -6,6 +6,7 @@ import 'package:code_assets/code_assets.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
+import 'dart_sdk.dart';
 import 'msvc.dart';
 
 /// The Clang compiler.
@@ -67,11 +68,18 @@ final Tool llvmAr = Tool(
 final Tool lld = Tool(
   name: 'LLD',
   defaultResolver: CliVersionResolver(
+    arguments: const ['-flavor', 'gnu', '--version'],
     wrappedResolver: ToolResolvers([
+      const SdkLldResolver(),
       RelativeToolResolver(
         toolName: 'LLD',
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file(OS.current.executableFileName('ld.lld')),
+      ),
+      RelativeToolResolver(
+        toolName: 'LLD',
+        wrappedResolver: clang.defaultResolver!,
+        relativePath: Uri.file(OS.current.executableFileName('lld')),
       ),
       RelativeToolResolver(
         toolName: 'LLD',
@@ -90,6 +98,10 @@ final Tool lld = Tool(
       PathToolResolver(
         toolName: 'LLD',
         executableName: OS.current.executableFileName('ld.lld'),
+      ),
+      PathToolResolver(
+        toolName: 'LLD',
+        executableName: OS.current.executableFileName('lld'),
       ),
     ]),
   ),
