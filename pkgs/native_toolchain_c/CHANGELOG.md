@@ -1,3 +1,8 @@
+## 0.19.7-wip
+
+- Add experimental `hook/doctor.dart` for validating host and Android NDK C
+  toolchains.
+
 ## 0.19.6
 
 - Decode `vswhere -utf8` output as streaming UTF-8, preserving localized

@@ -7,7 +7,7 @@ These examples show how to use `package:code_assets` in build hooks to bundle na
 | [`host_name`](host_name)             | Get the hostname.    | - Accessing a system library with `DynamicLoadingSystem` and `LookupInProcess`.<br/>- OS-specific differences.            |
 | [`mini_audio`](mini_audio)           | Play audio.          | - C library built from source with `package:native_toolchain_c`.<br/>- Bundled with `DynamicLoadingBundled`.              |
 | [`sqlite`](sqlite)                   | Database access.     | - C library built from source with `package:native_toolchain_c`.<br/>- Bundled with `DynamicLoadingBundled`.              |
-| [`sqlite_prebuilt`](sqlite_prebuilt) | Database access.     | - Pre-built binary downloaded from the internet or available on host machine.<br/>- Bundled with `DynamicLoadingBundled`. |
+| [`sqlite_prebuilt`](sqlite_prebuilt) | Database access.     | - Pre-built binary downloaded from the internet or available on host machine.<br/>- Bundled with `DynamicLoadingBundled`.<br/>- Validates host dependencies in `hook/doctor.dart`. |
 | [`stb_image`](stb_image)             | Read image metadata. | - C library built from source with `package:native_toolchain_c`.<br/>- Bundled with `DynamicLoadingBundled`.              |
 
 <!--

@@ -1,0 +1,21 @@
+name: doctor_app
+description: An app package with a doctor hook and dependencies with doctor hooks.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  doctor_counter:
+    path: ../doctor_counter/
+  hooks: any
+
+dev_dependencies:
+  fail_build:
+    path: ../fail_build/
+  lints: ^6.0.0
+

@@ -1,0 +1,17 @@
+name: doctor_counter
+description: A package with a doctor hook that counts runs.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  hooks: any
+
+dev_dependencies:
+  lints: ^6.0.0
+

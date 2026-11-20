@@ -1,7 +1,11 @@
-## 2.0.1-wip
+## 2.1.0-wip
 
 - Add `DEVELOPER_DIR`, `SDKROOT`, and `JAVA_HOME` to the environment variables
   allowlist.
+- Add experimental support for running `hook/doctor.dart` hooks across the
+  dependency graph (`NativeAssetsBuildRunner.doctor`,
+  `PackageLayout.forDoctorFromPackageConfig`,
+  `PackageLayout.forDoctorFromWorkingDirectory`, `DoctorResult`).
 
 ## 2.0.0
 
