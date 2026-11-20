@@ -612,6 +612,10 @@ $ret $fnName(id target, $argRecv) {
   String? generateRetain(String value) => 'objc_retainBlock($value)';
 
   @override
+  String? generateRelease(Context context, String value) =>
+      '$value.ref.release();';
+
+  @override
   String toString() =>
       '($returnType (^)(${params.map((p) => p.type.toString()).join(', ')}))';
 

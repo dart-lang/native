@@ -94,6 +94,7 @@ class Global extends LookUpBinding with HasLocalScope {
           pointerValue,
           objCRetain: false,
         );
+        final releaseStatement = type.generateRelease(context, releaseOldValue);
         final localVars = LocalVariables(localScope);
         final newValue = type.convertDartTypeToFfiDartType(
           context,
@@ -102,9 +103,11 @@ class Global extends LookUpBinding with HasLocalScope {
           objCAutorelease: false,
           localVariables: localVars,
         );
+        final releaseCode = releaseStatement != null
+            ? '$releaseStatement\n  '
+            : '';
         s.write('''set $globalVarName($dartType value) {
-  $releaseOldValue.ref.release();
-  ${localVars.generateDeclarations()}
+  $releaseCode${localVars.generateDeclarations()}
   $pointerValue = $newValue;
 }''');
       }

@@ -415,6 +415,10 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
   String? generateRetain(String value) =>
       '(__bridge id)(__bridge_retained void*)($value)';
 
+  @override
+  String? generateRelease(Context context, String value) =>
+      '$value.ref.release();';
+
   bool _isSuperProtocolOf(ObjCProtocol protocol) {
     if (protocol == this) return true;
     for (final superProtocol in protocol.superProtocols) {
