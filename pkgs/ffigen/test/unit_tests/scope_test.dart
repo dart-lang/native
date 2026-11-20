@@ -147,5 +147,29 @@ void main() {
       expect(childSymbol.name, 'bar\$2');
       expect(uncleSymbol.name, 'bar');
     });
+    test('sibling scopes', () {
+      final root = Scope.createRoot('root');
+      final sibling1 = root.addChild('sibling1');
+      final sibling2 = root.addChild('sibling2');
+
+      final rootSymbol = Symbol('foo', SymbolKind.field);
+      final s1Symbol = Symbol('foo', SymbolKind.field);
+      final s2Symbol = Symbol('foo', SymbolKind.field);
+      final s1Other = Symbol('bar', SymbolKind.field);
+      final s2Other = Symbol('bar', SymbolKind.field);
+
+      root.add(rootSymbol);
+      sibling1.add(s1Symbol);
+      sibling2.add(s2Symbol);
+      sibling1.add(s1Other);
+      sibling2.add(s2Other);
+
+      root.fillNames();
+      expect(rootSymbol.name, 'foo');
+      expect(s1Symbol.name, 'foo\$1');
+      expect(s2Symbol.name, 'foo\$1');
+      expect(s1Other.name, 'bar');
+      expect(s2Other.name, 'bar');
+    });
   });
 }

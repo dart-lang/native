@@ -1,5 +1,8 @@
 ## 23.1.0-wip
 
+- Fix [a bug](https://github.com/dart-lang/native/issues/2850) where struct
+  members were incorrectly renamed with a `$1` suffix when a top-level function
+  in the same bindings had the same name.
 - Add `ffigen` to `executables` in `pubspec.yaml` and support running `ffigen`
   as a standalone AOT-compiled executable (`dart install` / `dart run ffigen@`).
 - When generating typedefs for `NativeFunction<Function>`, also generate a
