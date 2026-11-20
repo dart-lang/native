@@ -8,22 +8,35 @@ library;
 
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import '../tool/ffigen.dart' as ffigen_tool;
+import 'util.dart';
 
 void main() {
   group('ffigen.dart', () {
     test('Runs without exception', () async {
       // As well as testing that this returns normally, this also generates
       // coverage info for the parts of FFIgen that are gated by
-      // generate-for-package-objective-c. The github workflow that runs this
-      // test also uses it to verify that there are no git-diffs in the output.
-      await expectLater(ffigen_tool.run(format: true), completes);
+      // generate-for-package-objective-c.
+      final changedFiles = await ffigen_tool.run(
+        format: true,
+        packageRoot: Directory(pkgDir).uri,
+        runTests: false,
+        restoreIfChanged: true,
+      );
+      expect(
+        changedFiles,
+        isEmpty,
+        reason:
+            'Generated files are out of date. '
+            'Run `dart pkgs/objective_c/tool/ffigen.dart` to regenerate.',
+      );
 
       // Sanity check the generated code.
       final rBindings = File(
-        'lib/src/runtime_bindings_generated.dart',
+        p.join(pkgDir, 'lib', 'src', 'runtime_bindings_generated.dart'),
       ).readAsStringSync();
       expect(rBindings, contains('sel_registerName'));
       expect(rBindings, contains('objc_msgSend'));
@@ -31,7 +44,7 @@ void main() {
       expect(rBindings, contains('ObjCObject'));
 
       final cBindings = File(
-        'lib/src/c_bindings_generated.dart',
+        p.join(pkgDir, 'lib', 'src', 'c_bindings_generated.dart'),
       ).readAsStringSync();
       expect(cBindings, contains('createContext'));
       expect(cBindings, contains('DOBJC_Context'));
@@ -40,7 +53,7 @@ void main() {
       expect(cBindings, contains('ObjCBlockImpl'));
 
       final objcBindings = File(
-        'lib/src/objective_c_bindings_generated.dart',
+        p.join(pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'),
       ).readAsStringSync();
       expect(objcBindings, contains('class NSObject'));
       expect(objcBindings, contains('class NSString'));

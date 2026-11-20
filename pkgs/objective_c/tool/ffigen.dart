@@ -15,6 +15,10 @@ const assetId = 'package:objective_c/objective_c.dylib';
 const runtimeBindings = 'lib/src/runtime_bindings_generated.dart';
 const cBindings = 'lib/src/c_bindings_generated.dart';
 const objcBindings = 'lib/src/objective_c_bindings_generated.dart';
+const objcMBindings = 'src/objective_c_bindings_generated.m';
+const objcExports = 'lib/src/objective_c_bindings_exported.dart';
+const builtInTypes =
+    '../ffigen/lib/src/code_generator/objc_built_in_types.dart';
 
 const objcInterfaces = {
   'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
@@ -175,18 +179,42 @@ const objcEnums = {
 };
 
 Future<void> main(List<String> args) async {
-  final argResults =
-      (ArgParser()..addFlag(
-            'format',
-            help: 'Format the generated code.',
-            defaultsTo: true,
-            negatable: true,
-          ))
-          .parse(args);
-  await run(format: argResults.flag('format'));
+  final parser = ArgParser()
+    ..addFlag(
+      'format',
+      help: 'Format the generated code.',
+      defaultsTo: true,
+      negatable: true,
+    )
+    ..addFlag(
+      'set-exit-if-changed',
+      negatable: false,
+      help: 'Return a non-zero exit code if any files were changed.',
+    )
+    ..addFlag(
+      'test',
+      help: 'Run interface_lists_test.dart after generating.',
+      defaultsTo: false,
+      negatable: true,
+    );
+  final argResults = parser.parse(args);
+  final setExitIfChanged = argResults.flag('set-exit-if-changed');
+  final changedFiles = await run(
+    format: argResults.flag('format'),
+    runTests: argResults.flag('test') && !setExitIfChanged,
+    restoreIfChanged: setExitIfChanged,
+  );
+  if (setExitIfChanged && changedFiles.isNotEmpty) {
+    exit(1);
+  }
 }
 
-Future<void> run({required bool format, Uri? packageRoot}) async {
+Future<List<String>> run({
+  required bool format,
+  required bool runTests,
+  bool restoreIfChanged = false,
+  Uri? packageRoot,
+}) async {
   packageRoot ??= _defaultPackageRoot();
   final logger = Logger.root;
   logger.level = Level.SEVERE;
@@ -194,52 +222,113 @@ Future<void> run({required bool format, Uri? packageRoot}) async {
   final runtimeBindingsPath = packageRoot.resolve(runtimeBindings).toFilePath();
   final cBindingsPath = packageRoot.resolve(cBindings).toFilePath();
   final objcBindingsPath = packageRoot.resolve(objcBindings).toFilePath();
-  final objcExportsPath = packageRoot
-      .resolve('lib/src/objective_c_bindings_exported.dart')
-      .toFilePath();
+  final objcMBindingsPath = packageRoot.resolve(objcMBindings).toFilePath();
+  final objcExportsPath = packageRoot.resolve(objcExports).toFilePath();
   final extraMethodsFilePath = packageRoot
       .resolve('tool/data/extra_methods.dart.in')
       .toFilePath();
-  final builtInTypesPath = packageRoot
-      .resolve('../ffigen/lib/src/code_generator/objc_built_in_types.dart')
-      .toFilePath();
+  final builtInTypesPath = packageRoot.resolve(builtInTypes).toFilePath();
   final interfaceListTestPath = packageRoot
       .resolve('test/interface_lists_test.dart')
       .toFilePath();
 
-  print('Generating runtime bindings...');
-  await getRuntimeConfig(packageRoot).generate(logger: logger);
+  final outputPaths = [
+    runtimeBindingsPath,
+    cBindingsPath,
+    objcBindingsPath,
+    objcMBindingsPath,
+    builtInTypesPath,
+    objcExportsPath,
+  ];
+  final snapshots = {
+    for (final path in outputPaths)
+      path: File(path).existsSync() ? File(path).readAsStringSync() : null,
+  };
 
-  print('Generating C bindings...');
-  await getCConfig(packageRoot).generate(logger: logger);
+  final libclangDylib = _findXcodeLibclangDylib();
+  final changedFiles = <String>[];
+  try {
+    print('Generating runtime bindings...');
+    await getRuntimeConfig(
+      packageRoot,
+    ).generate(logger: logger, libclangDylib: libclangDylib);
 
-  print('Generating ObjC bindings...');
-  await getObjCConfig(packageRoot).generate(logger: logger);
-  mergeExtraMethods(objcBindingsPath, parseExtraMethods(extraMethodsFilePath));
+    print('Generating C bindings...');
+    await getCConfig(
+      packageRoot,
+    ).generate(logger: logger, libclangDylib: libclangDylib);
 
-  print('Generating objc_built_in_types.dart...');
-  final exports = writeBuiltInTypes(builtInTypesPath);
-
-  print('Generating objc_bindings_exported.dart...');
-  writeExports(exports, objcExportsPath);
-
-  if (format) {
-    print('Formatting bindings...');
-    dartCmd([
-      'format',
-      runtimeBindingsPath,
-      cBindingsPath,
+    print('Generating ObjC bindings...');
+    await getObjCConfig(
+      packageRoot,
+    ).generate(logger: logger, libclangDylib: libclangDylib);
+    mergeExtraMethods(
       objcBindingsPath,
-      builtInTypesPath,
-      objcExportsPath,
+      parseExtraMethods(extraMethodsFilePath),
+    );
+
+    print('Generating objc_built_in_types.dart...');
+    final exports = writeBuiltInTypes(builtInTypesPath);
+
+    print('Generating objc_bindings_exported.dart...');
+    writeExports(exports, objcExportsPath);
+
+    if (format) {
+      print('Formatting bindings...');
+      dartCmd([
+        'format',
+        runtimeBindingsPath,
+        cBindingsPath,
+        objcBindingsPath,
+        builtInTypesPath,
+        objcExportsPath,
+      ], workingDir: packageRoot.toFilePath());
+    }
+
+    for (final path in outputPaths) {
+      final oldNormalized = snapshots[path]?.replaceAll('\r\n', '\n');
+      final newContent = File(path).existsSync()
+          ? File(path).readAsStringSync()
+          : null;
+      final newNormalized = newContent?.replaceAll('\r\n', '\n');
+      if (oldNormalized != newNormalized) {
+        print('Generated $path (content changed)');
+        changedFiles.add(path);
+      }
+    }
+    if (restoreIfChanged && changedFiles.isNotEmpty) {
+      _printGitDiff(changedFiles, workingDir: packageRoot.toFilePath());
+    }
+  } finally {
+    if (restoreIfChanged) {
+      for (final entry in snapshots.entries) {
+        final file = File(entry.key);
+        final oldContent = entry.value;
+        if (oldContent == null) {
+          if (file.existsSync()) {
+            file.deleteSync();
+          }
+        } else if (!file.existsSync() ||
+            file.readAsStringSync() != oldContent) {
+          file.writeAsStringSync(oldContent);
+        }
+      }
+    }
+  }
+
+  print(
+    'Generated ${outputPaths.length} files (${changedFiles.length} changed).',
+  );
+
+  if (runTests) {
+    print('Running tests...');
+    dartCmd([
+      'test',
+      interfaceListTestPath,
     ], workingDir: packageRoot.toFilePath());
   }
 
-  print('Running tests...');
-  dartCmd([
-    'test',
-    interfaceListTestPath,
-  ], workingDir: packageRoot.toFilePath());
+  return changedFiles;
 }
 
 List<String> writeBuiltInTypes(String out) {
@@ -465,9 +554,7 @@ FfiGenerator getObjCConfig([Uri? packageRoot]) {
   return FfiGenerator(
     output: Output(
       dart: DartOutput(path: packageRoot.resolve(objcBindings)),
-      objectiveCFile: packageRoot.resolve(
-        'src/objective_c_bindings_generated.m',
-      ),
+      objectiveCFile: packageRoot.resolve(objcMBindings),
       style: const NativeExternalBindings(assetId: assetId),
       format: false,
       preamble: '''
@@ -565,6 +652,21 @@ Uri _defaultPackageRoot() {
   return Directory.current.uri;
 }
 
+Uri? _findXcodeLibclangDylib() {
+  if (!Platform.isMacOS) return null;
+  final result = Process.runSync('xcodebuild', [
+    '-find-library',
+    'libclang.dylib',
+  ]);
+  if (result.exitCode == 0) {
+    final path = (result.stdout as String).split('\n').first.trim();
+    if (path.isNotEmpty && File(path).existsSync()) {
+      return Uri.file(path);
+    }
+  }
+  return null;
+}
+
 void dartCmd(List<String> args, {String? workingDir}) {
   final exec = Platform.resolvedExecutable;
   final proc = Process.runSync(
@@ -578,6 +680,26 @@ void dartCmd(List<String> args, {String? workingDir}) {
     print(proc.stdout);
     print(proc.stderr);
     throw Exception('Command failed: $exec ${args.join(" ")}');
+  }
+}
+
+void _printGitDiff(List<String> files, {required String workingDir}) {
+  try {
+    final proc = Process.runSync('git', [
+      'diff',
+      '--',
+      ...files,
+    ], workingDirectory: workingDir);
+    final stdout = (proc.stdout as String).trimRight();
+    final stderr = (proc.stderr as String).trimRight();
+    if (stdout.isNotEmpty) {
+      print(stdout);
+    }
+    if (stderr.isNotEmpty) {
+      print(stderr);
+    }
+  } on ProcessException catch (e) {
+    print('Failed to run git diff: $e');
   }
 }
 

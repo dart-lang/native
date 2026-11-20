@@ -5,11 +5,14 @@
 import 'dart:io';
 
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
+
+import 'util.dart';
 
 void main() {
   test('ObjCVersionCheck constants match pubspec', () {
-    final pubspecFile = File('pubspec.yaml');
+    final pubspecFile = File(p.join(pkgDir, 'pubspec.yaml'));
     final pubspecContent = pubspecFile.readAsStringSync();
     final versionRegex = RegExp(
       r'^version:\s+(\d+)\.(\d+)\.\d+',
