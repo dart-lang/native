@@ -20,14 +20,14 @@ public class SummarizerOptions {
 
   public static SummarizerOptions fromCommandLine(CommandLine cmd) {
     var opts = new SummarizerOptions();
-    opts.sourcePath = cmd.getOptionValue("sources", null);
+    opts.sourcePath = cmd.getOptionValue("sources");
     var backendString = cmd.getOptionValue("backend", "auto");
     opts.backend = Main.Backend.valueOf(backendString.toUpperCase());
-    opts.classPath = cmd.getOptionValue("classes", null);
+    opts.classPath = cmd.getOptionValue("classes");
     opts.useModules = cmd.hasOption("use-modules");
-    opts.modulesList = cmd.getOptionValue("module-names", null);
-    opts.toolArgs = cmd.getOptionValue("doctool-args", null);
-    opts.outputFile = cmd.getOptionValue("output-file", null);
+    opts.modulesList = cmd.getOptionValue("module-names");
+    opts.toolArgs = cmd.getOptionValue("doctool-args");
+    opts.outputFile = cmd.getOptionValue("output-file");
     opts.args = cmd.getArgs();
     if (opts.args.length == 0) {
       throw new IllegalArgumentException("Need one or more class or package names as arguments");
