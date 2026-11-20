@@ -71,9 +71,4 @@ final class $PDSignature$Type$ extends jni$_.JType<PDSignature> {
   @core$_.override
   String get signature =>
       r'Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className =>
-      r'org/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature';
 }
