@@ -76,9 +76,6 @@ abstract class CTool {
   /// when the compiled sources or include directories are produced by the
   /// build hook itself. In that case the caller is responsible for adding the
   /// dependencies to the hook output manually.
-  ///
-  /// When enabled, files under `input.outputDirectoryShared` are not reported
-  /// as dependencies, since they are produced by the build hook itself.
   final bool trackDependencies;
 
   /// Frameworks to link.

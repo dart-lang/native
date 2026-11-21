@@ -164,21 +164,11 @@ class CLinker extends CTool implements Linker {
           )
           .toList();
 
-      output.dependencies.addAll(
-        {
-          // Note: We use a Set here to deduplicate the dependencies.
-          ...resolvedSources,
-          ...includeFiles,
-        }.where(
-          // Files in `input.outputDirectoryShared` are produced by this hook
-          // itself; `input.outputDirectory` is a subdirectory of it. Reporting
-          // them as dependencies invalidates the hook cache.
-          (uri) => !fileSystem!.path.isWithin(
-            input.outputDirectoryShared.toFilePath(),
-            uri.toFilePath(),
-          ),
-        ),
-      );
+      output.dependencies.addAll({
+        // Note: We use a Set here to deduplicate the dependencies.
+        ...resolvedSources,
+        ...includeFiles,
+      });
     }
   }
 }
