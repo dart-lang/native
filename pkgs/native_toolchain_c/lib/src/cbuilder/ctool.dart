@@ -67,6 +67,17 @@ abstract class CTool {
   /// see: https://learn.microsoft.com/en-us/cpp/build/reference/fi-name-forced-include-file
   final List<String> forcedIncludes;
 
+  /// Whether to automatically report [sources], files under [includes], and
+  /// [forcedIncludes] as dependencies of the hook.
+  ///
+  /// Defaults to `true`.
+  ///
+  /// Set to `false` to disable automatic dependency tracking, for example
+  /// when the compiled sources or include directories are produced by the
+  /// build hook itself. In that case the caller is responsible for adding the
+  /// dependencies to the hook output manually.
+  final bool trackDependencies;
+
   /// Frameworks to link.
   ///
   /// Only effective when targeting macOS or iOS.
@@ -180,6 +191,7 @@ abstract class CTool {
     required this.sources,
     required this.includes,
     required this.forcedIncludes,
+    this.trackDependencies = true,
     required this.frameworks,
     required this.libraries,
     required this.libraryDirectories,
