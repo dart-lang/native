@@ -2,12 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/extension_declaration.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/members/method_declaration.dart';
 import 'package:swift2objc/src/config.dart';
+import 'package:swift2objc/src/context.dart';
+import 'package:swift2objc/src/parser/_core/json.dart';
+import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
+import 'package:swift2objc/src/parser/parsers/parse_declarations.dart';
 import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
 import 'package:swift2objc/src/transformer/transform.dart';
 import 'package:swift2objc/src/transformer/transformers/transform_extension.dart';
@@ -133,5 +138,69 @@ void main() {
     final state = TransformationState()..globalNamer = UniqueNamer();
 
     expect(transformExtension(extension, state.globalNamer, state), isNull);
+  });
+
+  test('parseDeclarations extracts extensions on built-in types', () {
+    const inputConfig = FilesInputConfig(files: []);
+    final methodSymbol = ParsedSymbol(
+      source: inputConfig,
+      json: Json(<String, dynamic>{
+        'identifier': {'precise': 's:SS18symbolgraph_moduleE7isEmailSbyF'},
+        'names': {
+          'title': 'isEmail()',
+          'subHeading': [
+            {'kind': 'identifier', 'spelling': 'isEmail'},
+          ],
+        },
+        'pathComponents': ['String', 'isEmail()'],
+        'kind': {'identifier': 'swift.method'},
+        'swiftExtension': {'extendedModule': 'Swift'},
+        'declarationFragments': [
+          {'kind': 'keyword', 'spelling': 'func'},
+          {'kind': 'text', 'spelling': ' '},
+          {'kind': 'identifier', 'spelling': 'isEmail'},
+          {'kind': 'text', 'spelling': '() -> '},
+          {
+            'kind': 'typeIdentifier',
+            'spelling': 'Bool',
+            'preciseIdentifier': 's:Sb',
+          },
+        ],
+        'functionSignature': {
+          'returns': [
+            {
+              'kind': 'typeIdentifier',
+              'preciseIdentifier': 's:Sb',
+              'spelling': 'Bool',
+            },
+          ],
+          'parameters': <dynamic>[],
+        },
+      }),
+    );
+    final symbolgraph = ParsedSymbolgraph(
+      symbols: {
+        ...ParsedSymbolgraph.builtInSymbolsMap(),
+        's:SS18symbolgraph_moduleE7isEmailSbyF': methodSymbol,
+      },
+      relations: {
+        's:SS': {
+          'r1': ParsedRelation(
+            source: inputConfig,
+            kind: ParsedRelationKind.memberOf,
+            sourceId: 's:SS18symbolgraph_moduleE7isEmailSbyF',
+            targetId: 's:SS',
+            json: Json(<String, dynamic>{}),
+          ),
+        },
+      },
+    );
+
+    final context = Context(Logger.detached('test')..level = Level.OFF);
+    final decls = parseDeclarations(context, symbolgraph);
+    expect(decls.whereType<ExtensionDeclaration>(), isNotEmpty);
+    final extDecl = decls.whereType<ExtensionDeclaration>().single;
+    expect(extDecl.name, 'String');
+    expect(extDecl.methods.single.name, 'isEmail');
   });
 }
