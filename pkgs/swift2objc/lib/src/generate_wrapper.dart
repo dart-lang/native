@@ -59,20 +59,49 @@ Future<void> _generateWrapper(
       );
     }
 
-    final symbolgraphFileName = switch (input) {
-      FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
-      ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
-      JsonFileInputConfig() => path.absolute(input.jsonFile.path),
-    };
-    final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
-    final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
+    final List<File> symbolgraphFiles;
+    final String? mainFileName;
+    switch (input) {
+      case FilesInputConfig():
+        mainFileName = '${input.tempModuleName}$symbolgraphFileSuffix';
+        final prefix = '${input.tempModuleName}@';
+        final files = tempDir.listSync().whereType<File>().where((f) {
+          final name = path.basename(f.path);
+          return name == mainFileName ||
+              (name.startsWith(prefix) && name.endsWith(symbolgraphFileSuffix));
+        }).toList()..sort((a, b) => a.path.compareTo(b.path));
+        symbolgraphFiles = files.isNotEmpty
+            ? files
+            : [File(path.join(tempDir.path, mainFileName))];
+      case ModuleInputConfig():
+        mainFileName = '${input.module}$symbolgraphFileSuffix';
+        final prefix = '${input.module}@';
+        final files = tempDir.listSync().whereType<File>().where((f) {
+          final name = path.basename(f.path);
+          return name == mainFileName ||
+              (name.startsWith(prefix) && name.endsWith(symbolgraphFileSuffix));
+        }).toList()..sort((a, b) => a.path.compareTo(b.path));
+        symbolgraphFiles = files.isNotEmpty
+            ? files
+            : [File(path.join(tempDir.path, mainFileName))];
+      case JsonFileInputConfig():
+        mainFileName = null;
+        symbolgraphFiles = [File.fromUri(input.jsonFile)];
+    }
 
-    sourceModules.add(switch (input) {
-      FilesInputConfig() => null,
-      ModuleInputConfig() => input.module,
-      JsonFileInputConfig() => parseModuleName(symbolgraphJson),
-    });
-    mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
+    for (final file in symbolgraphFiles) {
+      final symbolgraphJson = readJsonFile(file.path);
+      final isMainFile =
+          mainFileName == null || path.basename(file.path) == mainFileName;
+      if (isMainFile) {
+        sourceModules.add(switch (input) {
+          FilesInputConfig() => null,
+          ModuleInputConfig() => input.module,
+          JsonFileInputConfig() => parseModuleName(symbolgraphJson),
+        });
+      }
+      mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
+    }
   }
 
   final declarations = parseDeclarations(context, mergedSymbolgraph);

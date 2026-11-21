@@ -3,6 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ast/_core/interfaces/declaration.dart';
+import '../../ast/_core/interfaces/is_extension_member.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
+import '../../ast/declarations/compounds/extension_declaration.dart';
+import '../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../config.dart';
 import '../../context.dart';
 import '../_core/parsed_symbolgraph.dart';
@@ -43,6 +49,16 @@ List<Declaration> parseDeclaration(
   ParsedSymbolgraph symbolgraph,
 ) {
   if (parsedSymbol.declarations.isNotEmpty) {
+    if (parsedSymbol.declarations.first is BuiltInDeclaration &&
+        parsedSymbol.declarations.length == 1) {
+      final builtIn = parsedSymbol.declarations.first as BuiltInDeclaration;
+      return parsedSymbol.declarations = _parseBuiltInExtensions(
+        context,
+        builtIn,
+        parsedSymbol,
+        symbolgraph,
+      );
+    }
     return parsedSymbol.declarations;
   }
 
@@ -50,7 +66,12 @@ List<Declaration> parseDeclaration(
 
   final builtIn = tryParseBuiltInDeclaration(parsedSymbol);
   if (builtIn != null) {
-    return parsedSymbol.declarations = [builtIn];
+    return parsedSymbol.declarations = _parseBuiltInExtensions(
+      context,
+      builtIn,
+      parsedSymbol,
+      symbolgraph,
+    );
   }
 
   if (isObsoleted(symbolJson)) {
@@ -149,4 +170,50 @@ List<Declaration> tryParseDeclaration(
     }
   }
   return [];
+}
+
+List<Declaration> _parseBuiltInExtensions(
+  Context context,
+  BuiltInDeclaration builtIn,
+  ParsedSymbol parsedSymbol,
+  ParsedSymbolgraph symbolgraph,
+) {
+  final relations = symbolgraph.relations[builtIn.id]?.values ?? [];
+  final memberDeclarations = relations
+      .where(
+        (r) =>
+            r.kind == ParsedRelationKind.memberOf && r.targetId == builtIn.id,
+      )
+      .expand((r) {
+        final memberSymbol = symbolgraph.symbols[r.sourceId];
+        if (memberSymbol == null) return <Declaration>[];
+        return tryParseDeclaration(context, memberSymbol, symbolgraph);
+      })
+      .dedupeBy((decl) => decl.id)
+      .toList();
+
+  final extensionMembers = memberDeclarations.where((d) {
+    return d is IsExtensionMember &&
+        (d as IsExtensionMember).isExtensionMember &&
+        d.source != builtInInputConfig;
+  }).toList();
+
+  final firstExtMember = extensionMembers.firstOrNull;
+  if (firstExtMember != null) {
+    final extDecl = ExtensionDeclaration(
+      id: builtIn.id.addIdSuffix('extension'),
+      name: builtIn.name,
+      source: firstExtMember.source,
+      availability: const [],
+      extendedType: builtIn.asDeclaredType,
+      methods: extensionMembers.whereType<MethodDeclaration>().toList(),
+      properties: extensionMembers.whereType<PropertyDeclaration>().toList(),
+      initializers: extensionMembers
+          .whereType<InitializerDeclaration>()
+          .toList(),
+    );
+    return [builtIn, extDecl];
+  }
+
+  return [builtIn];
 }

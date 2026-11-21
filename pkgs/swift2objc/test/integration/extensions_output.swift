@@ -127,3 +127,10 @@ import Foundation
 
 }
 
+@objc public class StringExtensions: NSObject {
+  @objc public static func isEmail(_ instance: String) -> Bool {
+    return instance.isEmail()
+  }
+
+}
+
