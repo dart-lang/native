@@ -70,8 +70,4 @@ final class $OutputStream$Type$ extends jni$_.JType<OutputStream> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/OutputStream;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'java/io/OutputStream';
 }
