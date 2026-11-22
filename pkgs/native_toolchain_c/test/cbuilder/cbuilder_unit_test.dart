@@ -14,6 +14,83 @@ import '../helpers.dart';
 import '../utils/fake_process_manager.dart';
 
 void main() {
+  test('configured OHOS LLVM uses its target and sysroot', () async {
+    final fileSystem = MemoryFileSystem(
+      style: Platform.isWindows
+          ? FileSystemStyle.windows
+          : FileSystemStyle.posix,
+    );
+    final outputDirectoryShared = await tempDirForTest();
+    final packageRoot = await tempDirForTest();
+    final ccUri = packageRoot.resolve(
+      'native/llvm/bin/${OS.current.executableFileName('clang')}',
+    );
+    final arUri = ccUri.resolve(OS.current.executableFileName('llvm-ar'));
+    final ldUri = ccUri.resolve(OS.current.executableFileName('ld.lld'));
+    final sysroot = packageRoot.resolve('native/sysroot/');
+    fileSystem
+        .directory(
+          sysroot.resolve('usr/include/aarch64-linux-ohos/'),
+        )
+        .createSync(recursive: true);
+    fileSystem.file(ccUri).createSync(recursive: true);
+    fileSystem.file(arUri).createSync(recursive: true);
+    fileSystem.file(ldUri).createSync(recursive: true);
+    final sourceUri = packageRoot.resolve('src.c');
+    fileSystem.file(sourceUri)
+      ..createSync(recursive: true)
+      ..writeAsStringSync('int foo() { return 0; }\n');
+    final ccPath = ccUri.toFilePath();
+    const versionStdout = 'OHOS (dev) clang version 15.0.4\n';
+    final processManager = FakeProcessManager([
+      FakeCommand(command: [ccPath, '--version'], stdout: versionStdout),
+      FakeCommand(command: [ccPath, '--version'], stdout: versionStdout),
+      FakeCommand(
+        onRun: (command) {
+          fileSystem
+              .file(command[command.indexOf('-o') + 1])
+              .createSync(recursive: true);
+        },
+      ),
+    ]);
+    final input = BuildInputBuilder()
+      ..setupShared(
+        packageName: 'mylib',
+        packageRoot: packageRoot,
+        outputFile: outputDirectoryShared.resolve('output.json'),
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.linux,
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: CCompilerConfig(
+            archiver: arUri,
+            compiler: ccUri,
+            linker: ldUri,
+          ),
+        ),
+      );
+    await CBuilder.library(
+      name: 'mylib',
+      assetName: 'mylib',
+      sources: [sourceUri.toFilePath()],
+    ).run(
+      input: input.build(),
+      output: BuildOutputBuilder(),
+      logger: logger,
+      processManager: processManager,
+      fileSystem: fileSystem,
+    );
+    expect(processManager.allCommandsConsumed, isTrue);
+    final compileCommand = processManager.invocations[2].command;
+    expect(compileCommand, contains('--target=aarch64-linux-ohos'));
+    expect(compileCommand, contains('--sysroot=${sysroot.toFilePath()}'));
+    expect(compileCommand, isNot(contains('--target=aarch64-linux-gnu')));
+  });
+
   // An end-to-end run of [CBuilder.run] with both external seams faked: a
   // [MemoryFileSystem] for all file system access native_toolchain_c performs,
   // and a [FakeProcessManager] scripting the compiler resolution and the

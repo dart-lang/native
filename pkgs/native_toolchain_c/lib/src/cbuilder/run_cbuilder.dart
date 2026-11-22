@@ -273,6 +273,19 @@ class RunCBuilder {
 
     String toolPath(Uri uri) => _toolPath(uri, toolInstance);
 
+    // OH Flutter currently describes hook targets as Linux, while providing
+    // its own Clang toolchain. That toolchain needs its OHOS target/sysroot
+    // instead of the host's GNU Linux defaults.
+    final ohosSysroot = toolInstance.uri.resolve('../../sysroot/');
+    final isOhos =
+        codeConfig.targetOS == OS.linux &&
+        toolInstance.tool.isClang &&
+        fileSystem
+            .directory(
+              ohosSysroot.resolve('usr/include/aarch64-linux-ohos/'),
+            )
+            .existsSync();
+
     await runProcess(
       launcher: toolInstance.launcher?.uri,
       executable: toolInstance.uri,
@@ -290,10 +303,19 @@ class RunCBuilder {
           '--target=${appleClangMacosTargetFlags[architecture]!}',
         if (codeConfig.targetOS == .iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
-        if (codeConfig.targetOS == .linux &&
+        if (!isOhos &&
+            codeConfig.targetOS == .linux &&
             OS.current != .linux &&
             toolInstance.tool.isClang)
           '--target=${clangLinuxTargetFlags[architecture]!}',
+        if (isOhos) ...[
+          '--target=${{
+            Architecture.arm64: 'aarch64-linux-ohos',
+            Architecture.arm: 'arm-linux-ohos',
+            Architecture.x64: 'x86_64-linux-ohos',
+          }[architecture]!}',
+          '--sysroot=${ohosSysroot.toFilePath()}',
+        ],
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
