@@ -58,7 +58,7 @@ FFIGEN_EXPORT double ColoredCircle_getY(const ColoredCircle* self) {
 }
 
 FFIGEN_EXPORT int ColoredCircle_draw(const ColoredCircle* self) {
-  return self->draw();
+  return self->Drawable::draw();
 }
 
 FFIGEN_EXPORT void ColoredCircle_delete(ColoredCircle* self) {
@@ -86,11 +86,11 @@ FFIGEN_EXPORT DiamondDerived* DiamondDerived_new() {
 }
 
 FFIGEN_EXPORT int DiamondDerived_virtVal(const DiamondDerived* self) {
-  return self->virtVal();
+  return self->DiamondLeft::virtVal();
 }
 
 FFIGEN_EXPORT int DiamondDerived_baseVal(const DiamondDerived* self) {
-  return self->baseVal();
+  return self->DiamondLeft::baseVal();
 }
 
 FFIGEN_EXPORT void DiamondDerived_delete(DiamondDerived* self) {

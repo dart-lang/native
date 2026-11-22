@@ -48,11 +48,14 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
         .map((m) => m.signatureKey())
         .toSet();
 
-    _copyCppMethodsFromBase(node, node, existingSignatures);
+    for (final base in node.bases) {
+      _copyCppMethodsFromBase(node, base, base, existingSignatures);
+    }
   }
 
   void _copyCppMethodsFromBase(
     CppClass target,
+    CppClass directBase,
     CppClass current,
     Set<String> existingSignatures,
   ) {
@@ -60,12 +63,15 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
       if (method.kind == CppMethodKind.constructor) continue;
 
       if (existingSignatures.add(method.signatureKey())) {
-        target.copyMethod(method, current);
+        target.copyMethod(
+          method,
+          target.bases.length > 1 ? directBase : current,
+        );
       }
     }
 
     for (final base in current.bases) {
-      _copyCppMethodsFromBase(target, base, existingSignatures);
+      _copyCppMethodsFromBase(target, directBase, base, existingSignatures);
     }
   }
 
