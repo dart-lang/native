@@ -70,4 +70,8 @@ final class $COSObjectable$Type$ extends jni$_.JType<COSObjectable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/pdmodel/common/COSObjectable;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'org/apache/pdfbox/pdmodel/common/COSObjectable';
 }

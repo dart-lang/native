@@ -69,4 +69,8 @@ final class $InputStream$Type$ extends jni$_.JType<InputStream> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/InputStream;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/io/InputStream';
 }

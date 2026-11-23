@@ -73,4 +73,9 @@ final class $NonBlockingInputFeeder$Type$
   @core$_.override
   String get signature =>
       r'Lcom/fasterxml/jackson/core/async/NonBlockingInputFeeder;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className =>
+      r'com/fasterxml/jackson/core/async/NonBlockingInputFeeder';
 }

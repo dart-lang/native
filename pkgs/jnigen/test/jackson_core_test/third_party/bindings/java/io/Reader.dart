@@ -69,4 +69,8 @@ final class $Reader$Type$ extends jni$_.JType<Reader> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/Reader;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/io/Reader';
 }

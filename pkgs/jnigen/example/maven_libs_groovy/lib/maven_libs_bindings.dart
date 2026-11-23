@@ -1114,6 +1114,10 @@ final class $Gson$Type$ extends jni$_.JType<Gson> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/Gson;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/Gson';
 }
 
 /// from: `okhttp3.OkHttpClient$Builder`
@@ -2243,6 +2247,10 @@ final class $OkHttpClient$Builder$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/OkHttpClient$Builder;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/OkHttpClient$Builder';
 }
 
 /// from: `okhttp3.OkHttpClient$Companion`
@@ -2290,6 +2298,10 @@ final class $OkHttpClient$Companion$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/OkHttpClient$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/OkHttpClient$Companion';
 }
 
 /// from: `okhttp3.OkHttpClient`
@@ -3248,6 +3260,10 @@ final class $OkHttpClient$Type$ extends jni$_.JType<OkHttpClient> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/OkHttpClient;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/OkHttpClient';
 }
 
 /// from: `com.google.gson.GsonBuilder`
@@ -3266,6 +3282,10 @@ final class $GsonBuilder$Type$ extends jni$_.JType<GsonBuilder> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/GsonBuilder;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/GsonBuilder';
 }
 
 /// from: `com.google.gson.internal.Excluder`
@@ -3284,6 +3304,10 @@ final class $Excluder$Type$ extends jni$_.JType<Excluder> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/internal/Excluder;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/internal/Excluder';
 }
 
 /// from: `com.google.gson.FieldNamingStrategy`
@@ -3305,6 +3329,10 @@ final class $FieldNamingStrategy$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/FieldNamingStrategy;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/FieldNamingStrategy';
 }
 
 /// from: `com.google.gson.TypeAdapter`
@@ -3323,6 +3351,10 @@ final class $TypeAdapter$Type$ extends jni$_.JType<TypeAdapter> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/TypeAdapter;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/TypeAdapter';
 }
 
 /// from: `com.google.gson.reflect.TypeToken`
@@ -3341,6 +3373,10 @@ final class $TypeToken$Type$ extends jni$_.JType<TypeToken> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/reflect/TypeToken;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/reflect/TypeToken';
 }
 
 /// from: `com.google.gson.TypeAdapterFactory`
@@ -3361,6 +3397,10 @@ final class $TypeAdapterFactory$Type$ extends jni$_.JType<TypeAdapterFactory> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/TypeAdapterFactory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/TypeAdapterFactory';
 }
 
 /// from: `com.google.gson.JsonElement`
@@ -3379,6 +3419,10 @@ final class $JsonElement$Type$ extends jni$_.JType<JsonElement> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/JsonElement;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/JsonElement';
 }
 
 /// from: `java.lang.reflect.Type`
@@ -3397,6 +3441,10 @@ final class $Type$Type$ extends jni$_.JType<Type> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/reflect/Type;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/reflect/Type';
 }
 
 /// from: `java.lang.Appendable`
@@ -3415,6 +3463,10 @@ final class $Appendable$Type$ extends jni$_.JType<Appendable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Appendable;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Appendable';
 }
 
 /// from: `com.google.gson.stream.JsonWriter`
@@ -3433,6 +3485,10 @@ final class $JsonWriter$Type$ extends jni$_.JType<JsonWriter> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/stream/JsonWriter;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/stream/JsonWriter';
 }
 
 /// from: `java.io.Writer`
@@ -3451,6 +3507,10 @@ final class $Writer$Type$ extends jni$_.JType<Writer> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/Writer;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/io/Writer';
 }
 
 /// from: `com.google.gson.stream.JsonReader`
@@ -3469,6 +3529,10 @@ final class $JsonReader$Type$ extends jni$_.JType<JsonReader> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/stream/JsonReader;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/google/gson/stream/JsonReader';
 }
 
 /// from: `java.io.Reader`
@@ -3487,6 +3551,10 @@ final class $Reader$Type$ extends jni$_.JType<Reader> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/Reader;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/io/Reader';
 }
 
 /// from: `okhttp3.Dispatcher`
@@ -3505,6 +3573,10 @@ final class $Dispatcher$Type$ extends jni$_.JType<Dispatcher> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Dispatcher;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Dispatcher';
 }
 
 /// from: `okhttp3.ConnectionPool`
@@ -3523,6 +3595,10 @@ final class $ConnectionPool$Type$ extends jni$_.JType<ConnectionPool> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/ConnectionPool;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/ConnectionPool';
 }
 
 /// from: `okhttp3.Interceptor`
@@ -3541,6 +3617,10 @@ final class $Interceptor$Type$ extends jni$_.JType<Interceptor> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Interceptor;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Interceptor';
 }
 
 /// from: `okhttp3.EventListener$Factory`
@@ -3562,6 +3642,10 @@ final class $EventListener$$Factory$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/EventListener$Factory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/EventListener$Factory';
 }
 
 /// from: `okhttp3.Authenticator`
@@ -3580,6 +3664,10 @@ final class $Authenticator$Type$ extends jni$_.JType<Authenticator> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Authenticator;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Authenticator';
 }
 
 /// from: `okhttp3.CookieJar`
@@ -3598,6 +3686,10 @@ final class $CookieJar$Type$ extends jni$_.JType<CookieJar> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/CookieJar;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/CookieJar';
 }
 
 /// from: `okhttp3.Cache`
@@ -3616,6 +3708,10 @@ final class $Cache$Type$ extends jni$_.JType<Cache> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Cache;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Cache';
 }
 
 /// from: `okhttp3.Dns`
@@ -3634,6 +3730,10 @@ final class $Dns$Type$ extends jni$_.JType<Dns> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Dns;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Dns';
 }
 
 /// from: `java.net.Proxy`
@@ -3652,6 +3752,10 @@ final class $Proxy$Type$ extends jni$_.JType<Proxy> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/net/Proxy;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/net/Proxy';
 }
 
 /// from: `java.net.ProxySelector`
@@ -3670,6 +3774,10 @@ final class $ProxySelector$Type$ extends jni$_.JType<ProxySelector> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/net/ProxySelector;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/net/ProxySelector';
 }
 
 /// from: `javax.net.SocketFactory`
@@ -3688,6 +3796,10 @@ final class $SocketFactory$Type$ extends jni$_.JType<SocketFactory> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljavax/net/SocketFactory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'javax/net/SocketFactory';
 }
 
 /// from: `javax.net.ssl.SSLSocketFactory`
@@ -3707,6 +3819,10 @@ final class $SSLSocketFactory$Type$ extends jni$_.JType<SSLSocketFactory> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljavax/net/ssl/SSLSocketFactory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'javax/net/ssl/SSLSocketFactory';
 }
 
 /// from: `javax.net.ssl.X509TrustManager`
@@ -3726,6 +3842,10 @@ final class $X509TrustManager$Type$ extends jni$_.JType<X509TrustManager> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljavax/net/ssl/X509TrustManager;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'javax/net/ssl/X509TrustManager';
 }
 
 /// from: `okhttp3.ConnectionSpec`
@@ -3744,6 +3864,10 @@ final class $ConnectionSpec$Type$ extends jni$_.JType<ConnectionSpec> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/ConnectionSpec;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/ConnectionSpec';
 }
 
 /// from: `okhttp3.Protocol`
@@ -3762,6 +3886,10 @@ final class $Protocol$Type$ extends jni$_.JType<Protocol> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Protocol;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Protocol';
 }
 
 /// from: `javax.net.ssl.HostnameVerifier`
@@ -3781,6 +3909,10 @@ final class $HostnameVerifier$Type$ extends jni$_.JType<HostnameVerifier> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljavax/net/ssl/HostnameVerifier;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'javax/net/ssl/HostnameVerifier';
 }
 
 /// from: `okhttp3.CertificatePinner`
@@ -3800,6 +3932,10 @@ final class $CertificatePinner$Type$ extends jni$_.JType<CertificatePinner> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/CertificatePinner;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/CertificatePinner';
 }
 
 /// from: `okhttp3.internal.tls.CertificateChainCleaner`
@@ -3821,6 +3957,10 @@ final class $CertificateChainCleaner$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/internal/tls/CertificateChainCleaner;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/internal/tls/CertificateChainCleaner';
 }
 
 /// from: `okhttp3.internal.connection.RouteDatabase`
@@ -3839,6 +3979,10 @@ final class $RouteDatabase$Type$ extends jni$_.JType<RouteDatabase> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/internal/connection/RouteDatabase;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/internal/connection/RouteDatabase';
 }
 
 /// from: `okhttp3.Call`
@@ -3857,6 +4001,10 @@ final class $Call$Type$ extends jni$_.JType<Call> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Call;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Call';
 }
 
 /// from: `okhttp3.Request`
@@ -3875,6 +4023,10 @@ final class $Request$Type$ extends jni$_.JType<Request> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Request;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Request';
 }
 
 /// from: `okhttp3.WebSocket`
@@ -3893,6 +4045,10 @@ final class $WebSocket$Type$ extends jni$_.JType<WebSocket> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/WebSocket;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/WebSocket';
 }
 
 /// from: `okhttp3.WebSocketListener`
@@ -3912,6 +4068,10 @@ final class $WebSocketListener$Type$ extends jni$_.JType<WebSocketListener> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/WebSocketListener;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/WebSocketListener';
 }
 
 /// from: `java.lang.Cloneable`
@@ -3930,6 +4090,10 @@ final class $Cloneable$Type$ extends jni$_.JType<Cloneable> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Cloneable;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/lang/Cloneable';
 }
 
 /// from: `okhttp3.Call$Factory`
@@ -3948,6 +4112,10 @@ final class $Call$$Factory$Type$ extends jni$_.JType<Call$$Factory> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/Call$Factory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/Call$Factory';
 }
 
 /// from: `okhttp3.WebSocket$Factory`
@@ -3968,6 +4136,10 @@ final class $WebSocket$$Factory$Type$ extends jni$_.JType<WebSocket$$Factory> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/WebSocket$Factory;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/WebSocket$Factory';
 }
 
 /// from: `okhttp3.EventListener`
@@ -3986,6 +4158,10 @@ final class $EventListener$Type$ extends jni$_.JType<EventListener> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/EventListener;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'okhttp3/EventListener';
 }
 
 /// from: `java.util.concurrent.TimeUnit`
@@ -4004,6 +4180,10 @@ final class $TimeUnit$Type$ extends jni$_.JType<TimeUnit> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/concurrent/TimeUnit;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/util/concurrent/TimeUnit';
 }
 
 /// from: `java.time.Duration`
@@ -4022,6 +4202,10 @@ final class $Duration$Type$ extends jni$_.JType<Duration> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/time/Duration;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/time/Duration';
 }
 
 /// from: `kotlin.jvm.internal.DefaultConstructorMarker`
@@ -4043,4 +4227,8 @@ final class $DefaultConstructorMarker$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lkotlin/jvm/internal/DefaultConstructorMarker;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'kotlin/jvm/internal/DefaultConstructorMarker';
 }

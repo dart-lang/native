@@ -72,6 +72,10 @@ final class $JsonGenerator$$Feature$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonGenerator$Feature;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonGenerator$Feature';
 }
 
 /// from: `com.fasterxml.jackson.core.JsonGenerator`
@@ -90,4 +94,8 @@ final class $JsonGenerator$Type$ extends jni$_.JType<JsonGenerator> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonGenerator;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/JsonGenerator';
 }

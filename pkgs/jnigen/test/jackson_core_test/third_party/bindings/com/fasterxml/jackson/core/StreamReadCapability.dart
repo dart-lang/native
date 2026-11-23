@@ -72,4 +72,8 @@ final class $StreamReadCapability$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/StreamReadCapability;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/StreamReadCapability';
 }

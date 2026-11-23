@@ -58,6 +58,45 @@ void run({required TestRunnerCallback testRunner}) {
     longClass.release();
   });
 
+  testRunner('jClass lookup for array types', () {
+    final primitiveArrayClass = JIntArray.type.jClass;
+    final objectArrayClass = JArray.type(JString.type).jClass;
+
+    final classClass = JClass.forName('java/lang/Class');
+    final getName = classClass.instanceMethodId(
+      'getName',
+      '()Ljava/lang/String;',
+    );
+
+    try {
+      final primitiveName = getName(
+        primitiveArrayClass,
+        JString.type,
+        [],
+      );
+      try {
+        expect(primitiveName.toDartString(), '[I');
+      } finally {
+        primitiveName.release();
+      }
+
+      final objectName = getName(
+        objectArrayClass,
+        JString.type,
+        [],
+      );
+      try {
+        expect(objectName.toDartString(), '[Ljava.lang.String;');
+      } finally {
+        objectName.release();
+      }
+    } finally {
+      primitiveArrayClass.release();
+      objectArrayClass.release();
+      classClass.release();
+    }
+  });
+
   testRunner('call a static method using JClass APIs', () {
     final integerClass = JClass.forName('java/lang/Integer');
     final result =

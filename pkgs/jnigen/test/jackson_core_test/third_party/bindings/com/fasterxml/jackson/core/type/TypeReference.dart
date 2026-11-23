@@ -69,4 +69,8 @@ final class $TypeReference$Type$ extends jni$_.JType<TypeReference> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/type/TypeReference;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/type/TypeReference';
 }

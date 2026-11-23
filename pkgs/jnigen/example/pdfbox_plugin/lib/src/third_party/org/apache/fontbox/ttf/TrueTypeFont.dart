@@ -70,4 +70,8 @@ final class $TrueTypeFont$Type$ extends jni$_.JType<TrueTypeFont> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/fontbox/ttf/TrueTypeFont;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'org/apache/fontbox/ttf/TrueTypeFont';
 }

@@ -69,4 +69,8 @@ final class $DataInput$Type$ extends jni$_.JType<DataInput> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/io/DataInput;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'java/io/DataInput';
 }

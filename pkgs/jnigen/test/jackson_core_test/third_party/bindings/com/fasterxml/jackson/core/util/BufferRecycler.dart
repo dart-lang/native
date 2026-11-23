@@ -69,4 +69,8 @@ final class $BufferRecycler$Type$ extends jni$_.JType<BufferRecycler> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/util/BufferRecycler;';
+
+  @jni$_.internal
+  @core$_.override
+  String get className => r'com/fasterxml/jackson/core/util/BufferRecycler';
 }

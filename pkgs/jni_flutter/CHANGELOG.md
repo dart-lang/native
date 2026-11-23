@@ -1,6 +1,6 @@
 ## 1.1.0
 
-- Bump `package:jni` dependency to 1.2.1.
+- Regenerate JNI bindings to support the new `JType.className` API.
 
 ## 1.0.4+1
 
