@@ -14,7 +14,7 @@ import 'package:legacy_android_test_runner/legacy_bindings.g.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('1. Type system & JType.jClass', () {
+  group('Type system & JType.jClass', () {
     testWidgets('isA and as on LegacyFixture', (tester) async {
       using((arena) {
         final fixture = LegacyFixture()..releasedBy(arena);
@@ -52,7 +52,7 @@ void main() {
     });
   });
 
-  group('2. Constructors', () {
+  group('Constructors', () {
     testWidgets('default, overloaded, and nested constructors', (tester) async {
       using((arena) {
         final def = LegacyFixture()..releasedBy(arena);
@@ -77,7 +77,7 @@ void main() {
     });
   });
 
-  group('3. Static & instance methods', () {
+  group('Static & instance methods', () {
     testWidgets('primitives, strings, void, nullable, getter/setter', (
       tester,
     ) async {
@@ -112,7 +112,7 @@ void main() {
     });
   });
 
-  group('4. Fields', () {
+  group('Fields', () {
     testWidgets('static final, mutable static, mutable instance fields', (
       tester,
     ) async {
@@ -139,7 +139,7 @@ void main() {
     });
   });
 
-  group('5. Generics', () {
+  group('Generics', () {
     testWidgets('generic class, generic method, concrete subclass', (
       tester,
     ) async {
@@ -163,7 +163,7 @@ void main() {
     });
   });
 
-  group('6. Arrays, Collections & Buffers', () {
+  group('Arrays, Collections & Buffers', () {
     testWidgets('int[], List, Map, Set, ByteBuffer', (tester) async {
       using((arena) {
         final ints = JIntArray(3)..releasedBy(arena);
@@ -207,7 +207,7 @@ void main() {
     });
   });
 
-  group('7. Enums', () {
+  group('Enums', () {
     testWidgets('enum constants, values, valueOf, and method', (tester) async {
       using((arena) {
         final red = Color.RED..releasedBy(arena);
@@ -227,7 +227,7 @@ void main() {
     });
   });
 
-  group('8. Exceptions', () {
+  group('Exceptions', () {
     testWidgets('constructor & method throw custom LegacyException', (
       tester,
     ) async {
@@ -249,7 +249,7 @@ void main() {
     });
   });
 
-  group('9. Interfaces & Callbacks', () {
+  group('Interfaces & Callbacks', () {
     testWidgets('sync callback and multi-interface', (tester) async {
       using((arena) {
         final transformer = IntTransformer.implement(
@@ -320,7 +320,7 @@ void main() {
     });
   });
 
-  group('10. Kotlin suspend functions', () {
+  group('Kotlin suspend functions', () {
     testWidgets('suspend value, Unit, throwing, and Dart SuspendProvider', (
       tester,
     ) async {
@@ -354,7 +354,7 @@ void main() {
     });
   });
 
-  group('11. Reference lifecycle', () {
+  group('Reference lifecycle', () {
     testWidgets('using/Arena, manual release, releaseOriginal', (tester) async {
       final manual = LegacyFixture();
       expect(manual.isReleased, isFalse);
