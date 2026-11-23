@@ -7,11 +7,23 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
+const _isWasm = bool.fromEnvironment('dart.tool.dart2wasm');
+
+List<int> _readBytes(Pointer<Uint8> pointer, int length) => _isWasm
+    ? [for (var i = 0; i < length; i++) pointer[i]]
+    : pointer.asTypedList(length);
+
 Pointer<Uint8> _bytesFromList(List<int> ints) {
   // ignore: omit_local_variable_types
   final Pointer<Uint8> ptr = calloc(ints.length);
-  final list = ptr.asTypedList(ints.length);
-  list.setAll(0, ints);
+  if (_isWasm) {
+    for (var i = 0; i < ints.length; i++) {
+      ptr[i] = ints[i];
+    }
+  } else {
+    final list = ptr.asTypedList(ints.length);
+    list.setAll(0, ints);
+  }
   return ptr;
 }
 
@@ -19,7 +31,7 @@ void main() {
   test('toUtf8 ASCII', () {
     final start = 'Hello World!\n';
     final converted = start.toNativeUtf8().cast<Uint8>();
-    final end = converted.asTypedList(start.length + 1);
+    final end = _readBytes(converted, start.length + 1);
     final matcher = equals([
       72,
       101,
@@ -65,7 +77,7 @@ void main() {
     final start = '😎👿💬';
     final converted = start.toNativeUtf8().cast<Utf8>();
     final length = converted.length;
-    final end = converted.cast<Uint8>().asTypedList(length + 1);
+    final end = _readBytes(converted.cast<Uint8>(), length + 1);
     final matcher = equals([
       240,
       159,
@@ -232,8 +244,10 @@ void main() {
   test('zero terminated', () {
     final string = 'Hello';
     final utf8Pointer = string.toNativeUtf8();
-    final charPointer = utf8Pointer.cast<Char>();
-    expect(charPointer[utf8Pointer.length], 0);
+    final terminator = _isWasm
+        ? utf8Pointer.cast<Uint8>()[utf8Pointer.length]
+        : utf8Pointer.cast<Char>()[utf8Pointer.length];
+    expect(terminator, 0);
     calloc.free(utf8Pointer);
   });
 }

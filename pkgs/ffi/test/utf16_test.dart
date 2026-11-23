@@ -7,11 +7,17 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
+const _isWasm = bool.fromEnvironment('dart.tool.dart2wasm');
+
+List<int> _readCodeUnits(Pointer<Uint16> pointer, int length) => _isWasm
+    ? [for (var i = 0; i < length; i++) pointer[i]]
+    : pointer.asTypedList(length);
+
 void main() {
   test('toUtf16 ASCII', () {
     final start = 'Hello World!\n';
     final converted = start.toNativeUtf16().cast<Uint16>();
-    final end = converted.asTypedList(start.codeUnits.length + 1);
+    final end = _readCodeUnits(converted, start.codeUnits.length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
     calloc.free(converted);
@@ -21,7 +27,7 @@ void main() {
     final start = '😎';
     final converted = start.toNativeUtf16().cast();
     final length = start.codeUnits.length;
-    final end = converted.cast<Uint16>().asTypedList(length + 1);
+    final end = _readCodeUnits(converted.cast<Uint16>(), length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
     calloc.free(converted);

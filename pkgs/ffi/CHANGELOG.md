@@ -1,3 +1,10 @@
+## 2.2.1-wip
+
+- Support compiling with `dart2wasm` (`--enable-experimental-ffi`): guard
+  `dart:io` behind a conditional import, avoid `Pointer.asTypedList` in UTF-8
+  and UTF-16 helpers on Wasm, and reject negative or overflowing 32-bit
+  allocation sizes.
+
 ## 2.2.0
 
 - Export leaked types.

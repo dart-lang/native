@@ -3,7 +3,16 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
-import 'dart:io';
+
+import 'allocation_platform_stub.dart'
+    if (dart.library.io) 'allocation_platform_io.dart'
+    as platform;
+
+void _checkByteCount(int byteCount) {
+  if (byteCount < 0 || (sizeOf<IntPtr>() == 4 && byteCount > 0xffffffff)) {
+    throw ArgumentError('Could not allocate $byteCount bytes.');
+  }
+}
 
 typedef PosixMallocNative = Pointer Function(IntPtr);
 
@@ -59,8 +68,9 @@ final class MallocAllocator implements Allocator {
   // TODO: Stop ignoring alignment if it's large, for example for SSE data.
   @override
   Pointer<T> allocate<T extends NativeType>(int byteCount, {int? alignment}) {
-    Pointer<T> result;
-    if (Platform.isWindows) {
+    _checkByteCount(byteCount);
+    final Pointer<T> result;
+    if (platform.isWindows) {
       result = winCoTaskMemAlloc(byteCount).cast();
     } else {
       result = posixMalloc(byteCount).cast();
@@ -78,7 +88,7 @@ final class MallocAllocator implements Allocator {
   /// manner equivalent to [allocate].
   @override
   void free(Pointer pointer) {
-    if (Platform.isWindows) {
+    if (platform.isWindows) {
       winCoTaskMemFree(pointer);
     } else {
       posixFree(pointer);
@@ -114,7 +124,7 @@ final class MallocAllocator implements Allocator {
   /// ```
   ///
   Pointer<NativeFinalizerFunction> get nativeFree =>
-      Platform.isWindows ? winCoTaskMemFreePointer : posixFreePointer;
+      platform.isWindows ? winCoTaskMemFreePointer : posixFreePointer;
 }
 
 /// Manages memory on the native heap.
@@ -159,8 +169,9 @@ final class CallocAllocator implements Allocator {
   // TODO: Stop ignoring alignment if it's large, for example for SSE data.
   @override
   Pointer<T> allocate<T extends NativeType>(int byteCount, {int? alignment}) {
-    Pointer<T> result;
-    if (Platform.isWindows) {
+    _checkByteCount(byteCount);
+    final Pointer<T> result;
+    if (platform.isWindows) {
       result = winCoTaskMemAlloc(byteCount).cast();
     } else {
       result = posixCalloc(byteCount, 1).cast();
@@ -168,7 +179,7 @@ final class CallocAllocator implements Allocator {
     if (result.address == 0) {
       throw ArgumentError('Could not allocate $byteCount bytes.');
     }
-    if (Platform.isWindows) {
+    if (platform.isWindows) {
       _zeroMemory(result, byteCount);
     }
     return result;
@@ -181,7 +192,7 @@ final class CallocAllocator implements Allocator {
   /// manner equivalent to [allocate].
   @override
   void free(Pointer pointer) {
-    if (Platform.isWindows) {
+    if (platform.isWindows) {
       winCoTaskMemFree(pointer);
     } else {
       posixFree(pointer);
@@ -217,7 +228,7 @@ final class CallocAllocator implements Allocator {
   /// ```
   ///
   Pointer<NativeFinalizerFunction> get nativeFree =>
-      Platform.isWindows ? winCoTaskMemFreePointer : posixFreePointer;
+      platform.isWindows ? winCoTaskMemFreePointer : posixFreePointer;
 }
 
 /// Manages memory on the native heap.

@@ -4,8 +4,11 @@
 
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import '../ffi.dart';
+
+const bool _isWasm = bool.fromEnvironment('dart.tool.dart2wasm');
 
 /// The contents of a native zero-terminated array of UTF-8 code units.
 ///
@@ -45,7 +48,16 @@ extension Utf8Pointer on Pointer<Utf8> {
     } else {
       length = _length(codeUnits);
     }
-    return utf8.decode(codeUnits.asTypedList(length));
+    final Uint8List bytes;
+    if (_isWasm) {
+      bytes = Uint8List(length);
+      for (var i = 0; i < length; i++) {
+        bytes[i] = codeUnits[i];
+      }
+    } else {
+      bytes = codeUnits.asTypedList(length);
+    }
+    return utf8.decode(bytes);
   }
 
   static int _length(Pointer<Uint8> codeUnits) {
@@ -81,9 +93,16 @@ extension StringUtf8Pointer on String {
   Pointer<Utf8> toNativeUtf8({Allocator allocator = malloc}) {
     final units = utf8.encode(this);
     final result = allocator<Uint8>(units.length + 1);
-    final nativeString = result.asTypedList(units.length + 1);
-    nativeString.setAll(0, units);
-    nativeString[units.length] = 0;
+    if (_isWasm) {
+      for (var i = 0; i < units.length; i++) {
+        result[i] = units[i];
+      }
+      result[units.length] = 0;
+    } else {
+      final nativeString = result.asTypedList(units.length + 1);
+      nativeString.setAll(0, units);
+      nativeString[units.length] = 0;
+    }
     return result.cast();
   }
 }
