@@ -1,0 +1,35 @@
+# Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+name: legacy_test_runner
+description: Integration tests for legacy ffigen 20.0.0 bindings against current package:objective_c.
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  code_assets: ^2.2.0
+  ffi: ^2.1.0
+  hooks: ^2.0.0
+  native_toolchain_c: ^0.17.0
+  objective_c:
+    path: ..
+
+dev_dependencies:
+  dart_flutter_team_lints: ^3.5.2
+  ffigen: 20.0.0
+  logging: ^1.3.0
+  test: ^1.26.2
+
+dependency_overrides:
+  code_assets:
+    path: ../../code_assets
+  hooks:
+    path: ../../hooks
+  native_toolchain_c:
+    path: ../../native_toolchain_c
+  objective_c:
+    path: ..
+  record_use:
+    path: ../../record_use
