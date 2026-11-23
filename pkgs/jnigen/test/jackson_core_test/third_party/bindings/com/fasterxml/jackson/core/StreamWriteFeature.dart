@@ -71,8 +71,4 @@ final class $StreamWriteFeature$Type$ extends jni$_.JType<StreamWriteFeature> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/StreamWriteFeature;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/fasterxml/jackson/core/StreamWriteFeature';
 }
