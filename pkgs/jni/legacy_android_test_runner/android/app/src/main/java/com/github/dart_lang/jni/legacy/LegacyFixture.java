@@ -161,7 +161,8 @@ public class LegacyFixture {
     try {
       return callback.call();
     } catch (Exception e) {
-      return "caught:" + e.getMessage();
+      Throwable cause = e.getMessage() == null && e.getCause() != null ? e.getCause() : e;
+      return "caught:" + cause.getMessage();
     }
   }
 }
