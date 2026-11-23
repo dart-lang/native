@@ -52,8 +52,6 @@ bool get assertsEnabled {
   return enabled;
 }
 
-/// Taken from
-/// https://github.com/dart-lang/ffigen/blob/master/test/native_objc_test/automated_ref_count_test.dart
 final _executeInternalCommand = DynamicLibrary.process().lookupFunction<
     Void Function(Pointer<Char>, Pointer<Void>),
     void Function(Pointer<Char>, Pointer<Void>)>('Dart_ExecuteInternalCommand');
@@ -91,10 +89,6 @@ JObject makeWeakRef(JObject target, Arena arena) =>
 
 /// Triggers Java GC (without triggering Dart GC) and returns whether the
 /// referent of [weakRef] has been collected.
-///
-/// If a JNI global reference to the referent was leaked (not eagerly released
-/// via `.release()`), the JVM keeps the referent alive as a GC root, so this
-/// returns `false`.
 bool isJavaObjectCollected(JObject weakRef) {
   for (var i = 0; i < 5; i++) {
     _systemGc(_systemClass, jvoid.type, []);

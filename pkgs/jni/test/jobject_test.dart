@@ -13,12 +13,6 @@ import 'test_util/test_util.dart';
 
 const maxLongInJava = 9223372036854775807;
 
-@pragma('vm:never-inline')
-JObject _allocateUnreleasedStringWeakRef(Arena arena) {
-  final str = 'finalizable-handle-test'.toJString();
-  return makeWeakRef(str, arena);
-}
-
 void main() {
   // Don't forget to initialize JNI.
   if (!Platform.isAndroid) {
@@ -325,7 +319,10 @@ void run({required TestRunnerCallback testRunner}) {
     testRunner('Dart finalizer releases unreleased JObject', () async {
       final arena = Arena();
       try {
-        final weakRef = _allocateUnreleasedStringWeakRef(arena);
+        final weakRef = (() {
+          final str = 'finalizable-handle-test'.toJString();
+          return makeWeakRef(str, arena);
+        })();
         expect(isJavaObjectCollected(weakRef), isFalse);
         await doGCAndWaitForFinalizers();
         expect(isJavaObjectCollected(weakRef), isTrue);

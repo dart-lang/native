@@ -10,30 +10,6 @@ import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 
-@pragma('vm:never-inline')
-JObject _asUint8ListKeepOriginalThenDrop(Arena arena) {
-  final directBuffer = JByteBuffer.allocateDirect(4);
-  final weakRef = makeWeakRef(directBuffer, arena);
-  final list = directBuffer.asUint8List(releaseOriginal: false);
-  directBuffer.release();
-  expect(isJavaObjectCollected(weakRef), isFalse);
-  list[0] = 42;
-  expect(list[0], 42);
-  return weakRef;
-}
-
-@pragma('vm:never-inline')
-JObject _asUint8ListReleaseOriginalThenDrop(Arena arena) {
-  final directBuffer = JByteBuffer.allocateDirect(4);
-  final weakRef = makeWeakRef(directBuffer, arena);
-  final list = directBuffer.asUint8List(releaseOriginal: true);
-  expect(directBuffer.isReleased, isTrue);
-  expect(isJavaObjectCollected(weakRef), isFalse);
-  list[0] = 99;
-  expect(list[0], 99);
-  return weakRef;
-}
-
 void main() {
   // Don't forget to initialize JNI.
   if (!Platform.isAndroid) {
@@ -239,7 +215,16 @@ void run({required TestRunnerCallback testRunner}) {
     testRunner('asUint8List(releaseOriginal: false) lifecycle', () async {
       final arena = Arena();
       try {
-        final weakRef = _asUint8ListKeepOriginalThenDrop(arena);
+        final weakRef = (() {
+          final directBuffer = JByteBuffer.allocateDirect(4);
+          final weakRef = makeWeakRef(directBuffer, arena);
+          final list = directBuffer.asUint8List(releaseOriginal: false);
+          directBuffer.release();
+          expect(isJavaObjectCollected(weakRef), isFalse);
+          list[0] = 42;
+          expect(list[0], 42);
+          return weakRef;
+        })();
         await doGCAndWaitForFinalizers();
         expect(isJavaObjectCollected(weakRef), isTrue);
       } finally {
@@ -250,7 +235,16 @@ void run({required TestRunnerCallback testRunner}) {
     testRunner('asUint8List(releaseOriginal: true) lifecycle', () async {
       final arena = Arena();
       try {
-        final weakRef = _asUint8ListReleaseOriginalThenDrop(arena);
+        final weakRef = (() {
+          final directBuffer = JByteBuffer.allocateDirect(4);
+          final weakRef = makeWeakRef(directBuffer, arena);
+          final list = directBuffer.asUint8List(releaseOriginal: true);
+          expect(directBuffer.isReleased, isTrue);
+          expect(isJavaObjectCollected(weakRef), isFalse);
+          list[0] = 99;
+          expect(list[0], 99);
+          return weakRef;
+        })();
         await doGCAndWaitForFinalizers();
         expect(isJavaObjectCollected(weakRef), isTrue);
       } finally {

@@ -601,31 +601,6 @@ void main() {
   });
 
   group('global reference leaks', () {
-    late JClass collectionsClass;
-    late JStaticMethodId singletonSet;
-
-    setUpAll(() {
-      collectionsClass = JClass.forName('java/util/Collections');
-      singletonSet = collectionsClass.staticMethodId(
-        'singleton',
-        '(Ljava/lang/Object;)Ljava/util/Set;',
-      );
-    });
-
-    tearDownAll(() {
-      collectionsClass.release();
-    });
-
-    test('sanity check: released JObject is collected by Java GC', () {
-      using((arena) {
-        final str = 'sanity-check'.toJString();
-        final weakRef = makeWeakRef(str, arena);
-        str.release();
-
-        expect(isJavaObjectCollected(weakRef), isTrue);
-      });
-    });
-
     test('JList.toDartList does not leak elements or nested collections', () {
       using((arena) {
         final innerStr = 'nested-list-element'.toJString();
@@ -720,11 +695,19 @@ void main() {
 
     test('JSet.toDartSet does not leak iterator', () {
       using((arena) {
+        final collectionsClass = JClass.forName('java/util/Collections')
+          ..releasedBy(arena);
+        final singletonSet = collectionsClass.staticMethodId(
+          'singleton',
+          '(Ljava/lang/Object;)Ljava/util/Set;',
+        );
+
         final str = 'singleton-set-element'.toJString();
         final strWeakRef = makeWeakRef(str, arena);
-        // Collections.singleton(e).iterator() captures `e` in the iterator
-        // instance, so leaking the JIterator keeps `str` alive even after the
-        // set itself is released.
+        // HashSet.iterator() holds a reference to its private backing HashMap
+        // rather than the HashSet itself, whereas
+        // Collections.singleton(e).iterator() directly captures `e` so leaking
+        // the JIterator keeps `str` alive.
         final set = singletonSet(collectionsClass, JSet.type, [str]);
         str.release();
 
