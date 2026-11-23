@@ -315,22 +315,25 @@ void run({required TestRunnerCallback testRunner}) {
     expect(() => JGlobalReference(nullptr), throwsA(isA<JNullError>()));
   });
 
-  if (!Platform.isAndroid) {
-    testRunner('Dart finalizer releases unreleased JObject', () async {
+  testRunner(
+    'Dart finalizer releases unreleased JObject',
+    () async {
       final arena = Arena();
       try {
         final weakRef = (() {
           final str = 'finalizable-handle-test'.toJString();
-          return makeWeakRef(str, arena);
+          final weakRef = makeWeakRef(str, arena);
+          expect(isJavaObjectCollected(weakRef), isFalse);
+          return weakRef;
         })();
-        expect(isJavaObjectCollected(weakRef), isFalse);
         await doGCAndWaitForFinalizers();
         expect(isJavaObjectCollected(weakRef), isTrue);
       } finally {
         arena.releaseAll();
       }
-    });
-  }
+    },
+    skip: Platform.isAndroid,
+  );
 
   testRunner(
       'as(releaseOriginal: false) keeps original alive until both released',
@@ -377,6 +380,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final str = 'use-exception-safety'.toJString();
       final weakRef = makeWeakRef(str, arena);
+      expect(isJavaObjectCollected(weakRef), isFalse);
       expect(
         () => str.use((_) => throw StateError('boom')),
         throwsStateError,
@@ -392,6 +396,7 @@ void run({required TestRunnerCallback testRunner}) {
       using((innerArena) {
         final str = 'arena-early-release'.toJString()..releasedBy(innerArena);
         weakRef = makeWeakRef(str, outerArena);
+        expect(isJavaObjectCollected(weakRef), isFalse);
         str.release();
         expect(str.isReleased, isTrue);
         expect(isJavaObjectCollected(weakRef), isTrue);

@@ -211,8 +211,9 @@ void run({required TestRunnerCallback testRunner}) {
     });
   });
 
-  if (!Platform.isAndroid) {
-    testRunner('asUint8List(releaseOriginal: false) lifecycle', () async {
+  testRunner(
+    'asUint8List(releaseOriginal: false) lifecycle',
+    () async {
       final arena = Arena();
       try {
         final weakRef = (() {
@@ -230,9 +231,13 @@ void run({required TestRunnerCallback testRunner}) {
       } finally {
         arena.releaseAll();
       }
-    });
+    },
+    skip: Platform.isAndroid,
+  );
 
-    testRunner('asUint8List(releaseOriginal: true) lifecycle', () async {
+  testRunner(
+    'asUint8List(releaseOriginal: true) lifecycle',
+    () async {
       final arena = Arena();
       try {
         final weakRef = (() {
@@ -250,8 +255,9 @@ void run({required TestRunnerCallback testRunner}) {
       } finally {
         arena.releaseAll();
       }
-    });
-  }
+    },
+    skip: Platform.isAndroid,
+  );
 
   testRunner('fluent mutators do not leak global references', () {
     using((arena) {
@@ -266,6 +272,7 @@ void run({required TestRunnerCallback testRunner}) {
       buffer.flip();
       buffer.rewind();
       buffer.clear();
+      expect(isJavaObjectCollected(weakRef), isFalse);
       buffer.release();
       expect(isJavaObjectCollected(weakRef), isTrue);
     });

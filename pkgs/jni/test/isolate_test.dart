@@ -47,6 +47,7 @@ void run({required TestRunnerCallback testRunner}) {
     try {
       final str = 'cross-isolate-release'.toJString();
       final weakRef = makeWeakRef(str, arena);
+      expect(isJavaObjectCollected(weakRef), isFalse);
       await Isolate.run(str.release);
       expect(str.isReleased, isTrue);
       expect(isJavaObjectCollected(weakRef), isTrue);

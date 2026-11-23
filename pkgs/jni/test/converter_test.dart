@@ -623,6 +623,10 @@ void main() {
           ],
         );
 
+        expect(isJavaObjectCollected(outerStrWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerListWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerStrWeakRef), isFalse);
+
         // Clear and release the top-level list so only leaked JNI global refs
         // could keep the elements or nested list alive.
         outerList.clear();
@@ -671,6 +675,10 @@ void main() {
           ],
         );
 
+        expect(isJavaObjectCollected(elemStrWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerListWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerStrWeakRef), isFalse);
+
         array[0] = null;
         array[1] = null;
         array.release();
@@ -712,6 +720,7 @@ void main() {
         str.release();
 
         expect(set.toDartSet(), {'singleton-set-element'});
+        expect(isJavaObjectCollected(strWeakRef), isFalse);
         set.release();
 
         expect(
@@ -744,6 +753,10 @@ void main() {
           },
         );
 
+        expect(isJavaObjectCollected(elemStrWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerListWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerStrWeakRef), isFalse);
+
         set.clear();
         set.release();
 
@@ -774,6 +787,7 @@ void main() {
         final mapWeakRef = makeWeakRef(map, arena);
 
         expect(map.toDartMap(), isEmpty);
+        expect(isJavaObjectCollected(mapWeakRef), isFalse);
         map.release();
 
         expect(
@@ -808,6 +822,11 @@ void main() {
             'outer-map-key': {'nested-map-key': 'nested-map-val'},
           },
         );
+
+        expect(isJavaObjectCollected(keyWeakRef), isFalse);
+        expect(isJavaObjectCollected(nestedMapWeakRef), isFalse);
+        expect(isJavaObjectCollected(nestedKeyWeakRef), isFalse);
+        expect(isJavaObjectCollected(nestedValWeakRef), isFalse);
 
         map.clear();
         map.release();
@@ -862,6 +881,12 @@ void main() {
             },
           ],
         );
+
+        expect(isJavaObjectCollected(rootListWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerMapWeakRef), isFalse);
+        expect(isJavaObjectCollected(mapKeyWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerSetWeakRef), isFalse);
+        expect(isJavaObjectCollected(leafStrWeakRef), isFalse);
 
         // Release the top-level object (caller-owned without releaseOriginal).
         rootList.clear();
