@@ -122,10 +122,6 @@ final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/notification_plugin/Notifications;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/example/notification_plugin/Notifications';
 }
 
 /// from: `android.content.Context`
@@ -144,8 +140,4 @@ final class $Context$Type$ extends jni$_.JType<Context> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Landroid/content/Context;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'android/content/Context';
 }

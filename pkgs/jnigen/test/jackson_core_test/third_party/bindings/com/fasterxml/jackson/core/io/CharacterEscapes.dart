@@ -70,8 +70,4 @@ final class $CharacterEscapes$Type$ extends jni$_.JType<CharacterEscapes> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/io/CharacterEscapes;';
-
-  @jni$_.internal
-  @core$_.override
-  String get className => r'com/fasterxml/jackson/core/io/CharacterEscapes';
 }
