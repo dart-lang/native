@@ -9,24 +9,11 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:ffi/ffi.dart';
 import 'package:jni/jni.dart';
 import 'package:jni/src/third_party/generated_bindings.dart';
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
-
-/// Taken from
-/// https://github.com/dart-lang/ffigen/blob/master/test/native_objc_test/automated_ref_count_test.dart
-final executeInternalCommand = DynamicLibrary.process().lookupFunction<
-    Void Function(Pointer<Char>, Pointer<Void>),
-    void Function(Pointer<Char>, Pointer<Void>)>('Dart_ExecuteInternalCommand');
-
-void doGC() {
-  final gcNow = 'gc-now'.toNativeUtf8();
-  executeInternalCommand(gcNow.cast(), nullptr);
-  calloc.free(gcNow);
-}
 
 void main() {
   if (!Platform.isAndroid) {

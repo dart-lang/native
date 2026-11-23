@@ -599,4 +599,317 @@ void main() {
       );
     });
   });
+
+  group('global reference leaks', () {
+    late JClass collectionsClass;
+    late JStaticMethodId singletonSet;
+
+    setUpAll(() {
+      collectionsClass = JClass.forName('java/util/Collections');
+      singletonSet = collectionsClass.staticMethodId(
+        'singleton',
+        '(Ljava/lang/Object;)Ljava/util/Set;',
+      );
+    });
+
+    tearDownAll(() {
+      collectionsClass.release();
+    });
+
+    test('sanity check: released JObject is collected by Java GC', () {
+      using((arena) {
+        final str = 'sanity-check'.toJString();
+        final weakRef = makeWeakRef(str, arena);
+        str.release();
+
+        expect(isJavaObjectCollected(weakRef), isTrue);
+      });
+    });
+
+    test('JList.toDartList does not leak elements or nested collections', () {
+      using((arena) {
+        final innerStr = 'nested-list-element'.toJString();
+        final innerStrWeakRef = makeWeakRef(innerStr, arena);
+        final innerList = [innerStr].toJList();
+        innerStr.release();
+        final innerListWeakRef = makeWeakRef(innerList, arena);
+
+        final outerStr = 'outer-list-element'.toJString();
+        final outerStrWeakRef = makeWeakRef(outerStr, arena);
+        final outerList = <JObject?>[outerStr, innerList].toJList();
+        outerStr.release();
+        innerList.release();
+
+        expect(
+          outerList.toDartList(),
+          [
+            'outer-list-element',
+            ['nested-list-element']
+          ],
+        );
+
+        // Clear and release the top-level list so only leaked JNI global refs
+        // could keep the elements or nested list alive.
+        outerList.clear();
+        outerList.release();
+
+        expect(
+          isJavaObjectCollected(outerStrWeakRef),
+          isTrue,
+          reason: 'JList.toDartList leaked an element global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerListWeakRef),
+          isTrue,
+          reason: 'JList.toDartList leaked a nested JList global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerStrWeakRef),
+          isTrue,
+          reason: 'JList.toDartList leaked a nested element global reference',
+        );
+      });
+    });
+
+    test('JArray.toDartList does not leak elements or nested collections', () {
+      using((arena) {
+        final innerStr = 'array-nested-element'.toJString();
+        final innerStrWeakRef = makeWeakRef(innerStr, arena);
+        final innerList = [innerStr].toJList();
+        innerStr.release();
+        final innerListWeakRef = makeWeakRef(innerList, arena);
+
+        final elemStr = 'array-element'.toJString();
+        final elemStrWeakRef = makeWeakRef(elemStr, arena);
+        final array = JArray.of<JObject?>(
+          JObject.type,
+          <JObject?>[elemStr, innerList],
+        );
+        elemStr.release();
+        innerList.release();
+
+        expect(
+          array.toDartList(),
+          [
+            'array-element',
+            ['array-nested-element']
+          ],
+        );
+
+        array[0] = null;
+        array[1] = null;
+        array.release();
+
+        expect(
+          isJavaObjectCollected(elemStrWeakRef),
+          isTrue,
+          reason: 'JArray.toDartList leaked an element global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerListWeakRef),
+          isTrue,
+          reason: 'JArray.toDartList leaked a nested JList global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerStrWeakRef),
+          isTrue,
+          reason: 'JArray.toDartList leaked a nested element global reference',
+        );
+      });
+    });
+
+    test('JSet.toDartSet does not leak iterator', () {
+      using((arena) {
+        final str = 'singleton-set-element'.toJString();
+        final strWeakRef = makeWeakRef(str, arena);
+        // Collections.singleton(e).iterator() captures `e` in the iterator
+        // instance, so leaking the JIterator keeps `str` alive even after the
+        // set itself is released.
+        final set = singletonSet(collectionsClass, JSet.type, [str]);
+        str.release();
+
+        expect(set.toDartSet(), {'singleton-set-element'});
+        set.release();
+
+        expect(
+          isJavaObjectCollected(strWeakRef),
+          isTrue,
+          reason: 'JSet.toDartSet leaked its JIterator or element global ref',
+        );
+      });
+    });
+
+    test('JSet.toDartSet does not leak elements or nested collections', () {
+      using((arena) {
+        final innerStr = 'nested-set-element'.toJString();
+        final innerStrWeakRef = makeWeakRef(innerStr, arena);
+        final innerList = [innerStr].toJList();
+        innerStr.release();
+        final innerListWeakRef = makeWeakRef(innerList, arena);
+
+        final elemStr = 'outer-set-element'.toJString();
+        final elemStrWeakRef = makeWeakRef(elemStr, arena);
+        final set = <JObject?>{elemStr, innerList}.toJSet();
+        elemStr.release();
+        innerList.release();
+
+        expect(
+          set.toDartSet(),
+          {
+            'outer-set-element',
+            ['nested-set-element']
+          },
+        );
+
+        set.clear();
+        set.release();
+
+        expect(
+          isJavaObjectCollected(elemStrWeakRef),
+          isTrue,
+          reason: 'JSet.toDartSet leaked an element global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerListWeakRef),
+          isTrue,
+          reason: 'JSet.toDartSet leaked a nested collection global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerStrWeakRef),
+          isTrue,
+          reason: 'JSet.toDartSet leaked a nested element global reference',
+        );
+      });
+    });
+
+    test('JMap.toDartMap does not leak keySet or iterator', () {
+      using((arena) {
+        final map = <JObject?, JObject?>{}.toJMap();
+        // HashMap$KeySet and HashMap$KeyIterator both hold an implicit
+        // reference to their enclosing HashMap, so leaking either keeps `map`
+        // alive after `map.release()`.
+        final mapWeakRef = makeWeakRef(map, arena);
+
+        expect(map.toDartMap(), isEmpty);
+        map.release();
+
+        expect(
+          isJavaObjectCollected(mapWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked its keySet or JIterator global ref',
+        );
+      });
+    });
+
+    test('JMap.toDartMap does not leak keys, values, or nested collections',
+        () {
+      using((arena) {
+        final nestedKey = 'nested-map-key'.toJString();
+        final nestedKeyWeakRef = makeWeakRef(nestedKey, arena);
+        final nestedVal = 'nested-map-val'.toJString();
+        final nestedValWeakRef = makeWeakRef(nestedVal, arena);
+        final nestedMap = <JObject?, JObject?>{nestedKey: nestedVal}.toJMap();
+        nestedKey.release();
+        nestedVal.release();
+        final nestedMapWeakRef = makeWeakRef(nestedMap, arena);
+
+        final key = 'outer-map-key'.toJString();
+        final keyWeakRef = makeWeakRef(key, arena);
+        final map = <JObject?, JObject?>{key: nestedMap}.toJMap();
+        key.release();
+        nestedMap.release();
+
+        expect(
+          map.toDartMap(),
+          {
+            'outer-map-key': {'nested-map-key': 'nested-map-val'},
+          },
+        );
+
+        map.clear();
+        map.release();
+
+        expect(
+          isJavaObjectCollected(keyWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked a key global reference',
+        );
+        expect(
+          isJavaObjectCollected(nestedMapWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked a nested JMap global reference',
+        );
+        expect(
+          isJavaObjectCollected(nestedKeyWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked a nested key global reference',
+        );
+        expect(
+          isJavaObjectCollected(nestedValWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked a nested value global reference',
+        );
+      });
+    });
+
+    test('toDartObject does not leak intermediate or temporary references', () {
+      using((arena) {
+        final leafStr = 'deep-leaf'.toJString();
+        final leafStrWeakRef = makeWeakRef(leafStr, arena);
+        final innerSet = <JObject?>{leafStr}.toJSet();
+        leafStr.release();
+        final innerSetWeakRef = makeWeakRef(innerSet, arena);
+
+        final mapKey = 'set-key'.toJString();
+        final mapKeyWeakRef = makeWeakRef(mapKey, arena);
+        final innerMap = <JObject?, JObject?>{mapKey: innerSet}.toJMap();
+        mapKey.release();
+        innerSet.release();
+        final innerMapWeakRef = makeWeakRef(innerMap, arena);
+
+        final rootList = <JObject?>[innerMap].toJList();
+        innerMap.release();
+        final rootListWeakRef = makeWeakRef(rootList, arena);
+
+        expect(
+          toDartObject(rootList),
+          [
+            {
+              'set-key': {'deep-leaf'},
+            },
+          ],
+        );
+
+        // Release the top-level object (caller-owned without releaseOriginal).
+        rootList.clear();
+        rootList.release();
+
+        expect(
+          isJavaObjectCollected(rootListWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked root list iterator global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerMapWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked nested JMap/keySet/iterator global ref',
+        );
+        expect(
+          isJavaObjectCollected(mapKeyWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked nested map key global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerSetWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked nested JSet global reference',
+        );
+        expect(
+          isJavaObjectCollected(leafStrWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked nested leaf element global reference',
+        );
+      });
+    });
+  });
 }

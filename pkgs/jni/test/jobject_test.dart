@@ -13,6 +13,12 @@ import 'test_util/test_util.dart';
 
 const maxLongInJava = 9223372036854775807;
 
+@pragma('vm:never-inline')
+JObject _allocateUnreleasedStringWeakRef(Arena arena) {
+  final str = 'finalizable-handle-test'.toJString();
+  return makeWeakRef(str, arena);
+}
+
 void main() {
   // Don't forget to initialize JNI.
   if (!Platform.isAndroid) {
@@ -313,5 +319,87 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('Disallow JGlobalReference(nullptr)', () {
     expect(() => JGlobalReference(nullptr), throwsA(isA<JNullError>()));
+  });
+
+  if (!Platform.isAndroid) {
+    testRunner('Dart finalizer releases unreleased JObject', () async {
+      final arena = Arena();
+      try {
+        final weakRef = _allocateUnreleasedStringWeakRef(arena);
+        expect(isJavaObjectCollected(weakRef), isFalse);
+        await doGCAndWaitForFinalizers();
+        expect(isJavaObjectCollected(weakRef), isTrue);
+      } finally {
+        arena.releaseAll();
+      }
+    });
+  }
+
+  testRunner(
+      'as(releaseOriginal: false) keeps original alive until both released',
+      () {
+    using((arena) {
+      final str = 'cast-keep-original'.toJString();
+      final weakRef = makeWeakRef(str, arena);
+      final obj = str.as(JObject.type, releaseOriginal: false);
+      str.release();
+      expect(isJavaObjectCollected(weakRef), isFalse);
+      obj.release();
+      expect(isJavaObjectCollected(weakRef), isTrue);
+    });
+  });
+
+  testRunner('as(releaseOriginal: true) releases original reference', () {
+    using((arena) {
+      final str = 'cast-release-original'.toJString();
+      final weakRef = makeWeakRef(str, arena);
+      final obj = str.as(JObject.type, releaseOriginal: true);
+      expect(str.isReleased, isTrue);
+      expect(isJavaObjectCollected(weakRef), isFalse);
+      obj.release();
+      expect(isJavaObjectCollected(weakRef), isTrue);
+    });
+  });
+
+  testRunner('failed as() leaves original unreleased and alive', () {
+    using((arena) {
+      final str = 'cast-failure'.toJString();
+      final weakRef = makeWeakRef(str, arena);
+      expect(
+        () => str.as(JInteger.type, releaseOriginal: true),
+        throwsA(isA<CastError>()),
+      );
+      expect(str.isReleased, isFalse);
+      expect(isJavaObjectCollected(weakRef), isFalse);
+      str.release();
+      expect(isJavaObjectCollected(weakRef), isTrue);
+    });
+  });
+
+  testRunner('use() releases JObject when callback throws', () {
+    using((arena) {
+      final str = 'use-exception-safety'.toJString();
+      final weakRef = makeWeakRef(str, arena);
+      expect(
+        () => str.use((_) => throw StateError('boom')),
+        throwsStateError,
+      );
+      expect(str.isReleased, isTrue);
+      expect(isJavaObjectCollected(weakRef), isTrue);
+    });
+  });
+
+  testRunner('Arena tolerates early manual release()', () {
+    using((outerArena) {
+      late JObject weakRef;
+      using((innerArena) {
+        final str = 'arena-early-release'.toJString()..releasedBy(innerArena);
+        weakRef = makeWeakRef(str, outerArena);
+        str.release();
+        expect(str.isReleased, isTrue);
+        expect(isJavaObjectCollected(weakRef), isTrue);
+      });
+      expect(isJavaObjectCollected(weakRef), isTrue);
+    });
   });
 }
