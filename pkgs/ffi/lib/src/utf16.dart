@@ -54,10 +54,12 @@ extension Utf16Pointer on Pointer<Utf16> {
   static String _toKnownLengthString(Pointer<Uint16> codeUnits, int length) {
     final Uint16List units;
     if (_isWasm) {
+      // coverage:ignore-start
       units = Uint16List(length);
       for (var i = 0; i < length; i++) {
         units[i] = codeUnits[i];
       }
+      // coverage:ignore-end
     } else {
       units = codeUnits.asTypedList(length);
     }
@@ -107,10 +109,12 @@ extension StringUtf16Pointer on String {
     final units = codeUnits;
     final result = allocator<Uint16>(units.length + 1);
     if (_isWasm) {
+      // coverage:ignore-start
       for (var i = 0; i < units.length; i++) {
         result[i] = units[i];
       }
       result[units.length] = 0;
+      // coverage:ignore-end
     } else {
       final nativeString = result.asTypedList(units.length + 1);
       nativeString.setRange(0, units.length, units);

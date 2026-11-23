@@ -50,10 +50,12 @@ extension Utf8Pointer on Pointer<Utf8> {
     }
     final Uint8List bytes;
     if (_isWasm) {
+      // coverage:ignore-start
       bytes = Uint8List(length);
       for (var i = 0; i < length; i++) {
         bytes[i] = codeUnits[i];
       }
+      // coverage:ignore-end
     } else {
       bytes = codeUnits.asTypedList(length);
     }
@@ -94,10 +96,12 @@ extension StringUtf8Pointer on String {
     final units = utf8.encode(this);
     final result = allocator<Uint8>(units.length + 1);
     if (_isWasm) {
+      // coverage:ignore-start
       for (var i = 0; i < units.length; i++) {
         result[i] = units[i];
       }
       result[units.length] = 0;
+      // coverage:ignore-end
     } else {
       final nativeString = result.asTypedList(units.length + 1);
       nativeString.setAll(0, units);
