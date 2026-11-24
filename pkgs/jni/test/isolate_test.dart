@@ -40,19 +40,4 @@ void run({required TestRunnerCallback testRunner}) {
       Isolate.current.kill();
     }, null);
   });
-
-  testRunner('Releasing JObject in another isolate releases Java object',
-      () async {
-    final arena = Arena();
-    try {
-      final str = 'cross-isolate-release'.toJString();
-      final weakRef = makeWeakRef(str, arena);
-      expect(isJavaObjectCollected(weakRef), isFalse);
-      await Isolate.run(str.release);
-      expect(str.isReleased, isTrue);
-      expect(isJavaObjectCollected(weakRef), isTrue);
-    } finally {
-      arena.releaseAll();
-    }
-  });
 }

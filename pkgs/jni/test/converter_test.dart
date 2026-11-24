@@ -920,4 +920,149 @@ void main() {
       });
     });
   });
+
+  group('releaseOriginal', () {
+    test('toDartObject and toNullableDartObject', () {
+      using((arena) {
+        final kept = 'kept-string'.toJString();
+        final keptWeakRef = makeWeakRef(kept, arena);
+        expect(isJavaObjectCollected(keptWeakRef), isFalse);
+
+        expect(toDartObject(kept), 'kept-string');
+        expect(kept.isReleased, isFalse);
+        expect(isJavaObjectCollected(keptWeakRef), isFalse);
+
+        expect(toDartObject(kept, releaseOriginal: true), 'kept-string');
+        expect(kept.isReleased, isTrue);
+        expect(isJavaObjectCollected(keptWeakRef), isTrue);
+
+        final nullable = 'nullable-string'.toJString();
+        final nullableWeakRef = makeWeakRef(nullable, arena);
+        expect(isJavaObjectCollected(nullableWeakRef), isFalse);
+
+        expect(
+          toNullableDartObject(nullable, releaseOriginal: true),
+          'nullable-string',
+        );
+        expect(nullable.isReleased, isTrue);
+        expect(isJavaObjectCollected(nullableWeakRef), isTrue);
+        expect(toNullableDartObject(null, releaseOriginal: true), isNull);
+      });
+    });
+
+    test('JList.toDartList', () {
+      using((arena) {
+        final str = 'list-item'.toJString();
+        final list = <JObject?>[str].toJList();
+        str.release();
+        final listWeakRef = makeWeakRef(list, arena);
+        expect(isJavaObjectCollected(listWeakRef), isFalse);
+
+        expect(list.toDartList(), ['list-item']);
+        expect(list.isReleased, isFalse);
+        expect(isJavaObjectCollected(listWeakRef), isFalse);
+
+        expect(list.toDartList(releaseOriginal: true), ['list-item']);
+        expect(list.isReleased, isTrue);
+        expect(isJavaObjectCollected(listWeakRef), isTrue);
+      });
+    });
+
+    test('JArray.toDartList', () {
+      using((arena) {
+        final str = 'array-item'.toJString();
+        final array = JArray.of<JObject?>(JObject.type, <JObject?>[str]);
+        str.release();
+        final arrayWeakRef = makeWeakRef(array, arena);
+        expect(isJavaObjectCollected(arrayWeakRef), isFalse);
+
+        expect(array.toDartList(), ['array-item']);
+        expect(array.isReleased, isFalse);
+        expect(isJavaObjectCollected(arrayWeakRef), isFalse);
+
+        expect(array.toDartList(releaseOriginal: true), ['array-item']);
+        expect(array.isReleased, isTrue);
+        expect(isJavaObjectCollected(arrayWeakRef), isTrue);
+      });
+    });
+
+    test('JSet.toDartSet', () {
+      using((arena) {
+        final str = 'set-item'.toJString();
+        final set = <JObject?>{str}.toJSet();
+        str.release();
+        final setWeakRef = makeWeakRef(set, arena);
+        expect(isJavaObjectCollected(setWeakRef), isFalse);
+
+        expect(set.toDartSet(), {'set-item'});
+        expect(set.isReleased, isFalse);
+        expect(isJavaObjectCollected(setWeakRef), isFalse);
+
+        expect(set.toDartSet(releaseOriginal: true), {'set-item'});
+        expect(set.isReleased, isTrue);
+        expect(isJavaObjectCollected(setWeakRef), isTrue);
+      });
+    });
+
+    test('JMap.toDartMap', () {
+      using((arena) {
+        final key = 'map-key'.toJString();
+        final val = 'map-val'.toJString();
+        final map = <JObject?, JObject?>{key: val}.toJMap();
+        key.release();
+        val.release();
+        final mapWeakRef = makeWeakRef(map, arena);
+        expect(isJavaObjectCollected(mapWeakRef), isFalse);
+
+        expect(map.toDartMap(), {'map-key': 'map-val'});
+        expect(map.isReleased, isFalse);
+        expect(isJavaObjectCollected(mapWeakRef), isFalse);
+
+        expect(map.toDartMap(releaseOriginal: true), {'map-key': 'map-val'});
+        expect(map.isReleased, isTrue);
+        expect(isJavaObjectCollected(mapWeakRef), isTrue);
+      });
+    });
+
+    test('pass-through JObject is not released', () {
+      using((arena) {
+        final objectClass = JClass.forName('java/lang/Object')
+          ..releasedBy(arena);
+        final objectCtor = objectClass.constructorId('()V');
+        final obj = objectCtor(objectClass, const []);
+        final objWeakRef = makeWeakRef(obj, arena);
+        expect(isJavaObjectCollected(objWeakRef), isFalse);
+
+        // Top-level pass-through with releaseOriginal: true must not release.
+        final direct = toDartObject(obj, releaseOriginal: true);
+        expect(direct, same(obj));
+        expect(obj.isReleased, isFalse);
+        expect(isJavaObjectCollected(objWeakRef), isFalse);
+
+        // Nested pass-through inside a collection must not release the returned
+        // JObject element, while still releasing the collection itself.
+        final list = <JObject?>[obj].toJList();
+        final listWeakRef = makeWeakRef(list, arena);
+        final dartList = list.toDartList(releaseOriginal: true);
+        expect(list.isReleased, isTrue);
+        expect(isJavaObjectCollected(listWeakRef), isTrue);
+        final returnedObj = dartList.single as JObject;
+        expect(returnedObj.isReleased, isFalse);
+        expect(returnedObj, equals(obj));
+        returnedObj.release();
+
+        // Custom converter returning a different Dart object releases original.
+        expect(
+          toDartObject(
+            obj,
+            convertOther: (_) => 'converted',
+            releaseOriginal: true,
+          ),
+          'converted',
+        );
+        expect(obj.isReleased, isTrue);
+        expect(isJavaObjectCollected(objWeakRef), isTrue);
+      });
+    });
+  });
 }
