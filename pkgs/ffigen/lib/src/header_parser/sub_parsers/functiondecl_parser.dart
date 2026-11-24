@@ -10,7 +10,11 @@ import '../utils.dart';
 import 'api_availability.dart';
 
 /// Parses a function declaration.
-Func? parseFunctionDeclaration(Context context, clang_types.CXCursor cursor) {
+Func? parseFunctionDeclaration(
+  Context context,
+  clang_types.CXCursor cursor, {
+  bool hasCppLinkage = false,
+}) {
   final config = context.config;
   final logger = context.logger;
 
@@ -80,6 +84,15 @@ Func? parseFunctionDeclaration(Context context, clang_types.CXCursor cursor) {
     clang_types.CXCursorKind.CXCursor_NSReturnsRetained,
   );
 
+  if (hasCppLinkage && config.cpp == null) {
+    logger.warning(
+      "Function '$funcName' has C++ linkage, so its symbol is mangled and "
+      "looking up '$funcName' will fail at runtime. Enable C++ support "
+      '(`cpp: Cpp()`) to generate an extern "C" wrapper for it, or declare '
+      'it inside an extern "C" block.',
+    );
+  }
+
   final isVariadic = clang.clang_isFunctionTypeVariadic(cursor.type()) == 1;
   final func = Func(
     dartDoc: getCursorDocComment(
@@ -98,6 +111,7 @@ Func? parseFunctionDeclaration(Context context, clang_types.CXCursor cursor) {
     loadFromNativeAsset: config.output.style is NativeExternalBindings,
     apiAvailability: apiAvailability,
     isVariadic: isVariadic,
+    hasCppLinkage: hasCppLinkage && config.cpp != null,
   );
   context.bindingsIndex.addFuncToSeen(funcUsr, func);
 

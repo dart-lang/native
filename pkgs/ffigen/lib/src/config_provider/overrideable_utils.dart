@@ -12,6 +12,7 @@ library;
 
 import 'dart:io';
 
+import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 
 // Replaces the path separators according to current platform.
@@ -49,7 +50,7 @@ List<String> overrideCompilerOpts(List<String> opts) => opts;
 /// Returns the root path of the package, for use during tests.
 ///
 /// Note that `dart test` sets the current directory to the package root.
-final packagePathForTests = _findPackageRoot('ffigen').toFilePath();
+final packagePathForTests = findPackageRoot('ffigen').toFilePath();
 
 /// Returns a path to a config yaml in a unit test.
 String configPathForTest(String directory, String file) =>
@@ -60,18 +61,17 @@ String configPathForTest(String directory, String file) =>
 /// Test files can be run from source from any working directory. The Dart SDK
 /// `tools/test.py` runs them from the root of the SDK for example.
 ///
-/// Test files can be run from dill from the root of package. `package:test`
-/// does this.
+/// Test files can be run from dill or AOT from the root of package.
+/// `package:test` does this.
 ///
 /// https://github.com/dart-lang/test/issues/110
-Uri _findPackageRoot(String packageName) {
+@visibleForTesting
+Uri findPackageRoot(String packageName, {Uri? scriptUri, Uri? currentDirUri}) {
   final envPackageRoot = Platform.environment['PACKAGE_ROOT'];
   if (envPackageRoot != null) return Uri.directory(envPackageRoot);
 
-  final script = Platform.script;
-  final fileName = script.name;
-  if (fileName.endsWith('.dart')) {
-    // We're likely running from source in the package somewhere.
+  final script = scriptUri ?? Platform.script;
+  if (script.isScheme('file')) {
     var directory = script.resolve('.');
     while (true) {
       final dirName = directory.name;
@@ -82,28 +82,35 @@ Uri _findPackageRoot(String packageName) {
       if (parent == directory) break;
       directory = parent;
     }
-  } else if (fileName.endsWith('.dill')) {
-    // Probably from the package root.
-    final cwd = Directory.current.uri;
-    final dirName = cwd.name;
-    if (dirName == packageName) {
-      return cwd;
-    }
   }
+
+  final cwd = currentDirUri ?? Directory.current.uri;
+  var directory = cwd;
+  while (true) {
+    final dirName = directory.name;
+    if (dirName == packageName) {
+      return directory;
+    }
+    final parent = directory.resolve('..');
+    if (parent == directory) break;
+    directory = parent;
+  }
+
   // Or the workspace root.
-  final cwd = Directory.current.uri;
   final candidate = cwd.resolve('pkgs/$packageName/');
   if (Directory.fromUri(candidate).existsSync()) {
     return candidate;
   }
+  final scriptDisplay = script.isScheme('file')
+      ? script.toFilePath()
+      : script.toString();
   throw StateError(
     "Could not find package root for package '$packageName'. "
-    'Tried finding the package root via Platform.script '
-    "'${Platform.script.toFilePath()}' and Directory.current "
-    "'${Directory.current.uri.toFilePath()}'.",
+    "Tried finding the package root via Platform.script '$scriptDisplay' "
+    "and Directory.current '${cwd.toFilePath()}'.",
   );
 }
 
 extension on Uri {
-  String get name => pathSegments.where((e) => e != '').last;
+  String? get name => pathSegments.where((e) => e.isNotEmpty).lastOrNull;
 }

@@ -53,9 +53,13 @@ enum B {
   final int value;
   const B(this.value);
 
-  static B fromValue(int value) => switch (value) {
+  static B? fromValueOrNull(int value) => switch (value) {
     0 => a,
     1 => b,
-    _ => throw ArgumentError('Unknown value for B: $value'),
+    _ => null,
   };
+
+  static B fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for B: $value'));
 }

@@ -9,7 +9,7 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-const _$objcVersionCheck = objc.ObjCVersionCheck(9, 6);
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 7);
 
 /// CatImplementsProto
 extension CatImplementsProto on Thing {

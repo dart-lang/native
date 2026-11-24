@@ -35,6 +35,10 @@ class Global extends LookUpBinding with HasLocalScope {
   @override
   final bool loadFromNativeAsset;
 
+  /// Whether this variable has C++ linkage, so it's accessed through the
+  /// pointer returned by an `extern "C"` accessor named [cppWrapperName].
+  final bool hasCppLinkage;
+
   bool isIncluded = false;
 
   bool get isConst => constantValue != null && !exposeSymbolAddress;
@@ -49,7 +53,10 @@ class Global extends LookUpBinding with HasLocalScope {
     this.constant = false,
     this.constantValue,
     this.loadFromNativeAsset = false,
+    this.hasCppLinkage = false,
   }) : super(symbol: Symbol(name, SymbolKind.field));
+
+  String get cppWrapperName => 'ffigen_${Namer.cSafeName(name)}';
 
   @override
   public_ast.AstNode? toPublicAstNode() => public_ast.Global(this);
@@ -73,9 +80,12 @@ class Global extends LookUpBinding with HasLocalScope {
     final dartType = type.getDartType(context);
     final ffiDartType = type.getFfiDartType(context);
 
+    // Whether the variable is accessed through a Pointer rather than `@Native`.
+    final viaPointer = !loadFromNativeAsset || hasCppLinkage;
+
     // Removing pointer reference for ConstantArray cType since we always wrap
     // globals with pointer below.
-    final cType = (type is ConstantArray && !loadFromNativeAsset)
+    final cType = (type is ConstantArray && viaPointer)
         ? (type as ConstantArray).child.getCType(context)
         : type.getCType(context);
 
@@ -110,7 +120,7 @@ class Global extends LookUpBinding with HasLocalScope {
       }
     }
 
-    if (loadFromNativeAsset) {
+    if (!viaPointer) {
       if (type case final ConstantArray arr) {
         s.writeln(makeArrayAnnotation(w, arr));
       }
@@ -145,12 +155,42 @@ class Global extends LookUpBinding with HasLocalScope {
       }
     } else {
       final pointerName = context.rootScope.addPrivate('_$globalVarName');
-      final lookupFn = context.extraSymbols.lookupFuncName!.name;
 
-      s.write(
-        'late final $ptrType $pointerName = '
-        "$lookupFn<$cType>('$originalName');\n\n",
-      );
+      if (hasCppLinkage) {
+        final accessorType = '$ptrType Function()';
+        if (loadFromNativeAsset) {
+          final accessorName = context.rootScope.addPrivate(
+            '_${globalVarName}Address',
+          );
+          s
+            ..writeln(
+              makeNativeAnnotation(
+                w,
+                nativeType: accessorType,
+                dartName: accessorName,
+                nativeSymbolName: cppWrapperName,
+                isLeaf: true,
+              ),
+            )
+            ..write('external $ptrType $accessorName();\n\n')
+            ..write('late final $ptrType $pointerName = $accessorName();\n\n');
+        } else {
+          final lookupFn = context.extraSymbols.lookupFuncName!.name;
+          final nativeFunction =
+              '${context.libs.prefix(ffiImport)}.NativeFunction<$accessorType>';
+          s.write(
+            'late final $ptrType $pointerName = '
+            "$lookupFn<$nativeFunction>('$cppWrapperName')"
+            '.asFunction<$accessorType>()();\n\n',
+          );
+        }
+      } else {
+        final lookupFn = context.extraSymbols.lookupFuncName!.name;
+        s.write(
+          'late final $ptrType $pointerName = '
+          "$lookupFn<$cType>('$originalName');\n\n",
+        );
+      }
       final baseTypealiasType = type.typealiasType;
       if (baseTypealiasType is Compound) {
         if (baseTypealiasType.isOpaque) {
@@ -174,15 +214,35 @@ class Global extends LookUpBinding with HasLocalScope {
 
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.
-        w.symbolAddressWriter.addSymbol(
-          type: ptrType,
-          name: name,
-          ptrName: pointerName,
-        );
+        if (loadFromNativeAsset) {
+          w.symbolAddressWriter.addTopLevelPointer(
+            type: ptrType,
+            name: name,
+            ptrName: pointerName,
+          );
+        } else {
+          w.symbolAddressWriter.addSymbol(
+            type: ptrType,
+            name: name,
+            ptrName: pointerName,
+          );
+        }
       }
     }
 
     return BindingString(type: BindingStringType.global, string: s.toString());
+  }
+
+  @override
+  String? toCppBindingString(Writer w) {
+    if (!hasCppLinkage || isConst) return null;
+    // decltype keeps const and array types exact without respelling them.
+    return '''
+FFIGEN_EXPORT decltype(&$originalName) $cppWrapperName() {
+  return &$originalName;
+}
+
+''';
   }
 
   @override
@@ -191,7 +251,8 @@ class Global extends LookUpBinding with HasLocalScope {
     if (isConst) return;
     visitor.visit(type);
     visitor.visit(ffiImport);
-    if (loadFromNativeAsset && exposeSymbolAddress) {
+    // The self import is for `Native.addressOf`, which C++ accessors don't use.
+    if (loadFromNativeAsset && exposeSymbolAddress && !hasCppLinkage) {
       visitor.visit(selfImport);
     }
   }
