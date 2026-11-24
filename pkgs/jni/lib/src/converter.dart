@@ -1,7 +1,14 @@
 import 'core_bindings.dart';
 import 'jarray.dart';
 import 'jobject.dart';
+import 'lang/jboolean.dart';
+import 'lang/jbyte.dart';
+import 'lang/jdouble.dart';
+import 'lang/jfloat.dart';
+import 'lang/jinteger.dart';
+import 'lang/jlong.dart';
 import 'lang/jnumber.dart';
+import 'lang/jshort.dart';
 import 'lang/jstring.dart';
 import 'util/jlist.dart';
 import 'util/jmap.dart';
@@ -126,7 +133,7 @@ extension DartMapToJMap on Map<Object?, Object?> {
       ).toJMap();
 }
 
-Object _defaultDartConverter(JObject o) => o;
+Object _defaultDartConverter(JObject object) => object;
 
 /// Converts a nullable Java object to the corresponding Dart object.
 ///
@@ -155,105 +162,135 @@ Object? toNullableDartObject(
 ///
 /// If [javaObject] is not one of the recognized types, [convertOther] is
 /// called. If [convertOther] is not provided, [javaObject] is returned
-/// directly.
+/// directly and is not released even when [releaseOriginal] is `true`.
 ///
-/// If [releaseOriginal] is `true`, [javaObject] is released after conversion
-/// unless [javaObject] itself is returned directly.
+/// If [releaseOriginal] is `true`, [javaObject] is released after conversion,
+/// unless [convertOther] returns [javaObject] itself or has already released
+/// it.
 Object toDartObject(
   JObject javaObject, {
   Object Function(JObject) convertOther = _defaultDartConverter,
   bool releaseOriginal = false,
 }) {
-  Object? result;
+  if (javaObject.isA(JBoolean.type)) {
+    return (javaObject as JBoolean).toDartBool(
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JByte.type)) {
+    return (javaObject as JByte).toDartInt(
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JShort.type)) {
+    return (javaObject as JShort).toDartInt(
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JInteger.type)) {
+    return (javaObject as JInteger).toDartInt(
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JLong.type)) {
+    return (javaObject as JLong).toDartInt(
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JFloat.type)) {
+    return (javaObject as JFloat).toDartDouble(
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JDouble.type)) {
+    return (javaObject as JDouble).toDartDouble(
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JString.type)) {
+    return (javaObject as JString).toDartString(
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JList.type)) {
+    return (javaObject as JList<JObject?>).toDartList(
+      convertOther: convertOther,
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JSet.type)) {
+    return (javaObject as JSet<JObject?>).toDartSet(
+      convertOther: convertOther,
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JMap.type)) {
+    return (javaObject as JMap<JObject?, JObject?>).toDartMap(
+      convertOther: convertOther,
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  if (javaObject.isA(JArray.type(JObject.type))) {
+    return (javaObject as JArray<JObject?>).toDartList(
+      convertOther: convertOther,
+      releaseOriginal: releaseOriginal,
+    );
+  }
+
+  var matched = true;
   try {
-    if (javaObject.isA(JBoolean.type)) {
-      return result = (javaObject as JBoolean).booleanValue();
-    }
-
-    if (javaObject.isA(JByte.type)) {
-      return result = (javaObject as JByte).longValue();
-    }
-
-    if (javaObject.isA(JShort.type)) {
-      return result = (javaObject as JShort).longValue();
-    }
-
-    if (javaObject.isA(JInteger.type)) {
-      return result = (javaObject as JInteger).longValue();
-    }
-
-    if (javaObject.isA(JLong.type)) {
-      return result = (javaObject as JLong).longValue();
-    }
-
-    if (javaObject.isA(JFloat.type)) {
-      return result = (javaObject as JFloat).doubleValue();
-    }
-
-    if (javaObject.isA(JDouble.type)) {
-      return result = (javaObject as JDouble).doubleValue();
-    }
-
-    if (javaObject.isA(JString.type)) {
-      return result = (javaObject as JString).toDartString();
-    }
-
-    if (javaObject.isA(JList.type)) {
-      return result = (javaObject as JList<JObject?>).toDartList(
-        convertOther: convertOther,
-      );
-    }
-
-    if (javaObject.isA(JSet.type)) {
-      return result = (javaObject as JSet<JObject?>).toDartSet(
-        convertOther: convertOther,
-      );
-    }
-
-    if (javaObject.isA(JMap.type)) {
-      return result = (javaObject as JMap<JObject?, JObject?>).toDartMap(
-        convertOther: convertOther,
-      );
-    }
-
     if (javaObject.isA(JBooleanArray.type)) {
-      return result = (javaObject as JBooleanArray).asDart().toList();
+      return (javaObject as JBooleanArray).asDart().toList();
     }
 
     if (javaObject.isA(JByteArray.type)) {
-      return result = (javaObject as JByteArray).asDart().toList();
+      return (javaObject as JByteArray).asDart().toList();
     }
 
     if (javaObject.isA(JCharArray.type)) {
-      return result = (javaObject as JCharArray).asDart().toList();
+      return (javaObject as JCharArray).asDart().toList();
     }
 
     if (javaObject.isA(JShortArray.type)) {
-      return result = (javaObject as JShortArray).asDart().toList();
+      return (javaObject as JShortArray).asDart().toList();
     }
 
     if (javaObject.isA(JIntArray.type)) {
-      return result = (javaObject as JIntArray).asDart().toList();
+      return (javaObject as JIntArray).asDart().toList();
     }
 
     if (javaObject.isA(JLongArray.type)) {
-      return result = (javaObject as JLongArray).asDart().toList();
+      return (javaObject as JLongArray).asDart().toList();
     }
 
     if (javaObject.isA(JFloatArray.type)) {
-      return result = (javaObject as JFloatArray).asDart().toList();
+      return (javaObject as JFloatArray).asDart().toList();
     }
 
     if (javaObject.isA(JDoubleArray.type)) {
-      return result = (javaObject as JDoubleArray).asDart().toList();
+      return (javaObject as JDoubleArray).asDart().toList();
     }
 
-    if (javaObject.isA(JArray.type(JObject.type))) {
-      return result = (javaObject as JArray<JObject?>).toDartList(
-        convertOther: convertOther,
-      );
+    matched = false;
+  } finally {
+    if (matched && releaseOriginal) {
+      javaObject.release();
     }
+  }
 
+  Object? result;
+  try {
     return result = convertOther(javaObject);
   } finally {
     if (releaseOriginal &&

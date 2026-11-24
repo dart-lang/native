@@ -1062,6 +1062,20 @@ void main() {
         );
         expect(obj.isReleased, isTrue);
         expect(isJavaObjectCollected(objWeakRef), isTrue);
+
+        // Custom converter throwing with releaseOriginal: true still releases.
+        final throwingObj = objectCtor(objectClass, const []);
+        final throwingObjWeakRef = makeWeakRef(throwingObj, arena);
+        expect(
+          () => toDartObject(
+            throwingObj,
+            convertOther: (_) => throw StateError('boom'),
+            releaseOriginal: true,
+          ),
+          throwsStateError,
+        );
+        expect(throwingObj.isReleased, isTrue);
+        expect(isJavaObjectCollected(throwingObjWeakRef), isTrue);
       });
     });
   });
