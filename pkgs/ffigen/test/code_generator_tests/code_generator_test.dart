@@ -337,6 +337,50 @@ void main() {
       );
     });
 
+    withAndWithoutNative('global with C++ linkage', (
+      loadFromNativeAsset,
+    ) async {
+      final nativeContext = makeContext(
+        output: Output(
+          dart: DartOutput(path: Uri.file('unused')),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
+        ),
+      );
+
+      final library = Library(
+        context: nativeContext,
+        header: licenseHeader,
+        bindings: transformBindings([
+          Global(
+            loadFromNativeAsset: loadFromNativeAsset,
+            name: 'cppCounter',
+            type: NativeType(SupportedNativeType.int32),
+            hasCppLinkage: true,
+            exposeSymbolAddress: true,
+          ),
+          Global(
+            loadFromNativeAsset: loadFromNativeAsset,
+            name: 'cppTable',
+            type: ConstantArray(
+              4,
+              NativeType(SupportedNativeType.float),
+              useArrayType: false,
+            ),
+            constant: true,
+            hasCppLinkage: true,
+          ),
+        ], nativeContext),
+      );
+      await _matchLib(
+        library,
+        loadFromNativeAsset
+            ? 'global_cpp_linkage_native'
+            : 'global_cpp_linkage',
+      );
+    });
+
     test('constant', () async {
       final context = makeContext();
       final library = Library(

@@ -1,7 +1,23 @@
-## 23.0.1-wip
+## 23.1.0-wip
 
+- Add `ffigen` to `executables` in `pubspec.yaml` and support running `ffigen`
+  as a standalone AOT-compiled executable (`dart install` / `dart run ffigen@`).
+- When generating typedefs for `NativeFunction<Function>`, also generate a
+  companion typedef for the `Function` (fixes #944).
+- Add `dumpApi` utility and `ApiDumperVisitor` to dump entire parsed AST.
 - Use minor and patch versions of Apple deployment targets from
   `package:code_assets` 2.2.0 when compiling native test utilities.
+- Generate a [non-throwing `fromValueOrNull`](https://github.com/dart-lang/native/issues/3712)
+  method on Dart enums, which returns `null` for unknown values. `fromValue`
+  now delegates to it, and still throws an `ArgumentError`.
+- Fix a bug where a C++ free function or global variable declared outside any
+  `extern "C"` block was looked up by its unmangled name, which fails at
+  runtime because the exported symbol is mangled. With C++ support enabled,
+  ffigen now emits an `extern "C"` wrapper for such declarations into the
+  generated C++ file and binds to that instead. Without C++ support a warning
+  is logged for every such declaration.
+- Fix the C++ spelling of function pointer parameters in generated wrappers,
+  which was emitted with an extra `*`.
 
 ## 23.0.0
 

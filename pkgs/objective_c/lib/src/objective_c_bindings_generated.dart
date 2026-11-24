@@ -18,7 +18,7 @@ import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-const _$objcVersionCheck = objc.ObjCVersionCheck(9, 6);
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 7);
 @ffi.Native<
   NSUInteger Function(
     ffi.Pointer<objc.ObjCObjectImpl>,
@@ -2433,17 +2433,21 @@ enum NSAttributedStringMarkdownInterpretedSyntax {
   final int value;
   const NSAttributedStringMarkdownInterpretedSyntax(this.value);
 
-  static NSAttributedStringMarkdownInterpretedSyntax fromValue(
+  static NSAttributedStringMarkdownInterpretedSyntax? fromValueOrNull(
     int value,
   ) => switch (value) {
     0 => NSAttributedStringMarkdownInterpretedSyntaxFull,
     1 => NSAttributedStringMarkdownInterpretedSyntaxInlineOnly,
     2 =>
       NSAttributedStringMarkdownInterpretedSyntaxInlineOnlyPreservingWhitespace,
-    _ => throw ArgumentError(
-      'Unknown value for NSAttributedStringMarkdownInterpretedSyntax: $value',
-    ),
+    _ => null,
   };
+
+  static NSAttributedStringMarkdownInterpretedSyntax fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for NSAttributedStringMarkdownInterpretedSyntax: $value',
+      ));
 }
 
 /// iOS: introduced 15.0.0
@@ -2455,16 +2459,20 @@ enum NSAttributedStringMarkdownParsingFailurePolicy {
   final int value;
   const NSAttributedStringMarkdownParsingFailurePolicy(this.value);
 
-  static NSAttributedStringMarkdownParsingFailurePolicy fromValue(
+  static NSAttributedStringMarkdownParsingFailurePolicy? fromValueOrNull(
     int value,
   ) => switch (value) {
     0 => NSAttributedStringMarkdownParsingFailureReturnError,
     1 =>
       NSAttributedStringMarkdownParsingFailureReturnPartiallyParsedIfPossible,
-    _ => throw ArgumentError(
-      'Unknown value for NSAttributedStringMarkdownParsingFailurePolicy: $value',
-    ),
+    _ => null,
   };
+
+  static NSAttributedStringMarkdownParsingFailurePolicy fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for NSAttributedStringMarkdownParsingFailurePolicy: $value',
+      ));
 }
 
 /// NSAttributedStringMarkdownParsingOptions
@@ -4411,13 +4419,15 @@ enum NSCollectionChangeType {
   final int value;
   const NSCollectionChangeType(this.value);
 
-  static NSCollectionChangeType fromValue(int value) => switch (value) {
+  static NSCollectionChangeType? fromValueOrNull(int value) => switch (value) {
     0 => NSCollectionChangeInsert,
     1 => NSCollectionChangeRemove,
-    _ => throw ArgumentError(
-      'Unknown value for NSCollectionChangeType: $value',
-    ),
+    _ => null,
   };
+
+  static NSCollectionChangeType fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSCollectionChangeType: $value'));
 }
 
 enum NSComparisonResult {
@@ -4428,12 +4438,16 @@ enum NSComparisonResult {
   final int value;
   const NSComparisonResult(this.value);
 
-  static NSComparisonResult fromValue(int value) => switch (value) {
+  static NSComparisonResult? fromValueOrNull(int value) => switch (value) {
     -1 => NSOrderedAscending,
     0 => NSOrderedSame,
     1 => NSOrderedDescending,
-    _ => throw ArgumentError('Unknown value for NSComparisonResult: $value'),
+    _ => null,
   };
+
+  static NSComparisonResult fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSComparisonResult: $value'));
 }
 
 /// NSCopying
@@ -5087,15 +5101,20 @@ enum NSDataCompressionAlgorithm {
   final int value;
   const NSDataCompressionAlgorithm(this.value);
 
-  static NSDataCompressionAlgorithm fromValue(int value) => switch (value) {
-    0 => NSDataCompressionAlgorithmLZFSE,
-    1 => NSDataCompressionAlgorithmLZ4,
-    2 => NSDataCompressionAlgorithmLZMA,
-    3 => NSDataCompressionAlgorithmZlib,
-    _ => throw ArgumentError(
-      'Unknown value for NSDataCompressionAlgorithm: $value',
-    ),
-  };
+  static NSDataCompressionAlgorithm? fromValueOrNull(int value) =>
+      switch (value) {
+        0 => NSDataCompressionAlgorithmLZFSE,
+        1 => NSDataCompressionAlgorithmLZ4,
+        2 => NSDataCompressionAlgorithmLZMA,
+        3 => NSDataCompressionAlgorithmZlib,
+        _ => null,
+      };
+
+  static NSDataCompressionAlgorithm fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for NSDataCompressionAlgorithm: $value',
+      ));
 }
 
 /// NSDataCreation
@@ -5391,13 +5410,17 @@ enum NSDecodingFailurePolicy {
   final int value;
   const NSDecodingFailurePolicy(this.value);
 
-  static NSDecodingFailurePolicy fromValue(int value) => switch (value) {
+  static NSDecodingFailurePolicy? fromValueOrNull(int value) => switch (value) {
     0 => NSDecodingFailurePolicyRaiseException,
     1 => NSDecodingFailurePolicySetErrorAndReturn,
-    _ => throw ArgumentError(
-      'Unknown value for NSDecodingFailurePolicy: $value',
-    ),
+    _ => null,
   };
+
+  static NSDecodingFailurePolicy fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for NSDecodingFailurePolicy: $value',
+      ));
 }
 
 /// NSDictionary
@@ -6769,7 +6792,7 @@ extension NSExtendedArray on NSArray {
     required ffi.Pointer<ffi.Void> context,
   }) {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_pckm9h(
+    final $ret = _objc_msgSend_1291xlv(
       _$$ref.pointer,
       _sel_sortedArrayUsingFunction_context_,
       comparator,
@@ -6795,7 +6818,7 @@ extension NSExtendedArray on NSArray {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = hint?.ref;
-    final $ret = _objc_msgSend_1fpqavf(
+    final $ret = _objc_msgSend_jsb0p(
       _$$ref.pointer,
       _sel_sortedArrayUsingFunction_context_hint_,
       comparator,
@@ -7906,7 +7929,7 @@ extension NSExtendedMutableArray on NSMutableArray {
     required ffi.Pointer<ffi.Void> context,
   }) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1lx39cp(
+    _objc_msgSend_gchaef(
       _$$ref.pointer,
       _sel_sortUsingFunction_context_,
       compare,
@@ -10431,7 +10454,7 @@ extension NSInvocation$Methods on NSInvocation {
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> imp,
   ) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1nufwnz(_$$ref.pointer, _sel_invokeUsingIMP_, imp);
+    _objc_msgSend_1r5sv4d(_$$ref.pointer, _sel_invokeUsingIMP_, imp);
   }
 
   /// invokeWithTarget:
@@ -11089,16 +11112,20 @@ enum NSItemProviderRepresentationVisibility {
   final int value;
   const NSItemProviderRepresentationVisibility(this.value);
 
-  static NSItemProviderRepresentationVisibility fromValue(int value) =>
+  static NSItemProviderRepresentationVisibility? fromValueOrNull(int value) =>
       switch (value) {
         0 => NSItemProviderRepresentationVisibilityAll,
         1 => NSItemProviderRepresentationVisibilityTeam,
         2 => NSItemProviderRepresentationVisibilityGroup,
         3 => NSItemProviderRepresentationVisibilityOwnProcess,
-        _ => throw ArgumentError(
-          'Unknown value for NSItemProviderRepresentationVisibility: $value',
-        ),
+        _ => null,
       };
+
+  static NSItemProviderRepresentationVisibility fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for NSItemProviderRepresentationVisibility: $value',
+      ));
 }
 
 /// NSItemProviderWriting
@@ -11388,13 +11415,17 @@ enum NSKeyValueChange {
   final int value;
   const NSKeyValueChange(this.value);
 
-  static NSKeyValueChange fromValue(int value) => switch (value) {
+  static NSKeyValueChange? fromValueOrNull(int value) => switch (value) {
     1 => NSKeyValueChangeSetting,
     2 => NSKeyValueChangeInsertion,
     3 => NSKeyValueChangeRemoval,
     4 => NSKeyValueChangeReplacement,
-    _ => throw ArgumentError('Unknown value for NSKeyValueChange: $value'),
+    _ => null,
   };
+
+  static NSKeyValueChange fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSKeyValueChange: $value'));
 }
 
 sealed class NSKeyValueObservingOptions {
@@ -11413,15 +11444,20 @@ enum NSKeyValueSetMutationKind {
   final int value;
   const NSKeyValueSetMutationKind(this.value);
 
-  static NSKeyValueSetMutationKind fromValue(int value) => switch (value) {
-    1 => NSKeyValueUnionSetMutation,
-    2 => NSKeyValueMinusSetMutation,
-    3 => NSKeyValueIntersectSetMutation,
-    4 => NSKeyValueSetSetMutation,
-    _ => throw ArgumentError(
-      'Unknown value for NSKeyValueSetMutationKind: $value',
-    ),
-  };
+  static NSKeyValueSetMutationKind? fromValueOrNull(int value) =>
+      switch (value) {
+        1 => NSKeyValueUnionSetMutation,
+        2 => NSKeyValueMinusSetMutation,
+        3 => NSKeyValueIntersectSetMutation,
+        4 => NSKeyValueSetSetMutation,
+        _ => null,
+      };
+
+  static NSKeyValueSetMutationKind fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for NSKeyValueSetMutationKind: $value',
+      ));
 }
 
 sealed class NSLinguisticTaggerOptions {
@@ -11628,16 +11664,21 @@ enum NSLocaleLanguageDirection {
   final int value;
   const NSLocaleLanguageDirection(this.value);
 
-  static NSLocaleLanguageDirection fromValue(int value) => switch (value) {
-    0 => NSLocaleLanguageDirectionUnknown,
-    1 => NSLocaleLanguageDirectionLeftToRight,
-    2 => NSLocaleLanguageDirectionRightToLeft,
-    3 => NSLocaleLanguageDirectionTopToBottom,
-    4 => NSLocaleLanguageDirectionBottomToTop,
-    _ => throw ArgumentError(
-      'Unknown value for NSLocaleLanguageDirection: $value',
-    ),
-  };
+  static NSLocaleLanguageDirection? fromValueOrNull(int value) =>
+      switch (value) {
+        0 => NSLocaleLanguageDirectionUnknown,
+        1 => NSLocaleLanguageDirectionLeftToRight,
+        2 => NSLocaleLanguageDirectionRightToLeft,
+        3 => NSLocaleLanguageDirectionTopToBottom,
+        4 => NSLocaleLanguageDirectionBottomToTop,
+        _ => null,
+      };
+
+  static NSLocaleLanguageDirection fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError(
+        'Unknown value for NSLocaleLanguageDirection: $value',
+      ));
 }
 
 /// NSMethodSignature
@@ -15892,7 +15933,7 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_3cnxxu(
+    return _objc_msgSend_fjyphc(
       _class_NSObject,
       _sel_instanceMethodForSelector_,
       aSelector,
@@ -16143,7 +16184,7 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_3cnxxu(
+    return _objc_msgSend_fjyphc(
       _$$ref.pointer,
       _sel_methodForSelector_,
       aSelector,
@@ -20281,12 +20322,16 @@ enum NSPropertyListFormat {
   final int value;
   const NSPropertyListFormat(this.value);
 
-  static NSPropertyListFormat fromValue(int value) => switch (value) {
+  static NSPropertyListFormat? fromValueOrNull(int value) => switch (value) {
     1 => NSPropertyListOpenStepFormat,
     100 => NSPropertyListXMLFormat_v1_0,
     200 => NSPropertyListBinaryFormat_v1_0,
-    _ => throw ArgumentError('Unknown value for NSPropertyListFormat: $value'),
+    _ => null,
   };
+
+  static NSPropertyListFormat fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSPropertyListFormat: $value'));
 }
 
 enum NSQualityOfService {
@@ -20299,14 +20344,18 @@ enum NSQualityOfService {
   final int value;
   const NSQualityOfService(this.value);
 
-  static NSQualityOfService fromValue(int value) => switch (value) {
+  static NSQualityOfService? fromValueOrNull(int value) => switch (value) {
     33 => NSQualityOfServiceUserInteractive,
     25 => NSQualityOfServiceUserInitiated,
     17 => NSQualityOfServiceUtility,
     9 => NSQualityOfServiceBackground,
     -1 => NSQualityOfServiceDefault,
-    _ => throw ArgumentError('Unknown value for NSQualityOfService: $value'),
+    _ => null,
   };
+
+  static NSQualityOfService fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSQualityOfService: $value'));
 }
 
 final class NSRange extends ffi.Struct {
@@ -21412,7 +21461,7 @@ enum NSStreamStatus {
   final int value;
   const NSStreamStatus(this.value);
 
-  static NSStreamStatus fromValue(int value) => switch (value) {
+  static NSStreamStatus? fromValueOrNull(int value) => switch (value) {
     0 => NSStreamStatusNotOpen,
     1 => NSStreamStatusOpening,
     2 => NSStreamStatusOpen,
@@ -21421,8 +21470,12 @@ enum NSStreamStatus {
     5 => NSStreamStatusAtEnd,
     6 => NSStreamStatusClosed,
     7 => NSStreamStatusError,
-    _ => throw ArgumentError('Unknown value for NSStreamStatus: $value'),
+    _ => null,
   };
+
+  static NSStreamStatus fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSStreamStatus: $value'));
 }
 
 /// NSString
@@ -24844,13 +24897,17 @@ enum NSURLHandleStatus {
   final int value;
   const NSURLHandleStatus(this.value);
 
-  static NSURLHandleStatus fromValue(int value) => switch (value) {
+  static NSURLHandleStatus? fromValueOrNull(int value) => switch (value) {
     0 => NSURLHandleNotLoaded,
     1 => NSURLHandleLoadSucceeded,
     2 => NSURLHandleLoadInProgress,
     3 => NSURLHandleLoadFailed,
-    _ => throw ArgumentError('Unknown value for NSURLHandleStatus: $value'),
+    _ => null,
   };
+
+  static NSURLHandleStatus fromValue(int value) =>
+      fromValueOrNull(value) ??
+      (throw ArgumentError('Unknown value for NSURLHandleStatus: $value'));
 }
 
 /// NSValue
@@ -37634,6 +37691,41 @@ final _objc_msgSend_122v0cv = objc.msgSendPointer
         int,
       )
     >();
+final _objc_msgSend_1291xlv = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<
+            ffi.NativeFunction<
+              ffi.Long Function(
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<ffi.Void>,
+              )
+            >
+          >,
+          ffi.Pointer<ffi.Void>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Long Function(
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >,
+        ffi.Pointer<ffi.Void>,
+      )
+    >();
 final _objc_msgSend_12py2ux = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -38462,43 +38554,6 @@ final _objc_msgSend_1flkydz = objc.msgSendPointer
         ffi.Pointer<ffi.Void>,
       )
     >();
-final _objc_msgSend_1fpqavf = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<
-            ffi.NativeFunction<
-              ffi.Long Function(
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<ffi.Void>,
-              )
-            >
-          >,
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<
-          ffi.NativeFunction<
-            ffi.Long Function(
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >
-        >,
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 final _objc_msgSend_1frfu5e = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -38995,41 +39050,6 @@ final _objc_msgSend_1lv8yz3 = objc.msgSendPointer
         int,
       )
     >();
-final _objc_msgSend_1lx39cp = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<
-            ffi.NativeFunction<
-              ffi.Long Function(
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<ffi.Void>,
-              )
-            >
-          >,
-          ffi.Pointer<ffi.Void>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<
-          ffi.NativeFunction<
-            ffi.Long Function(
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >
-        >,
-        ffi.Pointer<ffi.Void>,
-      )
-    >();
 final _objc_msgSend_1m7prh1 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -39127,23 +39147,6 @@ final _objc_msgSend_1nomli1 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         int,
         ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-      )
-    >();
-final _objc_msgSend_1nufwnz = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
       )
     >();
 final _objc_msgSend_1oteutl = objc.msgSendPointer
@@ -39368,6 +39371,23 @@ final _objc_msgSend_1r2j3ge = objc.msgSendPointer
       int Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_1r5sv4d = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
       )
     >();
 final _objc_msgSend_1r6ymhb = objc.msgSendPointer
@@ -39907,23 +39927,6 @@ final _objc_msgSend_3cbdpb = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
-final _objc_msgSend_3cnxxu = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_3ctkt6 = objc.msgSendPointer
@@ -40743,6 +40746,58 @@ final _objc_msgSend_f167m6 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+final _objc_msgSend_fjyphc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_gchaef = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<
+            ffi.NativeFunction<
+              ffi.Long Function(
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<ffi.Void>,
+              )
+            >
+          >,
+          ffi.Pointer<ffi.Void>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Long Function(
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >,
+        ffi.Pointer<ffi.Void>,
+      )
+    >();
 final _objc_msgSend_gcjqkl = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -40981,6 +41036,43 @@ final _objc_msgSend_jjgvjt = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
         int,
         ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_jsb0p = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<
+            ffi.NativeFunction<
+              ffi.Long Function(
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<objc.ObjCObjectImpl>,
+                ffi.Pointer<ffi.Void>,
+              )
+            >
+          >,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Long Function(
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
 final _objc_msgSend_jsclrq = objc.msgSendPointer
@@ -41371,41 +41463,6 @@ final _objc_msgSend_p4nurx = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         NSRange,
-      )
-    >();
-final _objc_msgSend_pckm9h = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<
-            ffi.NativeFunction<
-              ffi.Long Function(
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<objc.ObjCObjectImpl>,
-                ffi.Pointer<ffi.Void>,
-              )
-            >
-          >,
-          ffi.Pointer<ffi.Void>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<
-          ffi.NativeFunction<
-            ffi.Long Function(
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >
-        >,
-        ffi.Pointer<ffi.Void>,
       )
     >();
 final _objc_msgSend_pfv6jd = objc.msgSendPointer

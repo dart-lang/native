@@ -12,6 +12,7 @@ dependencies:
   maven_libs_groovy:
     path: ../
   cupertino_icons: ^1.0.8
+  material_ui: any
 dependency_overrides:
   jni:
     path: ../../../../jni

@@ -1,6 +1,6 @@
-## 1.0.5-wip
+## 1.1.0
 
-- Bump `package:jni` dependency to 1.2.0.
+- Bump `package:jni` dependency to 1.2.1.
 
 ## 1.0.4+1
 
