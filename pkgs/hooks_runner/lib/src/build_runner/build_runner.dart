@@ -28,6 +28,7 @@ import 'failure.dart';
 import 'record_use_config.dart';
 import 'result.dart';
 import 'tracing_file_system.dart';
+import 'user_defines.dart';
 
 const _jsonEncoder = JsonEncoder.withIndent('  ');
 
@@ -113,12 +114,20 @@ class NativeAssetsBuildRunner {
   Future<Result<HookResult, HooksRunnerFailure>> _checkUserDefines(
     LoadedUserDefines? loadedUserDefines,
   ) async => _timeAsync('_checkUserDefines', () async {
-    if (loadedUserDefines?.pubspecErrors.isNotEmpty ?? false) {
-      logger.severe('pubspec.yaml contains errors');
-      for (final error in loadedUserDefines!.pubspecErrors) {
-        logger.severe(error);
+    if (loadedUserDefines != null) {
+      if (!_userDefinesWarningsLogged) {
+        _userDefinesWarningsLogged = true;
+        for (final warning in loadedUserDefines.warnings) {
+          logger.warning(warning);
+        }
       }
-      return const Failure(HooksRunnerFailure.projectConfig);
+      if (loadedUserDefines.errors.isNotEmpty) {
+        logger.severe('User-defines contain errors');
+        for (final error in loadedUserDefines.errors) {
+          logger.severe(error);
+        }
+        return const Failure(HooksRunnerFailure.projectConfig);
+      }
     }
     return Success(
       HookResult(
@@ -129,6 +138,32 @@ class NativeAssetsBuildRunner {
       ),
     );
   });
+
+  /// Whether the user-defines warnings have been logged.
+  ///
+  /// The user-defines are loaded once per [NativeAssetsBuildRunner], and both
+  /// [build] and [link] check them, so the warnings would otherwise be logged
+  /// twice.
+  bool _userDefinesWarningsLogged = false;
+
+  /// Checks the command-line user-defines before any hooks are planned.
+  ///
+  /// A malformed command-line argument must also fail the invocation in
+  /// projects without any hooks, where [build] and [link] would otherwise
+  /// return eagerly without ever reading the user-defines.
+  ///
+  /// Returns the failure, or `null` if there are no command-line user-defines
+  /// or they are valid. (Only the command-line user-defines are checked
+  /// eagerly, as they are passed explicitly for this invocation, while
+  /// environment variables are machine wide and must not fail unrelated
+  /// projects.)
+  Future<HooksRunnerFailure?> _checkCommandLineUserDefines() async {
+    if (userDefines?.commandLineDefines.isNotEmpty != true) {
+      return null;
+    }
+    final result = await _checkUserDefines(await _loadedUserDefines);
+    return result.isFailure ? result.failure : null;
+  }
 
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
@@ -153,6 +188,9 @@ class NativeAssetsBuildRunner {
     required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
   }) async => _timeAsync('BuildRunner.build', () async {
+    if (await _checkCommandLineUserDefines() case final failure?) {
+      return Failure(failure);
+    }
     final planResult = await _makePlan(hook: .build, buildResult: null);
     if (planResult.isFailure) {
       return planResult.asFailure;
@@ -204,7 +242,7 @@ class NativeAssetsBuildRunner {
         packageRoot: packageLayout.packageRoot(package.name),
         outputFile: buildDirUri.resolve('output.json'),
         outputDirectoryShared: outDirSharedUri,
-        userDefines: loadedUserDefines?[package.name],
+        userDefines: loadedUserDefines?.forPackage(package.name),
       );
 
       final input = inputBuilder.build();
@@ -281,6 +319,9 @@ class NativeAssetsBuildRunner {
     RecordUseConfig? recordUse,
     required BuildResult buildResult,
   }) async => _timeAsync('BuildRunner.link', () async {
+    if (await _checkCommandLineUserDefines() case final failure?) {
+      return Failure(failure);
+    }
     final planResult = await _makePlan(hook: .link, buildResult: buildResult);
     if (planResult.isFailure) return planResult.asFailure;
     final (buildPlan, packageGraph) = planResult.success;
@@ -354,7 +395,7 @@ class NativeAssetsBuildRunner {
         packageRoot: packageLayout.packageRoot(package.name),
         outputFile: buildDirUri.resolve('output.json'),
         outputDirectoryShared: outDirSharedUri,
-        userDefines: loadedUserDefines?[package.name],
+        userDefines: loadedUserDefines?.forPackage(package.name),
       );
 
       inputBuilder.setupLink(
@@ -1208,23 +1249,78 @@ ${e.message}''');
   Future<LoadedUserDefines?> _loadUserDefines() async =>
       _timeAsync('_loadUserDefines', () async {
         final pubspec = userDefines?.workspacePubspec;
-        if (pubspec == null) {
+        final definesBasePath =
+            userDefines?.definesBasePath ??
+            _fileSystemUntraced.currentDirectory.uri;
+        final errors = <String>[];
+        final warnings = <String>[];
+
+        final commandLineDefines = <String, Map<String, Object?>>{};
+        try {
+          commandLineDefines.addAll(
+            parseCommandLineUserDefines(
+              userDefines?.commandLineDefines ?? const [],
+            ),
+          );
+        } on FormatException catch (e) {
+          errors.add(
+            'Invalid command-line user-define: ${e.message} '
+            'Expected: --hook-define=<package>.<key>=<value>.',
+          );
+        }
+
+        final knownPackageNames = {
+          for (final package in packageLayout.packageConfig.packages)
+            package.name,
+        };
+        final parsedEnvironmentDefines = parseEnvironmentUserDefines(
+          userDefines?.environment ?? Platform.environment,
+          knownPackageNames: knownPackageNames,
+        );
+        final environmentDefines = parsedEnvironmentDefines.defines;
+        warnings.addAll(parsedEnvironmentDefines.warnings);
+
+        for (final packageName in commandLineDefines.keys.toList()) {
+          if (knownPackageNames.isNotEmpty &&
+              !knownPackageNames.contains(packageName)) {
+            warnings.add(
+              'Ignoring command-line user-defines for \'$packageName\': '
+              'there is no package with that name in this project.',
+            );
+            commandLineDefines.remove(packageName);
+          }
+        }
+
+        var pubspecDefines = <String, Map<String, Object?>>{};
+        if (pubspec != null) {
+          final contents = await _timeAsync(
+            'read pubspec.yaml',
+            () async => await _fileSystem.file(pubspec).readAsString(),
+          );
+          final decoded = await _timeAsync(
+            'parse pubspec.yaml',
+            () async => loadYaml(contents) as Map<Object?, Object?>,
+          );
+          errors.addAll(_validateHooksUserDefinesFromPubspec(decoded));
+          pubspecDefines = _readHooksUserDefinesFromPubspec(decoded);
+        }
+
+        if (pubspec == null &&
+            commandLineDefines.isEmpty &&
+            environmentDefines.isEmpty &&
+            warnings.isEmpty &&
+            errors.isEmpty) {
           return null;
         }
-        final contents = await _timeAsync(
-          'read pubspec.yaml',
-          () async => await _fileSystem.file(pubspec).readAsString(),
-        );
-        final decoded = await _timeAsync(
-          'parse pubspec.yaml',
-          () async => loadYaml(contents) as Map<Object?, Object?>,
-        );
-        final errors = _validateHooksUserDefinesFromPubspec(decoded);
-        final defines = _readHooksUserDefinesFromPubspec(decoded);
+
         return LoadedUserDefines(
-          pubspecErrors: errors,
-          pubspecDefines: defines,
+          errors: errors,
+          warnings: warnings,
+          pubspecDefines: pubspecDefines,
+          commandLineDefines: commandLineDefines,
+          environmentDefines: environmentDefines,
           pubspecBasePath: pubspec,
+          definesBasePath: definesBasePath,
         );
       });
 
@@ -1245,40 +1341,122 @@ ${e.message}''');
 /// The user-defines information passed from the SDK to the
 /// [NativeAssetsBuildRunner].
 ///
-/// Currently only holds [workspacePubspec]. (In the future this class will also
-/// take command-line arguments and a working directory for the command-line
-/// argument paths to be resolved against.)
+/// User-defines can originate from three sources. The sources are ordered by
+/// precedence, highest first:
+/// 1. [commandLineDefines] from command-line arguments of the SDK, for example
+///    `dart run --hook-define=<package>.<key>=<value>`.
+/// 2. [environment] variables named
+///    `DART_HOOK_DEFINE__<package>__<key>=<value>`.
+/// 3. [workspacePubspec]'s `hooks.user_defines` block.
+///
+/// A define in a higher precedence source overrides the same key in a lower
+/// precedence source.
 class UserDefines {
   /// The pubspec.yaml of the pub workspace.
   ///
   /// User-defines are read from this file.
   final Uri? workspacePubspec;
 
-  UserDefines({required this.workspacePubspec});
+  /// User-defines from the command-line arguments of the SDK.
+  ///
+  /// Each element is of the form `<package>.<key>=<value>`, for example
+  /// `my_package.enable_debug_logging=true` for
+  /// `dart run --hook-define=my_package.enable_debug_logging=true`.
+  ///
+  /// Values are decoded as JSON, and used as a string if they are not valid
+  /// JSON. See [parseCommandLineUserDefines].
+  ///
+  /// If the same package and key are passed multiple times, the last define
+  /// wins. A malformed define fails the hook invocation, also in projects
+  /// without any hooks.
+  final List<String> commandLineDefines;
+
+  /// The base path for relative paths in [commandLineDefines] and the
+  /// user-defines read from [environment].
+  ///
+  /// Defaults to the current working directory of the process if omitted.
+  final Uri? definesBasePath;
+
+  /// The environment to read `DART_HOOK_DEFINE__*` user-defines from.
+  ///
+  /// Defaults to [Platform.environment] if omitted. Can be overridden to
+  /// control the environment in tests, or to provide a filtered environment
+  /// from an SDK.
+  final Map<String, String>? environment;
+
+  UserDefines({
+    required this.workspacePubspec,
+    this.commandLineDefines = const [],
+    this.definesBasePath,
+    this.environment,
+  });
 }
 
+/// The user-defines loaded from all the sources in [UserDefines].
 class LoadedUserDefines {
-  final List<String> pubspecErrors;
+  /// Errors in the user-defines that make the hook invocation fail.
+  ///
+  /// This contains errors in the `hooks.user_defines` block of the workspace
+  /// `pubspec.yaml` and malformed command-line arguments.
+  final List<String> errors;
+
+  /// Warnings about user-defines that are ignored.
+  ///
+  /// This contains environment variables that cannot be attributed to a
+  /// package and command-line arguments for packages that do not exist. These
+  /// must not fail the invocation because they are machine-wide or provided by
+  /// a launcher that has no knowledge of which packages have hooks.
+  final List<String> warnings;
 
   final Map<String, Map<String, Object?>> pubspecDefines;
 
-  final Uri pubspecBasePath;
+  final Map<String, Map<String, Object?>> commandLineDefines;
+
+  final Map<String, Map<String, Object?>> environmentDefines;
+
+  final Uri? pubspecBasePath;
+
+  final Uri definesBasePath;
 
   LoadedUserDefines({
-    required this.pubspecErrors,
+    required this.errors,
+    required this.warnings,
     required this.pubspecDefines,
+    required this.commandLineDefines,
+    required this.environmentDefines,
     required this.pubspecBasePath,
+    required this.definesBasePath,
   });
 
-  PackageUserDefines operator [](String packageName) => PackageUserDefines(
-    workspacePubspec: switch (pubspecDefines[packageName]) {
+  /// The user-defines for [packageName], ordered by precedence.
+  PackageUserDefines forPackage(String packageName) => PackageUserDefines(
+    commandLineArguments: _source(
+      commandLineDefines[packageName],
+      definesBasePath,
+    ),
+    environmentVariables: _source(
+      environmentDefines[packageName],
+      definesBasePath,
+    ),
+    workspacePubspec: switch (pubspecBasePath) {
       null => null,
-      final defines => PackageUserDefinesSource(
-        defines: defines,
-        basePath: pubspecBasePath,
+      final pubspecBasePath => _source(
+        pubspecDefines[packageName],
+        pubspecBasePath,
       ),
     },
   );
+
+  static PackageUserDefinesSource? _source(
+    Map<String, Object?>? defines,
+    Uri basePath,
+  ) => switch (defines) {
+    null => null,
+    final defines => PackageUserDefinesSource(
+      defines: defines,
+      basePath: basePath,
+    ),
+  };
 }
 
 /// Parses depfile contents.

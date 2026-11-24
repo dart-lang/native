@@ -26,6 +26,8 @@ hooks:
       user_define_key: user_define_value
       user_define_key2:
         foo: bar
+      user_define_precedence: from_pubspec
+      user_define_typed: 42
       some_file: assets/data.json
       nested:
         options:

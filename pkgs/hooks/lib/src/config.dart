@@ -107,7 +107,8 @@ sealed class HookInput {
 
   /// Custom configurations specified in the root package `pubspec.yaml`
   /// (or root package pub workspace `pubspec.yaml` if using a workspace) under
-  /// the `hooks.user_defines` block.
+  /// the `hooks.user_defines` block, or overridden with command-line arguments
+  /// or environment variables of the SDK invocation.
   ///
   /// These are used to pass custom parameters or local file paths to build and
   /// link hooks from the project's build environment.
@@ -119,12 +120,43 @@ sealed class HookInput {
   /// app/package consuming the dependencies) can configure user-defines.
   /// Dependencies cannot supply their own default user-defines.
   ///
+  /// ### Sources and Precedence
+  /// User-defines can originate from three sources. A define from a source
+  /// higher in this list overrides the same key from a source lower in this
+  /// list:
+  ///
+  /// 1. Command-line arguments to the SDK, for example
+  ///    `dart run --hook-define=my_package.enable_debug_logging=true`.
+  ///    These only apply to a single invocation of the SDK.
+  /// 2. Environment variables of the SDK invocation, for example
+  ///    `DART_HOOK_DEFINE__my_package__enable_debug_logging=true`.
+  ///    These apply machine wide, but are not committed to version control.
+  /// 3. The `hooks.user_defines` block in the workspace `pubspec.yaml`.
+  ///    These apply to everyone using the project.
+  ///
+  /// Values from command-line arguments and environment variables are decoded
+  /// as JSON, and are used as a string if they are not valid JSON. For example
+  /// `--hook-define=my_package.enable=true` yields a `bool`, and
+  /// `--hook-define=my_package.optimization_level=O3` yields a `String`.
+  ///
+  /// A define that is set to `null` in a higher precedence source shadows the
+  /// value in lower precedence sources. For example
+  /// `--hook-define=my_package.enable=null` makes
+  /// `input.userDefines['enable']` return `null` even if the workspace
+  /// `pubspec.yaml` sets it.
+  ///
+  /// Relative paths in command-line arguments and environment variables are
+  /// resolved against the working directory of the SDK invocation, while
+  /// relative paths in the workspace `pubspec.yaml` are resolved against the
+  /// directory containing that `pubspec.yaml`. See [HookInputUserDefines.path].
+  ///
   /// ### Caching
-  /// Hook user-defines are workspace-wide. If any user-defines inside the
-  /// root package `pubspec.yaml` (or the root package pub workspace
-  /// `pubspec.yaml` if using a workspace) change, the hook is re-run.
-  /// However, if the user-defines for the package are identical, the hook is
-  /// not re-run.
+  /// Hook user-defines are workspace-wide. If any user-defines change, from
+  /// any of the sources described in [HookInput.userDefines], the hook is
+  /// re-run. However, if the user-defines for the package are identical, the
+  /// hook is not re-run. Note that the hook is also re-run when a
+  /// command-line argument or environment variable define is removed again
+  /// after having been set (the cache is not keyed on the defines).
   ///
   /// ### Supported Types
   /// Configured values inside `pubspec.yaml` can be any JSON-compatible type,
@@ -214,6 +246,9 @@ final class HookInputUserDefines {
   /// This can be arbitrary JSON if provided from the SDK from such source.
   /// If it's provided from command-line arguments, it's likely a string.
   ///
+  /// Returns `null` if the user-define is not set, or if it is explicitly set
+  /// to `null` in the highest precedence source that defines it.
+  ///
   /// For example, if a project's `pubspec.yaml` contains:
   /// ```yaml
   /// hooks:
@@ -246,9 +281,10 @@ final class HookInputUserDefines {
   ///
   /// Absolute paths are converted to a file [Uri] without further
   /// resolution. Relative paths are resolved against the directory
-  /// containing the `pubspec.yaml` where the user-define was declared (or
-  /// the command-line working directory if provided via command-line
-  /// arguments).
+  /// containing the `pubspec.yaml` where the user-define was declared. For
+  /// user-defines from command-line arguments and environment variables,
+  /// relative paths are resolved against the working directory of the SDK
+  /// invocation.
   ///
   /// If the user-define is `null` or not a [String], returns `null`.
   ///
@@ -293,7 +329,12 @@ final class HookInputUserDefines {
     return null;
   }
 
-  (Object, PackageUserDefinesSource)? _findDefine(List<Object> keyPathDefine) {
+  /// Finds the value at [keyPathDefine] in the first source that defines it.
+  ///
+  /// Returns the value and the source it was found in, or `null` if no source
+  /// defines the key path. The value is `null` if the source explicitly sets
+  /// the value to `null`, which shadows the value in lower precedence sources.
+  (Object?, PackageUserDefinesSource)? _findDefine(List<Object> keyPathDefine) {
     final syntaxNode = _input._syntax.userDefines;
     if (syntaxNode == null) {
       return null;
@@ -302,28 +343,26 @@ final class HookInputUserDefines {
     final packageUserDefines = PackageUserDefinesSyntaxExtension.fromSyntax(
       syntaxNode,
     );
-    final pubspecSource = packageUserDefines.workspacePubspec;
-    final sources = <PackageUserDefinesSource>[];
-    if (pubspecSource != null) {
-      sources.add(pubspecSource);
-    }
-    // TODO(https://github.com/dart-lang/native/issues/2215): Add commandline
-    // arguments.
-    for (final source in sources) {
+    for (final source in packageUserDefines.sources) {
       Object? options = source.defines;
+      var hasKeyPath = true;
 
       for (final (i, key) in keyPathDefine.indexed) {
         if (key is String) {
-          if (options is Map) {
+          if (options is Map && options.containsKey(key)) {
             options = options[key];
           } else {
-            return null;
+            // This source does not define this key path, try the next source.
+            hasKeyPath = false;
+            break;
           }
         } else if (key is int) {
-          if (options is List) {
+          if (options is List && key >= 0 && key < options.length) {
             options = options[key];
           } else {
-            return null;
+            // This source does not define this key path, try the next source.
+            hasKeyPath = false;
+            break;
           }
         } else {
           throw ArgumentError.value(
@@ -334,7 +373,9 @@ final class HookInputUserDefines {
         }
       }
 
-      if (options != null) {
+      if (hasKeyPath) {
+        // The key path is defined in this source. Note that the value can be
+        // `null`, in which case it shadows lower precedence sources.
         return (options, source);
       }
     }

@@ -144,7 +144,41 @@ hooks:
 > [!IMPORTANT]  
 > **Workspace Scope:** If a project is set up as a **pub workspace**, the `hooks.user_defines` configuration block must be placed in the **workspace root** `pubspec.yaml` file. Defines inside member package `pubspec.yaml` files are ignored when workspace resolution is active.
 
-### 2. Read in `hook/build.dart` or `hook/link.dart`
+### 2. Overriding user-defines
+User-defines can also be provided for a single SDK invocation, or machine wide.
+The three sources are used in this order, where a define in an earlier source
+overrides the same key in a later source:
+
+1. Command-line arguments of the SDK, for example
+   `dart run --hook-define=my_package_name.enable_debug_logging=true`.
+2. Environment variables of the SDK invocation, for example
+   `DART_HOOK_DEFINE__my_package_name__enable_debug_logging=true`.
+3. The `hooks.user_defines` section in the workspace `pubspec.yaml`.
+
+Values from command-line arguments and environment variables are decoded as
+JSON, and used as a string if they are not valid JSON. So
+`--hook-define=my_package_name.enable_debug_logging=true` sets a `bool`, and
+`--hook-define=my_package_name.log_level=verbose` sets a `String`. To pass a
+string that is itself valid JSON, quote it:
+`--hook-define=my_package_name.some_key='"42"'`. Nested user-defines cannot be
+set with a dotted key, pass a JSON value instead:
+`--hook-define=my_package_name.nested='{"key": "value"}'`.
+
+Relative paths in command-line arguments and environment variables are resolved
+against the working directory of the SDK invocation, while relative paths in the
+workspace `pubspec.yaml` are resolved against the directory containing that
+`pubspec.yaml`.
+
+Setting a define to `null` in a higher precedence source shadows the value in
+the lower precedence sources, so
+`--hook-define=my_package_name.enable_debug_logging=null` makes
+`input.userDefines['enable_debug_logging']` return `null`.
+
+Changing any of the user-defines invalidates the hook cache, so a subsequent
+invocation without the command-line arguments or environment variables reruns
+the hook.
+
+### 3. Read in `hook/build.dart` or `hook/link.dart`
 Access the values using `input.userDefines`:
 
 <!-- file://./example/api/config_snippet_6.dart -->

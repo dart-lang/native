@@ -8,6 +8,174 @@ import 'package:hooks/hooks.dart';
 import 'package:test/test.dart';
 
 void main() {
+  BuildInput makeInputWithSources({
+    PackageUserDefinesSource? commandLineArguments,
+    PackageUserDefinesSource? environmentVariables,
+    PackageUserDefinesSource? workspacePubspec,
+  }) {
+    final tempUri = Directory.systemTemp.uri;
+    final builder = BuildInputBuilder()
+      ..setupShared(
+        packageName: 'my_package',
+        packageRoot: tempUri.resolve('my_package/'),
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri.resolve('out_shared/'),
+        userDefines: PackageUserDefines(
+          commandLineArguments: commandLineArguments,
+          environmentVariables: environmentVariables,
+          workspacePubspec: workspacePubspec,
+        ),
+      )
+      ..config.addBuildAssetTypes(['my-asset-type'])
+      ..config.setupBuild(linkingEnabled: false);
+    return builder.build();
+  }
+
+  group('sources', () {
+    final pubspecBasePath = Uri.parse('file:///pubspec/dir/pubspec.yaml');
+    final commandLineBasePath = Uri.parse('file:///working/directory/');
+
+    test('command-line arguments override environment variables and the '
+        'workspace pubspec', () {
+      final input = makeInputWithSources(
+        commandLineArguments: PackageUserDefinesSource(
+          defines: {'key': 'from_command_line', 'cli_only': true},
+          basePath: commandLineBasePath,
+        ),
+        environmentVariables: PackageUserDefinesSource(
+          defines: {'key': 'from_environment', 'env_only': 1},
+          basePath: commandLineBasePath,
+        ),
+        workspacePubspec: PackageUserDefinesSource(
+          defines: {'key': 'from_pubspec', 'pubspec_only': 'value'},
+          basePath: pubspecBasePath,
+        ),
+      );
+      expect(input.userDefines['key'], 'from_command_line');
+      expect(input.userDefines['cli_only'], true);
+      expect(input.userDefines['env_only'], 1);
+      expect(input.userDefines['pubspec_only'], 'value');
+      expect(input.userDefines['missing'], isNull);
+    });
+
+    test('environment variables override the workspace pubspec', () {
+      final input = makeInputWithSources(
+        environmentVariables: PackageUserDefinesSource(
+          defines: {'key': 'from_environment'},
+          basePath: commandLineBasePath,
+        ),
+        workspacePubspec: PackageUserDefinesSource(
+          defines: {'key': 'from_pubspec'},
+          basePath: pubspecBasePath,
+        ),
+      );
+      expect(input.userDefines['key'], 'from_environment');
+    });
+
+    test('relative paths resolve against the source of the define', () {
+      final input = makeInputWithSources(
+        commandLineArguments: PackageUserDefinesSource(
+          defines: {'file': 'cli/data.json'},
+          basePath: commandLineBasePath,
+        ),
+        workspacePubspec: PackageUserDefinesSource(
+          defines: {'file': 'pubspec/data.json', 'other_file': 'other.json'},
+          basePath: pubspecBasePath,
+        ),
+      );
+      expect(
+        input.userDefines.path('file'),
+        Uri.parse('file:///working/directory/cli/data.json'),
+      );
+      expect(
+        input.userDefines.path('other_file'),
+        Uri.parse('file:///pubspec/dir/other.json'),
+      );
+    });
+
+    test('nested lookups traverse all sources in order', () {
+      final input = makeInputWithSources(
+        environmentVariables: PackageUserDefinesSource(
+          defines: {
+            'nested': {
+              'paths': ['env.json'],
+            },
+          },
+          basePath: commandLineBasePath,
+        ),
+        workspacePubspec: PackageUserDefinesSource(
+          defines: {
+            'nested': {
+              'options': {
+                'paths': ['pubspec.json'],
+              },
+            },
+          },
+          basePath: pubspecBasePath,
+        ),
+      );
+      // The environment source wins the `nested` key.
+      expect(input.userDefines['nested'], {
+        'paths': ['env.json'],
+      });
+      expect(
+        input.userDefines.baseUri(['nested', 'paths']),
+        Uri.parse('file:///working/directory/'),
+      );
+      expect(
+        input.userDefines.baseUri(['nested', 'options', 'paths', 0]),
+        Uri.parse('file:///pubspec/dir/pubspec.yaml'),
+      );
+    });
+
+    test('a null define shadows lower precedence sources', () {
+      final input = makeInputWithSources(
+        commandLineArguments: PackageUserDefinesSource(
+          defines: {'key': null, 'file': null},
+          basePath: commandLineBasePath,
+        ),
+        workspacePubspec: PackageUserDefinesSource(
+          defines: {'key': 'from_pubspec', 'file': 'some/data.json'},
+          basePath: pubspecBasePath,
+        ),
+      );
+      expect(input.userDefines['key'], isNull);
+      expect(input.userDefines.path('file'), isNull);
+    });
+
+    test('a missing key falls through to the next source', () {
+      final input = makeInputWithSources(
+        commandLineArguments: PackageUserDefinesSource(
+          defines: {'cli_only': 1},
+          basePath: commandLineBasePath,
+        ),
+        workspacePubspec: PackageUserDefinesSource(
+          defines: {'key': 'from_pubspec'},
+          basePath: pubspecBasePath,
+        ),
+      );
+      expect(input.userDefines['key'], 'from_pubspec');
+    });
+
+    test('is empty without any sources', () {
+      final input = makeInputWithSources();
+      expect(input.userDefines['key'], isNull);
+      expect(input.userDefines.path('key'), isNull);
+    });
+
+    test('does not emit empty sources in the JSON protocol', () {
+      final input = makeInputWithSources(
+        workspacePubspec: PackageUserDefinesSource(
+          defines: {'key': 'value'},
+          basePath: pubspecBasePath,
+        ),
+      );
+      final userDefinesJson =
+          input.json['user_defines'] as Map<String, Object?>;
+      expect(userDefinesJson.keys, ['workspace_pubspec']);
+    });
+  });
+
   BuildInput makeInput(Map<String, Object?> defines, Uri basePath) {
     final tempUri = Directory.systemTemp.uri;
     final builder = BuildInputBuilder()

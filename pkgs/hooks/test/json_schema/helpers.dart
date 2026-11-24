@@ -249,6 +249,24 @@ FieldsReturn _hookFields({
   ([r'$schema'], expectOptionalFieldMissing),
   if (inputOrOutput == InputOrOutput.input) ...[
     (['user_defines'], expectOptionalFieldMissing),
+    (['user_defines', 'command_line_arguments'], expectOptionalFieldMissing),
+    (
+      ['user_defines', 'command_line_arguments', 'base_path'],
+      expectRequiredFieldMissing,
+    ),
+    (
+      ['user_defines', 'command_line_arguments', 'defines'],
+      expectRequiredFieldMissing,
+    ),
+    (['user_defines', 'environment_variables'], expectOptionalFieldMissing),
+    (
+      ['user_defines', 'environment_variables', 'base_path'],
+      expectRequiredFieldMissing,
+    ),
+    (
+      ['user_defines', 'environment_variables', 'defines'],
+      expectRequiredFieldMissing,
+    ),
     (['user_defines', 'workspace_pubspec'], expectOptionalFieldMissing),
     (
       ['user_defines', 'workspace_pubspec', 'base_path'],
