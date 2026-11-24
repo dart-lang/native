@@ -618,9 +618,15 @@ class NativeAssetsBuildRunner {
             }
           },
         );
-      } on TimeoutException {
+      } on TimeoutException catch (e) {
+        logger.severe(
+          'Building assets for package:${input.packageName} failed.\n$e',
+        );
         return const Failure(HooksRunnerFailure.infra);
-      } on FileSystemException {
+      } on FileSystemException catch (e) {
+        logger.severe(
+          'Building assets for package:${input.packageName} failed.\n$e',
+        );
         return const Failure(HooksRunnerFailure.infra);
       }
     },

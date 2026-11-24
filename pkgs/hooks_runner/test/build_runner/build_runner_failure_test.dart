@@ -227,142 +227,147 @@ void main() async {
     });
   });
 
+  Future<void> expectInfraFailure({
+    required List<String> expectedLogSubstrings,
+    required _LockTestingIOOverrides overrides,
+    Duration? singleHookTimeout,
+  }) async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('simple_link/');
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+
+      final packageLayout = await PackageLayout.fromWorkingDirectory(
+        const LocalFileSystem(),
+        packageUri,
+        'simple_link',
+        includeDevDependencies: false,
+      );
+      final logMessages = <String>[];
+      final testLogger = createCapturingLogger(
+        logMessages,
+        level: Level.SEVERE,
+      );
+      final runner = NativeAssetsBuildRunner(
+        logger: testLogger,
+        dartExecutable: dartExecutable,
+        fileSystem: const LocalFileSystem(),
+        packageLayout: packageLayout,
+        singleHookTimeout: singleHookTimeout,
+      );
+
+      await IOOverrides.runWithIOOverrides(() async {
+        final buildResult = await runner.build(
+          extensions: [DataAssetsExtension()],
+          linkingEnabled: true,
+        );
+        expect(buildResult.isFailure, isTrue);
+        expect(buildResult.failure, HooksRunnerFailure.infra);
+        expect(logMessages, hasLength(1));
+        for (final substring in expectedLogSubstrings) {
+          expect(logMessages.single, contains(substring));
+        }
+
+        logMessages.clear();
+        final linkResult = await runner.link(
+          extensions: [DataAssetsExtension()],
+          buildResult: HookResult(),
+        );
+        expect(linkResult.isFailure, isTrue);
+        expect(linkResult.failure, HooksRunnerFailure.infra);
+        expect(logMessages, hasLength(1));
+        for (final substring in expectedLogSubstrings) {
+          expect(logMessages.single, contains(substring));
+        }
+      }, overrides);
+    });
+  }
+
   test(
     'directory lock timeout returns HooksRunnerFailure.infra',
     timeout: longTimeout,
-    () async {
-      await inTempDir((tempUri) async {
-        await copyTestProjects(targetUri: tempUri);
-        final packageUri = tempUri.resolve('simple_link/');
-        await runPubGet(workingDirectory: packageUri, logger: logger);
-
-        final packageLayout = await PackageLayout.fromWorkingDirectory(
-          const LocalFileSystem(),
-          packageUri,
-          'simple_link',
-          includeDevDependencies: false,
-        );
-        final logMessages = <String>[];
-        final testLogger = createCapturingLogger(
-          logMessages,
-          level: Level.SEVERE,
-        );
-        final runner = NativeAssetsBuildRunner(
-          logger: testLogger,
-          dartExecutable: dartExecutable,
-          fileSystem: const LocalFileSystem(),
-          packageLayout: packageLayout,
-          singleHookTimeout: const Duration(milliseconds: 60),
-        );
-        final overrides = _LockTestingIOOverrides(
-          const FileSystemException('lock contention'),
-        );
-
-        await IOOverrides.runWithIOOverrides(() async {
-          final buildResult = await runner.build(
-            extensions: [DataAssetsExtension()],
-            linkingEnabled: true,
-          );
-          expect(buildResult.isFailure, isTrue);
-          expect(buildResult.failure, HooksRunnerFailure.infra);
-          expect(
-            logMessages.join('\n'),
-            contains('Could not acquire the lock to'),
-          );
-
-          logMessages.clear();
-          final linkResult = await runner.link(
-            extensions: [DataAssetsExtension()],
-            buildResult: HookResult(),
-          );
-          expect(linkResult.isFailure, isTrue);
-          expect(linkResult.failure, HooksRunnerFailure.infra);
-          expect(
-            logMessages.join('\n'),
-            contains('Could not acquire the lock to'),
-          );
-        }, overrides);
-      });
-    },
+    () => expectInfraFailure(
+      overrides: _LockTestingIOOverrides(
+        errorToThrowOnLock: const FileSystemException('lock contention'),
+      ),
+      expectedLogSubstrings: const [
+        'Building assets for package:simple_link failed.',
+        'Could not acquire the lock to',
+      ],
+      singleHookTimeout: const Duration(milliseconds: 60),
+    ),
   );
 
   test(
     'unsupported file system lock returns HooksRunnerFailure.infra',
     timeout: longTimeout,
-    () async {
-      await inTempDir((tempUri) async {
-        await copyTestProjects(targetUri: tempUri);
-        final packageUri = tempUri.resolve('simple_link/');
-        await runPubGet(workingDirectory: packageUri, logger: logger);
-
-        final packageLayout = await PackageLayout.fromWorkingDirectory(
-          const LocalFileSystem(),
-          packageUri,
-          'simple_link',
-          includeDevDependencies: false,
-        );
-        final logMessages = <String>[];
-        final testLogger = createCapturingLogger(
-          logMessages,
-          level: Level.SEVERE,
-        );
-        final runner = NativeAssetsBuildRunner(
-          logger: testLogger,
-          dartExecutable: dartExecutable,
-          fileSystem: const LocalFileSystem(),
-          packageLayout: packageLayout,
-        );
-        const posixEinval = 22;
-        final overrides = _LockTestingIOOverrides(
-          const FileSystemException(
+    () {
+      const posixEinval = 22;
+      return expectInfraFailure(
+        overrides: _LockTestingIOOverrides(
+          errorToThrowOnLock: const FileSystemException(
             'lock failed',
             '',
             OSError('Invalid argument', posixEinval),
           ),
-        );
-
-        await IOOverrides.runWithIOOverrides(() async {
-          final buildResult = await runner.build(
-            extensions: [DataAssetsExtension()],
-            linkingEnabled: true,
-          );
-          expect(buildResult.isFailure, isTrue);
-          expect(buildResult.failure, HooksRunnerFailure.infra);
-          expect(
-            logMessages.join('\n'),
-            contains(
-              'The file system containing this project does not appear to '
+        ),
+        expectedLogSubstrings: const [
+          'Building assets for package:simple_link failed.',
+          'The file system containing this project does not appear to '
               'support file locking',
-            ),
-          );
-
-          logMessages.clear();
-          final linkResult = await runner.link(
-            extensions: [DataAssetsExtension()],
-            buildResult: HookResult(),
-          );
-          expect(linkResult.isFailure, isTrue);
-          expect(linkResult.failure, HooksRunnerFailure.infra);
-          expect(
-            logMessages.join('\n'),
-            contains(
-              'The file system containing this project does not appear to '
-              'support file locking',
-            ),
-          );
-        }, overrides);
-      });
+        ],
+      );
     },
+  );
+
+  test(
+    'lock file open failure returns HooksRunnerFailure.infra',
+    timeout: longTimeout,
+    () => expectInfraFailure(
+      overrides: _LockTestingIOOverrides(
+        errorToThrowOnOpen: const FileSystemException('cannot open lock'),
+      ),
+      expectedLogSubstrings: const [
+        'Building assets for package:simple_link failed.',
+        'cannot open lock',
+      ],
+    ),
+  );
+
+  test(
+    'file system error inside locked hook callback returns '
+    'HooksRunnerFailure.infra',
+    timeout: longTimeout,
+    () => expectInfraFailure(
+      overrides: _LockTestingIOOverrides(
+        errorToThrowOnExists: const FileSystemException(
+          'simulated callback fs error',
+        ),
+        pathSuffix: 'hook.dependencies_hash_file.json',
+      ),
+      expectedLogSubstrings: const [
+        'Building assets for package:simple_link failed.',
+        'simulated callback fs error',
+      ],
+    ),
   );
 }
 
 final class _LockTestingIOOverrides extends IOOverrides {
-  _LockTestingIOOverrides(this.errorToThrowOnLock);
+  _LockTestingIOOverrides({
+    this.errorToThrowOnExists,
+    this.errorToThrowOnLock,
+    this.errorToThrowOnOpen,
+    this.pathSuffix = '.lock',
+  });
 
-  final FileSystemException errorToThrowOnLock;
+  final FileSystemException? errorToThrowOnExists;
+  final FileSystemException? errorToThrowOnLock;
+  final FileSystemException? errorToThrowOnOpen;
+  final String pathSuffix;
 
   @override
-  File createFile(String path) => path.endsWith('.lock')
+  File createFile(String path) => path.endsWith(pathSuffix)
       ? _LockTestingFile(this, super.createFile(path))
       : super.createFile(path);
 }
@@ -380,7 +385,12 @@ class _LockTestingFile implements File {
   Uri get uri => _delegate.uri;
 
   @override
-  Future<bool> exists() => _delegate.exists();
+  Future<bool> exists() async {
+    if (_overrides.errorToThrowOnExists case final error?) {
+      throw error;
+    }
+    return _delegate.exists();
+  }
 
   @override
   Future<File> create({bool recursive = false, bool exclusive = false}) async {
@@ -389,11 +399,15 @@ class _LockTestingFile implements File {
   }
 
   @override
-  Future<RandomAccessFile> open({FileMode mode = FileMode.read}) async =>
-      _LockTestingRandomAccessFile(
-        _overrides,
-        await _delegate.open(mode: mode),
-      );
+  Future<RandomAccessFile> open({FileMode mode = FileMode.read}) async {
+    if (_overrides.errorToThrowOnOpen case final error?) {
+      throw error;
+    }
+    return _LockTestingRandomAccessFile(
+      _overrides,
+      await _delegate.open(mode: mode),
+    );
+  }
 
   @override
   Object? noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
@@ -410,7 +424,13 @@ class _LockTestingRandomAccessFile implements RandomAccessFile {
     FileLock mode = FileLock.exclusive,
     int start = 0,
     int end = -1,
-  ]) async => throw _overrides.errorToThrowOnLock;
+  ]) async {
+    if (_overrides.errorToThrowOnLock case final error?) {
+      throw error;
+    }
+    await _delegate.lock(mode, start, end);
+    return this;
+  }
 
   @override
   Future<RandomAccessFile> unlock([int start = 0, int end = -1]) =>
