@@ -17,7 +17,7 @@ void main() {
     expect(kLegacyMagicNumber, 42);
   });
 
-  group('1. Classes & Lifecycle', () {
+  group('Classes & Lifecycle', () {
     test('alloc/init, custom initializer, factory, and subclassing', () {
       final defaultObj = LegacyBase.alloc().init();
       expect(defaultObj.value, 0);
@@ -49,7 +49,7 @@ void main() {
     });
   });
 
-  group('2. Methods & Properties', () {
+  group('Methods & Properties', () {
     test('instance/class methods, nullables, and properties', () {
       final obj = LegacyBase.createWithValue(10);
       expect(obj.addA(3, toB: 4), 17);
@@ -77,7 +77,7 @@ void main() {
     });
   });
 
-  group('3. Categories', () {
+  group('Categories', () {
     test('category on custom class and on NSString', () {
       final obj = LegacyBase.createWithValue(21);
       expect(obj.doubledValue(), 42);
@@ -87,7 +87,7 @@ void main() {
     });
   });
 
-  group('4. Protocols', () {
+  group('Protocols', () {
     test('conforming ObjC class', () {
       final objcDelegate = LegacyObjCDelegate.alloc().initWithMultiplier(3);
       expect(LegacyDelegate.conformsTo(objcDelegate), isTrue);
@@ -180,7 +180,7 @@ void main() {
     );
   });
 
-  group('5. Blocks', () {
+  group('Blocks', () {
     test('returning and calling ObjC block from Dart', () {
       final adder = LegacyBase.makeAdderBlock(10);
       expect(adder(32), 42);
@@ -226,7 +226,7 @@ void main() {
     });
   });
 
-  group('6. Errors (NSError**)', () {
+  group('Errors (NSError**)', () {
     test('BOOL method succeeds or throws NSErrorException', () {
       expect(LegacyBase.validatePositive(5), isTrue);
 
@@ -262,7 +262,7 @@ void main() {
     });
   });
 
-  group('7. Structs & Enums', () {
+  group('Structs & Enums', () {
     test('C struct passed and returned by value', () {
       final p = ffi.Struct.create<LegacyPoint>()
         ..x = 10
@@ -282,7 +282,7 @@ void main() {
     });
   });
 
-  group('8. Foundation / package:objective_c Built-ins', () {
+  group('Foundation / package:objective_c Built-ins', () {
     test('NSString, NSArray, NSMutableArray', () {
       final mutable = objc.NSMutableArray()
         ..addObject('alpha'.toNSString())
@@ -339,7 +339,7 @@ void main() {
     });
   });
 
-  group('9. Memory Management & ARC', () {
+  group('Memory Management & ARC', () {
     test('autoReleasePool and explicit release cleanly deallocate objects', () {
       late int id;
       objc.autoReleasePool(() {
@@ -352,7 +352,7 @@ void main() {
     });
   });
 
-  group('10. C Function & Global', () {
+  group('C Function & Global', () {
     test('top-level C function and global constant', () {
       expect(kLegacyMagicNumber, 42);
       expect(legacyAddInts(19, 23), 42);
