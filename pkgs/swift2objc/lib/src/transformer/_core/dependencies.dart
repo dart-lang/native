@@ -27,7 +27,9 @@ class FindIncludesVisitation extends Visitation {
 
   @override
   void visitExtensionDeclaration(ExtensionDeclaration node) {
-    if (includes.contains(node.extendedType.declaration)) {
+    if ((node.extendedType.declaration.isBuiltIn ||
+            includes.contains(node.extendedType.declaration)) &&
+        filter(node)) {
       includes.add(node);
       node.visitChildren(visitor);
     }
