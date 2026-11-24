@@ -130,6 +130,7 @@ void run({required TestRunnerCallback testRunner}) {
       late JThrowable caught;
       try {
         Jni.throwException(globalRef);
+        fail('Expected JThrowable');
       } on JThrowable catch (e) {
         caught = e;
       }
