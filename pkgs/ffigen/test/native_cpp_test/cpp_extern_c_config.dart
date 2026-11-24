@@ -14,16 +14,10 @@ FfiGenerator getConfig([Uri? packageRoot]) {
       dart: DartOutput(
         path: testDir.resolve('cpp_extern_c_test_bindings.dart'),
       ),
+      style: const NativeExternalBindings(assetId: 'package:ffigen/cpp_test'),
     ),
-    input: Input(
-      entryPoints: [testDir.resolve('cpp_extern_c_test.h')],
-      compilerOptions: [
-        '-x',
-        'c++',
-        '-std=c++17',
-        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
-      ],
-    ),
+    input: Input(entryPoints: [testDir.resolve('cpp_extern_c_test.h')]),
+    cpp: const Cpp(),
     visitors: [
       Visitor(
         func: (node) => node.isIncluded = {
@@ -31,12 +25,22 @@ FfiGenerator getConfig([Uri? packageRoot]) {
           'deep',
           'reset',
           'outside',
+          'nestedCpp',
+          'applyTwice',
         }.contains(node.originalName),
         struct: (node) => node.isIncluded = node.originalName == 'Pair',
         union: (node) => node.isIncluded = node.originalName == 'Number',
         enumClass: (node) =>
             node.isIncluded = {'Fruit', 'ns::Flag'}.contains(node.originalName),
-        global: (node) => node.isIncluded = node.originalName == 'counter',
+        global: (node) {
+          node.isIncluded = {
+            'counter',
+            'outsideCounter',
+          }.contains(node.originalName);
+          if (node.originalName == 'outsideCounter') {
+            node.exposeSymbolAddress = true;
+          }
+        },
       ),
     ],
   );

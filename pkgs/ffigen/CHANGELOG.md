@@ -10,6 +10,14 @@
 - Generate a [non-throwing `fromValueOrNull`](https://github.com/dart-lang/native/issues/3712)
   method on Dart enums, which returns `null` for unknown values. `fromValue`
   now delegates to it, and still throws an `ArgumentError`.
+- Fix a bug where a C++ free function or global variable declared outside any
+  `extern "C"` block was looked up by its unmangled name, which fails at
+  runtime because the exported symbol is mangled. With C++ support enabled,
+  ffigen now emits an `extern "C"` wrapper for such declarations into the
+  generated C++ file and binds to that instead. Without C++ support a warning
+  is logged for every such declaration.
+- Fix the C++ spelling of function pointer parameters in generated wrappers,
+  which was emitted with an extra `*`.
 
 ## 23.0.0
 
