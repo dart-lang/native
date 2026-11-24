@@ -646,8 +646,10 @@ class NativeAssetsBuildRunner {
       'ANDROID_HOME', // Needed for the NDK.
       ...nonStandardNdkEnvironmentVariables,
       'APPDATA', // Needed for NuGet.
+      'DEVELOPER_DIR', // Needed for Xcode.
       'GOPATH', // Needed for installed Go apps.
       'HOME', // Needed to find tools in default install locations.
+      'JAVA_HOME', // Needed for Java tools.
       'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
       'LOCALAPPDATA', // Needed for dart_data_home and pub.
       'PATH', // Needed to invoke native tools.
@@ -655,6 +657,7 @@ class NativeAssetsBuildRunner {
       'PKG_CONFIG_PATH', // Needed for pkg-config.
       'PROGRAMDATA', // Needed for vswhere.exe.
       'PROCESSOR_ARCHITECTURE', // Needed for CMake Android on Windows.
+      'SDKROOT', // Needed for Xcode.
       'SYSTEMDRIVE', // Needed for CMake.
       'SYSTEMROOT', // Needed for process invocations on Windows.
       'TEMP', // Needed for temp dirs in Dart process.

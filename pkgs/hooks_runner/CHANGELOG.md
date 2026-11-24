@@ -1,3 +1,8 @@
+## 2.0.1-wip
+
+- Add `DEVELOPER_DIR`, `SDKROOT`, and `JAVA_HOME` to the environment variables
+  allowlist.
+
 ## 2.0.0
 
 - Decode hook stdout and stderr as streaming UTF-8, fixing garbled non-ASCII

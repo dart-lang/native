@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 
+import 'config_provider/api_dumper.dart';
 import 'config_provider/config.dart';
 import 'context.dart';
 import 'header_parser.dart' show parse;
@@ -15,6 +16,30 @@ import 'logger.dart';
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 extension FfiGenGenerator on FfiGenerator {
+  /// Parses the headers according to this config and dumps all user-visible
+  /// AST nodes.
+  ///
+  /// Returns the formatted dump string.
+  Future<String> dumpApi({Logger? logger, Uri? libclangDylib}) async {
+    logger ??= createDefaultLogger();
+    final buffer = StringBuffer();
+    final dumper = ApiDumperVisitor(buffer);
+
+    final dumperConfig = FfiGenerator(
+      input: input,
+      cpp: cpp,
+      objectiveC: objectiveC,
+      output: output,
+      visitors: [dumper],
+      importType: importType,
+      libclangDylib: libclangDylib,
+    );
+    final context = Context(logger, dumperConfig, libclangDylib: libclangDylib);
+    parse(context);
+
+    return buffer.toString();
+  }
+
   /// Runs the entire generation pipeline for the given config.
   ///
   /// If provided, uses [logger] to output logs. Otherwise, uses a default
