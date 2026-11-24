@@ -92,6 +92,8 @@ JObject makeWeakRef(JObject target, Arena arena) =>
 /// Triggers Java GC (without triggering Dart GC) and returns whether the
 /// referent of [weakRef] has been collected.
 bool isJavaObjectCollected(JObject weakRef) {
+  // System.gc() is only a hint to the JVM, and some collectors or runtimes
+  // may require multiple cycles to clear WeakReferences.
   final runtime = _runtimeGetRuntime(_runtimeClass, JObject.type, []);
   try {
     for (var i = 0; i < 5; i++) {
