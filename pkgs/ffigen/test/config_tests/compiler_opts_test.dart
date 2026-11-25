@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/config_provider/path_finder.dart';
 import 'package:ffigen/src/config_provider/spec_utils.dart';
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/strings.dart' as strings;
@@ -49,12 +50,20 @@ ${strings.compilerOptsAuto}:
       }
     });
     test('C++ defaults', () {
-      final opts = defaultCompilerOpts(createTestLogger(), cpp: true);
+      final logger = createTestLogger();
+      final opts = defaultCompilerOpts(logger, cpp: true);
+      final resourceDir = Platform.isMacOS
+          ? getClangResourceDirForMac(logger)
+          : null;
       expect(opts, [
         '-x',
         'c++',
         '-std=c++17',
-        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+        if (Platform.isMacOS) ...[
+          '-isysroot',
+          macSdkPath,
+          if (resourceDir != null) ...['-resource-dir', resourceDir],
+        ],
       ]);
     });
     test('computeCompilerOpts', () {

@@ -417,7 +417,15 @@ List<String> defaultCompilerOpts(
         '-x',
         'c++',
         '-std=c++17',
-        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+        if (Platform.isMacOS) ...[
+          '-isysroot',
+          macSdkPath,
+          if (macIncludeStdLib)
+            if (getClangResourceDirForMac(logger) case final resourceDir?) ...[
+              '-resource-dir',
+              resourceDir,
+            ],
+        ],
       ]
     : [
         if (Platform.isMacOS && macIncludeStdLib)

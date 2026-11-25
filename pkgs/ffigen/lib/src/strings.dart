@@ -47,6 +47,9 @@ const clangInclude = '-include';
 // Special objective C types.
 const objcBOOL = 'BOOL';
 const objcInstanceType = 'instancetype';
+const objcId = 'id';
+const objcClass = 'Class';
+const objcSel = 'SEL';
 
 const headers = 'headers';
 
