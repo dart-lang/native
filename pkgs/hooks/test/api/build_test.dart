@@ -154,4 +154,59 @@ void main() async {
   test('missing --config argument throws StateError', () {
     expect(() => build([], (input, output) async {}), throwsStateError);
   });
+
+  test('doctor method', () async {
+    final doctorOutFile = tempUri.resolve('doctor_output.json');
+    final doctorInput =
+        (DoctorInputBuilder()..setupDoctor(
+              packageRoot: tempUri,
+              packageName: packageName,
+              outputFile: doctorOutFile,
+            ))
+            .build();
+    final doctorInputUri = tempUri.resolve('doctor_input.json');
+    await File.fromUri(
+      doctorInputUri,
+    ).writeAsString(json.encode(doctorInput.json));
+
+    await doctor(['--config', doctorInputUri.toFilePath()], (
+      input,
+      output,
+    ) async {
+      output.addValidation(
+        DoctorValidationResult(title: 'Test', type: .success),
+      );
+    });
+    expect(File.fromUri(doctorOutFile), exists);
+  });
+
+  test('doctor method validation error', () async {
+    final doctorOutFile = tempUri.resolve('doctor_output.json');
+    final doctorInput =
+        (DoctorInputBuilder()..setupDoctor(
+              packageRoot: tempUri,
+              packageName: packageName,
+              outputFile: doctorOutFile,
+            ))
+            .build();
+    final doctorInputUri = tempUri.resolve('doctor_input.json');
+    await File.fromUri(
+      doctorInputUri,
+    ).writeAsString(json.encode(doctorInput.json));
+
+    await expectLater(
+      () => IOOverrides.runZoned(
+        () => doctor(['--config', doctorInputUri.toFilePath()], (
+          input,
+          output,
+        ) async {
+          output.json['validations'] = [
+            <String, Object?>{'type': 'success'},
+          ];
+        }),
+        exit: (code) => throw _TestExit(code),
+      ),
+      throwsA(isA<_TestExit>().having((e) => e.exitCode, 'exitCode', 1)),
+    );
+  });
 }

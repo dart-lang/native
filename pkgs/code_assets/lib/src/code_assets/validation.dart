@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 import 'code_asset.dart';
 import 'config.dart';
@@ -39,13 +40,51 @@ Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async {
   ];
 }
 
+/// Validates the code asset specific parts of a [DoctorInput].
+@experimental
+Future<ValidationErrors> validateCodeAssetDoctorInput(DoctorInput input) async {
+  if (input.config.code == null) {
+    return [];
+  }
+  return _validateDoctorConfig('DoctorInput.config.code', input.config);
+}
+
+@experimental
+ValidationErrors _validateDoctorConfig(String inputName, DoctorConfig config) {
+  final syntaxNode = DoctorConfigSyntax.fromJson(
+    config.json,
+    path: config.path,
+  );
+  final syntaxErrors = syntaxNode.validate();
+  if (syntaxErrors.isNotEmpty) {
+    return [
+      ...syntaxErrors,
+      _semanticValidationSkippedMessage(syntaxNode.path),
+    ];
+  }
+
+  final errors = <String>[];
+  for (final (i, code) in config.code!.indexed) {
+    errors.addAll(_validateDoctorCodeConfig('$inputName[$i]', code));
+  }
+  return errors;
+}
+
 ValidationErrors _validateConfig(String inputName, HookConfig config) {
   final syntaxErrors = _validateConfigSyntax(config);
   if (syntaxErrors.isNotEmpty) {
     return syntaxErrors;
   }
 
-  final code = config.code;
+  // ignore: experimental_member_use
+  return _validateDoctorCodeConfig(inputName, config.code);
+}
+
+@experimental
+ValidationErrors _validateDoctorCodeConfig(
+  String inputName,
+  DoctorCodeConfig code,
+) {
   final errors = <String>[];
   final cCompiler = code.cCompiler;
   if (cCompiler != null) {

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: experimental_member_use
+
 import 'dart:io';
 
 import 'package:hooks/hooks.dart';
@@ -134,6 +136,30 @@ void main() {
         ..config.addBuildAssetTypes(['my-asset-type'])
         ..config.setupBuild(linkingEnabled: false);
       expect(builder.build().userDefines.path('key'), isNull);
+    });
+
+    test('DoctorInput.userDefines', () {
+      final tempUri = Directory.systemTemp.uri;
+      final builder = DoctorInputBuilder()
+        ..setupDoctor(
+          packageName: 'my_package',
+          packageRoot: tempUri.resolve('my_package/'),
+          outputFile: tempUri.resolve('output.json'),
+          userDefines: PackageUserDefines(
+            workspacePubspec: PackageUserDefinesSource(
+              defines: {'my_key': 'my_val', 'file': 'some/dir/model.bin'},
+              basePath: basePath,
+            ),
+          ),
+        );
+      final input = builder.build();
+      expect(input.userDefines['my_key'], 'my_val');
+      if (!Platform.isWindows) {
+        expect(
+          input.userDefines.path('file'),
+          Uri.parse('file:///base/dir/some/dir/model.bin'),
+        );
+      }
     });
   });
 }

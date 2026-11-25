@@ -459,6 +459,7 @@ class ExampleTask extends Task {
       'pkgs/hooks/example/build/prebuilt_assets_example/',
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
+      'pkgs/hooks/example/doctor/cli_tool/',
     ];
     // Run sequentially because `dart test` in a pub workspace copies to the
     // shared `<workspace_root>/.dart_tool/native_assets.yaml`.

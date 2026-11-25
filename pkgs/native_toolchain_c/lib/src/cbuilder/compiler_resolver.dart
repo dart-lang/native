@@ -23,7 +23,8 @@ import '../utils/env_from_bat.dart';
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
-  final CodeConfig codeConfig;
+  // ignore: experimental_member_use
+  final DoctorCodeConfig codeConfig;
   final Logger? logger;
   final ProcessManager processManager;
   final FileSystem fileSystem;

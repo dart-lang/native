@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:file/file.dart';
+import 'package:meta/meta.dart';
 import 'package:package_config/package_config.dart';
 
 import '../build_runner/build_runner.dart';
@@ -15,7 +16,8 @@ import '../build_runner/build_runner.dart';
 /// * [packageConfigUri] to be able to get a dependency graph with `pub` and to
 ///   know where to cache/share asset builds.
 /// * [runPackageName] to know which package build hooks to invoke and ignore.
-///   Only dependencies of the "run package" are built.
+///   Only dependencies of the "run package" are built. If `null`, all packages
+///   in the workspace dependency graph are included.
 ///
 /// The [NativeAssetsBuildRunner] builds assets in
 /// `.dart_tool/hooks_runner/`. The directory layout follows pub's
@@ -32,9 +34,15 @@ class PackageLayout {
   final Uri packageConfigUri;
 
   /// Only assets of transitive dependencies of [runPackageName] are built.
-  final String runPackageName;
+  ///
+  /// If `null`, all packages in the dependency graph are included.
+  // TODO(https://github.com/dart-lang/native/issues/3748): Move
+  // `runPackageName` and `includeDevDependencies` to `NativeAssetsBuildRunner`
+  // methods.
+  final String? runPackageName;
 
-  /// Include the dev dependencies of [runPackageName].
+  /// Include the dev dependencies of [runPackageName] (or of the root packages
+  /// if [runPackageName] is `null`).
   final bool includeDevDependencies;
 
   PackageLayout._(
@@ -48,7 +56,7 @@ class PackageLayout {
     FileSystem fileSystem,
     PackageConfig packageConfig,
     Uri packageConfigUri,
-    String runPackageName, {
+    String? runPackageName, {
     required bool includeDevDependencies,
   }) {
     assert(fileSystem.file(packageConfigUri).existsSync());
@@ -61,10 +69,29 @@ class PackageLayout {
     );
   }
 
+  /// Creates a [PackageLayout] for running doctor hooks across all packages in
+  /// the dependency graph.
+  // TODO(https://github.com/dart-lang/native/issues/3748): Remove once
+  // `runPackageName` and `includeDevDependencies` are moved off
+  // `PackageLayout`.
+  @experimental
+  factory PackageLayout.forDoctorFromPackageConfig(
+    FileSystem fileSystem,
+    PackageConfig packageConfig,
+    Uri packageConfigUri, {
+    bool includeDevDependencies = true,
+  }) => PackageLayout.fromPackageConfig(
+    fileSystem,
+    packageConfig,
+    packageConfigUri,
+    null,
+    includeDevDependencies: includeDevDependencies,
+  );
+
   static Future<PackageLayout> fromWorkingDirectory(
     FileSystem fileSystem,
     Uri workingDirectory,
-    String runPackageName, {
+    String? runPackageName, {
     required bool includeDevDependencies,
   }) async {
     workingDirectory = workingDirectory.normalizePath();
@@ -78,6 +105,49 @@ class PackageLayout {
       packageConfig,
       packageConfigUri,
       runPackageName,
+      includeDevDependencies: includeDevDependencies,
+    );
+  }
+
+  /// Creates a [PackageLayout] from [workingDirectory] for running doctor hooks
+  /// across all packages in the dependency graph.
+  ///
+  /// Returns `null` if no `.dart_tool/package_config.json` or sibling
+  /// `.dart_tool/package_graph.json` is found in [workingDirectory] or any
+  /// ancestor directory.
+  // TODO(https://github.com/dart-lang/native/issues/3748): Remove once
+  // `runPackageName` and `includeDevDependencies` are moved off
+  // `PackageLayout`.
+  @experimental
+  static Future<PackageLayout?> forDoctorFromWorkingDirectory(
+    FileSystem fileSystem,
+    Uri workingDirectory, {
+    bool includeDevDependencies = true,
+  }) async {
+    workingDirectory = workingDirectory.normalizePath();
+    final packageConfigUri = await findPackageConfig(
+      fileSystem,
+      workingDirectory,
+    );
+    if (packageConfigUri == null) {
+      return null;
+    }
+    final packageGraphUri = packageConfigUri.resolve('package_graph.json');
+    if (!await fileSystem.file(packageGraphUri).exists()) {
+      return null;
+    }
+    final packageConfig = await loadPackageConfigUri(
+      packageConfigUri,
+      loader: (uri) async {
+        final file = fileSystem.file(uri);
+        if (!await file.exists()) return null;
+        return await file.readAsBytes();
+      },
+    );
+    return PackageLayout._(
+      packageConfig,
+      packageConfigUri,
+      null,
       includeDevDependencies: includeDevDependencies,
     );
   }
