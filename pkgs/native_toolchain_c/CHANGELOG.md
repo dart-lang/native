@@ -1,3 +1,8 @@
+## Unreleased
+
+- Use the OHOS target triple and bundled sysroot when an OHOS LLVM compiler is
+  supplied through the C compiler configuration for a Linux-compatible hook target.
+
 ## 0.19.6
 
 - Decode `vswhere -utf8` output as streaming UTF-8, preserving localized
