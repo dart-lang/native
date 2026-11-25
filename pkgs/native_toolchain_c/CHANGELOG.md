@@ -1,4 +1,4 @@
-## 0.19.7-wip
+## 0.20.0-wip
 
 - Add `trackDependencies` option to `CBuilder` and `CLinker` for disabling
   automatic dependency tracking.
