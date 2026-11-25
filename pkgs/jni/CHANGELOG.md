@@ -1,6 +1,6 @@
 ## 1.2.2-wip
 
-- Fix reference leaks in conversion utils and add a `releaseOriginal` param.
+- Eagerly free references in conversion utils and add a `releaseOriginal` param.
 
 ## 1.2.1
 
