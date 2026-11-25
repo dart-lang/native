@@ -42,8 +42,7 @@ Future<T> runUnderDirectoriesLock<T>(
 /// If provided, the [timeout] parameter determines how long to retry before
 /// giving up. If the [timeout] is exceeded a [TimeoutException] is thrown.
 ///
-/// If provided, the [logger] streams information on the the locking status, and
-/// also streams error messages.
+/// If provided, the [logger] streams information on the locking status.
 Future<T> runUnderDirectoryLock<T>(
   FileSystem fileSystem,
   Uri directory,
@@ -88,8 +87,7 @@ const _contentionErrorCodes = <String, Set<int>>{
 /// If provided, the [timeout] parameter determines how long to retry before
 /// giving up. If the [timeout] is exceeded a [TimeoutException] is thrown.
 ///
-/// If provided, the [logger] streams information on the the locking status,
-/// and also streams error messages.
+/// If provided, the [logger] streams information on the locking status.
 Future<T> _runUnderFileLock<T>(
   File file,
   Future<T> Function() callback, {
@@ -117,7 +115,6 @@ Future<T> _runUnderFileLock<T>(
               'support file locking (e.g. network shares like SMB or NFS). '
               'Build hooks require file locking. '
               'Please move the project to a local file system.';
-          logger?.severe(message);
           throw FileSystemException(message, file.path, e.osError);
         }
         if (!printed) {
@@ -143,7 +140,6 @@ Future<T> _runUnderFileLock<T>(
     }
 
     final message = 'Could not acquire the lock to ${file.path}.';
-    logger?.severe(message);
     throw TimeoutException(message, timeout);
   } finally {
     await randomAccessFile.close();
