@@ -79,10 +79,8 @@ final _weakRefClass = JClass.forName('java/lang/ref/WeakReference');
 final _weakRefCtor = _weakRefClass.constructorId('(Ljava/lang/Object;)V');
 final _weakRefGet =
     _weakRefClass.instanceMethodId('get', '()Ljava/lang/Object;');
-final _runtimeClass = JClass.forName('java/lang/Runtime');
-final _runtimeGetRuntime =
-    _runtimeClass.staticMethodId('getRuntime', '()Ljava/lang/Runtime;');
-final _runtimeGc = _runtimeClass.instanceMethodId('gc', '()V');
+final _systemClass = JClass.forName('java/lang/System');
+final _systemGc = _systemClass.staticMethodId('gc', '()V');
 
 /// Creates a Java `WeakReference` to [target], registered for release with
 /// [arena].
@@ -94,18 +92,13 @@ JObject makeWeakRef(JObject target, Arena arena) =>
 bool isJavaObjectCollected(JObject weakRef) {
   // System.gc() is only a hint to the JVM, and some collectors or runtimes
   // may require multiple cycles to clear WeakReferences.
-  final runtime = _runtimeGetRuntime(_runtimeClass, JObject.type, []);
-  try {
-    for (var i = 0; i < 5; i++) {
-      _runtimeGc(runtime, jvoid.type, []);
-      final referent = _weakRefGet.callNullable(weakRef, JObject.type, []);
-      if (referent == null) {
-        return true;
-      }
-      referent.release();
+  for (var i = 0; i < 5; i++) {
+    _systemGc(_systemClass, jvoid.type, []);
+    final referent = _weakRefGet.callNullable(weakRef, JObject.type, []);
+    if (referent == null) {
+      return true;
     }
-    return false;
-  } finally {
-    runtime.release();
+    referent.release();
   }
+  return false;
 }

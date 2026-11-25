@@ -599,4 +599,484 @@ void main() {
       );
     });
   });
+
+  group('global reference leaks', () {
+    test('JList.toDartList does not leak elements or nested collections', () {
+      using((arena) {
+        final innerStr = 'nested-list-element'.toJString();
+        final innerStrWeakRef = makeWeakRef(innerStr, arena);
+        final innerList = [innerStr].toJList();
+        innerStr.release();
+        final innerListWeakRef = makeWeakRef(innerList, arena);
+
+        final outerStr = 'outer-list-element'.toJString();
+        final outerStrWeakRef = makeWeakRef(outerStr, arena);
+        final outerList = <JObject?>[outerStr, innerList].toJList();
+        outerStr.release();
+        innerList.release();
+
+        expect(
+          outerList.toDartList(),
+          [
+            'outer-list-element',
+            ['nested-list-element']
+          ],
+        );
+
+        expect(isJavaObjectCollected(outerStrWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerListWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerStrWeakRef), isFalse);
+
+        // Clear and release the top-level list so only leaked JNI global refs
+        // could keep the elements or nested list alive.
+        outerList.clear();
+        outerList.release();
+
+        expect(
+          isJavaObjectCollected(outerStrWeakRef),
+          isTrue,
+          reason: 'JList.toDartList leaked an element global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerListWeakRef),
+          isTrue,
+          reason: 'JList.toDartList leaked a nested JList global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerStrWeakRef),
+          isTrue,
+          reason: 'JList.toDartList leaked a nested element global reference',
+        );
+      });
+    });
+
+    test('JArray.toDartList does not leak elements or nested collections', () {
+      using((arena) {
+        final innerStr = 'array-nested-element'.toJString();
+        final innerStrWeakRef = makeWeakRef(innerStr, arena);
+        final innerList = [innerStr].toJList();
+        innerStr.release();
+        final innerListWeakRef = makeWeakRef(innerList, arena);
+
+        final elemStr = 'array-element'.toJString();
+        final elemStrWeakRef = makeWeakRef(elemStr, arena);
+        final array = JArray.of<JObject?>(
+          JObject.type,
+          <JObject?>[elemStr, innerList],
+        );
+        elemStr.release();
+        innerList.release();
+
+        expect(
+          array.toDartList(),
+          [
+            'array-element',
+            ['array-nested-element']
+          ],
+        );
+
+        expect(isJavaObjectCollected(elemStrWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerListWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerStrWeakRef), isFalse);
+
+        array[0] = null;
+        array[1] = null;
+        array.release();
+
+        expect(
+          isJavaObjectCollected(elemStrWeakRef),
+          isTrue,
+          reason: 'JArray.toDartList leaked an element global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerListWeakRef),
+          isTrue,
+          reason: 'JArray.toDartList leaked a nested JList global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerStrWeakRef),
+          isTrue,
+          reason: 'JArray.toDartList leaked a nested element global reference',
+        );
+      });
+    });
+
+    test('JSet.toDartSet does not leak iterator', () {
+      using((arena) {
+        final collectionsClass = JClass.forName('java/util/Collections')
+          ..releasedBy(arena);
+        final singletonSet = collectionsClass.staticMethodId(
+          'singleton',
+          '(Ljava/lang/Object;)Ljava/util/Set;',
+        );
+
+        final str = 'singleton-set-element'.toJString();
+        final strWeakRef = makeWeakRef(str, arena);
+        // HashSet.iterator() holds a reference to its private backing HashMap
+        // rather than the HashSet itself, whereas
+        // Collections.singleton(e).iterator() directly captures `e` so leaking
+        // the JIterator keeps `str` alive.
+        final set = singletonSet(collectionsClass, JSet.type, [str]);
+        str.release();
+
+        expect(set.toDartSet(), {'singleton-set-element'});
+        expect(isJavaObjectCollected(strWeakRef), isFalse);
+        set.release();
+
+        expect(
+          isJavaObjectCollected(strWeakRef),
+          isTrue,
+          reason: 'JSet.toDartSet leaked its JIterator or element global ref',
+        );
+      });
+    });
+
+    test('JSet.toDartSet does not leak elements or nested collections', () {
+      using((arena) {
+        final innerStr = 'nested-set-element'.toJString();
+        final innerStrWeakRef = makeWeakRef(innerStr, arena);
+        final innerList = [innerStr].toJList();
+        innerStr.release();
+        final innerListWeakRef = makeWeakRef(innerList, arena);
+
+        final elemStr = 'outer-set-element'.toJString();
+        final elemStrWeakRef = makeWeakRef(elemStr, arena);
+        final set = <JObject?>{elemStr, innerList}.toJSet();
+        elemStr.release();
+        innerList.release();
+
+        expect(
+          set.toDartSet(),
+          {
+            'outer-set-element',
+            ['nested-set-element']
+          },
+        );
+
+        expect(isJavaObjectCollected(elemStrWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerListWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerStrWeakRef), isFalse);
+
+        set.clear();
+        set.release();
+
+        expect(
+          isJavaObjectCollected(elemStrWeakRef),
+          isTrue,
+          reason: 'JSet.toDartSet leaked an element global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerListWeakRef),
+          isTrue,
+          reason: 'JSet.toDartSet leaked a nested collection global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerStrWeakRef),
+          isTrue,
+          reason: 'JSet.toDartSet leaked a nested element global reference',
+        );
+      });
+    });
+
+    test('JMap.toDartMap does not leak keySet or iterator', () {
+      using((arena) {
+        final map = <JObject?, JObject?>{}.toJMap();
+        // HashMap$KeySet and HashMap$KeyIterator both hold an implicit
+        // reference to their enclosing HashMap, so leaking either keeps `map`
+        // alive after `map.release()`.
+        final mapWeakRef = makeWeakRef(map, arena);
+
+        expect(map.toDartMap(), isEmpty);
+        expect(isJavaObjectCollected(mapWeakRef), isFalse);
+        map.release();
+
+        expect(
+          isJavaObjectCollected(mapWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked its keySet or JIterator global ref',
+        );
+      });
+    });
+
+    test('JMap.toDartMap does not leak keys, values, or nested collections',
+        () {
+      using((arena) {
+        final nestedKey = 'nested-map-key'.toJString();
+        final nestedKeyWeakRef = makeWeakRef(nestedKey, arena);
+        final nestedVal = 'nested-map-val'.toJString();
+        final nestedValWeakRef = makeWeakRef(nestedVal, arena);
+        final nestedMap = <JObject?, JObject?>{nestedKey: nestedVal}.toJMap();
+        nestedKey.release();
+        nestedVal.release();
+        final nestedMapWeakRef = makeWeakRef(nestedMap, arena);
+
+        final key = 'outer-map-key'.toJString();
+        final keyWeakRef = makeWeakRef(key, arena);
+        final map = <JObject?, JObject?>{key: nestedMap}.toJMap();
+        key.release();
+        nestedMap.release();
+
+        expect(
+          map.toDartMap(),
+          {
+            'outer-map-key': {'nested-map-key': 'nested-map-val'},
+          },
+        );
+
+        expect(isJavaObjectCollected(keyWeakRef), isFalse);
+        expect(isJavaObjectCollected(nestedMapWeakRef), isFalse);
+        expect(isJavaObjectCollected(nestedKeyWeakRef), isFalse);
+        expect(isJavaObjectCollected(nestedValWeakRef), isFalse);
+
+        map.clear();
+        map.release();
+
+        expect(
+          isJavaObjectCollected(keyWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked a key global reference',
+        );
+        expect(
+          isJavaObjectCollected(nestedMapWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked a nested JMap global reference',
+        );
+        expect(
+          isJavaObjectCollected(nestedKeyWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked a nested key global reference',
+        );
+        expect(
+          isJavaObjectCollected(nestedValWeakRef),
+          isTrue,
+          reason: 'JMap.toDartMap leaked a nested value global reference',
+        );
+      });
+    });
+
+    test('toDartObject does not leak intermediate or temporary references', () {
+      using((arena) {
+        final leafStr = 'deep-leaf'.toJString();
+        final leafStrWeakRef = makeWeakRef(leafStr, arena);
+        final innerSet = <JObject?>{leafStr}.toJSet();
+        leafStr.release();
+        final innerSetWeakRef = makeWeakRef(innerSet, arena);
+
+        final mapKey = 'set-key'.toJString();
+        final mapKeyWeakRef = makeWeakRef(mapKey, arena);
+        final innerMap = <JObject?, JObject?>{mapKey: innerSet}.toJMap();
+        mapKey.release();
+        innerSet.release();
+        final innerMapWeakRef = makeWeakRef(innerMap, arena);
+
+        final rootList = <JObject?>[innerMap].toJList();
+        innerMap.release();
+        final rootListWeakRef = makeWeakRef(rootList, arena);
+
+        expect(
+          toDartObject(rootList),
+          [
+            {
+              'set-key': {'deep-leaf'},
+            },
+          ],
+        );
+
+        expect(isJavaObjectCollected(rootListWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerMapWeakRef), isFalse);
+        expect(isJavaObjectCollected(mapKeyWeakRef), isFalse);
+        expect(isJavaObjectCollected(innerSetWeakRef), isFalse);
+        expect(isJavaObjectCollected(leafStrWeakRef), isFalse);
+
+        // Release the top-level object (caller-owned without releaseOriginal).
+        rootList.clear();
+        rootList.release();
+
+        expect(
+          isJavaObjectCollected(rootListWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked root list iterator global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerMapWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked nested JMap/keySet/iterator global ref',
+        );
+        expect(
+          isJavaObjectCollected(mapKeyWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked nested map key global reference',
+        );
+        expect(
+          isJavaObjectCollected(innerSetWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked nested JSet global reference',
+        );
+        expect(
+          isJavaObjectCollected(leafStrWeakRef),
+          isTrue,
+          reason: 'toDartObject leaked nested leaf element global reference',
+        );
+      });
+    });
+  });
+
+  group('releaseOriginal', () {
+    test('toDartObject and toNullableDartObject', () {
+      using((arena) {
+        final kept = 'kept-string'.toJString();
+        final keptWeakRef = makeWeakRef(kept, arena);
+        expect(isJavaObjectCollected(keptWeakRef), isFalse);
+
+        expect(toDartObject(kept), 'kept-string');
+        expect(kept.isReleased, isFalse);
+        expect(isJavaObjectCollected(keptWeakRef), isFalse);
+
+        expect(toDartObject(kept, releaseOriginal: true), 'kept-string');
+        expect(kept.isReleased, isTrue);
+        expect(isJavaObjectCollected(keptWeakRef), isTrue);
+
+        final nullable = 'nullable-string'.toJString();
+        final nullableWeakRef = makeWeakRef(nullable, arena);
+        expect(isJavaObjectCollected(nullableWeakRef), isFalse);
+
+        expect(
+          toNullableDartObject(nullable, releaseOriginal: true),
+          'nullable-string',
+        );
+        expect(nullable.isReleased, isTrue);
+        expect(isJavaObjectCollected(nullableWeakRef), isTrue);
+        expect(toNullableDartObject(null, releaseOriginal: true), isNull);
+      });
+    });
+
+    test('JList.toDartList', () {
+      using((arena) {
+        final str = 'list-item'.toJString();
+        final list = <JObject?>[str].toJList();
+        str.release();
+        final listWeakRef = makeWeakRef(list, arena);
+        expect(isJavaObjectCollected(listWeakRef), isFalse);
+
+        expect(list.toDartList(), ['list-item']);
+        expect(list.isReleased, isFalse);
+        expect(isJavaObjectCollected(listWeakRef), isFalse);
+
+        expect(list.toDartList(releaseOriginal: true), ['list-item']);
+        expect(list.isReleased, isTrue);
+        expect(isJavaObjectCollected(listWeakRef), isTrue);
+      });
+    });
+
+    test('JArray.toDartList', () {
+      using((arena) {
+        final str = 'array-item'.toJString();
+        final array = JArray.of<JObject?>(JObject.type, <JObject?>[str]);
+        str.release();
+        final arrayWeakRef = makeWeakRef(array, arena);
+        expect(isJavaObjectCollected(arrayWeakRef), isFalse);
+
+        expect(array.toDartList(), ['array-item']);
+        expect(array.isReleased, isFalse);
+        expect(isJavaObjectCollected(arrayWeakRef), isFalse);
+
+        expect(array.toDartList(releaseOriginal: true), ['array-item']);
+        expect(array.isReleased, isTrue);
+        expect(isJavaObjectCollected(arrayWeakRef), isTrue);
+      });
+    });
+
+    test('JSet.toDartSet', () {
+      using((arena) {
+        final str = 'set-item'.toJString();
+        final set = <JObject?>{str}.toJSet();
+        str.release();
+        final setWeakRef = makeWeakRef(set, arena);
+        expect(isJavaObjectCollected(setWeakRef), isFalse);
+
+        expect(set.toDartSet(), {'set-item'});
+        expect(set.isReleased, isFalse);
+        expect(isJavaObjectCollected(setWeakRef), isFalse);
+
+        expect(set.toDartSet(releaseOriginal: true), {'set-item'});
+        expect(set.isReleased, isTrue);
+        expect(isJavaObjectCollected(setWeakRef), isTrue);
+      });
+    });
+
+    test('JMap.toDartMap', () {
+      using((arena) {
+        final key = 'map-key'.toJString();
+        final val = 'map-val'.toJString();
+        final map = <JObject?, JObject?>{key: val}.toJMap();
+        key.release();
+        val.release();
+        final mapWeakRef = makeWeakRef(map, arena);
+        expect(isJavaObjectCollected(mapWeakRef), isFalse);
+
+        expect(map.toDartMap(), {'map-key': 'map-val'});
+        expect(map.isReleased, isFalse);
+        expect(isJavaObjectCollected(mapWeakRef), isFalse);
+
+        expect(map.toDartMap(releaseOriginal: true), {'map-key': 'map-val'});
+        expect(map.isReleased, isTrue);
+        expect(isJavaObjectCollected(mapWeakRef), isTrue);
+      });
+    });
+
+    test('pass-through JObject is not released', () {
+      using((arena) {
+        final objectClass = JClass.forName('java/lang/Object')
+          ..releasedBy(arena);
+        final objectCtor = objectClass.constructorId('()V');
+        final obj = objectCtor(objectClass, const []);
+        final objWeakRef = makeWeakRef(obj, arena);
+        expect(isJavaObjectCollected(objWeakRef), isFalse);
+
+        // Top-level pass-through with releaseOriginal: true must not release.
+        final direct = toDartObject(obj, releaseOriginal: true);
+        expect(direct, same(obj));
+        expect(obj.isReleased, isFalse);
+        expect(isJavaObjectCollected(objWeakRef), isFalse);
+
+        // Nested pass-through inside a collection must not release the returned
+        // JObject element, while still releasing the collection itself.
+        final list = <JObject?>[obj].toJList();
+        final listWeakRef = makeWeakRef(list, arena);
+        final dartList = list.toDartList(releaseOriginal: true);
+        expect(list.isReleased, isTrue);
+        expect(isJavaObjectCollected(listWeakRef), isTrue);
+        final returnedObj = dartList.single as JObject;
+        expect(returnedObj.isReleased, isFalse);
+        expect(returnedObj, equals(obj));
+        returnedObj.release();
+
+        // Custom converter returning a different Dart object releases original.
+        expect(
+          toDartObject(
+            obj,
+            convertOther: (_) => 'converted',
+            releaseOriginal: true,
+          ),
+          'converted',
+        );
+        expect(obj.isReleased, isTrue);
+        expect(isJavaObjectCollected(objWeakRef), isTrue);
+
+        // Custom converter throwing with releaseOriginal: true still releases.
+        final throwingObj = objectCtor(objectClass, const []);
+        final throwingObjWeakRef = makeWeakRef(throwingObj, arena);
+        expect(
+          () => toDartObject(
+            throwingObj,
+            convertOther: (_) => throw StateError('boom'),
+            releaseOriginal: true,
+          ),
+          throwsStateError,
+        );
+        expect(throwingObj.isReleased, isTrue);
+        expect(isJavaObjectCollected(throwingObjWeakRef), isTrue);
+      });
+    });
+  });
 }

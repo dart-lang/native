@@ -1,3 +1,7 @@
+## 1.2.2-wip
+
+- Eagerly free references in conversion utils and add a `releaseOriginal` param.
+
 ## 1.2.1
 
 - Add defensive null checks on method receiver objects and field targets to
