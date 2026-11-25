@@ -1,3 +1,8 @@
+## 0.19.7-wip
+
+- Add `trackDependencies` option to `CBuilder` and `CLinker` for disabling
+  automatic dependency tracking.
+
 ## 0.19.6
 
 - Decode `vswhere -utf8` output as streaming UTF-8, preserving localized
