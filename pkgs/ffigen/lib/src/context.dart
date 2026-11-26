@@ -27,12 +27,7 @@ class Context {
   bool hasSourceErrors = false;
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
-  late final String libclangDylibPath;
-  late final List<String> compilerOpts = computeCompilerOpts(
-    config: config,
-    logger: logger,
-    libclangDylibPath: libclangDylibPath,
-  );
+  late final List<String> compilerOpts;
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
   final Scope rootCppScope = Scope.createRoot('cpp_root');
@@ -50,11 +45,17 @@ class Context {
       config.objectiveC?.generateForPackageObjectiveC ?? false,
     );
 
-    libclangDylibPath =
+    final libclangDylibPath =
         // ignore: deprecated_member_use_from_same_package
         config.libclangDylib?.toFilePath() ??
         libclangDylib?.toFilePath() ??
         findDylibAtDefaultLocations(logger);
+
+    compilerOpts = computeCompilerOpts(
+      config: config,
+      logger: logger,
+      libclangDylibPath: libclangDylibPath,
+    );
 
     _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
   }

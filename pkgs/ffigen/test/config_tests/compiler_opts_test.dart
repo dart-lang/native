@@ -126,7 +126,7 @@ ${strings.compilerOptsAuto}:
             output: Output(dart: DartOutput(path: Uri.file('unused.dart'))),
           ),
         );
-        final dylibPath = contextDefault.libclangDylibPath;
+        final dylibPath = findDylibAtDefaultLocations(logger);
         final resourceDir = findClangResourceDir(logger, dylibPath);
         final defaultOpts = defaultCompilerOpts(
           logger,
