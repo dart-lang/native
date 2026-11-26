@@ -71,10 +71,6 @@ List<Binding> parseToBindings(Context context) {
       ..._findObjectiveCSysroot(),
     ],
 
-    // Ensure clang can find its builtin headers even when custom
-    // compilerOptions are provided without -resource-dir.
-    ...getClangResourceDirOpts(context.logger, context.compilerOpts),
-
     // Add the user options last so they can override any other options.
     ...context.compilerOpts,
   ]);
