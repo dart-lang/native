@@ -9,6 +9,11 @@ import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
 const testRuns = 1000;
+const _isWasm = bool.fromEnvironment('dart.tool.dart2wasm');
+
+List<int> _readBytes(Pointer<Uint8> pointer, int length) => _isWasm
+    ? [for (var i = 0; i < length; i++) pointer[i]]
+    : pointer.asTypedList(length);
 
 void main() async {
   test('calloc', () {
@@ -17,7 +22,7 @@ void main() async {
       final allocBytes = Random().nextInt(1000);
       final mem = calloc<Uint8>(allocBytes);
       expect(
-        mem.asTypedList(allocBytes).where((element) => element != 0),
+        _readBytes(mem, allocBytes).where((element) => element != 0),
         isEmpty,
       );
       calloc.free(mem);
@@ -49,12 +54,18 @@ void main() async {
     expect(() => malloc<Uint8>(-1), throwsA(isA<ArgumentError>()));
   });
 
-  test('nativeFree', () {
-    // malloc.nativeFree should be able to free memory allocated by malloc.
-    final ptr1 = malloc.allocate<Uint8>(1024);
-    malloc.nativeFree.asFunction<void Function(Pointer<Void>)>()(ptr1.cast());
-    // calloc.nativeFree should be able to free memory allocated by calloc.
-    final ptr2 = calloc.allocate<Uint8>(1024);
-    calloc.nativeFree.asFunction<void Function(Pointer<Void>)>()(ptr2.cast());
-  });
+  test(
+    'nativeFree',
+    () {
+      // malloc.nativeFree should be able to free memory allocated by malloc.
+      final ptr1 = malloc.allocate<Uint8>(1024);
+      malloc.nativeFree.asFunction<void Function(Pointer<Void>)>()(ptr1.cast());
+      // calloc.nativeFree should be able to free memory allocated by calloc.
+      final ptr2 = calloc.allocate<Uint8>(1024);
+      calloc.nativeFree.asFunction<void Function(Pointer<Void>)>()(ptr2.cast());
+    },
+    skip: _isWasm
+        ? 'Native.addressOf is not yet supported in dart2wasm.'
+        : null,
+  );
 }

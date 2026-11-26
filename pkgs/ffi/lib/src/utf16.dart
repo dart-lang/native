@@ -3,8 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import '../ffi.dart';
+
+const bool _isWasm = bool.fromEnvironment('dart.tool.dart2wasm');
 
 /// The contents of a native zero-terminated array of UTF-16 code units.
 ///
@@ -48,8 +51,20 @@ extension Utf16Pointer on Pointer<Utf16> {
     }
   }
 
-  static String _toKnownLengthString(Pointer<Uint16> codeUnits, int length) =>
-      String.fromCharCodes(codeUnits.asTypedList(length));
+  static String _toKnownLengthString(Pointer<Uint16> codeUnits, int length) {
+    final Uint16List units;
+    if (_isWasm) {
+      // coverage:ignore-start
+      units = Uint16List(length);
+      for (var i = 0; i < length; i++) {
+        units[i] = codeUnits[i];
+      }
+      // coverage:ignore-end
+    } else {
+      units = codeUnits.asTypedList(length);
+    }
+    return String.fromCharCodes(units);
+  }
 
   static String _toUnknownLengthString(Pointer<Uint16> codeUnits) {
     final buffer = StringBuffer();
@@ -93,9 +108,18 @@ extension StringUtf16Pointer on String {
   Pointer<Utf16> toNativeUtf16({Allocator allocator = malloc}) {
     final units = codeUnits;
     final result = allocator<Uint16>(units.length + 1);
-    final nativeString = result.asTypedList(units.length + 1);
-    nativeString.setRange(0, units.length, units);
-    nativeString[units.length] = 0;
+    if (_isWasm) {
+      // coverage:ignore-start
+      for (var i = 0; i < units.length; i++) {
+        result[i] = units[i];
+      }
+      result[units.length] = 0;
+      // coverage:ignore-end
+    } else {
+      final nativeString = result.asTypedList(units.length + 1);
+      nativeString.setRange(0, units.length, units);
+      nativeString[units.length] = 0;
+    }
     return result.cast();
   }
 }
