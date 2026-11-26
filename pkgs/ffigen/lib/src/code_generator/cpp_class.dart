@@ -468,7 +468,13 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
               final selfType = '$constPrefix$originalName';
               params = ['$selfType* self', ...otherParams].join(', ');
               final methodName = method.originalName;
-              callExpr = 'self->$methodName($callArgs)';
+              final qualifier =
+                  (bases.length > 1 &&
+                      method.originatingClass != null &&
+                      method.originatingClass != this)
+                  ? '${method.originatingClass!.originalName}::'
+                  : '';
+              callExpr = 'self->$qualifier$methodName($callArgs)';
             }
 
             if (method.returnType == voidType) {

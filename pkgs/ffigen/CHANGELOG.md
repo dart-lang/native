@@ -1,5 +1,7 @@
 ## 23.1.0-wip
 
+- Handle C++ diamond inheritance by qualifying inherited member calls with direct
+  base class names (#3544).
 - Add `ffigen` to `executables` in `pubspec.yaml` and support running `ffigen`
   as a standalone AOT-compiled executable (`dart install` / `dart run ffigen@`).
 - When generating typedefs for `NativeFunction<Function>`, also generate a
