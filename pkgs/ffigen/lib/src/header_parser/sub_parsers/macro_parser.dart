@@ -10,6 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
 import '../../code_generator.dart';
+import '../../config_provider/path_finder.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -59,10 +60,13 @@ List<MacroConstant> parseSavedMacros(Context context) {
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
   var cmdLen = 0;
 
-  final compilerOpts = context.compilerOpts;
+  final compilerOpts = <String>[
+    ...getClangResourceDirOpts(context.logger, context.compilerOpts),
+    ...context.compilerOpts,
+  ];
   clangCmdArgs = createDynamicStringArray(compilerOpts);
 
-  cmdLen = context.compilerOpts.length;
+  cmdLen = compilerOpts.length;
   final tu = clang.clang_parseTranslationUnit(
     index,
     file.path.toNativeUtf8().cast(),

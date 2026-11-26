@@ -85,3 +85,15 @@ String? getClangResourceDirForMac(Logger logger) {
   );
   return null;
 }
+
+/// Returns `-resource-dir` compiler flags on macOS if [existingOpts] does not
+/// already specify `-resource-dir`.
+List<String> getClangResourceDirOpts(Logger logger, List<String> existingOpts) {
+  if (!Platform.isMacOS) return const [];
+  final hasResourceDir = existingOpts.any(
+    (opt) => opt == '-resource-dir' || opt.startsWith('-resource-dir='),
+  );
+  if (hasResourceDir) return const [];
+  final resourceDir = getClangResourceDirForMac(logger);
+  return resourceDir != null ? ['-resource-dir', resourceDir] : const [];
+}
