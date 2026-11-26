@@ -1,3 +1,8 @@
+## 2.2.1-wip
+
+- Reject negative and overflowing 32-bit allocation sizes in `malloc` and
+  `calloc`.
+
 ## 2.2.0
 
 - Export leaked types.
