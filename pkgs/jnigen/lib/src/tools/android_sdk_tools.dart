@@ -561,9 +561,9 @@ ${procRes.stderr}
   }
 
   static void _runFlutterConfigOnly(String androidProject) {
-    final inDir = _inAndroidProject(androidProject);
+    final inAndroidProject = _inAndroidProject(androidProject);
     final flutter = flutterExecutable ?? 'flutter';
-    log.info('Running "$flutter build apk --config-only"$inDir...');
+    log.info('Running "$flutter build apk --config-only"$inAndroidProject...');
     var success = false;
     try {
       final result = Process.runSync(
