@@ -102,6 +102,7 @@ workspace:
   # - pkgs/jni_flutter/example  # TODO
   - pkgs/jni_util
   # - pkgs/jni/example  # TODO
+  # - pkgs/jni/legacy_android_test_runner  # Intentionally uses incompatible older versions.
   # - pkgs/jnigen  # TODO
   # - pkgs/jnigen/android_test_runner  # TODO
   # - pkgs/jnigen/example/in_app_java  # TODO
