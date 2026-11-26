@@ -1,7 +1,11 @@
-## 1.1.1-wip
+## 1.1.2-wip
 
 - Handle type parameters that shadow enclosing classes' type parameters
   without generating duplicate Dart declarations.
+
+## 1.1.1
+
+- Bump `package:jni` version to `1.2.1`.
 
 ## 1.1.0
 
