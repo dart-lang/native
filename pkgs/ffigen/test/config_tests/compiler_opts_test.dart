@@ -125,7 +125,7 @@ ${strings.compilerOptsAuto}:
         );
         final resourceDir = findClangResourceDir(
           logger,
-          libclangDylibPath: contextAppend.libclangDylibPath,
+          contextAppend.libclangDylibPath,
         );
         expect(contextAppend.compilerOpts, [
           if (resourceDir != null) ...['-resource-dir', resourceDir],

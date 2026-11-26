@@ -31,10 +31,7 @@ void main() {
         p.join(tmp.path, 'lib', 'clang', '18', 'include'),
       )..createSync(recursive: true);
 
-      final result = findClangResourceDir(
-        logger,
-        libclangDylibPath: dylib.path,
-      );
+      final result = findClangResourceDir(logger, dylib.path);
       expect(result, p.dirname(resourceDir.path));
     });
 
@@ -46,32 +43,26 @@ void main() {
         p.join(tmp.path, 'lib', 'clang', '19.1.0', 'include'),
       )..createSync(recursive: true);
 
-      final result = findClangResourceDir(
-        logger,
-        libclangDylibPath: dylib.path,
-      );
+      final result = findClangResourceDir(logger, dylib.path);
       expect(result, p.dirname(resourceDir.path));
     });
 
-    test('picks highest numeric version with include/ directory', () {
+    test('ignores subdirectories without include/ directory', () {
       final tmp = createTempDir();
       final dylib = File(p.join(tmp.path, 'lib', 'libclang.dylib'))
         ..createSync(recursive: true);
-      for (final version in ['9', '18', '18.1.2', '19']) {
-        Directory(
-          p.join(tmp.path, 'lib', 'clang', version, 'include'),
-        ).createSync(recursive: true);
-      }
-      // Version 20 has no include/ directory and must be ignored.
+      // Subdirectories without include/ must be ignored.
+      Directory(
+        p.join(tmp.path, 'lib', 'clang', '17'),
+      ).createSync(recursive: true);
       Directory(
         p.join(tmp.path, 'lib', 'clang', '20'),
       ).createSync(recursive: true);
+      final expectedDir = p.join(tmp.path, 'lib', 'clang', '19');
+      Directory(p.join(expectedDir, 'include')).createSync(recursive: true);
 
-      final result = findClangResourceDir(
-        logger,
-        libclangDylibPath: dylib.path,
-      );
-      expect(result, p.join(tmp.path, 'lib', 'clang', '19'));
+      final result = findClangResourceDir(logger, dylib.path);
+      expect(result, expectedDir);
     });
 
     test('resolves symlinked dylib to find resource dir', () {
@@ -87,12 +78,17 @@ void main() {
       final symlinkDylib = Link(p.join(symlinkDir.path, 'libclang.so'))
         ..createSync(targetDylib.path);
 
-      final result = findClangResourceDir(
-        logger,
-        libclangDylibPath: symlinkDylib.path,
-      );
+      final result = findClangResourceDir(logger, symlinkDylib.path);
       expect(result, p.dirname(resourceDir.resolveSymbolicLinksSync()));
     }, skip: Platform.isWindows);
+
+    test('returns null when no sibling clang/ directory exists', () {
+      final tmp = createTempDir();
+      final dylib = File(p.join(tmp.path, 'lib', 'libclang.dylib'))
+        ..createSync(recursive: true);
+
+      expect(findClangResourceDir(logger, dylib.path), isNull);
+    });
   });
 
   group('getClangResourceDirOpts', () {

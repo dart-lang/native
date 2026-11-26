@@ -37,8 +37,8 @@ List<String> getCStandardLibraryHeadersForMac(Logger logger) {
 /// Finds clang's versioned resource directory (containing `include/`).
 ///
 /// Searches relative to [libclangDylibPath] (including its resolved symlink
-/// target) before falling back to `clang -print-resource-dir`.
-String? findClangResourceDir(Logger logger, {String? libclangDylibPath}) {
+/// target).
+String? findClangResourceDir(Logger logger, String libclangDylibPath) {
   final candidateClangDirs = <String>{};
 
   void addCandidatesForDylib(String dylibPath) {
@@ -49,74 +49,30 @@ String? findClangResourceDir(Logger logger, {String? libclangDylibPath}) {
       ..add(p.join(grandParent, 'lib', 'clang'));
   }
 
-  if (libclangDylibPath != null) {
-    addCandidatesForDylib(libclangDylibPath);
-    final dylibFile = File(libclangDylibPath);
-    if (dylibFile.existsSync()) {
-      final resolved = dylibFile.resolveSymbolicLinksSync();
-      if (resolved != libclangDylibPath) {
-        addCandidatesForDylib(resolved);
-      }
+  addCandidatesForDylib(libclangDylibPath);
+  final dylibFile = File(libclangDylibPath);
+  if (dylibFile.existsSync()) {
+    final resolved = dylibFile.resolveSymbolicLinksSync();
+    if (resolved != libclangDylibPath) {
+      addCandidatesForDylib(resolved);
     }
   }
 
   for (final clangDir in candidateClangDirs) {
-    final resourceDir = _findHighestVersionResourceDir(clangDir);
-    if (resourceDir != null) {
-      logger.fine('Found clang resource dir: $resourceDir');
-      return resourceDir;
-    }
-  }
-
-  try {
-    final result = Process.runSync('clang', ['-print-resource-dir']);
-    if (result.exitCode == 0) {
-      final dir = (result.stdout as String).trim();
-      if (dir.isNotEmpty && Directory(p.join(dir, 'include')).existsSync()) {
-        logger.fine('Found clang resource dir via clang CLI: $dir');
-        return dir;
+    final dir = Directory(clangDir);
+    if (!dir.existsSync()) continue;
+    for (final entry in dir.listSync()) {
+      if (Directory(p.join(entry.path, 'include')).existsSync()) {
+        logger.fine('Found clang resource dir: ${entry.path}');
+        return entry.path;
       }
     }
-  } on ProcessException {
-    // clang CLI not available on PATH.
   }
 
   logger.fine(
     'Couldn\'t find clang resource dir in candidate dirs: $candidateClangDirs',
   );
   return null;
-}
-
-String? _findHighestVersionResourceDir(String clangDir) {
-  final dir = Directory(clangDir);
-  if (!dir.existsSync()) return null;
-
-  String? bestDir;
-  String? bestVersion;
-  for (final entry in dir.listSync()) {
-    if (!Directory(p.join(entry.path, 'include')).existsSync()) continue;
-    final version = p.basename(entry.path);
-    if (bestVersion == null || _compareVersions(version, bestVersion) > 0) {
-      bestVersion = version;
-      bestDir = entry.path;
-    }
-  }
-  return bestDir;
-}
-
-int _compareVersions(String a, String b) {
-  final aParts = a.split('.');
-  final bParts = b.split('.');
-  final len = aParts.length < bParts.length ? aParts.length : bParts.length;
-  for (var i = 0; i < len; i++) {
-    final aNum = int.tryParse(aParts[i]);
-    final bNum = int.tryParse(bParts[i]);
-    final cmp = (aNum != null && bNum != null)
-        ? aNum.compareTo(bNum)
-        : aParts[i].compareTo(bParts[i]);
-    if (cmp != 0) return cmp;
-  }
-  return aParts.length.compareTo(bParts.length);
 }
 
 /// Returns `-resource-dir` compiler flags if [existingOpts] does not already
@@ -130,9 +86,6 @@ List<String> getClangResourceDirOpts(
     (opt) => opt == '-resource-dir' || opt.startsWith('-resource-dir='),
   );
   if (hasResourceDir) return const [];
-  final resourceDir = findClangResourceDir(
-    logger,
-    libclangDylibPath: libclangDylibPath,
-  );
+  final resourceDir = findClangResourceDir(logger, libclangDylibPath);
   return resourceDir != null ? ['-resource-dir', resourceDir] : const [];
 }
