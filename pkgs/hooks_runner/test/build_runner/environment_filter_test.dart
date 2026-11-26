@@ -120,4 +120,19 @@ void main() {
       isTrue,
     );
   });
+
+  test('includeHookEnvironmentVariable allows pub variables except tokens', () {
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('PUB_CACHE'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('PUB_HOSTED_URL'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('PUB_TOKEN'),
+      isFalse,
+    );
+  });
 }
