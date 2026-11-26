@@ -1,7 +1,7 @@
-## 1.1.0-wip
+## 1.0.1-wip
 
-- Add `flutterExecutable` to locate the `flutter` executable matching the
-  currently running Dart SDK.
+- Resolve the `flutter` executable via `package:cli_util`'s `flutterExecutable`
+  in `javaHome`.
 
 ## 1.0.0
 

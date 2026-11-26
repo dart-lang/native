@@ -5,9 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cli_util/cli_util.dart';
 import 'package:path/path.dart' as p;
-
-import 'flutter_util.dart';
 
 const minJavaVersion = 17;
 const maxJavaVersion = 21;
@@ -17,8 +16,10 @@ const maxJavaVersion = 21;
 /// null if detection fails (eg Java is not installed, or is not set up for
 /// Android development).
 final javaHome = () {
+  final flutter = flutterExecutable;
+  if (flutter == null) return null;
   try {
-    final result = Process.runSync(flutterExecutable, [
+    final result = Process.runSync(flutter, [
       'config',
       '--machine',
     ], runInShell: Platform.isWindows);

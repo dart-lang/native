@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:cli_util/cli_util.dart';
 import 'package:jni_util/jni_util.dart';
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
@@ -561,11 +562,12 @@ ${procRes.stderr}
 
   static void _runFlutterConfigOnly(String androidProject) {
     final inDir = _inAndroidProject(androidProject);
-    log.info('Running "$flutterExecutable build apk --config-only"$inDir...');
+    final flutter = flutterExecutable ?? 'flutter';
+    log.info('Running "$flutter build apk --config-only"$inDir...');
     var success = false;
     try {
       final result = Process.runSync(
-        flutterExecutable,
+        flutter,
         ['build', 'apk', '--config-only'],
         workingDirectory: androidProject,
         runInShell: Platform.isWindows,
