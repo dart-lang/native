@@ -113,4 +113,30 @@ void run({required TestRunnerCallback testRunner}) {
       expect(stackTrace, contains('AssertionError'));
     },
   );
+
+  testRunner('Jni.throwException caught JThrowable is collected after release',
+      () {
+    using((arena) {
+      final errClass = JClass.forName('java/lang/IllegalStateException')
+        ..releasedBy(arena);
+      final msg = 'throw-ref-test'.toJString()..releasedBy(arena);
+      final err = errClass.constructorId('(Ljava/lang/String;)V')(
+        errClass,
+        [msg],
+      );
+      final weakRef = makeWeakRef(err, arena);
+      final globalRef = Jni.env.NewGlobalRef(err.reference.pointer);
+      err.release();
+      late JThrowable caught;
+      try {
+        Jni.throwException(globalRef);
+        fail('Expected JThrowable');
+      } on JThrowable catch (e) {
+        caught = e;
+      }
+      expect(isJavaObjectCollected(weakRef), isFalse);
+      caught.release();
+      expect(isJavaObjectCollected(weakRef), isTrue);
+    });
+  });
 }
