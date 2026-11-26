@@ -2,6 +2,7 @@
 
 - Add `DEVELOPER_DIR`, `SDKROOT`, and `JAVA_HOME` to the environment variables
   allowlist.
+- Add `PUB_HOSTED_URL` and `PUB_CACHE` to the environment variables allowlist.
 - Return `HooksRunnerFailure.infra` instead of throwing an unhandled
   `TimeoutException` or `FileSystemException` when directory locking fails.
 

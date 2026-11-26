@@ -676,6 +676,10 @@ class NativeAssetsBuildRunner {
       'PKG_CONFIG_PATH', // Needed for pkg-config.
       'PROGRAMDATA', // Needed for vswhere.exe.
       'PROCESSOR_ARCHITECTURE', // Needed for CMake Android on Windows.
+      // Note: Do not allowlist `PUB_TOKEN` or a `PUB_` prefix to avoid leaking
+      // pub authentication tokens to hooks.
+      'PUB_CACHE', // Needed for pub.
+      'PUB_HOSTED_URL', // Needed for pub.
       'SDKROOT', // Needed for Xcode.
       'SYSTEMDRIVE', // Needed for CMake.
       'SYSTEMROOT', // Needed for process invocations on Windows.
