@@ -450,7 +450,10 @@ final class YamlConfig {
                       as bool,
             ),
             result: (node) => _compilerOpts.addAll(
-              (node.value as CompilerOptsAuto).extractCompilerOpts(logger),
+              (node.value as CompilerOptsAuto).extractCompilerOpts(
+                logger,
+                libclangDylibPath: _libclangDylib,
+              ),
             ),
           ),
         ),

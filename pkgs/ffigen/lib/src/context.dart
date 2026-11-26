@@ -11,7 +11,6 @@ import 'code_generator.dart';
 import 'code_generator/scope.dart';
 import 'config_provider/config.dart';
 import 'config_provider/config_types.dart';
-import 'config_provider/path_finder.dart';
 import 'config_provider/spec_utils.dart';
 import 'header_parser/clang_bindings/clang_bindings.dart' show Clang;
 import 'header_parser/utils.dart';
@@ -29,7 +28,11 @@ class Context {
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
   late final String libclangDylibPath;
-  late final List<String> compilerOpts = _initCompilerOpts();
+  late final List<String> compilerOpts = computeCompilerOpts(
+    config: config,
+    logger: logger,
+    libclangDylibPath: libclangDylibPath,
+  );
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
   final Scope rootCppScope = Scope.createRoot('cpp_root');
@@ -54,14 +57,6 @@ class Context {
         findDylibAtDefaultLocations(logger);
 
     _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
-  }
-
-  List<String> _initCompilerOpts() {
-    final opts = computeCompilerOpts(config: config, logger: logger);
-    return [
-      ...getClangResourceDirOpts(logger, libclangDylibPath, opts),
-      ...opts,
-    ];
   }
 }
 

@@ -41,9 +41,17 @@ ${strings.compilerOptsAuto}:
   ${strings.macos}:
     ${strings.includeCStdLib}: false
         ''');
+        final dylibPath =
+            // ignore: deprecated_member_use_from_same_package
+            config.libclangDylib?.toFilePath() ??
+            findDylibAtDefaultLocations(createTestLogger());
+        final resourceDir = findClangResourceDir(createTestLogger(), dylibPath);
         expect(
           config.input.compilerOptions,
-          equals([if (Platform.isMacOS) '-Wno-nullability-completeness']),
+          equals([
+            if (resourceDir != null) ...['-resource-dir', resourceDir],
+            if (Platform.isMacOS) '-Wno-nullability-completeness',
+          ]),
         );
       } on ProcessException {
         // clang not available on local machine without LLVM installed.
@@ -112,7 +120,24 @@ ${strings.compilerOptsAuto}:
     test('Context.compilerOpts', () {
       try {
         final logger = createTestLogger();
-        final defaultOpts = defaultCompilerOpts(logger);
+        final contextDefault = Context(
+          logger,
+          FfiGenerator(
+            output: Output(dart: DartOutput(path: Uri.file('unused.dart'))),
+          ),
+        );
+        final dylibPath = contextDefault.libclangDylibPath;
+        final resourceDir = findClangResourceDir(logger, dylibPath);
+        final defaultOpts = defaultCompilerOpts(
+          logger,
+          libclangDylibPath: dylibPath,
+        );
+        expect(defaultOpts, [
+          if (resourceDir != null) ...['-resource-dir', resourceDir],
+          ...defaultCompilerOpts(logger),
+        ]);
+        expect(contextDefault.compilerOpts, defaultOpts);
+
         final contextAppend = Context(
           logger,
           FfiGenerator(
@@ -123,44 +148,19 @@ ${strings.compilerOptsAuto}:
             ),
           ),
         );
-        final resourceDir = findClangResourceDir(
-          logger,
-          contextAppend.libclangDylibPath,
-        );
-        expect(contextAppend.compilerOpts, [
-          if (resourceDir != null) ...['-resource-dir', resourceDir],
-          ...defaultOpts,
-          '-DFOO',
-        ]);
+        expect(contextAppend.compilerOpts, [...defaultOpts, '-DFOO']);
 
-        final contextWithSeparateFlag = Context(
+        // When appendCompilerOptions is false (the default), user-provided
+        // compilerOptions replace defaults completely without injecting
+        // -resource-dir.
+        final contextOverwrite = Context(
           logger,
           FfiGenerator(
             output: Output(dart: DartOutput(path: Uri.file('unused.dart'))),
-            input: const Input(
-              compilerOptions: ['-resource-dir', '/custom', '-DFOO'],
-            ),
+            input: const Input(compilerOptions: ['-DFOO']),
           ),
         );
-        expect(contextWithSeparateFlag.compilerOpts, [
-          '-resource-dir',
-          '/custom',
-          '-DFOO',
-        ]);
-
-        final contextWithEqualsFlag = Context(
-          logger,
-          FfiGenerator(
-            output: Output(dart: DartOutput(path: Uri.file('unused.dart'))),
-            input: const Input(
-              compilerOptions: ['-resource-dir=/custom', '-DFOO'],
-            ),
-          ),
-        );
-        expect(contextWithEqualsFlag.compilerOpts, [
-          '-resource-dir=/custom',
-          '-DFOO',
-        ]);
+        expect(contextOverwrite.compilerOpts, ['-DFOO']);
       } on ProcessException {
         // clang not available on local machine without LLVM installed.
       }

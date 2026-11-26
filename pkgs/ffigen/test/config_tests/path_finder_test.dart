@@ -90,40 +90,4 @@ void main() {
       expect(findClangResourceDir(logger, dylib.path), isNull);
     });
   });
-
-  group('getClangResourceDirOpts', () {
-    test('returns -resource-dir flag when absent from existingOpts', () {
-      final tmp = createTempDir();
-      final dylib = File(p.join(tmp.path, 'lib', 'libclang.dylib'))
-        ..createSync(recursive: true);
-      final expectedDir = p.join(tmp.path, 'lib', 'clang', '18');
-      Directory(p.join(expectedDir, 'include')).createSync(recursive: true);
-
-      expect(getClangResourceDirOpts(logger, dylib.path, ['-I/some/path']), [
-        '-resource-dir',
-        expectedDir,
-      ]);
-    });
-
-    test('returns empty list when -resource-dir is already specified', () {
-      final tmp = createTempDir();
-      final dylib = File(p.join(tmp.path, 'lib', 'libclang.dylib'))
-        ..createSync(recursive: true);
-      Directory(
-        p.join(tmp.path, 'lib', 'clang', '18', 'include'),
-      ).createSync(recursive: true);
-
-      expect(
-        getClangResourceDirOpts(logger, dylib.path, [
-          '-resource-dir',
-          '/custom',
-        ]),
-        isEmpty,
-      );
-      expect(
-        getClangResourceDirOpts(logger, dylib.path, ['-resource-dir=/custom']),
-        isEmpty,
-      );
-    });
-  });
 }

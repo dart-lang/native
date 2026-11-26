@@ -412,27 +412,39 @@ List<String> defaultCompilerOpts(
   Logger logger, {
   bool macIncludeStdLib = true,
   bool cpp = false,
-}) => cpp
-    ? [
-        '-x',
-        'c++',
-        '-std=c++17',
-        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
-      ]
-    : [
-        if (Platform.isMacOS && macIncludeStdLib)
-          ...getCStandardLibraryHeadersForMac(logger),
-        if (Platform.isMacOS) '-Wno-nullability-completeness',
-      ];
+  String? libclangDylibPath,
+}) {
+  final resourceDir = libclangDylibPath != null
+      ? findClangResourceDir(logger, libclangDylibPath)
+      : null;
+  return [
+    if (resourceDir != null) ...['-resource-dir', resourceDir],
+    if (cpp) ...[
+      '-x',
+      'c++',
+      '-std=c++17',
+      if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+    ] else ...[
+      if (Platform.isMacOS && macIncludeStdLib)
+        ...getCStandardLibraryHeadersForMac(logger),
+      if (Platform.isMacOS) '-Wno-nullability-completeness',
+    ],
+  ];
+}
 
 /// Computes compiler options based on [config] and [logger].
 List<String> computeCompilerOpts({
   required FfiGenerator config,
   required Logger logger,
+  String? libclangDylibPath,
 }) => [
   if (config.input.appendCompilerOptions ||
       config.input.compilerOptions == null)
-    ...defaultCompilerOpts(logger, cpp: config.cpp != null),
+    ...defaultCompilerOpts(
+      logger,
+      cpp: config.cpp != null,
+      libclangDylibPath: libclangDylibPath,
+    ),
   if (config.input.compilerOptions != null) ...config.input.compilerOptions!,
 ];
 
@@ -444,8 +456,12 @@ class CompilerOptsAuto {
     : macIncludeStdLib = macIncludeStdLib ?? true;
 
   /// Extracts compiler options based on OS and config.
-  List<String> extractCompilerOpts(Logger logger) {
-    return defaultCompilerOpts(logger, macIncludeStdLib: macIncludeStdLib);
+  List<String> extractCompilerOpts(Logger logger, {String? libclangDylibPath}) {
+    return defaultCompilerOpts(
+      logger,
+      macIncludeStdLib: macIncludeStdLib,
+      libclangDylibPath: libclangDylibPath,
+    );
   }
 }
 

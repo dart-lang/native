@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// Regression test for https://github.com/dart-lang/native/issues/3629.
+
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator.dart';
@@ -23,7 +25,11 @@ void main() {
     ),
   );
 
-  Library parseHeader({List<String>? compilerOptions, Cpp? cpp}) {
+  Library parseHeader({
+    List<String>? compilerOptions,
+    bool appendCompilerOptions = false,
+    Cpp? cpp,
+  }) {
     return parser.parse(
       testContext(
         FfiGenerator(
@@ -36,6 +42,7 @@ void main() {
             entryPoints: [headerUri],
             include: (header) => header.path.endsWith('resource_dir.h'),
             compilerOptions: compilerOptions,
+            appendCompilerOptions: appendCompilerOptions,
           ),
           visitors: [Visitor(func: (node) => node.isIncluded = true)],
         ),
@@ -54,20 +61,29 @@ void main() {
       expect(lib.getBinding('probe'), isA<Func>());
     });
 
-    test('custom compilerOptions without -resource-dir', () {
-      final lib = parseHeader(compilerOptions: const []);
+    test('custom compilerOptions with appendCompilerOptions: true', () {
+      final lib = parseHeader(
+        compilerOptions: const ['-DFOO=1'],
+        appendCompilerOptions: true,
+      );
       expect(lib.getBinding('probe'), isA<Func>());
     });
 
-    test('custom compilerOptions with -resource-dir', () {
-      final resourceDirResult = Process.runSync('clang', [
-        '-print-resource-dir',
-      ]);
-      expect(resourceDirResult.exitCode, 0);
-      final resourceDir = (resourceDirResult.stdout as String).trim();
+    test(
+      'custom -resource-dir with appendCompilerOptions: true overrides default',
+      () {
+        final resourceDirResult = Process.runSync('clang', [
+          '-print-resource-dir',
+        ]);
+        expect(resourceDirResult.exitCode, 0);
+        final resourceDir = (resourceDirResult.stdout as String).trim();
 
-      final lib = parseHeader(compilerOptions: ['-resource-dir=$resourceDir']);
-      expect(lib.getBinding('probe'), isA<Func>());
-    });
+        final lib = parseHeader(
+          compilerOptions: ['-resource-dir=$resourceDir'],
+          appendCompilerOptions: true,
+        );
+        expect(lib.getBinding('probe'), isA<Func>());
+      },
+    );
   });
 }

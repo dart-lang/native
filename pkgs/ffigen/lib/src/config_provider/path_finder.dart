@@ -74,18 +74,3 @@ String? findClangResourceDir(Logger logger, String libclangDylibPath) {
   );
   return null;
 }
-
-/// Returns `-resource-dir` compiler flags if [existingOpts] does not already
-/// specify `-resource-dir`.
-List<String> getClangResourceDirOpts(
-  Logger logger,
-  String libclangDylibPath,
-  List<String> existingOpts,
-) {
-  final hasResourceDir = existingOpts.any(
-    (opt) => opt == '-resource-dir' || opt.startsWith('-resource-dir='),
-  );
-  if (hasResourceDir) return const [];
-  final resourceDir = findClangResourceDir(logger, libclangDylibPath);
-  return resourceDir != null ? ['-resource-dir', resourceDir] : const [];
-}
