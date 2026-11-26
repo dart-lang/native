@@ -40,6 +40,18 @@
   "package_name": "my_package",
   "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
   "user_defines": {
+    "command_line_arguments": {
+      "base_path": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
+      "defines": {
+        "some_command_line_key": "some_command_line_value"
+      }
+    },
+    "environment_variables": {
+      "base_path": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
+      "defines": {
+        "some_environment_key": "some_environment_value"
+      }
+    },
     "workspace_pubspec": {
       "base_path": "/Users/dacoharkes/src/dacoharkes/playground/my_package/pubspec.yaml",
       "defines": {

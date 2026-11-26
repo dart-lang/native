@@ -1,5 +1,6 @@
 ## 2.2.1-wip
 
+- Add command-line argument and environment variable user-defines.
 - Track header dependencies in the C build examples so header changes trigger
   recompilation.
 

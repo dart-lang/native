@@ -7,20 +7,45 @@ import 'hooks/syntax.g.dart';
 
 /// The user-defines for [HookInputBuilder.setupShared].
 ///
-/// Currently only holds [workspacePubspec]. (In the future this class will also
-/// take command-line arguments and a working directory for the command-line
-/// argument paths to be resolved against.)
+/// User-defines can originate from multiple sources. The sources are ordered by
+/// precedence, highest first:
+/// 1. [commandLineArguments] (`--hook-define=<package>.<key>=<value>`).
+/// 2. [environmentVariables] (`DART_HOOK_DEFINE__<package>__<key>=<value>`).
+/// 3. [workspacePubspec] (`hooks.user_defines` in the workspace
+///    `pubspec.yaml`).
+///
+/// A define in a higher precedence source overrides the same key in a lower
+/// precedence source.
 final class PackageUserDefines {
+  /// User-defines originating from command-line arguments to the SDK.
+  final PackageUserDefinesSource? commandLineArguments;
+
+  /// User-defines originating from environment variables.
+  final PackageUserDefinesSource? environmentVariables;
+
   /// User-defines originating from the `pubspec.yaml` in the workspace root.
   final PackageUserDefinesSource? workspacePubspec;
 
   /// Creates a [PackageUserDefines].
-  PackageUserDefines({required this.workspacePubspec});
+  PackageUserDefines({
+    this.commandLineArguments,
+    this.environmentVariables,
+    required this.workspacePubspec,
+  });
+
+  /// The sources of user-defines, ordered by precedence, highest first.
+  List<PackageUserDefinesSource> get sources => [
+    ?commandLineArguments,
+    ?environmentVariables,
+    ?workspacePubspec,
+  ];
 
   // coverage:ignore-start
   @override
   String toString() =>
-      'PackageUserDefines(workspacePubspec: $workspacePubspec)';
+      'PackageUserDefines(commandLineArguments: $commandLineArguments, '
+      'environmentVariables: $environmentVariables, '
+      'workspacePubspec: $workspacePubspec)';
   // coverage:ignore-end
 }
 
@@ -30,15 +55,25 @@ extension PackageUserDefinesSyntaxExtension on PackageUserDefines {
   /// Creates a [PackageUserDefines] from a [UserDefinesSyntax] node.
   static PackageUserDefines fromSyntax(UserDefinesSyntax syntaxNode) =>
       PackageUserDefines(
-        workspacePubspec: switch (syntaxNode.workspacePubspec) {
-          null => null,
-          final o => PackageUserDefinesSourceSyntaxExtension.fromSyntax(o),
-        },
+        commandLineArguments:
+            PackageUserDefinesSourceSyntaxExtension.fromSyntaxOrNull(
+              syntaxNode.commandLineArguments,
+            ),
+        environmentVariables:
+            PackageUserDefinesSourceSyntaxExtension.fromSyntaxOrNull(
+              syntaxNode.environmentVariables,
+            ),
+        workspacePubspec:
+            PackageUserDefinesSourceSyntaxExtension.fromSyntaxOrNull(
+              syntaxNode.workspacePubspec,
+            ),
       );
 
   /// Converts this [PackageUserDefines] to a [UserDefinesSyntax] node.
   UserDefinesSyntax toSyntax() {
     final result = UserDefinesSyntax(
+      commandLineArguments: commandLineArguments?.toSyntax(),
+      environmentVariables: environmentVariables?.toSyntax(),
       workspacePubspec: workspacePubspec?.toSyntax(),
     );
 
@@ -67,6 +102,15 @@ final class PackageUserDefinesSource {
 /// Extension methods for [PackageUserDefinesSource] to convert to and from
 /// syntax nodes.
 extension PackageUserDefinesSourceSyntaxExtension on PackageUserDefinesSource {
+  /// Creates a [PackageUserDefinesSource] from a [UserDefinesSourceSyntax]
+  /// node, or `null` if [syntaxNode] is `null`.
+  static PackageUserDefinesSource? fromSyntaxOrNull(
+    UserDefinesSourceSyntax? syntaxNode,
+  ) => switch (syntaxNode) {
+    null => null,
+    final node => fromSyntax(node),
+  };
+
   /// Creates a [PackageUserDefinesSource] from a [UserDefinesSourceSyntax]
   /// node.
   static PackageUserDefinesSource fromSyntax(

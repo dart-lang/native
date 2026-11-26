@@ -11,6 +11,13 @@ export 'src/build_runner/build_runner.dart'
 export 'src/build_runner/failure.dart' show HooksRunnerFailure;
 export 'src/build_runner/record_use_config.dart' show RecordUseConfig;
 export 'src/build_runner/result.dart' show Failure, Result, Success;
+export 'src/build_runner/user_defines.dart'
+    show
+        ParsedEnvironmentUserDefines,
+        decodeUserDefineValue,
+        hookDefineEnvironmentVariablePrefix,
+        parseCommandLineUserDefines,
+        parseEnvironmentUserDefines;
 export 'src/model/build_result.dart' show BuildResult;
 export 'src/model/link_result.dart' show LinkResult;
 export 'src/package_layout/package_layout.dart' show PackageLayout;

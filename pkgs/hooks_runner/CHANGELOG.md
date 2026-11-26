@@ -1,5 +1,6 @@
 ## 2.0.1-wip
 
+- Add `UserDefines.commandLineDefines`, `UserDefines.definesBasePath` and `UserDefines.environment` to support user-defines from SDK command-line arguments and from environment variables.
 - Add `DEVELOPER_DIR`, `SDKROOT`, and `JAVA_HOME` to the environment variables
   allowlist.
 - Return `HooksRunnerFailure.infra` instead of throwing an unhandled

@@ -171,6 +171,12 @@
         "user_defines": {
           "type": "object",
           "properties": {
+            "command_line_arguments": {
+              "$ref": "#/definitions/UserDefinesSource"
+            },
+            "environment_variables": {
+              "$ref": "#/definitions/UserDefinesSource"
+            },
             "workspace_pubspec": {
               "$ref": "#/definitions/UserDefinesSource"
             }

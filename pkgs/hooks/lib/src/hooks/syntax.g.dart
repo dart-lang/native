@@ -984,11 +984,61 @@ class UserDefinesSyntax extends JsonObjectSyntax {
     : super.fromJson();
 
   UserDefinesSyntax({
+    required UserDefinesSourceSyntax? commandLineArguments,
+    required UserDefinesSourceSyntax? environmentVariables,
     required UserDefinesSourceSyntax? workspacePubspec,
     super.path = const [],
   }) : super() {
+    _commandLineArguments = commandLineArguments;
+    _environmentVariables = environmentVariables;
     _workspacePubspec = workspacePubspec;
     json.sortOnKey();
+  }
+
+  UserDefinesSourceSyntax? get commandLineArguments {
+    final jsonValue = _reader.optionalMap('command_line_arguments');
+    if (jsonValue == null) return null;
+    return UserDefinesSourceSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'command_line_arguments'],
+    );
+  }
+
+  set _commandLineArguments(UserDefinesSourceSyntax? value) {
+    json.setOrRemove('command_line_arguments', value?.json);
+  }
+
+  List<String> _validateCommandLineArguments() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'command_line_arguments',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return commandLineArguments?.validate() ?? [];
+  }
+
+  UserDefinesSourceSyntax? get environmentVariables {
+    final jsonValue = _reader.optionalMap('environment_variables');
+    if (jsonValue == null) return null;
+    return UserDefinesSourceSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'environment_variables'],
+    );
+  }
+
+  set _environmentVariables(UserDefinesSourceSyntax? value) {
+    json.setOrRemove('environment_variables', value?.json);
+  }
+
+  List<String> _validateEnvironmentVariables() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'environment_variables',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return environmentVariables?.validate() ?? [];
   }
 
   UserDefinesSourceSyntax? get workspacePubspec {
@@ -1017,6 +1067,8 @@ class UserDefinesSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateCommandLineArguments(),
+    ..._validateEnvironmentVariables(),
     ..._validateWorkspacePubspec(),
   ];
 
