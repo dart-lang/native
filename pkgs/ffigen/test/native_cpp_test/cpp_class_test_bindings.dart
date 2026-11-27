@@ -309,6 +309,14 @@ class Animal implements ffi.Finalizable {
     return _Animal_haveSameAge(a._ptr, b._ptr);
   }
 
+  static int getDestructorCount() {
+    return _Animal_getDestructorCount();
+  }
+
+  static void resetDestructorCount() {
+    _Animal_resetDestructorCount();
+  }
+
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
@@ -388,6 +396,12 @@ external bool _Animal_haveSameAge(
   ffi.Pointer<ffi.Void> b,
 );
 
+@ffi.Native<ffi.Int Function()>(symbol: 'Animal_getDestructorCount')
+external int _Animal_getDestructorCount();
+
+@ffi.Native<ffi.Void Function()>(symbol: 'Animal_resetDestructorCount')
+external void _Animal_resetDestructorCount();
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
 external void _Animal_delete(ffi.Pointer<ffi.Void> self);
 
@@ -396,7 +410,9 @@ final class AnimalOwner extends ffi.Struct {
 
   Animal get animal => Animal.fromPointer(_animal);
 
-  set animal(Animal value) => _animal = value._ptr;
+  set animal(Animal value) {
+    _animal = value._ptr;
+  }
 
   @ffi.Int()
   external int id;

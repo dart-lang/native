@@ -25,6 +25,9 @@ public:
   static int sum(int a, int b);
   Animal copyAndAddAge(Animal other) const;
   static bool haveSameAge(Animal a, Animal b);
+
+  static int getDestructorCount();
+  static void resetDestructorCount();
 };
 
 struct AnimalOwner {

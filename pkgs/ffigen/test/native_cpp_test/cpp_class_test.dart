@@ -312,6 +312,101 @@ void main() {
       animal.dispose();
       calloc.free(owner);
     });
+
+    @pragma('vm:never-inline')
+    void gcUnownedGlobalWrapper() {
+      final _ = globalAnimal;
+    }
+
+    test('Global Animal pointer memory management', () {
+      Animal.resetDestructorCount();
+      final animal = Animal(7);
+      globalAnimal = animal;
+
+      // Reading global returns an unowned wrapper; GC does not delete the
+      // object.
+      gcUnownedGlobalWrapper();
+      doGC();
+      expect(Animal.getDestructorCount(), 0);
+
+      // Reassigning global pointer does NOT delete the previous object.
+      final otherAnimal = Animal(8);
+      globalAnimal = otherAnimal;
+      expect(Animal.getDestructorCount(), 0);
+
+      // Only disposing the owning wrapper triggers the C++ destructor.
+      animal.dispose();
+      expect(Animal.getDestructorCount(), 1);
+
+      globalAnimal = Animal.fromPointer(nullptr);
+      expect(Animal.getDestructorCount(), 1);
+
+      otherAnimal.dispose();
+      expect(Animal.getDestructorCount(), 2);
+    });
+
+    @pragma('vm:never-inline')
+    void gcUnownedStructFieldWrapper(Pointer<AnimalOwner> owner) {
+      final _ = owner.ref.animal;
+    }
+
+    test('Struct with Animal* field memory management', () {
+      Animal.resetDestructorCount();
+      final owner = calloc<AnimalOwner>();
+      final animal = Animal(12);
+      owner.ref.animal = animal;
+
+      // Reading struct field returns an unowned wrapper; GC does not delete
+      // it.
+      gcUnownedStructFieldWrapper(owner);
+      doGC();
+      expect(Animal.getDestructorCount(), 0);
+
+      // Reassigning struct field does NOT delete the previous object.
+      final otherAnimal = Animal(15);
+      owner.ref.animal = otherAnimal;
+      expect(Animal.getDestructorCount(), 0);
+
+      // Disposing the owning wrapper runs the destructor.
+      animal.dispose();
+      expect(Animal.getDestructorCount(), 1);
+
+      owner.ref.animal = Animal.fromPointer(nullptr);
+      otherAnimal.dispose();
+      expect(Animal.getDestructorCount(), 2);
+
+      calloc.free(owner);
+    });
+
+    @pragma('vm:never-inline')
+    void gcUnownedTopLevelReturn() {
+      // Returned pointer is unowned by default; GC does not delete it.
+      final _ = createAnimalPointer(99);
+    }
+
+    test('Top-level function args and returns memory management', () {
+      Animal.resetDestructorCount();
+
+      gcUnownedTopLevelReturn();
+      doGC();
+      expect(Animal.getDestructorCount(), 0);
+
+      // Passing pointer to top-level function does not delete it.
+      final animal = Animal(50);
+      expect(getAgeFromPointer(animal), 50);
+      setAgeFromPointer(animal, 60);
+      expect(Animal.getDestructorCount(), 0);
+
+      // Disposing the owning wrapper deletes it.
+      animal.dispose();
+      expect(Animal.getDestructorCount(), 1);
+
+      // Taking ownership of returned pointer allows proper disposal.
+      final returned = createAnimalPointer(70)..retainOwnership();
+      expect(Animal.getDestructorCount(), 1);
+      returned.dispose();
+      expect(Animal.getDestructorCount(), 2);
+    });
   });
 
   group('Function pointer args/returns', () {

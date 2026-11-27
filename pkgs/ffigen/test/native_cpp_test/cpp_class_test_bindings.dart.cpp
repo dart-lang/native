@@ -58,6 +58,14 @@ FFIGEN_EXPORT bool Animal_haveSameAge(Animal* a, Animal* b) {
   return Animal::haveSameAge(*a, *b);
 }
 
+FFIGEN_EXPORT int Animal_getDestructorCount() {
+  return Animal::getDestructorCount();
+}
+
+FFIGEN_EXPORT void Animal_resetDestructorCount() {
+  Animal::resetDestructorCount();
+}
+
 FFIGEN_EXPORT void Animal_delete(Animal* self) {
   delete self;
 }

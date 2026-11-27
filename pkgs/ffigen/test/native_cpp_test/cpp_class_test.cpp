@@ -4,9 +4,15 @@
 
 #include "cpp_class_test.h"
 
+static int animalDestructorCount = 0;
+
 Animal::Animal(int age) : age(age) {}
 
-Animal::~Animal() {}
+Animal::~Animal() { animalDestructorCount++; }
+
+int Animal::getDestructorCount() { return animalDestructorCount; }
+
+void Animal::resetDestructorCount() { animalDestructorCount = 0; }
 
 void Animal::speak() {}
 

@@ -613,7 +613,7 @@ $ret $fnName(id target, $argRecv) {
 
   @override
   String? generateRelease(Context context, String value) =>
-      '$value.ref.release();';
+      '$value.ref.release()';
 
   @override
   String toString() =>

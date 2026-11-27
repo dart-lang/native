@@ -207,14 +207,12 @@ abstract class Compound extends BindingType with HasLocalScope {
       ) when effectiveStyle == EnumStyle.dartEnum) {
         final enumName = m.type.getDartType(context);
         final memberName = m.name;
-        s.write(
-          '$enumName get $memberName => '
-          '$enumName.fromValue($storageMemberName);\n',
-        );
-        s.write(
-          'set $memberName($enumName value) => '
-          '$storageMemberName = value.value;\n\n',
-        );
+        s.write('''
+$depth$enumName get $memberName => $enumName.fromValue($storageMemberName);
+
+${depth}set $memberName($enumName value) => $storageMemberName = value.value;
+
+''');
       } else if (!m.type.sameDartAndFfiDartType) {
         final dartType = m.type.getDartType(context);
         final memberName = m.name;
@@ -231,21 +229,16 @@ abstract class Compound extends BindingType with HasLocalScope {
           objCAutorelease: false,
           localVariables: localVars,
         );
-        s.write('$depth$dartType get $memberName => $getValue;\n\n');
         final declarations = localVars.generateDeclarations();
-        if (declarations.isEmpty) {
-          s.write(
-            '${depth}set $memberName($dartType value) => '
-            '$storageMemberName = $setValue;\n\n',
-          );
-        } else {
-          s.write(
-            '${depth}set $memberName($dartType value) {\n'
-            '$depth  $declarations'
-            '$storageMemberName = $setValue;\n'
-            '$depth}\n\n',
-          );
-        }
+        final declBlock = declarations.isEmpty ? '' : '$declarations\n$depth  ';
+        s.write('''
+$depth$dartType get $memberName => $getValue;
+
+${depth}set $memberName($dartType value) {
+$depth  $declBlock$storageMemberName = $setValue;
+$depth}
+
+''');
       }
     }
     if (_shouldGenerateAllocate()) {

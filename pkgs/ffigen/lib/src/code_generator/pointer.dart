@@ -168,7 +168,7 @@ class ObjCObjectPointer extends PointerType {
 
   @override
   String? generateRelease(Context context, String value) =>
-      '$value.ref.release();';
+      '$value.ref.release()';
 
   @override
   bool isSupertypeOf(Type other) {

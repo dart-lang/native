@@ -417,7 +417,7 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
 
   @override
   String? generateRelease(Context context, String value) =>
-      '$value.ref.release();';
+      '$value.ref.release()';
 
   bool _isSuperProtocolOf(ObjCProtocol protocol) {
     if (protocol == this) return true;

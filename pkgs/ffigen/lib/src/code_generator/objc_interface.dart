@@ -317,7 +317,7 @@ ${generateInstanceMethodBindings(w, this)}
 
   @override
   String? generateRelease(Context context, String value) =>
-      '$value.ref.release();';
+      '$value.ref.release()';
 
   @override
   void visit(Visitation visitation) => visitation.visitObjCInterface(this);
