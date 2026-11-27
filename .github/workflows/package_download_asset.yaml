@@ -36,7 +36,7 @@ jobs:
       with:
         persist-credentials: false
 
-    - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
+    - uses: dart-lang/setup-dart@2286a0c042b44434fe26d292bbce8d34f7ec662b
       with:
         sdk: stable
 
@@ -84,7 +84,7 @@ jobs:
         dart tool/build.dart -owindows -ax64
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
       with:
         name: ${{ matrix.os }}-host
         path: |
@@ -111,7 +111,7 @@ jobs:
           persist-credentials: false
 
       - name: Download assets
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
           merge-multiple: true
           path: pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/
@@ -121,7 +121,7 @@ jobs:
 
       - name: Release
         # zizmor: ignore[superfluous-actions]
-        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3
         if: startsWith(github.ref, 'refs/tags/download_asset-prebuild-assets')
         with:
           files: 'pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/**'
