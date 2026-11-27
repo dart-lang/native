@@ -19,6 +19,9 @@
 - Fix the C++ spelling of function pointer parameters in generated wrappers,
   which was emitted with an extra `*`.
 
+- Added code generator support for C++ class pointers in struct fields (generating wrapper   
+    getters/setters) and global variables.
+    
 ## 23.0.0
 
 - The YAML configuration format is deprecated and will be removed in a future

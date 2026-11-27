@@ -17,6 +17,26 @@ import 'cpp_class_test_bindings.dart';
 )
 external void _testFinalizerTestSubjectDelete(Pointer<Void> self);
 
+// Top-level @Native declarations needed by Native.addressOf in
+// 'Function pointer args/returns' tests.
+@Native<Pointer<Void> Function(Int age)>(
+  symbol: 'createAnimalPointer',
+  assetId: 'package:ffigen/cpp_test',
+)
+external Pointer<Void> _nativeFactory(int age);
+
+@Native<Int Function(Pointer<Void> a)>(
+  symbol: 'getAgeFromPointer',
+  assetId: 'package:ffigen/cpp_test',
+)
+external int _nativeProcessor(Pointer<Void> a);
+
+@Native<Void Function(Pointer<Void> a, Int value)>(
+  symbol: 'setAgeFromPointer',
+  assetId: 'package:ffigen/cpp_test',
+)
+external void _nativeTransform(Pointer<Void> a, int value);
+
 final _customDeleteFinalizer = NativeFinalizer(
   Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
     _testFinalizerTestSubjectDelete,
@@ -221,5 +241,209 @@ void main() {
       expect(counter.value, 1);
       calloc.free(counter);
     }, skip: !canDoGC);
+  });
+
+  group('Pointer management', () {
+    test('Top-level function args and returns with Animal*', () {
+      final animal = createAnimalPointer(15);
+      expect(animal.getAge(), 15);
+
+      expect(getAgeFromPointer(animal), 15);
+      setAgeFromPointer(animal, 25);
+      expect(animal.getAge(), 25);
+
+      animal.retainOwnership();
+      animal.dispose();
+    });
+
+    test('Global Animal pointer', () {
+      expect(getGlobalAnimalAge(), -1);
+      expect(globalAnimal.getAge, throwsStateError);
+
+      final animal = Animal(7);
+      globalAnimal = animal;
+
+      expect(getGlobalAnimalAge(), 7);
+      expect(globalAnimal.getAge(), 7);
+      setGlobalAnimalAge(42);
+      expect(globalAnimal.getAge(), 42);
+      expect(animal.getAge(), 42);
+
+      globalAnimal = Animal.fromPointer(nullptr);
+      expect(getGlobalAnimalAge(), -1);
+      animal.dispose();
+    });
+
+    test('Struct with Animal* field', () {
+      final owner = calloc<AnimalOwner>();
+      expect(getAnimalOwnerAge(owner), -1);
+      expect(owner.ref.animal.getAge, throwsStateError);
+
+      final animal = Animal(12);
+      owner.ref.animal = animal;
+      owner.ref.id = 101;
+
+      expect(owner.ref.id, 101);
+      expect(getAnimalOwnerAge(owner), 12);
+      expect(owner.ref.animal.getAge(), 12);
+
+      setAnimalOwnerAge(owner, 33);
+      expect(owner.ref.animal.getAge(), 33);
+      expect(animal.getAge(), 33);
+
+      final allocatedOwner = AnimalOwner.$allocate(
+        calloc,
+        animal: animal,
+        id: 202,
+      );
+      expect(allocatedOwner.ref.id, 202);
+      expect(allocatedOwner.ref.animal.getAge(), 33);
+      expect(getAnimalOwnerAge(allocatedOwner), 33);
+      calloc.free(allocatedOwner);
+
+      final ownerByVal = createAnimalOwner(animal, 303);
+      expect(ownerByVal.id, 303);
+      expect(ownerByVal.animal.getAge(), 33);
+
+      owner.ref.animal = Animal.fromPointer(nullptr);
+      expect(getAnimalOwnerAge(owner), -1);
+      expect(owner.ref.animal.getAge, throwsStateError);
+
+      animal.dispose();
+      calloc.free(owner);
+    });
+
+    @pragma('vm:never-inline')
+    void gcUnownedGlobalWrapper() {
+      final _ = globalAnimal;
+    }
+
+    test('Global Animal pointer memory management', () {
+      Animal.resetDestructorCount();
+      final animal = Animal(7);
+      globalAnimal = animal;
+
+      // Reading global returns an unowned wrapper; GC does not delete the
+      // object.
+      gcUnownedGlobalWrapper();
+      doGC();
+      expect(Animal.getDestructorCount(), 0);
+
+      // Reassigning global pointer does NOT delete the previous object.
+      final otherAnimal = Animal(8);
+      globalAnimal = otherAnimal;
+      expect(Animal.getDestructorCount(), 0);
+
+      // Only disposing the owning wrapper triggers the C++ destructor.
+      animal.dispose();
+      expect(Animal.getDestructorCount(), 1);
+
+      globalAnimal = Animal.fromPointer(nullptr);
+      expect(Animal.getDestructorCount(), 1);
+
+      otherAnimal.dispose();
+      expect(Animal.getDestructorCount(), 2);
+    });
+
+    @pragma('vm:never-inline')
+    void gcUnownedStructFieldWrapper(Pointer<AnimalOwner> owner) {
+      final _ = owner.ref.animal;
+    }
+
+    test('Struct with Animal* field memory management', () {
+      Animal.resetDestructorCount();
+      final owner = calloc<AnimalOwner>();
+      final animal = Animal(12);
+      owner.ref.animal = animal;
+
+      // Reading struct field returns an unowned wrapper; GC does not delete
+      // it.
+      gcUnownedStructFieldWrapper(owner);
+      doGC();
+      expect(Animal.getDestructorCount(), 0);
+
+      // Reassigning struct field does NOT delete the previous object.
+      final otherAnimal = Animal(15);
+      owner.ref.animal = otherAnimal;
+      expect(Animal.getDestructorCount(), 0);
+
+      // Disposing the owning wrapper runs the destructor.
+      animal.dispose();
+      expect(Animal.getDestructorCount(), 1);
+
+      owner.ref.animal = Animal.fromPointer(nullptr);
+      otherAnimal.dispose();
+      expect(Animal.getDestructorCount(), 2);
+
+      calloc.free(owner);
+    });
+
+    @pragma('vm:never-inline')
+    void gcUnownedTopLevelReturn() {
+      // Returned pointer is unowned by default; GC does not delete it.
+      final _ = createAnimalPointer(99);
+    }
+
+    test('Top-level function args and returns memory management', () {
+      Animal.resetDestructorCount();
+
+      gcUnownedTopLevelReturn();
+      doGC();
+      expect(Animal.getDestructorCount(), 0);
+
+      // Passing pointer to top-level function does not delete it.
+      final animal = Animal(50);
+      expect(getAgeFromPointer(animal), 50);
+      setAgeFromPointer(animal, 60);
+      expect(Animal.getDestructorCount(), 0);
+
+      // Disposing the owning wrapper deletes it.
+      animal.dispose();
+      expect(Animal.getDestructorCount(), 1);
+
+      // Taking ownership of returned pointer allows proper disposal.
+      final returned = createAnimalPointer(70)..retainOwnership();
+      expect(Animal.getDestructorCount(), 1);
+      returned.dispose();
+      expect(Animal.getDestructorCount(), 2);
+    });
+  });
+
+  group('Function pointer args/returns', () {
+    test('Function pointer returning Animal* (factory)', () {
+      final factoryPtr =
+          Native.addressOf<NativeFunction<Pointer<Void> Function(Int age)>>(
+            _nativeFactory,
+          );
+
+      final animal = applyFactory(factoryPtr, 42);
+      expect(animal.getAge(), 42);
+      animal.retainOwnership();
+      animal.dispose();
+    });
+
+    test('Function pointer taking Animal* (processor)', () {
+      final animal = Animal(17);
+      final processorPtr =
+          Native.addressOf<NativeFunction<Int Function(Pointer<Void> a)>>(
+            _nativeProcessor,
+          );
+
+      final age = applyProcessor(processorPtr, animal);
+      expect(age, 17);
+      animal.dispose();
+    });
+
+    test('Function pointer taking Animal* and mutating it (transform)', () {
+      final animal = Animal(5);
+      final transformPtr =
+          Native.addressOf<
+            NativeFunction<Void Function(Pointer<Void> a, Int value)>
+          >(_nativeTransform);
+
+      applyTransform(transformPtr, animal, 99);
+      expect(animal.getAge(), 99);
+      animal.dispose();
+    });
   });
 }
