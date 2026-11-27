@@ -78,8 +78,13 @@ jobs:
         working-directory: pkgs/jni/
 
   test-mac:
+    name: test-mac (${{ matrix.clang }})
     needs: analyze
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        clang: [xcode, homebrew]
     permissions:
       contents: read
     defaults:
@@ -94,18 +99,34 @@ jobs:
           channel: stable
       - name: Install dependencies
         run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+      - name: Install Homebrew LLVM
+        if: matrix.clang == 'homebrew'
+        run: brew install llvm
+      - name: Log Clang version
+        run: |
+          clang --version
+          if [ "${{ matrix.clang }}" = "homebrew" ]; then
+            /opt/homebrew/opt/llvm/bin/clang --version
+            ls -l /opt/homebrew/opt/llvm/lib/libclang.dylib
+          fi
       - name: Install clang-format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
           brew: clang-format
       - name: Install coverage
+        if: matrix.clang == 'xcode'
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
+        if: matrix.clang == 'xcode'
         run: dart test --coverage-path=./coverage/lcov.info
+      - name: Run VM tests
+        if: matrix.clang == 'homebrew'
+        run: dart test
       - name: Generate package:jni bindings
         run: dart --enable-asserts run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
       - name: Upload coverage
+        if: matrix.clang == 'xcode'
         uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
         with:
           files: pkgs/ffigen/coverage/lcov.info

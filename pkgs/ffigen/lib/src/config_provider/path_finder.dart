@@ -10,56 +10,67 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
-import 'utils.dart' show macSdkPath, xcodePath;
+import 'utils.dart' show macSdkPath;
 
-/// This will return include path from either LLVM, XCode or CommandLineTools.
+/// Returns the C standard library header include path on macOS.
 List<String> getCStandardLibraryHeadersForMac(Logger logger) {
-  final includePaths = <String>[];
-
-  /// Add system headers.
   final systemHeaders = p.join(macSdkPath, 'usr', 'include');
   if (Directory(systemHeaders).existsSync()) {
     logger.fine('Added $systemHeaders to compiler-opts.');
-    includePaths.add('-I$systemHeaders');
+    return ['-I$systemHeaders'];
   }
 
-  /// Find headers from XCode or LLVM installed via brew.
-  const brewLlvmPath = '/usr/local/opt/llvm/lib/clang';
-  final xcodeClangPath = p.join(
-    xcodePath,
-    'Toolchains',
-    'XcodeDefault.xctoolchain',
-    'usr',
-    'lib',
-    'clang',
-  );
-  final searchPaths = [brewLlvmPath, xcodeClangPath];
-  for (final searchPath in searchPaths) {
-    if (!Directory(searchPath).existsSync()) continue;
-
-    final versions = Directory(searchPath).listSync();
-    for (final version in versions) {
-      final path = p.join(version.path, 'include');
-      if (Directory(path).existsSync()) {
-        logger.fine('Added stdlib path: $path to compiler-opts.');
-        includePaths.add('-I$path');
-        return includePaths;
-      }
-    }
-  }
-
-  /// If CommandLineTools are installed use those headers.
   const cmdLineToolHeaders =
       '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers/';
   if (Directory(cmdLineToolHeaders).existsSync()) {
     logger.fine('Added stdlib path: $cmdLineToolHeaders to compiler-opts.');
-    includePaths.add('-I$cmdLineToolHeaders');
-    return includePaths;
+    return ['-I$cmdLineToolHeaders'];
   }
 
   // Warnings for missing headers are printed by libclang while parsing.
   logger.fine('Couldn\'t find stdlib headers in default locations.');
-  logger.fine('Paths searched: ${[cmdLineToolHeaders, ...searchPaths]}');
+  logger.fine('Fallback path searched: $cmdLineToolHeaders');
 
   return [];
+}
+
+/// Finds clang's versioned resource directory (containing `include/`).
+///
+/// Searches relative to [libclangDylibPath] (including its resolved symlink
+/// target).
+String? findClangResourceDir(Logger logger, String libclangDylibPath) {
+  final candidateClangDirs = <String>{};
+
+  void addCandidatesForDylib(String dylibPath) {
+    final parent = p.dirname(dylibPath);
+    final grandParent = p.dirname(parent);
+    candidateClangDirs
+      ..add(p.join(parent, 'clang'))
+      ..add(p.join(grandParent, 'lib', 'clang'));
+  }
+
+  addCandidatesForDylib(libclangDylibPath);
+  final dylibFile = File(libclangDylibPath);
+  if (dylibFile.existsSync()) {
+    final resolved = dylibFile.resolveSymbolicLinksSync();
+    if (resolved != libclangDylibPath) {
+      addCandidatesForDylib(resolved);
+    }
+  }
+
+  for (final clangDir in candidateClangDirs) {
+    final dir = Directory(clangDir);
+    if (!dir.existsSync()) continue;
+    for (final entry in dir.listSync()) {
+      if (Directory(p.join(entry.path, 'include')).existsSync()) {
+        logger.fine('Found clang resource dir: ${entry.path}');
+        return entry.path;
+      }
+    }
+  }
+
+  logger.fine(
+    'Couldn\'t find clang resource dir in candidate dirs: $candidateClangDirs',
+  );
+  return null;
 }

@@ -37,6 +37,7 @@ void main() {
               ],
               include: (header) => header.path.endsWith('globals.h'),
               compilerOptions: const ['-Wno-nullability-completeness'],
+              appendCompilerOptions: true,
               ignoreSourceErrors: true,
             ),
             visitors: [

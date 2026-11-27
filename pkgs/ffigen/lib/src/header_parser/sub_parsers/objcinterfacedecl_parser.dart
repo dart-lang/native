@@ -317,7 +317,8 @@ Parameter? _parseMethodParam(
 
   // Ignore methods with variadic args.
   // TODO(https://github.com/dart-lang/native/issues/1192): Remove this.
-  if (cursorType.kind == clang_types.CXTypeKind.CXType_Elaborated &&
+  if ((cursorType.kind == clang_types.CXTypeKind.CXType_Elaborated ||
+          cursorType.kind == clang_types.CXTypeKind.CXType_Typedef) &&
       cursorType.spelling() == 'va_list') {
     logger.warning(
       'Method "$methodName" in instance '

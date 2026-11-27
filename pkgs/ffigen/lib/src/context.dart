@@ -27,7 +27,7 @@ class Context {
   bool hasSourceErrors = false;
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
-  late final compilerOpts = computeCompilerOpts(config: config, logger: logger);
+  late final List<String> compilerOpts;
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
   final Scope rootCppScope = Scope.createRoot('cpp_root');
@@ -50,6 +50,12 @@ class Context {
         config.libclangDylib?.toFilePath() ??
         libclangDylib?.toFilePath() ??
         findDylibAtDefaultLocations(logger);
+
+    compilerOpts = computeCompilerOpts(
+      config: config,
+      logger: logger,
+      libclangDylibPath: libclangDylibPath,
+    );
 
     _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
   }

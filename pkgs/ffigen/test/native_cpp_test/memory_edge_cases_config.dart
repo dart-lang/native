@@ -16,7 +16,15 @@ FfiGenerator getConfig([Uri? packageRoot]) {
       ),
       style: const NativeExternalBindings(assetId: 'package:ffigen/cpp_test'),
     ),
-    input: Input(entryPoints: [testDir.resolve('memory_edge_cases.h')]),
+    input: Input(
+      entryPoints: [testDir.resolve('memory_edge_cases.h')],
+      compilerOptions: [
+        // Work around the windows-2025-vs2026 runner having VS 2026 MSVC STL
+        // headers with an older preinstalled LLVM.
+        if (Platform.isWindows) '-D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH',
+      ],
+      appendCompilerOptions: true,
+    ),
     cpp: const Cpp(),
     visitors: [
       Visitor(
