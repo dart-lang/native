@@ -12,23 +12,26 @@ import '../code_generator/objc_interface.dart';
 import '../code_generator/objc_methods.dart';
 import '../code_generator/objc_protocol.dart';
 import '../code_generator/scope.dart';
+import '../code_generator/type.dart';
 import '../code_generator/typealias.dart';
 import '../context.dart';
 import 'ast.dart';
 
 // Visitation to add all the symbols to the correct scope.
 //
-// A Binding's name Symbol is always added to the root scope. If the Binding has
-// a local scope, its other symbols (eg a struct's field names) are added to
-// that local scope. If the Binding doesn't have a local scope all its symbols
-// are added to the root scope.
+// A Binding's name Symbol is added to either the root scope (if it is a
+// [BindingType], like a struct or class) or to the top-level scope (if it
+// is a member like a function, global, or macro). If the Binding has a local
+// scope, its other symbols (eg a struct's field names) are added to that
+// local scope. If the Binding doesn't have a local scope all its symbols
+// are added to the outer scope.
 class FindSymbolsVisitation extends Visitation {
   final Context context;
   final Set<Binding> bindings;
   Scope currentScope;
 
   FindSymbolsVisitation(this.context, this.bindings)
-    : currentScope = context.rootScope;
+    : currentScope = context.topLevelScope;
 
   void insideScope(Scope localScope, void Function() fn) {
     final oldScope = currentScope;
@@ -45,20 +48,23 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitFunc(Func node) {
-    context.rootScope.add(node.funcVarSymbol);
+    context.topLevelScope.add(node.funcVarSymbol);
     visitBinding(node);
   }
 
   @override
   void visitBinding(Binding node) {
-    // Explicitly add the Binding's symbol to the root scope before visiting
-    // the children, because the name shouldn't be part of the local scope.
+    // Explicitly add the Binding's symbol to the root or top-level scope
+    // before visiting the children, because the name shouldn't be part of the
+    // local scope.
     // Visiting the children will also add the symbol to the local scope,
     // but that's ok because `Scope.fillNames` is built to handle that.
-    context.rootScope.add(node.symbol);
+    final outerScope =
+        node is BindingType ? context.rootScope : context.topLevelScope;
+    outerScope.add(node.symbol);
     visitInsideScope(node, switch (node) {
       final HasLocalScope hasLocalScope => hasLocalScope.localScope,
-      _ => context.rootScope,
+      _ => outerScope,
     });
   }
 

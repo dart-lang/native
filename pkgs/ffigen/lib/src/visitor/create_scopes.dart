@@ -11,14 +11,17 @@ import '../code_generator/objc_interface.dart';
 import '../code_generator/objc_methods.dart';
 import '../code_generator/objc_protocol.dart';
 import '../code_generator/scope.dart';
+import '../code_generator/type.dart';
 import '../context.dart';
 import 'ast.dart';
 
 // Visitation to create all the scopes.
 //
-// Most local scopes are parented to the root scope (eg functions or structs),
-// but some are parented to a non-root scope (eg ObjC interfaces are parented to
-// their supertype).
+// Container scopes (eg structs or classes) are parented to the root scope
+// (which holds types only), so they avoid type collisions without colliding
+// with top-level functions. Function local scopes are parented to the
+// topLevelScope. Some are parented to a non-root scope (eg ObjC interfaces
+// are parented to their supertype).
 //
 // We first do a pass with orderedPass = true, which ensures that supertypes are
 // visited before subtypes (but will miss some AST nodes), so that the parenting
@@ -52,7 +55,11 @@ class CreateScopesVisitation extends Visitation {
   }
 
   void visitHasLocalScope(HasLocalScope node, String debugName) {
-    createScope(node, context.rootScope, debugName);
+    createScope(
+      node,
+      node is BindingType ? context.rootScope : context.topLevelScope,
+      debugName,
+    );
     node.visitChildren(visitor);
   }
 

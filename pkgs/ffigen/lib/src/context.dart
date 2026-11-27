@@ -29,6 +29,12 @@ class Context {
   final libs = LibraryImports();
   late final List<String> compilerOpts;
   final Scope rootScope = Scope.createRoot('root');
+
+  /// Child scope of [rootScope] for top-level members (functions, globals,
+  /// constants, macros). Container scopes (structs/classes) inherit directly
+  /// from [rootScope] so they avoid type collisions without colliding with
+  /// top-level functions (#2850).
+  late final Scope topLevelScope = rootScope.addChild('top_level');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
   final Scope rootCppScope = Scope.createRoot('cpp_root');
   late final ExtraSymbols extraSymbols;

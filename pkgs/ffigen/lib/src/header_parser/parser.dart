@@ -330,7 +330,7 @@ ExtraSymbols _createExtraSymbols(Context context) {
     symbolAddressVariableName: Symbol('addresses', SymbolKind.field),
   );
   context.rootScope.add(extraSymbols.wrapperClassName);
-  context.rootScope.add(extraSymbols.lookupFuncName);
-  context.rootScope.add(extraSymbols.symbolAddressVariableName);
+  context.topLevelScope.add(extraSymbols.lookupFuncName);
+  context.topLevelScope.add(extraSymbols.symbolAddressVariableName);
   return extraSymbols;
 }

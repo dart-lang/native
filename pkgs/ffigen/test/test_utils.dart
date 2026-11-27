@@ -300,6 +300,10 @@ Future<void> matchFileWithExpected({
     verifyException = e;
   }
 
+  if (actualFileExists) {
+    expectNoAnalysisErrors(actualPath);
+  }
+
   if (!matches) {
     final String diff;
     if (expectedFileExists && actualFileExists) {
@@ -332,7 +336,9 @@ If the diffs are expected, rerun with UPDATE=true
 ''');
   }
 
-  expectNoAnalysisErrors(expectedPath);
+  if (!actualFileExists) {
+    expectNoAnalysisErrors(expectedPath);
+  }
 
   if (actualFileExists) {
     actualFile.deleteSync();
@@ -341,15 +347,30 @@ If the diffs are expected, rerun with UPDATE=true
 
 void expectNoAnalysisErrors(String file) {
   if (!file.endsWith('.dart')) return;
-  Process.runSync(dartExecutable, [
-    'pub',
-    'get',
-  ], workingDirectory: path.dirname(file));
-  final result = Process.runSync(dartExecutable, [
-    'analyze',
-    file,
-    '--fatal-infos',
-  ], workingDirectory: path.dirname(file));
+  var packageDir = path.dirname(file);
+  var dir = Directory(packageDir);
+  while (dir.path != dir.parent.path) {
+    if (File(path.join(dir.path, 'pubspec.yaml')).existsSync()) {
+      packageDir = dir.path;
+      break;
+    }
+    dir = dir.parent;
+  }
+  final packageConfig = File(
+    path.join(packageDir, '.dart_tool', 'package_config.json'),
+  );
+  if (!packageConfig.existsSync()) {
+    Process.runSync(
+      dartExecutable,
+      ['pub', 'get'],
+      workingDirectory: packageDir,
+    );
+  }
+  final result = Process.runSync(
+    dartExecutable,
+    ['analyze', file, '--fatal-infos'],
+    workingDirectory: packageDir,
+  );
   if (result.exitCode != 0) print(result.stdout);
   expect(result.exitCode, 0);
 }
