@@ -8,7 +8,7 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 jobs:
   health:
-    uses: dart-lang/ecosystem/.github/workflows/health.yaml@fc3dd9a17a8e18b3b4aa5abac8a0f4a679fe2d57
+    uses: dart-lang/ecosystem/.github/workflows/health.yaml@1d2b5ff862c6b93cd86dd06eadac4c9f4d5d6c20
     with:
       coverage_web: false
       # TODO(https://github.com/dart-lang/native/issues/1242): Add coverage back.

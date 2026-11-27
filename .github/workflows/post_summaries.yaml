@@ -12,7 +12,7 @@ on:
 
 jobs:
   upload:
-    uses: dart-lang/ecosystem/.github/workflows/post_summaries.yaml@fc3dd9a17a8e18b3b4aa5abac8a0f4a679fe2d57
+    uses: dart-lang/ecosystem/.github/workflows/post_summaries.yaml@1d2b5ff862c6b93cd86dd06eadac4c9f4d5d6c20
     permissions:
       actions: read
       contents: read
