@@ -322,14 +322,14 @@ class $name implements $implementsClause {
       final callLine = hasReturn ? 'return $returnExpr;' : '$returnExpr;';
 
       if (method.isStatic) {
-        s.write('''\
+        s.write('''
   static $dartReturn ${method.name}($dartParams) {
     $decls
     $callLine
   }
 ''');
       } else {
-        s.write('''\
+        s.write('''
   $dartReturn ${method.name}($dartParams) {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
