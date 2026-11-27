@@ -250,15 +250,6 @@ void main() async {
             expect(overrides.closeCount, 1);
             expect(
               capturedMessages.join('\n'),
-              contains(
-                'The file system containing this project does not appear to '
-                'support file locking (e.g. network shares like SMB or NFS). '
-                'Build hooks require file locking. '
-                'Please move the project to a local file system.',
-              ),
-            );
-            expect(
-              capturedMessages.join('\n'),
               isNot(contains('Waiting to be able to obtain lock')),
             );
           });
@@ -314,8 +305,6 @@ void main() async {
             tempUri.resolve('.lock').toFilePath(),
             OSError('Contention', currentOsContentionCodes.first.$2),
           );
-        final capturedMessages = <String>[];
-        final testLogger = createCapturingLogger(capturedMessages);
 
         await IOOverrides.runWithIOOverrides(() async {
           await expectLater(
@@ -324,19 +313,21 @@ void main() async {
               tempUri,
               () async {},
               timeout: const Duration(milliseconds: 60),
-              logger: testLogger,
+              logger: logger,
             ),
-            throwsA(isA<TimeoutException>()),
+            throwsA(
+              isA<TimeoutException>().having(
+                (e) => e.message,
+                'message',
+                contains('Could not acquire the lock to'),
+              ),
+            ),
           );
         }, overrides);
 
         expect(overrides.lockAttempts, greaterThanOrEqualTo(1));
         expect(overrides.lockCount, 0);
         expect(overrides.closeCount, 1);
-        expect(
-          capturedMessages.join('\n'),
-          contains('Could not acquire the lock to'),
-        );
       });
     });
 

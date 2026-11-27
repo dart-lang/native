@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Bump `package:jni` version to `1.2.1`.
+
 ## 1.1.0
 
 - Add `dumpApi` utility and `ApiDumperVisitor` to dump parsed Java AST.

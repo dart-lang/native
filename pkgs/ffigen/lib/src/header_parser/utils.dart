@@ -4,6 +4,7 @@
 
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:math' show min;
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
@@ -301,6 +302,43 @@ extension CXCursorExt on clang_types.CXCursor {
 
   /// Returns whether there is a child with the given CXCursorKind.
   bool hasChildWithKind(int kind) => findChildWithKind(kind) != null;
+
+  /// Returns the spellings of the first [max] (default: all) tokens of this
+  /// cursor.
+  List<String> tokenSpellings({int? max}) {
+    final tu = clang.clang_Cursor_getTranslationUnit(this);
+    final tokensPtr = calloc<Pointer<clang_types.CXToken>>();
+    final numTokensPtr = calloc<UnsignedInt>();
+    try {
+      clang.clang_tokenize(
+        tu,
+        clang.clang_getCursorExtent(this),
+        tokensPtr,
+        numTokensPtr,
+      );
+      final tokens = tokensPtr.value;
+      final numTokens = numTokensPtr.value;
+      try {
+        final count = max == null ? numTokens : min(max, numTokens);
+        return [
+          for (var i = 0; i < count; i++)
+            clang.clang_getTokenSpelling(tu, tokens[i]).toStringAndDispose(),
+        ];
+      } finally {
+        clang.clang_disposeTokens(tu, tokens, numTokens);
+      }
+    } finally {
+      calloc.free(tokensPtr);
+      calloc.free(numTokensPtr);
+    }
+  }
+
+  /// Whether this linkage spec is spelled `extern "C++"`. Tokens aren't
+  /// macro-expanded, so macros like `__BEGIN_DECLS` count as `extern "C"`.
+  bool get isCppLinkageSpec {
+    final tokens = tokenSpellings(max: 2);
+    return tokens.length == 2 && tokens[0] == 'extern' && tokens[1] == '"C++"';
+  }
 
   /// Recursively print the AST, for debugging.
   void printAst([int maxDepth = 3]) => _printAst(maxDepth, 0);

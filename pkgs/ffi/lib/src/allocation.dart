@@ -5,6 +5,16 @@
 import 'dart:ffi';
 import 'dart:io';
 
+// On 32-bit targets (including wasm32), reject byte counts outside the 32-bit
+// unsigned `size_t` range. Otherwise, passing a 64-bit Dart `int` through an
+// `IntPtr`/`Size` parameter silently truncates the upper 32 bits, turning
+// values like `0x100000008` or `-0x100000000` into small valid allocations.
+// On 64-bit targets, `sizeOf<IntPtr>() == 4` folds to `false` in AOT/JIT, and
+// negative `int`s already wrap to `[8 EiB, 16 EiB)` and fail allocation.
+@pragma('vm:prefer-inline')
+bool _isInvalidByteCount(int byteCount) =>
+    sizeOf<IntPtr>() == 4 && (byteCount < 0 || byteCount > 0xffffffff);
+
 typedef PosixMallocNative = Pointer Function(IntPtr);
 
 @Native<PosixMallocNative>(symbol: 'malloc')
@@ -59,8 +69,10 @@ final class MallocAllocator implements Allocator {
   // TODO: Stop ignoring alignment if it's large, for example for SSE data.
   @override
   Pointer<T> allocate<T extends NativeType>(int byteCount, {int? alignment}) {
-    Pointer<T> result;
-    if (Platform.isWindows) {
+    final Pointer<T> result;
+    if (_isInvalidByteCount(byteCount)) {
+      result = nullptr; // coverage:ignore-line
+    } else if (Platform.isWindows) {
       result = winCoTaskMemAlloc(byteCount).cast();
     } else {
       result = posixMalloc(byteCount).cast();
@@ -159,8 +171,10 @@ final class CallocAllocator implements Allocator {
   // TODO: Stop ignoring alignment if it's large, for example for SSE data.
   @override
   Pointer<T> allocate<T extends NativeType>(int byteCount, {int? alignment}) {
-    Pointer<T> result;
-    if (Platform.isWindows) {
+    final Pointer<T> result;
+    if (_isInvalidByteCount(byteCount)) {
+      result = nullptr; // coverage:ignore-line
+    } else if (Platform.isWindows) {
       result = winCoTaskMemAlloc(byteCount).cast();
     } else {
       result = posixCalloc(byteCount, 1).cast();

@@ -262,4 +262,93 @@ void main() {
       expect(compileCommand, isNot(contains('-lbar')));
     },
   );
+
+  test('CBuilder.run with trackDependencies disabled', () async {
+    final fileSystem = MemoryFileSystem(
+      style: Platform.isWindows
+          ? FileSystemStyle.windows
+          : FileSystemStyle.posix,
+    );
+
+    final outputDirectoryShared = await tempDirForTest();
+    final packageRoot = await tempDirForTest();
+
+    const name = 'mylib';
+    const targetOS = OS.linux;
+    const targetArchitecture = Architecture.x64;
+
+    final ccUri = packageRoot.resolve(OS.current.executableFileName('clang'));
+    final arUri = packageRoot.resolve(OS.current.executableFileName('llvm-ar'));
+    final ldUri = packageRoot.resolve(OS.current.executableFileName('ld.lld'));
+    for (final toolUri in [ccUri, arUri, ldUri]) {
+      fileSystem.file(toolUri)
+        ..createSync(recursive: true)
+        ..writeAsStringSync('');
+    }
+
+    final sourceUri = packageRoot.resolve('src.c');
+    fileSystem.file(sourceUri)
+      ..createSync(recursive: true)
+      ..writeAsStringSync('int foo() { return 0; }\n');
+    final headerUri = packageRoot.resolve('src.h');
+    fileSystem.file(headerUri)
+      ..createSync(recursive: true)
+      ..writeAsStringSync('int foo();\n');
+
+    final ccPath = ccUri.toFilePath();
+
+    const versionStdout = 'clang version 14.0.0\n';
+    final fakeProcessManager = FakeProcessManager([
+      FakeCommand(command: [ccPath, '--version'], stdout: versionStdout),
+      FakeCommand(command: [ccPath, '--version'], stdout: versionStdout),
+      FakeCommand(
+        onRun: (command) {
+          final outIndex = command.indexOf('-o');
+          expect(outIndex, greaterThanOrEqualTo(0));
+          fileSystem.file(command[outIndex + 1]).createSync(recursive: true);
+        },
+      ),
+    ]);
+
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: packageRoot,
+        outputFile: outputDirectoryShared.resolve('output.json'),
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          targetArchitecture: targetArchitecture,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: CCompilerConfig(
+            archiver: arUri,
+            compiler: ccUri,
+            linker: ldUri,
+          ),
+        ),
+      );
+    final buildInput = buildInputBuilder.build();
+    final buildOutput = BuildOutputBuilder();
+
+    final cbuilder = CBuilder.library(
+      name: name,
+      assetName: name,
+      sources: [sourceUri.toFilePath(), headerUri.toFilePath()],
+      trackDependencies: false,
+    );
+
+    await cbuilder.run(
+      input: buildInput,
+      output: buildOutput,
+      logger: logger,
+      processManager: fakeProcessManager,
+      fileSystem: fileSystem,
+    );
+
+    expect(fakeProcessManager.allCommandsConsumed, true);
+    expect(buildOutput.build().dependencies, isEmpty);
+  });
 }

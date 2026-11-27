@@ -49,6 +49,17 @@ class CLibrary {
   /// files.
   final List<String> forcedIncludes;
 
+  /// Whether to automatically report [sources], files under [includes], and
+  /// [forcedIncludes] as dependencies of the hook.
+  ///
+  /// Defaults to `true`.
+  ///
+  /// Set to `false` to disable automatic dependency tracking, for example
+  /// when the compiled sources or include directories are produced by the
+  /// build hook itself. In that case the caller is responsible for adding the
+  /// dependencies to the hook output manually.
+  final bool trackDependencies;
+
   /// Frameworks to link.
   final List<String> frameworks;
 
@@ -92,6 +103,7 @@ class CLibrary {
     this.sources = const [],
     this.includes = const [],
     this.forcedIncludes = const [],
+    this.trackDependencies = true,
     this.frameworks = CTool.defaultFrameworks,
     this.libraries = const [],
     this.libraryDirectories = CTool.defaultLibraryDirectories,
@@ -113,6 +125,7 @@ class CLibrary {
     sources: sources,
     includes: includes,
     forcedIncludes: forcedIncludes,
+    trackDependencies: trackDependencies,
     frameworks: frameworks,
     libraries: libraries,
     libraryDirectories: libraryDirectories,
@@ -133,6 +146,7 @@ class CLibrary {
     assetName: assetName,
     includes: includes,
     forcedIncludes: forcedIncludes,
+    trackDependencies: trackDependencies,
     frameworks: frameworks,
     libraries: libraries,
     libraryDirectories: libraryDirectories,
@@ -190,6 +204,7 @@ class CLibrary {
             sources: sources,
             includes: includes,
             forcedIncludes: forcedIncludes,
+            trackDependencies: trackDependencies,
             frameworks: frameworks,
             libraries: libraries,
             libraryDirectories: libraryDirectories,

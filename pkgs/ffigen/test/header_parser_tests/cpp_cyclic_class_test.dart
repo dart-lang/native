@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator.dart' as cg;
 import 'package:ffigen/src/header_parser.dart' as parser;
@@ -26,6 +28,13 @@ void main() {
                   absPath('test/header_parser_tests/cpp_cyclic_class.h'),
                 ),
               ],
+              compilerOptions: [
+                // Work around the windows-2025-vs2026 runner having VS 2026
+                // MSVC STL headers with an older preinstalled LLVM.
+                if (Platform.isWindows)
+                  '-D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH',
+              ],
+              appendCompilerOptions: true,
             ),
             cpp: const Cpp(),
             visitors: [

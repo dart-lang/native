@@ -87,8 +87,13 @@ Type getCodeGenType(
           }
         }
         return PointerType(objCObjectType);
-      case clang_types.CXTypeKind.CXType_ObjCId:
       case clang_types.CXTypeKind.CXType_ObjCTypeParam:
+        final canonical = clang.clang_getCanonicalType(cxtype);
+        if (clang.clang_equalTypes(canonical, cxtype) == 0) {
+          return getCodeGenType(context, canonical);
+        }
+        return PointerType(objCObjectType);
+      case clang_types.CXTypeKind.CXType_ObjCId:
       case clang_types.CXTypeKind.CXType_ObjCClass:
         return PointerType(objCObjectType);
       case clang_types.CXTypeKind.CXType_ObjCSel:
@@ -210,11 +215,20 @@ Type? _createTypeFromCursor(
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
-      if (config.objectiveC != null && spelling == strings.objcBOOL) {
-        // Objective C's BOOL type can be either bool or signed char, depending
-        // on the platform. We want to present a consistent API to the user, and
-        // those two types are ABI compatible, so just return bool regardless.
-        return BooleanType();
+      if (config.objectiveC != null) {
+        switch (spelling) {
+          case strings.objcBOOL:
+            // Objective C's BOOL type can be either bool or signed char,
+            // depending on the platform. We want to present a consistent API to
+            // the user, and those two types are ABI compatible, so just return
+            // bool regardless.
+            return BooleanType();
+          case strings.objcId:
+          case strings.objcClass:
+            return PointerType(objCObjectType);
+          case strings.objcSel:
+            return PointerType(objCSelType);
+        }
       }
       final importedTypedef = context.config.importType(
         Declaration(usr: usr, originalName: spelling),

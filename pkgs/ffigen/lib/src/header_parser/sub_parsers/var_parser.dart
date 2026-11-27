@@ -8,11 +8,16 @@ import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 
-/// Parses a global variable
-Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
+/// Parses a global variable.
+Binding? parseVarDeclaration(
+  Context context,
+  clang_types.CXCursor cursor, {
+  bool hasCppLinkage = false,
+}) {
   final logger = context.logger;
   final config = context.config;
   final nativeOutputStyle = config.output.style is NativeExternalBindings;
+  final useCppWrapper = hasCppLinkage && config.cpp != null;
   final bindingsIndex = context.bindingsIndex;
   final name = cursor.spelling();
   final usr = cursor.usr();
@@ -49,13 +54,23 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     clang.clang_EvalResult_dispose(evalResult);
   }
 
+  if (hasCppLinkage && config.cpp == null && constantValue == null) {
+    logger.warning(
+      "Global variable '$name' has C++ linkage, so its symbol may be mangled "
+      "and looking up '$name' can fail at runtime. Enable C++ support "
+      '(`cpp: Cpp()`) to generate an extern "C" accessor for it, or declare '
+      'it inside an extern "C" block.',
+    );
+  }
+
   logger.fine('++++ Adding Global: ${cursor.completeStringRepr()}');
 
   final type = cType.toCodeGenType(
     context,
     // Native fields can be arrays, but if we use the lookup based method of
-    // reading fields there's no way to turn a Pointer into an array.
-    supportNonInlineArray: nativeOutputStyle,
+    // reading fields there's no way to turn a Pointer into an array. The same
+    // goes for C++ accessors.
+    supportNonInlineArray: nativeOutputStyle && !useCppWrapper,
   );
   if (type.baseType is UnimplementedType) {
     logger.fine(
@@ -75,6 +90,7 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     constant: cType.isConstQualified,
     constantValue: constantValue,
     loadFromNativeAsset: nativeOutputStyle,
+    hasCppLinkage: useCppWrapper,
   );
   bindingsIndex.addGlobalVarToSeen(usr, global);
 

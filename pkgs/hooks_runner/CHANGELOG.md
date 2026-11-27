@@ -2,6 +2,8 @@
 
 - Add `DEVELOPER_DIR`, `SDKROOT`, and `JAVA_HOME` to the environment variables
   allowlist.
+- Return `HooksRunnerFailure.infra` instead of throwing an unhandled
+  `TimeoutException` or `FileSystemException` when directory locking fails.
 
 ## 2.0.0
 

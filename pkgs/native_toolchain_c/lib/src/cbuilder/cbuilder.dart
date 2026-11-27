@@ -60,6 +60,7 @@ class CBuilder extends CTool implements Builder {
     super.sources = const [],
     super.includes = const [],
     super.forcedIncludes = const [],
+    super.trackDependencies,
     super.frameworks = CTool.defaultFrameworks,
     super.libraries = const [],
     super.libraryDirectories = CTool.defaultLibraryDirectories,
@@ -88,6 +89,7 @@ class CBuilder extends CTool implements Builder {
     super.sources = const [],
     super.includes = const [],
     super.forcedIncludes = const [],
+    super.trackDependencies,
     super.frameworks = CTool.defaultFrameworks,
     super.libraries = const [],
     super.libraryDirectories = CTool.defaultLibraryDirectories,
@@ -250,22 +252,24 @@ class CBuilder extends CTool implements Builder {
       }
     }
 
-    final includeFiles = await Stream.fromIterable(includes)
-        .asyncExpand(
-          (include) => fileSystem!
-              .directory(include.toFilePath())
-              .list(recursive: true)
-              .where((entry) => entry is File)
-              .map((file) => file.uri),
-        )
-        .toList();
+    if (trackDependencies) {
+      final includeFiles = await Stream.fromIterable(includes)
+          .asyncExpand(
+            (include) => fileSystem!
+                .directory(include.toFilePath())
+                .list(recursive: true)
+                .where((entry) => entry is File)
+                .map((file) => file.uri),
+          )
+          .toList();
 
-    output.dependencies.addAll({
-      // Note: We use a Set here to deduplicate the dependencies.
-      ...sources,
-      ...includeFiles,
-      ...forcedIncludes,
-      ...dartBuildFiles,
-    });
+      output.dependencies.addAll({
+        // Note: We use a Set here to deduplicate the dependencies.
+        ...sources,
+        ...includeFiles,
+        ...forcedIncludes,
+        ...dartBuildFiles,
+      });
+    }
   }
 }
