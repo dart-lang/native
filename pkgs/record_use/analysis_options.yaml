@@ -15,3 +15,4 @@ linter:
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
     - prefer_final_locals
+    - simplify_variable_pattern

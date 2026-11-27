@@ -140,7 +140,7 @@ sealed class MaybeConstant {
         },
       ).toList(),
     ),
-    InstanceConstantSyntax(value: final value, :final definitionIndex) =>
+    InstanceConstantSyntax(:final value, :final definitionIndex) =>
       InstanceConstant(
         definition: context.definitions[definitionIndex],
         fields: (value?.json ?? {}).map(
@@ -157,7 +157,7 @@ sealed class MaybeConstant {
         ),
       ),
     EnumConstantSyntax(
-      value: final value,
+      :final value,
       :final definitionIndex,
       :final index,
       :final name,
