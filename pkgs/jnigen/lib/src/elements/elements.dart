@@ -159,9 +159,10 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   String get typeClassName => '\$$finalName\$Type\$';
 
-  /// Type parameters including the ones from its outer classes.
+  /// Type parameters including unshadowed ones from its outer classes.
   ///
   /// For `Foo<T>.Bar<U, V>.Baz<W>` it is [T, U, V, W].
+  /// For `Foo<T>.Bar<T>` it contains only the inner `T`.
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
@@ -940,6 +941,11 @@ class TypeParam with Annotated implements Element<TypeParam> {
   TypeParam({required this.name, this.bounds = const [], this.annotations});
 
   final String name;
+
+  /// The Dart name after resolving conflicts with enclosing type parameters.
+  @JsonKey(includeFromJson: false)
+  late String finalName = name;
+
   final List<ReferredType> bounds;
 
   @override
@@ -968,6 +974,9 @@ class TypeParam with Annotated implements Element<TypeParam> {
     );
     if (GenerationStage.linker <= until) {
       cloned.parent = parent;
+    }
+    if (GenerationStage.renamer <= until) {
+      cloned.finalName = finalName;
     }
     return cloned;
   }
